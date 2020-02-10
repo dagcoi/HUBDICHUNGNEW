@@ -6,32 +6,19 @@
  * @flow
  */
 
-import React,{ Component } from 'react';
+import React, { Component } from 'react';
 
 import Router from './src/Router'
 import { Provider } from 'react-redux'
 import store from './src/core/Redux/store'
-import firebase from 'react-native-firebase'
+// import firebase from 'react-native-firebase'
+// import { Platform } from 'react-native'
+
+import { PushNotification } from './src/component/PushNotification'
 
 class App extends Component {
   async componentDidMount() {
-    const enable = await firebase.messaging().hasPermission();
-    if (enable) {
-      const fmcToken = await firebase.messaging().getToken()
-      console.log('fmcToken', fmcToken);
-
-      firebase.notifications().onNotification(notification => {
-        alert(notification.body)
-        console.log(notification.body)
-      })
-    } else {
-      try {
-        firebase.messaging().requestPermission();
-      }
-      catch (e) {
-        alert('use rejected the permissions');
-      }
-    }
+    PushNotification.configure()
   }
   render() {
     return (
@@ -41,6 +28,6 @@ class App extends Component {
     );
   }
 
-  
+
 }
 export default App;

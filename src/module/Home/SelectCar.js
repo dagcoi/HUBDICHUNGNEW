@@ -14,9 +14,9 @@ function SelectCar({
                 style={{ flex: 1, flexDirection: 'row', }}
                 onPress={onPress}
             >
-                <View style={{ flex: 2, justifyContent: 'center', backgroundColor: backgroundColor, borderBottomLeftRadius: 8, borderTopLeftRadius: 8, alignItems: 'center' }}>
+                <View style={{ width : 100, height : 100, justifyContent: 'center', backgroundColor: backgroundColor, borderBottomLeftRadius: 8, borderTopLeftRadius: 8,}}>
                     <Image
-                        style={{ flex: 1, borderTopLeftRadius : 8, borderBottomLeftRadius : 8 }}
+                        style={{ flex: 1, borderTopLeftRadius : 8, borderBottomLeftRadius : 8, }}
                         source={source}
                     />
                 </View>
