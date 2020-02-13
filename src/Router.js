@@ -47,12 +47,12 @@ import { createDrawerNavigator } from 'react-navigation-drawer'
 
 const RootStack = createStackNavigator({
 
-    Login : {
-        screen : Login,
-        navigationOptions : {
-            header : null,
-        }
-    },
+    // Login : {
+    //     screen : Login,
+    //     navigationOptions : {
+    //         header : null,
+    //     }
+    // },
 
     // OTP : {
     //     screen : OTP,
@@ -222,12 +222,12 @@ const RootStack = createStackNavigator({
         }
     },
 
-    Registration : {
-        screen : Registration,
-        navigationOptions : {
-            title : 'Đăng kí',
-        }
-    }
+    // Registration : {
+    //     screen : Registration,
+    //     navigationOptions : {
+    //         title : 'Đăng kí',
+    //     }
+    // },
 
 })
 
