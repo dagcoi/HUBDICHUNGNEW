@@ -36,6 +36,8 @@ import FAQ from './module/WebView/FAQ'
 import PoliciesAndServices from './module/WebView/PoliciesAndServices'
 
 import SearchTicket from './module/SearchTicket'
+import Login from './module/Account/Login'
+import Registration from './module/Account/Registration'
 
 import { createDrawerNavigator } from 'react-navigation-drawer'
 
@@ -44,6 +46,13 @@ import { createDrawerNavigator } from 'react-navigation-drawer'
 // import { createDrawerNavigator } from 'react-navigation-drawer'
 
 const RootStack = createStackNavigator({
+
+    Login : {
+        screen : Login,
+        navigationOptions : {
+            header : null,
+        }
+    },
 
     // OTP : {
     //     screen : OTP,
@@ -210,6 +219,13 @@ const RootStack = createStackNavigator({
         screen : TicketInformationExpress,
         navigationOptions : {
             header : null,
+        }
+    },
+
+    Registration : {
+        screen : Registration,
+        navigationOptions : {
+            title : 'Đăng kí',
         }
     }
 
