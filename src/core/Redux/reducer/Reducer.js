@@ -18,7 +18,7 @@ const defaultState = {
     village_id: 'village_id',
     pm_id: 'pm_id',
     partner_id_1: 'partner_id_1',
-    partner_name : '',
+    partner_name: '',
     city_id: 'city_id',
     drawer_open: false,
     vehicle_name: '',
@@ -75,6 +75,10 @@ const defaultState = {
     city_name: '',
     time_pick: '',
     time_drop: '',
+    duration: 6,
+    extra_price_km_format: '',
+    extra_price_hour_format: '',
+    km_limit_format: '',
 }
 const Reducer = (state = defaultState, action) => {
     switch (action.type) {
@@ -100,7 +104,7 @@ const Reducer = (state = defaultState, action) => {
         case types.TRIP_INFOMATION:
             return {
                 ...state,
-                partner_name : action.partner_name,
+                partner_name: action.partner_name,
                 merged: action.merged,
                 depart_time: action.depart_time,
                 chunk_id: action.chunk_id,
@@ -228,9 +232,28 @@ const Reducer = (state = defaultState, action) => {
                 full_name2: '',
                 use_phone2: '',
                 email2: '',
-                comment : '',
+                comment: '',
             }
-
+        case types.DURATION:
+            return {
+                ...state,
+                duration: action.duration,
+            }
+        case types.ADD_TRIP_INFOMATION_HOURLY_BOOKING:
+            return {
+                ...state,
+                partner_name: action.partner_name,
+                merged: action.merged,
+                depart_time: action.depart_time,
+                extra_price_km_format: action.extra_price_km_format,
+                extra_price_hour_format: action.extra_price_hour_format,
+                km_limit_format: action.km_limit_format,
+                vehicle_icon: action.vehicle_icon,
+                vehicle_id: action.vehicle_id,
+                vehicle_name : action.vehicle_name,
+                city_id: action.city_id,
+                brand_partner_id: action.partner_id,
+            }
         default:
             return state;
     }

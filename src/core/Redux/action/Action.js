@@ -160,5 +160,26 @@ export const deleteData = () =>{
         type : types.DELETE_DATA,
     }
 }
+export const addDuration = (duration) => {
+    return {
+        type: types.DURATION,
+        duration: duration,
+    }
+}
 
-
+export const addTripInfomationHourlyBooking = (partner_name, merged,depart_time, extra_price_km_format, extra_price_hour_format,km_limit_format, vehicle_icon, vehicle_id, vehicle_name, city_id, partner_id) => {
+    return {
+        type: types.ADD_TRIP_INFOMATION_HOURLY_BOOKING,
+        partner_name: partner_name,
+        merged: merged,
+        depart_time: depart_time,
+        extra_price_km_format: extra_price_km_format,
+        extra_price_hour_format: extra_price_hour_format,
+        km_limit_format: km_limit_format,
+        vehicle_icon : vehicle_icon,
+        vehicle_id : vehicle_id, 
+        vehicle_name : vehicle_name,
+        city_id : city_id, 
+        partner_id : partner_id,
+    }
+}

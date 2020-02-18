@@ -11,6 +11,9 @@ import ConfirmInformation from './module/DiChung/ConfirmInformation'
 import ListCar from './module/DiChung/ListCar'
 import TicketInformation from './module/DiChung/TicketInformation'
 import PaymentOnline from './module/DiChung/PaymentOnline'
+import ListCarHourlyBooking from './module/DiChung/ListCarHourlyBooking'
+import InfoCustommerHourlyBooking from './module/DiChung/InfoCustommerHourlyBooking'
+import ConfirmInformationHB from './module/DiChung/ConfirmInformationHB'
 
 import MapChungXe from './module/ChungXe/MapChungXe'
 import ListVehicle from './module/ChungXe/ListVehicle'
@@ -80,7 +83,6 @@ const RootStack = createStackNavigator({
         screen: ConfirmInformation,
         navigationOptions: {
             title: 'Xác nhận thông tin',
-
         }
     },
 
@@ -95,6 +97,27 @@ const RootStack = createStackNavigator({
         screen: ListCar,
         navigationOptions: {
             title: 'Chọn xe',
+        }
+    },
+
+    ListCarHourlyBooking: {
+        screen: ListCarHourlyBooking,
+        navigationOptions: {
+            title: 'Chọn xe',
+        }
+    },
+
+    InfoCustommerHourlyBooking: {
+        screen: InfoCustommerHourlyBooking,
+        navigationOptions: {
+            title: 'Thông tin đặt xe',
+        }
+    },
+
+    ConfirmInformationHB: {
+        screen: ConfirmInformationHB,
+        navigationOptions: {
+            title: 'Xác nhận thông tin',
         }
     },
 
@@ -168,23 +191,23 @@ const RootStack = createStackNavigator({
         }
     },
 
-    InfoCustommerXeChung : {
-        screen : InfoCustommerXeChung,
-        navigationOptions : {
-            title : 'Thông tin khách hàng',
+    InfoCustommerXeChung: {
+        screen: InfoCustommerXeChung,
+        navigationOptions: {
+            title: 'Thông tin khách hàng',
         }
     },
 
-    ConfirmInformationXeChung : {
-        screen : ConfirmInformationXeChung,
-        navigationOptions : {
-            title : 'Xác nhận thông tin'
+    ConfirmInformationXeChung: {
+        screen: ConfirmInformationXeChung,
+        navigationOptions: {
+            title: 'Xác nhận thông tin'
         }
     },
-    TicketInformationXeChung : {
-        screen : TicketInformationXeChung,
-        navigationOptions : {
-            header : null,
+    TicketInformationXeChung: {
+        screen: TicketInformationXeChung,
+        navigationOptions: {
+            header: null,
         }
     },
 
@@ -202,23 +225,23 @@ const RootStack = createStackNavigator({
         }
     },
 
-    InfoCustommerExpress : {
-        screen : InfoCustommerExpress,
-        navigationOptions : {
-            title : 'Thông tin khách hàng',
+    InfoCustommerExpress: {
+        screen: InfoCustommerExpress,
+        navigationOptions: {
+            title: 'Thông tin khách hàng',
         }
     },
 
-    ConfirmInformationExpress : {
-        screen : ConfirmInformationExpress,
-        navigationOptions : {
-            title : 'Xác nhận thông tin'
+    ConfirmInformationExpress: {
+        screen: ConfirmInformationExpress,
+        navigationOptions: {
+            title: 'Xác nhận thông tin'
         }
     },
-    TicketInformationExpress : {
-        screen : TicketInformationExpress,
-        navigationOptions : {
-            header : null,
+    TicketInformationExpress: {
+        screen: TicketInformationExpress,
+        navigationOptions: {
+            header: null,
         }
     },
 
