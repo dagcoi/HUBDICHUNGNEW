@@ -3,6 +3,7 @@ import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, Alert, Swi
 import { connect } from 'react-redux';
 import CheckboxList from '../../../component/CheckBoxList'
 import CheckBox from 'react-native-check-box'
+import StarVote from '../../../component/StarVote'
 
 import { addTripInfomation, addIsFromAirport } from '../../../core/Redux/action/Action'
 import HTML from 'react-native-render-html';
@@ -225,7 +226,7 @@ class ListCar extends Component {
                                                     {item.partner_name}
                                                 </Text>
                                                 <Text style={styles.loaixe}>{item.vehicle_name}</Text>
-
+                                                <StarVote number= {item.star_vote}/>
                                                 <Text style={styles.giaTien}>{item.merged_format}</Text>
                                             </View>
 

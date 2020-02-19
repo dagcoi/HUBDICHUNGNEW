@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, Alert, Switch, ActivityIndicator, Dimensions, Modal, RefreshControl } from 'react-native';
 import { connect } from 'react-redux';
+import StarVote from '../../../component/StarVote'
 
 import { addTripInfomation, addIsFromAirport } from '../../../core/Redux/action/Action'
 import HTML from 'react-native-render-html';
@@ -27,7 +28,7 @@ class ListDriverXeChung extends Component {
         formdata.append("pick_address_component", JSON.stringify(this.props.component_pick));
         formdata.append("drop_address", JSON.stringify(this.props.drop_add));
         formdata.append("drop_address_component", JSON.stringify(this.props.component_drop));
-        formdata.append("transport_partner_id", '1679,1680')
+        formdata.append("transport_partner_id", '2071,2072')
         formdata.append("chair", 1);
         formdata.append("vehicle_id", 0)
         try {
@@ -90,7 +91,7 @@ class ListDriverXeChung extends Component {
                                         {item.partner_name.toUpperCase()}
                                     </Text>
                                     <Text style={styles.tentuyen}>{item.vehicle_name}</Text>
-
+                                    <StarVote number= {item.star_vote} />
                                     <Text style={styles.giaTien}>{item.merged_format}</Text>
                                 </View>
 
