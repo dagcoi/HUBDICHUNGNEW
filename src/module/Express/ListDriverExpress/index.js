@@ -29,7 +29,7 @@ class ListDriverExpress extends Component {
         formdata.append("pick_address_component", JSON.stringify(this.props.component_pick));
         formdata.append("drop_address", JSON.stringify(this.props.drop_add));
         formdata.append("drop_address_component", JSON.stringify(this.props.component_drop));
-        formdata.append("transport_partner_id", '2076,2078')
+        formdata.append("transport_partner_id", '1681,1682') //con thật 2076,2078
         formdata.append("chair", this.props.chair);
         formdata.append("vehicle_id", 0)
         try {
@@ -44,14 +44,11 @@ class ListDriverExpress extends Component {
             const responseJson = await response.json();
             this.setStateAsync({
                 isLoading: false,
-                // listFilterType : ,
-                // listFliter: this.filterCar(responseJson.data),
                 dataSource: responseJson.data,
             });
-            console.log('a')
-            console.log(url)
-            console.log(formdata)
-            console.log(responseJson.data)
+            // console.log(url)
+            // console.log(formdata)
+            // console.log(responseJson.data)
             return responseJson.data;
         }
         catch (error) {
@@ -166,7 +163,9 @@ class ListDriverExpress extends Component {
                 </View>
             )
         }
-        var obj = [...this.state.dataSource];
+        var obj1 = [...this.state.dataSource];
+        var obj = obj1.filter(obj => ([0].includes(obj.hide)));
+
         // var lf = { ...this.state.listFliter }
         // console.log(lf);
         return (
