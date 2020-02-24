@@ -4,7 +4,7 @@ import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 import Calendar from '../../../component/Calendar'
 import TimePicker from './TimePicker'
 import { connect } from 'react-redux';
-import { addDepartTime, addPeople, swapAddress } from '../../../core/Redux/action/Action'
+import { addDepartTimeTaixe, addPeopleTaixe, swapAddressTaixe } from '../../../core/Redux/action/Action'
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
 
 import MapViewDirections from 'react-native-maps-directions';
@@ -211,9 +211,9 @@ class MapXeChung extends Component {
         }
     }
 
-    addPeople() {
+    addPeopleTaixe() {
         const { people } = this.state;
-        this.props.addPeople(people);
+        this.props.addPeopleTaixe(people);
     }
 
     gotoListDriverHourlyBooking() {
@@ -252,7 +252,7 @@ class MapXeChung extends Component {
 
                 <ImageInputTextDiChung
                     onPress={() => {
-                        this.props.navigation.push("SearchPlace", {
+                        this.props.navigation.push("SearchPlaceXeChung", {
                             search: 'Pick',
                             placeholder: 'Nhập điểm đón'
                         });
@@ -311,7 +311,7 @@ class MapXeChung extends Component {
 
                 <ImageInputTextDiChung
                     onPress={() => {
-                        this.props.navigation.push("SearchPlace", {
+                        this.props.navigation.push("SearchPlaceXeChung", {
                             search: 'Pick',
                             placeholder: 'Nhập điểm đón'
                         });
@@ -330,7 +330,7 @@ class MapXeChung extends Component {
                         <TouchableOpacity
                             style={{ flex: 1, height: 40 }}
                             onPress={() => {
-                                this.props.navigation.push("SearchPlace", {
+                                this.props.navigation.push("SearchPlaceXeChung", {
                                     search: 'Drop',
                                     placeholder: 'Nhập điểm trả',
                                 });
@@ -338,7 +338,7 @@ class MapXeChung extends Component {
                         >
                             <TextInput
                                 editable={false}
-                                onTouchStart={() => this.props.navigation.push("SearchPlace", {
+                                onTouchStart={() => this.props.navigation.push("SearchPlaceXeChung", {
                                     search: 'Drop',
                                     placeholder: 'Nhập điểm trả',
                                 })
@@ -353,7 +353,7 @@ class MapXeChung extends Component {
 
                     <TouchableOpacity
                         onPress={() => {
-                            this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.lattitude_drop, this.props.lngtitude_drop, this.props.pick_add, this.props.component_pick, this.props.lattitude_pick, this.props.lngtitude_pick);
+                            this.props.swapAddressTaixe(this.props.drop_add, this.props.component_drop, this.props.lattitude_drop, this.props.lngtitude_drop, this.props.pick_add, this.props.component_pick, this.props.lattitude_pick, this.props.lngtitude_pick);
                         }}
                     >
                         <Image
@@ -488,7 +488,7 @@ class MapXeChung extends Component {
                                                 dialogTimeVisible: false,
                                                 depart_time: `${this.state.selectedHours}:${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes} ${this.state.date.format('DD/MM/YYYY')}`
                                             })
-                                            this.props.addDepartTime(`${this.state.selectedHours}:${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes} ${this.state.date.format('DD/MM/YYYY')}`);
+                                            this.props.addDepartTimeTaixe(`${this.state.selectedHours}:${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes} ${this.state.date.format('DD/MM/YYYY')}`);
 
                                         }}
                                     >
@@ -608,16 +608,16 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
     return {
-        drop_add: state.info.drop_add,
-        pick_add: state.info.pick_add,
-        component_drop: state.info.component_drop,
-        component_pick: state.info.component_pick,
-        lattitude_pick: state.info.lattitude_pick,
-        lngtitude_pick: state.info.lngtitude_pick,
-        lattitude_drop: state.info.lattitude_drop,
-        lngtitude_drop: state.info.lngtitude_drop,
-        chair: state.info.chair,
+        drop_add: state.rdTaixe.drop_add,
+        pick_add: state.rdTaixe.pick_add,
+        component_drop: state.rdTaixe.component_drop,
+        component_pick: state.rdTaixe.component_pick,
+        lattitude_pick: state.rdTaixe.lattitude_pick,
+        lngtitude_pick: state.rdTaixe.lngtitude_pick,
+        lattitude_drop: state.rdTaixe.lattitude_drop,
+        lngtitude_drop: state.rdTaixe.lngtitude_drop,
+        chair: state.rdTaixe.chair,
     }
 }
 
-export default connect(mapStateToProps, { addDepartTime: addDepartTime, addPeople: addPeople, swapAddress: swapAddress })(MapXeChung)
+export default connect(mapStateToProps, { addDepartTimeTaixe: addDepartTimeTaixe, addPeopleTaixe: addPeopleTaixe, swapAddressTaixe: swapAddressTaixe })(MapXeChung)

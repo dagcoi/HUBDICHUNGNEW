@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, Alert, Swi
 import { connect } from 'react-redux';
 import StarVote from '../../../component/StarVote'
 
-import { addTripInfomation, addIsFromAirport } from '../../../core/Redux/action/Action'
+import { addTripInfomationTaixe } from '../../../core/Redux/action/Action'
 import HTML from 'react-native-render-html';
 import * as link from '../../../URL'
 
@@ -63,7 +63,7 @@ class ListDriverXeChung extends Component {
 
     alertItemName = (item) => {
         const { navigation } = this.props;
-        this.props.addTripInfomation(item.partner_name, item.merged, this.props.depart_time, item.chunk_id, item.vehicle_id, item.village_id, item.pm_id, item.partner_id, item.city_id, item.vehicle_name, item.toll_fee, item.dimension_id, item.vehicle_id, item.ride_method_id, item.chair, item.airport_id, item.street_id, item.vehicle_icon, item.pick_pos, item.drop_pos, item.use_range_time, item.unmerged);
+        this.props.addTripInfomationTaixe(item.partner_name, item.merged, this.props.depart_time, item.chunk_id, item.vehicle_id, item.village_id, item.pm_id, item.partner_id, item.city_id, item.vehicle_name, item.toll_fee, item.dimension_id, item.vehicle_id, item.ride_method_id, item.chair, item.airport_id, item.street_id, item.vehicle_icon, item.pick_pos, item.drop_pos, item.use_range_time, item.unmerged);
         this.props.navigation.push("InfoCustommerXeChung", {
         })
     }
@@ -232,11 +232,11 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
     return {
-        drop_add: state.info.drop_add,
-        pick_add: state.info.pick_add,
-        component_pick: state.info.component_pick,
-        component_drop: state.info.component_drop,
-        depart_time: state.info.depart_time,
+        drop_add: state.rdTaixe.drop_add,
+        pick_add: state.rdTaixe.pick_add,
+        component_pick: state.rdTaixe.component_pick,
+        component_drop: state.rdTaixe.component_drop,
+        depart_time: state.rdTaixe.depart_time,
     }
 }
-export default connect(mapStateToProps, { addTripInfomation: addTripInfomation, })(ListDriverXeChung);
+export default connect(mapStateToProps, { addTripInfomationTaixe: addTripInfomationTaixe, })(ListDriverXeChung);

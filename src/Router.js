@@ -31,6 +31,7 @@ import TicketInformationXeChung from './module/XeChung/TicketInformationXeChung'
 import ListDriverHourlyBooking from './module/XeChung/ListDriverHourlyBooking'
 import InfoCustommerHourlyRentDriver from './module/XeChung/InfoCustommerHourlyRentDriver'
 import ConfirmInformationRentDriver from './module/XeChung/ConfirmInformationRentDriver'
+import SearchPlaceXeChung from './module/XeChung/SearchPlaceXeChung'
 
 import MapExpress from './module/Express/MapExpress'
 import ListDriverExpress from './module/Express/ListDriverExpress'
@@ -40,6 +41,7 @@ import TicketInformationExpress from './module/Express/TicketInformationExpress'
 import ListFreightTruck from './module/Express/ListFreightTruck'
 import InfoCustommerHourlyFreightTruck from './module/Express/InfoCustommerHourlyFreightTruck'
 import ConfirmInformationFreightTruck from './module/Express/ConfirmInformationFreightTruck'
+import SearchPlaceExpress from './module/Express/SearchPlaceExpress'
 
 
 import AboutUs from './module/WebView/AboutUs'
@@ -293,6 +295,20 @@ const RootStack = createStackNavigator({
         screen : ConfirmInformationFreightTruck,
         navigationOptions : {
             title : 'Xác nhận thông tin(Giao hàng)'
+        }
+    },
+
+    SearchPlaceXeChung : {
+        screen : SearchPlaceXeChung,
+        navigationOptions : {
+            title : 'Nhập địa chỉ'
+        }
+    },
+
+    SearchPlaceExpress : {
+        screen :SearchPlaceExpress,
+        navigationOptions : {
+            title : 'Nhập địa chỉ'
         }
     },
 

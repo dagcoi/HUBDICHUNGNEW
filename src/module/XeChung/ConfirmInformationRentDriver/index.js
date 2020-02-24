@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Dialog, ConfirmDialog } from 'react-native-simple-dialogs';
 import * as link from '../../../URL'
-import { deleteData } from '../../../core/Redux/action/Action'
+import { deleteDataTaixe } from '../../../core/Redux/action/Action'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
 
 Number.prototype.format = function (n, x) {
@@ -290,7 +290,7 @@ class ConfirmInformationHB extends Component {
                             this.setState({
                                 bookingSuccess: false
                             })
-                            this.props.deleteData();
+                            this.props.deleteDataTaixe();
                             this.props.navigation.push("Home");
                         }
                     }}
@@ -384,37 +384,37 @@ const styles = StyleSheet.create({
 })
 function mapStateToProps(state) {
     return {
-        pick_add: state.info.pick_add,
-        merged: state.info.merged,
-        depart_time: state.info.depart_time,
-        vehicle_name: state.info.vehicle_name,
-        vat: state.info.vat,
-        full_name: state.info.full_name,
-        use_phone: state.info.use_phone,
-        comment: state.info.comment,
-        promotion_code: state.info.promotion_code,
-        full_name2: state.info.full_name2,
-        use_phone2: state.info.use_phone2,
-        email: state.info.email,
-        company_name: state.info.company_name,
-        company_address: state.info.company_address,
-        company_mst: state.info.company_mst,
-        company_address_receive: state.info.company_address_receive,
-        not_use: state.info.not_use,
-        xhd: state.info.xhd,
-        vehicle_icon: state.info.vehicle_icon,
-        discount_price: state.info.discount_price,
-        duration: state.info.duration,
-        lattitude_pick: state.info.lattitude_pick,
-        lngtitude_pick: state.info.lngtitude_pick,
-        vehicle_id: state.info.vehicle_id,
-        city_id: state.info.city_id,
-        partner_id: state.info.brand_partner_id,
-        extra_price_hour: state.info.extra_price_hour_format,
-        extra_price_km: state.info.extra_price_km_format,
-        km_limit_format: state.info.km_limit_format,
-        partner_name : state.info.partner_name,
+        pick_add: state.rdTaixe.pick_add,
+        merged: state.rdTaixe.merged,
+        depart_time: state.rdTaixe.depart_time,
+        vehicle_name: state.rdTaixe.vehicle_name,
+        vat: state.rdTaixe.vat,
+        full_name: state.rdTaixe.full_name,
+        use_phone: state.rdTaixe.use_phone,
+        comment: state.rdTaixe.comment,
+        promotion_code: state.rdTaixe.promotion_code,
+        full_name2: state.rdTaixe.full_name2,
+        use_phone2: state.rdTaixe.use_phone2,
+        email: state.rdTaixe.email,
+        company_name: state.rdTaixe.company_name,
+        company_address: state.rdTaixe.company_address,
+        company_mst: state.rdTaixe.company_mst,
+        company_address_receive: state.rdTaixe.company_address_receive,
+        not_use: state.rdTaixe.not_use,
+        xhd: state.rdTaixe.xhd,
+        vehicle_icon: state.rdTaixe.vehicle_icon,
+        discount_price: state.rdTaixe.discount_price,
+        duration: state.rdTaixe.duration,
+        lattitude_pick: state.rdTaixe.lattitude_pick,
+        lngtitude_pick: state.rdTaixe.lngtitude_pick,
+        vehicle_id: state.rdTaixe.vehicle_id,
+        city_id: state.rdTaixe.city_id,
+        partner_id: state.rdTaixe.brand_partner_id,
+        extra_price_hour: state.rdTaixe.extra_price_hour_format,
+        extra_price_km: state.rdTaixe.extra_price_km_format,
+        km_limit_format: state.rdTaixe.km_limit_format,
+        partner_name : state.rdTaixe.partner_name,
     }
 }
 
-export default connect(mapStateToProps, { deleteData: deleteData })(ConfirmInformationHB)
+export default connect(mapStateToProps, { deleteDataTaixe: deleteDataTaixe })(ConfirmInformationHB)

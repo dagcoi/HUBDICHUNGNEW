@@ -4,7 +4,7 @@ import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBoxList from '../../../component/CheckBoxList'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import { connect } from 'react-redux';
-import { addInfoPeople1, addInfoPeople2, addVAT, addComment, addPromotionCode, addPaymentMethodID,  } from '../../../core/Redux/action/Action'
+import { addInfoPeople1Taixe, addInfoPeople2Taixe, addVATTaixe, addCommentTaixe, addPromotionCodeTaixe, addPaymentMethodIDTaixe,  } from '../../../core/Redux/action/Action'
 
 class InfoCustommerXeChung extends Component {
 
@@ -413,13 +413,13 @@ class InfoCustommerXeChung extends Component {
                         style={{ marginTop: 8, backgroundColor: '#77a300', justifyContent: 'center', alignItems: "center", height: 40, borderRadius: 6 }}
                         onPress={() => {
                             const { xhd, company_name, company_address, company_address_receive, company_mst, full_name, use_phone, email, full_name1, use_phone1, email1, comment, payment_method_ID } = this.state;
-                            this.props.addVAT(xhd ? '1' : '0', company_name, company_address, company_mst, company_address_receive);
-                            this.props.addInfoPeople2(full_name1, use_phone1, email1);
-                            this.props.addInfoPeople1(full_name, use_phone, email);
+                            this.props.addVATTaixe(xhd ? '1' : '0', company_name, company_address, company_mst, company_address_receive);
+                            this.props.addInfoPeople2Taixe(full_name1, use_phone1, email1);
+                            this.props.addInfoPeople1Taixe(full_name, use_phone, email);
                             // add payment method id
-                            this.props.addComment(comment);
+                            this.props.addCommentTaixe(comment);
                             console.log(payment_method_ID);
-                            this.props.addPaymentMethodID(payment_method_ID);
+                            this.props.addPaymentMethodIDTaixe(payment_method_ID);
                             this.checkInfoCustommerXeChung();
                         }}
                     >
@@ -479,20 +479,20 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
     return {
-        full_name: state.info.full_name,
-        use_phone: state.info.use_phone,
-        email: state.info.email,
-        full_name1: state.info.full_name2,
-        use_phone1: state.info.use_phone2,
-        email1: state.info.email2,
-        comment : state.info.comment,
-        drop_add: state.info.drop_add,
-        pick_add: state.info.pick_add,
-        chunk_id: state.info.chunk_id,
-        ride_method_id: state.info.ride_method_id,
-        depart_time: state.info.depart_time,
-        transport_partner_id: state.info.transport_partner_id,
+        full_name: state.rdTaixe.full_name,
+        use_phone: state.rdTaixe.use_phone,
+        email: state.rdTaixe.email,
+        full_name1: state.rdTaixe.full_name2,
+        use_phone1: state.rdTaixe.use_phone2,
+        email1: state.rdTaixe.email2,
+        comment : state.rdTaixe.comment,
+        drop_add: state.rdTaixe.drop_add,
+        pick_add: state.rdTaixe.pick_add,
+        chunk_id: state.rdTaixe.chunk_id,
+        ride_method_id: state.rdTaixe.ride_method_id,
+        depart_time: state.rdTaixe.depart_time,
+        transport_partner_id: state.rdTaixe.transport_partner_id,
     }
 }
 
-export default connect(mapStateToProps, { addComment: addComment, addInfoPeople1: addInfoPeople1, addInfoPeople2: addInfoPeople2, addVAT: addVAT, addPromotionCode: addPromotionCode, addPaymentMethodID: addPaymentMethodID })(InfoCustommerXeChung);
+export default connect(mapStateToProps, { addCommentTaixe: addCommentTaixe, addInfoPeople1Taixe: addInfoPeople1Taixe, addInfoPeople2Taixe: addInfoPeople2Taixe, addVATTaixe: addVATTaixe, addPromotionCodeTaixe: addPromotionCodeTaixe, addPaymentMethodIDTaixe: addPaymentMethodIDTaixe })(InfoCustommerXeChung);

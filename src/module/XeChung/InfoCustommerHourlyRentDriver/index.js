@@ -4,7 +4,7 @@ import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBox from 'react-native-check-box'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import { connect } from 'react-redux';
-import { addInfoPeople1, addInfoPeople2, addVAT, addInfoFlight, addPromotionCode, addPaymentMethodID, addComment } from '../../../core/Redux/action/Action'
+import { addInfoPeople1Taixe, addInfoPeople2Taixe, addVATTaixe, addPromotionCodeTaixe, addPaymentMethodIDTaixe, addCommentTaixe } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
 
 const imageCancel = '../../../image/cancel.png'
@@ -273,7 +273,7 @@ class InfoCustommerHourlyRentDriver extends Component {
                         discount_price: responseJson.data.discount_price,
                         blDiscount: true,
                     })
-                    this.props.addPromotionCode(this.state.promotion_code, this.state.discount_price);
+                    this.props.addPromotionCodeTaixe(this.state.promotion_code, this.state.discount_price);
                 }
                 return responseJson.code;
             })
@@ -517,13 +517,13 @@ class InfoCustommerHourlyRentDriver extends Component {
                         style={{ marginTop: 8, backgroundColor: '#77a300', justifyContent: 'center', alignItems: "center", height: 40, borderRadius: 6 }}
                         onPress={() => {
                             const { xhd, company_name, company_address, company_address_receive, company_mst, full_name, use_phone, email, full_name1, use_phone1, email1, payment_method_ID, comment } = this.state;
-                            this.props.addVAT(xhd ? '1' : '0', company_name, company_address, company_mst, company_address_receive);
-                            this.props.addInfoPeople2(full_name1, use_phone1, email1);
-                            this.props.addInfoPeople1(full_name, use_phone, email);
-                            this.props.addComment(comment);
+                            this.props.addVATTaixe(xhd ? '1' : '0', company_name, company_address, company_mst, company_address_receive);
+                            this.props.addInfoPeople2Taixe(full_name1, use_phone1, email1);
+                            this.props.addInfoPeople1Taixe(full_name, use_phone, email);
+                            this.props.addCommentTaixe(comment);
                             // add payment method id
                             console.log(payment_method_ID)
-                            this.props.addPaymentMethodID(payment_method_ID);
+                            this.props.addPaymentMethodIDTaixe(payment_method_ID);
                             this.checkInfoCustommerHourlyRentDriver();
                         }}
                     >
@@ -583,22 +583,22 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
     return {
-        full_name: state.info.full_name,
-        use_phone: state.info.use_phone,
-        email: state.info.email,
-        full_name1: state.info.full_name2,
-        use_phone1: state.info.use_phone2,
-        email1: state.info.email2,
-        pick_add: state.info.pick_add,
-        chunk_id: state.info.chunk_id,
-        ride_method_id: state.info.ride_method_id,
-        partner_name: state.info.partner_name,
-        merged: state.info.merged,
-        depart_time: state.info.depart_time,
-        extra_price_km_format: state.info.extra_price_km_format,
-        extra_price_hour_format: state.info.extra_price_hour_format,
-        km_limit_format: state.info.km_limit_format,
+        full_name: state.rdTaixe.full_name,
+        use_phone: state.rdTaixe.use_phone,
+        email: state.rdTaixe.email,
+        full_name1: state.rdTaixe.full_name2,
+        use_phone1: state.rdTaixe.use_phone2,
+        email1: state.rdTaixe.email2,
+        pick_add: state.rdTaixe.pick_add,
+        chunk_id: state.rdTaixe.chunk_id,
+        ride_method_id: state.rdTaixe.ride_method_id,
+        partner_name: state.rdTaixe.partner_name,
+        merged: state.rdTaixe.merged,
+        depart_time: state.rdTaixe.depart_time,
+        extra_price_km_format: state.rdTaixe.extra_price_km_format,
+        extra_price_hour_format: state.rdTaixe.extra_price_hour_format,
+        km_limit_format: state.rdTaixe.km_limit_format,
     }
 }
 
-export default connect(mapStateToProps, { addInfoFlight: addInfoFlight, addInfoPeople1: addInfoPeople1, addInfoPeople2: addInfoPeople2, addVAT: addVAT, addPromotionCode: addPromotionCode, addPaymentMethodID: addPaymentMethodID, addComment: addComment, })(InfoCustommerHourlyRentDriver);
+export default connect(mapStateToProps, { addInfoPeople1Taixe: addInfoPeople1Taixe, addInfoPeople2Taixe: addInfoPeople2Taixe, addVATTaixe: addVATTaixe, addPromotionCodeTaixe: addPromotionCodeTaixe, addPaymentMethodIDTaixe: addPaymentMethodIDTaixe, addCommentTaixe: addCommentTaixe, })(InfoCustommerHourlyRentDriver);
