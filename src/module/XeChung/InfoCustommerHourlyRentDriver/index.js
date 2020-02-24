@@ -7,24 +7,12 @@ import { connect } from 'react-redux';
 import { addInfoPeople1, addInfoPeople2, addVAT, addInfoFlight, addPromotionCode, addPaymentMethodID, addComment } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
 
-var radio_payment_detail = [
-    { label: 'ATM', value: 0, payment_method_ID: '8' },
-    { label: 'Visa', value: 1, payment_method_ID: '8' },
-    { label: 'Vnpay', value: 2, payment_method_ID: '8' },
-    { label: 'Paypal', value: 3, payment_method_ID: '4' },
-]
-
-// var radio_payment = [
-//     { label: 'Trả sau', value: 0 },
-//     // { label: 'Trả trước', value: 1 },
-// ]
-
 const imageCancel = '../../../image/cancel.png'
 const imageCheck = '../../../image/checked.png'
 const imageUnCheck = '../../../image/unchecked.png'
 
 
-class InfoCustommerHourlyBooking extends Component {
+class InfoCustommerHourlyRentDriver extends Component {
 
     constructor() {
         super();
@@ -58,11 +46,6 @@ class InfoCustommerHourlyBooking extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.merged)
-        console.log(this.props.partner_name)
-        console.log(this.props.extra_price_km_format)
-        console.log(this.props.extra_price_hour_format)
-        console.log(this.props.km_limit_format)
         this.setState({
             full_name: this.props.full_name,
             full_name1: this.props.full_name1,
@@ -74,63 +57,6 @@ class InfoCustommerHourlyBooking extends Component {
         this._validateEmail(this.props.email)
         this.mobileValidate(this.props.use_phone)
         this.mobileValidate1(this.props.use_phone1)
-    }
-
-    renderPostpaid() {
-        if (this.state.value_payment == 0) {
-            return null;
-        } else {
-            return (
-                <View style={{ padding: 8 }}>
-                    <RadioForm
-                        animation={true}
-                    >
-                        {radio_payment_detail.map((obj, i) => (
-                            <RadioButton labelHorizontal={true} key={i} >
-                                <RadioButtonInput
-                                    obj={obj}
-                                    index={i}
-                                    isSelected={this.state.value_paymentDetail === i}
-                                    onPress={() => {
-                                        console.log(obj.label)
-                                        this.setState({
-                                            value_paymentDetail: i,
-                                            selectRentCar: i,
-                                            payment_method_ID: obj.payment_method_ID,
-                                        })
-                                    }}
-                                    borderWidth={1}
-                                    buttonInnerColor={'#00363d'}
-                                    buttonOuterColor={'#00363d'}
-                                    buttonSize={10}
-                                    buttonOuterSize={20}
-                                    buttonStyle={7}
-                                    buttonWrapStyle={{ marginLeft: 10 }}
-                                />
-                                <RadioButtonLabel
-                                    obj={obj}
-                                    index={i}
-                                    key={i}
-                                    labelHorizontal={true}
-                                    onPress={() => {
-                                        console.log(obj.label)
-                                        console.log(obj.payment_method_ID)
-                                        this.setState({
-                                            value_paymentDetail: i,
-                                            payment_method_ID: obj.payment_method_ID,
-                                        })
-                                    }}
-                                    labelStyle={{ fontSize: 18, color: '#000' }}
-                                    labelWrapStyle={{}}
-                                />
-                            </RadioButton>
-                        ))}
-
-
-                    </RadioForm>
-                </View>
-            )
-        }
     }
 
     mobileValidate1(text) {
@@ -225,7 +151,6 @@ class InfoCustommerHourlyBooking extends Component {
     _validateEmail(text) {
         const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (regex.test(String(text).toLowerCase()) === false) {
-            console.log("Email is Not Correct ");
             this.setState({ email: text, checkEmail: false })
             return false;
         } else {
@@ -252,7 +177,7 @@ class InfoCustommerHourlyBooking extends Component {
         }
     }
 
-    checkInfoCustommerHourlyBooking() {
+    checkInfoCustommerHourlyRentDriver() {
         if (this.state.full_name.trim().length < 2) {
             Alert.alert('Vui lòng nhập tên');
             return;
@@ -296,7 +221,7 @@ class InfoCustommerHourlyBooking extends Component {
                 Alert.alert('nhập địa chỉ nhận hóa đơn')
                 return;
             } else {
-                this.props.navigation.navigate('ConfirmInformationHB', {
+                this.props.navigation.navigate('ConfirmInformationRentDriver', {
                     "broad_price": this.state.boardPrice,
                     "not_use": this.state.is_checked,
                     "xhd": this.state.vat,
@@ -305,7 +230,7 @@ class InfoCustommerHourlyBooking extends Component {
                 });
             }
         } else {
-            this.props.navigation.navigate('ConfirmInformationHB', {
+            this.props.navigation.navigate('ConfirmInformationRentDriver', {
                 "broad_price": this.state.boardPrice,
                 "not_use": this.state.is_checked,
                 "xhd": this.state.vat,
@@ -382,7 +307,7 @@ class InfoCustommerHourlyBooking extends Component {
 
                 <InputTextDiChung
                     style={styles.textInput}
-                    placeholder='Địa chỉ công ty'
+                    placeholder='Địa cỉ công ty'
                     value={this.state.company_address}
                     onChangeText={(text) => this.setState({
                         company_address: text,
@@ -511,7 +436,7 @@ class InfoCustommerHourlyBooking extends Component {
                                     buttonSize={10}
                                     buttonOuterSize={20}
                                     buttonStyle={7}
-                                    buttonWrapStyle={{ marginTop: 8 }}
+                                    buttonWrapStyle={{ marginLeft: 10 }}
                                 />
                                 <RadioButtonLabel
                                     obj={obj}
@@ -526,15 +451,11 @@ class InfoCustommerHourlyBooking extends Component {
                                         })
                                     }}
                                     labelStyle={{ fontSize: 18, color: '#000' }}
-                                    labelWrapStyle={{marginTop : 8}}
+                                    labelWrapStyle={{}}
                                 />
                             </RadioButton>
                         ))}
-
-
                     </RadioForm>
-
-                    {this.renderPostpaid()}
 
                     <Text style={styles.textBig}>Mã giảm giá</Text>
 
@@ -603,7 +524,7 @@ class InfoCustommerHourlyBooking extends Component {
                             // add payment method id
                             console.log(payment_method_ID)
                             this.props.addPaymentMethodID(payment_method_ID);
-                            this.checkInfoCustommerHourlyBooking();
+                            this.checkInfoCustommerHourlyRentDriver();
                         }}
                     >
                         <Text style={{ color: '#ffffff' }}>TIẾP TỤC</Text>
@@ -680,4 +601,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { addInfoFlight: addInfoFlight, addInfoPeople1: addInfoPeople1, addInfoPeople2: addInfoPeople2, addVAT: addVAT, addPromotionCode: addPromotionCode, addPaymentMethodID: addPaymentMethodID, addComment: addComment, })(InfoCustommerHourlyBooking);
+export default connect(mapStateToProps, { addInfoFlight: addInfoFlight, addInfoPeople1: addInfoPeople1, addInfoPeople2: addInfoPeople2, addVAT: addVAT, addPromotionCode: addPromotionCode, addPaymentMethodID: addPaymentMethodID, addComment: addComment, })(InfoCustommerHourlyRentDriver);

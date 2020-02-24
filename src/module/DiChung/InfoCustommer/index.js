@@ -443,7 +443,7 @@ class InfoCustommer extends Component {
 
                 <InputTextDiChung
                     style={styles.textInput}
-                    placeholder='Địa cỉ công ty'
+                    placeholder='Địa chỉ công ty'
                     value={this.state.company_address}
                     onChangeText={(text) => this.setState({
                         company_address: text,

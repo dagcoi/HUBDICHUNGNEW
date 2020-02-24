@@ -9,7 +9,7 @@ import * as link from '../../../URL'
 const imageMaxToMin = '../../../image/maxtomin.png'
 const imageMinToMax = '../../../image/mintomax.png'
 
-class ListCarHourlyBooking extends Component {
+class ListDriverHourlyBooking extends Component {
 
     constructor() {
         super()
@@ -34,7 +34,7 @@ class ListCarHourlyBooking extends Component {
                     fontSize: 22,
                     textAlign: 'left'
                 }}>
-                    Danh sách xe
+                    Danh sách xe (tài xế)
                 </Text>
 
                 <View
@@ -52,13 +52,10 @@ class ListCarHourlyBooking extends Component {
             </View>,
         };
     };
-
-
-
     async componentDidMount() {
         const { navigation } = this.props;
         var listCarType = navigation.getParam('listCarType');
-        const url = link.URL_API + `passenger/get_hourly_price_list?depart_time=${this.props.depart_time}&pick_address=${JSON.stringify(this.props.pick_add)}&pick_address_component=${JSON.stringify(this.props.component_pick)}&duration=${this.props.duration}&vehicle_id=${listCarType}&service_type=HOURLY_RENT_TAXI`;
+        const url = link.URL_API + `passenger/get_hourly_price_list?depart_time=${this.props.depart_time}&pick_address=${JSON.stringify(this.props.pick_add)}&pick_address_component=${JSON.stringify(this.props.component_pick)}&duration=${this.props.duration}&service_type=HOURLY_RENT_DRIVER`;
         try {
             const response = await fetch(url, {
                 method: 'POST',
@@ -68,7 +65,7 @@ class ListCarHourlyBooking extends Component {
                 isLoading: false,
                 dataSource: responseJson.data,
             });
-            console.log(responseJson.data)
+            // console.log(responseJson.data)
             return responseJson.data;
         }
         catch (error) {
@@ -77,7 +74,7 @@ class ListCarHourlyBooking extends Component {
             });
             console.log(error);
         }
-    }
+    }z
 
     componentWillMount() {
         this.props.navigation.setParams({ 'increaseCount': this._increaseCount });
@@ -95,11 +92,6 @@ class ListCarHourlyBooking extends Component {
     }
 
     renderItem(obj) {
-        // const { navigation } = this.props;
-        // var listCarType = navigation.getParam('listCarType');
-        // var str = listCarType.replace(/\s+/g, '');
-        // var listType = str.split(",")
-        // var obj = obj1.filter(item => (listType.includes(item.vehicle_id)))
         { this.state.sort ? obj.sort((a, b) => b.price - a.price) : obj.sort((a, b) => a.price - b.price) }
         return (
             obj.length < 1 ?
@@ -118,12 +110,13 @@ class ListCarHourlyBooking extends Component {
                                 >
                                     <View style={{ flexDirection: 'row' }}>
                                         <View style={styles.containerr}>
-                                            <Text style={styles.loaixe}>
-                                                {item.partner_name.toUpperCase()}
+                                            <Text style={styles.tentuyen}>
+                                                {item.partner_name}
                                             </Text>
+                                            <StarVote />
                                             <Text style={styles.giaTien}>{item.vehicle_name}</Text>
                                             <Text style={styles.giaTien}>giới hạn {item.km_limit_format}</Text>
-                                            <Text style={[styles.loaixe,{color : '#00363d'}]}>{item.price_format}</Text>
+                                            <Text style={styles.loaixe}>{item.price_format}</Text>
                                         </View>
                                         <View style={styles.imageRight}>
                                             <Image
@@ -150,7 +143,7 @@ class ListCarHourlyBooking extends Component {
                                     <TouchableOpacity
                                         style={{ height: 40, padding: 4, justifyContent: 'center', backgroundColor: '#77a300', alignItems: 'center', marginTop: 8 }}
                                         onPress={() => {
-                                            this.gotoInfocustommerHourlyBooking(item);
+                                            this.gotoInfocustommerDriverHourlyBooking(item);
                                         }
                                         }
                                     >
@@ -167,10 +160,10 @@ class ListCarHourlyBooking extends Component {
         )
     }
     nextScreen() {
-        this.props.navigation.push("InfoCustommerHourlyBooking")
+        this.props.navigation.push("InfoCustommerHourlyRentDriver")
     }
 
-    gotoInfocustommerHourlyBooking = (item) => {
+    gotoInfocustommerDriverHourlyBooking = (item) => {
         this.props.addTripInfomationHourlyBooking(item.partner_name, item.price, this.props.depart_time, item.extra_price_km_format, item.extra_price_hour_format, item.km_limit_format, item.vehicle_icon, item.vehicle_id, item.vehicle_name, item.city_id, item.partner_id)
         this.nextScreen();
     }
@@ -270,4 +263,4 @@ function mapStateToProps(state) {
         duration: state.info.duration,
     }
 }
-export default connect(mapStateToProps, { addTripInfomationHourlyBooking: addTripInfomationHourlyBooking })(ListCarHourlyBooking);
+export default connect(mapStateToProps, { addTripInfomationHourlyBooking: addTripInfomationHourlyBooking })(ListDriverHourlyBooking);

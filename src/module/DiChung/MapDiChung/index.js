@@ -226,14 +226,16 @@ class MapDiChung extends Component {
                     style={{ flex: 1, height: 40, flexDirection: 'row', alignItems: 'center', }}
                     onPress={() => {
                         this.props.navigation.push("SearchPlace", {
-                            search: 'Pick'
+                            search: 'Pick',
+                            placeholder: 'Nhập điểm đón',
                         });
                     }}
                 >
                     <TextInput
                         editable={false}
                         onTouchStart={() => this.props.navigation.push("SearchPlace", {
-                            search: 'Pick'
+                            search: 'Pick',
+                            placeholder: 'Nhập điểm đón'
                         })
                         }
                         style={{ fontSize: 14, height: 40, color: "#00363d" }}
@@ -319,14 +321,16 @@ class MapDiChung extends Component {
                             style={{ flex: 1, height: 40 }}
                             onPress={() => {
                                 this.props.navigation.push("SearchPlace", {
-                                    search: 'Drop'
+                                    search: 'Drop',
+                                    placeholder: 'Nhập điểm trả'
                                 });
                             }}
                         >
                             <TextInput
                                 editable={false}
                                 onTouchStart={() => this.props.navigation.push("SearchPlace", {
-                                    search: 'Drop'
+                                    search: 'Drop',
+                                    placeholder: 'Nhập điểm trả'
                                 })
                                 }
                                 style={{ fontSize: 14, height: 40, color: "#00363d" }}
@@ -442,7 +446,7 @@ class MapDiChung extends Component {
         return (
             <View style={{ flex: 1 }}>
                 {this.renderPicktoDrop()}
-                <View style={{ height: 50, backgroundColor: '#fff', borderBottomColor: '#00363d', borderBottomWidth: 0.3, justifyContent: 'center', paddingLeft : 16 }}>
+                <View style={{ height: 50, backgroundColor: '#fff', borderBottomColor: '#00363d', borderBottomWidth: 0.3, justifyContent: 'center', paddingLeft: 16 }}>
                     <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Bạn sẽ đi đâu hôm nay?</Text>
                 </View>
                 <View style={{ flex: 1, padding: 8 }}>

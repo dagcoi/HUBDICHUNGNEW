@@ -112,7 +112,8 @@ class InfoCarChungXe extends Component {
                         style={{ flex: 1, height: 40, flexDirection: 'row', alignItems: 'center', }}
                         onPress={() => {
                             this.props.navigation.push("SearchPlace", {
-                                search: 'Pick'
+                                search: 'Pick',
+                                placeholder:'Nhập điểm nhận xe'
                             });
                         }}
                     >
@@ -120,7 +121,8 @@ class InfoCarChungXe extends Component {
                             editable={false}
                             ref="myInput"
                             onTouchStart={() => this.props.navigation.push("SearchPlace", {
-                                search: 'Pick'
+                                search: 'Pick',
+                                placeholder :'Nhập điểm nhận xe'
                             })
                             }
                             pointerEvents="none"

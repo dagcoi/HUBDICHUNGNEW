@@ -66,13 +66,13 @@ class SearchPlace extends Component {
         const imageDrop = '../../../image/drop.png'
         const imageCancel = '../../../image/cancel.png'
         const address11 = navigation.getParam('search');
-        const screen = navigation.getParam('screen');
+        const placeholder = navigation.getParam('placeholder');
         return (
             <View style={{ flex: 1, padding: 4, marginTop: 16 }}>
                 <View style={{ backgroundColor: '#ffffff' }}>
                     <View style={{ flexDirection: 'row' }}>
                         <GooglePlacesAutocomplete
-                            placeholder={(address11 == 'Pick' ? 'Nhập điểm đón/nhận' : 'Nhập điểm trả')}
+                            placeholder={placeholder}
                             minLength={2}
                             autoFocus={true}
                             returnKeyType={'search'}

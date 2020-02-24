@@ -55,7 +55,7 @@ class ConfirmInformationHB extends Component {
             if (navigation.getParam('not_use')) {
                 url = url + `&not_use=${navigation.getParam('not_use') ? 1 : 0}&use[name]=${this.props.full_name2}&use[phone]=${this.props.use_phone2}`
             }
-            url = url + `&service_type=HOURLY_RENT_TAXI&partner_domain=cityads.com`
+            url = url + `&service_type=HOURLY_RENT_DRIVER&partner_domain=cityads.com`
             console.log(url);
             const res = await fetch(url, {
                 method: 'POST',
@@ -105,7 +105,7 @@ class ConfirmInformationHB extends Component {
                 <Text style={styles.textBigLeft1}>Chi tiết đơn hàng</Text>
                 <ImageTextDiChung
                     source={require(imageIconCar)}
-                    text={'Xe theo tour'}
+                    text={this.props.partner_name}
                 />
                 <ImageTextDiChung
                     source={require(imageIconCar)}
@@ -413,6 +413,7 @@ function mapStateToProps(state) {
         extra_price_hour: state.info.extra_price_hour_format,
         extra_price_km: state.info.extra_price_km_format,
         km_limit_format: state.info.km_limit_format,
+        partner_name : state.info.partner_name,
     }
 }
 

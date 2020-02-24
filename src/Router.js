@@ -15,23 +15,32 @@ import ListCarHourlyBooking from './module/DiChung/ListCarHourlyBooking'
 import InfoCustommerHourlyBooking from './module/DiChung/InfoCustommerHourlyBooking'
 import ConfirmInformationHB from './module/DiChung/ConfirmInformationHB'
 
+
 import MapChungXe from './module/ChungXe/MapChungXe'
 import ListVehicle from './module/ChungXe/ListVehicle'
 import InfoChungXe from './module/ChungXe/InfoCarChungXe'
 import ConfirmInfoChungXe from './module/ChungXe/ConfirmInfoChungXe'
 import ChungXeTicketInformation from './module/ChungXe/ChungXeTicketInformation'
 
+
 import MapXeChung from './module/XeChung/MapXeChung'
 import ListDriverXeChung from './module/XeChung/ListDriverXeChung'
 import InfoCustommerXeChung from './module/XeChung/InfoCustommerXeChung'
 import ConfirmInformationXeChung from './module/XeChung/ConfirmInformationXeChung'
 import TicketInformationXeChung from './module/XeChung/TicketInformationXeChung'
+import ListDriverHourlyBooking from './module/XeChung/ListDriverHourlyBooking'
+import InfoCustommerHourlyRentDriver from './module/XeChung/InfoCustommerHourlyRentDriver'
+import ConfirmInformationRentDriver from './module/XeChung/ConfirmInformationRentDriver'
 
 import MapExpress from './module/Express/MapExpress'
 import ListDriverExpress from './module/Express/ListDriverExpress'
 import InfoCustommerExpress from './module/Express/InfoCustommerExpress'
 import ConfirmInformationExpress from './module/Express/ConfirmInformationExpress'
 import TicketInformationExpress from './module/Express/TicketInformationExpress'
+import ListFreightTruck from './module/Express/ListFreightTruck'
+import InfoCustommerHourlyFreightTruck from './module/Express/InfoCustommerHourlyFreightTruck'
+import ConfirmInformationFreightTruck from './module/Express/ConfirmInformationFreightTruck'
+
 
 import AboutUs from './module/WebView/AboutUs'
 import News from './module/WebView/News'
@@ -211,6 +220,27 @@ const RootStack = createStackNavigator({
         }
     },
 
+    ListDriverHourlyBooking : {
+        screen : ListDriverHourlyBooking,
+        navigationOptions : {
+            title : 'Danh sách lái xe (Tài xế)'
+        }
+    },
+
+    InfoCustommerHourlyRentDriver : {
+        screen : InfoCustommerHourlyRentDriver,
+        navigationOptions : {
+            title : 'Thông tin khách hàng (Tài xế)'
+        }
+    },
+
+    ConfirmInformationRentDriver : {
+        screen: ConfirmInformationRentDriver,
+        navigationOptions : {
+            title : 'Xác nhận thông tin (Tài xế)'
+        }
+    },
+
     MapExpress: {
         screen: MapExpress,
         navigationOptions: {
@@ -242,6 +272,27 @@ const RootStack = createStackNavigator({
         screen: TicketInformationExpress,
         navigationOptions: {
             header: null,
+        }
+    },
+
+    ListFreightTruck : {
+        screen : ListFreightTruck,
+        navigationOptions : {
+            title : 'Danh sách dịch vụ (Giao hàng)',
+        }
+    },
+
+    InfoCustommerHourlyFreightTruck : {
+        screen : InfoCustommerHourlyFreightTruck,
+        navigationOptions : {
+            title : 'Thông tin khách hàng (Giao hàng)',
+        }
+    },
+
+    ConfirmInformationFreightTruck : {
+        screen : ConfirmInformationFreightTruck,
+        navigationOptions : {
+            title : 'Xác nhận thông tin(Giao hàng)'
         }
     },
 
@@ -324,42 +375,5 @@ const MainStack = createStackNavigator({
         }
     }
 })
-
-
-// const defaultGetStateForAction = PrimaryNavigation.router.getStateForAction;
-// PrimaryNavigation.router.getStateForAction = (action, state) => {
-//     if (Platform.OS === "android") {
-//         const screen = state ? state.routes[state.index] : null;
-//         if (
-//             action.type === NavigationActions.BACK &&
-//             screen &&
-//             (screen.routeName === "Register" || screen.routeName === "OwnerDashboard" || screen.routeName === "LandingPage" || screen.routeName === "OptionPage" || (screen.routeName === "loginStack" && screen.index == 0) || (screen.routeName === "driverStack" && screen.index == 0 && screen.routes[screen.index].index == 0)
-//                 || (screen.routeName === "ownerStack" && screen.index == 0 && screen.routes[screen.index].index == 0))
-//         ) {
-//             Alert.alert(
-//                 "Are you sure",
-//                 "You want to exit the App",
-//                 [
-//                     {
-//                         text: "Cancel",
-//                         onPress: () => console.log("Cancel Pressed"),
-//                         style: "cancel"
-//                     },
-//                     { text: "OK", onPress: () => { BackHandler.exitApp() } }
-//                 ],
-//                 { cancelable: false }
-//             );
-//             console.log("action", action, "state", state);
-//             return null;
-//         }
-//         else {
-//             return defaultGetStateForAction(action, state);
-//         }
-//     }
-//     else {
-//         return defaultGetStateForAction(action, state);
-//     }
-// };
-
 
 export default createAppContainer(MainStack)
