@@ -4,7 +4,7 @@ import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 import Calendar from '../../../component/Calendar'
 import TimePicker from './TimePicker'
 import { connect } from 'react-redux';
-import { addDepartTime, addPeople, swapAddress,addDuration } from '../../../core/Redux/action/Action'
+import { addDepartTimeVanChuyen, addPeopleVanChuyen, swapAddressVanChuyen, addDurationVanChuyen } from '../../../core/Redux/action/Action'
 import AmountOfPracel from './AmountOfPracel'
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
 
@@ -52,7 +52,7 @@ class MapExpress extends Component {
             selectedStartDate: null,
             hourlyBooking: false,
             duration: 6,
-            modalSelectTime : false,
+            modalSelectTime: false,
             listTime: [
                 { 'id': 1, 'time': 2 },
                 { 'id': 2, 'time': 4 },
@@ -181,9 +181,9 @@ class MapExpress extends Component {
         }
     }
 
-    nextScreenHourly(){
+    nextScreenHourly() {
         this.getDateTimeAlive.bind(this);
-        if (this.props.pick_add != ''&& this.state.depart_time != '' && this.state.city_name != '') {
+        if (this.props.pick_add != '' && this.state.depart_time != '' && this.state.city_name != '') {
             if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                 if (this.state.hoursAlive > this.state.selectedHours) {
                     Alert.alert('Giờ thuê phải lớn hơn giờ hiện tại')
@@ -202,9 +202,9 @@ class MapExpress extends Component {
         }
     }
 
-    addPeople() {
+    addPeopleVanChuyen() {
         const { people } = this.state;
-        this.props.addPeople(people);
+        this.props.addPeopleVanChuyen(people);
     }
 
     renderFormExpressTheoTuyen() {
@@ -218,7 +218,7 @@ class MapExpress extends Component {
                     <TouchableOpacity
                         style={{ flex: 1, height: 40, flexDirection: 'row', alignItems: 'center', }}
                         onPress={() => {
-                            this.props.navigation.push("SearchPlace", {
+                            this.props.navigation.push("SearchPlaceExpress", {
                                 search: 'Pick',
                                 placeholder: 'Nhập điểm lấy hàng'
                             });
@@ -226,7 +226,7 @@ class MapExpress extends Component {
                     >
                         <TextInput
                             editable={false}
-                            onTouchStart={() => this.props.navigation.push("SearchPlace", {
+                            onTouchStart={() => this.props.navigation.push("SearchPlaceExpress", {
                                 search: 'Pick',
                                 placeholder: 'Nhập điểm lấy hàng'
                             })
@@ -248,7 +248,7 @@ class MapExpress extends Component {
                         <TouchableOpacity
                             style={{ flex: 1, height: 40 }}
                             onPress={() => {
-                                this.props.navigation.push("SearchPlace", {
+                                this.props.navigation.push("SearchPlaceExpress", {
                                     search: 'Drop',
                                     placeholder: 'Nhập điểm trả hàng'
                                 });
@@ -256,7 +256,7 @@ class MapExpress extends Component {
                         >
                             <TextInput
                                 editable={false}
-                                onTouchStart={() => this.props.navigation.push("SearchPlace", {
+                                onTouchStart={() => this.props.navigation.push("SearchPlaceExpress", {
                                     search: 'Drop',
                                     placeholder: 'Nhập điểm trả hàng'
                                 })
@@ -270,7 +270,7 @@ class MapExpress extends Component {
                     </View>
                     <TouchableOpacity
                         onPress={() => {
-                            this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.lattitude_drop, this.props.lngtitude_drop, this.props.pick_add, this.props.component_pick, this.props.lattitude_pick, this.props.lngtitude_pick);
+                            this.props.swapAddressVanChuyen(this.props.drop_add, this.props.component_drop, this.props.lattitude_drop, this.props.lngtitude_drop, this.props.pick_add, this.props.component_pick, this.props.lattitude_pick, this.props.lngtitude_pick);
                         }}
                     >
                         <Image
@@ -347,7 +347,7 @@ class MapExpress extends Component {
                     <TouchableOpacity
                         style={{ flex: 1, height: 40, flexDirection: 'row', alignItems: 'center', }}
                         onPress={() => {
-                            this.props.navigation.push("SearchPlace", {
+                            this.props.navigation.push("SearchPlaceExpress", {
                                 search: 'Pick',
                                 placeholder: 'Nhập điểm lấy hàng'
                             });
@@ -355,7 +355,7 @@ class MapExpress extends Component {
                     >
                         <TextInput
                             editable={false}
-                            onTouchStart={() => this.props.navigation.push("SearchPlace", {
+                            onTouchStart={() => this.props.navigation.push("SearchPlaceExpress", {
                                 search: 'Pick',
                                 placeholder: 'Nhập điểm lấy hàng'
                             })
@@ -514,7 +514,7 @@ class MapExpress extends Component {
                                             dialogTimeVisible: false,
                                             depart_time: `${this.state.selectedHours}:${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes} ${this.state.date.format('DD/MM/YYYY')}`
                                         })
-                                        this.props.addDepartTime(`${this.state.selectedHours}:${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes} ${this.state.date.format('DD/MM/YYYY')}`);
+                                        this.props.addDepartTimeVanChuyen(`${this.state.selectedHours}:${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes} ${this.state.date.format('DD/MM/YYYY')}`);
 
                                     }}
                                 >
@@ -559,7 +559,7 @@ class MapExpress extends Component {
                                         this.setState({
                                             dialogSelectPeople: false,
                                         })
-                                        this.addPeople();
+                                        this.addPeopleVanChuyen();
                                     }}
                                 >
                                     <Text style={{ textAlign: "right", backgroundColor: '#77a300', color: "#fff", padding: 8, borderRadius: 4, fontSize: 16 }}>Tiếp tục</Text>
@@ -599,7 +599,7 @@ class MapExpress extends Component {
                                             duration: item.time,
                                             modalSelectTime: false,
                                         })
-                                        this.props.addDuration(item.time);
+                                        this.props.addDurationVanChuyen(item.time);
                                     }}
                                 >
                                     <Text style={{ fontSize: 18, flex: 1, padding: 8, color: item.time === this.state.duration ? '#77a300' : '#000000' }}>{item.time} giờ</Text>
@@ -635,17 +635,17 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
     return {
-        drop_add: state.info.drop_add,
-        pick_add: state.info.pick_add,
-        component_drop: state.info.component_drop,
-        component_pick: state.info.component_pick,
-        lattitude_pick: state.info.lattitude_pick,
-        lngtitude_pick: state.info.lngtitude_pick,
-        lattitude_drop: state.info.lattitude_drop,
-        lngtitude_drop: state.info.lngtitude_drop,
-        chair: state.info.chair,
+        drop_add: state.rdVanChuyen.drop_add,
+        pick_add: state.rdVanChuyen.pick_add,
+        component_drop: state.rdVanChuyen.component_drop,
+        component_pick: state.rdVanChuyen.component_pick,
+        lattitude_pick: state.rdVanChuyen.lattitude_pick,
+        lngtitude_pick: state.rdVanChuyen.lngtitude_pick,
+        lattitude_drop: state.rdVanChuyen.lattitude_drop,
+        lngtitude_drop: state.rdVanChuyen.lngtitude_drop,
+        chair: state.rdVanChuyen.chair,
     }
 }
 
 
-export default connect(mapStateToProps, { addDepartTime: addDepartTime, addPeople: addPeople, swapAddress: swapAddress, addDuration : addDuration })(MapExpress)
+export default connect(mapStateToProps, { addDepartTimeVanChuyen: addDepartTimeVanChuyen, addPeopleVanChuyen: addPeopleVanChuyen, swapAddressVanChuyen: swapAddressVanChuyen, addDurationVanChuyen: addDurationVanChuyen })(MapExpress)

@@ -195,7 +195,7 @@ class ConfirmInformationFreightTruck extends Component {
             <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', marginBottom: 8 }}>
                 <Text style={styles.textBigLeft1}>Tổng thanh toán : </Text>
                 <Text style={styles.textBigRight1}>
-                    {((this.props.merged + (navigation.getParam('broad_price') ? 30000 : 0) - (navigation.getParam('blDiscount') ? this.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1)).format(0, 3, '.')} đ
+                    {((this.props.merged - (navigation.getParam('blDiscount') ? this.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1)).format(0, 3, '.')} đ
                 </Text>
             </View>
         )
@@ -241,13 +241,6 @@ class ConfirmInformationFreightTruck extends Component {
                     />
 
                     {this.renderVAT()}
-
-                    {!navigation.getParam('broad_price') ? null :
-                        <ImageTextDiChung
-                            source={require(imageDone)}
-                            text={'Đón biển tên : +30.000 đ'}
-                        />
-                    }
 
                     {this.renderMGG()}
 
@@ -384,35 +377,35 @@ const styles = StyleSheet.create({
 })
 function mapStateToProps(state) {
     return {
-        pick_add: state.info.pick_add,
-        merged: state.info.merged,
-        depart_time: state.info.depart_time,
-        vehicle_name: state.info.vehicle_name,
-        vat: state.info.vat,
-        full_name: state.info.full_name,
-        use_phone: state.info.use_phone,
-        comment: state.info.comment,
-        promotion_code: state.info.promotion_code,
-        full_name2: state.info.full_name2,
-        use_phone2: state.info.use_phone2,
-        email: state.info.email,
-        company_name: state.info.company_name,
-        company_address: state.info.company_address,
-        company_mst: state.info.company_mst,
-        company_address_receive: state.info.company_address_receive,
-        not_use: state.info.not_use,
-        xhd: state.info.xhd,
-        vehicle_icon: state.info.vehicle_icon,
-        discount_price: state.info.discount_price,
-        duration: state.info.duration,
-        lattitude_pick: state.info.lattitude_pick,
-        lngtitude_pick: state.info.lngtitude_pick,
-        vehicle_id: state.info.vehicle_id,
-        city_id: state.info.city_id,
-        partner_id: state.info.brand_partner_id,
-        extra_price_hour: state.info.extra_price_hour_format,
-        extra_price_km: state.info.extra_price_km_format,
-        km_limit_format: state.info.km_limit_format,
+        pick_add: state.rdVanChuyen.pick_add,
+        merged: state.rdVanChuyen.merged,
+        depart_time: state.rdVanChuyen.depart_time,
+        vehicle_name: state.rdVanChuyen.vehicle_name,
+        vat: state.rdVanChuyen.vat,
+        full_name: state.rdVanChuyen.full_name,
+        use_phone: state.rdVanChuyen.use_phone,
+        comment: state.rdVanChuyen.comment,
+        promotion_code: state.rdVanChuyen.promotion_code,
+        full_name2: state.rdVanChuyen.full_name2,
+        use_phone2: state.rdVanChuyen.use_phone2,
+        email: state.rdVanChuyen.email,
+        company_name: state.rdVanChuyen.company_name,
+        company_address: state.rdVanChuyen.company_address,
+        company_mst: state.rdVanChuyen.company_mst,
+        company_address_receive: state.rdVanChuyen.company_address_receive,
+        not_use: state.rdVanChuyen.not_use,
+        xhd: state.rdVanChuyen.xhd,
+        vehicle_icon: state.rdVanChuyen.vehicle_icon,
+        discount_price: state.rdVanChuyen.discount_price,
+        duration: state.rdVanChuyen.duration,
+        lattitude_pick: state.rdVanChuyen.lattitude_pick,
+        lngtitude_pick: state.rdVanChuyen.lngtitude_pick,
+        vehicle_id: state.rdVanChuyen.vehicle_id,
+        city_id: state.rdVanChuyen.city_id,
+        partner_id: state.rdVanChuyen.brand_partner_id,
+        extra_price_hour: state.rdVanChuyen.extra_price_hour_format,
+        extra_price_km: state.rdVanChuyen.extra_price_km_format,
+        km_limit_format: state.rdVanChuyen.km_limit_format,
     }
 }
 

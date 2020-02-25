@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, ActivityIn
 import { connect } from 'react-redux';
 import StarVote from '../../../component/StarVote'
 
-import { addTripInfomation } from '../../../core/Redux/action/Action'
+import { addTripInfomationVanChuyen } from '../../../core/Redux/action/Action'
 import HTML from 'react-native-render-html';
 import * as link from '../../../URL'
 
@@ -60,7 +60,7 @@ class ListDriverExpress extends Component {
     }
 
     gotoInfoCustommerExpress = (item) => {
-        this.props.addTripInfomation(item.partner_name, item.merged, this.props.depart_time, item.chunk_id, item.vehicle_id, item.village_id, item.pm_id, item.partner_id, item.city_id, item.vehicle_name, item.toll_fee, item.dimension_id, item.vehicle_id, item.ride_method_id, item.chair, item.airport_id, item.street_id, item.vehicle_icon, item.pick_pos, item.drop_pos, item.use_range_time, item.unmerged);
+        this.props.addTripInfomationVanChuyen(item.partner_name, item.merged, this.props.depart_time, item.chunk_id, item.vehicle_id, item.village_id, item.pm_id, item.partner_id, item.city_id, item.vehicle_name, item.toll_fee, item.dimension_id, item.vehicle_id, item.ride_method_id, item.chair, item.airport_id, item.street_id, item.vehicle_icon, item.pick_pos, item.drop_pos, item.use_range_time, item.unmerged);
         this.props.navigation.push("InfoCustommerExpress", {
         })
     }
@@ -226,12 +226,12 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
     return {
-        drop_add: state.info.drop_add,
-        pick_add: state.info.pick_add,
-        component_pick: state.info.component_pick,
-        component_drop: state.info.component_drop,
-        depart_time: state.info.depart_time,
-        chair: state.info.chair,
+        drop_add: state.rdVanChuyen.drop_add,
+        pick_add: state.rdVanChuyen.pick_add,
+        component_pick: state.rdVanChuyen.component_pick,
+        component_drop: state.rdVanChuyen.component_drop,
+        depart_time: state.rdVanChuyen.depart_time,
+        chair: state.rdVanChuyen.chair,
     }
 }
-export default connect(mapStateToProps, { addTripInfomation: addTripInfomation, })(ListDriverExpress);
+export default connect(mapStateToProps, { addTripInfomationVanChuyen: addTripInfomationVanChuyen, })(ListDriverExpress);

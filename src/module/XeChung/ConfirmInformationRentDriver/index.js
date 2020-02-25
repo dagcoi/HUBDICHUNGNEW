@@ -195,7 +195,7 @@ class ConfirmInformationHB extends Component {
             <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', marginBottom: 8 }}>
                 <Text style={styles.textBigLeft1}>Tổng thanh toán : </Text>
                 <Text style={styles.textBigRight1}>
-                    {((this.props.merged + (navigation.getParam('broad_price') ? 30000 : 0) - (navigation.getParam('blDiscount') ? this.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1)).format(0, 3, '.')} đ
+                    {((this.props.merged - (navigation.getParam('blDiscount') ? this.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1)).format(0, 3, '.')} đ
                 </Text>
             </View>
         )
@@ -242,17 +242,9 @@ class ConfirmInformationHB extends Component {
 
                     {this.renderVAT()}
 
-                    {!navigation.getParam('broad_price') ? null :
-                        <ImageTextDiChung
-                            source={require(imageDone)}
-                            text={'Đón biển tên : +30.000 đ'}
-                        />
-                    }
-
                     {this.renderMGG()}
 
                     {this.renderTT()}
-
 
                     <Button
                         style={{ marginTop: 8, }}

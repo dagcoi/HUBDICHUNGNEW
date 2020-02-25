@@ -4,7 +4,7 @@ import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBox from 'react-native-check-box'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import { connect } from 'react-redux';
-import { addInfoPeople1, addInfoPeople2, addVAT, addInfoFlight, addPromotionCode, addPaymentMethodID, addComment } from '../../../core/Redux/action/Action'
+import { addInfoPeople1VanChuyen, addInfoPeople2VanChuyen, addVATVanChuyen, addPromotionCodeVanChuyen, addPaymentMethodIDVanChuyen, addCommentVanChuyen } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
 
 var radio_payment_detail = [
@@ -46,7 +46,6 @@ class InfoCustommerHourlyFreightTruck extends Component {
             detailPromotion: '',
             isLoading: false,
             vat: false,
-            boardPrice: false,
             company_name: '',
             company_address: '',
             company_mst: '',
@@ -134,17 +133,18 @@ class InfoCustommerHourlyFreightTruck extends Component {
     }
 
     mobileValidate1(text) {
+        var test = text.trim();
         const reg = /^[0]?[3789]\d{8}$/;
-        if (reg.test(text) === false) {
+        if (reg.test(test) === false) {
             this.setState({
                 mobile_validate1: false,
-                use_phone1: text,
+                use_phone1: test,
             });
             return false;
         } else {
             this.setState({
                 mobile_validate1: true,
-                use_phone1: text,
+                use_phone1: test,
             });
             return true;
         }
@@ -222,7 +222,8 @@ class InfoCustommerHourlyFreightTruck extends Component {
         )
     }
 
-    _validateEmail(text) {
+    _validateEmail(test) {
+        var text = test.trim();
         const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (regex.test(String(text).toLowerCase()) === false) {
             console.log("Email is Not Correct ");
@@ -236,17 +237,18 @@ class InfoCustommerHourlyFreightTruck extends Component {
     }
 
     mobileValidate(text) {
+        var test = text.trim();
         const reg = /^[0]?[3789]\d{8}$/;
-        if (reg.test(text) === false) {
+        if (reg.test(test) === false) {
             this.setState({
                 mobile_validate: false,
-                use_phone: text,
+                use_phone: test,
             });
             return false;
         } else {
             this.setState({
                 mobile_validate: true,
-                use_phone: text,
+                use_phone: test,
             });
             return true;
         }
@@ -274,30 +276,30 @@ class InfoCustommerHourlyFreightTruck extends Component {
                     Alert.alert(`Vui lòng nhập đúng Số điện thoại người đi`);
                     return;
                 }
-            } else {
-                this.checkVat();
-            }
+            } 
+            // else {
+            //     this.checkVat();
+            // }
             this.checkVat();
         }
     }
 
     checkVat() {
         if (this.state.vat) {
-            if (this.state.company_name == '') {
+            if (this.state.company_name.trim() == '') {
                 Alert.alert('Nhập tên công ty');
                 return;
-            } else if (this.state.company_address == '') {
+            } else if (this.state.company_address.trim() == '') {
                 Alert.alert('nhập địa chỉ công ty');
                 return;
-            } else if (this.state.company_mst == '') {
+            } else if (this.state.company_mst.trim() == '') {
                 Alert.alert('nhập mã số thuế');
                 return;
-            } else if (this.state.company_address_receive == '') {
+            } else if (this.state.company_address_receive.trim() == '') {
                 Alert.alert('nhập địa chỉ nhận hóa đơn')
                 return;
             } else {
                 this.props.navigation.navigate('ConfirmInformationHB', {
-                    "broad_price": this.state.boardPrice,
                     "not_use": this.state.is_checked,
                     "xhd": this.state.vat,
                     "promotion": this.state.promotion_code,
@@ -306,7 +308,6 @@ class InfoCustommerHourlyFreightTruck extends Component {
             }
         } else {
             this.props.navigation.navigate('ConfirmInformationHB', {
-                "broad_price": this.state.boardPrice,
                 "not_use": this.state.is_checked,
                 "xhd": this.state.vat,
                 "promotion": this.state.promotion_code,
@@ -348,7 +349,7 @@ class InfoCustommerHourlyFreightTruck extends Component {
                         discount_price: responseJson.data.discount_price,
                         blDiscount: true,
                     })
-                    this.props.addPromotionCode(this.state.promotion_code, this.state.discount_price);
+                    this.props.addPromotionCodeVanChuyen(this.state.promotion_code, this.state.discount_price);
                 }
                 return responseJson.code;
             })
@@ -596,13 +597,13 @@ class InfoCustommerHourlyFreightTruck extends Component {
                         style={{ marginTop: 8, backgroundColor: '#77a300', justifyContent: 'center', alignItems: "center", height: 40, borderRadius: 6 }}
                         onPress={() => {
                             const { xhd, company_name, company_address, company_address_receive, company_mst, full_name, use_phone, email, full_name1, use_phone1, email1, payment_method_ID, comment } = this.state;
-                            this.props.addVAT(xhd ? '1' : '0', company_name, company_address, company_mst, company_address_receive);
-                            this.props.addInfoPeople2(full_name1, use_phone1, email1);
-                            this.props.addInfoPeople1(full_name, use_phone, email);
-                            this.props.addComment(comment);
+                            this.props.addVATVanChuyen(xhd ? '1' : '0', company_name.trim(), company_address.trim(), company_mst.trim(), company_address_receive.trim());
+                            this.props.addInfoPeople2VanChuyen(full_name1, use_phone1, email1);
+                            this.props.addInfoPeople1VanChuyen(full_name, use_phone, email);
+                            this.props.addCommentVanChuyen(comment);
                             // add payment method id
                             console.log(payment_method_ID)
-                            this.props.addPaymentMethodID(payment_method_ID);
+                            this.props.addPaymentMethodIDVanChuyen(payment_method_ID);
                             this.checkInfoCustommerHourlyFreightTruck();
                         }}
                     >
@@ -662,22 +663,22 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
     return {
-        full_name: state.info.full_name,
-        use_phone: state.info.use_phone,
-        email: state.info.email,
-        full_name1: state.info.full_name2,
-        use_phone1: state.info.use_phone2,
-        email1: state.info.email2,
-        pick_add: state.info.pick_add,
-        chunk_id: state.info.chunk_id,
-        ride_method_id: state.info.ride_method_id,
-        partner_name: state.info.partner_name,
-        merged: state.info.merged,
-        depart_time: state.info.depart_time,
-        extra_price_km_format: state.info.extra_price_km_format,
-        extra_price_hour_format: state.info.extra_price_hour_format,
-        km_limit_format: state.info.km_limit_format,
+        full_name: state.rdVanChuyen.full_name,
+        use_phone: state.rdVanChuyen.use_phone,
+        email: state.rdVanChuyen.email,
+        full_name1: state.rdVanChuyen.full_name2,
+        use_phone1: state.rdVanChuyen.use_phone2,
+        email1: state.rdVanChuyen.email2,
+        pick_add: state.rdVanChuyen.pick_add,
+        chunk_id: state.rdVanChuyen.chunk_id,
+        ride_method_id: state.rdVanChuyen.ride_method_id,
+        partner_name: state.rdVanChuyen.partner_name,
+        merged: state.rdVanChuyen.merged,
+        depart_time: state.rdVanChuyen.depart_time,
+        extra_price_km_format: state.rdVanChuyen.extra_price_km_format,
+        extra_price_hour_format: state.rdVanChuyen.extra_price_hour_format,
+        km_limit_format: state.rdVanChuyen.km_limit_format,
     }
 }
 
-export default connect(mapStateToProps, { addInfoFlight: addInfoFlight, addInfoPeople1: addInfoPeople1, addInfoPeople2: addInfoPeople2, addVAT: addVAT, addPromotionCode: addPromotionCode, addPaymentMethodID: addPaymentMethodID, addComment: addComment, })(InfoCustommerHourlyFreightTruck);
+export default connect(mapStateToProps, { addInfoPeople1VanChuyen: addInfoPeople1VanChuyen, addInfoPeople2VanChuyen: addInfoPeople2VanChuyen, addVATVanChuyen: addVATVanChuyen, addPromotionCodeVanChuyen: addPromotionCodeVanChuyen, addPaymentMethodIDVanChuyen: addPaymentMethodIDVanChuyen, addCommentVanChuyen: addCommentVanChuyen, })(InfoCustommerHourlyFreightTruck);

@@ -122,6 +122,7 @@ class ListCarHourlyBooking extends Component {
                                                 {item.partner_name.toUpperCase()}
                                             </Text>
                                             <Text style={styles.giaTien}>{item.vehicle_name}</Text>
+                                            <StarVote number = {item.star_vote}/>
                                             <Text style={styles.giaTien}>giới hạn {item.km_limit_format}</Text>
                                             <Text style={[styles.loaixe,{color : '#00363d'}]}>{item.price_format}</Text>
                                         </View>

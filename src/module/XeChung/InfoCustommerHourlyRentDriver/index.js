@@ -34,7 +34,6 @@ class InfoCustommerHourlyRentDriver extends Component {
             detailPromotion: '',
             isLoading: false,
             vat: false,
-            boardPrice: false,
             company_name: '',
             company_address: '',
             company_mst: '',
@@ -60,17 +59,18 @@ class InfoCustommerHourlyRentDriver extends Component {
     }
 
     mobileValidate1(text) {
+        var test = text.trim();
         const reg = /^[0]?[3789]\d{8}$/;
-        if (reg.test(text) === false) {
+        if (reg.test(test) === false) {
             this.setState({
                 mobile_validate1: false,
-                use_phone1: text,
+                use_phone1: test,
             });
             return false;
         } else {
             this.setState({
                 mobile_validate1: true,
-                use_phone1: text,
+                use_phone1: test,
             });
             return true;
         }
@@ -148,7 +148,8 @@ class InfoCustommerHourlyRentDriver extends Component {
         )
     }
 
-    _validateEmail(text) {
+    _validateEmail(test) {
+        var text = test.trim();
         const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (regex.test(String(text).toLowerCase()) === false) {
             this.setState({ email: text, checkEmail: false })
@@ -161,17 +162,18 @@ class InfoCustommerHourlyRentDriver extends Component {
     }
 
     mobileValidate(text) {
+        var test = text.trim();
         const reg = /^[0]?[3789]\d{8}$/;
-        if (reg.test(text) === false) {
+        if (reg.test(test) === false) {
             this.setState({
                 mobile_validate: false,
-                use_phone: text,
+                use_phone: test,
             });
             return false;
         } else {
             this.setState({
                 mobile_validate: true,
-                use_phone: text,
+                use_phone: test,
             });
             return true;
         }
@@ -199,30 +201,30 @@ class InfoCustommerHourlyRentDriver extends Component {
                     Alert.alert(`Vui lòng nhập đúng Số điện thoại người đi`);
                     return;
                 }
-            } else {
-                this.checkVat();
             }
+            // else {
+            //     this.checkVat();
+            // }
             this.checkVat();
         }
     }
 
     checkVat() {
         if (this.state.vat) {
-            if (this.state.company_name == '') {
+            if (this.state.company_name.trim() == '') {
                 Alert.alert('Nhập tên công ty');
                 return;
-            } else if (this.state.company_address == '') {
+            } else if (this.state.company_address.trim() == '') {
                 Alert.alert('nhập địa chỉ công ty');
                 return;
-            } else if (this.state.company_mst == '') {
+            } else if (this.state.company_mst.trim() == '') {
                 Alert.alert('nhập mã số thuế');
                 return;
-            } else if (this.state.company_address_receive == '') {
+            } else if (this.state.company_address_receive.trim() == '') {
                 Alert.alert('nhập địa chỉ nhận hóa đơn')
                 return;
             } else {
                 this.props.navigation.navigate('ConfirmInformationRentDriver', {
-                    "broad_price": this.state.boardPrice,
                     "not_use": this.state.is_checked,
                     "xhd": this.state.vat,
                     "promotion": this.state.promotion_code,
@@ -231,7 +233,6 @@ class InfoCustommerHourlyRentDriver extends Component {
             }
         } else {
             this.props.navigation.navigate('ConfirmInformationRentDriver', {
-                "broad_price": this.state.boardPrice,
                 "not_use": this.state.is_checked,
                 "xhd": this.state.vat,
                 "promotion": this.state.promotion_code,

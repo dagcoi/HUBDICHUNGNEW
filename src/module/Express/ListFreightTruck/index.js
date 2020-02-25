@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, ActivityIn
 import { connect } from 'react-redux';
 import StarVote from '../../../component/StarVote'
 
-import { addTripInfomationHourlyBooking } from '../../../core/Redux/action/Action'
+import { addTripInfomationHourlyBookingVanChuyen } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
 
 const imageMaxToMin = '../../../image/maxtomin.png'
@@ -91,6 +91,7 @@ class ListFreightTruck extends Component {
                                                 {item.partner_name}
                                             </Text>
                                             <Text style={styles.giaTien}>{item.vehicle_name}</Text>
+                                            <StarVote number = {item.star_vote}/>
                                             <Text style={styles.giaTien}>giới hạn {item.km_limit_format}</Text>
                                             <Text style={styles.loaixe}>{item.price_format}</Text>
                                         </View>
@@ -140,7 +141,7 @@ class ListFreightTruck extends Component {
     }
 
     gotoInfocustommerHourlyBooking = (item) => {
-        this.props.addTripInfomationHourlyBooking(item.partner_name, item.price, this.props.depart_time, item.extra_price_km_format, item.extra_price_hour_format, item.km_limit_format, item.vehicle_icon, item.vehicle_id, item.vehicle_name, item.city_id, item.partner_id)
+        this.props.addTripInfomationHourlyBookingVanChuyen(item.partner_name, item.price, this.props.depart_time, item.extra_price_km_format, item.extra_price_hour_format, item.km_limit_format, item.vehicle_icon, item.vehicle_id, item.vehicle_name, item.city_id, item.partner_id)
         this.nextScreen();
     }
 
@@ -233,10 +234,10 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
     return {
-        pick_add: state.info.pick_add,
-        component_pick: state.info.component_pick,
-        depart_time: state.info.depart_time,
-        duration: state.info.duration,
+        pick_add: state.rdVanChuyen.pick_add,
+        component_pick: state.rdVanChuyen.component_pick,
+        depart_time: state.rdVanChuyen.depart_time,
+        duration: state.rdVanChuyen.duration,
     }
 }
-export default connect(mapStateToProps, { addTripInfomationHourlyBooking: addTripInfomationHourlyBooking })(ListFreightTruck);
+export default connect(mapStateToProps, { addTripInfomationHourlyBookingVanChuyen: addTripInfomationHourlyBookingVanChuyen })(ListFreightTruck);

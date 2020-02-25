@@ -4,7 +4,7 @@ import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBoxList from '../../../component/CheckBoxList'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import { connect } from 'react-redux';
-import { addInfoPeople1, addInfoPeople2, addVAT, addComment, addPromotionCode, addPaymentMethodID, } from '../../../core/Redux/action/Action'
+import { addInfoPeople1VanChuyen, addInfoPeople2VanChuyen, addVATVanChuyen, addCommentVanChuyen, addPromotionCodeVanChuyen, addPaymentMethodIDVanChuyen, } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
 
 class InfoCustommerExpress extends Component {
@@ -72,7 +72,7 @@ class InfoCustommerExpress extends Component {
                         discount_price: responseJson.data.discount_price,
                         blDiscount: true,
                     })
-                    this.props.addPromotionCode(this.state.promotion_code, this.state.discount_price);
+                    this.props.addPromotionCodeVanChuyen(this.state.promotion_code, this.state.discount_price);
                 }
                 return responseJson.code;
             })
@@ -84,17 +84,18 @@ class InfoCustommerExpress extends Component {
     }
 
     mobileValidate1(text) {
+        var test = text.trim()
         const reg = /^[0]?[3789]\d{8}$/;
-        if (reg.test(text) === false) {
+        if (reg.test(test) === false) {
             this.setState({
                 mobile_validate1: false,
-                use_phone1: text,
+                use_phone1: test,
             });
             return false;
         } else {
             this.setState({
                 mobile_validate1: true,
-                use_phone1: text,
+                use_phone1: test,
             });
             return true;
         }
@@ -134,7 +135,8 @@ class InfoCustommerExpress extends Component {
         )
     }
 
-    _validateEmail(text) {
+    _validateEmail(test) {
+        var text = test.trim();
         const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (regex.test(String(text).toLowerCase()) === false) {
             this.setState({ email: text, checkEmail: false })
@@ -146,17 +148,18 @@ class InfoCustommerExpress extends Component {
     }
 
     mobileValidate(text) {
+        var test = text.trim();
         const reg = /^[0]?[3789]\d{8}$/;
-        if (reg.test(text) === false) {
+        if (reg.test(test) === false) {
             this.setState({
                 mobile_validate: false,
-                use_phone: text,
+                use_phone: test,
             });
             return false;
         } else {
             this.setState({
                 mobile_validate: true,
-                use_phone: text,
+                use_phone: test,
             });
             return true;
         }
@@ -190,16 +193,16 @@ class InfoCustommerExpress extends Component {
 
     checkVat() {
         if (this.state.vat) {
-            if (this.state.company_name == '') {
+            if (this.state.company_name.trim() == '') {
                 Alert.alert('Nhập tên công ty');
                 return;
-            } else if (this.state.company_address == '') {
+            } else if (this.state.company_address.trim() == '') {
                 Alert.alert('nhập địa chỉ công ty');
                 return;
-            } else if (this.state.company_mst == '') {
+            } else if (this.state.company_mst.trim() == '') {
                 Alert.alert('nhập mã số thuế');
                 return;
-            } else if (this.state.company_address_receive == '') {
+            } else if (this.state.company_address_receive.trim() == '') {
                 Alert.alert('nhập địa chỉ nhận hóa đơn')
                 return;
             } else {
@@ -442,11 +445,11 @@ class InfoCustommerExpress extends Component {
                         style={{ marginTop: 8, backgroundColor: '#77a300', justifyContent: 'center', alignItems: "center", height: 40, borderRadius: 6 }}
                         onPress={() => {
                             const { xhd, company_name, company_address, company_address_receive, company_mst, full_name, use_phone, email, full_name1, use_phone1, email1, comment, payment_method_ID } = this.state;
-                            this.props.addVAT(xhd ? '1' : '0', company_name, company_address, company_mst, company_address_receive);
-                            this.props.addInfoPeople2(full_name1, use_phone1, email1);
-                            this.props.addInfoPeople1(full_name, use_phone, email);
-                            this.props.addComment(comment);
-                            this.props.addPaymentMethodID(payment_method_ID);
+                            this.props.addVATVanChuyen(xhd ? '1' : '0', company_name, company_address, company_mst, company_address_receive);
+                            this.props.addInfoPeople2VanChuyen(full_name1, use_phone1, email1);
+                            this.props.addInfoPeople1VanChuyen(full_name, use_phone, email);
+                            this.props.addCommentVanChuyen(comment);
+                            this.props.addPaymentMethodIDVanChuyen(payment_method_ID);
                             this.checkInfoCustommerExpress();
                         }}
                     >
@@ -492,20 +495,20 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
     return {
-        full_name: state.info.full_name,
-        use_phone: state.info.use_phone,
-        email: state.info.email,
-        full_name1: state.info.full_name2,
-        use_phone1: state.info.use_phone2,
-        email1: state.info.email2,
-        comment: state.info.comment,
-        drop_add: state.info.drop_add,
-        pick_add: state.info.pick_add,
-        chunk_id: state.info.chunk_id,
-        ride_method_id: state.info.ride_method_id,
-        depart_time: state.info.depart_time,
-        transport_partner_id: state.info.transport_partner_id,
+        full_name: state.rdVanChuyen.full_name,
+        use_phone: state.rdVanChuyen.use_phone,
+        email: state.rdVanChuyen.email,
+        full_name1: state.rdVanChuyen.full_name2,
+        use_phone1: state.rdVanChuyen.use_phone2,
+        email1: state.rdVanChuyen.email2,
+        comment: state.rdVanChuyen.comment,
+        drop_add: state.rdVanChuyen.drop_add,
+        pick_add: state.rdVanChuyen.pick_add,
+        chunk_id: state.rdVanChuyen.chunk_id,
+        ride_method_id: state.rdVanChuyen.ride_method_id,
+        depart_time: state.rdVanChuyen.depart_time,
+        transport_partner_id: state.rdVanChuyen.transport_partner_id,
     }
 }
 
-export default connect(mapStateToProps, { addComment: addComment, addInfoPeople1: addInfoPeople1, addInfoPeople2: addInfoPeople2, addVAT: addVAT, addPromotionCode: addPromotionCode, addPaymentMethodID: addPaymentMethodID })(InfoCustommerExpress);
+export default connect(mapStateToProps, { addCommentVanChuyen: addCommentVanChuyen, addInfoPeople1VanChuyen: addInfoPeople1VanChuyen, addInfoPeople2VanChuyen: addInfoPeople2VanChuyen, addVATVanChuyen: addVATVanChuyen, addPromotionCodeVanChuyen: addPromotionCodeVanChuyen, addPaymentMethodIDVanChuyen: addPaymentMethodIDVanChuyen })(InfoCustommerExpress);
