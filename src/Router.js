@@ -225,21 +225,21 @@ const RootStack = createStackNavigator({
     ListDriverHourlyBooking : {
         screen : ListDriverHourlyBooking,
         navigationOptions : {
-            title : 'Danh sách lái xe (Tài xế)'
+            title : 'Danh sách lái xe'
         }
     },
 
     InfoCustommerHourlyRentDriver : {
         screen : InfoCustommerHourlyRentDriver,
         navigationOptions : {
-            title : 'Thông tin khách hàng (Tài xế)'
+            title : 'Thông tin khách hàng'
         }
     },
 
     ConfirmInformationRentDriver : {
         screen: ConfirmInformationRentDriver,
         navigationOptions : {
-            title : 'Xác nhận thông tin (Tài xế)'
+            title : 'Xác nhận thông tin'
         }
     },
 

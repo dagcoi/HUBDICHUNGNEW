@@ -34,7 +34,7 @@ class ListDriverHourlyBooking extends Component {
                     fontSize: 22,
                     textAlign: 'left'
                 }}>
-                    Danh sách xe (tài xế)
+                    Danh sách tài xế
                 </Text>
 
                 <View
@@ -105,7 +105,7 @@ class ListDriverHourlyBooking extends Component {
         return (
             obj.length < 1 ?
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
-                    <Text style={{ textAlign: 'center' }}>Tuyến đường bạn chọn hiện không có xe. Vui lòng chọn tuyến đường khác.</Text>
+                    <Text style={{ textAlign: 'center' }}>Khu vực bạn chọn hiện không có lái xe.</Text>
                 </View> :
                 <ScrollView
                     showsVerticalScrollIndicator={false}
