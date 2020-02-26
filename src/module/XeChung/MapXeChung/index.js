@@ -4,7 +4,7 @@ import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 import Calendar from '../../../component/Calendar'
 import TimePicker from './TimePicker'
 import { connect } from 'react-redux';
-import { addDepartTimeTaixe, addPeopleTaixe, swapAddressTaixe } from '../../../core/Redux/action/Action'
+import { addDepartTimeTaixe, addPeopleTaixe, swapAddressTaixe, addDurationTaiXe } from '../../../core/Redux/action/Action'
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
 
 import MapViewDirections from 'react-native-maps-directions';
@@ -571,7 +571,7 @@ class MapXeChung extends Component {
                                                 duration: item.time,
                                                 modalListTime: false,
                                             })
-                                            // this.props.addDuration(item.time);
+                                            this.props.addDurationTaiXe(item.time);
                                         }}
                                     >
                                         <Text style={{ fontSize: 18, flex: 1, padding: 8, color: item.time === this.state.duration ? '#77a300' : '#000000' }}>{item.time} giờ</Text>
@@ -620,4 +620,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { addDepartTimeTaixe: addDepartTimeTaixe, addPeopleTaixe: addPeopleTaixe, swapAddressTaixe: swapAddressTaixe })(MapXeChung)
+export default connect(mapStateToProps, { addDepartTimeTaixe: addDepartTimeTaixe, addPeopleTaixe: addPeopleTaixe, swapAddressTaixe: swapAddressTaixe, addDurationTaiXe : addDurationTaiXe })(MapXeChung)

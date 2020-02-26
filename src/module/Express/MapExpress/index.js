@@ -400,7 +400,7 @@ class MapExpress extends Component {
                     <TouchableOpacity
                         style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', borderRadius: 4 }}
                         onPress={() => {
-                            this.nextScreen();
+                            this.nextScreenHourly();
                         }}
                     >
                         <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold', }}>XEM GIÁ</Text>

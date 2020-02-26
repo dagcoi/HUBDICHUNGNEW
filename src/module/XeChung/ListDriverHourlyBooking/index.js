@@ -56,6 +56,7 @@ class ListDriverHourlyBooking extends Component {
         const { navigation } = this.props;
         var listCarType = navigation.getParam('listCarType');
         const url = link.URL_API + `passenger/get_hourly_price_list?depart_time=${this.props.depart_time}&pick_address=${JSON.stringify(this.props.pick_add)}&pick_address_component=${JSON.stringify(this.props.component_pick)}&duration=${this.props.duration}&service_type=HOURLY_RENT_DRIVER`;
+        console.log(url)
         try {
             const response = await fetch(url, {
                 method: 'POST',
@@ -74,7 +75,7 @@ class ListDriverHourlyBooking extends Component {
             });
             console.log(error);
         }
-    }z
+    } z
 
     componentWillMount() {
         this.props.navigation.setParams({ 'increaseCount': this._increaseCount });
@@ -113,7 +114,7 @@ class ListDriverHourlyBooking extends Component {
                                             <Text style={styles.tentuyen}>
                                                 {item.partner_name}
                                             </Text>
-                                            <StarVote />
+                                            <StarVote number={item.star_vote} />
                                             <Text style={styles.giaTien}>{item.vehicle_name}</Text>
                                             <Text style={styles.giaTien}>giới hạn {item.km_limit_format}</Text>
                                             <Text style={styles.loaixe}>{item.price_format}</Text>
@@ -133,12 +134,12 @@ class ListDriverHourlyBooking extends Component {
                                                 source={require('../../../image/note.png')} />
                                             <Text style={{ flex: 1, }}>Phụ trội : {item.extra_price_km} đ/km,  {item.extra_price_hour} đ/giờ</Text>
                                         </View>
-                                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
+                                        {/* <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                                             <Image
                                                 style={{ width: 16, height: 16, marginRight: 8, }}
                                                 source={require('../../../image/note.png')} />
                                             <Text style={{ flex: 1, }}>Giá đã bao gồm tiền xăng và lái xe, chưa bao gồm phí cầu đường, bến bãi, đỗ xe.</Text>
-                                        </View>
+                                        </View> */}
                                     </View>
                                     <TouchableOpacity
                                         style={{ height: 40, padding: 4, justifyContent: 'center', backgroundColor: '#77a300', alignItems: 'center', marginTop: 8 }}

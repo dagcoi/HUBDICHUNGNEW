@@ -13,8 +13,10 @@ import { Provider } from 'react-redux'
 import store from './src/core/Redux/store'
 import firebase from 'react-native-firebase'
 import { Platform, Vibration } from 'react-native'
+import OfflineNotice from './src/component/OfflineNotice'
 
 import { PushNotification } from './src/component/PushNotification'
+import { View } from 'react-native';
 
 class App extends Component {
   async componentDidMount() {
@@ -75,9 +77,12 @@ class App extends Component {
   }
   render() {
     return (
-      <Provider store={store}>
-        <Router />
-      </Provider>
+      <View style = {{flex : 1}}>
+        <OfflineNotice />
+        <Provider store={store}>
+          <Router />
+        </Provider>
+      </View>
     );
   }
 
