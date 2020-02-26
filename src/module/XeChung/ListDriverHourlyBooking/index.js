@@ -53,13 +53,21 @@ class ListDriverHourlyBooking extends Component {
         };
     };
     async componentDidMount() {
-        const { navigation } = this.props;
-        var listCarType = navigation.getParam('listCarType');
-        const url = link.URL_API + `passenger/get_hourly_price_list?depart_time=${this.props.depart_time}&pick_address=${JSON.stringify(this.props.pick_add)}&pick_address_component=${JSON.stringify(this.props.component_pick)}&duration=${this.props.duration}&service_type=HOURLY_RENT_DRIVER`;
+        const formdata = new FormData();
+        formdata.append('depart_time', this.props.depart_time)
+        formdata.append('pick_address', JSON.stringify(this.props.pick_add))
+        formdata.append('pick_address_component', JSON.stringify(this.props.component_pick))
+        formdata.append('duration', this.props.duration)
+        const url = link.URL_API + `passenger/get_hourly_price_list?&service_type=HOURLY_RENT_DRIVER`;
         console.log(url)
         try {
             const response = await fetch(url, {
                 method: 'POST',
+                headers: {
+                    'Accept': "application/json",
+                    'Content-Type': "multipart/form-data",
+                },
+                body: formdata
             });
             const responseJson = await response.json();
             this.setStateAsync({
