@@ -599,6 +599,7 @@ function mapStateToProps(state) {
         extra_price_km_format: state.rdTaixe.extra_price_km_format,
         extra_price_hour_format: state.rdTaixe.extra_price_hour_format,
         km_limit_format: state.rdTaixe.km_limit_format,
+        transport_partner_id : state.rdTaixe.brand_partner_id,
     }
 }
 

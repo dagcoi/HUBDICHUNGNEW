@@ -34,7 +34,7 @@ class ListFreightTruck extends Component {
                     fontSize: 22,
                     textAlign: 'left'
                 }}>
-                    Danh sách xe
+                    Danh sách dịch vụ
                 </Text>
 
                 <View
@@ -154,7 +154,7 @@ class ListFreightTruck extends Component {
                                     <TouchableOpacity
                                         style={{ height: 40, padding: 4, justifyContent: 'center', backgroundColor: '#77a300', alignItems: 'center', marginTop: 8 }}
                                         onPress={() => {
-                                            this.gotoInfocustommerHourlyBooking(item);
+                                            this.gotoInfoCustommerHourlyFreightTruck(item);
                                         }
                                         }
                                     >
@@ -171,10 +171,10 @@ class ListFreightTruck extends Component {
         )
     }
     nextScreen() {
-        this.props.navigation.push("InfoCustommerHourlyBooking")
+        this.props.navigation.push("InfoCustommerHourlyFreightTruck")
     }
 
-    gotoInfocustommerHourlyBooking = (item) => {
+    gotoInfoCustommerHourlyFreightTruck = (item) => {
         this.props.addTripInfomationHourlyBookingVanChuyen(item.partner_name, item.price, this.props.depart_time, item.extra_price_km_format, item.extra_price_hour_format, item.km_limit_format, item.vehicle_icon, item.vehicle_id, item.vehicle_name, item.city_id, item.partner_id)
         this.nextScreen();
     }

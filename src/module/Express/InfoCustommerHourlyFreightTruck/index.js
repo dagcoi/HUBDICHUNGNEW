@@ -299,7 +299,7 @@ class InfoCustommerHourlyFreightTruck extends Component {
                 Alert.alert('nhập địa chỉ nhận hóa đơn')
                 return;
             } else {
-                this.props.navigation.navigate('ConfirmInformationHB', {
+                this.props.navigation.navigate('ConfirmInformationFreightTruck', {
                     "not_use": this.state.is_checked,
                     "xhd": this.state.vat,
                     "promotion": this.state.promotion_code,
@@ -307,7 +307,7 @@ class InfoCustommerHourlyFreightTruck extends Component {
                 });
             }
         } else {
-            this.props.navigation.navigate('ConfirmInformationHB', {
+            this.props.navigation.navigate('ConfirmInformationFreightTruck', {
                 "not_use": this.state.is_checked,
                 "xhd": this.state.vat,
                 "promotion": this.state.promotion_code,
@@ -324,7 +324,7 @@ class InfoCustommerHourlyFreightTruck extends Component {
     }
 
     async checkPromotionCode() {
-        const url = link.URL_API + `passenger/check_promotion_code?promotion_code=${this.state.promotion_code}&phone_number=84${this.state.use_phone}&chunk_id=${this.props.chunk_id}&ride_method_id=${this.props.ride_method_id}&depart_time=${this.props.depart_time}&transport_partner_id=${this.props.transport_partner_id}`;
+        const url = link.URL_API + `passenger/check_promotion_code?promotion_code=${this.state.promotion_code}&phone_number=84${this.state.use_phone}&depart_time=${this.props.depart_time}&transport_partner_id=${this.props.transport_partner_id}`;
         console.log(url)
         return fetch(url)
             .then((response) => response.json())
@@ -678,6 +678,7 @@ function mapStateToProps(state) {
         extra_price_km_format: state.rdVanChuyen.extra_price_km_format,
         extra_price_hour_format: state.rdVanChuyen.extra_price_hour_format,
         km_limit_format: state.rdVanChuyen.km_limit_format,
+        transport_partner_id : state.rdVanChuyen.brand_partner_id,
     }
 }
 

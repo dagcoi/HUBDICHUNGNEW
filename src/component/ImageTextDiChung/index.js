@@ -3,15 +3,18 @@ import { View, StyleSheet, Image, Text } from 'react-native';
 
 function ImageTextDiChung({
     text,
+    textBold,
     source
 }) {
     return (
-        <View style = {styles.container}>
-            <Image
-                style={styles.leftIcon}
-                source={source}
-            />
-            <Text style={styles.textBigRight}>{text}</Text>
+        <View style={styles.container}>
+            {source == null ? null :
+                <Image
+                    style={styles.leftIcon}
+                    source={source}
+                />
+            }
+            <Text style={styles.textBigRight}><Text style={styles.textBigRightBold}>{textBold}</Text>{text}</Text>
         </View>
     )
 }
@@ -33,6 +36,9 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: '#00363d',
         flex: 1,
+    },
+    textBigRightBold: {
+        fontWeight: 'bold',
     },
 })
 

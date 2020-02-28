@@ -280,21 +280,21 @@ const RootStack = createStackNavigator({
     ListFreightTruck : {
         screen : ListFreightTruck,
         navigationOptions : {
-            title : 'Danh sách dịch vụ (Giao hàng)',
+            title : 'Danh sách dịch vụ',
         }
     },
 
     InfoCustommerHourlyFreightTruck : {
         screen : InfoCustommerHourlyFreightTruck,
         navigationOptions : {
-            title : 'Thông tin khách hàng (Giao hàng)',
+            title : 'Thông tin khách hàng',
         }
     },
 
     ConfirmInformationFreightTruck : {
         screen : ConfirmInformationFreightTruck,
         navigationOptions : {
-            title : 'Xác nhận thông tin(Giao hàng)'
+            title : 'Xác nhận thông tin'
         }
     },
 

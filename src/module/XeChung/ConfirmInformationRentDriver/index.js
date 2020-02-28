@@ -23,7 +23,7 @@ const imageComment = '../../../image/comment.png'
 const imageIconCar = '../../../image/iconcar.png'
 const imageCancel = '../../../image/cancel.png'
 
-class ConfirmInformationHB extends Component {
+class ConfirmInformationRentDriver extends Component {
 
     constructor() {
         super();
@@ -47,18 +47,48 @@ class ConfirmInformationHB extends Component {
 
     async createHourlyBooking() {
         const { navigation } = this.props;
+        const formData = new FormData();
+        formData.append('full_name', this.props.full_name)
+        formData.append('phone', this.props.use_phone)
+        formData.append('email', this.props.email)
+        formData.append('vehicle_id', this.props.vehicle_id)
+        formData.append('city_id', this.props.city_id)
+        formData.append('brand_partner_id', this.props.partner_id)
+        formData.append('duration', this.props.duration)
+        formData.append('pick_address', this.props.pick_add)
+        formData.append('pick_pos', this.state.pick_pos)
+        formData.append('depart_time', this.props.depart_time)
+        formData.append('comment', this.props.comment)
+        if (navigation.getParam('blDiscount')) {
+            formData.append('promotion_code', navigation.getParam('promotion'))
+        }
+        formData.append('vat', navigation.getParam('xhd') ? '1' : '0')
+        formData.append('extra_price_hour', this.props.extra_price_hour)
+        formData.append('extra_price_km', this.props.extra_price_km)
+        formData.append('ticket_session', 'BOOK_MAIN')
+        formData.append('lang', 'vi')
+        if (navigation.getParam('xhd')) {
+            formData.append('company[name]', this.props.company_name)
+            formData.append('company[address]', this.props.company_address)
+            formData.append('company[mst]', this.props.company_mst)
+            formData.append('company[address_receive]', this.props.company_address_receive)
+        }
+        if (navigation.getParam('not_use')) {
+            formData.append('not_use', navigation.getParam('not_use') ? 1 : 0)
+            formData.append('use[name]', this.props.full_name2)
+            formData.append('use[phone]', this.props.use_phone2)
+        }
+        formData.append('partner_domain', 'hub.dichung.vn')
         try {
-            var url = link.URL_API + `passenger/create_hourly_booking?full_name=${this.props.full_name}&phone=${this.props.use_phone}&email=${this.props.email}&vehicle_id=${this.props.vehicle_id}&city_id=${this.props.city_id}&brand_partner_id=${this.props.partner_id}&duration=${this.props.duration}&pick_address=${this.props.pick_add}&pick_pos=${this.props.lattitude_pick},+${this.props.lngtitude_pick}&depart_time=${this.props.depart_time}&comment=${this.props.comment}&vat=${navigation.getParam('xhd') ? '1' : '0'}&extra_price_hour=${this.props.extra_price_hour}&extra_price_km=${this.props.extra_price_km}&ticket_session=BOOK_MAIN&lang=vi`
-            if (navigation.getParam('xhd')) {
-                url = url + `&company[name]=${this.props.company_name}&company[address]=${this.props.company_address}&company[mst]=${this.props.company_mst}&company[address_receive]=${this.props.company_address_receive}`
-            }
-            if (navigation.getParam('not_use')) {
-                url = url + `&not_use=${navigation.getParam('not_use') ? 1 : 0}&use[name]=${this.props.full_name2}&use[phone]=${this.props.use_phone2}`
-            }
-            url = url + `&service_type=HOURLY_RENT_DRIVER&partner_domain=cityads.com`
+            var url = link.URL_API + `passenger/create_hourly_booking?&service_type=HOURLY_RENT_DRIVER`
             console.log(url);
             const res = await fetch(url, {
                 method: 'POST',
+                headers: {
+                    'Accept': "application/json",
+                    'Content-Type': "multipart/form-data",
+                },
+                body: formData
             });
             const jsonRes = await res.json();
             if (jsonRes.code == 'success') {
@@ -108,16 +138,19 @@ class ConfirmInformationHB extends Component {
                     text={this.props.partner_name}
                 />
                 <ImageTextDiChung
-                    source={require(imageIconCar)}
-                    text={'Giới hạn : ' + this.props.km_limit_format}
+                    // source={require(imageIconCar)}
+                    text={this.props.km_limit_format}
+                    textBold={'Giới hạn : '}
                 />
                 <ImageTextDiChung
-                    source={require(imageIconCar)}
-                    text={'Phụ trội theo km : ' + this.props.extra_price_km}
+                    // source={require(imageIconCar)}
+                    text={this.props.extra_price_km}
+                    textBold={'Phụ trội theo km : '}
                 />
                 <ImageTextDiChung
-                    source={require(imageIconCar)}
-                    text={'Phụ trội theo giờ : ' + this.props.extra_price_hour + ' giờ'}
+                    // source={require(imageIconCar)}
+                    text={this.props.extra_price_hour + ' giờ'}
+                    textBold={'Phụ trội theo giờ : '}
                 />
             </View>
         )
@@ -311,8 +344,8 @@ class ConfirmInformationHB extends Component {
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
                     }}>
-                        <View style={{ flex: 1, backgroundColor: '#fff', }}>
-                            <View style={{ height: 48, flexDirection: 'row', justifyContent: 'center', margin: 8, alignItems: 'center' }}>
+                        <View style={{ flex: 1, backgroundColor: '#fff', padding: 8 }}>
+                            <View style={{ height: 48, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                                 <TouchableOpacity
                                     onPress={() => {
                                         this.setState({
@@ -337,6 +370,19 @@ class ConfirmInformationHB extends Component {
                                 {this.renderVAT()}
                                 {this.renderMGG()}
                                 {this.renderTT()}
+                                <TouchableOpacity
+                                    style={{ backgroundColor: '#77a300', padding: 8, justifyContent : 'center', alignItems : 'center' }}
+                                    onPress={() => {
+                                        this.setState({
+                                            bookingSuccess: false,
+                                            modalDetailTrip: false,
+                                        })
+                                        this.props.deleteDataTaixe();
+                                        this.props.navigation.push("Home");
+                                    }}
+                                >
+                                    <Text style= {{color : '#fff', fontWeight : 'bold'}}>Trang chủ</Text>
+                                </TouchableOpacity>
                             </ScrollView>
                         </View>
                     </View>
@@ -405,8 +451,8 @@ function mapStateToProps(state) {
         extra_price_hour: state.rdTaixe.extra_price_hour_format,
         extra_price_km: state.rdTaixe.extra_price_km_format,
         km_limit_format: state.rdTaixe.km_limit_format,
-        partner_name : state.rdTaixe.partner_name,
+        partner_name: state.rdTaixe.partner_name,
     }
 }
 
-export default connect(mapStateToProps, { deleteDataTaixe: deleteDataTaixe })(ConfirmInformationHB)
+export default connect(mapStateToProps, { deleteDataTaixe: deleteDataTaixe })(ConfirmInformationRentDriver)

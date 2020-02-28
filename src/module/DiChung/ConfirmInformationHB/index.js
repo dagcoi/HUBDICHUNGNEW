@@ -108,16 +108,19 @@ class ConfirmInformationHB extends Component {
                     text={'Xe theo tour'}
                 />
                 <ImageTextDiChung
-                    source={require(imageIconCar)}
-                    text={'Giới hạn : ' + this.props.km_limit_format}
+                    // source={require(imageIconCar)}
+                    text={this.props.km_limit_format}
+                    textBold={'Giới hạn : '}
                 />
                 <ImageTextDiChung
-                    source={require(imageIconCar)}
-                    text={'Phụ trội theo km : ' + this.props.extra_price_km}
+                    // source={require(imageIconCar)}
+                    text={this.props.extra_price_km}
+                    textBold={'Phụ trội theo km : '}
                 />
                 <ImageTextDiChung
-                    source={require(imageIconCar)}
-                    text={'Phụ trội theo giờ : ' + this.props.extra_price_hour + ' giờ'}
+                    // source={require(imageIconCar)}
+                    text={this.props.extra_price_hour + ' giờ'}
+                    textBold={'Phụ trội theo giờ : '}
                 />
             </View>
         )
@@ -338,6 +341,19 @@ class ConfirmInformationHB extends Component {
                                 {this.renderVAT()}
                                 {this.renderMGG()}
                                 {this.renderTT()}
+                                <TouchableOpacity
+                                    style={{ backgroundColor: '#77a300', padding: 8, justifyContent: 'center', alignItems: 'center' }}
+                                    onPress={() => {
+                                        this.setState({
+                                            bookingSuccess: false,
+                                            modalDetailTrip: false,
+                                        })
+                                        this.props.deleteData();
+                                        this.props.navigation.push("Home");
+                                    }}
+                                >
+                                    <Text style={{ color: '#fff', fontWeight: 'bold' }}>Trang chủ</Text>
+                                </TouchableOpacity>
                             </ScrollView>
                         </View>
                     </View>

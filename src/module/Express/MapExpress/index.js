@@ -422,7 +422,7 @@ class MapExpress extends Component {
                         })
                     }}
                 >
-                    <Text style={{ color: this.state.hourlyBooking ? '#000' : '#77a300', fontWeight: 'bold', fontSize: 20 }}>Đặt tài xế</Text>
+                    <Text style={{ color: this.state.hourlyBooking ? '#000' : '#77a300', fontWeight: 'bold', fontSize: 20 }}>Vận chuyển hàng</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -433,7 +433,7 @@ class MapExpress extends Component {
                         })
                     }}
                 >
-                    <Text style={{ color: this.state.hourlyBooking ? '#77a300' : '#000', fontWeight: 'bold', fontSize: 20 }}>Theo giờ</Text>
+                    <Text style={{ color: this.state.hourlyBooking ? '#77a300' : '#000', fontWeight: 'bold', fontSize: 20 }}>Thuê xe tải</Text>
                 </TouchableOpacity>
             </View>
         )
@@ -512,9 +512,9 @@ class MapExpress extends Component {
                                         this.setState({
                                             dialogCalendarVisible: false,
                                             dialogTimeVisible: false,
-                                            depart_time: `${this.state.selectedHours}:${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes} ${this.state.date.format('DD/MM/YYYY')}`
+                                            depart_time: `${this.state.selectedHours  < 10 ? '0'+this.state.selectedHours : this.state.selectedHours}:${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes} ${this.state.date.format('DD/MM/YYYY')}`
                                         })
-                                        this.props.addDepartTimeVanChuyen(`${this.state.selectedHours}:${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes} ${this.state.date.format('DD/MM/YYYY')}`);
+                                        this.props.addDepartTimeVanChuyen(`${this.state.selectedHours  < 10 ? '0'+this.state.selectedHours : this.state.selectedHours}:${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes} ${this.state.date.format('DD/MM/YYYY')}`);
 
                                     }}
                                 >

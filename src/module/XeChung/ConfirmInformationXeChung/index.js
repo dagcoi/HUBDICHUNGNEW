@@ -206,7 +206,7 @@ class ConfirmInformationXeChung extends Component {
             <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', marginBottom: 8 }}>
                 <Text style={styles.textBigLeft1}>Tổng thanh toán : </Text>
                 <Text style={styles.textBigRight1}>
-                    {(this.props.merged * (navigation.getParam('xhd') ? 11 / 10 : 1)).format(0, 3, '.')} đ
+                    {((this.props.merged - (navigation.getParam('blDiscount') ? this.props.discount_price : 0))* (navigation.getParam('xhd') ? 11 / 10 : 1)).format(0, 3, '.')} đ
                 </Text>
             </View>
         )
@@ -219,9 +219,9 @@ class ConfirmInformationXeChung extends Component {
         } else {
             return (
                 <ImageTextDiChung
-                source={require(imageDone)}
-                text={navigation.getParam('promotion')}
-            />
+                    source={require(imageDone)}
+                    text={navigation.getParam('promotion')}
+                />
             )
         }
     }
@@ -428,6 +428,9 @@ class ConfirmInformationXeChung extends Component {
         formData.append('pay_method_id', this.props.pay_method_id);
         formData.append('brand_partner_id', this.props.brand_partner_id);
         formData.append('unmerged_select', this.props.unmerged);
+        if (navigation.getParam('blDiscount')) {
+            formData.append('promotion_code', navigation.getParam('promotion'))
+        }
         if (navigation.getParam('xhd')) {
             formData.append('xhd', 1);
             formData.append('company[name]', this.props.company_name);

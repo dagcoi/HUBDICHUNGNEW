@@ -486,9 +486,9 @@ class MapXeChung extends Component {
                                             this.setState({
                                                 dialogCalendarVisible: false,
                                                 dialogTimeVisible: false,
-                                                depart_time: `${this.state.selectedHours}:${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes} ${this.state.date.format('DD/MM/YYYY')}`
+                                                depart_time: `${this.state.selectedHours < 10 ? '0'+this.state.selectedHours : this.state.selectedHours}:${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes} ${this.state.date.format('DD/MM/YYYY')}`
                                             })
-                                            this.props.addDepartTimeTaixe(`${this.state.selectedHours}:${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes} ${this.state.date.format('DD/MM/YYYY')}`);
+                                            this.props.addDepartTimeTaixe(`${this.state.selectedHours < 10 ? '0'+this.state.selectedHours : this.state.selectedHours}:${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes} ${this.state.date.format('DD/MM/YYYY')}`);
 
                                         }}
                                     >
