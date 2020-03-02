@@ -4,7 +4,7 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import Geocoder from 'react-native-geocoding';
 import { connect } from 'react-redux';
 
-import { pickAddressVanChuyen, dropAddressVanChuyen } from '../../../core/Redux/action/Action'
+import { pickAddressVanChuyen, dropAddressVanChuyen, addAddressYCDB, } from '../../../core/Redux/action/Action'
 
 const API_KEY = 'AIzaSyBDZSUAda65OflvYZmZ4G5XSGONZv3pkuY';
 Geocoder.init(API_KEY); // use a valid API key
@@ -44,6 +44,7 @@ class SearchPlaceExpress extends Component {
     _addPick() {
         const { address, address_component, lat, lng } = this.state;
         this.props.pickAddressVanChuyen(address, address_component, lat, lng);
+        this.props.addAddressYCDB(address, address_component, lat, lng)
         this.goBack();
     }
 
@@ -193,4 +194,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default connect(mapStateToProps, { dropAddressVanChuyen: dropAddressVanChuyen, pickAddressVanChuyen: pickAddressVanChuyen })(SearchPlaceExpress)
+export default connect(mapStateToProps, { dropAddressVanChuyen: dropAddressVanChuyen, pickAddressVanChuyen: pickAddressVanChuyen, addAddressYCDB : addAddressYCDB })(SearchPlaceExpress)

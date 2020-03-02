@@ -514,3 +514,13 @@ export const addTripInfomationHourlyBookingVanChuyen = (partner_name, merged,dep
         partner_id : partner_id,
     }
 }
+
+export const addAddressYCDB = (pick_add, component_pick, lattitude_pick, lngtitude_pick) => {
+    return{
+        type : types.PICK_ADDRESS_YCDB,
+        address: pick_add,
+        address_component: component_pick,
+        lattitude_pick: lattitude_pick,
+        lngtitude_pick: lngtitude_pick,
+    }
+}

@@ -43,6 +43,7 @@ import InfoCustommerHourlyFreightTruck from './module/Express/InfoCustommerHourl
 import ConfirmInformationFreightTruck from './module/Express/ConfirmInformationFreightTruck'
 import SearchPlaceExpress from './module/Express/SearchPlaceExpress'
 
+import SpecialRequirements from './module/SpecialRequirements/SpecialRequirements'
 
 import AboutUs from './module/WebView/AboutUs'
 import News from './module/WebView/News'
@@ -310,6 +311,13 @@ const RootStack = createStackNavigator({
         navigationOptions : {
             title : 'Nhập địa chỉ'
         }
+    },
+
+    SpecialRequirements : {
+        screen : SpecialRequirements,
+        navigationOptions: {
+            title : 'Yêu cầu đặc biệt',
+        },
     },
 
     // Registration : {

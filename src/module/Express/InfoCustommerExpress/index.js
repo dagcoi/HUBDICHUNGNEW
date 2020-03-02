@@ -45,6 +45,7 @@ class InfoCustommerExpress extends Component {
             email: this.props.email,
             email1: this.props.email1,
             comment: this.props.comment,
+            promotion_code : '',
         })
         this._validateEmail(this.props.email)
         this.mobileValidate(this.props.use_phone)

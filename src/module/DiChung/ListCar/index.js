@@ -187,9 +187,9 @@ class ListCar extends Component {
         if (navigation.getParam('datdem')) {
             obj = obj.filter(obj => (
                 listNightBooking.includes(obj.ride_method_id))
-            
-        )
-        console.log(obj)
+
+            )
+            console.log(obj)
         }
         { this.state.sort ? obj.sort((a, b) => b.merged - a.merged) : obj.sort((a, b) => a.merged - b.merged) }
 
@@ -197,6 +197,16 @@ class ListCar extends Component {
             obj.length < 1 ?
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
                     <Text style={{ textAlign: 'center' }}>Tuyến đường bạn chọn hiện không có xe. Vui lòng chọn tuyến đường khác.</Text>
+                    <TouchableOpacity
+                        style={{ backgroundColor: '#77a300', margin: 8, padding: 8 }}
+                        onPress={() => {
+                            this.props.navigation.push("SpecialRequirements", {
+                                'screen': 'DiChung'
+                            })
+                        }}
+                    >
+                        <Text style={{ color: '#fff', fontWeight: 'bold' }}>Yêu cầu đặc biệt</Text>
+                    </TouchableOpacity>
                 </View> :
                 <ScrollView
                     showsVerticalScrollIndicator={false}
@@ -226,7 +236,7 @@ class ListCar extends Component {
                                                     {item.partner_name}
                                                 </Text>
                                                 <Text style={styles.loaixe}>{item.vehicle_name}</Text>
-                                                <StarVote number= {item.star_vote}/>
+                                                <StarVote number={item.star_vote} />
                                                 <Text style={styles.giaTien}>{item.merged_format}</Text>
                                             </View>
 

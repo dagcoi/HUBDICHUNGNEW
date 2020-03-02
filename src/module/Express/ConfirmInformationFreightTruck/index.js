@@ -49,34 +49,34 @@ class ConfirmInformationFreightTruck extends Component {
         const { navigation } = this.props;
         const formData = new FormData();
         formData.append('full_name', this.props.full_name)
-        formData.append('phone',this.props.use_phone)
-        formData.append('email',this.props.email)
-        formData.append('vehicle_id',this.props.vehicle_id)
-        formData.append('city_id',this.props.city_id)
-        formData.append('brand_partner_id',this.props.partner_id)
-        formData.append('duration',this.props.duration)
-        formData.append('pick_address',this.props.pick_add)
-        formData.append('pick_pos',`${this.props.lattitude_pick},+${this.props.lngtitude_pick}`)
-        formData.append('depart_time',this.props.depart_time)
-        formData.append('comment',this.props.comment)
+        formData.append('phone', this.props.use_phone)
+        formData.append('email', this.props.email)
+        formData.append('vehicle_id', this.props.vehicle_id)
+        formData.append('city_id', this.props.city_id)
+        formData.append('brand_partner_id', this.props.partner_id)
+        formData.append('duration', this.props.duration)
+        formData.append('pick_address', this.props.pick_add)
+        formData.append('pick_pos', `${this.props.lattitude_pick},+${this.props.lngtitude_pick}`)
+        formData.append('depart_time', this.props.depart_time)
+        formData.append('comment', this.props.comment)
         if (navigation.getParam('blDiscount')) {
             formData.append('promotion_code', navigation.getParam('promotion'))
         }
-        formData.append('vat',navigation.getParam('xhd') ? '1' : '0')
-        formData.append('extra_price_hour',this.props.extra_price_hour)
-        formData.append('extra_price_km',this.props.extra_price_km)
-        formData.append('ticket_session','BOOK_MAIN')
-        formData.append('lang','vi')
+        formData.append('vat', navigation.getParam('xhd') ? '1' : '0')
+        formData.append('extra_price_hour', this.props.extra_price_hour)
+        formData.append('extra_price_km', this.props.extra_price_km)
+        formData.append('ticket_session', 'BOOK_MAIN')
+        formData.append('lang', 'vi')
         if (navigation.getParam('xhd')) {
-            formData.append('company[name]',this.props.company_name)
-            formData.append('company[address]',this.props.company_address)
-            formData.append('company[mst]',this.props.company_mst)
-            formData.append('company[address_receive]',this.props.company_address_receive)
+            formData.append('company[name]', this.props.company_name)
+            formData.append('company[address]', this.props.company_address)
+            formData.append('company[mst]', this.props.company_mst)
+            formData.append('company[address_receive]', this.props.company_address_receive)
         }
         if (navigation.getParam('not_use')) {
-            formData.append('not_use',navigation.getParam('not_use') ? 1 : 0)
-            formData.append('use[name]',this.props.full_name2)
-            formData.append('use[phone]',this.props.use_phone2)
+            formData.append('not_use', navigation.getParam('not_use') ? 1 : 0)
+            formData.append('use[name]', this.props.full_name2)
+            formData.append('use[phone]', this.props.use_phone2)
         }
         formData.append('partner_domain', 'hub.dichung.vn')
         try {
@@ -372,7 +372,7 @@ class ConfirmInformationFreightTruck extends Component {
                                 {this.renderMGG()}
                                 {this.renderTT()}
                                 <TouchableOpacity
-                                    style={{ backgroundColor: '#77a300', padding: 8, justifyContent : 'center', alignItems : 'center' }}
+                                    style={{ backgroundColor: '#77a300', padding: 8, justifyContent: 'center', alignItems: 'center' }}
                                     onPress={() => {
                                         this.setState({
                                             bookingSuccess: false,
@@ -382,7 +382,7 @@ class ConfirmInformationFreightTruck extends Component {
                                         this.props.navigation.push("Home");
                                     }}
                                 >
-                                    <Text style= {{color : '#fff', fontWeight : 'bold'}}>Trang chủ</Text>
+                                    <Text style={{ color: '#fff', fontWeight: 'bold' }}>Trang chủ</Text>
                                 </TouchableOpacity>
                             </ScrollView>
                         </View>

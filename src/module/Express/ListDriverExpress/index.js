@@ -86,7 +86,7 @@ class ListDriverExpress extends Component {
                                     {item.partner_name.toUpperCase()}
                                 </Text>
                                 <Text style={styles.tentuyen}>{item.vehicle_name}</Text>
-                                <StarVote number = {item.star_vote} />
+                                <StarVote number={item.star_vote} />
                                 <Text style={styles.giaTien}>{item.merged_format}</Text>
                             </View>
 
@@ -171,8 +171,18 @@ class ListDriverExpress extends Component {
         return (
             <View style={{ flex: 1, padding: 8, }}>
                 {obj.length < 1 ?
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                         <Text>Không tìm thấy xe phù hợp</Text>
+                        <TouchableOpacity
+                            style={{ backgroundColor: '#77a300', margin: 8, padding: 8 }}
+                            onPress={() => {
+                                this.props.navigation.push("SpecialRequirements", {
+                                    'screen': 'VanChuyen'
+                                })
+                            }}
+                        >
+                            <Text style={{ color: '#fff', fontWeight: 'bold' }}>Yêu cầu đặc biệt</Text>
+                        </TouchableOpacity>
                     </View> :
                     <ScrollView
                         showsVerticalScrollIndicator={false}

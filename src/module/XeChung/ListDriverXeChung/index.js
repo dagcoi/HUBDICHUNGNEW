@@ -91,7 +91,7 @@ class ListDriverXeChung extends Component {
                                         {item.partner_name.toUpperCase()}
                                     </Text>
                                     <Text style={styles.tentuyen}>{item.vehicle_name}</Text>
-                                    <StarVote number= {item.star_vote} />
+                                    <StarVote number={item.star_vote} />
                                     <Text style={styles.giaTien}>{item.merged_format}</Text>
                                 </View>
 
@@ -184,6 +184,16 @@ class ListDriverXeChung extends Component {
                     </ScrollView>
                     : <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
                         <Text>Không tìm thấy tài xế phù hợp</Text>
+                        <TouchableOpacity
+                            style={{ backgroundColor: '#77a300', margin: 8, padding: 8 }}
+                            onPress={() => {
+                                this.props.navigation.push("SpecialRequirements", {
+                                    'screen': 'TaiXe'
+                                })
+                            }}
+                        >
+                            <Text style={{ color: '#fff', fontWeight: 'bold' }}>Yêu cầu đặc biệt</Text>
+                        </TouchableOpacity>
                     </View>
                 }
             </View>

@@ -106,6 +106,16 @@ class ListDriverHourlyBooking extends Component {
             obj.length < 1 ?
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
                     <Text style={{ textAlign: 'center' }}>Khu vực bạn chọn hiện không có lái xe.</Text>
+                    <TouchableOpacity
+                        style={{ backgroundColor: '#77a300', margin: 8, padding: 8 }}
+                        onPress={() => {
+                            this.props.navigation.push("SpecialRequirements", {
+                                'screen': 'TaiXe'
+                            })
+                        }}
+                    >
+                        <Text style={{ color: '#fff', fontWeight: 'bold' }}>Yêu cầu đặc biệt</Text>
+                    </TouchableOpacity>
                 </View> :
                 <ScrollView
                     showsVerticalScrollIndicator={false}

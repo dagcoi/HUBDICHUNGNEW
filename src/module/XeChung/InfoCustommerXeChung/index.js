@@ -4,7 +4,7 @@ import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBoxList from '../../../component/CheckBoxList'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import { connect } from 'react-redux';
-import { addInfoPeople1Taixe, addInfoPeople2Taixe, addVATTaixe, addCommentTaixe, addPromotionCodeTaixe, addPaymentMethodIDTaixe,  } from '../../../core/Redux/action/Action'
+import { addInfoPeople1Taixe, addInfoPeople2Taixe, addVATTaixe, addCommentTaixe, addPromotionCodeTaixe, addPaymentMethodIDTaixe, } from '../../../core/Redux/action/Action'
 
 class InfoCustommerXeChung extends Component {
 
@@ -42,12 +42,53 @@ class InfoCustommerXeChung extends Component {
             use_phone1: this.props.use_phone1,
             email: this.props.email,
             email1: this.props.email1,
-            comment : this.props.comment,
+            comment: this.props.comment,
+            promotion_code: '',
         })
         this._validateEmail(this.props.email)
         this.mobileValidate(this.props.use_phone)
         this.mobileValidate1(this.props.use_phone1)
     }
+
+    async checkPromotionCode() {
+        const url = link.URL_API + `passenger/check_promotion_code?promotion_code=${this.state.promotion_code}&phone_number=84${this.state.use_phone}&chunk_id=${this.props.chunk_id}&ride_method_id=${this.props.ride_method_id}&depart_time=${this.props.depart_time}&transport_partner_id=${this.props.transport_partner_id}`;
+        console.log(url)
+        return fetch(url)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                console.log(responseJson.code)
+                if (responseJson.code == 'error') {
+                    console.log('a')
+                    this.setStateAsync({
+                        isLoading: false,
+                        promotionStatus: false,
+                        detailPromotion: responseJson.message,
+                        promotion_code: '',
+                        blDiscount: false,
+                    })
+                    console.log(responseJson.message)
+                } else {
+                    console.log(responseJson.data)
+                    this.setStateAsync({
+                        isLoading: false,
+                        promotionStatus: true,
+                        detailPromotion: responseJson.data.discount_text,
+                        discount_price: responseJson.data.discount_price,
+                        blDiscount: true,
+                    })
+                    this.props.addPromotionCode(this.state.promotion_code, this.state.discount_price);
+                }
+                return responseJson.code;
+            })
+            .catch((error) => {
+                this.setStateAsync({
+                    isLoading: false
+                })
+                console.log('a1');
+                console.log(error);
+            });
+    }
+
 
     mobileValidate1(text) {
         var test = text.trim();
@@ -173,7 +214,7 @@ class InfoCustommerXeChung extends Component {
                     Alert.alert(`Vui lòng nhập đúng Số điện thoại người đi`);
                     return;
                 }
-            } 
+            }
             // else {
             //     this.checkVat();
             // }
@@ -401,6 +442,32 @@ class InfoCustommerXeChung extends Component {
 
                     </RadioForm>
 
+                    <View style={{ flexDirection: 'row', marginTop: 8, marginBottom: 8, height: 50 }}>
+                        <View style={{ flex: 1, }} >
+                            <InputTextDiChung
+                                placeholder='Mã giảm giá'
+                                value={this.state.promotion_code}
+                                onChangeText={(text) => this.setState({
+                                    promotion_code: text,
+                                })}
+                                onPress={() => this.setState({
+                                    promotion_code: ''
+                                })}
+                            />
+                        </View>
+
+                        <TouchableOpacity
+                            onPress={() => {
+                                this.setState({
+                                    isLoading: true,
+                                })
+                                this.checkPromotionCode();
+                            }}
+                            style={{ padding: 8, justifyContent: 'center', backgroundColor: '#77a300', marginLeft: 8, borderRadius: 6, marginTop: 8 }}
+                        >
+                            <Text style={{ color: '#ffffff' }}>ÁP DỤNG</Text>
+                        </TouchableOpacity>
+                    </View>
 
                     <CheckBoxList
                         onClick={() => {
@@ -489,7 +556,7 @@ function mapStateToProps(state) {
         full_name1: state.rdTaixe.full_name2,
         use_phone1: state.rdTaixe.use_phone2,
         email1: state.rdTaixe.email2,
-        comment : state.rdTaixe.comment,
+        comment: state.rdTaixe.comment,
         drop_add: state.rdTaixe.drop_add,
         pick_add: state.rdTaixe.pick_add,
         chunk_id: state.rdTaixe.chunk_id,

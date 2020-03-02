@@ -52,6 +52,7 @@ class InfoCustommerHourlyRentDriver extends Component {
             use_phone1: this.props.use_phone1,
             email: this.props.email,
             email1: this.props.email1,
+            promotion_code : '',
         })
         this._validateEmail(this.props.email)
         this.mobileValidate(this.props.use_phone)

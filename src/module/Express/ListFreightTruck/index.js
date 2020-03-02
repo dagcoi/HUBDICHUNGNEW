@@ -53,13 +53,13 @@ class ListFreightTruck extends Component {
         };
     };
 
-    
+
     async componentDidMount() {
         const formdata = new FormData();
         formdata.append('depart_time', this.props.depart_time)
-        formdata.append('pick_address', JSON.stringify(this.props.pick_add) )
+        formdata.append('pick_address', JSON.stringify(this.props.pick_add))
         formdata.append('pick_address_component', JSON.stringify(this.props.component_pick))
-        formdata.append('duration',this.props.duration )
+        formdata.append('duration', this.props.duration)
         const url = link.URL_API + `passenger/get_hourly_price_list?service_type=HOURLY_FREIGHT_TRUCK`;
         console.log(url)
         try {
@@ -108,6 +108,16 @@ class ListFreightTruck extends Component {
             obj.length < 1 ?
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
                     <Text style={{ textAlign: 'center' }}>Khu vực bạn chọn hiện không có xe phù hợp. Vui lòng chọn khu vực khác!</Text>
+                    <TouchableOpacity
+                        style={{ backgroundColor: '#77a300', margin: 8, padding: 8 }}
+                        onPress={() => {
+                            this.props.navigation.push("SpecialRequirements", {
+                                'screen': 'VanChuyen'
+                            })
+                        }}
+                    >
+                        <Text style={{ color: '#fff', fontWeight: 'bold' }}>Yêu cầu đặc biệt</Text>
+                    </TouchableOpacity>
                 </View> :
                 <ScrollView
                     showsVerticalScrollIndicator={false}
@@ -125,7 +135,7 @@ class ListFreightTruck extends Component {
                                                 {item.partner_name}
                                             </Text>
                                             <Text style={styles.giaTien}>{item.vehicle_name}</Text>
-                                            <StarVote number = {item.star_vote}/>
+                                            <StarVote number={item.star_vote} />
                                             <Text style={styles.giaTien}>giới hạn {item.km_limit_format}</Text>
                                             <Text style={styles.loaixe}>{item.price_format}</Text>
                                         </View>
