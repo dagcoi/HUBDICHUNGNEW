@@ -114,6 +114,11 @@ class Home extends Component {
                         style={{ height: 150, width: 150, marginLeft: 8 }}
                         source={require('../../image/icon.png')}
                     />
+                    {(process.env.NODE_ENV === 'development') ? <View>
+                        <Text style = {{fontSize : 20, fontWeight : 'bold', color : '#fff'}}>
+                            Bản Dev
+                        </Text>
+                    </View> : null}
                 </View>
             )
         }

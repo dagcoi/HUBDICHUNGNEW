@@ -7,6 +7,7 @@ import CalendarPicker from 'react-native-calendar-picker';
 import { connect } from 'react-redux'
 import { Dialog, ConfirmDialog } from 'react-native-simple-dialogs';
 import { deleteData, deleteDataTaixe, deleteDataVanChuyen, } from '../../../core/Redux/action/Action'
+import { NavigationActions, StackActions } from 'react-navigation';
 
 const imageCancel = '../../../image/cancel.png'
 
@@ -338,7 +339,13 @@ class SpecialRequirements extends Component {
                                     this.props.deleteDataTaixe();
                                     this.props.deleteData();
                                     this.props.deleteDataVanChuyen();
-                                    this.props.navigation.push("Home");
+                                    // this.props.navigation.push("Home");
+                                    const resetAction = StackActions.reset({
+                                        index: 0,
+                                        key: null,
+                                        actions: [NavigationActions.navigate({ routeName: 'Main' })],
+                                    });
+                                    this.props.navigation.dispatch(resetAction);
                                 }
                             }}
                             title="Gửi yêu cầu thành công">

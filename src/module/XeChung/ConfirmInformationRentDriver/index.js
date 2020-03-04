@@ -5,6 +5,7 @@ import { Dialog, ConfirmDialog } from 'react-native-simple-dialogs';
 import * as link from '../../../URL'
 import { deleteDataTaixe } from '../../../core/Redux/action/Action'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
+import { NavigationActions, StackActions } from 'react-navigation';
 
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -316,7 +317,13 @@ class ConfirmInformationRentDriver extends Component {
                                 bookingSuccess: false
                             })
                             this.props.deleteDataTaixe();
-                            this.props.navigation.push("Home");
+                            // this.props.navigation.push("Home");
+                            const resetAction = StackActions.reset({
+                                index: 0,
+                                key: null,
+                                actions: [NavigationActions.navigate({ routeName: 'Main' })],
+                            });
+                            this.props.navigation.dispatch(resetAction);
                         }
                     }}
                     title="Đặt xe thành công">
@@ -371,17 +378,23 @@ class ConfirmInformationRentDriver extends Component {
                                 {this.renderMGG()}
                                 {this.renderTT()}
                                 <TouchableOpacity
-                                    style={{ backgroundColor: '#77a300', padding: 8, justifyContent : 'center', alignItems : 'center' }}
+                                    style={{ backgroundColor: '#77a300', padding: 8, justifyContent: 'center', alignItems: 'center' }}
                                     onPress={() => {
                                         this.setState({
                                             bookingSuccess: false,
                                             modalDetailTrip: false,
                                         })
                                         this.props.deleteDataTaixe();
-                                        this.props.navigation.push("Home");
+                                        // this.props.navigation.push("Home");
+                                        const resetAction = StackActions.reset({
+                                            index: 0,
+                                            key: null,
+                                            actions: [NavigationActions.navigate({ routeName: 'Main' })],
+                                        });
+                                        this.props.navigation.dispatch(resetAction);
                                     }}
                                 >
-                                    <Text style= {{color : '#fff', fontWeight : 'bold'}}>Trang chủ</Text>
+                                    <Text style={{ color: '#fff', fontWeight: 'bold' }}>Trang chủ</Text>
                                 </TouchableOpacity>
                             </ScrollView>
                         </View>

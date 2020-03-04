@@ -5,16 +5,16 @@ import WebView from 'react-native-webview';
 
 import { connect } from 'react-redux';
 
-class PaymentOnline extends Component {
-    
+class PaymentStatus extends Component {
+
     componentDidMount() {
         const { navigation } = this.props;
-        const url = link.URL_API + `payment/pay_online_request?pay_method=8&charge_type_id=2&url_return=http://hubdev.dichungtaxi.com/hoan-thanh-dat-xe-taxi&ticket_id=${navigation.getParam('ticket_id')}`
+        const url = link.URL_API + `payment/pay_online_request?pay_method=8&charge_type_id=2&url_return=` + link.SOURCE + `/hoan-thanh-dat-xe-taxi&ticket_id=${navigation.getParam('ticket_id')}`
         this.setState({ url: url });
     }
 
-    
-    gotoTicketInformation(){
+
+    gotoTicketInformation() {
         const { navigation } = this.props;
         this.props.navigation.navigate("TicketInformation", {
             'ticket_id': navigation.getParam('ticket_id'),
@@ -25,7 +25,7 @@ class PaymentOnline extends Component {
     render() {
         return (
             <View style={{ flex: 1 }}>
-                
+
             </View>
         )
     }
@@ -38,4 +38,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect()(PaymentOnline);
+export default connect()(PaymentStatus);

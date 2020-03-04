@@ -5,3 +5,4 @@ export const URL_API = (process.env.NODE_ENV === 'development') ? "https://dev.t
 
 export const URL_REALASE = "http://dichung.vn/"
 
+export const SOURCE = (process.env.NODE_ENV === 'development') ? "http://hubdev.dichungtaxi.com" : "http://hubdev.dichungtaxi.com" //"https://dichung.vn" 

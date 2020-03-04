@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, Image, Button, StyleSheet, ActivityIndicator, ScrollView, Modal } from 'react-native';
 import * as link from '../../../URL'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
+import { NavigationActions, StackActions } from 'react-navigation';
 
 const imageLocation = '../../../image/location.png'
 const imageCalendar = '../../../image/calendar.png'
@@ -190,7 +191,13 @@ class TicketInformationExpress extends Component {
                             color='#77a300'
                             title='Trang chủ'
                             onPress={() => {
-                                this.props.navigation.navigate('Home')
+                                // this.props.navigation.navigate('Home')
+                                const resetAction = StackActions.reset({
+                                    index: 0,
+                                    key: null,
+                                    actions: [NavigationActions.navigate({ routeName: 'Main' })],
+                                });
+                                this.props.navigation.dispatch(resetAction);
                             }}
                         />
                         <View style={{ marginBottom: 8, }}></View>

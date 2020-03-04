@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { View, Image, Text } from 'react-native';
+import { NavigationActions, StackActions } from 'react-navigation';
 
 class Splash extends React.Component {
 
@@ -31,7 +32,13 @@ class Splash extends React.Component {
 
     componentDidUpdate() {
         if (this.state.visible == 1) {
-            this.props.navigation.navigate('Home');
+            // this.props.navigation.navigate('Home');
+            const resetAction = StackActions.reset({
+                index: 0,
+                key: null,
+                actions: [NavigationActions.navigate({ routeName: 'Main' })],
+            });
+            this.props.navigation.dispatch(resetAction);
         }
     }
 

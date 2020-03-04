@@ -492,7 +492,7 @@ class InfoCustommer extends Component {
             ] :
             [
                 { label: 'Trả sau', value: 0, payment_method_ID : '3' },
-                { label: 'Trả trước', value: 1 , payment_method_ID : '8'},
+                // { label: 'Trả trước', value: 1 , payment_method_ID : '8'}, // ẩn phầ thanh toán online trên con thật.
             ]
         return (
             <View style={styles.container}>

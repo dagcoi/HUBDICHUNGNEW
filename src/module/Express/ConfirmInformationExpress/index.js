@@ -5,6 +5,7 @@ import { Dialog, ConfirmDialog } from 'react-native-simple-dialogs';
 import CountDown from 'react-native-countdown-component';
 import * as link from '../../../URL'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
+import { NavigationActions, StackActions } from 'react-navigation';
 
 
 Number.prototype.format = function (n, x) {
@@ -61,7 +62,7 @@ class ConfirmInformationExpress extends Component {
     }
 
     async reBiddingTicket() {
-        const url = `https://dev.taxiairport.vn/api.php/home/auto_process_ticket?id=${this.state.ticket}&reprocess_night_booking=1`
+        const url = link.URL_API + `home/auto_process_ticket?id=${this.state.ticket}&reprocess_night_booking=1`
         console.log(url);
         const res = await fetch(url);
         const jsonRes = await res.json();
@@ -457,7 +458,7 @@ class ConfirmInformationExpress extends Component {
         formData.append('city_id', this.props.city_id);
         formData.append('use_range_time', this.props.use_range_time);
         formData.append('ticket_session', 'BOOK_MAIN');
-        formData.append('source', this.props.source);
+        formData.append('source', link.SOURCE);
         formData.append('partner_domain', 'hub.dichung.vn');
         if (navigation.getParam('not_use')) {
             formData.append('not_use', 1);

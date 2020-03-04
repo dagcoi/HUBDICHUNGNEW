@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Dialog, ConfirmDialog } from 'react-native-simple-dialogs';
 import Moment from 'moment';
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
+import { NavigationActions, StackActions } from 'react-navigation';
 
 const imageLocation = '../../../image/location.png'
 const imageCalendar = '../../../image/calendar.png'
@@ -109,7 +110,15 @@ class ConfirmInfoChungXe extends Component {
                                 <View style={{ flexDirection: 'row', height: 45, padding: 4 }}>
                                     <TouchableOpacity
                                         style={{ backgroundColor: '#77a300', justifyContent: 'center', borderWidth: 0.5, borderRadius: 6, flex: 1, alignItems: 'center' }}
-                                        onPress={() => this.props.navigation.navigate('Home')}
+                                        onPress={() => {
+                                            // this.props.navigation.navigate('Home')
+                                            const resetAction = StackActions.reset({
+                                                index: 0,
+                                                key: null,
+                                                actions: [NavigationActions.navigate({ routeName: 'Main' })],
+                                            });
+                                            this.props.navigation.dispatch(resetAction);
+                                        }}
                                     >
                                         <Text style={{ color: '#fff' }}>TRANG CHỦ</Text>
                                     </TouchableOpacity>

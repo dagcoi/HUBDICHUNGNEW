@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ActivityIndicator, ScrollView, Image, Button, T
 import { connect } from 'react-redux'
 import { Dialog } from 'react-native-simple-dialogs';
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
+import { NavigationActions, StackActions } from 'react-navigation';
 
 const imageLocation = '../../../image/location.png'
 const imageCalendar = '../../../image/calendar.png'
@@ -87,7 +88,13 @@ class ChungXeTicketInformation extends Component {
                                 onPress={() => {
                                     this
                                     // this.addBookingChungXe();
-                                    this.props.navigation.navigate('Home')
+                                    // this.props.navigation.navigate('Home')
+                                    const resetAction = StackActions.reset({
+                                        index: 0,
+                                        key: null,
+                                        actions: [NavigationActions.navigate({ routeName: 'Main' })],
+                                    });
+                                    this.props.navigation.dispatch(resetAction);
                                     // this.setState({ addingTicket: true, })
                                 }}
                             />

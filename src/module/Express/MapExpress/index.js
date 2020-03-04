@@ -7,13 +7,14 @@ import { connect } from 'react-redux';
 import { addDepartTimeVanChuyen, addPeopleVanChuyen, swapAddressVanChuyen, addDurationVanChuyen } from '../../../core/Redux/action/Action'
 import AmountOfPracel from './AmountOfPracel'
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
+import * as key from '../../../component/KeyGG'
 
 import MapViewDirections from 'react-native-maps-directions';
 import { TextInput } from 'react-native-gesture-handler';
 
 const origin = { latitude: 21.2187149, longitude: 105.80417090000003 };
 // const destination = { latitude: 21.0019302, longitude: 105.85090579999996 };
-const GOOGLE_MAPS_APIKEY = 'AIzaSyDZo1_9CxTewBrzsX7RXFEeyf2J-pIQXYs';
+const GOOGLE_MAPS_APIKEY = key.KEY_GOOGLE;
 
 const imageLocation = '../../../image/location.png'
 const imageDrop = '../../../image/drop.png'
@@ -112,8 +113,8 @@ class MapExpress extends Component {
                 provider={PROVIDER_GOOGLE}
                 initialCamera={{
                     center: {
-                        latitude: this.props.lattitude_pick,
-                        longitude: this.props.lngtitude_pick,
+                        latitude: (this.props.lattitude_pick + this.props.lattitude_drop) / 2,
+                        longitude: (this.props.lngtitude_pick + this.props.lngtitude_drop) / 2,
                     },
                     pitch: 1,
                     heading: 1,
@@ -144,7 +145,7 @@ class MapExpress extends Component {
                     destination={{ latitude: this.props.lattitude_drop, longitude: this.props.lngtitude_drop }}
                     apikey={GOOGLE_MAPS_APIKEY}
                     strokeWidth={5}
-                    strokeColor="#00363d"
+                    strokeColor="#669df6"
                 />
 
             </MapView>

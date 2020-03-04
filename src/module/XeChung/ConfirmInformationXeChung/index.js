@@ -5,6 +5,7 @@ import { Dialog, ConfirmDialog } from 'react-native-simple-dialogs';
 import CountDown from 'react-native-countdown-component';
 import * as link from '../../../URL'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
+import { NavigationActions, StackActions } from 'react-navigation';
 
 
 Number.prototype.format = function (n, x) {
@@ -59,7 +60,7 @@ class ConfirmInformationXeChung extends Component {
     }
 
     async reBiddingTicket() {
-        const url = `https://dev.taxiairport.vn/api.php/home/auto_process_ticket?id=${this.state.ticket}&reprocess_night_booking=1`
+        const url = link.URL_API +`home/auto_process_ticket?id=${this.state.ticket}&reprocess_night_booking=1`
         console.log(url);
         const res = await fetch(url);
         const jsonRes = await res.json();
@@ -206,7 +207,7 @@ class ConfirmInformationXeChung extends Component {
             <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', marginBottom: 8 }}>
                 <Text style={styles.textBigLeft1}>Tổng thanh toán : </Text>
                 <Text style={styles.textBigRight1}>
-                    {((this.props.merged - (navigation.getParam('blDiscount') ? this.props.discount_price : 0))* (navigation.getParam('xhd') ? 11 / 10 : 1)).format(0, 3, '.')} đ
+                    {((this.props.merged - (navigation.getParam('blDiscount') ? this.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1)).format(0, 3, '.')} đ
                 </Text>
             </View>
         )
@@ -371,7 +372,13 @@ class ConfirmInformationXeChung extends Component {
                                 this.setState({
                                     is_night_booking: true
                                 })
-                                this.props.navigation.push("Home");
+                                // this.props.navigation.push("Home");
+                                const resetAction = StackActions.reset({
+                                    index: 0,
+                                    key: null,
+                                    actions: [NavigationActions.navigate({ routeName: 'Main' })],
+                                });
+                                this.props.navigation.dispatch(resetAction);
                             }
                         }}
                         title="Đặt xe thành công">
@@ -443,7 +450,7 @@ class ConfirmInformationXeChung extends Component {
         formData.append('city_id', this.props.city_id);
         formData.append('use_range_time', this.props.use_range_time);
         formData.append('ticket_session', 'BOOK_MAIN');
-        formData.append('source', this.props.source);
+        formData.append('source', link.SOURCE);
         formData.append('partner_domain', 'hub.dichung.vn');
         if (navigation.getParam('not_use')) {
             formData.append('not_use', 1);
@@ -475,7 +482,17 @@ class ConfirmInformationXeChung extends Component {
                         'Đặt xe thất bại!',
                         responseJson.msg,
                         [
-                            { text: 'Về trang chủ', onPress: () => { this.props.navigation.push("Home"); } },
+                            {
+                                text: 'Về trang chủ', onPress: () => {
+                                    // this.props.navigation.push("Home");
+                                    const resetAction = StackActions.reset({
+                                        index: 0,
+                                        key: null,
+                                        actions: [NavigationActions.navigate({ routeName: 'Main' })],
+                                    });
+                                    this.props.navigation.dispatch(resetAction);
+                                }
+                            },
                         ],
                         { cancelable: false }
                     )

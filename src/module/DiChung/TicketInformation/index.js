@@ -4,6 +4,7 @@ import { Dialog } from 'react-native-simple-dialogs';
 import OTPInputView from '@twotalltotems/react-native-otp-input'
 import * as link from '../../../URL'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
+import { NavigationActions, StackActions } from 'react-navigation';
 
 const imageLocation = '../../../image/location.png'
 const imageCalendar = '../../../image/calendar.png'
@@ -304,7 +305,13 @@ class TicketInformation extends Component {
                             color='#77a300'
                             title='ĐẶT CHUYẾN MỚI'
                             onPress={() => {
-                                this.props.navigation.navigate('Home')
+                                // this.props.navigation.navigate('Home')
+                                const resetAction = StackActions.reset({
+                                    index: 0,
+                                    key: null,
+                                    actions: [NavigationActions.navigate({ routeName: 'Main' })],
+                                });
+                                this.props.navigation.dispatch(resetAction);
                             }}
                         />
                         <View style={{ marginBottom: 8, }}></View>
@@ -405,7 +412,13 @@ class TicketInformation extends Component {
                                             onPress={() => {
                                                 if (this.state.value != 0) {
                                                     this.feedbackWhyCancel();
-                                                    this.props.navigation.navigate('Home')
+                                                    // this.props.navigation.navigate('Home')
+                                                    const resetAction = StackActions.reset({
+                                                        index: 0,
+                                                        key: null,
+                                                        actions: [NavigationActions.navigate({ routeName: 'Main' })],
+                                                    });
+                                                    this.props.navigation.dispatch(resetAction);
                                                 }
                                             }}
                                         />

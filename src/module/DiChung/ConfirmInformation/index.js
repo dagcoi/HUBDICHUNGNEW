@@ -6,6 +6,7 @@ import CountDown from 'react-native-countdown-component';
 import * as link from '../../../URL'
 import { deleteData } from '../../../core/Redux/action/Action'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
+import { NavigationActions, StackActions } from 'react-navigation';
 
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -400,7 +401,13 @@ class ConfirmInformation extends Component {
                                     is_night_booking: true
                                 })
                                 this.props.deleteData();
-                                this.props.navigation.push("Home");
+                                // this.props.navigation.push("Home");
+                                const resetAction = StackActions.reset({
+                                    index: 0,
+                                    key: null,
+                                    actions: [NavigationActions.navigate({ routeName: 'Main' })],
+                                });
+                                this.props.navigation.dispatch(resetAction);
                             }
                         }}
                         title="Đặt xe thành công">
@@ -469,7 +476,7 @@ class ConfirmInformation extends Component {
         formData.append('city_id', this.props.city_id);
         formData.append('use_range_time', this.props.use_range_time);
         formData.append('ticket_session', 'BOOK_MAIN');
-        formData.append('source', this.props.source);
+        formData.append('source', link.SOURCE);
         formData.append('partner_domain', 'hub.dichung.vn');
         if (navigation.getParam('not_use')) {
             formData.append('not_use', 1);
@@ -506,7 +513,15 @@ class ConfirmInformation extends Component {
                         'Đặt xe thất bại!',
                         responseJson.msg,
                         [
-                            { text: 'Về trang chủ', onPress: () => { this.props.navigation.push("Home"); } },
+                            { text: 'Về trang chủ', onPress: () => { 
+                                // this.props.navigation.push("Home"); 
+                                const resetAction = StackActions.reset({
+                                    index: 0,
+                                    key: null,
+                                    actions: [NavigationActions.navigate({ routeName: 'Main' })],
+                                });
+                                this.props.navigation.dispatch(resetAction);
+                            } },
                         ],
                         { cancelable: false }
                     )
@@ -567,7 +582,7 @@ class ConfirmInformation extends Component {
         formData.append('city_id', this.props.city_id);
         formData.append('use_range_time', this.props.use_range_time);
         formData.append('ticket_session', 'BOOK_MAIN');
-        formData.append('source', this.props.source);
+        formData.append('source', link.SOURCE);
         formData.append('partner_domain', 'hub.dichung.vn');
         if (navigation.getParam('not_use')) {
             formData.append('not_use', 1);
@@ -605,7 +620,15 @@ class ConfirmInformation extends Component {
                         'Đặt xe thất bại!',
                         responseJson.msg,
                         [
-                            { text: 'Về trang chủ', onPress: () => { this.props.navigation.push("Home"); } },
+                            { text: 'Về trang chủ', onPress: () => { 
+                                // this.props.navigation.push("Home"); 
+                                const resetAction = StackActions.reset({
+                                    index: 0,
+                                    key: null,
+                                    actions: [NavigationActions.navigate({ routeName: 'Main' })],
+                                });
+                                this.props.navigation.dispatch(resetAction);
+                            } },
                         ],
                         { cancelable: false }
                     )

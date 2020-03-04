@@ -5,6 +5,7 @@ import { Dialog, ConfirmDialog } from 'react-native-simple-dialogs';
 import * as link from '../../../URL'
 import { deleteData } from '../../../core/Redux/action/Action'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
+import { NavigationActions, StackActions } from 'react-navigation';
 
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -287,7 +288,13 @@ class ConfirmInformationHB extends Component {
                                 bookingSuccess: false
                             })
                             this.props.deleteData();
-                            this.props.navigation.push("Home");
+                            // this.props.navigation.push("Home");
+                            const resetAction = StackActions.reset({
+                                index: 0,
+                                key: null,
+                                actions: [NavigationActions.navigate({ routeName: 'Main' })],
+                            });
+                            this.props.navigation.dispatch(resetAction);
                         }
                     }}
                     title="Đặt xe thành công">
@@ -349,7 +356,13 @@ class ConfirmInformationHB extends Component {
                                             modalDetailTrip: false,
                                         })
                                         this.props.deleteData();
-                                        this.props.navigation.push("Home");
+                                        // this.props.navigation.push("Home");
+                                        const resetAction = StackActions.reset({
+                                            index: 0,
+                                            key: null,
+                                            actions: [NavigationActions.navigate({ routeName: 'Main' })],
+                                        });
+                                        this.props.navigation.dispatch(resetAction);
                                     }}
                                 >
                                     <Text style={{ color: '#fff', fontWeight: 'bold' }}>Trang chủ</Text>
