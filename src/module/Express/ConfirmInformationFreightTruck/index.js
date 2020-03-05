@@ -243,7 +243,7 @@ class ConfirmInformationFreightTruck extends Component {
             return (
                 <ImageTextDiChung
                     source={require(imageDone)}
-                    text={navigation.getParam('promotion')}
+                    text={navigation.getParam('detailPromotion')}
                 />
             )
         }

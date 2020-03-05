@@ -366,6 +366,7 @@ class InfoCustommer extends Component {
                     "plane_type": this.state.plane_type,
                     "promotion": this.state.promotion_code,
                     "blDiscount": this.state.blDiscount,
+                    "detailPromotion" : this.state.detailPromotion,
                 });
             }
         } else {
@@ -377,6 +378,7 @@ class InfoCustommer extends Component {
                 "promotion": this.state.promotion_code,
                 "blDiscount": this.state.blDiscount,
                 "Payment" : this.state.value_payment,
+                "detailPromotion" : this.state.detailPromotion,
             });
         }
     }

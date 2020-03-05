@@ -128,7 +128,7 @@ class ListDriverExpress extends Component {
                             </View>
                         </View>
                         {item.partner_luggage == '' ? null :
-                            <View style={{ flexDirection: 'column', flex: 1, padding: 8 }}>
+                            <View style={{ flexDirection: 'column', flex: 1, paddingLeft: 8 }}>
                                 <View style={{ flexDirection: 'row', flex: 1 }}>
                                     <Image
                                         style={{ width: 20, height: 20, marginRight: 8 }}
@@ -163,8 +163,8 @@ class ListDriverExpress extends Component {
                 </View>
             )
         }
-        var obj1 = [...this.state.dataSource];
-        var obj = obj1.filter(obj => ([0].includes(obj.hide)));
+        var obj = [...this.state.dataSource];
+        // var obj = obj1.filter(obj => ([0].includes(obj.hide)));
 
         // var lf = { ...this.state.listFliter }
         // console.log(lf);

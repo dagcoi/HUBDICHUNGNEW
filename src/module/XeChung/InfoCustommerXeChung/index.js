@@ -19,6 +19,7 @@ class InfoCustommerXeChung extends Component {
             use_phone: '',
             use_phone1: '',
             payment_method_ID: '3',
+            promotion_code : '',
             email: '',
             email1: '',
             comment: '1',
@@ -252,6 +253,7 @@ class InfoCustommerXeChung extends Component {
             "promotion": this.state.promotion_code,
             "blDiscount": this.state.blDiscount,
             "Payment": this.state.value_payment,
+            "detailPromotion": this.state.detailPromotion,
         });
     }
 

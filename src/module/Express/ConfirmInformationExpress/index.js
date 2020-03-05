@@ -227,7 +227,7 @@ class ConfirmInformationExpress extends Component {
                         style={styles.leftIcon}
                         source={require(imageDone)}
                     />
-                    <Text style={styles.textBigRight}>{navigation.getParam('promotion')}</Text>
+                    <Text style={styles.textBigRight}>{navigation.getParam('detailPromotion')}</Text>
                 </View>
             )
         }

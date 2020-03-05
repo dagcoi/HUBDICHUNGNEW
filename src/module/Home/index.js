@@ -124,7 +124,7 @@ class Home extends Component {
         }
         return (
             <GestureRecognizer
-                onSwipe={this.onSwipe}
+                // onSwipe={this.onSwipe}
                 style={{
                     flex: 1,
                     backgroundColor: '#ffffff'

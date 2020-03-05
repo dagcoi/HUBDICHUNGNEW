@@ -222,6 +222,7 @@ class InfoCustommerExpress extends Component {
             "promotion": this.state.promotion_code,
             "blDiscount": this.state.blDiscount,
             "Payment": this.state.value_payment,
+            "detailPromotion" : this.state.detailPromotion,
         });
     }
 

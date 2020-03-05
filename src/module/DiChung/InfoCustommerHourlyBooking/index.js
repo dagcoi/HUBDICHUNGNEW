@@ -304,6 +304,7 @@ class InfoCustommerHourlyBooking extends Component {
                     "xhd": this.state.vat,
                     "promotion": this.state.promotion_code,
                     "blDiscount": this.state.blDiscount,
+                    "detailPromotion" : this.state.detailPromotion,
                 });
             }
         } else {
@@ -313,6 +314,7 @@ class InfoCustommerHourlyBooking extends Component {
                 "promotion": this.state.promotion_code,
                 "blDiscount": this.state.blDiscount,
                 "Payment": this.state.value_payment,
+                "detailPromotion" : this.state.detailPromotion,
             });
         }
     }

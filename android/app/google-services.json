@@ -1,93 +1,42 @@
 {
   "project_info": {
-    "project_number": "77441142273",
-    "firebase_url": "https://dichunghub-7564d.firebaseio.com",
-    "project_id": "dichunghub-7564d",
-    "storage_bucket": "dichunghub-7564d.appspot.com"
+    "project_number": "375086407199",
+    "firebase_url": "https://optimal-plate-213501.firebaseio.com",
+    "project_id": "optimal-plate-213501",
+    "storage_bucket": "optimal-plate-213501.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:77441142273:android:c25e2794f249ad52a17a00",
-        "android_client_info": {
-          "package_name": "com.dichung"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "77441142273-1rbmisgbeqv5qtvr3qvcath1jjnmd4tb.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDZ4J_zfc9cmQyRJWdRbwv3MszxlymJFHg"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "77441142273-1rbmisgbeqv5qtvr3qvcath1jjnmd4tb.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:77441142273:android:8d93a7b62b55526fa17a00",
-        "android_client_info": {
-          "package_name": "com.dichunghub"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "77441142273-1rbmisgbeqv5qtvr3qvcath1jjnmd4tb.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDZ4J_zfc9cmQyRJWdRbwv3MszxlymJFHg"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "77441142273-1rbmisgbeqv5qtvr3qvcath1jjnmd4tb.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:77441142273:android:2f6b4d6bc446465ea17a00",
+        "mobilesdk_app_id": "1:375086407199:android:94516e300f3be135c37f2a",
         "android_client_info": {
           "package_name": "com.hubapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "77441142273-1rbmisgbeqv5qtvr3qvcath1jjnmd4tb.apps.googleusercontent.com",
+          "client_id": "375086407199-e75gja852646lk0u9da8rmc4q9dm2aep.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDZ4J_zfc9cmQyRJWdRbwv3MszxlymJFHg"
+          "current_key": "AIzaSyB89oNKIQZMISQuUeRmVca086prkVssdq8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "77441142273-1rbmisgbeqv5qtvr3qvcath1jjnmd4tb.apps.googleusercontent.com",
+              "client_id": "375086407199-e75gja852646lk0u9da8rmc4q9dm2aep.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "375086407199-pc966k4db1ga0frgh0pmli9v5tq1teqr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "vn.dichung.hubapp"
+              }
             }
           ]
         }

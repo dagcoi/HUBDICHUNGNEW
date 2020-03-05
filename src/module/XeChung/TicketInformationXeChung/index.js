@@ -158,6 +158,17 @@ class TicketInformationXeChung extends Component {
         )
     }
 
+    renderTT(item) {
+        return (
+            <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', marginBottom: 8 }}>
+                <Text style={styles.textBigLeft1}>Tổng thanh toán : </Text>
+                <Text style={styles.textBigRight1}>
+                    {parseInt(item.total_cost).format(0, 3, '.')} đ
+                </Text>
+            </View>
+        )
+    }
+
     render() {
         if (this.state.is_loading) {
             return (
@@ -191,6 +202,7 @@ class TicketInformationXeChung extends Component {
                         {this.renderDetailCustommer(item)}
                         {this.renderDetailPeopleMove(item)}
                         {this.renderOther(item)}
+                        {this.renderTT(item)}
 
                         <Button
                             style={{ marginTop: 8, fontSize: 22 }}
@@ -231,6 +243,13 @@ const styles = StyleSheet.create({
         fontSize: 18,
         marginTop: 8,
         fontWeight: 'bold',
+    },
+    textBigRight1: {
+        padding: 1,
+        fontSize: 18,
+        color: '#77a300',
+        flex: 1,
+        textAlign: "right"
     },
 })
 

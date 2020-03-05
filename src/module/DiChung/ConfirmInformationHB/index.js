@@ -48,18 +48,48 @@ class ConfirmInformationHB extends Component {
 
     async createHourlyBooking() {
         const { navigation } = this.props;
+        const formData = new FormData();
+        formData.append('full_name', this.props.full_name)
+        formData.append('phone', this.props.use_phone)
+        formData.append('email', this.props.email)
+        formData.append('vehicle_id', this.props.vehicle_id)
+        formData.append('city_id', this.props.city_id)
+        formData.append('brand_partner_id', this.props.partner_id)
+        formData.append('duration', this.props.duration)
+        formData.append('pick_address', this.props.pick_add)
+        formData.append('pick_pos', `${this.props.lattitude_pick},+${this.props.lngtitude_pick}`)
+        formData.append('depart_time', this.props.depart_time)
+        formData.append('comment', this.props.comment)
+        if (navigation.getParam('blDiscount')) {
+            formData.append('promotion_code', navigation.getParam('promotion'))
+        }
+        formData.append('vat', navigation.getParam('xhd') ? '1' : '0')
+        formData.append('extra_price_hour', this.props.extra_price_hour)
+        formData.append('extra_price_km', this.props.extra_price_km)
+        formData.append('ticket_session', 'BOOK_MAIN')
+        formData.append('lang', 'vi')
+        if (navigation.getParam('xhd')) {
+            formData.append('company[name]', this.props.company_name)
+            formData.append('company[address]', this.props.company_address)
+            formData.append('company[mst]', this.props.company_mst)
+            formData.append('company[address_receive]', this.props.company_address_receive)
+        }
+        if (navigation.getParam('not_use')) {
+            formData.append('not_use', navigation.getParam('not_use') ? 1 : 0)
+            formData.append('use[name]', this.props.full_name2)
+            formData.append('use[phone]', this.props.use_phone2)
+        }
+        formData.append('partner_domain', 'hub.dichung.vn')
         try {
-            var url = link.URL_API + `passenger/create_hourly_booking?full_name=${this.props.full_name}&phone=${this.props.use_phone}&email=${this.props.email}&vehicle_id=${this.props.vehicle_id}&city_id=${this.props.city_id}&brand_partner_id=${this.props.partner_id}&duration=${this.props.duration}&pick_address=${this.props.pick_add}&pick_pos=${this.props.lattitude_pick},+${this.props.lngtitude_pick}&depart_time=${this.props.depart_time}&comment=${this.props.comment}&vat=${navigation.getParam('xhd') ? '1' : '0'}&extra_price_hour=${this.props.extra_price_hour}&extra_price_km=${this.props.extra_price_km}&ticket_session=BOOK_MAIN&lang=vi`
-            if (navigation.getParam('xhd')) {
-                url = url + `&company[name]=${this.props.company_name}&company[address]=${this.props.company_address}&company[mst]=${this.props.company_mst}&company[address_receive]=${this.props.company_address_receive}`
-            }
-            if (navigation.getParam('not_use')) {
-                url = url + `&not_use=${navigation.getParam('not_use') ? 1 : 0}&use[name]=${this.props.full_name2}&use[phone]=${this.props.use_phone2}`
-            }
-            url = url + `&service_type=HOURLY_RENT_TAXI&partner_domain=cityads.com`
+            var url = link.URL_API + `passenger/create_hourly_booking?service_type=HOURLY_FREIGHT_TRUCK`
             console.log(url);
             const res = await fetch(url, {
                 method: 'POST',
+                headers: {
+                    'Accept': "application/json",
+                    'Content-Type': "multipart/form-data",
+                },
+                body: formData
             });
             const jsonRes = await res.json();
             if (jsonRes.code == 'success') {
@@ -213,7 +243,7 @@ class ConfirmInformationHB extends Component {
             return (
                 <ImageTextDiChung
                     source={require(imageDone)}
-                    text={navigation.getParam('promotion')}
+                    text={navigation.getParam('detailPromotion')}
                 />
             )
         }
