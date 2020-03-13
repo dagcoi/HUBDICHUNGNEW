@@ -40,7 +40,7 @@ const defaultState = {
     xhd: '0',
     use_range_time: '',
     ticket_session: 'BOOKING_MAIN',
-    source: 'http://hubdev.dichungtaxi.com:8088',
+    source: 'https://dichung.vn',
     not_use: '',
     airport_id: '',
     street_id: '',

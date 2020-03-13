@@ -261,7 +261,7 @@ class ConfirmInfoChungXe extends Component {
                 cstm_pay_meth_id: '1',
                 cstm_phon: this.props.use_phone,
                 promo_code: '',
-                source: 'http://hubdev.dichungtaxi.com',
+                source: 'https://dichung.vn',
                 user_acc_id: '',
                 utm_campaign: '',
                 utm_content: '',
