@@ -28,6 +28,7 @@
     "react-native-maps": "react-native-community/react-native-maps#d6f89bd",
     "react-native-maps-directions": "^1.7.3",
     "react-native-otp-inputs": "^4.0.5",
+    "react-native-permissions": "^2.0.9",
     "react-native-reanimated": "^1.4.0",
     "react-native-render-html": "^4.1.2",
     "react-native-render-html-table-bridge": "^0.5.2",

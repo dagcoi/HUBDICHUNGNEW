@@ -20,6 +20,8 @@ import { View } from 'react-native';
 
 class App extends Component {
   async componentDidMount() {
+    let url = firebase.links().getInitialLink();
+    console.log('incoming url', url);
     // PushNotification.configure()
     const enable = await firebase.messaging().hasPermission();
     const PATTERN = [100, 200, 300, 400, 500];
@@ -78,7 +80,7 @@ class App extends Component {
   render() {
     return (
       <View style = {{flex : 1}}>
-        <OfflineNotice />
+        {/* <OfflineNotice /> */}
         <Provider store={store}>
           <Router />
         </Provider>

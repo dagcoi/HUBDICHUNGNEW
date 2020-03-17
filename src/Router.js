@@ -383,21 +383,21 @@ const DrawerNavi = createDrawerNavigator({
     }
 })
 
-const MainStack = createStackNavigator({
+// const MainStack = createStackNavigator({
 
-    // Splash: {
-    //     screen: Splash,
-    //     navigationOptions: {
-    //         header: null,
-    //     },
-    // },
+//     // Splash: {
+//     //     screen: Splash,
+//     //     navigationOptions: {
+//     //         header: null,
+//     //     },
+//     // },
 
-    Main: {
-        screen: DrawerNavi,
-        navigationOptions: {
-            header: null,
-        }
-    }
-})
+//     Main: {
+//         screen: DrawerNavi,
+//         navigationOptions: {
+//             header: null,
+//         }
+//     }
+// })
 
-export default createAppContainer(MainStack)
+export default createAppContainer(DrawerNavi)

@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">Đi Chung VN</string>
+    <string name="app_name">Đi Chung</string>
     <string name="default_notification_channel_id">DefaultChannel</string>
 </resources>
