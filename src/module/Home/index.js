@@ -115,7 +115,7 @@ class Home extends Component {
                         source={require('../../image/icon.png')}
                     />
                     {(process.env.NODE_ENV === 'development') ? <View>
-                        <Text style = {{fontSize : 20, fontWeight : 'bold', color : '#fff'}}>
+                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fff' }}>
                             Bản Dev
                         </Text>
                     </View> : null}
@@ -168,6 +168,14 @@ class Home extends Component {
                             source={require('../../image/logoexpress.png')}
                             title={'Vận chuyển hàng hóa'}
                             textDetail={'Chuyên tuyến sân bay, liên tỉnh'}
+                        />
+
+                        <SelectCar
+                            backgroundColor={'#fff'}
+                            onPress={() => { this.props.navigation.push("MapDiChungTuLai") }}
+                            source={require('../../image/logochungxe.png')}
+                            title={'Thuê xe tự lái'}
+                            textDetail={'Thuê xe tự lái Đi chung'}
                         />
 
                         <View style={{ height: Dimensions.get('window').width / 2 + 8, backgroundColor: '#ffffff', marginBottom: 16 }}>

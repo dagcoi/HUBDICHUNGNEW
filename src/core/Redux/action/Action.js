@@ -377,13 +377,6 @@ export const addPeopleVanChuyen = (chair) => {
     }
 }
 
-// export const addIsFromAirportVanChuyen = (is_from_airport) => {
-//     return {
-//         type: types.ADD_IS_FROM_AIRPORT_,
-//         is_from_airport: is_from_airport,
-//     }
-// }
-
 export const addTripInfomationVanChuyen = (partner_name,merged, depart_time, chunk_id, vehice_id, village_id, pm_id, partner_id, city_id, vehicle_name, toll_fee, dimension_id, vehicle_id, ride_method_id, chair, airport_id, street_id, vehicle_icon, pick_pos, drop_pos, use_range_time, unmerged) => {
     return {
         type: types.TRIP_INFOMATION_VANCHUYEN,
@@ -522,5 +515,163 @@ export const addAddressYCDB = (pick_add, component_pick, lattitude_pick, lngtitu
         address_component: component_pick,
         lattitude_pick: lattitude_pick,
         lngtitude_pick: lngtitude_pick,
+    }
+}
+
+//Tự lái Đi Chung
+export const pickAddressTuLai = (pick_add, component_pick, lattitude_pick, lngtitude_pick) => {
+    return {
+        type: types.PICK_ADDRESS_TULAI,
+        address: pick_add,
+        address_component: component_pick,
+        lattitude_pick: lattitude_pick,
+        lngtitude_pick: lngtitude_pick,
+    }
+}
+
+export const dropAddressTuLai = (drop_add, component_drop, lattitude_drop, lngtitude_drop) => {
+    return {
+        type: types.DROP_ADDRESS_TULAI,
+        address: drop_add,
+        address_component: component_drop,
+        lattitude_drop: lattitude_drop,
+        lngtitude_drop: lngtitude_drop,
+    }
+}
+
+export const addDepartTimeTuLai = (depart_time) => {
+    return {
+        type: types.TIME_PICK_TULAI,
+        depart_time: depart_time,
+    }
+}
+
+export const addPeopleTuLai = (chair) => {
+    return {
+        type: types.ADD_CHAIR_TULAI,
+        chair: chair,
+    }
+}
+
+export const addTripInfomationTuLai = (partner_name,merged, depart_time, chunk_id, vehice_id, village_id, pm_id, partner_id, city_id, vehicle_name, toll_fee, dimension_id, vehicle_id, ride_method_id, chair, airport_id, street_id, vehicle_icon, pick_pos, drop_pos, use_range_time, unmerged) => {
+    return {
+        type: types.TRIP_INFOMATION_TULAI,
+        partner_name : partner_name,
+        merged: merged,
+        depart_time: depart_time,
+        chunk_id: chunk_id,
+        village_id: village_id,
+        toll_fee: toll_fee,
+        pm_id: pm_id,
+        vehice_id: vehice_id,
+        brand_partner_id: partner_id,
+        city_id: city_id,
+        vehicle_name: vehicle_name,
+        dimension_id: dimension_id,
+        vehicle_id: vehicle_id,
+        ride_method_id: ride_method_id,
+        chair: chair,
+        airport_id: airport_id,
+        street_id: street_id,
+        vehicle_icon: vehicle_icon,
+        pick_pos: pick_pos,
+        drop_pos: drop_pos,
+        use_range_time: use_range_time,
+        unmerged: unmerged,
+    }
+}
+
+export const addPromotionCodeTuLai = (promotion_code, discount_price) => {
+    return {
+        type: types.ADD_PROMOTION_CODE_TULAI,
+        promotion_code: promotion_code,
+        discount_price : discount_price,
+    }
+}
+
+export const addInfoPeople1TuLai = (full_name, use_phone, email) => {
+    return {
+        type: types.ADD_PEOPLE1_TULAI,
+        full_name: full_name,
+        use_phone: use_phone,
+        email: email,
+    }
+}
+
+export const addInfoPeople2TuLai = (full_name, use_phone, email) => {
+    return {
+        type: types.ADD_PEOPLE2_TULAI,
+        full_name: full_name,
+        use_phone: use_phone,
+        email : email,
+    }
+}
+
+export const addVATTuLai = (xhd,company_name, company_address, company_mst, company_address_receive) => {
+    return {
+        type: types.ADD_COMPANY_TULAI,
+        xhd : xhd,
+        company_name: company_name,
+        company_address: company_address,
+        company_mst: company_mst,
+        company_address_receive: company_address_receive,
+    }
+}
+
+export const swapAddressTuLai = (pick_address,pick_address_component,lattitude_pick,lngtitude_pick,drop_address,drop_address_component,lattitude_drop,lngtitude_drop) =>{
+    return {
+        type: types.SWAP_ADDRESS_TULAI,
+        pick_address: pick_address,
+        pick_address_component: pick_address_component,
+        lattitude_pick: lattitude_pick,
+        lngtitude_pick: lngtitude_pick,
+
+        drop_address: drop_address,
+        drop_address_component: drop_address_component,
+        lattitude_drop: lattitude_drop,
+        lngtitude_drop: lngtitude_drop,
+    }
+}
+
+export const addPaymentMethodIDTuLai = (pay_method_id) => {
+    return {
+        type : types.ADD_PAY_METHOD_ID_TULAI,
+        pay_method_id : pay_method_id,
+    }
+}
+
+export const addCommentTuLai = (comment) => {
+    return {
+        type : types.ADD_COMMENT_TULAI,
+        comment : comment,
+    }
+}
+
+export const deleteDataTuLai = () =>{
+    return {
+        type : types.DELETE_DATA_TULAI,
+    }
+}
+export const addDurationTuLai = (duration) => {
+    return {
+        type: types.DURATION_TULAI,
+        duration: duration,
+    }
+}
+
+export const addTripInfomationHourlyBookingTuLai = (partner_name, merged,depart_time, extra_price_km_format, extra_price_hour_format,km_limit_format, vehicle_icon, vehicle_id, vehicle_name, city_id, partner_id) => {
+    return {
+        type: types.ADD_TRIP_INFOMATION_HOURLY_BOOKING_TULAI,
+        partner_name: partner_name,
+        merged: merged,
+        depart_time: depart_time,
+        extra_price_km_format: extra_price_km_format,
+        extra_price_hour_format: extra_price_hour_format,
+        km_limit_format: km_limit_format,
+        vehicle_icon : vehicle_icon,
+        vehicle_id : vehicle_id, 
+        vehicle_name : vehicle_name,
+        city_id : city_id, 
+        partner_id : partner_id,
     }
 }

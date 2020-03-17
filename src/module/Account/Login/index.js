@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { View, TextInput, Image, StyleSheet, TouchableOpacity } from 'react-native'
-import { Button, Text} from 'native-base';
+import { View, TextInput, Image, StyleSheet, TouchableOpacity, Button, Text } from 'react-native'
 
 const logo = '../../../image/logo_dc_taxi.png'
 const people = '../../../image/person.png'
@@ -63,7 +62,7 @@ class Login extends Component {
                         style={styles.textInput}
                         placeholder={"Mật khẩu"}
                         value={this.state.pass}
-                        secureTextEntry = {this.state.visibal}
+                        secureTextEntry={this.state.visibal}
                         onChangeText={(text) => {
                             this.setState({
                                 pass: text,
@@ -92,20 +91,20 @@ class Login extends Component {
                 </View>
 
                 <Button
-                    style={{ padding: 16, margin: 8, backgroundColor: '#77a300', borderRadius : 4 }}
+                    style={{ padding: 16, margin: 8, backgroundColor: '#77a300', borderRadius: 4 }}
                     vertical
                 >
                     <Text style={{ fontSize: 18 }}>Đăng nhập</Text>
                 </Button>
 
                 <TouchableOpacity>
-                    <Text style = {{color : '#77a300',}}>Quên mật khẩu?</Text>
+                    <Text style={{ color: '#77a300', }}>Quên mật khẩu?</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style = {{margin : 8}}
+                <TouchableOpacity style={{ margin: 8 }}
                     onPress={() => { this.props.navigation.navigate("Registration") }}
                 >
-                    <Text style = {{color : '#77a300',}}>Bạn chưa có tài khoản? Tạo mới.</Text>
+                    <Text style={{ color: '#77a300', }}>Bạn chưa có tài khoản? Tạo mới.</Text>
                 </TouchableOpacity>
             </View>
 
@@ -119,7 +118,7 @@ class Login extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding : 8,
+        padding: 8,
         alignItems: 'center',
         justifyContent: 'center'
     },
@@ -138,9 +137,9 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     icon: {
-        justifyContent : 'center',
-        alignItems : 'center',
-        margin : 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 8,
         width: 30,
         height: 30,
     },

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, TextInput, TouchableOpacity, Modal, Text, Image, FlatList, ScrollView, StyleSheet, Alert, ActivityIndicator } from 'react-native'
 import InputTextDiChung from '../../../component/InputTextDiChung'
-import TimePicker from '../../DiChung/MapDiChung/TimePicker'
+import TimePicker from '../../../component/TimePicker'
 import * as link from '../../../URL'
 import CalendarPicker from 'react-native-calendar-picker';
 import { connect } from 'react-redux'

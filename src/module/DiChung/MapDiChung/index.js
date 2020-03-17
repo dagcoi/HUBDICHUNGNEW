@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, Alert, Modal, FlatList
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 import { ConfirmDialog } from 'react-native-simple-dialogs';
 import CalendarPicker from 'react-native-calendar-picker';
-import TimePicker from './TimePicker'
+import TimePicker from '../../../component/TimePicker'
 import AmountOfPeople from './AmountOfPeople'
 import { connect } from 'react-redux';
 import { addDepartTime, addPeople, swapAddress, addDuration } from '../../../core/Redux/action/Action'

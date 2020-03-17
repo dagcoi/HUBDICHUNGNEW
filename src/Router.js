@@ -43,6 +43,16 @@ import InfoCustommerHourlyFreightTruck from './module/Express/InfoCustommerHourl
 import ConfirmInformationFreightTruck from './module/Express/ConfirmInformationFreightTruck'
 import SearchPlaceExpress from './module/Express/SearchPlaceExpress'
 
+import MapDiChungTuLai from './module/DiChungTuLai/MapDiChungTuLai'
+import SerchPlaceTuLai from './module/DiChungTuLai/SerchPlaceTuLai'
+import ListCarTuLai from './module/DiChungTuLai/ListCarTuLai'
+import InfoCustommerTuLai from './module/DiChungTuLai/InfoCustommerTuLai'
+// import ConfirmInformationExpress from './module/Express/ConfirmInformationExpress'
+// import TicketInformationExpress from './module/Express/TicketInformationExpress'
+// import ListFreightTruck from './module/Express/ListFreightTruck'
+// import InfoCustommerHourlyFreightTruck from './module/Express/InfoCustommerHourlyFreightTruck'
+// import ConfirmInformationFreightTruck from './module/Express/ConfirmInformationFreightTruck'
+
 import SpecialRequirements from './module/SpecialRequirements/SpecialRequirements'
 
 import AboutUs from './module/WebView/AboutUs'
@@ -89,6 +99,7 @@ const RootStack = createStackNavigator({
         navigationOptions: {
             title: 'Thuê xe taxi',
         },
+        path : 'https://dichung.vn/thue-xe-taxi'
     },
 
     ConfirmInformation: {
@@ -151,7 +162,8 @@ const RootStack = createStackNavigator({
         screen: MapChungXe,
         navigationOptions: {
             title: 'Thuê xe tự lái',
-        }
+        },
+        path : 'https://dichung.vn/thue-xe-tu-lai'
     },
 
     ListVehicle: {
@@ -194,6 +206,7 @@ const RootStack = createStackNavigator({
         navigationOptions: {
             title: 'Thuê tài xế',
         },
+        path : 'https://dichung.vn/thue-lai-xe'
     },
 
     ListDriverXeChung: {
@@ -249,6 +262,7 @@ const RootStack = createStackNavigator({
         navigationOptions: {
             title: 'Vận chuyển hàng hóa',
         },
+        path : 'https://dichung.vn/thue-van-chuyen'
     },
 
     ListDriverExpress: {
@@ -319,6 +333,36 @@ const RootStack = createStackNavigator({
             title : 'Yêu cầu đặc biệt',
         },
     },
+
+    MapDiChungTuLai : {
+        screen : MapDiChungTuLai,
+        navigationOptions : {
+            title : 'Tự lái Đi Chung'
+        },
+        path : 'https://dichung.vn/tu-lai-di-chung'
+    },
+
+    SerchPlaceTuLai : {
+        screen : SerchPlaceTuLai,
+        navigationOptions : {
+            title : 'Nhập địa chỉ tự lái DC',
+        }
+    },
+
+    ListCarTuLai : {
+        screen : ListCarTuLai,
+        navigationOptions : {
+            title : 'Tự lái Đi Chung',
+        }
+    },
+
+    InfoCustommerTuLai : {
+        screen : InfoCustommerTuLai,
+        navigationOptions:{
+            title : 'Nhập thông tin(TCDC)'
+        }
+    }
+
 
     // Registration : {
     //     screen : Registration,

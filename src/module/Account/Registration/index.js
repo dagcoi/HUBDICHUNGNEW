@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { View, TextInput, Image, StyleSheet, TouchableOpacity } from 'react-native'
-import { Button, Text, Icon, Footer, FooterTab } from 'native-base';
+import { View, TextInput, Image, StyleSheet, TouchableOpacity, Button, Text, } from 'react-native'
 
 const logo = '../../../image/logo_dc_taxi.png'
 const people = '../../../image/person.png'
@@ -15,7 +14,7 @@ class Registration extends Component {
         this.state = {
             user: '',
             pass: '',
-            repass : '',
+            repass: '',
             visibal: true,
         }
     }
@@ -65,7 +64,7 @@ class Registration extends Component {
                         style={styles.textInput}
                         placeholder={"Mật khẩu"}
                         value={this.state.pass}
-                        secureTextEntry = {this.state.visibal}
+                        secureTextEntry={this.state.visibal}
                         onChangeText={(text) => {
                             this.setState({
                                 pass: text,
@@ -102,7 +101,7 @@ class Registration extends Component {
                         style={styles.textInput}
                         placeholder={"Nhập lại mật khẩu"}
                         value={this.state.repass}
-                        secureTextEntry = {this.state.visibal}
+                        secureTextEntry={this.state.visibal}
                         onChangeText={(text) => {
                             this.setState({
                                 repass: text,
@@ -131,7 +130,7 @@ class Registration extends Component {
                 </View>
 
                 <Button
-                    style={{ padding: 16, margin: 8, backgroundColor: '#77a300', borderRadius : 4 }}
+                    style={{ padding: 16, margin: 8, backgroundColor: '#77a300', borderRadius: 4 }}
                     vertical
                 >
                     <Text style={{ fontSize: 18 }}>Đăng kí</Text>
@@ -144,7 +143,7 @@ class Registration extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding : 8,
+        padding: 8,
         alignItems: 'center',
         justifyContent: 'center'
     },
@@ -163,9 +162,9 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     icon: {
-        justifyContent : 'center',
-        alignItems : 'center',
-        margin : 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 8,
         width: 30,
         height: 30,
     },

@@ -3,6 +3,7 @@ import Reducer from './Reducer';
 import ReducerChungXe from './ReducerChungXe';
 import ReducerTaiXe from './ReducerTaiXe'
 import ReducerVanChuyen from './ReducerVanChuyen'
+import ReducerTuLai from './ReducerTuLai'
 import ReducerYCDB from './ReducerYCDB'
 
 const reducer = combineReducers({
@@ -10,6 +11,7 @@ const reducer = combineReducers({
     infoCX : ReducerChungXe,
     rdTaixe : ReducerTaiXe,
     rdVanChuyen : ReducerVanChuyen,
+    rdTuLai : ReducerTuLai,
     dacbiet : ReducerYCDB,
 });
 
