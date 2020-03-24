@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Image, Button, StyleSheet, ActivityIndicator, ScrollView, TouchableOpacity, Modal, Linking } from 'react-native';
+import { View, Text, Image, Button, StyleSheet, ActivityIndicator, ScrollView, TouchableOpacity, Modal } from 'react-native';
 import { Dialog } from 'react-native-simple-dialogs';
 import OTPInputView from '@twotalltotems/react-native-otp-input'
 import * as link from '../../../URL'
@@ -24,7 +24,7 @@ Number.prototype.format = function (n, x) {
     return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
 };
 
-class TicketInformation extends Component {
+class TicketInformationTuLai extends Component {
 
     constructor() {
         super();
@@ -88,19 +88,6 @@ class TicketInformation extends Component {
                 <ImageTextDiChung
                     source={require(imagePeople)}
                     text={item.chair_count + ' người'}
-                />
-            </View>
-        )
-    }
-
-    renderDetailOrder(item) {
-        return (
-            <View>
-                <Text style={styles.textBigLeft1}>Chi tiết đơn hàng</Text>
-
-                <ImageTextDiChung
-                    source={require(imageIconCar)}
-                    text={item.ride_method_id == '1' ? 'Đi riêng' : 'Đi chung'}
                 />
             </View>
         )
@@ -308,19 +295,17 @@ class TicketInformation extends Component {
                             : <View>
                                 <Text>Thông tin mã vé : <Text style={{ fontWeight: 'bold' }}>{item.transaction_status_name}</Text></Text>
                                 <Text>Mọi thắc mắc vui lòng liên hệ : <Text
-                                    style={{ color: '#77a300', fontWeight : 'bold' }}
+                                    style={{ color: '#77a300', fontWeight: 'bold' }}
                                     onPress={() => Linking.openURL(`tel: 19006022`)}
                                 >19006022</Text>
                                 </Text>
                             </View>
                         }
                         {this.renderDetailTrip(item)}
-                        {this.renderDetailOrder(item)}
                         {this.renderDetailCustommer(item)}
                         {this.renderDetailPeopleMove(item)}
                         {this.renderOther(item)}
                         {this.renderTT(item)}
-
                         <Button
                             style={{ marginTop: 8, fontSize: 22 }}
                             color='#77a300'
@@ -335,6 +320,7 @@ class TicketInformation extends Component {
                                 this.props.navigation.dispatch(resetAction);
                             }}
                         />
+
                         <View style={{ marginBottom: 8, }}></View>
                         {item.transaction_status_id == '4' ? null :
                             <Button
@@ -349,6 +335,7 @@ class TicketInformation extends Component {
                                 }}
                             />
                         }
+
                         <Dialog
                             visible={this.state.dialogOTP}
                         >
@@ -504,4 +491,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default TicketInformation;
+export default TicketInformationTuLai;

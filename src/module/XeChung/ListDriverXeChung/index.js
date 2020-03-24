@@ -20,7 +20,7 @@ class ListDriverXeChung extends Component {
     }
 
     async componentDidMount() {
-        const url = link.URL_API + 'passenger/get_price_list';
+        const url = link.URL_API + 'passenger/get_price_list?product_chunk_type=DRIVER_RENTAL';
         let formdata = new FormData();
         formdata.append("depart_time", this.props.depart_time);
         formdata.append("dimension_id", 1);
@@ -28,7 +28,8 @@ class ListDriverXeChung extends Component {
         formdata.append("pick_address_component", JSON.stringify(this.props.component_pick));
         formdata.append("drop_address", JSON.stringify(this.props.drop_add));
         formdata.append("drop_address_component", JSON.stringify(this.props.component_drop));
-        formdata.append("transport_partner_id", '1679,1680') //con thật 2071,2072
+        // formdata.append("transport_partner_id", '2071,2072')
+        // formdata.append("product_chunk_type", 'DRIVER_RENTAL');
         formdata.append("chair", 1);
         formdata.append("vehicle_id", 0)
         try {

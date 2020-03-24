@@ -170,13 +170,13 @@ class Home extends Component {
                             textDetail={'Chuyên tuyến sân bay, liên tỉnh'}
                         />
 
-                        <SelectCar
+                        {/* <SelectCar
                             backgroundColor={'#fff'}
                             onPress={() => { this.props.navigation.push("MapDiChungTuLai") }}
                             source={require('../../image/logochungxe.png')}
                             title={'Thuê xe tự lái'}
                             textDetail={'Thuê xe tự lái Đi chung'}
-                        />
+                        /> */}
 
                         <View style={{ height: Dimensions.get('window').width / 2 + 8, backgroundColor: '#ffffff', marginBottom: 16 }}>
                             <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Khuyến mãi</Text>

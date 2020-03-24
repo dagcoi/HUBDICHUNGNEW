@@ -213,7 +213,7 @@ class TicketInformationXeChung extends Component {
                                 const resetAction = StackActions.reset({
                                     index: 0,
                                     key: null,
-                                    actions: [NavigationActions.navigate({ routeName: 'Main' })],
+                                    actions: [NavigationActions.navigate({ routeName: 'Home' })],
                                 });
                                 this.props.navigation.dispatch(resetAction);
                             }}

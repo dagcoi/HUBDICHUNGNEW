@@ -604,7 +604,7 @@ class MapDiChung extends Component {
                             <View style={{ flex: 1, backgroundColor: '#fff', alignItems: "center" }}>
                                 <Text style={{ color: '#00363d', fontSize: 18, fontWeight: 'bold' }}>Chọn số người</Text>
                                 <AmountOfPeople
-                                    selectedPeoples={this.state.selectedPeoples}
+                                    // selectedPeoples={this.state.selectedPeoples}
                                     onChange={(people) => {
                                         this.setState({ people: people })
                                     }}

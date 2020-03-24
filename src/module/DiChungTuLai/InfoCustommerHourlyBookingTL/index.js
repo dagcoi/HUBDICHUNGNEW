@@ -7,18 +7,22 @@ import { connect } from 'react-redux';
 import { addInfoPeople1TuLai, addInfoPeople2TuLai, addVATTuLai, addPromotionCodeTuLai, addPaymentMethodIDTuLai, addCommentTuLai } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
 
+// var radio_payment = [
+//     { label: 'Trả sau', value: 0 },
+//     // { label: 'Trả trước', value: 1 },
+// ]
+
 const imageCancel = '../../../image/cancel.png'
 const imageCheck = '../../../image/checked.png'
 const imageUnCheck = '../../../image/unchecked.png'
 
 
-class InfoCustommerTuLai extends Component {
+class InfoCustommerHourlyBookingTL extends Component {
 
     constructor() {
         super();
         this.state = {
             is_checked: false,
-            plane_type: 1,
             value_payment: 0,
             full_name: '',
             full_name1: '',
@@ -27,6 +31,7 @@ class InfoCustommerTuLai extends Component {
             payment_method_ID: '3',
             email: '',
             email1: '',
+            comment: '',
             mobile_validate: false,
             mobile_validate1: false,
             plane_number: '',
@@ -34,7 +39,6 @@ class InfoCustommerTuLai extends Component {
             detailPromotion: '',
             isLoading: false,
             vat: false,
-            boardPrice: false,
             company_name: '',
             company_address: '',
             company_mst: '',
@@ -42,11 +46,15 @@ class InfoCustommerTuLai extends Component {
             discount_price: 0,
             blDiscount: false,
             promotionStatus: false,
-            comment : ''
         }
     }
 
     componentDidMount() {
+        console.log(this.props.merged)
+        console.log(this.props.partner_name)
+        console.log(this.props.extra_price_km_format)
+        console.log(this.props.extra_price_hour_format)
+        console.log(this.props.km_limit_format)
         this.setState({
             full_name: this.props.full_name,
             full_name1: this.props.full_name1,
@@ -54,7 +62,7 @@ class InfoCustommerTuLai extends Component {
             use_phone1: this.props.use_phone1,
             email: this.props.email,
             email1: this.props.email1,
-            promotion_code: '',
+            promotion_code : '',
         })
         this._validateEmail(this.props.email)
         this.mobileValidate(this.props.use_phone)
@@ -62,7 +70,7 @@ class InfoCustommerTuLai extends Component {
     }
 
     mobileValidate1(text) {
-        var test = text.trim()
+        var test = text.trim();
         const reg = /^[0]?[3789]\d{8}$/;
         if (reg.test(test) === false) {
             this.setState({
@@ -131,14 +139,36 @@ class InfoCustommerTuLai extends Component {
         }
     }
 
+    renderComment() {
+        return (
+            <View>
+                <Text style={styles.textBig}>Ghi chú(Tùy chọn)</Text>
+
+                <InputTextDiChung
+                    style={styles.textInput}
+                    placeholder='VD : Lái xe không hút thuốc'
+                    value={this.state.comment}
+                    onChangeText={(text) => this.setState({
+                        comment: text,
+                    })}
+                    onPress={() => this.setState({
+                        comment: ''
+                    })}
+                />
+            </View>
+        )
+    }
+
     _validateEmail(test) {
         var text = test.trim();
         const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (regex.test(String(text).toLowerCase()) === false) {
+            console.log("Email is Not Correct ");
             this.setState({ email: text, checkEmail: false })
             return false;
         } else {
             this.setState({ email: text, checkEmail: true })
+            console.log("Email is Correct");
             return true;
         }
     }
@@ -161,7 +191,7 @@ class InfoCustommerTuLai extends Component {
         }
     }
 
-    checkInfoCustommerTuLai() {
+    checkInfoCustommerHourlyBookingTL() {
         if (this.state.full_name.trim().length < 2) {
             Alert.alert('Vui lòng nhập tên');
             return;
@@ -205,24 +235,22 @@ class InfoCustommerTuLai extends Component {
                 Alert.alert('nhập địa chỉ nhận hóa đơn')
                 return;
             } else {
-                this.props.navigation.navigate('ConfirmInformationTuLai', {
-                    "broad_price": this.state.boardPrice,
+                this.props.navigation.navigate('ConfirmInformationHourlyBookingTL', {
                     "not_use": this.state.is_checked,
                     "xhd": this.state.vat,
                     "promotion": this.state.promotion_code,
                     "blDiscount": this.state.blDiscount,
-                    "detailPromotion": this.state.detailPromotion,
+                    "detailPromotion" : this.state.detailPromotion,
                 });
             }
         } else {
-            this.props.navigation.navigate('ConfirmInformationTuLai', {
-                "broad_price": this.state.boardPrice,
+            this.props.navigation.navigate('ConfirmInformationHourlyBookingTL', {
                 "not_use": this.state.is_checked,
                 "xhd": this.state.vat,
                 "promotion": this.state.promotion_code,
                 "blDiscount": this.state.blDiscount,
                 "Payment": this.state.value_payment,
-                "detailPromotion": this.state.detailPromotion,
+                "detailPromotion" : this.state.detailPromotion,
             });
         }
     }
@@ -234,13 +262,14 @@ class InfoCustommerTuLai extends Component {
     }
 
     async checkPromotionCode() {
-        const url = link.URL_API + `passenger/check_promotion_code?promotion_code=${this.state.promotion_code}&phone_number=84${this.state.use_phone}&chunk_id=${this.props.chunk_id}&ride_method_id=${this.props.ride_method_id}&depart_time=${this.props.depart_time}&transport_partner_id=${this.props.transport_partner_id}`;
+        const url = link.URL_API + `passenger/check_promotion_code?promotion_code=${this.state.promotion_code}&phone_number=84${this.state.use_phone}&chunk_id=${this.props.chunk_id}&ride_method_id=${this.props.ride_method_id}&depart_time=${this.props.depart_time}&transport_partner_id=${this.props.partner_id}`;
         console.log(url)
         return fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
                 console.log(responseJson.code)
                 if (responseJson.code == 'error') {
+                    console.log('a')
                     this.setStateAsync({
                         isLoading: false,
                         promotionStatus: false,
@@ -269,27 +298,6 @@ class InfoCustommerTuLai extends Component {
                 console.log('a1');
                 console.log(error);
             });
-    }
-
-    renderComment() {
-        return (
-            <View>
-                <Text style={styles.textBig}>Ghi chú(Tùy chọn)</Text>
-
-                <InputTextDiChung
-                    style={styles.textInput}
-                    placeholder='VD:Thời gian trả xe dự kiến,yêu cầu xe đặc biệt'
-                    value={this.state.comment}
-                    multiline={true}
-                    onChangeText={(text) => this.setState({
-                        comment: text,
-                    })}
-                    onPress={() => this.setState({
-                        comment: ''
-                    })}
-                />
-            </View>
-        )
     }
 
     renderFormVAT() {
@@ -352,13 +360,9 @@ class InfoCustommerTuLai extends Component {
 
     render() {
         const { navigation } = this.props;
-        var radio_payment = navigation.getParam('isNightBooking') ?
+        var radio_payment =
             [
                 { label: 'Trả sau', value: 0, paymentMethodID: '3' }
-            ] :
-            [
-                { label: 'Trả sau', value: 0, payment_method_ID: '3' },
-                // { label: 'Trả trước', value: 1 , payment_method_ID : '8'}, // ẩn phầ thanh toán online trên con thật.
             ]
         return (
             <View style={styles.container}>
@@ -418,8 +422,8 @@ class InfoCustommerTuLai extends Component {
                     />
 
                     {this.renderDatHo()}
-
                     {this.renderComment()}
+
 
                     <Text style={styles.textBig}>Hình thức thanh toán</Text>
 
@@ -446,7 +450,7 @@ class InfoCustommerTuLai extends Component {
                                     buttonSize={10}
                                     buttonOuterSize={20}
                                     buttonStyle={7}
-                                    buttonWrapStyle={{ marginLeft: 10 }}
+                                    buttonWrapStyle={{ marginTop: 8 }}
                                 />
                                 <RadioButtonLabel
                                     obj={obj}
@@ -461,10 +465,12 @@ class InfoCustommerTuLai extends Component {
                                         })
                                     }}
                                     labelStyle={{ fontSize: 18, color: '#000' }}
-                                    labelWrapStyle={{}}
+                                    labelWrapStyle={{marginTop : 8}}
                                 />
                             </RadioButton>
                         ))}
+
+
                     </RadioForm>
 
                     <Text style={styles.textBig}>Mã giảm giá</Text>
@@ -522,33 +528,19 @@ class InfoCustommerTuLai extends Component {
                         unCheckedImage={<Image source={require(imageUnCheck)} style={{ width: 25, height: 25 }} />}
                     />
                     {this.renderFormVAT()}
-                    {this.props.is_from_airport == 'false' ? null :
-                        <CheckBox
-                            style={{ marginTop: 8 }}
-                            onClick={() => {
-                                this.setState({
-                                    boardPrice: !this.state.boardPrice
-                                })
-                            }}
-                            isChecked={this.state.boardPrice}
-                            rightText={"Đón biển tên : +30.000 đ"}
-                            rightTextStyle={{ fontSize: 20 }}
-                            checkedImage={<Image source={require(imageCheck)} style={{ width: 25, height: 25 }} />}
-                            unCheckedImage={<Image source={require(imageUnCheck)} style={{ width: 25, height: 25 }} />}
-                        />
-                    }
 
                     <TouchableOpacity
                         style={{ marginTop: 8, backgroundColor: '#77a300', justifyContent: 'center', alignItems: "center", height: 40, borderRadius: 6 }}
                         onPress={() => {
-                            const { xhd, company_name, company_address, company_address_receive, company_mst, plane_number, plane_type, full_name, use_phone, email, full_name1, use_phone1, email1, payment_method_ID } = this.state;
+                            const { xhd, company_name, company_address, company_address_receive, company_mst, full_name, use_phone, email, full_name1, use_phone1, email1, payment_method_ID, comment } = this.state;
                             this.props.addVATTuLai(xhd ? '1' : '0', company_name, company_address, company_mst, company_address_receive);
                             this.props.addInfoPeople2TuLai(full_name1, use_phone1, email1);
                             this.props.addInfoPeople1TuLai(full_name, use_phone, email);
+                            this.props.addCommentTuLai(comment);
                             // add payment method id
                             console.log(payment_method_ID)
                             this.props.addPaymentMethodIDTuLai(payment_method_ID);
-                            this.checkInfoCustommerTuLai();
+                            this.checkInfoCustommerHourlyBookingTL();
                         }}
                     >
                         <Text style={{ color: '#ffffff' }}>TIẾP TỤC</Text>
@@ -613,14 +605,17 @@ function mapStateToProps(state) {
         full_name1: state.rdTuLai.full_name2,
         use_phone1: state.rdTuLai.use_phone2,
         email1: state.rdTuLai.email2,
-        drop_add: state.rdTuLai.drop_add,
         pick_add: state.rdTuLai.pick_add,
-        is_from_airport: state.rdTuLai.is_from_airport,
         chunk_id: state.rdTuLai.chunk_id,
         ride_method_id: state.rdTuLai.ride_method_id,
+        partner_name: state.rdTuLai.partner_name,
+        merged: state.rdTuLai.merged,
         depart_time: state.rdTuLai.depart_time,
-        transport_partner_id: state.rdTuLai.transport_partner_id,
+        extra_price_km_format: state.rdTuLai.extra_price_km_format,
+        extra_price_hour_format: state.rdTuLai.extra_price_hour_format,
+        km_limit_format: state.rdTuLai.km_limit_format,
+        partner_id : state.rdTuLai.brand_partner_id,
     }
 }
 
-export default connect(mapStateToProps, { addInfoPeople1TuLai: addInfoPeople1TuLai, addInfoPeople2TuLai: addInfoPeople2TuLai, addVATTuLai: addVATTuLai, addPromotionCodeTuLai: addPromotionCodeTuLai, addPaymentMethodIDTuLai: addPaymentMethodIDTuLai, addCommentTuLai: addCommentTuLai })(InfoCustommerTuLai);
+export default connect(mapStateToProps, { addInfoPeople1TuLai: addInfoPeople1TuLai, addInfoPeople2TuLai: addInfoPeople2TuLai, addVATTuLai: addVATTuLai, addPromotionCodeTuLai: addPromotionCodeTuLai, addPaymentMethodIDTuLai: addPaymentMethodIDTuLai, addCommentTuLai: addCommentTuLai, })(InfoCustommerHourlyBookingTL);

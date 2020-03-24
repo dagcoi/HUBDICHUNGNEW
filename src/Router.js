@@ -47,11 +47,11 @@ import MapDiChungTuLai from './module/DiChungTuLai/MapDiChungTuLai'
 import SerchPlaceTuLai from './module/DiChungTuLai/SerchPlaceTuLai'
 import ListCarTuLai from './module/DiChungTuLai/ListCarTuLai'
 import InfoCustommerTuLai from './module/DiChungTuLai/InfoCustommerTuLai'
-// import ConfirmInformationExpress from './module/Express/ConfirmInformationExpress'
-// import TicketInformationExpress from './module/Express/TicketInformationExpress'
-// import ListFreightTruck from './module/Express/ListFreightTruck'
-// import InfoCustommerHourlyFreightTruck from './module/Express/InfoCustommerHourlyFreightTruck'
-// import ConfirmInformationFreightTruck from './module/Express/ConfirmInformationFreightTruck'
+import ConfirmInformationTuLai from './module/DiChungTuLai/ConfirmInformationTuLai'
+import TicketInformationTuLai from './module/DiChungTuLai/TicketInformationTuLai'
+import ListCarHourlyBookingTL from './module/DiChungTuLai/ListCarHourlyBookingTL'
+import InfoCustommerHourlyBookingTL from './module/DiChungTuLai/InfoCustommerHourlyBookingTL'
+import ConfirmInformationHourlyBookingTL from './module/DiChungTuLai/ConfirmInformationHourlyBookingTL'
 
 import SpecialRequirements from './module/SpecialRequirements/SpecialRequirements'
 
@@ -359,10 +359,44 @@ const RootStack = createStackNavigator({
     InfoCustommerTuLai : {
         screen : InfoCustommerTuLai,
         navigationOptions:{
-            title : 'Nhập thông tin(TCDC)'
+            title : 'Nhập thông tin'
+        }
+    },
+
+    ConfirmInformationTuLai : {
+        screen : ConfirmInformationTuLai,
+        navigationOptions : {
+            title : 'Xác nhận đặt xe'
+        }
+    },
+
+    TicketInformationTuLai : {
+        screen : TicketInformationTuLai,
+        navigationOptions : {
+            header : null,
+        }
+    },
+    
+    ListCarHourlyBookingTL : {
+        screen : ListCarHourlyBookingTL,
+        navigationOptions : {
+            title :'Danh sách xe',
+        }
+    },
+
+    InfoCustommerHourlyBookingTL :{
+        screen : InfoCustommerHourlyBookingTL,
+        navigationOptions : {
+            title : 'Nhập thông tin'
+        }
+    },
+
+    ConfirmInformationHourlyBookingTL : {
+        screen : ConfirmInformationHourlyBookingTL,
+        navigationOptions : {
+            title : 'Xác nhận đặt xe'
         }
     }
-
 
     // Registration : {
     //     screen : Registration,

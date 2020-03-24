@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Dialog, ConfirmDialog } from 'react-native-simple-dialogs';
 import * as link from '../../../URL'
-import { deleteDataVanChuyen } from '../../../core/Redux/action/Action'
+import { deleteDataTuLai } from '../../../core/Redux/action/Action'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
 
@@ -24,7 +24,7 @@ const imageComment = '../../../image/comment.png'
 const imageIconCar = '../../../image/iconcar.png'
 const imageCancel = '../../../image/cancel.png'
 
-class ConfirmInformationFreightTruck extends Component {
+class ConfirmInformationHourlyBookingTL extends Component {
 
     constructor() {
         super();
@@ -136,7 +136,7 @@ class ConfirmInformationFreightTruck extends Component {
                 <Text style={styles.textBigLeft1}>Chi tiết đơn hàng</Text>
                 <ImageTextDiChung
                     source={require(imageIconCar)}
-                    text={'Thuê vận chuyển'}
+                    text={'Xe theo tour'}
                 />
                 <ImageTextDiChung
                     // source={require(imageIconCar)}
@@ -271,7 +271,7 @@ class ConfirmInformationFreightTruck extends Component {
 
                     <ImageTextDiChung
                         source={require(imagePayment)}
-                        text={navigation.getParam('Payment') == '0' ? 'Trả sau' : 'Trả trước'}
+                        text={'trả sau'}
                     />
 
                     {this.renderVAT()}
@@ -317,14 +317,13 @@ class ConfirmInformationFreightTruck extends Component {
                             this.setState({
                                 bookingSuccess: false
                             })
-                            this.props.deleteDataVanChuyen();
+                            this.props.deleteDataTuLai();
                             // this.props.navigation.push("Home");
                             const resetAction = StackActions.reset({
                                 index: 0,
                                 key: null,
                                 actions: [NavigationActions.navigate({ routeName: 'Home' })],
                             });
-
                             this.props.navigation.dispatch(resetAction);
                         }
                     }}
@@ -353,8 +352,8 @@ class ConfirmInformationFreightTruck extends Component {
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
                     }}>
-                        <View style={{ flex: 1, backgroundColor: '#fff', padding: 8 }}>
-                            <View style={{ height: 48, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                        <View style={{ flex: 1, backgroundColor: '#fff', }}>
+                            <View style={{ height: 48, flexDirection: 'row', justifyContent: 'center', margin: 8, alignItems: 'center' }}>
                                 <TouchableOpacity
                                     onPress={() => {
                                         this.setState({
@@ -386,7 +385,7 @@ class ConfirmInformationFreightTruck extends Component {
                                             bookingSuccess: false,
                                             modalDetailTrip: false,
                                         })
-                                        this.props.deleteDataVanChuyen();
+                                        this.props.deleteDataTuLai();
                                         // this.props.navigation.push("Home");
                                         const resetAction = StackActions.reset({
                                             index: 0,
@@ -437,36 +436,36 @@ const styles = StyleSheet.create({
 })
 function mapStateToProps(state) {
     return {
-        pick_add: state.rdVanChuyen.pick_add,
-        merged: state.rdVanChuyen.merged,
-        depart_time: state.rdVanChuyen.depart_time,
-        vehicle_name: state.rdVanChuyen.vehicle_name,
-        vat: state.rdVanChuyen.vat,
-        full_name: state.rdVanChuyen.full_name,
-        use_phone: state.rdVanChuyen.use_phone,
-        comment: state.rdVanChuyen.comment,
-        promotion_code: state.rdVanChuyen.promotion_code,
-        full_name2: state.rdVanChuyen.full_name2,
-        use_phone2: state.rdVanChuyen.use_phone2,
-        email: state.rdVanChuyen.email,
-        company_name: state.rdVanChuyen.company_name,
-        company_address: state.rdVanChuyen.company_address,
-        company_mst: state.rdVanChuyen.company_mst,
-        company_address_receive: state.rdVanChuyen.company_address_receive,
-        not_use: state.rdVanChuyen.not_use,
-        xhd: state.rdVanChuyen.xhd,
-        vehicle_icon: state.rdVanChuyen.vehicle_icon,
-        discount_price: state.rdVanChuyen.discount_price,
-        duration: state.rdVanChuyen.duration,
-        lattitude_pick: state.rdVanChuyen.lattitude_pick,
-        lngtitude_pick: state.rdVanChuyen.lngtitude_pick,
-        vehicle_id: state.rdVanChuyen.vehicle_id,
-        city_id: state.rdVanChuyen.city_id,
-        partner_id: state.rdVanChuyen.brand_partner_id,
-        extra_price_hour: state.rdVanChuyen.extra_price_hour_format,
-        extra_price_km: state.rdVanChuyen.extra_price_km_format,
-        km_limit_format: state.rdVanChuyen.km_limit_format,
+        pick_add: state.rdTuLai.pick_add,
+        merged: state.rdTuLai.merged,
+        depart_time: state.rdTuLai.depart_time,
+        vehicle_name: state.rdTuLai.vehicle_name,
+        vat: state.rdTuLai.vat,
+        full_name: state.rdTuLai.full_name,
+        use_phone: state.rdTuLai.use_phone,
+        comment: state.rdTuLai.comment,
+        promotion_code: state.rdTuLai.promotion_code,
+        full_name2: state.rdTuLai.full_name2,
+        use_phone2: state.rdTuLai.use_phone2,
+        email: state.rdTuLai.email,
+        company_name: state.rdTuLai.company_name,
+        company_address: state.rdTuLai.company_address,
+        company_mst: state.rdTuLai.company_mst,
+        company_address_receive: state.rdTuLai.company_address_receive,
+        not_use: state.rdTuLai.not_use,
+        xhd: state.rdTuLai.xhd,
+        vehicle_icon: state.rdTuLai.vehicle_icon,
+        discount_price: state.rdTuLai.discount_price,
+        duration: state.rdTuLai.duration,
+        lattitude_pick: state.rdTuLai.lattitude_pick,
+        lngtitude_pick: state.rdTuLai.lngtitude_pick,
+        vehicle_id: state.rdTuLai.vehicle_id,
+        city_id: state.rdTuLai.city_id,
+        partner_id: state.rdTuLai.brand_partner_id,
+        extra_price_hour: state.rdTuLai.extra_price_hour_format,
+        extra_price_km: state.rdTuLai.extra_price_km_format,
+        km_limit_format: state.rdTuLai.km_limit_format,
     }
 }
 
-export default connect(mapStateToProps, { deleteDataVanChuyen: deleteDataVanChuyen })(ConfirmInformationFreightTruck)
+export default connect(mapStateToProps, { deleteDataTuLai: deleteDataTuLai })(ConfirmInformationHourlyBookingTL)

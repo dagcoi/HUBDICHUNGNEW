@@ -26,77 +26,18 @@ const imagePayment = '../../../image/payment.png'
 const imageSorry = '../../../image/sorry.png'
 const gifNightBooking = '../../../image/nightbooking.gif'
 
-class ConfirmInformation extends Component {
+class ConfirmInformationTuLai extends Component {
 
     constructor() {
         super();
         this.state = {
             callingApi: false,
-            visibleSearchDriver: false,
             addingTicket: false,
             is_night_booking: true,
             result: null,
             ticket: null,
             visibalAgain: false,
         }
-    }
-
-    componentDidMount() {
-        this._interval = setInterval(() => {
-            const url = link.URL_API + `agent/check_night_booking_partner_received?ticket_id=${this.state.ticket}`
-            if (this.state.visibleSearchDriver) {
-                // console.log(url);
-                return fetch(url)
-                    .then((res) => res.json())
-                    .then((jsonRes) => {
-                        // console.log(JSON.stringify(jsonRes))
-                        // console.log(jsonRes.data.result)
-                        this.setState({
-                            result: jsonRes.data.result,
-                            visibleSearchDriver: !jsonRes.data.result,
-                        })
-                    }
-                    )
-            } else {
-                return null;
-            }
-        }, 5000);
-    }
-
-    async reBiddingTicket() {
-        const url = `https://dev.taxiairport.vn/api.php/home/auto_process_ticket?id=${this.state.ticket}&reprocess_night_booking=1`
-        console.log(url);
-        const res = await fetch(url);
-        const jsonRes = await res.json();
-        if (jsonRes.code == 'success') {
-            this.setState({
-                visibalAgain: false,
-                visibleSearchDriver: true,
-                is_night_booking: true,
-            });
-        }
-    }
-
-    async quitNightBooKing() {
-        const url = link.URL_API + 'home/quit_night_booking'
-        const formData = new FormData();
-        formData.append('ticket_id', this.state.ticket)
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Accept': "application/json",
-                'Content-Type': "multipart/form-data",
-            },
-            body: formData
-        })
-            .then((res) => res.json())
-            .then((jsonRes) => {
-                if (jsonRes.code = 'success') {
-                    console.log('Đã Hủy Bidding thành công!')
-                } else {
-                    console.log('Hủy Bidding lỗi!')
-                }
-            })
     }
 
     renderDetailTrip() {
@@ -117,24 +58,6 @@ class ConfirmInformation extends Component {
                 <ImageTextDiChung
                     source={require(imageCalendar)}
                     text={this.props.depart_time}
-                />
-
-                <ImageTextDiChung
-                    source={require(imagePeople)}
-                    text={this.props.chair + ' người'}
-                />
-            </View>
-        )
-    }
-
-    renderDetailOrder() {
-        return (
-            <View>
-                <Text style={styles.textBigLeft1}>Chi tiết đơn hàng</Text>
-
-                <ImageTextDiChung
-                    source={require(imageIconCar)}
-                    text={this.props.ride_method_id == '1' ? 'Đi riêng' : 'Đi chung'}
                 />
             </View>
         )
@@ -163,25 +86,12 @@ class ConfirmInformation extends Component {
         )
     }
 
-    renderAirport() {
-        if (!this.props.is_from_airport) {
-            return null;
-        } else {
-            return (
-                <ImageTextDiChung
-                    source={require(imageIconPlan)}
-                    text={this.props.macb}
-                />
-            )
-        }
-    }
-
     renderDetailPeopleMove() {
         const { navigation } = this.props;
         if (navigation.getParam('not_use')) {
             return (
                 <View>
-                    <Text style={styles.textBigLeft1}>Chi tiết người đi</Text>
+                    <Text style={styles.textBigLeft1}>Chi tiết người thuê</Text>
 
                     <ImageTextDiChung
                         source={require(imagePerson)}
@@ -253,7 +163,6 @@ class ConfirmInformation extends Component {
                     </View>
 
                     {this.renderDetailTrip()}
-                    {this.renderDetailOrder()}
                     {this.renderDetailCustommer()}
                     {this.renderDetailPeopleMove()}
 
@@ -283,40 +192,12 @@ class ConfirmInformation extends Component {
                         color='#77a300'
                         title='Xác nhận đặt xe'
                         onPress={() => {
-                            this.state.callingApi ? null : navigation.getParam('Payment') == '0' ? this.addTicket() : this.addTicketPaymentOnline()
+                            this.state.callingApi ? null : this.addTicket()
                             this.setState({
                                 addingTicket: true,
                             })
                         }}
                     />
-
-                    <Dialog
-                        visible={this.state.visibleSearchDriver}
-                        title="Đang tìm tài xế">
-                        <View style = {{ justifyContent : 'center', alignItems : 'center'}}>
-                            <Image
-                                source={require(gifNightBooking)}
-                                style={{ width: 185, height: 110 }}
-                            />
-                            <Text style={{ fontSize: 18 }}>Quý khách vui lòng đợi trong giây lát...</Text>
-                            <CountDown
-                                until={180}
-                                onFinish={() => {
-                                    this.quitNightBooKing();
-                                    this.setState({
-                                        visibleSearchDriver: false,
-                                        result: false,
-                                        visibalAgain: true,
-                                    })
-                                }}
-                                digitStyle={{ backgroundColor: '#FFF' }}
-                                digitTxtStyle={{ color: '#00363d' }}
-                                timeToShow={['M', 'S']}
-                                timeLabels={{ m: null, s: null }}
-                                size={20}
-                            />
-                        </View>
-                    </Dialog>
 
                     <ConfirmDialog
                         visible={this.state.visibalAgain}
@@ -450,7 +331,7 @@ class ConfirmInformation extends Component {
         formData.append('dimension_id', this.props.dimension_id);
         formData.append('vehicle_id', this.props.vehicle_id);
         formData.append('ride_method_id', this.props.ride_method_id);
-        formData.append('chair', this.props.people);
+        formData.append('chair', this.props.chair);
         formData.append('airport_id', this.props.airport_id);
         formData.append('street_id', this.props.street_id);
         formData.append('village_id', this.props.village_id);
@@ -505,7 +386,6 @@ class ConfirmInformation extends Component {
                         callingApi: false,
                         addingTicket: false,
                         is_night_booking: responseJson.is_night_booking,
-                        visibleSearchDriver: responseJson.is_night_booking,
                     })
                 } else {
                     this.setState({ addingTicket: false })
@@ -529,130 +409,14 @@ class ConfirmInformation extends Component {
                 return responseJson;
             })
             .catch((error) => {
-                alert('dat xe that bai')
+                alert('Đặt xe thất bại!')
                 this.setState({ addingTicket: false })
                 // console.log(error);
             });
-    }
-
-    addTicketPaymentOnline() {
-        const url = link.URL_API + `passenger/create_ticket_payment_online`
-        const formData = new FormData();
-        const { navigation } = this.props;
-        console.log('API Thanh toán Online')
-        console.log(this.props.pay_method_id)
-        console.log(url)
-
-        formData.append('plane_number', this.props.plane_number);
-        formData.append('plane_type', navigation.getParam('plane_type'));
-        formData.append('catch_in_house', navigation.getParam('broad_price') ? '1' : '0');
-        formData.append('fullname', this.props.full_name);
-        formData.append('phone', this.props.use_phone);
-        formData.append('email', this.props.email);
-        formData.append('address', this.props.drop_add);
-        formData.append('comment', this.props.comment);
-        formData.append('chunk_id', this.props.chunk_id);
-        formData.append('dimension_id', this.props.dimension_id);
-        formData.append('vehicle_id', this.props.vehicle_id);
-        formData.append('ride_method_id', this.props.ride_method_id);
-        formData.append('chair', this.props.people);
-        formData.append('airport_id', this.props.airport_id);
-        formData.append('street_id', this.props.street_id);
-        formData.append('village_id', this.props.village_id);
-        formData.append('pick_pos', this.props.pick_pos);
-        formData.append('drop_pos', this.props.drop_pos);
-        formData.append('depart_time', this.props.depart_time);
-        formData.append('pm_id', this.props.pm_id);
-        formData.append('pick_address', this.props.pick_add);
-        formData.append('drop_address', this.props.drop_add);
-        formData.append('ignore_duplicate_warning', this.props.ignore_duplicate_warning);
-        formData.append('pay_method_id', this.props.pay_method_id);
-        // dang sai ở dòng trên pay_method_id
-        formData.append('brand_partner_id', this.props.brand_partner_id);
-        formData.append('unmerged_select', this.props.unmerged);
-        if (navigation.getParam('xhd')) {
-            formData.append('xhd', 1);
-            formData.append('company[name]', this.props.company_name);
-            formData.append('company[address]', this.props.company_address);
-            formData.append('company[mst]', this.props.company_mst);
-            formData.append('company[address_receive]', this.props.company_address_receive);
-        } else {
-            formData.append('xhd', 0);
-        }
-        formData.append('city_id', this.props.city_id);
-        formData.append('use_range_time', this.props.use_range_time);
-        formData.append('ticket_session', 'BOOK_MAIN');
-        formData.append('source', link.SOURCE);
-        formData.append('partner_domain', 'hub.dichung.vn');
-        if (navigation.getParam('not_use')) {
-            formData.append('not_use', 1);
-            formData.append('use[name]', this.props.full_name2);
-            formData.append('use[phone]', this.props.use_phone2);
-        }
-        if (navigation.getParam('blDiscount')) {
-            formData.append('promotion_code', navigation.getParam('promotion'))
-        }
-        formData.append('session_id', 'u50t38e1b5kgb4bo7starcuq05');
-
-
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Accept': "application/json",
-                'Content-Type': "multipart/form-data",
-            },
-            body: formData
-        })
-            .then((res) => res.json())
-            .then((responseJson) => {
-                if (responseJson.code == 0) {
-                    this.setState({
-                        ticket: responseJson.ticket_code,
-                        callingApi: false,
-                        addingTicket: false,
-                        // is_night_booking: responseJson.is_night_booking,
-                        // visibleSearchDriver: responseJson.is_night_booking,
-                    })
-                    this.gotoPaymentOnline()
-                } else {
-                    this.setState({ addingTicket: false })
-                    Alert.alert(
-                        'Đặt xe thất bại!',
-                        responseJson.msg,
-                        [
-                            { text: 'Về trang chủ', onPress: () => { 
-                                // this.props.navigation.push("Home"); 
-                                const resetAction = StackActions.reset({
-                                    index: 0,
-                                    key: null,
-                                    actions: [NavigationActions.navigate({ routeName: 'Home' })],
-                                });
-                                this.props.navigation.dispatch(resetAction);
-                            } },
-                        ],
-                        { cancelable: false }
-                    )
-                }
-                return responseJson;
-            })
-            .catch((error) => {
-                alert('dat xe that bai')
-                this.setState({ addingTicket: false })
-                // console.log(error);
-            });
-    }
-
-    gotoPaymentOnline() {
-        const { navigation } = this.props;
-        this.props.navigation.navigate("PaymentOnline", {
-            'ticket_id': this.state.ticket,
-            'phone_number': this.props.use_phone,
-            'amount': (this.props.merged + (navigation.getParam('broad_price') ? 30000 : 0) - (navigation.getParam('blDiscount') ? this.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1)
-        })
     }
 
     TicketInformation() {
-        this.props.navigation.navigate("TicketInformation", {
+        this.props.navigation.navigate("TicketInformationTuLai", {
             'ticket_id': this.state.ticket,
             'phone_number': this.props.use_phone,
         })
@@ -709,58 +473,57 @@ const styles = StyleSheet.create({
 })
 function mapStateToProps(state) {
     return {
-        drop_add: state.info.drop_add,
-        pick_add: state.info.pick_add,
-        merged: state.info.merged,
-        depart_time: state.info.depart_time,
-        vehicle_name: state.info.vehicle_name,
-        vat: state.info.vat,
-        full_name: state.info.full_name,
-        use_phone: state.info.use_phone,
-        thanhtoan: state.info.thanhtoan,
-        toll_fee: state.info.toll_fee,
-        chunk_id: state.info.chunk_id,
-        vehice_id: state.info.vehice_id,
-        village_id: state.info.village_id,
-        pm_id: state.info.pm_id,
-        partner_id: state.info.partner_id,
-        city_id: state.info.city_id,
-        comment: state.info.comment,
-        promotion_code: state.info.promotion_code,
-        dimension_id: state.info.dimension_id,
-        ride_method_id: state.info.ride_method_id,
-        chair: state.info.chair,
-        airport_id: state.info.airport_id,
-        street_id: state.info.street_id,
-        brand_partner_id: state.info.brand_partner_id,
-        is_from_airport: state.info.is_from_airport,
-        full_name2: state.info.full_name2,
-        use_phone2: state.info.use_phone2,
-        session_id: state.info.session_id,
-        transport_partner_id: state.info.transport_partner_id,
-        pick_pos: state.info.pick_pos,
-        drop_pos: state.info.drop_pos,
-        use_range_time: state.info.use_range_time,
-        unmerged: state.info.unmerged,
-        email: state.info.email,
-        plane_number: state.info.plane_number,
-        company_name: state.info.company_name,
-        company_address: state.info.company_address,
-        company_mst: state.info.company_mst,
-        company_address_receive: state.info.company_address_receive,
-        plane_type: state.info.plane_type,
-        catch_in_house: state.info.catch_in_house,
-        vehicle_id: state.info.vehicle_id,
-        source: state.info.source,
-        ticket_session: state.info.ticket_session,
-        not_use: state.info.not_use,
-        ignore_duplicate_warning: state.info.ignore_duplicate_warning,
-        pay_method_id: state.info.pay_method_id,
-        xhd: state.info.xhd,
-        vehicle_icon: state.info.vehicle_icon,
-        discount_price: state.info.discount_price,
-        people : state.info.people,
+        drop_add: state.rdTuLai.drop_add,
+        pick_add: state.rdTuLai.pick_add,
+        merged: state.rdTuLai.merged,
+        depart_time: state.rdTuLai.depart_time,
+        vehicle_name: state.rdTuLai.vehicle_name,
+        vat: state.rdTuLai.vat,
+        full_name: state.rdTuLai.full_name,
+        use_phone: state.rdTuLai.use_phone,
+        thanhtoan: state.rdTuLai.thanhtoan,
+        toll_fee: state.rdTuLai.toll_fee,
+        chunk_id: state.rdTuLai.chunk_id,
+        vehice_id: state.rdTuLai.vehice_id,
+        village_id: state.rdTuLai.village_id,
+        pm_id: state.rdTuLai.pm_id,
+        partner_id: state.rdTuLai.partner_id,
+        city_id: state.rdTuLai.city_id,
+        comment: state.rdTuLai.comment,
+        promotion_code: state.rdTuLai.promotion_code,
+        dimension_id: state.rdTuLai.dimension_id,
+        ride_method_id: state.rdTuLai.ride_method_id,
+        chair: state.rdTuLai.chair,
+        airport_id: state.rdTuLai.airport_id,
+        street_id: state.rdTuLai.street_id,
+        brand_partner_id: state.rdTuLai.brand_partner_id,
+        is_from_airport: state.rdTuLai.is_from_airport,
+        full_name2: state.rdTuLai.full_name2,
+        use_phone2: state.rdTuLai.use_phone2,
+        session_id: state.rdTuLai.session_id,
+        transport_partner_id: state.rdTuLai.transport_partner_id,
+        pick_pos: state.rdTuLai.pick_pos,
+        drop_pos: state.rdTuLai.drop_pos,
+        use_range_time: state.rdTuLai.use_range_time,
+        unmerged: state.rdTuLai.unmerged,
+        email: state.rdTuLai.email,
+        plane_number: state.rdTuLai.plane_number,
+        company_name: state.rdTuLai.company_name,
+        company_address: state.rdTuLai.company_address,
+        company_mst: state.rdTuLai.company_mst,
+        company_address_receive: state.rdTuLai.company_address_receive,
+        plane_type: state.rdTuLai.plane_type,
+        catch_in_house: state.rdTuLai.catch_in_house,
+        vehicle_id: state.rdTuLai.vehicle_id,
+        source: state.rdTuLai.source,
+        ticket_session: state.rdTuLai.ticket_session,
+        not_use: state.rdTuLai.not_use,
+        ignore_duplicate_warning: state.rdTuLai.ignore_duplicate_warning,
+        pay_method_id: state.rdTuLai.pay_method_id,
+        xhd: state.rdTuLai.xhd,
+        vehicle_icon: state.rdTuLai.vehicle_icon,
+        discount_price: state.rdTuLai.discount_price,
     }
 }
 
-export default connect(mapStateToProps, { deleteData: deleteData })(ConfirmInformation)
+export default connect(mapStateToProps, { deleteData: deleteData })(ConfirmInformationTuLai)

@@ -47,7 +47,20 @@ class MapDiChungTuLai extends Component {
             spesentDay: '',
             hoursAlive: 0,
             minutesAlive: 0,
-            selectedStartDate: null,      
+            selectedStartDate: null,
+            modalSelectTime: false,
+            listTime: [
+                { 'id': 1, 'time': 2, 'text': '2 giờ' },
+                { 'id': 2, 'time': 4, 'text': '4 giờ' },
+                { 'id': 3, 'time': 6, 'text': '6 giờ' },
+                { 'id': 4, 'time': 8, 'text': '8 giờ' },
+                { 'id': 5, 'time': 10, 'text': '10 giờ' },
+                { 'id': 6, 'time': 12, 'text': '12 giờ' },
+                { 'id': 7, 'time': 24, 'text': '1 ngày' },
+                { 'id': 8, 'time': 48, 'text': '2 ngày' },
+            ],
+            duration: '2 giờ',
+            hourly: false,
         }
     }
 
@@ -83,6 +96,29 @@ class MapDiChungTuLai extends Component {
         });
         console.log(date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec)
         return date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec;
+    }
+
+    formSwitch() {
+        return (
+            <View style={{ backgroundColor: '#fff', height: 50, flexDirection: 'row', padding : 4 }}>
+                <TouchableOpacity
+                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor :  this.state.hourly ? '#aaaaaa' : '#fff', borderRadius : 4  }}
+                    onPress={() => this.setState({
+                        hourly : false
+                    })}
+                >
+                    <Text style={{ color: this.state.hourly ? '#00363d' : '#77a300', fontWeight: 'bold', fontSize: 20 }}>Theo tuyến</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor :  this.state.hourly ? '#fff' : '#aaa' ,borderRadius : 4  }}
+                    onPress={() => this.setState({
+                        hourly : true
+                    })}
+                >
+                    <Text style={{ color: this.state.hourly ? '#77a300' : '#00363d', fontWeight: 'bold', fontSize: 20 }}>Theo giờ</Text>
+                </TouchableOpacity>
+            </View>
+        )
     }
 
     renderPicktoDrop() {
@@ -240,7 +276,7 @@ class MapDiChungTuLai extends Component {
         )
     }
 
-    renderTaxiAirport() {
+    formBookingDoortoDoor() {
         return (
             <View style={{ height: 200, backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', padding: 8 }}>
                 {this.renderPickAddress()}
@@ -306,6 +342,65 @@ class MapDiChungTuLai extends Component {
         )
     }
 
+    formCarTour() {
+        return (
+            <View style = {{backgroundColor : '#fff', padding : 8}}>
+                {this.renderPickAddress()}
+                <View style={{ flexDirection: 'row', height: 40, marginTop: 8 }}>
+                    {this.renderTimePick()}
+                </View>
+                <View style={{ flexDirection: 'column', height: 40, marginBottom: 4, marginTop : 4 }}>
+                    {this.renderHourglass()}
+                </View>
+                <View style={{ height: 40, flexDirection: 'row', marginTop: 8 }}>
+                    <TouchableOpacity
+                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', borderRadius: 4 }}
+                        onPress={() => {
+                            this.gotoListCarTour();
+                        }}
+                    >
+                        <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold', }}>XEM GIÁ</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        )
+    }
+
+    gotoListCarTour() {
+        if (this.props.pick_add != '' && this.state.depart_time != '') {
+            if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
+                if (this.state.hoursAlive > this.state.selectedHours) {
+                    Alert.alert('Giờ đi phải lớn hơn giờ hiện tại')
+                } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
+                    Alert.alert('Giờ đi phải lớn hơn giờ hiện tại')
+                } else {
+                    //sang màn danh sách xe
+                    this.props.navigation.navigate("ListCarHourlyBookingTL");
+                }
+            } else {
+                //sang màn danh sách xe
+                this.props.navigation.navigate("ListCarHourlyBookingTL");
+            }
+        } else {
+            Alert.alert('Vui lòng điền đầy đủ thông tin để xem giá.')
+        }
+    }
+
+    renderHourglass() {
+        return (
+            <ImageInputTextDiChung
+                onPress={() => {
+                    this.setState({
+                        modalSelectTime: true
+                    })
+                }}
+                source={require(imageHourglass)}
+                placeholder={'Chọn thời gian thuê'}
+                value={this.state.duration}
+            />
+        )
+    }
+
     render() {
         const minDate = new Date();
 
@@ -313,7 +408,8 @@ class MapDiChungTuLai extends Component {
             <View style={{ flex: 1 }}>
                 {this.renderPicktoDrop()}
                 <View style={{ flex: 1, padding: 8 }}>
-                    {this.renderTaxiAirport()}
+                    {this.formSwitch()}
+                    {this.state.hourly ? this.formCarTour() : this.formBookingDoortoDoor()}
                     <Modal
                         animationType="slide"
                         transparent={true}
@@ -415,6 +511,47 @@ class MapDiChungTuLai extends Component {
                                     </TouchableOpacity>
                                 </View>
                             </View>
+                        </View>
+                    </Modal>
+
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={this.state.modalSelectTime}
+                        onOrientationChange={true}
+                        onRequestClose={() => {
+                            console.log('a');
+                        }}>
+                        <View style={{
+                            flex: 1,
+                            flexDirection: 'column',
+                            justifyContent: 'flex-end',
+                        }}>
+                            <View style={{ flex: 1, }}>
+                                <TouchableOpacity
+                                    onPress={() => this.setState({ modalSelectTime: false })}
+                                    style={{ flex: 1 }}
+                                ></TouchableOpacity>
+                            </View>
+                            <FlatList
+                                style={{ flex: 1, backgroundColor: '#ffffff' }}
+                                data={this.state.listTime}
+                                renderItem={({ item }) =>
+                                    <TouchableOpacity
+                                        style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderWidth: 0.2 }}
+                                        onPress={() => {
+                                            this.setState({
+                                                duration: item.text,
+                                                modalSelectTime: false,
+                                            })
+                                            this.props.addDurationTuLai(item.time);
+                                        }}
+                                    >
+                                        <Text style={{ fontSize: 18, flex: 1, padding: 8, color: item.text === this.state.duration ? '#77a300' : '#000000' }}>{item.text}</Text>
+                                    </TouchableOpacity>}
+                                keyExtractor={item => item.time}
+                            />
+
                         </View>
                     </Modal>
                 </View>

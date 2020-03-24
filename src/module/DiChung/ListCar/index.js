@@ -10,6 +10,10 @@ import HTML from 'react-native-render-html';
 import * as link from '../../../URL'
 
 
+Number.prototype.format = function (n, x) {
+    var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
+    return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
+};
 const imageMaxToMin = '../../../image/maxtomin.png'
 const imageMinToMax = '../../../image/mintomax.png'
 const imageTune = '../../../image/tune.png'
@@ -127,6 +131,7 @@ class ListCar extends Component {
             });
             this.props.addIsFromAirport(responseJson.is_from_airport ? 'true' : 'false');
             console.log(responseJson.data)
+            console.log(formdata)
             return responseJson.data;
         }
         catch (error) {
@@ -168,7 +173,11 @@ class ListCar extends Component {
 
     gotoInfoCustommer = (item) => {
         const { navigation } = this.props;
-        this.props.addTripInfomation(item.partner_name, item.merged, this.props.depart_time, item.chunk_id, item.vehicle_id, item.village_id, item.pm_id, item.partner_id, item.city_id, item.vehicle_name, item.toll_fee, item.dimension_id, item.vehicle_id, item.ride_method_id, item.chair, item.airport_id, item.street_id, item.vehicle_icon, item.pick_pos, item.drop_pos, item.use_range_time, item.unmerged);
+        if (item.toll_fee == 'NA') {
+            this.props.addTripInfomation(item.partner_name, item.merged, this.props.depart_time, item.chunk_id, item.vehicle_id, item.village_id, item.pm_id, item.partner_id, item.city_id, item.vehicle_name, item.toll_fee, item.dimension_id, item.vehicle_id, item.ride_method_id, item.chair, item.airport_id, item.street_id, item.vehicle_icon, item.pick_pos, item.drop_pos, item.use_range_time, item.unmerged);
+        } else {
+            this.props.addTripInfomation(item.partner_name, item.merged + parseInt(item.toll_fee), this.props.depart_time, item.chunk_id, item.vehicle_id, item.village_id, item.pm_id, item.partner_id, item.city_id, item.vehicle_name, item.toll_fee, item.dimension_id, item.vehicle_id, item.ride_method_id, item.chair, item.airport_id, item.street_id, item.vehicle_icon, item.pick_pos, item.drop_pos, item.use_range_time, item.unmerged);
+        }
         this.props.navigation.push("InfoCustommer", {
             'isNightBooking': navigation.getParam('datdem')
         })
@@ -237,7 +246,9 @@ class ListCar extends Component {
                                                 </Text>
                                                 <Text style={styles.loaixe}>{item.vehicle_name}</Text>
                                                 <StarVote number={item.star_vote} />
-                                                <Text style={styles.giaTien}>{item.merged_format}</Text>
+                                                {item.toll_fee == 'NA' ? <Text style={styles.giaTien}>{item.merged.format(0, 3, '.')} đ</Text>
+                                                    : <Text style={styles.giaTien}>{(item.merged + parseInt(item.toll_fee)).format(0, 3, '.')} đ</Text>
+                                                }
                                             </View>
 
                                             <View style={styles.imageRight}>
@@ -250,13 +261,24 @@ class ListCar extends Component {
 
                                         </View>
                                         {item.ride_method_id == '1' ?
-
-                                            <View style={{ flexDirection: 'row' }}>
-                                                <Image
-                                                    style={{ width: 20, height: 20, marginRight: 8, marginLeft: 8 }}
-                                                    source={require('../../../image/check.png')} />
-                                                <Text>Giá trọn gói</Text>
-                                            </View>
+                                            item.toll_fee == 0 ?
+                                                <View style={{ flexDirection: 'row' }}>
+                                                    <Image
+                                                        style={{ width: 20, height: 20, marginRight: 8, marginLeft: 8 }}
+                                                        source={require('../../../image/check.png')} />
+                                                    <Text>Giá trọn gói</Text>
+                                                </View> : item.toll_fee == 'NA' ?
+                                                    <View style={{ flexDirection: 'row' }}>
+                                                        <Image
+                                                            style={{ width: 20, height: 20, marginRight: 8, marginLeft: 8 }}
+                                                            source={require('../../../image/check.png')} />
+                                                        <Text>Giá chưa bao gồm phí cầu đường</Text>
+                                                    </View> : <View style={{ flexDirection: 'row' }}>
+                                                        <Image
+                                                            style={{ width: 20, height: 20, marginRight: 8, marginLeft: 8 }}
+                                                            source={require('../../../image/check.png')} />
+                                                        <Text>Đã bao gồm phí cầu đường {parseInt(item.toll_fee).format(0, 3, '.')} đ</Text>
+                                                    </View>
                                             :
                                             <View>
                                                 <View style={{ marginLeft: 8, flexDirection: 'row' }}>

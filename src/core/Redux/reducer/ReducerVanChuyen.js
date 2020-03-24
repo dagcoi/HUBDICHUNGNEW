@@ -79,6 +79,7 @@ const defaultState = {
     extra_price_km_format: '',
     extra_price_hour_format: '',
     km_limit_format: '',
+    people : '1',
 }
 const ReducerVanChuyen = (state = defaultState, action) => {
     switch (action.type) {
@@ -118,7 +119,7 @@ const ReducerVanChuyen = (state = defaultState, action) => {
                 dimension_id: action.dimension_id,
                 vehicle_id: action.vehicle_id,
                 ride_method_id: action.ride_method_id,
-                chair: action.chair,
+                people: action.chair,
                 airport_id: action.airport_id,
                 street_id: action.street_id,
                 vehicle_icon: action.vehicle_icon,
