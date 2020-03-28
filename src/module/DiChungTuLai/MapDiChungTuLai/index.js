@@ -217,7 +217,7 @@ class MapDiChungTuLai extends Component {
 
     renderPickAddress() {
         return (
-            <View style={{ flexDirection: 'row', borderColor: '#00363e', borderWidth: 0.5, borderRadius: 8, justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ flexDirection: 'row', borderColor: '#00363e', borderWidth: 0.5, borderRadius: 4, justifyContent: 'center', alignItems: 'center' }}>
                 <Image
                     style={{ height: 30, width: 24, marginLeft: 8 }}
                     source={require(imageLocation)}
@@ -251,7 +251,7 @@ class MapDiChungTuLai extends Component {
     renderTimePick() {
         return (
             <TouchableOpacity
-                style={{ flex: 1, borderRadius: 8, borderWidth: 0.5, justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
+                style={{ flex: 1, borderRadius: 4, borderWidth: 0.5, justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
                 onPress={() => {
                     this.setState({
                         dialogCalendarVisible: true,
@@ -281,8 +281,8 @@ class MapDiChungTuLai extends Component {
             <View style={{ height: 200, backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', padding: 8 }}>
                 {this.renderPickAddress()}
 
-                <View style={{ flexDirection: 'row', borderColor: '#00363e', borderWidth: 0.5, borderRadius: 8, justifyContent: 'center', alignItems: 'center', marginTop: 8, }}>
-                    <View style={{ flex: 1, flexDirection: 'row', borderColor: '#00363e', borderRightWidth: 1, justifyContent: 'center', alignItems: 'center', }}>
+                <View style={{ flexDirection: 'row', borderColor: '#00363e', borderWidth: 0.5, borderRadius: 4, justifyContent: 'center', alignItems: 'center', marginTop: 8, }}>
+                    <View style={{ flex: 1, flexDirection: 'row', borderColor: '#00363e', borderRightWidth: 0.1, justifyContent: 'center', alignItems: 'center', }}>
                         <Image
                             style={{ height: 30, width: 24, marginLeft: 8, alignItems: 'center', justifyContent: 'center' }}
                             source={require(imageDrop)}
@@ -538,7 +538,7 @@ class MapDiChungTuLai extends Component {
                                 data={this.state.listTime}
                                 renderItem={({ item }) =>
                                     <TouchableOpacity
-                                        style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderWidth: 0.2 }}
+                                        style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderWidth: 0.5 }}
                                         onPress={() => {
                                             this.setState({
                                                 duration: item.text,

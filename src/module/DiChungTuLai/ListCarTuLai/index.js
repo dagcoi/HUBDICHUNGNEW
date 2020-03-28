@@ -95,7 +95,7 @@ class ListCarTuLai extends Component {
         formdata.append("pick_address_component", JSON.stringify(this.props.component_pick));
         formdata.append("drop_address", JSON.stringify(this.props.drop_add));
         formdata.append("drop_address_component", JSON.stringify(this.props.component_drop));
-        formdata.append("chair", this.props.chair);
+        formdata.append("chair", parseInt(this.props.chair));
         formdata.append("vehicle_id", 0)
         try {
             const response = await fetch(url, {
@@ -112,6 +112,8 @@ class ListCarTuLai extends Component {
                 isLoading: false,
                 dataSource: responseJson.data,
             });
+            console.log(url)
+            console.log(formdata)
             return responseJson.data;
         }
         catch (error) {
@@ -184,7 +186,7 @@ class ListCarTuLai extends Component {
 
                         <View style={{ flexDirection: 'row' }}>
                             <TouchableOpacity
-                                style={{ padding: 8, backgroundColor: '#999999', borderRadius: 8, alignItems: 'center', marginTop: 10, flex: 1 }}
+                                style={{ padding: 8, backgroundColor: '#999999', borderRadius: 4, alignItems: 'center', marginTop: 10, flex: 1 }}
                                 onPress={() => {
                                     this.setState({
                                         listcarfilter: [],
@@ -194,7 +196,7 @@ class ListCarTuLai extends Component {
                             </TouchableOpacity>
                             <View style={{ margin: 8 }} />
                             <TouchableOpacity
-                                style={{ padding: 8, backgroundColor: '#77a300', borderRadius: 8, alignItems: 'center', marginTop: 10, flex: 1 }}
+                                style={{ padding: 8, backgroundColor: '#77a300', borderRadius: 4, alignItems: 'center', marginTop: 10, flex: 1 }}
                                 onPress={() => {
                                     this.setState({ showFilter: false })
                                 }}>
@@ -327,7 +329,7 @@ const styles = StyleSheet.create({
     container: {
         borderColor: '#77a300',
         borderWidth: 0.5,
-        borderRadius: 6,
+        borderRadius: 4,
         padding: 8,
         marginTop: 8,
         backgroundColor: '#ffffff',

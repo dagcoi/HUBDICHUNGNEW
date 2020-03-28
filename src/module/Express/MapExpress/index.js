@@ -210,8 +210,8 @@ class MapExpress extends Component {
 
     renderFormExpressTheoTuyen() {
         return (
-            <View style={{ padding: 8, backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', borderRadius: 8, }}>
-                <View style={{ flexDirection: 'row', borderColor: '#00363e', borderWidth: 0.5, borderRadius: 8, justifyContent: 'center', alignItems: 'center', }}>
+            <View style={{ backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', }}>
+                <View style={styles.borderInput}>
                     <Image
                         style={{ height: 30, width: 24, marginLeft: 8 }}
                         source={require(imageLocation)}
@@ -240,8 +240,8 @@ class MapExpress extends Component {
                     </TouchableOpacity>
                 </View>
 
-                <View style={{ flexDirection: 'row', borderColor: '#00363e', borderWidth: 0.5, borderRadius: 8, justifyContent: 'center', alignItems: 'center', marginTop: 8, }}>
-                    <View style={{ flex: 1, flexDirection: 'row', borderColor: '#00363e', borderRightWidth: 1, justifyContent: 'center', alignItems: 'center', }}>
+                <View style={styles.borderInput}>
+                    <View style={{ flex: 1, flexDirection: 'row', borderColor: '#00363e', borderRightWidth: 0.1, justifyContent: 'center', alignItems: 'center', }}>
                         <Image
                             style={{ height: 30, width: 24, marginLeft: 8, alignItems: 'center', justifyContent: 'center' }}
                             source={require(imageDrop)}
@@ -270,6 +270,7 @@ class MapExpress extends Component {
                         </TouchableOpacity>
                     </View>
                     <TouchableOpacity
+                        style={{ borderLeftWidth: 0.5 }}
                         onPress={() => {
                             this.props.swapAddressVanChuyen(this.props.drop_add, this.props.component_drop, this.props.lattitude_drop, this.props.lngtitude_drop, this.props.pick_add, this.props.component_pick, this.props.lattitude_pick, this.props.lngtitude_pick);
                         }}
@@ -281,9 +282,9 @@ class MapExpress extends Component {
                     </TouchableOpacity>
                 </View>
 
-                <View style={{ flexDirection: 'row', height: 40, marginTop: 8 }}>
+                <View style={{ flexDirection: 'row', height: 40, }}>
                     <TouchableOpacity
-                        style={{ flex: 1, borderRadius: 8, borderWidth: 0.5, justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
+                        style={{ flex: 1, borderTopWidth: 0.5, justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
                         onPress={() => {
                             this.setState({
                                 dialogCalendarVisible: true,
@@ -306,9 +307,9 @@ class MapExpress extends Component {
 
                     </TouchableOpacity>
 
-                    <View style={{ width: 8 }}></View>
+                    <View style={{ width: 0.5, backgroundColor: '#000' }}></View>
                     <TouchableOpacity
-                        style={{ flex: 1, borderRadius: 8, borderWidth: 1, justifyContent: "center", flexDirection: 'row', alignItems: 'center' }}
+                        style={{ flex: 1, borderTopWidth: 0.5, justifyContent: "center", flexDirection: 'row', alignItems: 'center' }}
                         onPress={() => {
                             this.setState({
                                 dialogSelectPeople: true,
@@ -323,9 +324,9 @@ class MapExpress extends Component {
                     </TouchableOpacity>
                 </View>
 
-                <View style={{ height: 40, flexDirection: 'row', marginTop: 8 }}>
+                <View style={{ height: 40, flexDirection: 'row', }}>
                     <TouchableOpacity
-                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', borderRadius: 4 }}
+                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', }}
                         onPress={() => {
                             this.nextScreen();
                         }}
@@ -339,8 +340,8 @@ class MapExpress extends Component {
 
     renderFormExpressTheoGio() {
         return (
-            <View style={{ padding: 8, backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', borderRadius: 8, }}>
-                <View style={{ flexDirection: 'row', borderColor: '#00363e', borderWidth: 0.5, borderRadius: 8, justifyContent: 'center', alignItems: 'center', }}>
+            <View style={{ backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', }}>
+                <View style={{ flexDirection: 'row', borderColor: '#00363e', borderTopWidth: 0.5, justifyContent: 'center', alignItems: 'center', }}>
                     <Image
                         style={{ height: 30, width: 24, marginLeft: 8 }}
                         source={require(imageLocation)}
@@ -369,8 +370,8 @@ class MapExpress extends Component {
                     </TouchableOpacity>
                 </View>
 
-                <View style={{ height: 40, flexDirection: 'row', marginTop: 8 }}>
-                    <View style={{ flex: 1, borderRadius: 8, borderWidth: 0.5, justifyContent: 'center', alignItems: 'center', }}>
+                <View style={{ height: 40, flexDirection: 'row', }}>
+                    <View style={{ flex: 1, borderTopWidth: 0.5, justifyContent: 'center', alignItems: 'center', }}>
                         <ImageInputTextDiChung
                             onPress={() => {
                                 this.setState({
@@ -382,7 +383,8 @@ class MapExpress extends Component {
                             value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours} : ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
                         />
                     </View>
-                    <View style={{ flex: 1, borderRadius: 8, borderWidth: 0.5, justifyContent: 'center', alignItems: 'center', marginLeft: 8, }}>
+                    <View style={{ width: 0.5, backgroundColor: '#000' }}></View>
+                    <View style={{ flex: 1, borderTopWidth: 0.5, justifyContent: 'center', alignItems: 'center', }}>
                         <ImageInputTextDiChung
                             onPress={() => {
                                 this.setState({
@@ -397,9 +399,9 @@ class MapExpress extends Component {
                 </View>
                 {/* </View> */}
 
-                <View style={{ height: 40, flexDirection: 'row', marginTop: 8 }}>
+                <View style={{ height: 40, flexDirection: 'row', }}>
                     <TouchableOpacity
-                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', borderRadius: 4 }}
+                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', }}
                         onPress={() => {
                             this.nextScreenHourly();
                         }}
@@ -414,9 +416,9 @@ class MapExpress extends Component {
 
     renderSelect() {
         return (
-            <View style={{ flexDirection: 'row', backgroundColor: '#fff', padding: 4 }}>
+            <View style={{ flexDirection: 'row', backgroundColor: '#fff' }}>
                 <TouchableOpacity
-                    style={{ backgroundColor: this.state.hourlyBooking ? '#aaa' : '#fff', flex: 1, height: 40, borderRadius: 8, justifyContent: 'center', alignItems: 'center', }}
+                    style={{ backgroundColor: this.state.hourlyBooking ? '#aaa' : '#fff', flex: 1, height: 56, justifyContent: 'center', alignItems: 'center', }}
                     onPress={() => {
                         this.setState({
                             hourlyBooking: false,
@@ -427,7 +429,7 @@ class MapExpress extends Component {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    style={{ backgroundColor: this.state.hourlyBooking ? '#fff' : '#aaa', flex: 1, height: 40, borderRadius: 8, justifyContent: 'center', alignItems: 'center' }}
+                    style={{ backgroundColor: this.state.hourlyBooking ? '#fff' : '#aaa', flex: 1, height: 56, justifyContent: 'center', alignItems: 'center' }}
                     onPress={() => {
                         this.setState({
                             hourlyBooking: true,
@@ -513,13 +515,13 @@ class MapExpress extends Component {
                                         this.setState({
                                             dialogCalendarVisible: false,
                                             dialogTimeVisible: false,
-                                            depart_time: `${this.state.selectedHours  < 10 ? '0'+this.state.selectedHours : this.state.selectedHours}:${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes} ${this.state.date.format('DD/MM/YYYY')}`
+                                            depart_time: `${this.state.selectedHours < 10 ? '0' + this.state.selectedHours : this.state.selectedHours}:${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes} ${this.state.date.format('DD/MM/YYYY')}`
                                         })
-                                        this.props.addDepartTimeVanChuyen(`${this.state.selectedHours  < 10 ? '0'+this.state.selectedHours : this.state.selectedHours}:${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes} ${this.state.date.format('DD/MM/YYYY')}`);
+                                        this.props.addDepartTimeVanChuyen(`${this.state.selectedHours < 10 ? '0' + this.state.selectedHours : this.state.selectedHours}:${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes} ${this.state.date.format('DD/MM/YYYY')}`);
 
                                     }}
                                 >
-                                    <Text style={{ textAlign: "right", backgroundColor: "#77a300", color: '#fff', padding: 8, borderRadius: 4, fontSize: 16 }}>Tiếp tục</Text>
+                                    <Text style={{ textAlign: "right", backgroundColor: "#77a300", color: '#fff', fontSize: 16, padding : 8 }}>Tiếp tục</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -563,7 +565,7 @@ class MapExpress extends Component {
                                         this.addPeopleVanChuyen();
                                     }}
                                 >
-                                    <Text style={{ textAlign: "right", backgroundColor: '#77a300', color: "#fff", padding: 8, borderRadius: 4, fontSize: 16 }}>Tiếp tục</Text>
+                                    <Text style={{ textAlign: "right", backgroundColor: '#77a300', color: "#fff", fontSize: 16, padding : 8 }}>Tiếp tục</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -594,7 +596,7 @@ class MapExpress extends Component {
                             data={this.state.listTime}
                             renderItem={({ item }) =>
                                 <TouchableOpacity
-                                    style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderWidth: 0.2 }}
+                                    style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderBottomWidth: 0.5 }}
                                     onPress={() => {
                                         this.setState({
                                             duration: item.time,
@@ -632,6 +634,14 @@ const styles = StyleSheet.create({
         right: 0,
         bottom: 400,
     },
+    borderInput: {
+        flexDirection: 'row',
+        borderColor: '#00363e',
+        borderTopWidth: 0.5,
+
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
 });
 
 function mapStateToProps(state) {

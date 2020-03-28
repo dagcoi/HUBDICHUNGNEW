@@ -40,14 +40,14 @@ const styles = StyleSheet.create({
     textInput: {
         padding: 8,
         fontSize: 16,
-        borderRadius: 8,
+        borderRadius: 4,
         flex: 1,
     },
     borderView: {
         marginTop : 8,
-        borderWidth: 0.5,
+        borderWidth: 0.2,
         borderColor: '#00363d',
-        borderRadius: 8,
+        borderRadius: 4,
         flexDirection: 'row',
         justifyContent: "center",
         alignItems: "center",

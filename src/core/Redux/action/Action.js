@@ -41,6 +41,13 @@ export const addIsFromAirport = (is_from_airport) => {
     }
 }
 
+export const addAirport = (is_airport) => {
+    return {
+        type: types.ADD_AIRPORT,
+        is_airport: is_airport,
+    }
+}
+
 export const addTripInfomation = (partner_name,merged, depart_time, chunk_id, vehice_id, village_id, pm_id, partner_id, city_id, vehicle_name, toll_fee, dimension_id, vehicle_id, ride_method_id, chair, airport_id, street_id, vehicle_icon, pick_pos, drop_pos, use_range_time, unmerged) => {
     return {
         type: types.TRIP_INFOMATION,

@@ -4,7 +4,7 @@ import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBox from 'react-native-check-box'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import { connect } from 'react-redux';
-import { addInfoPeople1, addInfoPeople2, addVAT, addInfoFlight, addPromotionCode, addPaymentMethodID } from '../../../core/Redux/action/Action'
+import { addInfoPeople1, addInfoPeople2, addVAT, addInfoFlight, addPromotionCode, addPaymentMethodID, addComment } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
 
 var radio_props = [
@@ -13,10 +13,10 @@ var radio_props = [
 ];
 
 var radio_payment_detail = [
-    { label: 'ATM', value: 0 , payment_method_ID : '8' },
-    { label: 'Visa', value: 1, payment_method_ID : '8'},
-    { label: 'Vnpay', value: 2, payment_method_ID : '8'},
-    { label: 'Paypal', value: 3, payment_method_ID : '4'},
+    { label: 'ATM', value: 0, payment_method_ID: '8' },
+    { label: 'Visa', value: 1, payment_method_ID: '8' },
+    { label: 'Vnpay', value: 2, payment_method_ID: '8' },
+    { label: 'Paypal', value: 3, payment_method_ID: '4' },
 ]
 
 // var radio_payment = [
@@ -35,13 +35,13 @@ class InfoCustommer extends Component {
         super();
         this.state = {
             is_checked: false,
-            plane_type: 1,
+            plane_type: -1,
             value_payment: 0,
             full_name: '',
             full_name1: '',
             use_phone: '',
             use_phone1: '',
-            payment_method_ID : '3',
+            payment_method_ID: '3',
             email: '',
             email1: '',
             mobile_validate: false,
@@ -59,6 +59,7 @@ class InfoCustommer extends Component {
             discount_price: 0,
             blDiscount: false,
             promotionStatus: false,
+            comment: '',
         }
     }
 
@@ -70,7 +71,8 @@ class InfoCustommer extends Component {
             use_phone1: this.props.use_phone1,
             email: this.props.email,
             email1: this.props.email1,
-            promotion_code : '',
+            promotion_code: '',
+            comment: this.props.comment,
         })
         this._validateEmail(this.props.email)
         this.mobileValidate(this.props.use_phone)
@@ -97,10 +99,10 @@ class InfoCustommer extends Component {
                                         this.setState({
                                             value_paymentDetail: i,
                                             selectRentCar: i,
-                                            payment_method_ID : obj.payment_method_ID,
+                                            payment_method_ID: obj.payment_method_ID,
                                         })
                                     }}
-                                    borderWidth={1}
+                                    borderWidth={0.5}
                                     buttonInnerColor={'#00363d'}
                                     buttonOuterColor={'#00363d'}
                                     buttonSize={10}
@@ -118,7 +120,7 @@ class InfoCustommer extends Component {
                                         console.log(obj.payment_method_ID)
                                         this.setState({
                                             value_paymentDetail: i,
-                                            payment_method_ID : obj.payment_method_ID,
+                                            payment_method_ID: obj.payment_method_ID,
                                         })
                                     }}
                                     labelStyle={{ fontSize: 18, color: '#000' }}
@@ -150,6 +152,27 @@ class InfoCustommer extends Component {
             });
             return true;
         }
+    }
+
+    formComment() {
+        return (
+            <View>
+                <Text style={styles.textBig}>Ghi chú(tùy chọn)</Text>
+                <InputTextDiChung
+                    placeholder='VD : Tài xế không hút thuốc'
+                    value={this.state.comment}
+                    onChangeText={(text) => {
+                        this.setState({
+                            comment: text,
+                        })
+                        this.props.addComment(text)
+                    }}
+                    onPress={() => this.setState({
+                        comment: ''
+                    })}
+                />
+            </View>
+        )
     }
 
     renderDatHo() {
@@ -237,7 +260,7 @@ class InfoCustommer extends Component {
     }
 
     renderSanBay() {
-        if (this.props.is_from_airport == 'false') {
+        if (this.props.is_airport == 'false') {
             return null;
         } else {
             return (
@@ -274,7 +297,7 @@ class InfoCustommer extends Component {
                                             selectRentCar: i
                                         })
                                     }}
-                                    borderWidth={1}
+                                    borderWidth={0.5}
                                     buttonInnerColor={'#77a300'}
                                     buttonOuterColor={'#77a300'}
                                     buttonSize={10}
@@ -366,7 +389,7 @@ class InfoCustommer extends Component {
                     "plane_type": this.state.plane_type,
                     "promotion": this.state.promotion_code,
                     "blDiscount": this.state.blDiscount,
-                    "detailPromotion" : this.state.detailPromotion,
+                    "detailPromotion": this.state.detailPromotion,
                 });
             }
         } else {
@@ -377,8 +400,8 @@ class InfoCustommer extends Component {
                 "plane_type": this.state.plane_type,
                 "promotion": this.state.promotion_code,
                 "blDiscount": this.state.blDiscount,
-                "Payment" : this.state.value_payment,
-                "detailPromotion" : this.state.detailPromotion,
+                "Payment": this.state.value_payment,
+                "detailPromotion": this.state.detailPromotion,
             });
         }
     }
@@ -490,10 +513,10 @@ class InfoCustommer extends Component {
         const { navigation } = this.props;
         var radio_payment = navigation.getParam('isNightBooking') ?
             [
-                { label: 'Trả sau', value: 0, paymentMethodID : '3' }
+                { label: 'Trả sau', value: 0, paymentMethodID: '3' }
             ] :
             [
-                { label: 'Trả sau', value: 0, payment_method_ID : '3' },
+                { label: 'Trả sau', value: 0, payment_method_ID: '3' },
                 // { label: 'Trả trước', value: 1 , payment_method_ID : '8'}, // ẩn phầ thanh toán online trên con thật.
             ]
         return (
@@ -554,6 +577,7 @@ class InfoCustommer extends Component {
                     />
 
                     {this.renderDatHo()}
+                    {this.formComment()}
 
                     {this.renderSanBay()}
 
@@ -573,10 +597,10 @@ class InfoCustommer extends Component {
                                         this.setState({
                                             value_payment: i,
                                             selectRentCar: i,
-                                            payment_method_ID : obj.payment_method_ID,
+                                            payment_method_ID: obj.payment_method_ID,
                                         })
                                     }}
-                                    borderWidth={1}
+                                    borderWidth={0.5}
                                     buttonInnerColor={'#77a300'}
                                     buttonOuterColor={'#77a300'}
                                     buttonSize={10}
@@ -593,7 +617,7 @@ class InfoCustommer extends Component {
                                         console.log(obj.label)
                                         this.setState({
                                             value_payment: i,
-                                            payment_method_ID : obj.payment_method_ID,
+                                            payment_method_ID: obj.payment_method_ID,
                                         })
                                     }}
                                     labelStyle={{ fontSize: 18, color: '#000' }}
@@ -610,7 +634,7 @@ class InfoCustommer extends Component {
                     <Text style={styles.textBig}>Mã giảm giá</Text>
 
                     <View style={{ flexDirection: 'row', marginTop: 8, marginBottom: 8, height: 50 }}>
-                        <View style={{ marginTop: 8, borderWidth: 0.5, borderColor: '#00363d', borderRadius: 8, flexDirection: 'row', justifyContent: "center", alignItems: "center", flex: 1, }} >
+                        <View style={{ marginTop: 8, borderWidth: 0.5, borderColor: '#00363d', borderRadius: 4, flexDirection: 'row', justifyContent: "center", alignItems: "center", flex: 1, }} >
                             <TextInput
                                 style={[styles.textInput]}
                                 value={this.state.promotion_code}
@@ -618,6 +642,7 @@ class InfoCustommer extends Component {
                                     promotion_code: text,
                                     blDiscount: false,
                                 })}
+                                placeholder={'Mã giảm giá'}
                             />
                             <TouchableOpacity
                                 onPress={() => this.setState({
@@ -640,7 +665,7 @@ class InfoCustommer extends Component {
                                 })
                                 this.checkPromotionCode();
                             }}
-                            style={{ padding: 8, justifyContent: 'center', backgroundColor: '#77a300', marginLeft: 8, borderRadius: 6, marginTop: 8 }}
+                            style={{ padding: 8, justifyContent: 'center', backgroundColor: '#77a300', marginLeft: 8, borderRadius: 4, marginTop: 8 }}
                         >
                             <Text style={{ color: '#ffffff' }}>ÁP DỤNG</Text>
                         </TouchableOpacity>
@@ -662,7 +687,7 @@ class InfoCustommer extends Component {
                         unCheckedImage={<Image source={require(imageUnCheck)} style={{ width: 25, height: 25 }} />}
                     />
                     {this.renderFormVAT()}
-                    {this.props.is_from_airport == 'false' ? null :
+                    {this.props.is_airport == 'false' ? null :
                         <CheckBox
                             style={{ marginTop: 8 }}
                             onClick={() => {
@@ -679,7 +704,7 @@ class InfoCustommer extends Component {
                     }
 
                     <TouchableOpacity
-                        style={{ marginTop: 8, backgroundColor: '#77a300', justifyContent: 'center', alignItems: "center", height: 40, borderRadius: 6 }}
+                        style={{ marginTop: 8, backgroundColor: '#77a300', justifyContent: 'center', alignItems: "center", height: 40, borderRadius: 4 }}
                         onPress={() => {
                             const { xhd, company_name, company_address, company_address_receive, company_mst, plane_number, plane_type, full_name, use_phone, email, full_name1, use_phone1, email1, payment_method_ID } = this.state;
                             this.props.addVAT(xhd ? '1' : '0', company_name, company_address, company_mst, company_address_receive);
@@ -731,14 +756,14 @@ const styles = StyleSheet.create({
         padding: 8,
         borderColor: '#00363d',
         fontSize: 16,
-        borderRadius: 8,
+        borderRadius: 4,
         flex: 1,
     },
     borderView: {
         marginTop: 8,
         borderWidth: 0.5,
         borderColor: '#00363d',
-        borderRadius: 8,
+        borderRadius: 4,
         flexDirection: 'row',
         justifyContent: "center",
         alignItems: "center",
@@ -761,7 +786,9 @@ function mapStateToProps(state) {
         ride_method_id: state.info.ride_method_id,
         depart_time: state.info.depart_time,
         transport_partner_id: state.info.transport_partner_id,
+        comment: state.info.comment,
+        is_airport: state.info.is_airport,
     }
 }
 
-export default connect(mapStateToProps, { addInfoFlight: addInfoFlight, addInfoPeople1: addInfoPeople1, addInfoPeople2: addInfoPeople2, addVAT: addVAT, addPromotionCode: addPromotionCode, addPaymentMethodID : addPaymentMethodID })(InfoCustommer);
+export default connect(mapStateToProps, { addInfoFlight: addInfoFlight, addInfoPeople1: addInfoPeople1, addInfoPeople2: addInfoPeople2, addVAT: addVAT, addPromotionCode: addPromotionCode, addPaymentMethodID: addPaymentMethodID, addComment: addComment })(InfoCustommer);

@@ -105,8 +105,8 @@ class SearchPlace extends Component {
 
                             styles={{
                                 textInputContainer: {
-                                    borderRadius: 5,
-                                    borderWidth: 1,
+                                    borderRadius: 4,
+                                    borderWidth: 0.5,
                                     backgroundColor: '#ffffff',
                                     width: '100%',
                                 },
@@ -181,17 +181,5 @@ function mapStateToProps(state) {
         pick_add: state.info.pick_add,
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 20,
-        justifyContent: 'center',
-        alignItems: "center"
-    },
-});
 
 export default connect(mapStateToProps, { dropAddress: dropAddress, pickAddress: pickAddress, addAddressYCDB : addAddressYCDB })(SearchPlace)

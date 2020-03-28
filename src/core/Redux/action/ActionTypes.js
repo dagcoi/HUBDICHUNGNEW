@@ -13,6 +13,7 @@ export const TIME_PICK = "TIME_PICK"
 export const ADD_CHAIR = "ADD_CHAIR"
 export const ADD_IS_FROM_AIRPORT = "ADD_IS_FROM_AIRPORT"
 export const SWAP_ADDRESS = "SWAP_ADDRESS"
+export const ADD_AIRPORT = "ADD_AIRPORT"
 
 export const ADD_PEOPLE1 = "ADD_PEOPLE1"
 export const ADD_PEOPLE2 = "ADD_PEOPLE2"

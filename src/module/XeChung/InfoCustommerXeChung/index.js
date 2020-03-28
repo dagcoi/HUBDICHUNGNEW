@@ -22,7 +22,7 @@ class InfoCustommerXeChung extends Component {
             promotion_code : '',
             email: '',
             email1: '',
-            comment: '1',
+            comment: '',
             mobile_validate: false,
             mobile_validate1: false,
             isLoading: false,
@@ -415,7 +415,7 @@ class InfoCustommerXeChung extends Component {
                                             payment_method_ID: obj.payment_method_ID,
                                         })
                                     }}
-                                    borderWidth={1}
+                                    borderWidth={0.5}
                                     buttonInnerColor={'#77a300'}
                                     buttonOuterColor={'#77a300'}
                                     buttonSize={10}
@@ -465,7 +465,7 @@ class InfoCustommerXeChung extends Component {
                                 })
                                 this.checkPromotionCode();
                             }}
-                            style={{ padding: 8, justifyContent: 'center', backgroundColor: '#77a300', marginLeft: 8, borderRadius: 6, marginTop: 8 }}
+                            style={{ padding: 8, justifyContent: 'center', backgroundColor: '#77a300', marginLeft: 8, borderRadius: 4, marginTop: 8 }}
                         >
                             <Text style={{ color: '#ffffff' }}>ÁP DỤNG</Text>
                         </TouchableOpacity>
@@ -483,7 +483,7 @@ class InfoCustommerXeChung extends Component {
                     {this.renderFormVAT()}
 
                     <TouchableOpacity
-                        style={{ marginTop: 8, backgroundColor: '#77a300', justifyContent: 'center', alignItems: "center", height: 40, borderRadius: 6 }}
+                        style={{ marginTop: 8, backgroundColor: '#77a300', justifyContent: 'center', alignItems: "center", height: 40, borderRadius: 4 }}
                         onPress={() => {
                             const { xhd, company_name, company_address, company_address_receive, company_mst, full_name, use_phone, email, full_name1, use_phone1, email1, comment, payment_method_ID } = this.state;
                             this.props.addVATTaixe(xhd ? '1' : '0', company_name, company_address, company_mst, company_address_receive);
@@ -531,18 +531,18 @@ const styles = StyleSheet.create({
     },
 
     textInput: {
-        borderWidth: 0,
+        borderWidth: 0.5,
         padding: 8,
         borderColor: '#00363d',
         fontSize: 16,
-        borderRadius: 8,
+        borderRadius: 4,
         flex: 1,
     },
     borderView: {
         marginTop: 8,
         borderWidth: 0.5,
         borderColor: '#00363d',
-        borderRadius: 8,
+        borderRadius: 4,
         flexDirection: 'row',
         justifyContent: "center",
         alignItems: "center",

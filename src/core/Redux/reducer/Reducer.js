@@ -80,6 +80,7 @@ const defaultState = {
     extra_price_hour_format: '',
     km_limit_format: '',
     people : '',
+    is_airport : 'false',
 }
 const Reducer = (state = defaultState, action) => {
     switch (action.type) {
@@ -161,6 +162,12 @@ const Reducer = (state = defaultState, action) => {
             return {
                 ...state,
                 is_from_airport: action.is_from_airport,
+            }
+
+        case types.ADD_AIRPORT :
+            return {
+                ...state,
+                is_airport : action.is_airport,
             }
         case types.ADD_INFO_FLIGHT:
             return {

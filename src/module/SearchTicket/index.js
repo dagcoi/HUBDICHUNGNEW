@@ -36,17 +36,22 @@ class SearchTicket extends Component {
             var jsonRes = await res.json();
             console.log(jsonRes)
             if (jsonRes.code == 'success') {
-                if (jsonRes.data.vehicle_id < 35) {
+                if (jsonRes.data.product_type =="TRANSFER_SERVICE") {
                     this.props.navigation.navigate('TicketInformation', {
                         'ticket_id': this.state.ticketId,
                         'phone_number': this.state.phoneNumber,
                     })
-                } else if (jsonRes.data.vehicle_id < 42) {
+                } else if (jsonRes.data.product_type== "DRIVER_RENTAL") {
                     this.props.navigation.navigate('TicketInformationXeChung', {
                         'ticket_id': this.state.ticketId,
                         'phone_number': this.state.phoneNumber,
                     })
-                } else{
+                } else if (jsonRes.data.product_type== "CAR_RENTAL") {
+                    this.props.navigation.navigate('TicketInformationTuLai', {
+                        'ticket_id': this.state.ticketId,
+                        'phone_number': this.state.phoneNumber,
+                    })
+                } else {
                     this.props.navigation.navigate('TicketInformationExpress', {
                         'ticket_id': this.state.ticketId,
                         'phone_number': this.state.phoneNumber,
@@ -117,10 +122,10 @@ class SearchTicket extends Component {
 
 
                     <TouchableOpacity
-                        style={{ backgroundColor: '#00363d', height: 45, justifyContent: 'center', alignItems: 'center', margin: 8, borderRadius: 8 }}
+                        style={{ backgroundColor: '#00363d', height: 45, justifyContent: 'center', alignItems: 'center', margin: 8, borderRadius: 4 }}
                         onPress={() => this.callApiGetTicket()}
                     >
-                        <Text style={{ color: '#fff', fontSize: 20, padding: 8, borderRadius: 8 }}>TÌM KIẾM</Text>
+                        <Text style={{ color: '#fff', fontSize: 20, padding: 8, borderRadius: 4 }}>TÌM KIẾM</Text>
                     </TouchableOpacity>
 
                     {/* {this.state.code == 'success' ? this.props.navigation.navigate('TicketInformation', {

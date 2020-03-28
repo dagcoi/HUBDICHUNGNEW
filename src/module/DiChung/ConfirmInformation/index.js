@@ -24,6 +24,7 @@ const imageIconPlan = '../../../image/iconplan.png'
 const imageDone = '../../../image/done.png'
 const imagePayment = '../../../image/payment.png'
 const imageSorry = '../../../image/sorry.png'
+const imageComment = '../../../image/comment.png'
 const gifNightBooking = '../../../image/nightbooking.gif'
 
 class ConfirmInformation extends Component {
@@ -164,13 +165,13 @@ class ConfirmInformation extends Component {
     }
 
     renderAirport() {
-        if (!this.props.is_from_airport) {
+        if (this.props.plane_number.trim().length == 0) {
             return null;
         } else {
             return (
                 <ImageTextDiChung
                     source={require(imageIconPlan)}
-                    text={this.props.macb}
+                    text={this.props.plane_number}
                 />
             )
         }
@@ -217,11 +218,12 @@ class ConfirmInformation extends Component {
     renderTT() {
         const { navigation } = this.props;
         return (
-            <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', marginBottom: 8 }}>
-                <Text style={styles.textBigLeft1}>Tổng thanh toán : </Text>
-                <Text style={styles.textBigRight1}>
-                    {((this.props.merged + (navigation.getParam('broad_price') ? 30000 : 0) - (navigation.getParam('blDiscount') ? this.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1)).format(0, 3, '.')} đ
-                </Text>
+            <View>
+                <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', }}>
+                    <Text style={styles.textBigLeft1}>Tổng thanh toán : </Text>
+                    <Text style={styles.textBigRight1}>{((this.props.merged + (navigation.getParam('broad_price') ? 30000 : 0) - (navigation.getParam('blDiscount') ? this.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1)).format(0, 3, '.')} đ</Text>
+                </View>
+                <Text style = {{marginBottom: 8 }}>{this.props.toll_fee == "NA" ? "Giá chưa bao gồm phí cầu đường" : "Giá trọn gói không phí ẩn"}</Text>
             </View>
         )
     }
@@ -240,6 +242,15 @@ class ConfirmInformation extends Component {
         }
     }
 
+    formComment() {
+        return (
+            <ImageTextDiChung
+                source={require(imageComment)}
+                text={this.props.comment}
+            />
+        )
+    }
+
     render() {
         const { navigation } = this.props;
         return (
@@ -256,6 +267,8 @@ class ConfirmInformation extends Component {
                     {this.renderDetailOrder()}
                     {this.renderDetailCustommer()}
                     {this.renderDetailPeopleMove()}
+                    {this.formComment()}
+                    {this.renderAirport()}
 
                     <Text style={styles.textBigLeft1}>Thanh toán và khác</Text>
 
@@ -293,7 +306,7 @@ class ConfirmInformation extends Component {
                     <Dialog
                         visible={this.state.visibleSearchDriver}
                         title="Đang tìm tài xế">
-                        <View style = {{ justifyContent : 'center', alignItems : 'center'}}>
+                        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                             <Image
                                 source={require(gifNightBooking)}
                                 style={{ width: 185, height: 110 }}
@@ -438,8 +451,17 @@ class ConfirmInformation extends Component {
         console.log(this.props.pay_method_id)
         console.log(url)
 
-        formData.append('plane_number', this.props.plane_number);
-        formData.append('plane_type', navigation.getParam('plane_type'));
+        if (this.props.plane_number.trim().length > 0) {
+            formData.append('plane_number', this.props.plane_number.trim());
+        } else {
+            formData.append('plane_number', '');
+        }
+        if (this.props.is_airport == 'false') {
+            formData.append('plane_type', '');
+        } else {
+            formData.append('plane_type', navigation.getParam('plane_type'));
+        }
+
         formData.append('catch_in_house', navigation.getParam('broad_price') ? '1' : '0');
         formData.append('fullname', this.props.full_name);
         formData.append('phone', this.props.use_phone);
@@ -513,15 +535,17 @@ class ConfirmInformation extends Component {
                         'Đặt xe thất bại!',
                         responseJson.msg,
                         [
-                            { text: 'Về trang chủ', onPress: () => { 
-                                // this.props.navigation.push("Home"); 
-                                const resetAction = StackActions.reset({
-                                    index: 0,
-                                    key: null,
-                                    actions: [NavigationActions.navigate({ routeName: 'Home' })],
-                                });
-                                this.props.navigation.dispatch(resetAction);
-                            } },
+                            {
+                                text: 'Về trang chủ', onPress: () => {
+                                    // this.props.navigation.push("Home"); 
+                                    const resetAction = StackActions.reset({
+                                        index: 0,
+                                        key: null,
+                                        actions: [NavigationActions.navigate({ routeName: 'Home' })],
+                                    });
+                                    this.props.navigation.dispatch(resetAction);
+                                }
+                            },
                         ],
                         { cancelable: false }
                     )
@@ -620,15 +644,17 @@ class ConfirmInformation extends Component {
                         'Đặt xe thất bại!',
                         responseJson.msg,
                         [
-                            { text: 'Về trang chủ', onPress: () => { 
-                                // this.props.navigation.push("Home"); 
-                                const resetAction = StackActions.reset({
-                                    index: 0,
-                                    key: null,
-                                    actions: [NavigationActions.navigate({ routeName: 'Home' })],
-                                });
-                                this.props.navigation.dispatch(resetAction);
-                            } },
+                            {
+                                text: 'Về trang chủ', onPress: () => {
+                                    // this.props.navigation.push("Home"); 
+                                    const resetAction = StackActions.reset({
+                                        index: 0,
+                                        key: null,
+                                        actions: [NavigationActions.navigate({ routeName: 'Home' })],
+                                    });
+                                    this.props.navigation.dispatch(resetAction);
+                                }
+                            },
                         ],
                         { cancelable: false }
                     )
@@ -759,7 +785,8 @@ function mapStateToProps(state) {
         xhd: state.info.xhd,
         vehicle_icon: state.info.vehicle_icon,
         discount_price: state.info.discount_price,
-        people : state.info.people,
+        people: state.info.people,
+        is_airport: state.info.is_airport,
     }
 }
 

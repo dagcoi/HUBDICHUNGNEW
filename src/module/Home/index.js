@@ -150,7 +150,7 @@ class Home extends Component {
                             backgroundColor={'#fff'}
                             onPress={() => { this.props.navigation.push("MapChungXe") }}
                             source={require('../../image/logochungxe.png')}
-                            title={'Thuê xe tự lái'}
+                            title={'Đặt xe tự lái'}
                             textDetail={'Mạng lưới cho thuê xe tự lái trên toàn quốc'}
                         />
 
@@ -230,7 +230,7 @@ class Home extends Component {
                                                     source={{ uri: item._embedded['wp:featuredmedia'][0].media_details.sizes.thumbnail.source_url }}
                                                 />
                                                 <View style={{ position: 'absolute', top: -30, left: 8, right: 8, height: 300, alignItems: 'center', justifyContent: 'center' }}>
-                                                    <Text style={{ color: '#fff', backgroundColor: '#00000033', padding: 4, borderRadius: 8, fontSize: 13, }}>{item.title.rendered}</Text>
+                                                    <Text style={{ color: '#fff', backgroundColor: '#00000033', padding: 4, borderRadius: 4, fontSize: 13, }}>{item.title.rendered}</Text>
                                                 </View>
                                             </TouchableOpacity>
                                         </View>
@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
     textInput: {
         marginTop: 8,
         padding: 8,
-        borderWidth: 1,
+        borderWidth: 0.5,
         borderRadius: 4,
         fontSize: 20,
         color: '#00363e'
@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     bntSelectCar: {
-        borderRadius: 6,
+        borderRadius: 4,
         borderColor: '#ffffff',
         height: 100,
         marginTop: 8,
@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
     imageChild: {
         flex: 1,
         justifyContent: 'center',
-        borderRadius: 10,
+        borderRadius: 4,
         margin: 8,
     },
     textBig: {

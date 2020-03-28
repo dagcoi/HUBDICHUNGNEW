@@ -69,7 +69,7 @@ class InfoCustommerHourlyBooking extends Component {
             use_phone1: this.props.use_phone1,
             email: this.props.email,
             email1: this.props.email1,
-            promotion_code : '',
+            promotion_code: '',
         })
         this._validateEmail(this.props.email)
         this.mobileValidate(this.props.use_phone)
@@ -99,7 +99,7 @@ class InfoCustommerHourlyBooking extends Component {
                                             payment_method_ID: obj.payment_method_ID,
                                         })
                                     }}
-                                    borderWidth={1}
+                                    borderWidth={0.5}
                                     buttonInnerColor={'#00363d'}
                                     buttonOuterColor={'#00363d'}
                                     buttonSize={10}
@@ -212,9 +212,12 @@ class InfoCustommerHourlyBooking extends Component {
                     style={styles.textInput}
                     placeholder='VD : Lái xe không hút thuốc'
                     value={this.state.comment}
-                    onChangeText={(text) => this.setState({
-                        comment: text,
-                    })}
+                    onChangeText={(text) => {
+                        this.setState({
+                            comment: text,
+                        })
+                        this.props.addComment(text)
+                    }}
                     onPress={() => this.setState({
                         comment: ''
                     })}
@@ -304,7 +307,7 @@ class InfoCustommerHourlyBooking extends Component {
                     "xhd": this.state.vat,
                     "promotion": this.state.promotion_code,
                     "blDiscount": this.state.blDiscount,
-                    "detailPromotion" : this.state.detailPromotion,
+                    "detailPromotion": this.state.detailPromotion,
                 });
             }
         } else {
@@ -314,7 +317,7 @@ class InfoCustommerHourlyBooking extends Component {
                 "promotion": this.state.promotion_code,
                 "blDiscount": this.state.blDiscount,
                 "Payment": this.state.value_payment,
-                "detailPromotion" : this.state.detailPromotion,
+                "detailPromotion": this.state.detailPromotion,
             });
         }
     }
@@ -508,7 +511,7 @@ class InfoCustommerHourlyBooking extends Component {
                                             payment_method_ID: obj.payment_method_ID,
                                         })
                                     }}
-                                    borderWidth={1}
+                                    borderWidth={0.5}
                                     buttonInnerColor={'#77a300'}
                                     buttonOuterColor={'#77a300'}
                                     buttonSize={10}
@@ -529,7 +532,7 @@ class InfoCustommerHourlyBooking extends Component {
                                         })
                                     }}
                                     labelStyle={{ fontSize: 18, color: '#000' }}
-                                    labelWrapStyle={{marginTop : 8}}
+                                    labelWrapStyle={{ marginTop: 8 }}
                                 />
                             </RadioButton>
                         ))}
@@ -542,7 +545,7 @@ class InfoCustommerHourlyBooking extends Component {
                     <Text style={styles.textBig}>Mã giảm giá</Text>
 
                     <View style={{ flexDirection: 'row', marginTop: 8, marginBottom: 8, height: 50 }}>
-                        <View style={{ marginTop: 8, borderWidth: 0.5, borderColor: '#00363d', borderRadius: 8, flexDirection: 'row', justifyContent: "center", alignItems: "center", flex: 1, }} >
+                        <View style={{ marginTop: 8, borderWidth: 0.5, borderColor: '#00363d', borderRadius: 4, flexDirection: 'row', justifyContent: "center", alignItems: "center", flex: 1, }} >
                             <TextInput
                                 style={[styles.textInput]}
                                 value={this.state.promotion_code}
@@ -550,6 +553,7 @@ class InfoCustommerHourlyBooking extends Component {
                                     promotion_code: text,
                                     blDiscount: false,
                                 })}
+                                placeholder={'Mã giảm giá'}
                             />
                             <TouchableOpacity
                                 onPress={() => this.setState({
@@ -572,7 +576,7 @@ class InfoCustommerHourlyBooking extends Component {
                                 })
                                 this.checkPromotionCode();
                             }}
-                            style={{ padding: 8, justifyContent: 'center', backgroundColor: '#77a300', marginLeft: 8, borderRadius: 6, marginTop: 8 }}
+                            style={{ padding: 8, justifyContent: 'center', backgroundColor: '#77a300', marginLeft: 8, borderRadius: 4, marginTop: 8 }}
                         >
                             <Text style={{ color: '#ffffff' }}>ÁP DỤNG</Text>
                         </TouchableOpacity>
@@ -596,7 +600,7 @@ class InfoCustommerHourlyBooking extends Component {
                     {this.renderFormVAT()}
 
                     <TouchableOpacity
-                        style={{ marginTop: 8, backgroundColor: '#77a300', justifyContent: 'center', alignItems: "center", height: 40, borderRadius: 6 }}
+                        style={{ marginTop: 8, backgroundColor: '#77a300', justifyContent: 'center', alignItems: "center", height: 40, borderRadius: 4 }}
                         onPress={() => {
                             const { xhd, company_name, company_address, company_address_receive, company_mst, full_name, use_phone, email, full_name1, use_phone1, email1, payment_method_ID, comment } = this.state;
                             this.props.addVAT(xhd ? '1' : '0', company_name, company_address, company_mst, company_address_receive);
@@ -648,14 +652,14 @@ const styles = StyleSheet.create({
         padding: 8,
         borderColor: '#00363d',
         fontSize: 16,
-        borderRadius: 8,
+        borderRadius: 4,
         flex: 1,
     },
     borderView: {
         marginTop: 8,
         borderWidth: 0.5,
         borderColor: '#00363d',
-        borderRadius: 8,
+        borderRadius: 4,
         flexDirection: 'row',
         justifyContent: "center",
         alignItems: "center",
@@ -680,7 +684,7 @@ function mapStateToProps(state) {
         extra_price_km_format: state.info.extra_price_km_format,
         extra_price_hour_format: state.info.extra_price_hour_format,
         km_limit_format: state.info.km_limit_format,
-        partner_id : state.info.brand_partner_id,
+        partner_id: state.info.brand_partner_id,
     }
 }
 

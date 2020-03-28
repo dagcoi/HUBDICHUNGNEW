@@ -109,7 +109,7 @@ class ConfirmInfoChungXe extends Component {
                                 <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>
                                 <View style={{ flexDirection: 'row', height: 45, padding: 4 }}>
                                     <TouchableOpacity
-                                        style={{ backgroundColor: '#77a300', justifyContent: 'center', borderWidth: 0.5, borderRadius: 6, flex: 1, alignItems: 'center' }}
+                                        style={{ backgroundColor: '#77a300', justifyContent: 'center', borderRadius: 4, flex: 1, alignItems: 'center',borderWidth: 0.2, }}
                                         onPress={() => {
                                             // this.props.navigation.navigate('Home')
                                             const resetAction = StackActions.reset({
@@ -126,7 +126,7 @@ class ConfirmInfoChungXe extends Component {
                                     <View style={{ margin: 8 }}></View>
 
                                     <TouchableOpacity
-                                        style={{ backgroundColor: '#77a300', justifyContent: 'center', borderWidth: 0.5, borderRadius: 6, flex: 1, alignItems: 'center' }}
+                                        style={{ backgroundColor: '#77a300', justifyContent: 'center', borderRadius: 4, flex: 1, alignItems: 'center',borderWidth: 0.2, }} //, borderWidth: 0.5
                                         onPress={() => {
                                             this.props.navigation.navigate('ChungXeTicketInformation', {
                                                 'ticket_id': this.state.book_code,

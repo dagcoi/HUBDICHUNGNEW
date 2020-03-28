@@ -209,7 +209,7 @@ class SpecialRequirements extends Component {
 
                         <Text style={styles.textBig}>Chọn thời gian</Text>
                         <TouchableOpacity
-                            style={{ marginTop: 8, borderWidth: 0.5, borderColor: '#00363d', borderRadius: 8, flexDirection: 'row', justifyContent: "center", alignItems: "center", }}
+                            style={{ marginTop: 8, borderWidth: 0.5, borderColor: '#00363d', borderRadius: 4, flexDirection: 'row', justifyContent: "center", alignItems: "center", }}
                             onPress={() => {
                                 this.setState({
                                     dialogCalendarVisible: true,
@@ -218,7 +218,7 @@ class SpecialRequirements extends Component {
                         >
                             <TextInput
                                 placeholder='Chọn thời gian'
-                                style={{ padding: 8, fontSize: 16, borderRadius: 8, flex: 1, }}
+                                style={{ padding: 8, fontSize: 16, borderRadius: 4, flex: 1, }}
                                 value={this.state.time_pick}
                                 onTouchStart={() => {
                                     this.setState({
@@ -258,7 +258,7 @@ class SpecialRequirements extends Component {
                         <Text style={styles.textBig}>Loại xe</Text>
 
                         <TouchableOpacity
-                            style={{ marginTop: 8, borderWidth: 0.5, borderColor: '#00363d', borderRadius: 8, flexDirection: 'row', justifyContent: "center", alignItems: "center", }}
+                            style={{ marginTop: 8, borderWidth: 0.5, borderColor: '#00363d', borderRadius: 4, flexDirection: 'row', justifyContent: "center", alignItems: "center", }}
                             onPress={() => {
                                 this.setState({
                                     modalCarType: true,
@@ -267,7 +267,7 @@ class SpecialRequirements extends Component {
                         >
                             <TextInput
                                 placeholder='Chọn loại xe'
-                                style={{ padding: 8, fontSize: 16, borderRadius: 8, flex: 1, }}
+                                style={{ padding: 8, fontSize: 16, borderRadius: 4, flex: 1, }}
                                 value={this.state.carName}
                                 onTouchStart={() => {
                                     this.setState({
@@ -287,12 +287,12 @@ class SpecialRequirements extends Component {
                         /> */}
 
                         <TouchableOpacity
-                            style={{ marginTop: 8, borderWidth: 0.5, borderColor: '#00363d', borderRadius: 8, flexDirection: 'row', justifyContent: "center", alignItems: "center", }}
+                            style={{ marginTop: 8, borderWidth: 0.5, borderColor: '#00363d', borderRadius: 4, flexDirection: 'row', justifyContent: "center", alignItems: "center", }}
                             onPress={() => this.gotoSearchPlaceSR()}
                         >
                             <TextInput
                                 placeholder='Nhập điểm xuất phát'
-                                style={{ padding: 8, fontSize: 16, borderRadius: 8, flex: 1, }}
+                                style={{ padding: 8, fontSize: 16, borderRadius: 4, flex: 1, }}
                                 value={pick_add}
                                 onTouchStart={() => this.gotoSearchPlaceSR()}
                             />
@@ -482,7 +482,7 @@ class SpecialRequirements extends Component {
                                 data={this.state.listCarType}
                                 renderItem={({ item }) =>
                                     <TouchableOpacity
-                                        style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderWidth: 0.2 }}
+                                        style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderWidth: 0.5 }}
                                         onPress={() => this.setState({
                                             carType: item.id,
                                             carName: item.carName,

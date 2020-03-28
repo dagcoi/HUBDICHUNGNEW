@@ -15,6 +15,7 @@ const imageIconPhone = '../../../image/iconphone.png'
 const imageEmail = '../../../image/email.png'
 const imageDone = '../../../image/done.png'
 const imagePayment = '../../../image/payment.png'
+const imageComment = '../../../image/comment.png'
 
 const cancel_booking = link.URL_API + `passenger/cancel_booking`
 const cancel_booking_token = link.URL_API + `passenger/generate_cancel_booking_token`
@@ -87,7 +88,7 @@ class TicketInformationTuLai extends Component {
 
                 <ImageTextDiChung
                     source={require(imagePeople)}
-                    text={item.chair_count + ' người'}
+                    text={item.chair_count + ' xe'}
                 />
             </View>
         )
@@ -137,7 +138,18 @@ class TicketInformationTuLai extends Component {
 
     }
 
-
+    renderComment(item) {
+        if (item.note.length > 1) {
+            return (
+                < ImageTextDiChung
+                    source={require(imageComment)}
+                    text={item.note}
+                />
+            )
+        }else{
+            return null;
+        }
+    }
 
     renderOther(item) {
         return (
@@ -304,6 +316,7 @@ class TicketInformationTuLai extends Component {
                         {this.renderDetailTrip(item)}
                         {this.renderDetailCustommer(item)}
                         {this.renderDetailPeopleMove(item)}
+                        {this.renderComment(item)}
                         {this.renderOther(item)}
                         {this.renderTT(item)}
                         <Button
@@ -469,8 +482,8 @@ const styles = StyleSheet.create({
     circle: {
         height: 20,
         width: 20,
-        borderRadius: 10,
-        borderWidth: 1,
+        borderRadius: 4,
+        borderWidth: 0.5,
         borderColor: '#ACACAC',
         alignItems: 'center',
         justifyContent: 'center',
@@ -479,7 +492,7 @@ const styles = StyleSheet.create({
     checkedCircle: {
         width: 14,
         height: 14,
-        borderRadius: 7,
+        borderRadius: 4,
         backgroundColor: '#77a300',
     },
     textBigRight1: {

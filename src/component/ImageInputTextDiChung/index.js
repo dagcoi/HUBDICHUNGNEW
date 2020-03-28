@@ -6,12 +6,12 @@ function ImageInputTextDiChung({
     onPress,
     source,
     value,
-    placeholder
+    placeholder,
 }) {
     return (
-        <View style={{ flexDirection: 'row', borderColor: '#00363e', borderWidth: 0.5, borderRadius: 8, justifyContent: 'center', alignItems: 'center', marginTop : 4, marginBottom : 4 }}>
+        <View style={{ flexDirection: 'row', borderColor: '#00363d', borderTopWidth: 0.5, justifyContent: 'center', alignItems: 'center', }}>
             <Image
-                style={{ height: 28, width: 28, marginLeft: 8,resizeMode: 'contain' }}
+                style={{ height: 28, width: 28, marginLeft: 8, resizeMode: 'contain' }}
                 source={source}
             />
             <TouchableOpacity

@@ -243,7 +243,7 @@ class MapXeChung extends Component {
 
     renderFormThueTaiTheoGio() {
         return (
-            <View style={{ backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', borderRadius: 8, padding: 8 }}>
+            <View style={{ backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', }}>
                 <ImageInputTextDiChung
                     onPress={() => { this.setState({ modalCity: true }) }}
                     placeholder={'Chọn thành phố'}
@@ -285,9 +285,9 @@ class MapXeChung extends Component {
                     value={this.state.duration + ' giờ'}
                 />
 
-                <View style={{ height: 40, flexDirection: 'row', marginTop: 8 }}>
+                <View style={{ height: 40, flexDirection: 'row',}}>
                     <TouchableOpacity
-                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', borderRadius: 4 }}
+                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', }}
                         onPress={() => {
                             this.gotoListDriverHourlyBooking();
                         }}
@@ -301,7 +301,7 @@ class MapXeChung extends Component {
 
     renderFormThueTai() {
         return (
-            <View style={{ backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', borderRadius: 8, padding: 8 }}>
+            <View style={{ backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', }}>
 
                 <ImageInputTextDiChung
                     onPress={() => { this.setState({ modalCity: true }) }}
@@ -322,8 +322,8 @@ class MapXeChung extends Component {
                     value={this.props.pick_add}
                 />
 
-                <View style={{ flexDirection: 'row', borderColor: '#00363e', borderWidth: 0.5, borderRadius: 8, justifyContent: 'center', alignItems: 'center', marginTop: 4, marginBottom: 4 }}>
-                    <View style={{ flex: 1, flexDirection: 'row', borderColor: '#00363e', borderRightWidth: 1, justifyContent: 'center', alignItems: 'center', }}>
+                <View style={{ flexDirection: 'row', borderColor: '#00363e', borderTopWidth: 0.5,  justifyContent: 'center', alignItems: 'center',}}>
+                    <View style={{ flex: 1, flexDirection: 'row', borderColor: '#00363e', borderRightWidth: 0.1, justifyContent: 'center', alignItems: 'center', }}>
                         <Image
                             style={{ height: 30, width: 24, marginLeft: 8, alignItems: 'center', justifyContent: 'center' }}
                             source={require(imageDrop)}
@@ -353,6 +353,7 @@ class MapXeChung extends Component {
                     </View>
 
                     <TouchableOpacity
+                        style = {{borderLeftWidth : 0.5}}
                         onPress={() => {
                             this.props.swapAddressTaixe(this.props.drop_add, this.props.component_drop, this.props.lattitude_drop, this.props.lngtitude_drop, this.props.pick_add, this.props.component_pick, this.props.lattitude_pick, this.props.lngtitude_pick);
                         }}
@@ -376,9 +377,9 @@ class MapXeChung extends Component {
                     value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours} : ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
                 />
 
-                <View style={{ height: 40, flexDirection: 'row', marginTop: 8 }}>
+                <View style={{ height: 40, flexDirection: 'row',}}>
                     <TouchableOpacity
-                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', borderRadius: 4 }}
+                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', }}
                         onPress={() => {
                             this.nextScreen()
                         }}
@@ -397,9 +398,9 @@ class MapXeChung extends Component {
             <View style={{ flex: 1, padding: 8 }}>
 
                 {this.renderPicktoDrop()}
-                <View style={{ flexDirection: 'row', backgroundColor: '#fff', padding: 4 }}>
+                <View style={{ flexDirection: 'row', backgroundColor: '#fff'}}>
                     <TouchableOpacity
-                        style={{ backgroundColor: this.state.hourlyBooking ? '#aaa' : '#fff', flex: 1, height: 40, borderRadius: 8, justifyContent: 'center', alignItems: 'center', }}
+                        style={{ backgroundColor: this.state.hourlyBooking ? '#aaa' : '#fff', flex: 1, height: 56,  justifyContent: 'center', alignItems: 'center', }}
                         onPress={() => {
                             this.setState({
                                 hourlyBooking: false,
@@ -410,7 +411,7 @@ class MapXeChung extends Component {
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                        style={{ backgroundColor: this.state.hourlyBooking ? '#fff' : '#aaa', flex: 1, height: 40, borderRadius: 8, justifyContent: 'center', alignItems: 'center' }}
+                        style={{ backgroundColor: this.state.hourlyBooking ? '#fff' : '#aaa', flex: 1, height: 56,  justifyContent: 'center', alignItems: 'center' }}
                         onPress={() => {
                             this.setState({
                                 hourlyBooking: true,
@@ -420,7 +421,7 @@ class MapXeChung extends Component {
                         <Text style={{ color: this.state.hourlyBooking ? '#77a300' : '#000', fontWeight: 'bold', fontSize: 20 }}>Theo giờ</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={{ backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', borderRadius: 8, }}>
+                <View style={{ backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center',  }}>
                     {this.state.hourlyBooking ? this.renderFormThueTaiTheoGio() : this.renderFormThueTai()}
 
                     <Modal
@@ -493,7 +494,7 @@ class MapXeChung extends Component {
 
                                         }}
                                     >
-                                        <Text style={{ textAlign: "right", backgroundColor: "#77a300", color: '#fff', padding: 8, borderRadius: 4, fontSize: 16 }}>Tiếp tục</Text>
+                                        <Text style={{ textAlign: "right", backgroundColor: "#77a300", color: '#fff', padding: 8,  fontSize: 16 }}>Tiếp tục</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -525,7 +526,7 @@ class MapXeChung extends Component {
                                 data={this.state.listCity}
                                 renderItem={({ item }) =>
                                     <TouchableOpacity
-                                        style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderWidth: 0.2 }}
+                                        style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderTopWidth: 0.5 }}
                                         onPress={() => {
                                             item.hide == 1 ? console.log(item.city_name) :
                                                 this.setState({
@@ -566,7 +567,7 @@ class MapXeChung extends Component {
                                 data={this.state.listTime}
                                 renderItem={({ item }) =>
                                     <TouchableOpacity
-                                        style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderWidth: 0.2 }}
+                                        style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderTopWidth: 0.5 }}
                                         onPress={() => {
                                             this.setState({
                                                 duration: item.time,

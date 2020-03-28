@@ -31,7 +31,7 @@ function SelectCar({
 
 const styles = StyleSheet.create({
     bntSelectCar: {
-        borderRadius: 6,
+        borderRadius: 4,
         borderColor: '#ffffff',
         height: 100,
         marginTop: 8,

@@ -242,7 +242,7 @@ class ListVehicle extends Component {
                     <View style={{ flexDirection: 'row' }}>
 
                         <TouchableOpacity
-                            style={{ padding: 8, backgroundColor: '#999999', borderRadius: 8, alignItems: 'center', marginTop: 10, flex: 1 }}
+                            style={{ padding: 8, backgroundColor: '#999999', borderRadius: 4, alignItems: 'center', marginTop: 10, flex: 1 }}
                             onPress={() => {
                                 this.setState({
                                     listVehicleSeatCheck: [],
@@ -254,7 +254,7 @@ class ListVehicle extends Component {
                         </TouchableOpacity>
                         <View style={{ margin: 8 }} />
                         <TouchableOpacity
-                            style={{ padding: 8, backgroundColor: '#77a300', borderRadius: 8, alignItems: 'center', marginTop: 10, flex: 1 }}
+                            style={{ padding: 8, backgroundColor: '#77a300', borderRadius: 4, alignItems: 'center', marginTop: 10, flex: 1 }}
                             onPress={() => {
                                 this.setModalVisible(!this.state.showFilter)
                                 // console.log(this.state.listFilterType)
@@ -307,7 +307,7 @@ class ListVehicle extends Component {
                         renderItem={({ item }) =>
                             <View>
                                 {/* {item.part.vhc_type_id != this.state.carType ? null : */}
-                                <View style={{ padding: 8, borderColor: '#00363d', borderRadius: 8, borderWidth: 0.1, marginTop: 8 }}>
+                                <View style={{ padding: 8, borderColor: '#00363d', borderRadius: 4, borderWidth: 0.5, marginTop: 8 }}>
                                     <View style={{ flexDirection: 'row' }}>
                                         <View style={{ flex: 1, justifyContent: 'flex-start' }}>
                                             <View style={{ flexDirection: 'row' }}>
@@ -340,7 +340,7 @@ class ListVehicle extends Component {
                                     </View>
 
                                     <TouchableOpacity
-                                        style={{ flexDirection: 'row', marginTop: 8, borderBottomColor: '#00363d', backgroundColor: '#77a300', borderWidth: 0.2, justifyContent: 'center', borderRadius: 8, alignItems: 'center' }}
+                                        style={{ flexDirection: 'row', marginTop: 8, borderBottomColor: '#00363d', backgroundColor: '#77a300', borderWidth: 0.5, justifyContent: 'center', borderRadius: 4, alignItems: 'center' }}
                                         onPress={() => {
                                             // console.log(item.vhc_part_name)
                                             this.props.navigation.navigate('InfoChungXe', { item: item })
@@ -440,14 +440,14 @@ const styles = StyleSheet.create({
     TouchableOpacityTop: {
         borderColor: '#ffffff',
         backgroundColor: '#ffffff',
-        borderWidth: 0.2,
+        borderWidth: 0.5,
         justifyContent: "center",
         alignItems: "center",
         flex: 1,
     },
     TouchableOpacityTopSelected: {
         borderColor: '#ffffff',
-        borderWidth: 2,
+        borderWidth: 0.5,
         borderBottomColor: '#77a300',
         backgroundColor: '#ffffff',
         justifyContent: "center",

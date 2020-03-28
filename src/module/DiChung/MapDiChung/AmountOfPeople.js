@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const MAX_PEOPLE = 30;
+const MAX_PEOPLE = 16;
 export default class AmountOfPeople extends Component {
     static propTypes = {
         selectedPeoples: PropTypes.number,

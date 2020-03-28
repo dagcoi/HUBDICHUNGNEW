@@ -95,8 +95,6 @@ class ListDriverExpress extends Component {
         formdata.append("pick_address_component", JSON.stringify(this.props.component_pick));
         formdata.append("drop_address", JSON.stringify(this.props.drop_add));
         formdata.append("drop_address_component", JSON.stringify(this.props.component_drop));
-        // formdata.append("transport_partner_id", '1681,1682') //con thật 2076,2078
-        // formdata.append("product_chunk_type", 'CAR_RENTAL');
         formdata.append("chair", this.props.chair);
         formdata.append("vehicle_id", 0)
         try {
@@ -187,7 +185,7 @@ class ListDriverExpress extends Component {
 
                         <View style={{ flexDirection: 'row' }}>
                             <TouchableOpacity
-                                style={{ padding: 8, backgroundColor: '#999999', borderRadius: 8, alignItems: 'center', marginTop: 10, flex: 1 }}
+                                style={{ padding: 8, backgroundColor: '#999999', borderRadius: 4, alignItems: 'center', marginTop: 10, flex: 1 }}
                                 onPress={() => {
                                     this.setState({
                                         listcarfilter: [],
@@ -197,7 +195,7 @@ class ListDriverExpress extends Component {
                             </TouchableOpacity>
                             <View style={{ margin: 8 }} />
                             <TouchableOpacity
-                                style={{ padding: 8, backgroundColor: '#77a300', borderRadius: 8, alignItems: 'center', marginTop: 10, flex: 1 }}
+                                style={{ padding: 8, backgroundColor: '#77a300', borderRadius: 4, alignItems: 'center', marginTop: 10, flex: 1 }}
                                 onPress={() => {
                                     this.setState({ showFilter: false })
                                 }}>
@@ -271,7 +269,6 @@ class ListDriverExpress extends Component {
                             </View>
                         </View>
 
-                        <Text style={{ color: '#77a300', marginLeft: 8 }}>thời gian nhận và giao hàng trong 4-6 tiếng</Text>
                         {item.partner_luggage == '' ? null :
                             <View style={{ flexDirection: 'column', flex: 1, paddingLeft: 8 }}>
                                 <View style={{ flexDirection: 'row', flex: 1 }}>
@@ -281,6 +278,14 @@ class ListDriverExpress extends Component {
                                     <HTML html={item.partner_luggage.replace("</a>", "").replace("</p>", "").replace("<p>", "")} imagesMaxWidth={Dimensions.get('window').width} />
                                 </View>
                             </View>}
+
+                        {item.discount_data.partner_note ?
+                            <View style={{ marginLeft: 8, flexDirection: 'row', }}>
+                                <HTML html={item.discount_data.partner_note} imagesMaxWidth={Dimensions.get('window').width} />
+                            </View>
+                            : null
+                        }
+
 
                         <TouchableOpacity
                             style={{ height: 40, padding: 4, justifyContent: 'center', backgroundColor: '#77a300', alignItems: 'center', marginTop: 8 }}
@@ -346,7 +351,7 @@ const styles = StyleSheet.create({
     container: {
         borderColor: '#77a300',
         borderWidth: 0.5,
-        borderRadius: 6,
+        borderRadius: 4,
         padding: 8,
         marginTop: 8,
         backgroundColor: '#ffffff',
@@ -372,10 +377,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff'
     },
     loaixe: {
-        fontSize: 18,
+        fontSize: 16,
     },
     giaTien: {
-        fontSize: 18,
+        fontSize: 20,
         color: '#00363e',
     },
 })

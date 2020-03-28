@@ -24,6 +24,7 @@ const imageIconPlan = '../../../image/iconplan.png'
 const imageDone = '../../../image/done.png'
 const imagePayment = '../../../image/payment.png'
 const imageSorry = '../../../image/sorry.png'
+const imageComment = '../../../image/comment.png'
 const gifNightBooking = '../../../image/nightbooking.gif'
 
 class ConfirmInformationTuLai extends Component {
@@ -83,6 +84,15 @@ class ConfirmInformationTuLai extends Component {
                     text={this.props.email}
                 />
             </View>
+        )
+    }
+
+    formComment() {
+        return (
+            <ImageTextDiChung
+                source={require(imageComment)}
+                text={this.props.comment}
+            />
         )
     }
 
@@ -165,6 +175,7 @@ class ConfirmInformationTuLai extends Component {
                     {this.renderDetailTrip()}
                     {this.renderDetailCustommer()}
                     {this.renderDetailPeopleMove()}
+                    {this.formComment()}
 
                     <Text style={styles.textBigLeft1}>Thanh toán và khác</Text>
 
@@ -393,15 +404,17 @@ class ConfirmInformationTuLai extends Component {
                         'Đặt xe thất bại!',
                         responseJson.msg,
                         [
-                            { text: 'Về trang chủ', onPress: () => { 
-                                // this.props.navigation.push("Home"); 
-                                const resetAction = StackActions.reset({
-                                    index: 0,
-                                    key: null,
-                                    actions: [NavigationActions.navigate({ routeName: 'Home' })],
-                                });
-                                this.props.navigation.dispatch(resetAction);
-                            } },
+                            {
+                                text: 'Về trang chủ', onPress: () => {
+                                    // this.props.navigation.push("Home"); 
+                                    const resetAction = StackActions.reset({
+                                        index: 0,
+                                        key: null,
+                                        actions: [NavigationActions.navigate({ routeName: 'Home' })],
+                                    });
+                                    this.props.navigation.dispatch(resetAction);
+                                }
+                            },
                         ],
                         { cancelable: false }
                     )

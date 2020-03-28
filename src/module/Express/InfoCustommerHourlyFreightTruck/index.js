@@ -99,7 +99,7 @@ class InfoCustommerHourlyFreightTruck extends Component {
                                             payment_method_ID: obj.payment_method_ID,
                                         })
                                     }}
-                                    borderWidth={1}
+                                    borderWidth={0.5}
                                     buttonInnerColor={'#00363d'}
                                     buttonOuterColor={'#00363d'}
                                     buttonSize={10}
@@ -509,7 +509,7 @@ class InfoCustommerHourlyFreightTruck extends Component {
                                             payment_method_ID: obj.payment_method_ID,
                                         })
                                     }}
-                                    borderWidth={1}
+                                    borderWidth={0.5}
                                     buttonInnerColor={'#77a300'}
                                     buttonOuterColor={'#77a300'}
                                     buttonSize={10}
@@ -543,7 +543,7 @@ class InfoCustommerHourlyFreightTruck extends Component {
                     <Text style={styles.textBig}>Mã giảm giá</Text>
 
                     <View style={{ flexDirection: 'row', marginTop: 8, marginBottom: 8, height: 50 }}>
-                        <View style={{ marginTop: 8, borderWidth: 0.5, borderColor: '#00363d', borderRadius: 8, flexDirection: 'row', justifyContent: "center", alignItems: "center", flex: 1, }} >
+                        <View style={{ marginTop: 8, borderWidth: 0.5, borderColor: '#00363d', borderRadius: 4, flexDirection: 'row', justifyContent: "center", alignItems: "center", flex: 1, }} >
                             <TextInput
                                 style={[styles.textInput]}
                                 value={this.state.promotion_code}
@@ -551,6 +551,7 @@ class InfoCustommerHourlyFreightTruck extends Component {
                                     promotion_code: text,
                                     blDiscount: false,
                                 })}
+                                placeholder={'Mã giảm giá'}
                             />
                             <TouchableOpacity
                                 onPress={() => this.setState({
@@ -573,7 +574,7 @@ class InfoCustommerHourlyFreightTruck extends Component {
                                 })
                                 this.checkPromotionCode();
                             }}
-                            style={{ padding: 8, justifyContent: 'center', backgroundColor: '#77a300', marginLeft: 8, borderRadius: 6, marginTop: 8 }}
+                            style={{ padding: 8, justifyContent: 'center', backgroundColor: '#77a300', marginLeft: 8, borderRadius: 4, marginTop: 8 }}
                         >
                             <Text style={{ color: '#ffffff' }}>ÁP DỤNG</Text>
                         </TouchableOpacity>
@@ -597,7 +598,7 @@ class InfoCustommerHourlyFreightTruck extends Component {
                     {this.renderFormVAT()}
 
                     <TouchableOpacity
-                        style={{ marginTop: 8, backgroundColor: '#77a300', justifyContent: 'center', alignItems: "center", height: 40, borderRadius: 6 }}
+                        style={{ marginTop: 8, backgroundColor: '#77a300', justifyContent: 'center', alignItems: "center", height: 40, borderRadius: 4 }}
                         onPress={() => {
                             const { xhd, company_name, company_address, company_address_receive, company_mst, full_name, use_phone, email, full_name1, use_phone1, email1, payment_method_ID, comment } = this.state;
                             this.props.addVATVanChuyen(xhd ? '1' : '0', company_name.trim(), company_address.trim(), company_mst.trim(), company_address_receive.trim());
@@ -649,14 +650,14 @@ const styles = StyleSheet.create({
         padding: 8,
         borderColor: '#00363d',
         fontSize: 16,
-        borderRadius: 8,
+        borderRadius: 4,
         flex: 1,
     },
     borderView: {
         marginTop: 8,
         borderWidth: 0.5,
         borderColor: '#00363d',
-        borderRadius: 8,
+        borderRadius: 4,
         flexDirection: 'row',
         justifyContent: "center",
         alignItems: "center",

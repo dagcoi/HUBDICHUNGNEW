@@ -218,7 +218,7 @@ class MapDiChung extends Component {
 
     renderPickAddress() {
         return (
-            <View style={{ flexDirection: 'row', borderColor: '#00363e', borderWidth: 0.5, borderRadius: 8, justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ flexDirection: 'row', borderColor: '#00363e', borderTopWidth: 0.5, justifyContent: 'center', alignItems: 'center' }}>
                 <Image
                     style={{ height: 30, width: 24, marginLeft: 8 }}
                     source={require(imageLocation)}
@@ -228,7 +228,7 @@ class MapDiChung extends Component {
                     onPress={() => {
                         this.props.navigation.push("SearchPlace", {
                             search: 'Pick',
-                            placeholder: 'Nhập điểm đón',
+                            placeholder: 'Nhập điểm xuất phát',
                         });
                     }}
                 >
@@ -236,13 +236,13 @@ class MapDiChung extends Component {
                         editable={false}
                         onTouchStart={() => this.props.navigation.push("SearchPlace", {
                             search: 'Pick',
-                            placeholder: 'Nhập điểm đón'
+                            placeholder: 'Nhập điểm xuất phát'
                         })
                         }
                         style={{ fontSize: 14, height: 40, color: "#00363d" }}
                         pointerEvents="none"
                         value={this.props.pick_add}
-                        placeholder='Nhập điểm đón'
+                        placeholder='Nhập điểm xuất phát'
                     />
                 </TouchableOpacity>
             </View>
@@ -282,7 +282,7 @@ class MapDiChung extends Component {
     renderTimePick() {
         return (
             <TouchableOpacity
-                style={{ flex: 1, borderRadius: 8, borderWidth: 0.5, justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
+                style={{ flex: 1, borderTopWidth: 0.5, justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
                 onPress={() => {
                     this.setState({
                         dialogCalendarVisible: true,
@@ -297,7 +297,7 @@ class MapDiChung extends Component {
                 <TextInput
                     editable={false}
                     value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours} : ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
-                    placeholder='Chọn thời gian'
+                    placeholder='Chọn giờ đi'
                     onTouchStart={() => { this.setState({ dialogCalendarVisible: true }) }}
                     pointerEvents='none'
                     style={{ fontSize: 14, height: 40, color: "#00363d", flex: 1 }}
@@ -309,11 +309,11 @@ class MapDiChung extends Component {
 
     renderTaxiAirport() {
         return (
-            <View style={{ height: 200, backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', padding: 8 }}>
+            <View style={{ backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', }}>
                 {this.renderPickAddress()}
 
-                <View style={{ flexDirection: 'row', borderColor: '#00363e', borderWidth: 0.5, borderRadius: 8, justifyContent: 'center', alignItems: 'center', marginTop: 8, }}>
-                    <View style={{ flex: 1, flexDirection: 'row', borderColor: '#00363e', borderRightWidth: 1, justifyContent: 'center', alignItems: 'center', }}>
+                <View style={{ flexDirection: 'row', borderColor: '#00363e', borderTopWidth: 0.5, justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ flex: 1, flexDirection: 'row', borderColor: '#00363e', borderRightWidth: 0.1, justifyContent: 'center', alignItems: 'center', }}>
                         <Image
                             style={{ height: 30, width: 24, marginLeft: 8, alignItems: 'center', justifyContent: 'center' }}
                             source={require(imageDrop)}
@@ -323,7 +323,7 @@ class MapDiChung extends Component {
                             onPress={() => {
                                 this.props.navigation.push("SearchPlace", {
                                     search: 'Drop',
-                                    placeholder: 'Nhập điểm trả'
+                                    placeholder: 'Nhập điểm đến'
                                 });
                             }}
                         >
@@ -331,18 +331,19 @@ class MapDiChung extends Component {
                                 editable={false}
                                 onTouchStart={() => this.props.navigation.push("SearchPlace", {
                                     search: 'Drop',
-                                    placeholder: 'Nhập điểm trả'
+                                    placeholder: 'Nhập điểm đến'
                                 })
                                 }
                                 style={{ fontSize: 14, height: 40, color: "#00363d" }}
                                 pointerEvents="none"
                                 value={this.props.drop_add}
-                                placeholder='Nhập điểm trả'
+                                placeholder='Nhập điểm đến'
                             />
                         </TouchableOpacity>
                     </View>
 
                     <TouchableOpacity
+                        style={{ borderLeftWidth: 0.5 }}
                         onPress={() => {
                             this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.lattitude_drop, this.props.lngtitude_drop, this.props.pick_add, this.props.component_pick, this.props.lattitude_pick, this.props.lngtitude_pick);
                         }}
@@ -355,11 +356,11 @@ class MapDiChung extends Component {
 
                 </View>
 
-                <View style={{ flexDirection: 'row', height: 40, marginTop: 8 }}>
+                <View style={{ flexDirection: 'row', height: 40, }}>
                     {this.renderTimePick()}
-                    <View style={{ width: 8 }}></View>
+                    <View style={{ width: 0.5, backgroundColor: '#000' }}></View>
                     <TouchableOpacity
-                        style={{ flex: 1, borderRadius: 8, borderWidth: 1, justifyContent: "center", flexDirection: 'row', alignItems: 'center' }}
+                        style={{ flex: 1, borderTopWidth: 0.5, justifyContent: "center", flexDirection: 'row', alignItems: 'center' }}
                         onPress={() => {
                             this.setState({
                                 dialogSelectPeople: true,
@@ -374,9 +375,9 @@ class MapDiChung extends Component {
                     </TouchableOpacity>
                 </View>
 
-                <View style={{ height: 40, flexDirection: 'row', marginTop: 8 }}>
+                <View style={{ height: 40, flexDirection: 'row', }}>
                     <TouchableOpacity
-                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', borderRadius: 4 }}
+                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', }}
                         onPress={() => {
                             this.nextScreen();
                         }}
@@ -390,22 +391,23 @@ class MapDiChung extends Component {
 
     renderTour() {
         return (
-            <View style={{ height: 200, backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', padding: 8 }}>
+            <View style={{ backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', }}>
                 {this.renderPickAddress()}
-                <View style={{ height: 40, flexDirection: 'row', marginTop: 8 }}>
+                <View style={{ height: 40, flexDirection: 'row', }}>
                     {this.renderTimePick()}
                 </View>
-                <View style={{ height: 40, flexDirection: 'row', marginTop: 8 }}>
-                    <View style={{ flex: 1, borderRadius: 8, borderWidth: 0.5, justifyContent: 'center', alignItems: 'center', }}>
+                <View style={{ height: 40, flexDirection: 'row', }}>
+                    <View style={{ flex: 1, borderTopWidth: 0.5, justifyContent: 'center', alignItems: 'center', }}>
                         {this.renderHourglass()}
                     </View>
-                    <View style={{ flex: 1, borderRadius: 8, borderWidth: 0.5, justifyContent: 'center', alignItems: 'center', marginLeft: 8, }}>
+                    <View style={{ width: 0.5, backgroundColor: '#000' }}></View>
+                    <View style={{ flex: 1, borderTopWidth: 0.5, justifyContent: 'center', alignItems: 'center', }}>
                         {this.renderCarType()}
                     </View>
                 </View>
-                <View style={{ height: 40, flexDirection: 'row', marginTop: 8 }}>
+                <View style={{ height: 40, flexDirection: 'row', }}>
                     <TouchableOpacity
-                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', borderRadius: 4 }}
+                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', }}
                         onPress={() => {
                             this.gotoListCarHourlyBooking();
                         }}
@@ -452,9 +454,9 @@ class MapDiChung extends Component {
                 </View>
                 <View style={{ flex: 1, padding: 8 }}>
 
-                    <View style={{ flexDirection: 'row', height: 56, backgroundColor: '#fff', padding: 8, }}>
+                    <View style={{ flexDirection: 'row', height: 56, backgroundColor: '#fff', }}>
                         <TouchableOpacity
-                            style={{ flex: 1, borderRadius: 4, justifyContent: 'center', alignItems: 'center', backgroundColor: this.state.selectTaxi ? '#fff' : '#aaa' }}
+                            style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: this.state.selectTaxi ? '#fff' : '#aaa' }}
                             onPress={() => {
                                 this.setState({
                                     selectTaxi: true,
@@ -464,7 +466,7 @@ class MapDiChung extends Component {
                             <Text style={{ fontSize: 18, fontWeight: 'bold', color: this.state.selectTaxi ? '#77a300' : '#000000' }}>Đặt xe</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            style={{ flex: 1, borderRadius: 4, justifyContent: 'center', alignItems: 'center', backgroundColor: this.state.selectTaxi ? '#aaa' : '#fff' }}
+                            style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: this.state.selectTaxi ? '#aaa' : '#fff' }}
                             onPress={() => {
                                 this.setState({
                                     selectTaxi: false,
@@ -574,7 +576,7 @@ class MapDiChung extends Component {
 
                                         }}
                                     >
-                                        <Text style={{ textAlign: "right", backgroundColor: "#77a300", color: '#fff', padding: 8, borderRadius: 4, fontSize: 16 }}>Tiếp tục</Text>
+                                        <Text style={{ textAlign: "right", backgroundColor: "#77a300", color: '#fff', padding: 8, fontSize: 16 }}>Tiếp tục</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -618,7 +620,7 @@ class MapDiChung extends Component {
                                             this.addPeople();
                                         }}
                                     >
-                                        <Text style={{ textAlign: "right", backgroundColor: '#77a300', color: "#fff", padding: 8, borderRadius: 4, fontSize: 16 }}>Tiếp tục</Text>
+                                        <Text style={{ textAlign: "right", backgroundColor: '#77a300', color: "#fff", padding: 8, fontSize: 16 }}>Tiếp tục</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>
@@ -662,7 +664,7 @@ class MapDiChung extends Component {
                                         this.addPeople();
                                     }}
                                 >
-                                    <Text style={{ textAlign: "right", backgroundColor: '#77a300', color: "#fff", padding: 8, borderRadius: 4, fontSize: 16 }}>Tiếp tục</Text>
+                                    <Text style={{ textAlign: "right", backgroundColor: '#77a300', color: "#fff", padding: 8,  fontSize: 16 }}>Tiếp tục</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -693,7 +695,7 @@ class MapDiChung extends Component {
                                 data={this.state.listTime}
                                 renderItem={({ item }) =>
                                     <TouchableOpacity
-                                        style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderWidth: 0.2 }}
+                                        style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderWidth: 0.5 }}
                                         onPress={() => {
                                             this.setState({
                                                 duration: item.time,
@@ -734,7 +736,7 @@ class MapDiChung extends Component {
                                 data={this.state.listCar}
                                 renderItem={({ item }) =>
                                     <TouchableOpacity
-                                        style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderWidth: 0.2 }}
+                                        style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderWidth: 0.5 }}
                                         onPress={() => this.setState({
                                             carType: item.carname,
                                             selectCar: item.listCarType,

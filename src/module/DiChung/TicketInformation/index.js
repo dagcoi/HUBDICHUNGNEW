@@ -15,6 +15,7 @@ const imageIconPhone = '../../../image/iconphone.png'
 const imageEmail = '../../../image/email.png'
 const imageDone = '../../../image/done.png'
 const imagePayment = '../../../image/payment.png'
+const imageComment = '../../../image/comment.png'
 
 const cancel_booking = link.URL_API + `passenger/cancel_booking`
 const cancel_booking_token = link.URL_API + `passenger/generate_cancel_booking_token`
@@ -171,11 +172,14 @@ class TicketInformation extends Component {
 
     renderTT(item) {
         return (
-            <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', marginBottom: 8 }}>
-                <Text style={styles.textBigLeft1}>Tổng thanh toán : </Text>
-                <Text style={styles.textBigRight1}>
-                    {parseInt(item.total_cost).format(0, 3, '.')} đ
+            <View>
+                <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', }}>
+                    <Text style={styles.textBigLeft1}>Tổng thanh toán : </Text>
+                    <Text style={styles.textBigRight1}>
+                        {parseInt(item.total_cost).format(0, 3, '.')} đ
                 </Text>
+                </View>
+                <Text style={{ marginBottom: 8 }}>{item.toll_fee == 'NA' ? "Giá chưa bao giờ phí cầu đường" : "Giá trọn gói không phí ẩn"}</Text>
             </View>
         )
     }
@@ -254,6 +258,19 @@ class TicketInformation extends Component {
         })
     }
 
+    renderComment(item) {
+        if (item.note.length > 1) {
+            return (
+                < ImageTextDiChung
+                    source={require(imageComment)}
+                    text={item.note}
+                />
+            )
+        } else {
+            return null;
+        }
+    }
+
     renderRadio() {
         const { value } = this.state;
 
@@ -308,7 +325,7 @@ class TicketInformation extends Component {
                             : <View>
                                 <Text>Thông tin mã vé : <Text style={{ fontWeight: 'bold' }}>{item.transaction_status_name}</Text></Text>
                                 <Text>Mọi thắc mắc vui lòng liên hệ : <Text
-                                    style={{ color: '#77a300', fontWeight : 'bold' }}
+                                    style={{ color: '#77a300', fontWeight: 'bold' }}
                                     onPress={() => Linking.openURL(`tel: 19006022`)}
                                 >19006022</Text>
                                 </Text>
@@ -318,6 +335,7 @@ class TicketInformation extends Component {
                         {this.renderDetailOrder(item)}
                         {this.renderDetailCustommer(item)}
                         {this.renderDetailPeopleMove(item)}
+                        {this.renderComment(item)}
                         {this.renderOther(item)}
                         {this.renderTT(item)}
 
@@ -482,8 +500,8 @@ const styles = StyleSheet.create({
     circle: {
         height: 20,
         width: 20,
-        borderRadius: 10,
-        borderWidth: 1,
+        borderRadius: 4,
+        borderWidth: 0.5,
         borderColor: '#ACACAC',
         alignItems: 'center',
         justifyContent: 'center',
@@ -492,7 +510,7 @@ const styles = StyleSheet.create({
     checkedCircle: {
         width: 14,
         height: 14,
-        borderRadius: 7,
+        borderRadius: 4,
         backgroundColor: '#77a300',
     },
     textBigRight1: {

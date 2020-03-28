@@ -113,7 +113,7 @@ class InfoCarChungXe extends Component {
                         onPress={() => {
                             this.props.navigation.push("SearchPlace", {
                                 search: 'Pick',
-                                placeholder:'Nhập điểm nhận xe'
+                                placeholder: 'Nhập điểm nhận xe'
                             });
                         }}
                     >
@@ -122,7 +122,7 @@ class InfoCarChungXe extends Component {
                             ref="myInput"
                             onTouchStart={() => this.props.navigation.push("SearchPlace", {
                                 search: 'Pick',
-                                placeholder :'Nhập điểm nhận xe'
+                                placeholder: 'Nhập điểm nhận xe'
                             })
                             }
                             pointerEvents="none"
@@ -180,7 +180,7 @@ class InfoCarChungXe extends Component {
                         <View style={{ justifyContent: 'center', alignItems: 'center', padding: 4, marginLeft: 8 }}>
                             <Image
                                 style={{ width: 30, height: 30 }}
-                                source={(item.vhc.vhc_tms_id == '1'|| item.vhc.vhc_tms_id == '3') ? require(imageAutomatic) : require(imageManual)}
+                                source={(item.vhc.vhc_tms_id == '1' || item.vhc.vhc_tms_id == '3') ? require(imageAutomatic) : require(imageManual)}
                             />
                             <Text style={{ fontWeight: 'bold', fontSize: 14 }} >{item.vhc.vhc_tms_name}</Text>
                         </View>
@@ -206,7 +206,7 @@ class InfoCarChungXe extends Component {
                                     style={{ width: 30, height: 30 }}
                                     source={require(imageMore)}
                                 />
-                                <Text style={{ fontWeight: 'bold', fontSize: 14, color : '#77a300' }} >Chi tiết</Text>
+                                <Text style={{ fontWeight: 'bold', fontSize: 14, color: '#77a300' }} >Chi tiết</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -312,6 +312,7 @@ class InfoCarChungXe extends Component {
                                         promotionCode: text,
                                         blDiscount: false,
                                     })}
+                                    placeholder={'Mã giảm giá'}
                                     onPress={() => this.setState({
                                         promotionCode: '',
                                         blDiscount: false,
@@ -325,7 +326,7 @@ class InfoCarChungXe extends Component {
                                     })
                                     this.checkPromotionCode();
                                 }}
-                                style={{ padding: 8, justifyContent: 'center', backgroundColor: '#77a300', marginLeft: 8, borderRadius: 6, marginTop: 8, }}
+                                style={{ padding: 8, justifyContent: 'center', backgroundColor: '#77a300', marginLeft: 8, borderRadius: 4, marginTop: 8, }}
                             >
                                 <Text style={{ color: '#ffffff' }}>ÁP DỤNG</Text>
                             </TouchableOpacity>
@@ -416,8 +417,8 @@ class InfoCarChungXe extends Component {
                             </View>
                         </View>
                         <ScrollView
-                            showsHorizontalScrollIndicator= {false}
-                            showsVerticalScrollIndicator = {false}
+                            showsHorizontalScrollIndicator={false}
+                            showsVerticalScrollIndicator={false}
                         >
                             <View>
                                 <View style={{ alignItems: 'center', height: 150 }}>
@@ -744,14 +745,14 @@ const styles = StyleSheet.create({
         padding: 8,
         borderColor: '#00363d',
         fontSize: 16,
-        borderRadius: 8,
+        borderRadius: 4,
         flex: 1,
     },
     borderView: {
         marginTop: 8,
         borderWidth: 0.5,
         borderColor: '#00363d',
-        borderRadius: 8,
+        borderRadius: 4,
         flexDirection: 'row',
         justifyContent: "center",
         alignItems: "center",

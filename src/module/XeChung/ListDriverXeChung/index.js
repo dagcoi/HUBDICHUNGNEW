@@ -132,6 +132,14 @@ class ListDriverXeChung extends Component {
                                     <Text>Thời gian chờ tối đa 15 phút</Text>
                                 </View>
                             </View>
+                            <View style={{ marginLeft: 8, flexDirection: 'row', }}>
+                                <View style={{ flexDirection: 'row', flex: 1 }}>
+                                    <Image
+                                        style={{ width: 20, height: 20, marginRight: 8 }}
+                                        source={require('../../../image/check.png')} />
+                                    <Text>{item.partner_luggage}</Text>
+                                </View>
+                            </View>
                             {item.discount_data.partner_note == null ? null :
                                 <View style={{ flexDirection: 'column', flex: 1, padding: 8 }}>
                                     <HTML html={item.discount_data.partner_note.replace("</a>", "").replace("</p>", "").replace("<p>", "")} imagesMaxWidth={Dimensions.get('window').width} />
@@ -206,7 +214,7 @@ const styles = StyleSheet.create({
     container: {
         borderColor: '#77a300',
         borderWidth: 0.5,
-        borderRadius: 6,
+        borderRadius: 4,
         padding: 8,
         marginTop: 8,
         backgroundColor: '#ffffff',

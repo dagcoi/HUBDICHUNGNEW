@@ -45,7 +45,7 @@ function GooglePlacesAutocompleteDiChung({
                 styles={{
                     textInputContainer: {
                         borderRadius: 5,
-                        borderWidth: 1,
+                        borderWidth: 0,
                         backgroundColor: '#ffffff',
                         width: '99%',
                     },
