@@ -271,7 +271,7 @@ class ConfirmInformationFreightTruck extends Component {
 
                     <ImageTextDiChung
                         source={require(imagePayment)}
-                        text={navigation.getParam('Payment') == '0' ? 'Trả sau' : 'Trả trước'}
+                        text={navigation.getParam('Payment') == '0' ? 'Người gửi trả tiền mặt' : 'Trả trước'}
                     />
 
                     {this.renderVAT()}

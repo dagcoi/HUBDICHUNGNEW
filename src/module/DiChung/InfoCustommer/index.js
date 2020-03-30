@@ -159,8 +159,9 @@ class InfoCustommer extends Component {
             <View>
                 <Text style={styles.textBig}>Ghi chú(tùy chọn)</Text>
                 <InputTextDiChung
-                    placeholder='VD : Tài xế không hút thuốc'
+                    placeholder='VD: Tài xế không hút thuốc...'
                     value={this.state.comment}
+                    multiline={true}
                     onChangeText={(text) => {
                         this.setState({
                             comment: text,

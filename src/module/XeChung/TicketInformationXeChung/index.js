@@ -193,7 +193,7 @@ class TicketInformationXeChung extends Component {
                             <Text style={{ backgroundColor: '#77a300', color: '#fff' }}>{item.vehicle_name}</Text>
                         </View>
 
-                        <Text style={styles.textBigRight}>Mã đặt xe của bạn là : <Text style={{ fontWeight: 'bold' }}>{item.ticket_code}</Text></Text>
+                        <Text style={styles.textBigRight}>Mã đơn hàng của bạn: <Text style={{ fontWeight: 'bold' }}>{item.ticket_code}</Text></Text>
 
                         <Text style={styles.textBigRight}>Yêu cầu đặt xe của bạn đã được hệ thồng ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>
 

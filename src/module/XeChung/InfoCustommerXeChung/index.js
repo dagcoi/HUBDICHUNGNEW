@@ -384,8 +384,9 @@ class InfoCustommerXeChung extends Component {
 
                         <InputTextDiChung
                             style={styles.textInput}
-                            placeholder='VD : Mercedes S500'
+                            placeholder='Nhập thông tin xe của bạn. VD. Mercedes S500'
                             value={this.state.comment}
+                            multiline={true}
                             onChangeText={(text) => this.setState({
                                 comment: text
                             })}

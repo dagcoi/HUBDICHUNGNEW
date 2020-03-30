@@ -218,7 +218,8 @@ class ListCarTuLai extends Component {
         return (
             obj.length < 1 ?
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
-                    <Text style={{ textAlign: 'center' }}>Tuyến đường bạn chọn hiện không có xe. Vui lòng chọn tuyến đường khác.</Text>
+                    <Text style={{ textAlign: 'center' }}>Không tìm thấy đối tác phù hợp. Vui lòng gọi <Text style={{ color: '#77a300' }}
+                        onPress={() => Linking.openURL(`tel: 19006022`)}>19006022</Text></Text>
                 </View> :
                 <ScrollView
                     showsVerticalScrollIndicator={false}

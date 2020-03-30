@@ -291,7 +291,7 @@ class InfoCustommerExpress extends Component {
 
     render() {
         var radio_payment = [
-            { label: 'Trả sau', value: 0, paymentMethodID: '3' },
+            { label: 'Người gửi trả tiền mặt', value: 0, paymentMethodID: '3' },
         ]
         return (
             <View style={styles.container}>
@@ -344,8 +344,9 @@ class InfoCustommerExpress extends Component {
 
                         <InputTextDiChung
                             style={styles.textInput}
-                            placeholder='Ghi chú'
+                            placeholder='VD: Thời gian mong muốn nhận hàng, Loại hàng hoá.'
                             value={this.state.comment}
+                            multiline={true}
                             onChangeText={(text) => this.setState({
                                 comment: text
                             })}

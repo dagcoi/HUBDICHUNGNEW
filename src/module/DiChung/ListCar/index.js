@@ -326,7 +326,9 @@ class ListCar extends Component {
         return (
             obj.length < 1 ?
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
-                    <Text style={{ textAlign: 'center' }}>Tuyến đường bạn chọn hiện không có xe. Vui lòng chọn tuyến đường khác.</Text>
+                    <Text style={{ textAlign: 'center' }}>Không tìm thấy tài xế phù hợp. Vui lòng gọi <Text style={{ color: '#77a300' }}
+                        onPress={() => Linking.openURL(`tel: 19006022`)}>19006022</Text></Text>
+                        <Text style = {{padding : 4,  fontSize : 18}}>HOẶC</Text>
                     <TouchableOpacity
                         style={{ backgroundColor: '#77a300', margin: 8, padding: 8 }}
                         onPress={() => {

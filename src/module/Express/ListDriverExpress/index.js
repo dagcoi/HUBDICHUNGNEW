@@ -322,7 +322,9 @@ class ListDriverExpress extends Component {
             <View style={{ flex: 1, padding: 8, }}>
                 {obj.length < 1 ?
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        <Text>Không tìm thấy xe phù hợp</Text>
+                        <Text>Không tìm thấy đối tác phù hợp. Vui lòng gọi <Text style={{ color: '#77a300' }}
+                        onPress={() => Linking.openURL(`tel: 19006022`)}>19006022</Text></Text>
+                        <Text style = {{padding : 4,  fontSize : 18}}>HOẶC</Text>
                         <TouchableOpacity
                             style={{ backgroundColor: '#77a300', margin: 8, padding: 8 }}
                             onPress={() => {

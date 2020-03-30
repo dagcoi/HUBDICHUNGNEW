@@ -221,7 +221,7 @@ class MapExpress extends Component {
                         onPress={() => {
                             this.props.navigation.push("SearchPlaceExpress", {
                                 search: 'Pick',
-                                placeholder: 'Nhập điểm lấy hàng'
+                                placeholder: 'Điểm nhận hàng'
                             });
                         }}
                     >
@@ -229,13 +229,13 @@ class MapExpress extends Component {
                             editable={false}
                             onTouchStart={() => this.props.navigation.push("SearchPlaceExpress", {
                                 search: 'Pick',
-                                placeholder: 'Nhập điểm lấy hàng'
+                                placeholder: 'Điểm nhận hàng'
                             })
                             }
                             style={{ fontSize: 14, height: 40, color: "#00363d" }}
                             pointerEvents="none"
                             value={this.props.pick_add}
-                            placeholder='Nhập điểm lấy hàng'
+                            placeholder='Điểm nhận hàng'
                         />
                     </TouchableOpacity>
                 </View>
@@ -251,7 +251,7 @@ class MapExpress extends Component {
                             onPress={() => {
                                 this.props.navigation.push("SearchPlaceExpress", {
                                     search: 'Drop',
-                                    placeholder: 'Nhập điểm trả hàng'
+                                    placeholder: 'Điểm giao hàng'
                                 });
                             }}
                         >
@@ -259,13 +259,13 @@ class MapExpress extends Component {
                                 editable={false}
                                 onTouchStart={() => this.props.navigation.push("SearchPlaceExpress", {
                                     search: 'Drop',
-                                    placeholder: 'Nhập điểm trả hàng'
+                                    placeholder: 'Điểm giao hàng'
                                 })
                                 }
                                 style={{ fontSize: 14, height: 40, color: "#00363d" }}
                                 pointerEvents="none"
                                 value={this.props.drop_add}
-                                placeholder='Nhập điểm trả hàng'
+                                placeholder='Điểm giao hàng'
                             />
                         </TouchableOpacity>
                     </View>
@@ -299,7 +299,7 @@ class MapExpress extends Component {
                         <TextInput
                             editable={false}
                             value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours} : ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
-                            placeholder='Chọn thời gian'
+                            placeholder='Chọn giờ gửi hàng'
                             onTouchStart={() => { this.setState({ dialogCalendarVisible: true }) }}
                             pointerEvents='none'
                             style={{ fontSize: 14, height: 40, color: "#00363d", flex: 1 }}
@@ -351,7 +351,7 @@ class MapExpress extends Component {
                         onPress={() => {
                             this.props.navigation.push("SearchPlaceExpress", {
                                 search: 'Pick',
-                                placeholder: 'Nhập điểm lấy hàng'
+                                placeholder: 'Điểm nhận hàng'
                             });
                         }}
                     >
@@ -359,13 +359,13 @@ class MapExpress extends Component {
                             editable={false}
                             onTouchStart={() => this.props.navigation.push("SearchPlaceExpress", {
                                 search: 'Pick',
-                                placeholder: 'Nhập điểm lấy hàng'
+                                placeholder: 'Điểm nhận hàng'
                             })
                             }
                             style={{ fontSize: 14, height: 40, color: "#00363d" }}
                             pointerEvents="none"
                             value={this.props.pick_add}
-                            placeholder='Nhập điểm lấy hàng'
+                            placeholder='Điểm nhận hàng'
                         />
                     </TouchableOpacity>
                 </View>

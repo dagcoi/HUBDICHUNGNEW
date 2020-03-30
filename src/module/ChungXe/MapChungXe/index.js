@@ -184,7 +184,7 @@ class MapChungXe extends Component {
                     onPress={() => {
                         this.props.navigation.push("SerchPlaceTuLai", {
                             search: 'Pick',
-                            placeholder: 'Nhập điểm nhận xe',
+                            placeholder: 'Nhập điểm xuất phát',
                         });
                     }}
                 >
@@ -192,13 +192,13 @@ class MapChungXe extends Component {
                         editable={false}
                         onTouchStart={() => this.props.navigation.push("SerchPlaceTuLai", {
                             search: 'Pick',
-                            placeholder: 'Nhập điểm nhận xe'
+                            placeholder: 'Nhập điểm xuất phát'
                         })
                         }
                         style={{ fontSize: 14, color: "#00363d" }}
                         pointerEvents="none"
                         value={this.props.pick_add}
-                        placeholder='Nhập điểm nhận xe'
+                        placeholder='Nhập điểm xuất phát'
                     />
                 </TouchableOpacity>
             </View>
@@ -224,7 +224,7 @@ class MapChungXe extends Component {
                 <TextInput
                     editable={false}
                     value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours} : ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
-                    placeholder='Chọn thời gian'
+                    placeholder='Chọn giờ lấy xe'
                     onTouchStart={() => { this.setState({ dialogCalendarVisible: true }) }}
                     pointerEvents='none'
                     style={{ fontSize: 14, color: "#00363d", flex: 1 }}
@@ -251,7 +251,7 @@ class MapChungXe extends Component {
                             onPress={() => {
                                 this.props.navigation.push("SerchPlaceTuLai", {
                                     search: 'Drop',
-                                    placeholder: 'Nhập điểm trả'
+                                    placeholder: 'Nhập điểm đến'
                                 });
                             }}
                         >
@@ -259,13 +259,13 @@ class MapChungXe extends Component {
                                 editable={false}
                                 onTouchStart={() => this.props.navigation.push("SerchPlaceTuLai", {
                                     search: 'Drop',
-                                    placeholder: 'Nhập điểm trả'
+                                    placeholder: 'Nhập điểm đến'
                                 })
                                 }
                                 style={{ fontSize: 14, color: "#00363d" }}
                                 pointerEvents="none"
                                 value={this.props.drop_add}
-                                placeholder='Nhập điểm trả'
+                                placeholder='Nhập điểm đến'
                             />
                         </TouchableOpacity>
                     </View>

@@ -278,7 +278,7 @@ class InfoCustommerTuLai extends Component {
 
                 <InputTextDiChung
                     style={styles.textInput}
-                    placeholder='VD:Thời gian trả xe dự kiến,yêu cầu xe đặc biệt'
+                    placeholder='VD: Thời gian trả xe dự kiến, Yêu cầu xe đặc biệt...'
                     value={this.state.comment}
                     multiline={true}
                     onChangeText={(text) => this.setState({

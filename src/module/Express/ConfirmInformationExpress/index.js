@@ -257,7 +257,7 @@ class ConfirmInformationExpress extends Component {
                             style={styles.leftIcon}
                             source={require(imagePayment)}
                         />
-                        <Text style={styles.textBigRight}>{navigation.getParam('Payment') == '0' ? 'Trả sau' : 'Trả trước'}</Text>
+                        <Text style={styles.textBigRight}>{navigation.getParam('Payment') == '0' ? 'Người gửi trả tiền mặt' : 'Trả trước'}</Text>
                     </View>
 
                     {this.renderVAT()}

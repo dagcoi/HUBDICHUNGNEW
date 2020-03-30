@@ -301,7 +301,7 @@ class TicketInformationTuLai extends Component {
                             />
                         </View>
 
-                        <Text style={styles.textBigRight}>Mã đặt xe của bạn là : <Text style={{ fontWeight: 'bold' }}>{item.ticket_code}</Text></Text>
+                        <Text style={styles.textBigRight}>Mã thuê xe của bạn: <Text style={{ fontWeight: 'bold' }}>{item.ticket_code}</Text></Text>
                         {item.transaction_status_id == '1' ?
                             <Text style={styles.textBigRight}>Yêu cầu đặt xe của bạn đã được hệ thồng ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>
                             : <View>

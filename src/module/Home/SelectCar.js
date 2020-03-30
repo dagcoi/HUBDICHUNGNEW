@@ -16,8 +16,9 @@ function SelectCar({
             >
                 <View style={{ width : 100, height : 100, justifyContent: 'center', backgroundColor: backgroundColor, borderBottomLeftRadius: 8, borderTopLeftRadius: 8,}}>
                     <Image
-                        style={{ flex: 1, borderTopLeftRadius : 8, borderBottomLeftRadius : 8, }}
+                        style={{ flex: 1,}}
                         source={source}
+                        resizeMode = 'cover'
                     />
                 </View>
                 <View style={{ flex: 5, padding: 8, justifyContent: 'center', borderBottomEndRadius: 8, borderTopRightRadius: 8, backgroundColor: '#eeeeee' }}>

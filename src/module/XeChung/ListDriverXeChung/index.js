@@ -191,7 +191,9 @@ class ListDriverXeChung extends Component {
                         {this.renderItem(obj)}
                     </ScrollView>
                     : <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
-                        <Text>Không tìm thấy tài xế phù hợp</Text>
+                        <Text>Không tìm thấy tài xế phù hợp. Vui lòng gọi <Text style={{ color: '#77a300' }}
+                        onPress={() => Linking.openURL(`tel: 19006022`)}>19006022</Text></Text>
+                        <Text style = {{padding : 4,  fontSize : 18}}>HOẶC</Text>
                         <TouchableOpacity
                             style={{ backgroundColor: '#77a300', margin: 8, padding: 8 }}
                             onPress={() => {

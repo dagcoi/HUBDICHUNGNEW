@@ -255,10 +255,10 @@ class MapXeChung extends Component {
                     onPress={() => {
                         this.props.navigation.push("SearchPlaceXeChung", {
                             search: 'Pick',
-                            placeholder: 'Nhập điểm đón'
+                            placeholder: 'Nhập điểm nhận xe'
                         });
                     }}
-                    placeholder={'Nhập điểm đón'}
+                    placeholder={'Nhập điểm nhận xe'}
                     source={require(imageLocation)}
                     value={this.props.pick_add}
                 />
@@ -305,7 +305,7 @@ class MapXeChung extends Component {
 
                 <ImageInputTextDiChung
                     onPress={() => { this.setState({ modalCity: true }) }}
-                    placeholder={'Chọn thành phố'}
+                    placeholder={'Chọn tỉnh thành'}
                     source={require(imageLocation)}
                     value={this.state.city_name}
                 />
@@ -314,10 +314,10 @@ class MapXeChung extends Component {
                     onPress={() => {
                         this.props.navigation.push("SearchPlaceXeChung", {
                             search: 'Pick',
-                            placeholder: 'Nhập điểm đón'
+                            placeholder: 'Nhập điểm nhận xe'
                         });
                     }}
-                    placeholder={'Nhập điểm đón'}
+                    placeholder={'Nhập điểm nhận xe'}
                     source={require(imageLocation)}
                     value={this.props.pick_add}
                 />
@@ -333,7 +333,7 @@ class MapXeChung extends Component {
                             onPress={() => {
                                 this.props.navigation.push("SearchPlaceXeChung", {
                                     search: 'Drop',
-                                    placeholder: 'Nhập điểm trả',
+                                    placeholder: 'Nhập điểm đích',
                                 });
                             }}
                         >
@@ -341,13 +341,13 @@ class MapXeChung extends Component {
                                 editable={false}
                                 onTouchStart={() => this.props.navigation.push("SearchPlaceXeChung", {
                                     search: 'Drop',
-                                    placeholder: 'Nhập điểm trả',
+                                    placeholder: 'Nhập điểm đích',
                                 })
                                 }
                                 style={{ fontSize: 14, height: 40, color: "#00363d" }}
                                 pointerEvents="none"
                                 value={this.props.drop_add}
-                                placeholder='Nhập điểm trả'
+                                placeholder='Nhập điểm đích'
                             />
                         </TouchableOpacity>
                     </View>
