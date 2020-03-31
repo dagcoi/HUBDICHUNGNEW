@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, ActivityIndicator, Dimensions, FlatList, Modal } from 'react-native';
+import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, ActivityIndicator, Dimensions, FlatList, Modal, Linking } from 'react-native';
 import { connect } from 'react-redux';
 import StarVote from '../../../component/StarVote'
 
@@ -87,7 +87,6 @@ class ListDriverExpress extends Component {
 
     async componentDidMount() {
         const url = link.URL_API + 'passenger/get_price_list?product_chunk_type=EXPRESS';
-        // const url = `https://taxiairport.vn/api.php/` + 'passenger/get_price_list';
         let formdata = new FormData();
         formdata.append("depart_time", this.props.depart_time);
         formdata.append("dimension_id", 1);
@@ -323,8 +322,8 @@ class ListDriverExpress extends Component {
                 {obj.length < 1 ?
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                         <Text>Không tìm thấy đối tác phù hợp. Vui lòng gọi <Text style={{ color: '#77a300' }}
-                        onPress={() => Linking.openURL(`tel: 19006022`)}>19006022</Text></Text>
-                        <Text style = {{padding : 4,  fontSize : 18}}>HOẶC</Text>
+                            onPress={() => Linking.openURL(`tel: 19006022`)}>19006022</Text></Text>
+                        <Text style={{ padding: 4, fontSize: 18 }}>HOẶC</Text>
                         <TouchableOpacity
                             style={{ backgroundColor: '#77a300', margin: 8, padding: 8 }}
                             onPress={() => {

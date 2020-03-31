@@ -179,7 +179,7 @@ class TicketInformation extends Component {
                         {parseInt(item.total_cost).format(0, 3, '.')} đ
                 </Text>
                 </View>
-                <Text style={{ marginBottom: 8 }}>{item.toll_fee == 'NA' ? "Giá chưa bao giờ phí cầu đường" : "Giá trọn gói không phí ẩn"}</Text>
+                <Text style={{ marginBottom: 8, textAlign: 'right' }}>{item.toll_fee == 'NA' ? "Giá chưa bao giờ phí cầu đường" : "Giá trọn gói không phí ẩn"}</Text>
             </View>
         )
     }

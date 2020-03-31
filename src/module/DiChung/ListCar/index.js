@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, Alert, Switch, ActivityIndicator, Dimensions, Modal, RefreshControl, FlatList } from 'react-native';
+import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, Alert, Switch, ActivityIndicator, Dimensions, Modal, RefreshControl, FlatList, Linking } from 'react-native';
 import { connect } from 'react-redux';
 import CheckBoxList from '../../../component/CheckBoxList'
 import CheckBox from 'react-native-check-box'
@@ -37,18 +37,9 @@ class ListCar extends Component {
             listNightBooking: [1],
 
             showFilter: false,
-            filters: {
-                vhc: [3, 4, 7, 16],
-                rm: [],
-            },
             listFliter: {
                 rideMethod: [],
                 type: [],
-            },
-
-            tmpFilters: {
-                vhc: [3, 4, 7, 16],
-                rm: [],
             },
             // buyItems : [1,17,2,33,24],
             ride_method_id_list: [1, 2],
@@ -149,13 +140,21 @@ class ListCar extends Component {
 
 
     addListfilter(list) {
-        var { listcar } = this.state;
-        for (let i = 0; i < list.length; i++) {
-            if (listcar.id != list[i].vehicle_id && list[i].hide == 0) {
-                listcar.push({ 'vehicle_id': list[i].vehicle_id, 'vehicle_name': list[i].vehicle_name })
-            }
-        }
-        console.log(listcar)
+        // var { listcar } = this.state;
+        // for (let i = 0; i < list.length; i++) {
+        //     var item = { 'vehicle_id': list[i].vehicle_id, 'vehicle_name': list[i].vehicle_name }
+        //     if (listcar.indexOf(item < 0) && list[i].hide == 0) {
+        //         listcar.push(item)
+        //     }
+        // }
+        // console.log(listcar)
+
+        this.setState({
+            listcar: [{ "vehicle_id": 17, "vehicle_name": "4 chỗ xe nhỏ" },
+            { "vehicle_id": 1, "vehicle_name": "4 chỗ cốp rộng" },
+            { "vehicle_id": 2, "vehicle_name": "7 chỗ" },
+            { "vehicle_id": 24, "vehicle_name": "Xe 16 chỗ" }]
+        })
     }
 
 
@@ -309,18 +308,28 @@ class ListCar extends Component {
 
     renderItem(obj1) {
         const { navigation } = this.props;
-        var obj2;
-        var { buyItems, listFilterMethod, listFilterType, listNightBooking, listcarfilter } = this.state;
+        var obj2, obj3, obj4;
+        var { listFilterMethod, listNightBooking, listcarfilter } = this.state;
+        if ((listcarfilter.includes(1) || listcarfilter.includes(2))) {
+            if (listcarfilter.includes(33)) {
+
+            } else {
+                listcarfilter.push(33)
+            }
+        } else {
+            listcarfilter.splice(listcarfilter.indexOf(33),1)
+        }
         { listcarfilter.length == 0 ? obj2 = obj1 : obj2 = obj1.filter(ob => (listcarfilter.includes(ob.vehicle_id))) }
-        // var obj2 = obj1.filter(obj => (listcarfilter.includes(obj.vehicle_id)))
-        var obj = obj2.filter(obj => (listFilterMethod.includes(obj.ride_method_id)));
+        obj3 = obj2.filter(obj => (obj.vehicle_seat_left >= this.props.chair))
+        obj4 = obj3.filter(obj => obj.hide == 0)
+        var obj = obj4.filter(obj => (listFilterMethod.includes(obj.ride_method_id)));
         if (navigation.getParam('datdem')) {
             obj = obj.filter(obj => (
                 listNightBooking.includes(obj.ride_method_id))
 
             )
-            console.log(obj)
         }
+        console.log(obj)
         { this.state.sort ? obj.sort((a, b) => b.merged - a.merged) : obj.sort((a, b) => a.merged - b.merged) }
 
         return (
@@ -328,7 +337,7 @@ class ListCar extends Component {
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
                     <Text style={{ textAlign: 'center' }}>Không tìm thấy tài xế phù hợp. Vui lòng gọi <Text style={{ color: '#77a300' }}
                         onPress={() => Linking.openURL(`tel: 19006022`)}>19006022</Text></Text>
-                        <Text style = {{padding : 4,  fontSize : 18}}>HOẶC</Text>
+                    <Text style={{ padding: 4, fontSize: 18 }}>HOẶC</Text>
                     <TouchableOpacity
                         style={{ backgroundColor: '#77a300', margin: 8, padding: 8 }}
                         onPress={() => {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, ActivityIndicator, Dimensions, Modal, FlatList } from 'react-native';
+import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, ActivityIndicator, Dimensions, Modal, FlatList, Linking } from 'react-native';
 import { connect } from 'react-redux';
 import StarVote from '../../../component/StarVote'
 import CheckBoxList from '../../../component/CheckBoxList'
@@ -21,8 +21,8 @@ class ListCarTuLai extends Component {
             sort: false,
             shareCar: false,
             car: false,
-            listcar : [],
-            listcarfilter :[],
+            listcar: [],
+            listcarfilter: [],
             showFilter: false,
         }
     }

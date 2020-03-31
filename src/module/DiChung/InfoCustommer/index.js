@@ -290,12 +290,12 @@ class InfoCustommer extends Component {
                                 <RadioButtonInput
                                     obj={obj}
                                     index={i}
-                                    isSelected={this.state.plane_type === i}
+                                    isSelected={this.state.plane_type === obj.value}
                                     onPress={() => {
                                         console.log(obj.label)
                                         this.setState({
-                                            plane_type: i,
-                                            selectRentCar: i
+                                            plane_type: obj.value,
+                                            selectRentCar: obj.value
                                         })
                                     }}
                                     borderWidth={0.5}
@@ -314,7 +314,7 @@ class InfoCustommer extends Component {
                                     onPress={() => {
                                         console.log(obj.label)
                                         this.setState({
-                                            plane_type: i,
+                                            plane_type: obj.value,
                                         })
                                     }}
                                     labelStyle={{ fontSize: 18, color: '#000' }}
@@ -391,6 +391,7 @@ class InfoCustommer extends Component {
                     "promotion": this.state.promotion_code,
                     "blDiscount": this.state.blDiscount,
                     "detailPromotion": this.state.detailPromotion,
+                    "Payment": this.state.value_payment,
                 });
             }
         } else {
@@ -517,8 +518,8 @@ class InfoCustommer extends Component {
                 { label: 'Trả sau', value: 0, paymentMethodID: '3' }
             ] :
             [
-                { label: 'Trả sau', value: 0, payment_method_ID: '3' },
-                // { label: 'Trả trước', value: 1 , payment_method_ID : '8'}, // ẩn phầ thanh toán online trên con thật.
+                { label: 'Trả sau', value: 0, paymentMethodID: '3' },
+                // { label: 'Trả trước', value: 1 , paymentMethodID : '8'}, // ẩn phầ thanh toán online trên con thật.
             ]
         return (
             <View style={styles.container}>
@@ -592,12 +593,12 @@ class InfoCustommer extends Component {
                                 <RadioButtonInput
                                     obj={obj}
                                     index={i}
-                                    isSelected={this.state.value_payment === i}
+                                    isSelected={this.state.value_payment === obj.value}
                                     onPress={() => {
                                         console.log(obj.label)
                                         this.setState({
-                                            value_payment: i,
-                                            selectRentCar: i,
+                                            value_payment: obj.value,
+                                            selectRentCar: obj.value,
                                             payment_method_ID: obj.payment_method_ID,
                                         })
                                     }}
@@ -617,7 +618,7 @@ class InfoCustommer extends Component {
                                     onPress={() => {
                                         console.log(obj.label)
                                         this.setState({
-                                            value_payment: i,
+                                            value_payment: obj.value,
                                             payment_method_ID: obj.payment_method_ID,
                                         })
                                     }}

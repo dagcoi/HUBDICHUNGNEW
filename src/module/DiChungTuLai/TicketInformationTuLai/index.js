@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Image, Button, StyleSheet, ActivityIndicator, ScrollView, TouchableOpacity, Modal } from 'react-native';
+import { View, Text, Image, Button, StyleSheet, ActivityIndicator, ScrollView, TouchableOpacity, Modal, Linking } from 'react-native';
 import { Dialog } from 'react-native-simple-dialogs';
 import OTPInputView from '@twotalltotems/react-native-otp-input'
 import * as link from '../../../URL'
@@ -146,7 +146,7 @@ class TicketInformationTuLai extends Component {
                     text={item.note}
                 />
             )
-        }else{
+        } else {
             return null;
         }
     }

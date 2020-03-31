@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Dialog, ConfirmDialog } from 'react-native-simple-dialogs';
 import CountDown from 'react-native-countdown-component';
 import * as link from '../../../URL'
-import { deleteData } from '../../../core/Redux/action/Action'
+import { deleteDataTuLai } from '../../../core/Redux/action/Action'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
 
@@ -256,7 +256,7 @@ class ConfirmInformationTuLai extends Component {
                                 this.setState({
                                     result: false,
                                 })
-                                this.props.deleteData();
+                                this.props.deleteDataTuLai();
                                 this.TicketInformation()
                             }
                         }}
@@ -282,7 +282,7 @@ class ConfirmInformationTuLai extends Component {
                                     dialogCalendarVisible: false,
                                     is_night_booking: true
                                 })
-                                this.props.deleteData();
+                                this.props.deleteDataTuLai();
                                 this.TicketInformation()
                             }
                         }}
@@ -292,7 +292,7 @@ class ConfirmInformationTuLai extends Component {
                                 this.setState({
                                     is_night_booking: true
                                 })
-                                this.props.deleteData();
+                                this.props.deleteDataTuLai();
                                 // this.props.navigation.push("Home");
                                 const resetAction = StackActions.reset({
                                     index: 0,
@@ -539,4 +539,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { deleteData: deleteData })(ConfirmInformationTuLai)
+export default connect(mapStateToProps, { deleteDataTuLai: deleteDataTuLai })(ConfirmInformationTuLai)

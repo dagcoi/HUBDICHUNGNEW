@@ -50,6 +50,30 @@ class MapChungXe extends Component {
             spesentDay: '',
             hoursAlive: 0,
             minutesAlive: 0,
+            city_name_dc: "",
+            listCityDC: [
+                {
+                    "city_name": "Hà Nội",
+                    "city_id": 1,
+                    "hide": "0"
+                },
+                {
+                    "city_name": "Hồ Chí Minh",
+                    "city_id": 2,
+                    "hide": "0"
+                },
+                {
+                    "city_name": "Đà Nẵng",
+                    "city_id": 3,
+                    "hide": "1"
+                },
+                {
+                    "city_name": "Hải Phòng",
+                    "city_id": 4,
+                    "hide": "1"
+                }
+            ],
+            isShowModalCity: false,
         }
     }
 
@@ -172,9 +196,54 @@ class MapChungXe extends Component {
         });
     }
 
+    formModalListCity() {
+        return (
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={this.state.isShowModalCity}
+                onOrientationChange={true}
+                onRequestClose={() => {
+                    console.log('a');
+                }}>
+                <View style={{
+                    flex: 1,
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
+                }}>
+                    <View style={{ flex: 2, }}>
+                        <TouchableOpacity
+                            onPress={() => this.setState({ isShowModalCity: false })}
+                            style={{ flex: 1 }}
+                        ></TouchableOpacity>
+                    </View>
+
+                    <FlatList
+                        style={{ flex: 1, backgroundColor: '#ffffff' }}
+                        data={this.state.listCityDC}
+                        renderItem={({ item }) =>
+                            <TouchableOpacity
+                                style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderTopWidth: 0.5 }}
+                                onPress={() => {
+                                    item.hide == 1 ? console.log(item.city_name) :
+                                        this.setState({
+                                            city_name_dc: item.city_name,
+                                            isShowModalCity: false,
+                                        })
+                                }}
+                            >
+                                <Text style={item.hide == 1 ? { fontSize: 18, flex: 1, padding: 8, color: '#888' } : { fontSize: 18, flex: 1, padding: 8 }}>{item.city_name}</Text>
+                            </TouchableOpacity>}
+                        keyExtractor={item => item.city_id}
+                    />
+                </View>
+            </Modal>
+        )
+    }
+
     renderPickAddress() {
         return (
-            <View style={{ flexDirection: 'row', borderColor: '#00363e', borderTopWidth: 0.5, justifyContent: 'center', alignItems: 'center', height : 40 }}>
+            <View style={{ flexDirection: 'row', borderColor: '#00363e', borderTopWidth: 0.5, justifyContent: 'center', alignItems: 'center', height: 40 }}>
                 <Image
                     style={{ height: 30, width: 24, marginLeft: 8 }}
                     source={require(imageLocation)}
@@ -209,7 +278,7 @@ class MapChungXe extends Component {
     renderTimePick() {
         return (
             <TouchableOpacity
-                style={{ flex: 1, borderTopWidth: 0.5, justifyContent: "center", alignItems: 'center', flexDirection: 'row', height : 40 }}
+                style={{ flex: 1, borderTopWidth: 0.5, justifyContent: "center", alignItems: 'center', flexDirection: 'row', height: 40 }}
                 onPress={() => {
                     this.setState({
                         dialogCalendarVisible: true,
@@ -238,9 +307,40 @@ class MapChungXe extends Component {
     formBookingDoortoDoor() {
         return (
             <View style={{ backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', }}>
+                <View style={{ flexDirection: 'row', borderColor: '#00363e', borderTopWidth: 0.5, justifyContent: 'center', alignItems: 'center', height: 40 }}>
+                    <TouchableOpacity
+                        style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}
+                        onPress={() => {
+                            this.setState({
+                                isShowModalCity: true,
+                            })
+                        }}
+                    >
+                        <Image
+                            style={{ height: 30, width: 24, marginLeft: 8 }}
+                            source={require(imageLocation)}
+                        />
+
+                        <TextInput
+                            editable={false}
+                            onTouchStart={() => {
+                                this.setState({
+                                    isShowModalCity: true,
+                                })
+                            }
+                            }
+                            style={{ fontSize: 14, color: "#00363d" }}
+                            pointerEvents='auto'
+                            value={this.state.city_name_dc}
+                            placeholder='Chọn thành phố'
+                        />
+
+                    </TouchableOpacity>
+                </View>
+
                 {this.renderPickAddress()}
 
-                <View style={{ flexDirection: 'row', borderColor: '#00363e', borderTopWidth: 0.5, justifyContent: 'center', alignItems: 'center', height : 40 }}>
+                <View style={{ flexDirection: 'row', borderColor: '#00363e', borderTopWidth: 0.5, justifyContent: 'center', alignItems: 'center', height: 40 }}>
                     <View style={{ flex: 1, flexDirection: 'row', borderColor: '#00363e', borderRightWidth: 0.1, justifyContent: 'center', alignItems: 'center', }}>
                         <Image
                             style={{ height: 30, width: 24, marginLeft: 8, alignItems: 'center', justifyContent: 'center' }}
@@ -271,7 +371,7 @@ class MapChungXe extends Component {
                     </View>
 
                     <TouchableOpacity
-                        style = {{borderLeftWidth : 0.5}}
+                        style={{ borderLeftWidth: 0.5 }}
                         onPress={() => {
                             this.props.swapAddressTuLai(this.props.drop_add, this.props.component_drop, this.props.lattitude_drop, this.props.lngtitude_drop, this.props.pick_add, this.props.component_pick, this.props.lattitude_pick, this.props.lngtitude_pick);
                         }}
@@ -295,7 +395,7 @@ class MapChungXe extends Component {
                             this.nextScreen();
                         }}
                     >
-                        <Text style={{ color: '#ffffff', fontSize: 20,padding : 8, fontWeight: 'bold', }}>XEM GIÁ</Text>
+                        <Text style={{ color: '#ffffff', fontSize: 20, padding: 8, fontWeight: 'bold', }}>XEM GIÁ</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -328,7 +428,7 @@ class MapChungXe extends Component {
         return (
             <View style={{ backgroundColor: '#ffffff', }}>
 
-                <View style={{ flexDirection: 'row', borderColor: '#00363e', borderTopWidth: 0.5, justifyContent: 'center', alignItems: 'center', height : 40 }}>
+                <View style={{ flexDirection: 'row', borderColor: '#00363e', borderTopWidth: 0.5, justifyContent: 'center', alignItems: 'center', height: 40 }}>
                     <Image
                         style={{ height: 30, width: 24, marginLeft: 8 }}
                         source={require('../../../image/location.png')}
@@ -374,7 +474,7 @@ class MapChungXe extends Component {
                         />
 
                     </TouchableOpacity>
-                    <View style={{ width: 0.5, backgroundColor : '#000' }}></View>
+                    <View style={{ width: 0.5, backgroundColor: '#000' }}></View>
                     <TouchableOpacity
                         style={{ flex: 1, borderTopWidth: 0.5, justifyContent: "center", flexDirection: 'row', alignItems: 'center' }}
                         onPress={() => {
@@ -405,7 +505,7 @@ class MapChungXe extends Component {
                             this.gotoListCarTour();
                         }}
                     >
-                        <Text style={{ color: '#ffffff', fontSize: 20, padding : 8, fontWeight: 'bold', }}>XEM GIÁ</Text>
+                        <Text style={{ color: '#ffffff', fontSize: 20, padding: 8, fontWeight: 'bold', }}>XEM GIÁ</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -625,7 +725,7 @@ class MapChungXe extends Component {
                         </View>
                     </View>
                 </Modal>
-
+                {this.formModalListCity()}
             </View>
         );
     }

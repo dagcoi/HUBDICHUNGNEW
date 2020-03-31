@@ -65,7 +65,7 @@ class ConfirmInformation extends Component {
     }
 
     async reBiddingTicket() {
-        const url = `https://dev.taxiairport.vn/api.php/home/auto_process_ticket?id=${this.state.ticket}&reprocess_night_booking=1`
+        const url = link.URL_API + `home/auto_process_ticket?id=${this.state.ticket}&reprocess_night_booking=1`
         console.log(url);
         const res = await fetch(url);
         const jsonRes = await res.json();
@@ -223,7 +223,7 @@ class ConfirmInformation extends Component {
                     <Text style={styles.textBigLeft1}>Tổng thanh toán : </Text>
                     <Text style={styles.textBigRight1}>{((this.props.merged + (navigation.getParam('broad_price') ? 30000 : 0) - (navigation.getParam('blDiscount') ? this.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1)).format(0, 3, '.')} đ</Text>
                 </View>
-                <Text style = {{marginBottom: 8 }}>{this.props.toll_fee == "NA" ? "Giá chưa bao gồm phí cầu đường" : "Giá trọn gói không phí ẩn"}</Text>
+                <Text style={{ marginBottom: 8, textAlign: 'right' }}>{this.props.toll_fee == "NA" ? "Giá chưa bao gồm phí cầu đường" : "Giá trọn gói không phí ẩn"}</Text>
             </View>
         )
     }
@@ -456,7 +456,7 @@ class ConfirmInformation extends Component {
         } else {
             formData.append('plane_number', '');
         }
-        if (this.props.is_airport == 'false') {
+        if (this.props.is_airport == 'false' || navigation.getParam('plane_type') == -1) {
             formData.append('plane_type', '');
         } else {
             formData.append('plane_type', navigation.getParam('plane_type'));
@@ -486,15 +486,15 @@ class ConfirmInformation extends Component {
         formData.append('pay_method_id', this.props.pay_method_id);
         formData.append('brand_partner_id', this.props.brand_partner_id);
         formData.append('unmerged_select', this.props.unmerged);
-        if (navigation.getParam('xhd')) {
-            formData.append('xhd', 1);
-            formData.append('company[name]', this.props.company_name);
-            formData.append('company[address]', this.props.company_address);
-            formData.append('company[mst]', this.props.company_mst);
-            formData.append('company[address_receive]', this.props.company_address_receive);
-        } else {
-            formData.append('xhd', 0);
-        }
+        // if (navigation.getParam('xhd')) {
+        formData.append('xhd', navigation.getParam('xhd') ? 1 : 0);
+        formData.append('company[name]', this.props.company_name);
+        formData.append('company[address]', this.props.company_address);
+        formData.append('company[mst]', this.props.company_mst);
+        formData.append('company[address_receive]', this.props.company_address_receive);
+        // } else {
+        //     formData.append('xhd', 0);
+        // }
         formData.append('city_id', this.props.city_id);
         formData.append('use_range_time', this.props.use_range_time);
         formData.append('ticket_session', 'BOOK_MAIN');
@@ -510,7 +510,7 @@ class ConfirmInformation extends Component {
         }
         formData.append('session_id', 'tum3fdn24qf3778e7d585ff0e1');
 
-
+        console.log(formData)
         fetch(url, {
             method: 'POST',
             headers: {
@@ -567,8 +567,67 @@ class ConfirmInformation extends Component {
         console.log(this.props.pay_method_id)
         console.log(url)
 
-        formData.append('plane_number', this.props.plane_number);
-        formData.append('plane_type', navigation.getParam('plane_type'));
+        // formData.append('plane_number', this.props.plane_number);
+        // formData.append('plane_type', navigation.getParam('plane_type'));
+        // formData.append('catch_in_house', navigation.getParam('broad_price') ? '1' : '0');
+        // formData.append('fullname', this.props.full_name);
+        // formData.append('phone', this.props.use_phone);
+        // formData.append('email', this.props.email);
+        // formData.append('address', this.props.drop_add);
+        // formData.append('comment', this.props.comment);
+        // formData.append('chunk_id', this.props.chunk_id);
+        // formData.append('dimension_id', this.props.dimension_id);
+        // formData.append('vehicle_id', this.props.vehicle_id);
+        // formData.append('ride_method_id', this.props.ride_method_id);
+        // formData.append('chair', this.props.people);
+        // formData.append('airport_id', this.props.airport_id);
+        // formData.append('street_id', this.props.street_id);
+        // formData.append('village_id', this.props.village_id);
+        // formData.append('pick_pos', this.props.pick_pos);
+        // formData.append('drop_pos', this.props.drop_pos);
+        // formData.append('depart_time', this.props.depart_time);
+        // formData.append('pm_id', this.props.pm_id);
+        // formData.append('pick_address', this.props.pick_add);
+        // formData.append('drop_address', this.props.drop_add);
+        // formData.append('ignore_duplicate_warning', this.props.ignore_duplicate_warning);
+        // formData.append('pay_method_id', this.props.pay_method_id);
+        // // dang sai ở dòng trên pay_method_id
+        // formData.append('brand_partner_id', this.props.brand_partner_id);
+        // formData.append('unmerged_select', this.props.unmerged);
+        // if (navigation.getParam('xhd')) {
+        //     formData.append('xhd', 1);
+        //     formData.append('company[name]', this.props.company_name);
+        //     formData.append('company[address]', this.props.company_address);
+        //     formData.append('company[mst]', this.props.company_mst);
+        //     formData.append('company[address_receive]', this.props.company_address_receive);
+        // } else {
+        //     formData.append('xhd', 0);
+        // }
+        // formData.append('city_id', this.props.city_id);
+        // formData.append('use_range_time', this.props.use_range_time);
+        // formData.append('ticket_session', 'BOOK_MAIN');
+        // formData.append('source', link.SOURCE);
+        // formData.append('partner_domain', 'hub.dichung.vn');
+        // if (navigation.getParam('not_use')) {
+        //     formData.append('not_use', 1);
+        //     formData.append('use[name]', this.props.full_name2);
+        //     formData.append('use[phone]', this.props.use_phone2);
+        // }
+        // if (navigation.getParam('blDiscount')) {
+        //     formData.append('promotion_code', navigation.getParam('promotion'))
+        // }
+        // formData.append('session_id', 'u50t38e1b5kgb4bo7starcuq05');
+        if (this.props.plane_number.trim().length > 0) {
+            formData.append('plane_number', this.props.plane_number.trim());
+        } else {
+            formData.append('plane_number', '');
+        }
+        if (this.props.is_airport == 'false' || navigation.getParam('plane_type') == -1) {
+            formData.append('plane_type', '');
+        } else {
+            formData.append('plane_type', navigation.getParam('plane_type'));
+        }
+
         formData.append('catch_in_house', navigation.getParam('broad_price') ? '1' : '0');
         formData.append('fullname', this.props.full_name);
         formData.append('phone', this.props.use_phone);
@@ -591,18 +650,17 @@ class ConfirmInformation extends Component {
         formData.append('drop_address', this.props.drop_add);
         formData.append('ignore_duplicate_warning', this.props.ignore_duplicate_warning);
         formData.append('pay_method_id', this.props.pay_method_id);
-        // dang sai ở dòng trên pay_method_id
         formData.append('brand_partner_id', this.props.brand_partner_id);
         formData.append('unmerged_select', this.props.unmerged);
-        if (navigation.getParam('xhd')) {
-            formData.append('xhd', 1);
-            formData.append('company[name]', this.props.company_name);
-            formData.append('company[address]', this.props.company_address);
-            formData.append('company[mst]', this.props.company_mst);
-            formData.append('company[address_receive]', this.props.company_address_receive);
-        } else {
-            formData.append('xhd', 0);
-        }
+        // if (navigation.getParam('xhd')) {
+        formData.append('xhd', navigation.getParam('xhd') ? 1 : 0);
+        formData.append('company[name]', this.props.company_name);
+        formData.append('company[address]', this.props.company_address);
+        formData.append('company[mst]', this.props.company_mst);
+        formData.append('company[address_receive]', this.props.company_address_receive);
+        // } else {
+        //     formData.append('xhd', 0);
+        // }
         formData.append('city_id', this.props.city_id);
         formData.append('use_range_time', this.props.use_range_time);
         formData.append('ticket_session', 'BOOK_MAIN');
@@ -616,8 +674,7 @@ class ConfirmInformation extends Component {
         if (navigation.getParam('blDiscount')) {
             formData.append('promotion_code', navigation.getParam('promotion'))
         }
-        formData.append('session_id', 'u50t38e1b5kgb4bo7starcuq05');
-
+        formData.append('session_id', 'tum3fdn24qf3778e7d585ff0e1');
 
         fetch(url, {
             method: 'POST',

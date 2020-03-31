@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, BackHandler, Alert, Image, Linking, Dimensions, ScrollView } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, BackHandler, Alert, Image, Linking, Dimensions, ScrollView,SafeAreaView } from 'react-native';
 import { connect } from 'react-redux';
 import * as link from '../../URL'
 import Header from '../../component/Header'
@@ -123,7 +123,7 @@ class Home extends Component {
             )
         }
         return (
-            <GestureRecognizer
+            <SafeAreaView
                 // onSwipe={this.onSwipe}
                 style={{
                     flex: 1,
@@ -241,7 +241,7 @@ class Home extends Component {
                     </ScrollView>
                 </View>
 
-            </GestureRecognizer>
+            </SafeAreaView>
         );
     }
 }
