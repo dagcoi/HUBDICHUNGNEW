@@ -10,7 +10,7 @@ import listHour from '../../../component/TimeSelect/listTime'
 
 import MapViewDirections from 'react-native-maps-directions';
 import { TextInput } from 'react-native-gesture-handler';
-import {ButtonFull} from '../../../component/Button'
+import { ButtonFull } from '../../../component/Button'
 
 const origin = { latitude: 21.2187149, longitude: 105.80417090000003 };
 // const destination = { latitude: 21.0019302, longitude: 105.85090579999996 };
@@ -175,11 +175,11 @@ class MapDiChung extends Component {
                     this.mapRef.fitToSuppliedMarkers(['mk1', 'mk2'], {
                         edgePadding:
                         {
-                            top: 100,
+                            top: 300,
                             right: 100,
                             bottom: 100,
                             left: 100
-                        }, animated: false,
+                        }
                     })
                     this.mapRef.fitToElements(true);
                 }}
@@ -215,11 +215,11 @@ class MapDiChung extends Component {
                         this.mapRef.fitToSuppliedMarkers(['mk1', 'mk2'], {
                             edgePadding:
                             {
-                                top: 100,
+                                top: 300,
                                 right: 100,
                                 bottom: 100,
                                 left: 100
-                            }, animated: false,
+                            }
                         })
                         this.mapRef.fitToElements(true);
                     }}
@@ -344,7 +344,7 @@ class MapDiChung extends Component {
     renderTimePick() {
         return (
             <TouchableOpacity
-                style={{ flex: 1, borderTopWidth: 0.3, justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
+                style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
                 onPress={() => {
                     this.setState({
                         dialogCalendarVisible: true,
@@ -374,8 +374,8 @@ class MapDiChung extends Component {
             <View style={styles.borderBot}>
                 {this.renderPickAddress()}
 
-                <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 0.3, justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={{ flex: 1, flexDirection: 'row', borderColor: '#e8e8e8', borderRightWidth: 0.1, justifyContent: 'center', alignItems: 'center', }}>
+                <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ flex: 1, flexDirection: 'row', borderColor: '#e8e8e8', borderRightWidth: 0.0, justifyContent: 'center', alignItems: 'center', }}>
                         <Image
                             style={{ height: 30, width: 24, marginLeft: 8, alignItems: 'center', justifyContent: 'center' }}
                             source={require(imageDrop)}
@@ -406,7 +406,7 @@ class MapDiChung extends Component {
                     </View>
 
                     <TouchableOpacity
-                        style={{ borderLeftWidth: 0.3 }}
+                        style={{ borderLeftWidth: 1, borderColor : '#e8e8e8' }}
                         onPress={() => {
                             this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.lattitude_drop, this.props.lngtitude_drop, this.props.pick_add, this.props.component_pick, this.props.lattitude_pick, this.props.lngtitude_pick);
                         }}
@@ -421,9 +421,9 @@ class MapDiChung extends Component {
 
                 <View style={{ flexDirection: 'row', height: 40, }}>
                     {this.renderTimePick()}
-                    <View style={{ width: 0.5, backgroundColor: '#000' }}></View>
+                    <View style={{ width: 1, backgroundColor: '#e8e8e8' }}></View>
                     <TouchableOpacity
-                        style={{ flex: 1, borderTopWidth: 0.3, justifyContent: "center", flexDirection: 'row', alignItems: 'center' }}
+                        style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", flexDirection: 'row', alignItems: 'center' }}
                         onPress={() => {
                             this.setState({
                                 dialogSelectPeople: true,
@@ -438,20 +438,10 @@ class MapDiChung extends Component {
                     </TouchableOpacity>
                 </View>
 
-                <View style={{ height: 0.3, backgroundColor: '#000', flexDirection: 'row' }}>
+                <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
                     <View style={{ flex: 1 }}></View>
                 </View>
 
-                <View style={{ height: 56, flexDirection: 'row', }}>
-                    <TouchableOpacity
-                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', margin: 8, padding: 8 }}
-                        onPress={() => {
-                            this.nextScreen();
-                        }}
-                    >
-                        <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold', margin: 8 }}>XEM GIÁ</Text>
-                    </TouchableOpacity>
-                </View>
             </View>
         )
     }
@@ -463,20 +453,20 @@ class MapDiChung extends Component {
                 <View style={{ height: 40, flexDirection: 'row', }}>
                     {this.renderTimePick()}
                 </View>
-                <View style={{ height: 40, flexDirection: 'row', }}>
-                    <View style={{ flex: 1, borderTopWidth: 0.3, justifyContent: 'center', alignItems: 'center', }}>
+                <View style={{ height: 40, flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#e8e8e8' }}>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
                         {this.renderHourglass()}
                     </View>
-                    <View style={{ width: 0.3, backgroundColor: '#000' }}></View>
-                    <View style={{ flex: 1, borderTopWidth: 0.3, justifyContent: 'center', alignItems: 'center', }}>
+                    <View style={{ width: 1, backgroundColor: '#e8e8e8' }}></View>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
                         {this.renderCarType()}
                     </View>
                 </View>
-                <View style={{ height: 0.3, backgroundColor: '#000', flexDirection: 'row' }}>
+                <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
                     <View style={{ flex: 1 }}></View>
                 </View>
 
-                <View style={{ height: 56, flexDirection: 'row', }}>
+                {/* <View style={{ height: 56, flexDirection: 'row', }}>
                     <TouchableOpacity
                         style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', margin: 8 }}
                         onPress={() => {
@@ -485,14 +475,14 @@ class MapDiChung extends Component {
                     >
                         <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold', margin: 8 }}>XEM GIÁ</Text>
                     </TouchableOpacity>
-                </View>
+                </View> */}
             </View>
         )
     }
 
     formSwitch() {
         return (
-            <View style={[{ flexDirection: 'row', height: 56, backgroundColor: '#fff', marginLeft: 8, marginRight: 8 }, styles.borderTop]}>
+            <View style={[{ flexDirection: 'row', height: 48, backgroundColor: '#fff', marginLeft: 8, marginRight: 8 }, styles.borderTop]}>
                 <TouchableOpacity
                     style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: this.state.selectTaxi ? '#fff' : '#aaa', borderTopStartRadius: 8 }}
                     onPress={() => {
@@ -501,7 +491,7 @@ class MapDiChung extends Component {
                         })
                     }}
                 >
-                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: this.state.selectTaxi ? '#77a300' : '#fff' }}>Đặt xe</Text>
+                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: this.state.selectTaxi ? '#77a300' : '#fff' }}>Sân bay, đường dài</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: this.state.selectTaxi ? '#aaa' : '#fff', borderTopEndRadius: 8 }}
@@ -550,13 +540,23 @@ class MapDiChung extends Component {
 
         return (
             <View style={{ flex: 1 }}>
-                <View style={{ height: 50, backgroundColor: '#eee', justifyContent: 'center', paddingLeft: 16 }}>
+                <View style={{ height: 48, backgroundColor: '#eee', justifyContent: 'center', paddingLeft: 16 }}>
                     <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Bạn sẽ đi đâu hôm nay?</Text>
                 </View>
                 <View style={[{ flex: 1, backgroundColor: '#eee' }]}>
+                    {this.renderPicktoDrop()}
                     {this.formSwitch()}
                     {this.state.selectTaxi ? this.renderTaxiAirport() : this.renderTour()}
-                    {this.renderPicktoDrop()}
+                    {this.state.selectTaxi ?
+                        <ButtonFull
+                            onPress={() => { this.nextScreen() }}
+                            value={'Xem giá'}
+                        /> :
+                        <ButtonFull
+                            onPress={() => { this.gotoListCarHourlyBooking() }}
+                            value={'Xem giá'}
+                        />
+                    }
                 </View>
                 <Modal
                     animationType="slide"
@@ -704,7 +704,7 @@ class MapDiChung extends Component {
                             data={this.state.listChair}
                             renderItem={({ item }) =>
                                 <TouchableOpacity
-                                    style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderWidth: 0.3 }}
+                                    style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderWidth: 1 }}
                                     onPress={() => {
                                         this.setState({
                                             people: item.chair,
@@ -745,7 +745,7 @@ class MapDiChung extends Component {
                             data={this.state.listTime}
                             renderItem={({ item }) =>
                                 <TouchableOpacity
-                                    style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderWidth: 0.3 }}
+                                    style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderWidth: 1 }}
                                     onPress={() => {
                                         this.setState({
                                             duration: item.time,
@@ -786,7 +786,7 @@ class MapDiChung extends Component {
                             data={this.state.listCar}
                             renderItem={({ item }) =>
                                 <TouchableOpacity
-                                    style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderWidth: 0.3 }}
+                                    style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderWidth: 1 }}
                                     onPress={() => this.setState({
                                         carType: item.carname,
                                         selectCar: item.listCarType,
@@ -811,7 +811,7 @@ class MapDiChung extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 230,
+        marginTop: 180,
         position: 'absolute',
         top: 2,
         left: 2,
@@ -831,7 +831,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
         justifyContent: 'center',
         alignItems: 'center',
-        padding : 8,
+        paddingTop: 8,
+        paddingLeft: 8,
+        paddingRight: 8,
         borderBottomEndRadius: 0,
         borderBottomStartRadius: 0
     },

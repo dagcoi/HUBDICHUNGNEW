@@ -58,10 +58,9 @@ class ListCar extends Component {
                 <Text style={{
                     flex: 1,
                     fontSize: 22,
-                    textAlign: 'left'
-                }}>
-                    Danh sách xe
-                </Text>
+                    textAlign: 'left',
+                    justifyContent: 'center'
+                }}>Danh sách xe</Text>
 
                 <View
                     style={{ width: 35, height: 35 }}

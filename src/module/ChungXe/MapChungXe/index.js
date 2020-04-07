@@ -10,6 +10,8 @@ import * as key from '../../../component/KeyGG'
 import { TextInput } from 'react-native-gesture-handler';
 import MapViewDirections from 'react-native-maps-directions';
 import listHour from '../../../component/TimeSelect/listTime';
+import { ButtonFull } from '../../../component/Button'
+
 const imageLocation = '../../../image/location.png'
 const imageDrop = '../../../image/drop.png'
 const imageSwap = '../../../image/swap.png'
@@ -158,7 +160,7 @@ class MapChungXe extends Component {
 
         if (this.props.drop_add == '' || this.props.pick_add == '') {
             return (
-                <MapView style={[styles.container, { marginTop: 200 }]}
+                <MapView style={[styles.container, { marginTop: 150 }]}
                     provider={PROVIDER_GOOGLE}
                     initialRegion={{
                         latitude: this.props.pick_add == '' ? origin.latitude : this.props.lattitude_pick,
@@ -170,7 +172,7 @@ class MapChungXe extends Component {
             );
         }
         return (
-            <MapView style={[styles.container, { marginTop: 200 }]}
+            <MapView style={[styles.container, { marginTop: 150 }]}
                 ref={(ref) => { this.mapRef = ref }}
                 provider={PROVIDER_GOOGLE}
                 // initialCamera={{
@@ -187,12 +189,13 @@ class MapChungXe extends Component {
                     this.mapRef.fitToSuppliedMarkers(['mk1', 'mk2'], {
                         edgePadding:
                         {
-                            top: 50,
+                            top: 500,
                             right: 50,
                             bottom: 50,
                             left: 50
                         }
                     })
+                    this.mapRef.fitToElements(true)
                 }}
             >
                 <MapView.Marker
@@ -221,6 +224,18 @@ class MapChungXe extends Component {
                     apikey={GOOGLE_MAPS_APIKEY}
                     strokeWidth={5}
                     strokeColor="#669df6"
+                    onReady={() => {
+                        this.mapRef.fitToSuppliedMarkers(['mk1', 'mk2'], {
+                            edgePadding:
+                            {
+                                top: 500,
+                                right: 50,
+                                bottom: 50,
+                                left: 50
+                            }
+                        })
+                        this.mapRef.fitToElements(true)
+                    }}
                 />
             </MapView>
         );
@@ -259,7 +274,7 @@ class MapChungXe extends Component {
                         data={this.state.listCityDC}
                         renderItem={({ item }) =>
                             <TouchableOpacity
-                                style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderTopWidth: 0.3 }}
+                                style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderTopWidth: 1 }}
                                 onPress={() => {
                                     item.hide == 1 ? console.log(item.city_name) :
                                         this.setState({
@@ -279,7 +294,7 @@ class MapChungXe extends Component {
 
     renderPickAddress() {
         return (
-            <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 0.3, justifyContent: 'center', alignItems: 'center', height: 40 }}>
+            <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 1, justifyContent: 'center', alignItems: 'center', height: 40 }}>
                 <Image
                     style={{ height: 30, width: 24, marginLeft: 8 }}
                     source={require(imageLocation)}
@@ -314,7 +329,7 @@ class MapChungXe extends Component {
     renderTimePick() {
         return (
             <TouchableOpacity
-                style={{ flex: 1, borderTopWidth: 0.3, justifyContent: "center", alignItems: 'center', flexDirection: 'row', height: 40 }}
+                style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', height: 40 }}
                 onPress={() => {
                     this.setState({
                         dialogCalendarVisible: true,
@@ -343,7 +358,7 @@ class MapChungXe extends Component {
     formBookingDoortoDoor() {
         return (
             <View style={styles.borderBot}>
-                <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 0.3, justifyContent: 'center', alignItems: 'center', height: 40 }}>
+                <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 0.0, justifyContent: 'center', alignItems: 'center', height: 40 }}>
                     <TouchableOpacity
                         style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}
                         onPress={() => {
@@ -376,7 +391,7 @@ class MapChungXe extends Component {
 
                 {this.renderPickAddress()}
 
-                <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 0.3, justifyContent: 'center', alignItems: 'center', height: 40 }}>
+                <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 1, justifyContent: 'center', alignItems: 'center', height: 40 }}>
                     <View style={{ flex: 1, flexDirection: 'row', borderColor: '#e8e8e8', borderRightWidth: 0.1, justifyContent: 'center', alignItems: 'center', }}>
                         <Image
                             style={{ height: 30, width: 24, marginLeft: 8, alignItems: 'center', justifyContent: 'center' }}
@@ -407,7 +422,7 @@ class MapChungXe extends Component {
                     </View>
 
                     <TouchableOpacity
-                        style={{ borderLeftWidth: 0.3 }}
+                        style={{ borderLeftWidth: 1, borderColor: '#e8e8e8' }}
                         onPress={() => {
                             this.props.swapAddressTuLai(this.props.drop_add, this.props.component_drop, this.props.lattitude_drop, this.props.lngtitude_drop, this.props.pick_add, this.props.component_pick, this.props.lattitude_pick, this.props.lngtitude_pick);
                         }}
@@ -423,19 +438,13 @@ class MapChungXe extends Component {
                 <View style={{ flexDirection: 'row', }}>
                     {this.renderTimePick()}
                 </View>
-                <View style={{ height: 0.3, backgroundColor: '#000', flexDirection: 'row' }}>
+                <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
                     <View style={{ flex: 1 }}></View>
                 </View>
-                <View style={{ flexDirection: 'row', }}>
-                    <TouchableOpacity
-                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', margin: 8 }}
-                        onPress={() => {
-                            this.nextScreen();
-                        }}
-                    >
-                        <Text style={{ color: '#ffffff', fontSize: 20, padding: 8, fontWeight: 'bold', }}>XEM GIÁ</Text>
-                    </TouchableOpacity>
-                </View>
+                {/* <ButtonFull
+                    onPress={() => { this.nextScreen() }}
+                    value={'Xem giá'}
+                /> */}
             </View>
         )
     }
@@ -466,7 +475,7 @@ class MapChungXe extends Component {
         return (
             <View style={styles.borderBot}>
 
-                <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 0.3, justifyContent: 'center', alignItems: 'center', height: 40 }}>
+                <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 0.0, justifyContent: 'center', alignItems: 'center', height: 40 }}>
                     <Image
                         style={{ height: 30, width: 24, marginLeft: 8 }}
                         source={require('../../../image/location.png')}
@@ -490,7 +499,7 @@ class MapChungXe extends Component {
 
                 <View style={{ flexDirection: 'row', height: 40, }}>
                     <TouchableOpacity
-                        style={{ flex: 1, borderTopWidth: 0.3, justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
+                        style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
                         onPress={() => {
                             this.setState({
                                 dialogCalendarVisible: true, nhanxe: true
@@ -512,9 +521,9 @@ class MapChungXe extends Component {
                         />
 
                     </TouchableOpacity>
-                    <View style={{ width: 0.3, backgroundColor: '#000' }}></View>
+                    <View style={{ width: 1, backgroundColor: '#e8e8e8' }}></View>
                     <TouchableOpacity
-                        style={{ flex: 1, borderTopWidth: 0.3, justifyContent: "center", flexDirection: 'row', alignItems: 'center' }}
+                        style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", flexDirection: 'row', alignItems: 'center' }}
                         onPress={() => {
                             this.setState({
                                 dialogCalendarVisible: true, nhanxe: false
@@ -535,26 +544,20 @@ class MapChungXe extends Component {
                         />
                     </TouchableOpacity>
                 </View>
-                <View style={{ height: 0.3, backgroundColor: '#000', flexDirection: 'row' }}>
+                <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
                     <View style={{ flex: 1 }}></View>
                 </View>
-                <View style={{ flexDirection: 'row', }}>
-                    <TouchableOpacity
-                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', margin: 8 }}
-                        onPress={() => {
-                            this.gotoListCarTour();
-                        }}
-                    >
-                        <Text style={{ color: '#ffffff', fontSize: 20, padding: 8, fontWeight: 'bold', }}>XEM GIÁ</Text>
-                    </TouchableOpacity>
-                </View>
+                {/* <ButtonFull
+                    onPress={() => { this.gotoListCarTour() }}
+                    value={'Xem giá'}
+                /> */}
             </View>
         )
     }
 
     formSwitch() {
         return (
-            <View style={[{ backgroundColor: '#fff', height: 56, flexDirection: 'row', marginTop: 8, marginLeft: 8, marginRight: 8 }, styles.borderTop]}>
+            <View style={[{ backgroundColor: '#fff', height: 48, flexDirection: 'row', marginTop: 8, marginLeft: 8, marginRight: 8 }, styles.borderTop]}>
                 <TouchableOpacity
                     style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: this.state.hourly ? '#aaaaaa' : '#fff', borderTopLeftRadius: 8 }}
                     onPress={() => this.setState({
@@ -591,9 +594,18 @@ class MapChungXe extends Component {
         return (
             <View style={{ flex: 1, backgroundColor: '#eee' }}>
 
-                {this.state.hourly ? this.renderMap() : this.renderPicktoDrop()}
+                {this.renderPicktoDrop()}
                 {this.formSwitch()}
                 {this.state.hourly ? this.formCarTour() : this.formBookingDoortoDoor()}
+                {this.state.hourly ?
+                    <ButtonFull
+                        onPress={() => { this.gotoListCarTour() }}
+                        value={'Xem giá'}
+                    /> :
+                    <ButtonFull
+                        onPress={() => { this.nextScreen() }}
+                        value={'Xem giá'}
+                    />}
 
                 <Modal
                     visible={this.state.dialogCalendarVisible}
@@ -665,7 +677,7 @@ class MapChungXe extends Component {
                             data={this.state.listCity}
                             renderItem={({ item }) =>
                                 <TouchableOpacity
-                                    style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderTopWidth: 0.3 }}
+                                    style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderTopWidth: 1 }}
                                     onPress={() => this.setState({
                                         city: item.city_name,
                                         city_id: item.city_id,
@@ -944,7 +956,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderBottomEndRadius: 0,
-        borderBottomStartRadius: 0
+        borderBottomStartRadius: 0,
+        paddingLeft: 8,
+        paddingRight: 8,
+        paddingTop: 4,
     },
     borderTop: {
         borderTopEndRadius: 8,

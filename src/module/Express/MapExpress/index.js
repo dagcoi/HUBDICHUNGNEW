@@ -8,6 +8,7 @@ import { addDepartTimeVanChuyen, addPeopleVanChuyen, swapAddressVanChuyen, addDu
 import AmountOfPracel from './AmountOfPracel'
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
 import * as key from '../../../component/KeyGG'
+import { ButtonFull } from '../../../component/Button'
 
 import MapViewDirections from 'react-native-maps-directions';
 import { TextInput } from 'react-native-gesture-handler';
@@ -135,26 +136,17 @@ class MapExpress extends Component {
             <MapView style={styles.container}
                 ref={(ref) => { this.mapRef = ref }}
                 provider={PROVIDER_GOOGLE}
-                // initialCamera={{
-                //     center: {
-                //         latitude: (this.props.lattitude_pick + this.props.lattitude_drop) / 2,
-                //         longitude: (this.props.lngtitude_pick + this.props.lngtitude_drop) / 2,
-                //     },
-                //     pitch: 1,
-                //     heading: 1,
-                //     zoom: 12,
-                //     altitude: 1,
-                // }}
                 onMapReady={() => {
                     this.mapRef.fitToSuppliedMarkers(['mk1', 'mk2'], {
                         edgePadding:
                         {
-                            top: 50,
+                            top: 300,
                             right: 50,
                             bottom: 50,
                             left: 50
                         }
                     })
+                    this.mapRef.fitToElements(true)
                 }}
             >
                 <MapView.Marker
@@ -162,7 +154,7 @@ class MapExpress extends Component {
                         latitude: this.props.lattitude_pick,
                         longitude: this.props.lngtitude_pick,
                     }}
-                    title={"Điểm đón"}
+                    title={"Điểm nhận hàng"}
                     description={this.props.pick_add}
                     identifier={'mk1'}
                 />
@@ -172,7 +164,7 @@ class MapExpress extends Component {
                         latitude: this.props.lattitude_drop,
                         longitude: this.props.lngtitude_drop,
                     }}
-                    title={"Điểm trả"}
+                    title={"Điểm trả hàng"}
                     description={this.props.drop_add}
                     identifier={'mk2'}
                 />
@@ -183,6 +175,18 @@ class MapExpress extends Component {
                     apikey={GOOGLE_MAPS_APIKEY}
                     strokeWidth={5}
                     strokeColor="#669df6"
+                    onReady={() => {
+                        this.mapRef.fitToSuppliedMarkers(['mk1', 'mk2'], {
+                            edgePadding:
+                            {
+                                top: 300,
+                                right: 50,
+                                bottom: 50,
+                                left: 50
+                            }
+                        })
+                        this.mapRef.fitToElements(true)
+                    }}
                 />
 
             </MapView>
@@ -307,7 +311,7 @@ class MapExpress extends Component {
                         </TouchableOpacity>
                     </View>
                     <TouchableOpacity
-                        style={{ borderLeftWidth: 0.5 }}
+                        style={{ borderLeftWidth: 1, borderColor: '#e8e8e8' }}
                         onPress={() => {
                             this.props.swapAddressVanChuyen(this.props.drop_add, this.props.component_drop, this.props.lattitude_drop, this.props.lngtitude_drop, this.props.pick_add, this.props.component_pick, this.props.lattitude_pick, this.props.lngtitude_pick);
                         }}
@@ -321,7 +325,7 @@ class MapExpress extends Component {
 
                 <View style={{ flexDirection: 'row', height: 40, }}>
                     <TouchableOpacity
-                        style={{ flex: 1, borderTopWidth: 0.5, justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
+                        style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
                         onPress={() => {
                             this.setState({
                                 dialogCalendarVisible: true,
@@ -344,9 +348,9 @@ class MapExpress extends Component {
 
                     </TouchableOpacity>
 
-                    <View style={{ width: 0.5, backgroundColor: '#000' }}></View>
+                    <View style={{ width: 1, backgroundColor: '#e8e8e8' }}></View>
                     <TouchableOpacity
-                        style={{ flex: 1, borderTopWidth: 0.5, justifyContent: "center", flexDirection: 'row', alignItems: 'center' }}
+                        style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", flexDirection: 'row', alignItems: 'center' }}
                         onPress={() => {
                             this.setState({
                                 dialogSelectPeople: true,
@@ -360,18 +364,8 @@ class MapExpress extends Component {
                         <Text style={{ flex: 1 }}>{this.props.chair} gói</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={{ height: 0.3, backgroundColor: '#000', flexDirection: 'row' }}>
+                <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
                     <View style={{ flex: 1 }}></View>
-                </View>
-                <View style={{ height: 56, flexDirection: 'row', }}>
-                    <TouchableOpacity
-                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', margin: 8 }}
-                        onPress={() => {
-                            this.nextScreen();
-                        }}
-                    >
-                        <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold', }}>XEM GIÁ</Text>
-                    </TouchableOpacity>
                 </View>
             </View>
         )
@@ -410,7 +404,7 @@ class MapExpress extends Component {
                 </View>
 
                 <View style={{ height: 40, flexDirection: 'row', }}>
-                    <View style={{ flex: 1, borderTopWidth: 0.5, justifyContent: 'center', alignItems: 'center', }}>
+                    <View style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', }}>
                         <ImageInputTextDiChung
                             onPress={() => {
                                 this.setState({
@@ -422,8 +416,8 @@ class MapExpress extends Component {
                             value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours} : ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
                         />
                     </View>
-                    <View style={{ width: 0.5, backgroundColor: '#000' }}></View>
-                    <View style={{ flex: 1, borderTopWidth: 0.5, justifyContent: 'center', alignItems: 'center', }}>
+                    <View style={{ width: 1, backgroundColor: '#e8e8e8' }}></View>
+                    <View style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', }}>
                         <ImageInputTextDiChung
                             onPress={() => {
                                 this.setState({
@@ -437,19 +431,10 @@ class MapExpress extends Component {
                     </View>
                 </View>
                 {/* </View> */}
-                <View style={{ height: 0.3, backgroundColor: '#000', flexDirection: 'row' }}>
+                <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
                     <View style={{ flex: 1 }}></View>
                 </View>
-                <View style={{ height: 56, flexDirection: 'row', }}>
-                    <TouchableOpacity
-                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', margin: 8 }}
-                        onPress={() => {
-                            this.nextScreenHourly();
-                        }}
-                    >
-                        <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold', }}>XEM GIÁ</Text>
-                    </TouchableOpacity>
-                </View>
+
             </View>
 
         )
@@ -463,7 +448,7 @@ class MapExpress extends Component {
         return (
             <View style={[{ flexDirection: 'row', backgroundColor: '#fff', marginTop: 8, marginLeft: 8, marginRight: 8 }, styles.borderTop]}>
                 <TouchableOpacity
-                    style={{ backgroundColor: this.state.hourlyBooking ? '#aaa' : '#fff', flex: 1, height: 56, justifyContent: 'center', alignItems: 'center', borderTopLeftRadius: 8 }}
+                    style={{ backgroundColor: this.state.hourlyBooking ? '#aaa' : '#fff', flex: 1, height: 48, justifyContent: 'center', alignItems: 'center', borderTopLeftRadius: 8 }}
                     onPress={() => {
                         this.setState({
                             hourlyBooking: false,
@@ -474,7 +459,7 @@ class MapExpress extends Component {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    style={{ backgroundColor: this.state.hourlyBooking ? '#fff' : '#aaa', flex: 1, height: 56, justifyContent: 'center', alignItems: 'center', borderTopRightRadius: 8 }}
+                    style={{ backgroundColor: this.state.hourlyBooking ? '#fff' : '#aaa', flex: 1, height: 48, justifyContent: 'center', alignItems: 'center', borderTopRightRadius: 8 }}
                     onPress={() => {
                         this.setState({
                             hourlyBooking: true,
@@ -496,6 +481,16 @@ class MapExpress extends Component {
                 {this.renderPicktoDrop()}
                 {this.renderSelect()}
                 {this.state.hourlyBooking ? this.renderFormExpressTheoGio() : this.renderFormExpressTheoTuyen()}
+                {this.state.hourlyBooking ?
+                    <ButtonFull
+                        onPress={() => { this.nextScreenHourly() }}
+                        value={'Xem giá'}
+                    /> :
+                    <ButtonFull
+                        onPress={() => { this.nextScreen() }}
+                        value={'Xem giá'}
+                    />
+                }
                 <Modal
                     animationType="slide"
                     transparent={true}
@@ -615,7 +610,7 @@ class MapExpress extends Component {
                             data={this.state.listChair}
                             renderItem={({ item }) =>
                                 <TouchableOpacity
-                                    style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderWidth: 0.5 }}
+                                    style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderWidth: 1 }}
                                     onPress={() => {
                                         this.setState({
                                             people: item.chair,
@@ -657,7 +652,7 @@ class MapExpress extends Component {
                             data={this.state.listTime}
                             renderItem={({ item }) =>
                                 <TouchableOpacity
-                                    style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderBottomWidth: 0.5 }}
+                                    style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderBottomWidth: 1 }}
                                     onPress={() => {
                                         this.setState({
                                             duration: item.time,
@@ -680,7 +675,7 @@ class MapExpress extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 180,
+        marginTop: 150,
         position: 'absolute',
         top: 2,
         left: 2,
@@ -699,7 +694,7 @@ const styles = StyleSheet.create({
     borderInput: {
         flexDirection: 'row',
         borderColor: '#e8e8e8',
-        borderTopWidth: 0.5,
+        borderTopWidth: 1,
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -708,7 +703,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderBottomEndRadius: 0,
-        borderBottomStartRadius: 0
+        borderBottomStartRadius: 0,
+        paddingLeft: 8,
+        paddingRight: 8
     },
     borderTop: {
         borderTopEndRadius: 8,

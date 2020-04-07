@@ -6,7 +6,7 @@ import TimePicker from './TimePicker'
 import { connect } from 'react-redux';
 import { addDepartTimeTaixe, addPeopleTaixe, swapAddressTaixe, addDurationTaiXe } from '../../../core/Redux/action/Action'
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
-
+import { ButtonFull } from '../../../component/Button'
 import MapViewDirections from 'react-native-maps-directions';
 import { TextInput } from 'react-native-gesture-handler';
 import * as key from '../../../component/KeyGG'
@@ -157,12 +157,13 @@ class MapXeChung extends Component {
                     this.mapRef.fitToSuppliedMarkers(['mk1', 'mk2'], {
                         edgePadding:
                         {
-                            top: 50,
+                            top: 200,
                             right: 50,
                             bottom: 50,
                             left: 50
                         }
                     })
+                    this.mapRef.fitToElements(true)
                 }}
             >
                 <MapView.Marker
@@ -191,6 +192,18 @@ class MapXeChung extends Component {
                     apikey={GOOGLE_MAPS_APIKEY}
                     strokeWidth={5}
                     strokeColor="#669df6"
+                    onReady={() => {
+                        this.mapRef.fitToSuppliedMarkers(['mk1', 'mk2'], {
+                            edgePadding:
+                            {
+                                top: 200,
+                                right: 50,
+                                bottom: 50,
+                                left: 50
+                            }
+                        })
+                        this.mapRef.fitToElements(true)
+                    }}
                 />
 
             </MapView>
@@ -304,19 +317,15 @@ class MapXeChung extends Component {
                     source={require(imageHourglass)}
                     value={this.state.duration + ' giờ'}
                 />
-                <View style={{ height: 0.3, backgroundColor: '#000', flexDirection: 'row' }}>
+                <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
                     <View style={{ flex: 1 }}></View>
                 </View>
-                <View style={{ height: 40, flexDirection: 'row', margin: 8 }}>
-                    <TouchableOpacity
-                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', }}
-                        onPress={() => {
-                            this.gotoListDriverHourlyBooking();
-                        }}
-                    >
-                        <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold', }}>XEM GIÁ</Text>
-                    </TouchableOpacity>
-                </View>
+                <ButtonFull
+                    onPress={() => {
+                        this.gotoListDriverHourlyBooking();
+                    }}
+                    value={'Xem giá'}
+                />
             </View >
         )
     }
@@ -344,7 +353,7 @@ class MapXeChung extends Component {
                     value={this.props.pick_add}
                 />
 
-                <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 0.3, justifyContent: 'center', alignItems: 'center', }}>
+                <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 1, justifyContent: 'center', alignItems: 'center', }}>
                     <View style={{ flex: 1, flexDirection: 'row', borderColor: '#e8e8e8', borderRightWidth: 0.1, justifyContent: 'center', alignItems: 'center', }}>
                         <Image
                             style={{ height: 30, width: 24, marginLeft: 8, alignItems: 'center', justifyContent: 'center' }}
@@ -375,7 +384,7 @@ class MapXeChung extends Component {
                     </View>
 
                     <TouchableOpacity
-                        style={{ borderLeftWidth: 0.3 }}
+                        style={{ borderLeftWidth: 0.5, borderColor: '#e8e8e8' }}
                         onPress={() => {
                             this.props.swapAddressTaixe(this.props.drop_add, this.props.component_drop, this.props.lattitude_drop, this.props.lngtitude_drop, this.props.pick_add, this.props.component_pick, this.props.lattitude_pick, this.props.lngtitude_pick);
                         }}
@@ -398,19 +407,15 @@ class MapXeChung extends Component {
                     source={require(imageTime)}
                     value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours} : ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
                 />
-                <View style={{ height: 0.3, backgroundColor: '#000', flexDirection: 'row' }}>
+                <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
                     <View style={{ flex: 1 }}></View>
                 </View>
-                <View style={{ height: 40, flexDirection: 'row', margin: 8 }}>
-                    <TouchableOpacity
-                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', }}
-                        onPress={() => {
-                            this.nextScreen()
-                        }}
-                    >
-                        <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold', }}>XEM GIÁ</Text>
-                    </TouchableOpacity>
-                </View>
+                <ButtonFull
+                    onPress={() => {
+                        this.nextScreen()
+                    }}
+                    value={'Xem giá'}
+                />
             </View>
         )
     }
@@ -424,7 +429,7 @@ class MapXeChung extends Component {
                 {this.renderPicktoDrop()}
                 <View style={[{ flexDirection: 'row', backgroundColor: '#fff', marginLeft: 8, marginRight: 8, marginTop: 8 }, styles.borderTop]}>
                     <TouchableOpacity
-                        style={{ backgroundColor: this.state.hourlyBooking ? '#aaa' : '#fff', flex: 1, height: 56, justifyContent: 'center', alignItems: 'center', borderTopStartRadius: 8 }}
+                        style={{ backgroundColor: this.state.hourlyBooking ? '#aaa' : '#fff', flex: 1, height: 48, justifyContent: 'center', alignItems: 'center', borderTopStartRadius: 8 }}
                         onPress={() => {
                             this.setState({
                                 hourlyBooking: false,
@@ -435,7 +440,7 @@ class MapXeChung extends Component {
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                        style={{ backgroundColor: this.state.hourlyBooking ? '#fff' : '#aaa', flex: 1, height: 56, justifyContent: 'center', alignItems: 'center', borderTopEndRadius: 8 }}
+                        style={{ backgroundColor: this.state.hourlyBooking ? '#fff' : '#aaa', flex: 1, height: 48, justifyContent: 'center', alignItems: 'center', borderTopEndRadius: 8 }}
                         onPress={() => {
                             this.setState({
                                 hourlyBooking: true,
@@ -567,7 +572,7 @@ class MapXeChung extends Component {
                             data={this.state.listCity}
                             renderItem={({ item }) =>
                                 <TouchableOpacity
-                                    style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderTopWidth: 0.3 }}
+                                    style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderTopWidth: 1 }}
                                     onPress={() => {
                                         item.hide == 1 ? console.log(item.city_name) :
                                             this.setState({
@@ -608,7 +613,7 @@ class MapXeChung extends Component {
                             data={this.state.listTime}
                             renderItem={({ item }) =>
                                 <TouchableOpacity
-                                    style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderTopWidth: 0.3 }}
+                                    style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderTopWidth: 1 }}
                                     onPress={() => {
                                         this.setState({
                                             duration: item.time,
@@ -652,7 +657,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderBottomEndRadius: 0,
-        borderBottomStartRadius: 0
+        borderBottomStartRadius: 0,
+        paddingLeft: 8,
+        paddingRight: 8,
     },
     borderTop: {
         borderTopEndRadius: 8,
