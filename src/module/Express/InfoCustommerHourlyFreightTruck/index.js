@@ -543,7 +543,7 @@ class InfoCustommerHourlyFreightTruck extends Component {
                     <Text style={styles.textBig}>Mã giảm giá</Text>
 
                     <View style={{ flexDirection: 'row', marginTop: 8, marginBottom: 8, height: 50 }}>
-                        <View style={{ marginTop: 8, borderWidth: 0.5, borderColor: '#00363d', borderRadius: 4, flexDirection: 'row', justifyContent: "center", alignItems: "center", flex: 1, }} >
+                        <View style={{ marginTop: 8, borderWidth: 0.5, borderColor: '#e8e8e8', borderRadius: 4, flexDirection: 'row', justifyContent: "center", alignItems: "center", flex: 1, }} >
                             <TextInput
                                 style={[styles.textInput]}
                                 value={this.state.promotion_code}
@@ -648,7 +648,7 @@ const styles = StyleSheet.create({
     textInput: {
         borderWidth: 0,
         padding: 8,
-        borderColor: '#00363d',
+        borderColor: '#e8e8e8',
         fontSize: 16,
         borderRadius: 4,
         flex: 1,
@@ -656,7 +656,7 @@ const styles = StyleSheet.create({
     borderView: {
         marginTop: 8,
         borderWidth: 0.5,
-        borderColor: '#00363d',
+        borderColor: '#e8e8e8',
         borderRadius: 4,
         flexDirection: 'row',
         justifyContent: "center",

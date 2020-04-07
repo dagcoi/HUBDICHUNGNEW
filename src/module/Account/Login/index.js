@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     borderView: {
         marginTop: 8,
         borderWidth: 0.2,
-        borderColor: '#00363d',
+        borderColor: '#e8e8e8',
         borderRadius: 4,
         flexDirection: 'row',
         justifyContent: "center",

@@ -150,10 +150,10 @@ class ListCar extends Component {
         // console.log(listcar)
 
         this.setState({
-            listcar: [{ "vehicle_id": 17, "vehicle_name": "4 chỗ xe nhỏ" },
-            { "vehicle_id": 1, "vehicle_name": "4 chỗ cốp rộng" },
-            { "vehicle_id": 2, "vehicle_name": "7 chỗ" },
-            { "vehicle_id": 24, "vehicle_name": "Xe 16 chỗ" }]
+            listcar: [{ "vehicle_id": 17, "vehicle_name": "4 chỗ xe nhỏ", 'max_share_seats': 3 },
+            { "vehicle_id": 1, "vehicle_name": "4 chỗ cốp rộng", 'max_share_seats': 4 },
+            { "vehicle_id": 2, "vehicle_name": "7 chỗ", 'max_share_seats': 7 },
+            { "vehicle_id": 24, "vehicle_name": "Xe 16 chỗ", 'max_share_seats': 16 }]
         })
     }
 
@@ -208,11 +208,14 @@ class ListCar extends Component {
 
                                         <CheckBoxList
                                             onClick={() => {
-                                                (listcarfilter.indexOf(item.vehicle_id) > -1) ? (listcarfilter.splice(listcarfilter.indexOf(item.vehicle_id), 1)) : listcarfilter.push(item.vehicle_id);
-                                                this.setState({ listcarfilter: listcarfilter })
+                                                if (item.max_share_seats >= this.props.chair) {
+                                                    (listcarfilter.indexOf(item.vehicle_id) > -1) ? (listcarfilter.splice(listcarfilter.indexOf(item.vehicle_id), 1)) : listcarfilter.push(item.vehicle_id);
+                                                    this.setState({ listcarfilter: listcarfilter })
+                                                }
                                             }}
                                             isChecked={listcarfilter.indexOf(item.vehicle_id) > -1}
                                             rightText={item.vehicle_name + ' '}
+                                            style={item.max_share_seats >= this.props.chair ? null : { color: '#999' }}
                                         />
                                     </View>
                                 )
@@ -294,7 +297,7 @@ class ListCar extends Component {
         if (item.toll_fee == 'NA') {
             this.props.addTripInfomation(item.partner_name, item.merged, this.props.depart_time, item.chunk_id, item.vehicle_id, item.village_id, item.pm_id, item.partner_id, item.city_id, item.vehicle_name, item.toll_fee, item.dimension_id, item.vehicle_id, item.ride_method_id, item.chair, item.airport_id, item.street_id, item.vehicle_icon, item.pick_pos, item.drop_pos, item.use_range_time, item.unmerged);
         } else {
-            this.props.addTripInfomation(item.partner_name, item.merged + parseInt(item.toll_fee), this.props.depart_time, item.chunk_id, item.vehicle_id, item.village_id, item.pm_id, item.partner_id, item.city_id, item.vehicle_name, item.toll_fee, item.dimension_id, item.vehicle_id, item.ride_method_id, item.chair, item.airport_id, item.street_id, item.vehicle_icon, item.pick_pos, item.drop_pos, item.use_range_time, item.unmerged);
+            this.props.addTripInfomation(item.partner_name, item.merged, this.props.depart_time, item.chunk_id, item.vehicle_id, item.village_id, item.pm_id, item.partner_id, item.city_id, item.vehicle_name, item.toll_fee, item.dimension_id, item.vehicle_id, item.ride_method_id, item.chair, item.airport_id, item.street_id, item.vehicle_icon, item.pick_pos, item.drop_pos, item.use_range_time, item.unmerged);
         }
         this.props.navigation.push("InfoCustommer", {
             'isNightBooking': navigation.getParam('datdem')
@@ -317,10 +320,13 @@ class ListCar extends Component {
                 listcarfilter.push(33)
             }
         } else {
-            listcarfilter.splice(listcarfilter.indexOf(33),1)
+            if (listcarfilter.includes(33)) {
+                listcarfilter.splice(listcarfilter.indexOf(33), 1)
+            } else {
+            }
         }
         { listcarfilter.length == 0 ? obj2 = obj1 : obj2 = obj1.filter(ob => (listcarfilter.includes(ob.vehicle_id))) }
-        obj3 = obj2.filter(obj => (obj.vehicle_seat_left >= this.props.chair))
+        obj3 = obj2.filter(obj => (obj.vehicle_seat_left >= this.props.chair && obj.max_share_seats > 0))
         obj4 = obj3.filter(obj => obj.hide == 0)
         var obj = obj4.filter(obj => (listFilterMethod.includes(obj.ride_method_id)));
         if (navigation.getParam('datdem')) {
@@ -517,7 +523,7 @@ const styles = StyleSheet.create({
         borderLeftWidth: 1,
     },
     container: {
-        borderColor: '#77a300',
+        borderColor: '#e8e8e8',
         borderWidth: 0.5,
         borderRadius: 4,
         padding: 8,

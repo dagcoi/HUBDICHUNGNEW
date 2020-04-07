@@ -5,6 +5,8 @@ import {
   View,
   StyleSheet,
 } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import listHour from './listTime'
 
 const styles = StyleSheet.create({
   container: {
@@ -18,7 +20,7 @@ const styles = StyleSheet.create({
 const MAX_HOURS = 23;
 const MAX_MINUTES = 45;
 
-export default class TimePicker extends Component {
+export default class TimeSelect extends Component {
   static propTypes = {
     selectedHours: PropTypes.number,
     selectedMinutes: PropTypes.number,
@@ -41,6 +43,13 @@ export default class TimePicker extends Component {
     this.state = {
       selectedHours,
       selectedMinutes,
+      listHour: 1,
+      listMinute: [
+        { 'id': 1, 'minute': 0 },
+        { 'id': 2, 'minute': 15 },
+        { 'id': 3, 'minute': 30 },
+        { 'id': 4, 'minute': 45 },
+      ],
     };
   }
 
@@ -97,21 +106,33 @@ export default class TimePicker extends Component {
     const { selectedHours, selectedMinutes } = this.state;
     return (
       <View style={styles.container}>
-        <Picker
-          style={styles.picker}
-          selectedValue={selectedHours}
-          onValueChange={(itemValue) => this.handleChangeHours(itemValue)}
-        >
-          {this.getHoursItems()}
-        </Picker>
-        <Picker
-          style={styles.picker}
-          selectedValue={selectedMinutes}
-          onValueChange={(itemValue) => this.handleChangeMinutes(itemValue)}
-        >
-          {this.getMinutesImtes()}
-        </Picker>
+        {/* <FlatList
+          style={{ flex: 1, backgroundColor: '#ffffff' }}
+          data={this.state.listHour}
+          renderItem={({ itemHour }) =>
+            <View> */}
+        <FlatList
+          style={{ flex: 1, backgroundColor: '#ffffff' }}
+          data={this.state.listMinute}
+          renderItem={({ item }) =>
+            <TouchableOpacity
+              style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderWidth: 0.5 }}
+              onPress={() => {
+                this.setState({
+                  // selectedHours: itemHour.hour,
+                  selectedMinutes: item.minute,
+                })
+              }}
+            >
+              <Text style={{ fontSize: 18, flex: 1, padding: 8, color: item.chair == this.props.chair ? '#77a300' : '#000000' }}>{itemHour.hour} : {item.minute}</Text>
+            </TouchableOpacity>}
+          keyExtractor={item => item.minute}
+        />
+        {/* </View>
+        }
+        /> */}
       </View>
+
     );
   }
 }

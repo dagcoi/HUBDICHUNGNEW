@@ -307,7 +307,7 @@ class ListVehicle extends Component {
                         renderItem={({ item }) =>
                             <View>
                                 {/* {item.part.vhc_type_id != this.state.carType ? null : */}
-                                <View style={{ padding: 8, borderColor: '#00363d', borderRadius: 4, borderWidth: 0.5, marginTop: 8 }}>
+                                <View style={{ padding: 8, borderColor: '#e8e8e8', borderRadius: 4, borderWidth: 0.5, marginTop: 8 }}>
                                     <View style={{ flexDirection: 'row' }}>
                                         <View style={{ flex: 1, justifyContent: 'flex-start' }}>
                                             <View style={{ flexDirection: 'row' }}>

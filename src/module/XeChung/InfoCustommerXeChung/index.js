@@ -534,7 +534,7 @@ const styles = StyleSheet.create({
     textInput: {
         borderWidth: 0.5,
         padding: 8,
-        borderColor: '#00363d',
+        borderColor: '#e8e8e8',
         fontSize: 16,
         borderRadius: 4,
         flex: 1,
@@ -542,7 +542,7 @@ const styles = StyleSheet.create({
     borderView: {
         marginTop: 8,
         borderWidth: 0.5,
-        borderColor: '#00363d',
+        borderColor: '#e8e8e8',
         borderRadius: 4,
         flexDirection: 'row',
         justifyContent: "center",

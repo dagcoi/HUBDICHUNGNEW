@@ -210,7 +210,7 @@ class ConfirmInformationExpress extends Component {
             <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', marginBottom: 8 }}>
                 <Text style={styles.textBigLeft1}>Tổng thanh toán : </Text>
                 <Text style={styles.textBigRight1}>
-                    {((this.props.merged*this.props.chair - (navigation.getParam('blDiscount') ? this.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1)).format(0, 3, '.')} đ
+                    {((this.props.merged * this.props.chair - (navigation.getParam('blDiscount') ? this.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1)).format(0, 3, '.')} đ
                 </Text>
             </View>
         )
@@ -460,11 +460,10 @@ class ConfirmInformationExpress extends Component {
         formData.append('ticket_session', 'BOOK_MAIN');
         formData.append('source', link.SOURCE);
         formData.append('partner_domain', 'hub.dichung.vn');
-        if (navigation.getParam('not_use')) {
-            formData.append('not_use', 1);
-            formData.append('use[name]', this.props.full_name2);
-            formData.append('use[phone]', this.props.use_phone2);
-        }
+        formData.append('not_use', 1);
+        formData.append('use[name]', this.props.full_name2);
+        formData.append('use[phone]', this.props.use_phone2);
+
         formData.append('session_id', '5pl5q1b1prhd5hjpdr5rtf9qv3');
         fetch(url, {
             method: 'POST',

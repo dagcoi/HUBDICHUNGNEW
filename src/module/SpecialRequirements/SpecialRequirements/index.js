@@ -209,7 +209,7 @@ class SpecialRequirements extends Component {
 
                         <Text style={styles.textBig}>Chọn thời gian</Text>
                         <TouchableOpacity
-                            style={{ marginTop: 8, borderWidth: 0.5, borderColor: '#00363d', borderRadius: 4, flexDirection: 'row', justifyContent: "center", alignItems: "center", }}
+                            style={{ marginTop: 8, borderWidth: 0.5, borderColor: '#e8e8e8', borderRadius: 4, flexDirection: 'row', justifyContent: "center", alignItems: "center", }}
                             onPress={() => {
                                 this.setState({
                                     dialogCalendarVisible: true,
@@ -258,7 +258,7 @@ class SpecialRequirements extends Component {
                         <Text style={styles.textBig}>Loại xe</Text>
 
                         <TouchableOpacity
-                            style={{ marginTop: 8, borderWidth: 0.5, borderColor: '#00363d', borderRadius: 4, flexDirection: 'row', justifyContent: "center", alignItems: "center", }}
+                            style={{ marginTop: 8, borderWidth: 0.5, borderColor: '#e8e8e8', borderRadius: 4, flexDirection: 'row', justifyContent: "center", alignItems: "center", }}
                             onPress={() => {
                                 this.setState({
                                     modalCarType: true,
@@ -287,7 +287,7 @@ class SpecialRequirements extends Component {
                         /> */}
 
                         <TouchableOpacity
-                            style={{ marginTop: 8, borderWidth: 0.5, borderColor: '#00363d', borderRadius: 4, flexDirection: 'row', justifyContent: "center", alignItems: "center", }}
+                            style={{ marginTop: 8, borderWidth: 0.5, borderColor: '#e8e8e8', borderRadius: 4, flexDirection: 'row', justifyContent: "center", alignItems: "center", }}
                             onPress={() => this.gotoSearchPlaceSR()}
                         >
                             <TextInput

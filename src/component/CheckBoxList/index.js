@@ -9,6 +9,7 @@ function CheckBoxList({
     onClick,
     isChecked,
     rightText,
+    style,
 }) {
     return (
         <View>
@@ -17,9 +18,10 @@ function CheckBoxList({
                 onClick={onClick}
                 isChecked={isChecked}
                 rightText={rightText}
-                rightTextStyle={{ fontSize: 20 }}
-                checkedImage={<Image source={require(imageCheck)} style={{ width: 25, height: 25 }} />}
-                unCheckedImage={<Image source={require(imageUnCheck)} style={{ width: 25, height: 25 }} />}
+                rightTextStyle={[{ fontSize: 20 }, style]}
+                checkBoxColor = '#77a300'
+                // checkedImage={<Image source={require(imageCheck)} style={{ width: 25, height: 25 }} />}
+                // unCheckedImage={<Image source={require(imageUnCheck)} style={{ width: 25, height: 25 }} />}
             />
         </View>
     )

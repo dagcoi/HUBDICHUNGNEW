@@ -12,6 +12,12 @@ const imageMaxToMin = '../../../image/maxtomin.png'
 const imageMinToMax = '../../../image/mintomax.png'
 const imageTune = '../../../image/tune.png'
 
+
+Number.prototype.format = function (n, x) {
+    var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
+    return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
+};
+
 class ListDriverExpress extends Component {
 
     constructor() {
@@ -226,7 +232,7 @@ class ListDriverExpress extends Component {
                                     {item.partner_name.toUpperCase()}
                                 </Text>
                                 <StarVote number={item.star_vote} />
-                                <Text style={styles.giaTien}>{item.merged_format}</Text>
+                                <Text style={styles.giaTien}>{(item.merged * this.props.chair).format(0, 3, '.')} đ</Text>
                                 <Text style={styles.tentuyen}>{item.vehicle_name}</Text>
                             </View>
 
@@ -350,7 +356,7 @@ class ListDriverExpress extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        borderColor: '#77a300',
+        borderColor: '#e8e8e8',
         borderWidth: 0.5,
         borderRadius: 4,
         padding: 8,

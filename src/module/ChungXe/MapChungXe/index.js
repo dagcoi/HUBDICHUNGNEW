@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import * as key from '../../../component/KeyGG'
 import { TextInput } from 'react-native-gesture-handler';
 import MapViewDirections from 'react-native-maps-directions';
-
+import listHour from '../../../component/TimeSelect/listTime';
 const imageLocation = '../../../image/location.png'
 const imageDrop = '../../../image/drop.png'
 const imageSwap = '../../../image/swap.png'
@@ -74,7 +74,10 @@ class MapChungXe extends Component {
                 }
             ],
             isShowModalCity: false,
-        }
+            scrollNhan: 48,
+            scrollTra: 48,
+        },
+            this.mapRef = null;
     }
 
     setModalVisible(visible) {
@@ -84,7 +87,12 @@ class MapChungXe extends Component {
     componentDidMount() {
         this.getListCity()
         this.getDateTimeAlive();
+
     }
+
+    getItemLayout = (data, index) => (
+        { length: 40, offset: 40 * index, index }
+    )
 
     async getListCity() {
         try {
@@ -132,15 +140,29 @@ class MapChungXe extends Component {
         return spesentDay;
     }
 
+    renderMap() {
+        return (
+            <MapView style={[styles.container, { marginTop: 150 }]}
+                provider={PROVIDER_GOOGLE}
+                initialRegion={{
+                    latitude: origin.latitude,
+                    longitude: origin.longitude,
+                    latitudeDelta: 2.0,
+                    longitudeDelta: 0.1,
+                }}
+            ></MapView>
+        );
+    }
+
     renderPicktoDrop() {
 
         if (this.props.drop_add == '' || this.props.pick_add == '') {
             return (
-                <MapView style={styles.container}
+                <MapView style={[styles.container, { marginTop: 200 }]}
                     provider={PROVIDER_GOOGLE}
                     initialRegion={{
-                        latitude: origin.latitude,
-                        longitude: origin.longitude,
+                        latitude: this.props.pick_add == '' ? origin.latitude : this.props.lattitude_pick,
+                        longitude: this.props.pick_add == '' ? origin.longitude : this.props.lngtitude_pick,
                         latitudeDelta: 2.0,
                         longitudeDelta: 0.1,
                     }}
@@ -148,17 +170,29 @@ class MapChungXe extends Component {
             );
         }
         return (
-            <MapView style={styles.container}
+            <MapView style={[styles.container, { marginTop: 200 }]}
+                ref={(ref) => { this.mapRef = ref }}
                 provider={PROVIDER_GOOGLE}
-                initialCamera={{
-                    center: {
-                        latitude: (this.props.lattitude_pick + this.props.lattitude_drop) / 2,
-                        longitude: (this.props.lngtitude_pick + this.props.lngtitude_drop) / 2,
-                    },
-                    pitch: 1,
-                    heading: 1,
-                    zoom: 12,
-                    altitude: 1,
+                // initialCamera={{
+                //     center: {
+                //         latitude: (this.props.lattitude_pick + this.props.lattitude_drop) / 2,
+                //         longitude: (this.props.lngtitude_pick + this.props.lngtitude_drop) / 2,
+                //     },
+                //     pitch: 1,
+                //     heading: 1,
+                //     zoom: 12,
+                //     altitude: 1,
+                // }}
+                onMapReady={() => {
+                    this.mapRef.fitToSuppliedMarkers(['mk1', 'mk2'], {
+                        edgePadding:
+                        {
+                            top: 50,
+                            right: 50,
+                            bottom: 50,
+                            left: 50
+                        }
+                    })
                 }}
             >
                 <MapView.Marker
@@ -168,6 +202,7 @@ class MapChungXe extends Component {
                     }}
                     title={"Điểm nhận"}
                     description={this.props.pick_add}
+                    identifier={'mk1'}
                 />
 
                 <MapView.Marker
@@ -177,6 +212,7 @@ class MapChungXe extends Component {
                     }}
                     title={"Điểm trả"}
                     description={this.props.drop_add}
+                    identifier={'mk2'}
                 />
 
                 <MapViewDirections
@@ -223,7 +259,7 @@ class MapChungXe extends Component {
                         data={this.state.listCityDC}
                         renderItem={({ item }) =>
                             <TouchableOpacity
-                                style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderTopWidth: 0.5 }}
+                                style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderTopWidth: 0.3 }}
                                 onPress={() => {
                                     item.hide == 1 ? console.log(item.city_name) :
                                         this.setState({
@@ -243,7 +279,7 @@ class MapChungXe extends Component {
 
     renderPickAddress() {
         return (
-            <View style={{ flexDirection: 'row', borderColor: '#00363e', borderTopWidth: 0.5, justifyContent: 'center', alignItems: 'center', height: 40 }}>
+            <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 0.3, justifyContent: 'center', alignItems: 'center', height: 40 }}>
                 <Image
                     style={{ height: 30, width: 24, marginLeft: 8 }}
                     source={require(imageLocation)}
@@ -278,7 +314,7 @@ class MapChungXe extends Component {
     renderTimePick() {
         return (
             <TouchableOpacity
-                style={{ flex: 1, borderTopWidth: 0.5, justifyContent: "center", alignItems: 'center', flexDirection: 'row', height: 40 }}
+                style={{ flex: 1, borderTopWidth: 0.3, justifyContent: "center", alignItems: 'center', flexDirection: 'row', height: 40 }}
                 onPress={() => {
                     this.setState({
                         dialogCalendarVisible: true,
@@ -306,8 +342,8 @@ class MapChungXe extends Component {
 
     formBookingDoortoDoor() {
         return (
-            <View style={{ backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', }}>
-                <View style={{ flexDirection: 'row', borderColor: '#00363e', borderTopWidth: 0.5, justifyContent: 'center', alignItems: 'center', height: 40 }}>
+            <View style={styles.borderBot}>
+                <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 0.3, justifyContent: 'center', alignItems: 'center', height: 40 }}>
                     <TouchableOpacity
                         style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}
                         onPress={() => {
@@ -340,8 +376,8 @@ class MapChungXe extends Component {
 
                 {this.renderPickAddress()}
 
-                <View style={{ flexDirection: 'row', borderColor: '#00363e', borderTopWidth: 0.5, justifyContent: 'center', alignItems: 'center', height: 40 }}>
-                    <View style={{ flex: 1, flexDirection: 'row', borderColor: '#00363e', borderRightWidth: 0.1, justifyContent: 'center', alignItems: 'center', }}>
+                <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 0.3, justifyContent: 'center', alignItems: 'center', height: 40 }}>
+                    <View style={{ flex: 1, flexDirection: 'row', borderColor: '#e8e8e8', borderRightWidth: 0.1, justifyContent: 'center', alignItems: 'center', }}>
                         <Image
                             style={{ height: 30, width: 24, marginLeft: 8, alignItems: 'center', justifyContent: 'center' }}
                             source={require(imageDrop)}
@@ -371,7 +407,7 @@ class MapChungXe extends Component {
                     </View>
 
                     <TouchableOpacity
-                        style={{ borderLeftWidth: 0.5 }}
+                        style={{ borderLeftWidth: 0.3 }}
                         onPress={() => {
                             this.props.swapAddressTuLai(this.props.drop_add, this.props.component_drop, this.props.lattitude_drop, this.props.lngtitude_drop, this.props.pick_add, this.props.component_pick, this.props.lattitude_pick, this.props.lngtitude_pick);
                         }}
@@ -387,10 +423,12 @@ class MapChungXe extends Component {
                 <View style={{ flexDirection: 'row', }}>
                     {this.renderTimePick()}
                 </View>
-
+                <View style={{ height: 0.3, backgroundColor: '#000', flexDirection: 'row' }}>
+                    <View style={{ flex: 1 }}></View>
+                </View>
                 <View style={{ flexDirection: 'row', }}>
                     <TouchableOpacity
-                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', }}
+                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', margin: 8 }}
                         onPress={() => {
                             this.nextScreen();
                         }}
@@ -426,9 +464,9 @@ class MapChungXe extends Component {
 
     formCarTour() {
         return (
-            <View style={{ backgroundColor: '#ffffff', }}>
+            <View style={styles.borderBot}>
 
-                <View style={{ flexDirection: 'row', borderColor: '#00363e', borderTopWidth: 0.5, justifyContent: 'center', alignItems: 'center', height: 40 }}>
+                <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 0.3, justifyContent: 'center', alignItems: 'center', height: 40 }}>
                     <Image
                         style={{ height: 30, width: 24, marginLeft: 8 }}
                         source={require('../../../image/location.png')}
@@ -452,7 +490,7 @@ class MapChungXe extends Component {
 
                 <View style={{ flexDirection: 'row', height: 40, }}>
                     <TouchableOpacity
-                        style={{ flex: 1, borderTopWidth: 0.5, justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
+                        style={{ flex: 1, borderTopWidth: 0.3, justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
                         onPress={() => {
                             this.setState({
                                 dialogCalendarVisible: true, nhanxe: true
@@ -474,9 +512,9 @@ class MapChungXe extends Component {
                         />
 
                     </TouchableOpacity>
-                    <View style={{ width: 0.5, backgroundColor: '#000' }}></View>
+                    <View style={{ width: 0.3, backgroundColor: '#000' }}></View>
                     <TouchableOpacity
-                        style={{ flex: 1, borderTopWidth: 0.5, justifyContent: "center", flexDirection: 'row', alignItems: 'center' }}
+                        style={{ flex: 1, borderTopWidth: 0.3, justifyContent: "center", flexDirection: 'row', alignItems: 'center' }}
                         onPress={() => {
                             this.setState({
                                 dialogCalendarVisible: true, nhanxe: false
@@ -497,10 +535,12 @@ class MapChungXe extends Component {
                         />
                     </TouchableOpacity>
                 </View>
-
+                <View style={{ height: 0.3, backgroundColor: '#000', flexDirection: 'row' }}>
+                    <View style={{ flex: 1 }}></View>
+                </View>
                 <View style={{ flexDirection: 'row', }}>
                     <TouchableOpacity
-                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', }}
+                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', margin: 8 }}
                         onPress={() => {
                             this.gotoListCarTour();
                         }}
@@ -514,22 +554,22 @@ class MapChungXe extends Component {
 
     formSwitch() {
         return (
-            <View style={{ backgroundColor: '#fff', height: 56, flexDirection: 'row' }}>
+            <View style={[{ backgroundColor: '#fff', height: 56, flexDirection: 'row', marginTop: 8, marginLeft: 8, marginRight: 8 }, styles.borderTop]}>
                 <TouchableOpacity
-                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: this.state.hourly ? '#aaaaaa' : '#fff', }}
+                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: this.state.hourly ? '#aaaaaa' : '#fff', borderTopLeftRadius: 8 }}
                     onPress={() => this.setState({
                         hourly: false
                     })}
                 >
-                    <Text style={{ color: this.state.hourly ? '#00363d' : '#77a300', fontWeight: 'bold', fontSize: 20 }}>Theo tuyến</Text>
+                    <Text style={{ color: this.state.hourly ? '#fff' : '#77a300', fontWeight: 'bold', fontSize: 20 }}>Theo tuyến</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: this.state.hourly ? '#fff' : '#aaa', }}
+                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: this.state.hourly ? '#fff' : '#aaa', borderTopRightRadius: 8 }}
                     onPress={() => this.setState({
                         hourly: true
                     })}
                 >
-                    <Text style={{ color: this.state.hourly ? '#77a300' : '#00363d', fontWeight: 'bold', fontSize: 20 }}>Theo ngày</Text>
+                    <Text style={{ color: this.state.hourly ? '#77a300' : '#fff', fontWeight: 'bold', fontSize: 20 }}>Theo ngày</Text>
                 </TouchableOpacity>
             </View>
         )
@@ -549,9 +589,9 @@ class MapChungXe extends Component {
         }
         var obj = [...this.state.listCity];
         return (
-            <View style={{ flex: 1, padding: 8 }}>
+            <View style={{ flex: 1, backgroundColor: '#eee' }}>
 
-                {this.renderPicktoDrop()}
+                {this.state.hourly ? this.renderMap() : this.renderPicktoDrop()}
                 {this.formSwitch()}
                 {this.state.hourly ? this.formCarTour() : this.formBookingDoortoDoor()}
 
@@ -625,7 +665,7 @@ class MapChungXe extends Component {
                             data={this.state.listCity}
                             renderItem={({ item }) =>
                                 <TouchableOpacity
-                                    style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderTopWidth: 0.5 }}
+                                    style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderTopWidth: 0.3 }}
                                     onPress={() => this.setState({
                                         city: item.city_name,
                                         city_id: item.city_id,
@@ -644,7 +684,7 @@ class MapChungXe extends Component {
 
 
                 {/* Dialog chọn giờ nhận hoặc trả xe */}
-                <Modal
+                {/* <Modal
                     visible={this.state.dialogTimeVisible}
                     animationType="slide"
                     transparent={true}
@@ -723,6 +763,98 @@ class MapChungXe extends Component {
                                 <Text style={{ textAlign: "center", backgroundColor: "#77a300", color: '#fff', padding: 8, fontSize: 16 }}>Tiếp tục</Text>
                             </TouchableOpacity>
                         </View>
+                    </View>
+                </Modal> */}
+
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={this.state.dialogTimeVisible}
+                    onOrientationChange={true}
+                    onRequestClose={() => {
+                    }}>
+                    <View style={{
+                        flex: 1,
+                        flexDirection: 'column',
+                        justifyContent: 'flex-end',
+                        padding: 10,
+                    }}>
+                        <View style={{ flex: 2, }}>
+                            <TouchableOpacity
+                                onPress={() => this.setState({ dialogTimeVisible: !this.state.dialogTimeVisible })}
+                                style={{ flex: 1 }}
+                            ></TouchableOpacity>
+                        </View>
+
+                        <FlatList
+                            style={{ flex: 1, backgroundColor: '#ffffff' }}
+                            data={listHour}
+                            initialScrollIndex={this.state.nhanxe ? this.state.scrollNhan - 1 : this.state.scrollTra - 1}
+                            getItemLayout={this.getItemLayout}
+                            renderItem={({ item }) =>
+                                <TouchableOpacity
+                                    style={{ flexDirection: 'row', height: 40 }}
+                                    onPress={() => {
+                                        var isDayAlight = this.state.spesentDay == this.state.date.format('DD-MM-YYYY');
+                                        var timeClicker = ((item.hour == this.state.hoursAlive && item.minute > this.state.minutesAlive) || item.hour > this.state.hoursAlive);
+                                        if (this.state.nhanxe) {
+                                            if (isDayAlight) {
+                                                if (timeClicker) {
+                                                    this.setState({
+                                                        selectedHours: item.hour,
+                                                        selectedMinutes: item.minute,
+                                                        scrollNhan: item.id,
+                                                        dialogTimeVisible: false,
+                                                        dialogCalendarVisible: false,
+                                                        time_pick: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`,
+                                                        // time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                    })
+                                                    this.props.addDepartTimeTuLai(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
+                                                }
+                                            } else {
+                                                this.setState({
+                                                    selectedHours: item.hour,
+                                                    selectedMinutes: item.minute,
+                                                    scrollNhan: item.id,
+                                                    dialogTimeVisible: false,
+                                                    dialogCalendarVisible: false,
+                                                    time_pick: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`,
+                                                    // time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                })
+                                                this.props.addDepartTimeTuLai(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
+                                            }
+                                        } else {
+                                            if (isDayAlight) {
+                                                if (timeClicker) {
+                                                    this.setState({
+                                                        selectedHours1: item.hour,
+                                                        selectedMinutes1: item.minute,
+                                                        scrollTra: item.id,
+                                                        dialogTimeVisible: false,
+                                                        dialogCalendarVisible: false,
+                                                        time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date1.format('DD/MM/YYYY')}`
+                                                    })
+                                                    // this.props.addDepartTimeTuLai(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
+                                                }
+                                            } else {
+                                                this.setState({
+                                                    selectedHours1: item.hour,
+                                                    selectedMinutes1: item.minute,
+                                                    scrollTra: item.id,
+                                                    dialogTimeVisible: false,
+                                                    dialogCalendarVisible: false,
+                                                    time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date1.format('DD/MM/YYYY')}`
+                                                })
+                                                // this.props.addDepartTimeTuLai(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
+                                            }
+                                        }
+                                    }}
+                                >
+                                    <Text style={{ textAlign: 'center', fontSize: 18, flex: 1, padding: 8, backgroundColor: (item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes) ? '#77a300' : '#fff', color: (this.state.spesentDay == this.state.date.format('DD-MM-YYYY') && ((item.hour == this.state.hoursAlive && item.minute < this.state.minutesAlive) || item.hour < this.state.hoursAlive)) ? '#aaa' : item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes ? '#fff' : '#000000' }}>{item.hour < 10 ? '0' + item.hour : item.hour} : {item.minute == 0 ? '00' : item.minute}</Text>
+                                </TouchableOpacity>}
+                            scrollToIndex={this.state.scroll}
+                            keyExtractor={item => item.id}
+                        />
                     </View>
                 </Modal>
                 {this.formModalListCity()}
@@ -807,6 +939,17 @@ const styles = StyleSheet.create({
         right: 0,
         bottom: 400,
     },
+    borderBot: {
+        backgroundColor: '#ffffff',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderBottomEndRadius: 0,
+        borderBottomStartRadius: 0
+    },
+    borderTop: {
+        borderTopEndRadius: 8,
+        borderTopStartRadius: 8
+    }
 });
 
 function mapStateToProps(state) {

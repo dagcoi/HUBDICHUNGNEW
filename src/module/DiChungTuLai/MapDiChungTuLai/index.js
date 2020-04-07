@@ -100,19 +100,19 @@ class MapDiChungTuLai extends Component {
 
     formSwitch() {
         return (
-            <View style={{ backgroundColor: '#fff', height: 50, flexDirection: 'row', padding : 4 }}>
+            <View style={{ backgroundColor: '#fff', height: 50, flexDirection: 'row', padding: 4 }}>
                 <TouchableOpacity
-                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor :  this.state.hourly ? '#aaaaaa' : '#fff', borderRadius : 4  }}
+                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: this.state.hourly ? '#aaaaaa' : '#fff', borderRadius: 4 }}
                     onPress={() => this.setState({
-                        hourly : false
+                        hourly: false
                     })}
                 >
                     <Text style={{ color: this.state.hourly ? '#00363d' : '#77a300', fontWeight: 'bold', fontSize: 20 }}>Theo tuyến</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor :  this.state.hourly ? '#fff' : '#aaa' ,borderRadius : 4  }}
+                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: this.state.hourly ? '#fff' : '#aaa', borderRadius: 4 }}
                     onPress={() => this.setState({
-                        hourly : true
+                        hourly: true
                     })}
                 >
                     <Text style={{ color: this.state.hourly ? '#77a300' : '#00363d', fontWeight: 'bold', fontSize: 20 }}>Theo giờ</Text>
@@ -217,7 +217,7 @@ class MapDiChungTuLai extends Component {
 
     renderPickAddress() {
         return (
-            <View style={{ flexDirection: 'row', borderColor: '#00363e', borderWidth: 0.5, borderRadius: 4, justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderWidth: 0.5, borderRadius: 4, justifyContent: 'center', alignItems: 'center' }}>
                 <Image
                     style={{ height: 30, width: 24, marginLeft: 8 }}
                     source={require(imageLocation)}
@@ -281,8 +281,8 @@ class MapDiChungTuLai extends Component {
             <View style={{ height: 200, backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', padding: 8 }}>
                 {this.renderPickAddress()}
 
-                <View style={{ flexDirection: 'row', borderColor: '#00363e', borderWidth: 0.5, borderRadius: 4, justifyContent: 'center', alignItems: 'center', marginTop: 8, }}>
-                    <View style={{ flex: 1, flexDirection: 'row', borderColor: '#00363e', borderRightWidth: 0.1, justifyContent: 'center', alignItems: 'center', }}>
+                <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderWidth: 0.5, borderRadius: 4, justifyContent: 'center', alignItems: 'center', marginTop: 8, }}>
+                    <View style={{ flex: 1, flexDirection: 'row', borderColor: '#e8e8e8', borderRightWidth: 0.1, justifyContent: 'center', alignItems: 'center', }}>
                         <Image
                             style={{ height: 30, width: 24, marginLeft: 8, alignItems: 'center', justifyContent: 'center' }}
                             source={require(imageDrop)}
@@ -327,6 +327,7 @@ class MapDiChungTuLai extends Component {
                 <View style={{ flexDirection: 'row', height: 40, marginTop: 8 }}>
                     {this.renderTimePick()}
                 </View>
+                <View style = {{height : 0.5, backgroundColor : '#000'}}></View>
 
                 <View style={{ height: 40, flexDirection: 'row', marginTop: 8 }}>
                     <TouchableOpacity
@@ -335,7 +336,7 @@ class MapDiChungTuLai extends Component {
                             this.nextScreen();
                         }}
                     >
-                        <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold', }}>XEM GIÁ</Text>
+                        <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold', margin: 8 }}>XEM GIÁ</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -344,14 +345,16 @@ class MapDiChungTuLai extends Component {
 
     formCarTour() {
         return (
-            <View style = {{backgroundColor : '#fff', padding : 8}}>
+            <View style={{ backgroundColor: '#fff', padding: 8 }}>
                 {this.renderPickAddress()}
                 <View style={{ flexDirection: 'row', height: 40, marginTop: 8 }}>
                     {this.renderTimePick()}
                 </View>
-                <View style={{ flexDirection: 'column', height: 40, marginBottom: 4, marginTop : 4 }}>
+                <View style={{ flexDirection: 'column', height: 40, marginBottom: 4, marginTop: 4 }}>
                     {this.renderHourglass()}
                 </View>
+                <View style = {{height : 0.5, backgroundColor : '#000'}}></View>
+
                 <View style={{ height: 40, flexDirection: 'row', marginTop: 8 }}>
                     <TouchableOpacity
                         style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', borderRadius: 4 }}
@@ -359,7 +362,7 @@ class MapDiChungTuLai extends Component {
                             this.gotoListCarTour();
                         }}
                     >
-                        <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold', }}>XEM GIÁ</Text>
+                        <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold', margin: 8 }}>XEM GIÁ</Text>
                     </TouchableOpacity>
                 </View>
             </View>

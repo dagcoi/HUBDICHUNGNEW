@@ -14,6 +14,7 @@
       android:icon="@drawable/logo_dc_taxi"
       android:roundIcon="@drawable/logo_dc_taxi"
       android:allowBackup="false"
+      android:screenOrientation="portrait" 
       android:theme="@style/AppTheme">
 
       <meta-data

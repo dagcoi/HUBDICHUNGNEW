@@ -11,6 +11,8 @@ import * as key from '../../../component/KeyGG'
 
 import MapViewDirections from 'react-native-maps-directions';
 import { TextInput } from 'react-native-gesture-handler';
+import listHour from '../../../component/TimeSelect/listTime'
+import ScrollPicker from 'react-native-picker-scrollview';
 
 const origin = { latitude: 21.2187149, longitude: 105.80417090000003 };
 // const destination = { latitude: 21.0019302, longitude: 105.85090579999996 };
@@ -32,6 +34,7 @@ class MapExpress extends Component {
             pic_address: '',
             diemdon: '',
             drop_address: '',
+            date: '',
             diemtra: '',
             people: '1',
             blTime: true,
@@ -62,7 +65,27 @@ class MapExpress extends Component {
                 { 'id': 5, 'time': 10 },
                 { 'id': 6, 'time': 12 },
             ],
+            listChair: [
+                { 'id': 1, 'chair': '1' },
+                { 'id': 2, 'chair': '2' },
+                { 'id': 3, 'chair': '3' },
+                { 'id': 4, 'chair': '4' },
+                { 'id': 5, 'chair': '5' },
+                { 'id': 6, 'chair': '6' },
+                { 'id': 7, 'chair': '7' },
+                { 'id': 8, 'chair': '8' },
+                { 'id': 9, 'chair': '9' },
+                { 'id': 10, 'chair': '10' },
+                { 'id': 11, 'chair': '11' },
+                { 'id': 12, 'chair': '12' },
+                { 'id': 13, 'chair': '13' },
+                { 'id': 14, 'chair': '14' },
+                { 'id': 15, 'chair': '15' },
+                { 'id': 16, 'chair': '16' },
+            ],
+            scroll: 48,
         }
+        this.mapRef = null;
     }
 
     componentDidMount() {
@@ -110,16 +133,28 @@ class MapExpress extends Component {
         }
         return (
             <MapView style={styles.container}
+                ref={(ref) => { this.mapRef = ref }}
                 provider={PROVIDER_GOOGLE}
-                initialCamera={{
-                    center: {
-                        latitude: (this.props.lattitude_pick + this.props.lattitude_drop) / 2,
-                        longitude: (this.props.lngtitude_pick + this.props.lngtitude_drop) / 2,
-                    },
-                    pitch: 1,
-                    heading: 1,
-                    zoom: 12,
-                    altitude: 1,
+                // initialCamera={{
+                //     center: {
+                //         latitude: (this.props.lattitude_pick + this.props.lattitude_drop) / 2,
+                //         longitude: (this.props.lngtitude_pick + this.props.lngtitude_drop) / 2,
+                //     },
+                //     pitch: 1,
+                //     heading: 1,
+                //     zoom: 12,
+                //     altitude: 1,
+                // }}
+                onMapReady={() => {
+                    this.mapRef.fitToSuppliedMarkers(['mk1', 'mk2'], {
+                        edgePadding:
+                        {
+                            top: 50,
+                            right: 50,
+                            bottom: 50,
+                            left: 50
+                        }
+                    })
                 }}
             >
                 <MapView.Marker
@@ -129,6 +164,7 @@ class MapExpress extends Component {
                     }}
                     title={"Điểm đón"}
                     description={this.props.pick_add}
+                    identifier={'mk1'}
                 />
 
                 <MapView.Marker
@@ -138,6 +174,7 @@ class MapExpress extends Component {
                     }}
                     title={"Điểm trả"}
                     description={this.props.drop_add}
+                    identifier={'mk2'}
                 />
 
                 <MapViewDirections
@@ -203,15 +240,15 @@ class MapExpress extends Component {
         }
     }
 
-    addPeopleVanChuyen() {
-        const { people } = this.state;
+    addPeopleVanChuyen(people) {
+        // const { people } = this.state;
         this.props.addPeopleVanChuyen(people);
     }
 
     renderFormExpressTheoTuyen() {
         return (
-            <View style={{ backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', }}>
-                <View style={styles.borderInput}>
+            <View style={styles.borderBot}>
+                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                     <Image
                         style={{ height: 30, width: 24, marginLeft: 8 }}
                         source={require(imageLocation)}
@@ -241,7 +278,7 @@ class MapExpress extends Component {
                 </View>
 
                 <View style={styles.borderInput}>
-                    <View style={{ flex: 1, flexDirection: 'row', borderColor: '#00363e', borderRightWidth: 0.1, justifyContent: 'center', alignItems: 'center', }}>
+                    <View style={{ flex: 1, flexDirection: 'row', borderColor: '#e8e8e8', borderRightWidth: 0.1, justifyContent: 'center', alignItems: 'center', }}>
                         <Image
                             style={{ height: 30, width: 24, marginLeft: 8, alignItems: 'center', justifyContent: 'center' }}
                             source={require(imageDrop)}
@@ -323,10 +360,12 @@ class MapExpress extends Component {
                         <Text style={{ flex: 1 }}>{this.props.chair} gói</Text>
                     </TouchableOpacity>
                 </View>
-
-                <View style={{ height: 40, flexDirection: 'row', }}>
+                <View style={{ height: 0.3, backgroundColor: '#000', flexDirection: 'row' }}>
+                    <View style={{ flex: 1 }}></View>
+                </View>
+                <View style={{ height: 56, flexDirection: 'row', }}>
                     <TouchableOpacity
-                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', }}
+                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', margin: 8 }}
                         onPress={() => {
                             this.nextScreen();
                         }}
@@ -340,8 +379,8 @@ class MapExpress extends Component {
 
     renderFormExpressTheoGio() {
         return (
-            <View style={{ backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', }}>
-                <View style={{ flexDirection: 'row', borderColor: '#00363e', borderTopWidth: 0.5, justifyContent: 'center', alignItems: 'center', }}>
+            <View style={styles.borderBot}>
+                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                     <Image
                         style={{ height: 30, width: 24, marginLeft: 8 }}
                         source={require(imageLocation)}
@@ -398,10 +437,12 @@ class MapExpress extends Component {
                     </View>
                 </View>
                 {/* </View> */}
-
-                <View style={{ height: 40, flexDirection: 'row', }}>
+                <View style={{ height: 0.3, backgroundColor: '#000', flexDirection: 'row' }}>
+                    <View style={{ flex: 1 }}></View>
+                </View>
+                <View style={{ height: 56, flexDirection: 'row', }}>
                     <TouchableOpacity
-                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', }}
+                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', margin: 8 }}
                         onPress={() => {
                             this.nextScreenHourly();
                         }}
@@ -414,29 +455,33 @@ class MapExpress extends Component {
         )
     }
 
+    getItemLayout = (data, index) => (
+        { length: 40, offset: 40 * index, index }
+    )
+
     renderSelect() {
         return (
-            <View style={{ flexDirection: 'row', backgroundColor: '#fff' }}>
+            <View style={[{ flexDirection: 'row', backgroundColor: '#fff', marginTop: 8, marginLeft: 8, marginRight: 8 }, styles.borderTop]}>
                 <TouchableOpacity
-                    style={{ backgroundColor: this.state.hourlyBooking ? '#aaa' : '#fff', flex: 1, height: 56, justifyContent: 'center', alignItems: 'center', }}
+                    style={{ backgroundColor: this.state.hourlyBooking ? '#aaa' : '#fff', flex: 1, height: 56, justifyContent: 'center', alignItems: 'center', borderTopLeftRadius: 8 }}
                     onPress={() => {
                         this.setState({
                             hourlyBooking: false,
                         })
                     }}
                 >
-                    <Text style={{ color: this.state.hourlyBooking ? '#000' : '#77a300', fontWeight: 'bold', fontSize: 20 }}>Vận chuyển hàng</Text>
+                    <Text style={{ color: this.state.hourlyBooking ? '#fff' : '#77a300', fontWeight: 'bold', fontSize: 20 }}>Vận chuyển hàng</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    style={{ backgroundColor: this.state.hourlyBooking ? '#fff' : '#aaa', flex: 1, height: 56, justifyContent: 'center', alignItems: 'center' }}
+                    style={{ backgroundColor: this.state.hourlyBooking ? '#fff' : '#aaa', flex: 1, height: 56, justifyContent: 'center', alignItems: 'center', borderTopRightRadius: 8 }}
                     onPress={() => {
                         this.setState({
                             hourlyBooking: true,
                         })
                     }}
                 >
-                    <Text style={{ color: this.state.hourlyBooking ? '#77a300' : '#000', fontWeight: 'bold', fontSize: 20 }}>Thuê xe tải</Text>
+                    <Text style={{ color: this.state.hourlyBooking ? '#77a300' : '#fff', fontWeight: 'bold', fontSize: 20 }}>Thuê xe tải</Text>
                 </TouchableOpacity>
             </View>
         )
@@ -446,7 +491,7 @@ class MapExpress extends Component {
         const minDate = new Date();
 
         return (
-            <View style={{ flex: 1, padding: 8 }}>
+            <View style={{ flex: 1, backgroundColor: '#eee' }}>
 
                 {this.renderPicktoDrop()}
                 {this.renderSelect()}
@@ -468,6 +513,7 @@ class MapExpress extends Component {
                             <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#77a300', margin: 16 }}>Chọn thời gian gửi</Text>
                             <Calendar
                                 minDate={minDate}
+
                                 onDateChange={(date) => {
                                     this.setState({
                                         date: date,
@@ -500,31 +546,47 @@ class MapExpress extends Component {
                             ></TouchableOpacity>
                         </View>
 
-                        <View style={{ flex: 1, backgroundColor: '#fff', alignItems: "center", padding: 10 }}>
-                            <Text style={{ color: '#00363d', fontSize: 18, fontWeight: 'bold' }}>Chọn giờ gửi</Text>
-                            <TimePicker
-                                selectedHours={this.state.selectedHours}
-                                selectedMinutes={this.state.selectedMinutes}
-                                onChange={(hours, minutes) => {
-                                    this.setState({ selectedHours: hours, selectedMinutes: minutes, })
-                                }}
-                            />
-                            <View>
+                        <FlatList
+                            style={{ flex: 1, backgroundColor: '#ffffff' }}
+                            data={listHour}
+                            initialScrollIndex={this.state.scroll - 1}
+                            getItemLayout={this.getItemLayout}
+                            renderItem={({ item }) =>
                                 <TouchableOpacity
+                                    style={{ flexDirection: 'row', height: 40 }}
                                     onPress={() => {
-                                        this.setState({
-                                            dialogCalendarVisible: false,
-                                            dialogTimeVisible: false,
-                                            depart_time: `${this.state.selectedHours < 10 ? '0' + this.state.selectedHours : this.state.selectedHours}:${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes} ${this.state.date.format('DD/MM/YYYY')}`
-                                        })
-                                        this.props.addDepartTimeVanChuyen(`${this.state.selectedHours < 10 ? '0' + this.state.selectedHours : this.state.selectedHours}:${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes} ${this.state.date.format('DD/MM/YYYY')}`);
+                                        var isDayAlight = this.state.spesentDay == this.state.date.format('DD-MM-YYYY');
+                                        var timeClicker = ((item.hour == this.state.hoursAlive && item.minute > this.state.minutesAlive) || item.hour > this.state.hoursAlive);
 
+                                        if (isDayAlight) {
+                                            if (timeClicker) {
+                                                this.setState({
+                                                    selectedHours: item.hour,
+                                                    selectedMinutes: item.minute,
+                                                    scroll: item.id,
+                                                    dialogTimeVisible: false,
+                                                    dialogCalendarVisible: false,
+                                                    depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                })
+                                                this.props.addDepartTimeVanChuyen(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
+                                            }
+                                        } else {
+                                            this.setState({
+                                                selectedHours: item.hour,
+                                                selectedMinutes: item.minute,
+                                                scroll: item.id,
+                                                dialogTimeVisible: false,
+                                                dialogCalendarVisible: false,
+                                                depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                            })
+                                            this.props.addDepartTimeVanChuyen(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
+                                        }
                                     }}
                                 >
-                                    <Text style={{ textAlign: "right", backgroundColor: "#77a300", color: '#fff', fontSize: 16, padding : 8 }}>Tiếp tục</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
+                                    <Text style={{ textAlign: 'center', fontSize: 18, flex: 1, padding: 8, backgroundColor: (item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes) ? '#77a300' : '#fff', color: (this.state.spesentDay == this.state.date.format('DD-MM-YYYY') && ((item.hour == this.state.hoursAlive && item.minute < this.state.minutesAlive) || item.hour < this.state.hoursAlive)) ? '#aaa' : item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes ? '#fff' : '#000000' }}>{item.hour < 10 ? '0' + item.hour : item.hour} : {item.minute == 0 ? '00' : item.minute}</Text>
+                                </TouchableOpacity>}
+                            keyExtractor={item => item.id}
+                        />
                     </View>
                 </Modal>
 
@@ -548,29 +610,28 @@ class MapExpress extends Component {
                             ></TouchableOpacity>
                         </View>
 
-                        <View style={{ flex: 1, backgroundColor: '#fff', alignItems: "center" }}>
-                            <Text style={{ color: '#00363d', fontSize: 18, fontWeight: 'bold' }}>Chọn số bưu kiện</Text>
-                            <AmountOfPracel
-                                selectedPeoples={this.state.selectedPeoples}
-                                onChange={(people) => {
-                                    this.setState({ people: people })
-                                }}
-                            />
-                            <View>
+                        <FlatList
+                            style={{ flex: 1, backgroundColor: '#ffffff' }}
+                            data={this.state.listChair}
+                            renderItem={({ item }) =>
                                 <TouchableOpacity
+                                    style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderWidth: 0.5 }}
                                     onPress={() => {
                                         this.setState({
+                                            people: item.chair,
                                             dialogSelectPeople: false,
                                         })
-                                        this.addPeopleVanChuyen();
+                                        this.addPeopleVanChuyen(item.chair)
+                                        // this.props.addDuration(item.chair);
                                     }}
                                 >
-                                    <Text style={{ textAlign: "right", backgroundColor: '#77a300', color: "#fff", fontSize: 16, padding : 8 }}>Tiếp tục</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
+                                    <Text style={{ fontSize: 18, flex: 1, padding: 8, color: item.chair == this.props.chair ? '#77a300' : '#000000' }}>{item.chair} gói</Text>
+                                </TouchableOpacity>}
+                            keyExtractor={item => item.chair}
+                        />
                     </View>
                 </Modal>
+
 
                 <Modal
                     animationType="slide"
@@ -619,6 +680,7 @@ class MapExpress extends Component {
 
 const styles = StyleSheet.create({
     container: {
+        marginTop: 180,
         position: 'absolute',
         top: 2,
         left: 2,
@@ -636,11 +698,21 @@ const styles = StyleSheet.create({
     },
     borderInput: {
         flexDirection: 'row',
-        borderColor: '#00363e',
+        borderColor: '#e8e8e8',
         borderTopWidth: 0.5,
-
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    borderBot: {
+        backgroundColor: '#ffffff',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderBottomEndRadius: 0,
+        borderBottomStartRadius: 0
+    },
+    borderTop: {
+        borderTopEndRadius: 8,
+        borderTopStartRadius: 8
     }
 });
 

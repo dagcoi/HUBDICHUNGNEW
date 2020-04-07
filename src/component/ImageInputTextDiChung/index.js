@@ -9,7 +9,7 @@ function ImageInputTextDiChung({
     placeholder,
 }) {
     return (
-        <View style={{ flexDirection: 'row', borderColor: '#00363d', borderTopWidth: 0.5, justifyContent: 'center', alignItems: 'center', }}>
+        <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 0.2, justifyContent: 'center', alignItems: 'center',}}>
             <Image
                 style={{ height: 28, width: 28, marginLeft: 8, resizeMode: 'contain' }}
                 source={source}

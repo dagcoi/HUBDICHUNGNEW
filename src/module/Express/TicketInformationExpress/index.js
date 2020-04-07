@@ -180,7 +180,7 @@ class TicketInformationExpress extends Component {
             return (
                 <View style={styles.container}>
                     <ScrollView showsVerticalScrollIndicator={false}>
-                    <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                        <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                             <Image
                                 style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
                                 source={{ uri: item.vehicle_icon }}
@@ -188,9 +188,11 @@ class TicketInformationExpress extends Component {
                         </View>
 
                         <View style={{ justifyContent: "center", alignItems: "center" }}>
-                            <Text style={{ backgroundColor: '#77a300', color: '#fff' }}>{item.vehicle_name}</Text>
+                            <Text style={{ padding: 4 }}>{item.vehicle_name}</Text>
                         </View>
-
+                        <View style={{ justifyContent: "center", alignItems: 'flex-start', marginTop: 8 }}>
+                            <Text style={{ backgroundColor: '#77a300', color: '#fff', padding: 8,  }}>{item.transport_partner_name.toUpperCase()}</Text>
+                        </View>
                         <Text style={styles.textBigRight}>Mã đơn hàng của bạn: <Text style={{ fontWeight: 'bold' }}>{item.ticket_code}</Text></Text>
 
                         <Text style={styles.textBigRight}>Yêu cầu đặt xe của bạn đã được hệ thồng ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>

@@ -10,6 +10,7 @@ import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
 import MapViewDirections from 'react-native-maps-directions';
 import { TextInput } from 'react-native-gesture-handler';
 import * as key from '../../../component/KeyGG'
+import listHour from '../../../component/TimeSelect/listTime'
 
 const origin = { latitude: 21.2187149, longitude: 105.80417090000003 };
 // const destination = { latitude: 21.0019302, longitude: 105.85090579999996 };
@@ -84,6 +85,7 @@ class MapXeChung extends Component {
             ],
             hourlyBooking: false,
         }
+        this.mapRef = null;
     }
 
     setModalVisible(visible) {
@@ -93,6 +95,10 @@ class MapXeChung extends Component {
     componentDidMount() {
         this.getDateTimeAlive()
     }
+
+    getItemLayout = (data, index) => (
+        { length: 40, offset: 40 * index, index }
+    )
 
     getDateTimeAlive() {
         var that = this;
@@ -135,16 +141,28 @@ class MapXeChung extends Component {
         }
         return (
             <MapView style={styles.container}
+                ref={(ref) => { this.mapRef = ref }}
                 provider={PROVIDER_GOOGLE}
-                initialCamera={{
-                    center: {
-                        latitude: (this.props.lattitude_pick + this.props.lattitude_drop) / 2,
-                        longitude: (this.props.lngtitude_pick + this.props.lngtitude_drop) / 2,
-                    },
-                    pitch: 1,
-                    heading: 1,
-                    zoom: 12,
-                    altitude: 1,
+                // initialCamera={{
+                //     center: {
+                //         latitude: (this.props.lattitude_pick + this.props.lattitude_drop) / 2,
+                //         longitude: (this.props.lngtitude_pick + this.props.lngtitude_drop) / 2,
+                //     },
+                //     pitch: 1,
+                //     heading: 1,
+                //     zoom: 12,
+                //     altitude: 1,
+                // }}
+                onMapReady={() => {
+                    this.mapRef.fitToSuppliedMarkers(['mk1', 'mk2'], {
+                        edgePadding:
+                        {
+                            top: 50,
+                            right: 50,
+                            bottom: 50,
+                            left: 50
+                        }
+                    })
                 }}
             >
                 <MapView.Marker
@@ -154,6 +172,7 @@ class MapXeChung extends Component {
                     }}
                     title={"Điểm đón"}
                     description={this.props.pick_add}
+                    identifier={'mk1'}
                 />
 
                 <MapView.Marker
@@ -163,6 +182,7 @@ class MapXeChung extends Component {
                     }}
                     title={"Điểm trả"}
                     description={this.props.drop_add}
+                    identifier={'mk2'}
                 />
 
                 <MapViewDirections
@@ -243,7 +263,7 @@ class MapXeChung extends Component {
 
     renderFormThueTaiTheoGio() {
         return (
-            <View style={{ backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', }}>
+            <View style={styles.borderBot}>
                 <ImageInputTextDiChung
                     onPress={() => { this.setState({ modalCity: true }) }}
                     placeholder={'Chọn thành phố'}
@@ -284,8 +304,10 @@ class MapXeChung extends Component {
                     source={require(imageHourglass)}
                     value={this.state.duration + ' giờ'}
                 />
-
-                <View style={{ height: 40, flexDirection: 'row',}}>
+                <View style={{ height: 0.3, backgroundColor: '#000', flexDirection: 'row' }}>
+                    <View style={{ flex: 1 }}></View>
+                </View>
+                <View style={{ height: 40, flexDirection: 'row', margin: 8 }}>
                     <TouchableOpacity
                         style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', }}
                         onPress={() => {
@@ -301,7 +323,7 @@ class MapXeChung extends Component {
 
     renderFormThueTai() {
         return (
-            <View style={{ backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', }}>
+            <View style={styles.borderBot}>
 
                 <ImageInputTextDiChung
                     onPress={() => { this.setState({ modalCity: true }) }}
@@ -322,8 +344,8 @@ class MapXeChung extends Component {
                     value={this.props.pick_add}
                 />
 
-                <View style={{ flexDirection: 'row', borderColor: '#00363e', borderTopWidth: 0.5,  justifyContent: 'center', alignItems: 'center',}}>
-                    <View style={{ flex: 1, flexDirection: 'row', borderColor: '#00363e', borderRightWidth: 0.1, justifyContent: 'center', alignItems: 'center', }}>
+                <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 0.3, justifyContent: 'center', alignItems: 'center', }}>
+                    <View style={{ flex: 1, flexDirection: 'row', borderColor: '#e8e8e8', borderRightWidth: 0.1, justifyContent: 'center', alignItems: 'center', }}>
                         <Image
                             style={{ height: 30, width: 24, marginLeft: 8, alignItems: 'center', justifyContent: 'center' }}
                             source={require(imageDrop)}
@@ -353,7 +375,7 @@ class MapXeChung extends Component {
                     </View>
 
                     <TouchableOpacity
-                        style = {{borderLeftWidth : 0.5}}
+                        style={{ borderLeftWidth: 0.3 }}
                         onPress={() => {
                             this.props.swapAddressTaixe(this.props.drop_add, this.props.component_drop, this.props.lattitude_drop, this.props.lngtitude_drop, this.props.pick_add, this.props.component_pick, this.props.lattitude_pick, this.props.lngtitude_pick);
                         }}
@@ -376,8 +398,10 @@ class MapXeChung extends Component {
                     source={require(imageTime)}
                     value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours} : ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
                 />
-
-                <View style={{ height: 40, flexDirection: 'row',}}>
+                <View style={{ height: 0.3, backgroundColor: '#000', flexDirection: 'row' }}>
+                    <View style={{ flex: 1 }}></View>
+                </View>
+                <View style={{ height: 40, flexDirection: 'row', margin: 8 }}>
                     <TouchableOpacity
                         style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', }}
                         onPress={() => {
@@ -395,194 +419,210 @@ class MapXeChung extends Component {
         const minDate = new Date();
 
         return (
-            <View style={{ flex: 1, padding: 8 }}>
+            <View style={{ flex: 1, backgroundColor: '#eee' }}>
 
                 {this.renderPicktoDrop()}
-                <View style={{ flexDirection: 'row', backgroundColor: '#fff'}}>
+                <View style={[{ flexDirection: 'row', backgroundColor: '#fff', marginLeft: 8, marginRight: 8, marginTop: 8 }, styles.borderTop]}>
                     <TouchableOpacity
-                        style={{ backgroundColor: this.state.hourlyBooking ? '#aaa' : '#fff', flex: 1, height: 56,  justifyContent: 'center', alignItems: 'center', }}
+                        style={{ backgroundColor: this.state.hourlyBooking ? '#aaa' : '#fff', flex: 1, height: 56, justifyContent: 'center', alignItems: 'center', borderTopStartRadius: 8 }}
                         onPress={() => {
                             this.setState({
                                 hourlyBooking: false,
                             })
                         }}
                     >
-                        <Text style={{ color: this.state.hourlyBooking ? '#000' : '#77a300', fontWeight: 'bold', fontSize: 20 }}>Đặt tài xế</Text>
+                        <Text style={{ color: this.state.hourlyBooking ? '#fff' : '#77a300', fontWeight: 'bold', fontSize: 20 }}>Đặt tài xế</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                        style={{ backgroundColor: this.state.hourlyBooking ? '#fff' : '#aaa', flex: 1, height: 56,  justifyContent: 'center', alignItems: 'center' }}
+                        style={{ backgroundColor: this.state.hourlyBooking ? '#fff' : '#aaa', flex: 1, height: 56, justifyContent: 'center', alignItems: 'center', borderTopEndRadius: 8 }}
                         onPress={() => {
                             this.setState({
                                 hourlyBooking: true,
                             })
                         }}
                     >
-                        <Text style={{ color: this.state.hourlyBooking ? '#77a300' : '#000', fontWeight: 'bold', fontSize: 20 }}>Theo giờ</Text>
+                        <Text style={{ color: this.state.hourlyBooking ? '#77a300' : '#fff', fontWeight: 'bold', fontSize: 20 }}>Theo giờ</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={{ backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center',  }}>
+                <View style={{ backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', }}>
                     {this.state.hourlyBooking ? this.renderFormThueTaiTheoGio() : this.renderFormThueTai()}
-
-                    <Modal
-                        animationType="slide"
-                        transparent={true}
-                        visible={this.state.dialogCalendarVisible}
-                        onOrientationChange={true}
-                        onRequestClose={() => {
-                            console.log('a');
-                        }}>
-                        <View style={{
-                            flex: 1,
-                            flexDirection: 'column',
-                            justifyContent: 'flex-end',
-                        }}>
-                            <View style={{ flex: 1, backgroundColor: '#fff', alignItems: "center" }}>
-                                <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#77a300', margin: 16 }}>Chọn thời gian đi</Text>
-                                <Calendar
-                                    minDate={minDate}
-                                    onDateChange={(date) => {
-                                        this.setState({
-                                            date: date,
-                                            dialogTimeVisible: true,
-                                        })
-                                    }}
-                                />
-                            </View>
-                        </View>
-                    </Modal>
-
-                    <Modal
-                        animationType="slide"
-                        transparent={true}
-                        visible={this.state.dialogTimeVisible}
-                        onOrientationChange={true}
-                        onRequestClose={() => {
-                            console.log('a');
-                        }}>
-                        <View style={{
-                            flex: 1,
-                            flexDirection: 'column',
-                            justifyContent: 'flex-end',
-                            padding: 10,
-                        }}>
-                            <View style={{ flex: 2, }}>
-                                <TouchableOpacity
-                                    onPress={() => this.setState({ dialogTimeVisible: !this.state.dialogTimeVisible })}
-                                    style={{ flex: 1 }}
-                                ></TouchableOpacity>
-                            </View>
-
-                            <View style={{ flex: 1, backgroundColor: '#fff', alignItems: "center", padding: 10 }}>
-                                <Text style={{ color: '#00363d', fontSize: 18, fontWeight: 'bold' }}>Chọn giờ đi</Text>
-                                <TimePicker
-                                    selectedHours={this.state.selectedHours}
-                                    selectedMinutes={this.state.selectedMinutes}
-                                    onChange={(hours, minutes) => {
-                                        this.setState({ selectedHours: hours, selectedMinutes: minutes, })
-                                    }}
-                                />
-                                <View>
-                                    <TouchableOpacity
-                                        onPress={() => {
-                                            this.setState({
-                                                dialogCalendarVisible: false,
-                                                dialogTimeVisible: false,
-                                                depart_time: `${this.state.selectedHours < 10 ? '0'+this.state.selectedHours : this.state.selectedHours}:${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes} ${this.state.date.format('DD/MM/YYYY')}`
-                                            })
-                                            this.props.addDepartTimeTaixe(`${this.state.selectedHours < 10 ? '0'+this.state.selectedHours : this.state.selectedHours}:${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes} ${this.state.date.format('DD/MM/YYYY')}`);
-
-                                        }}
-                                    >
-                                        <Text style={{ textAlign: "right", backgroundColor: "#77a300", color: '#fff', padding: 8,  fontSize: 16 }}>Tiếp tục</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                        </View>
-                    </Modal>
-
-                    <Modal
-                        animationType="slide"
-                        transparent={true}
-                        visible={this.state.modalCity}
-                        onOrientationChange={true}
-                        onRequestClose={() => {
-                            console.log('a');
-                        }}>
-                        <View style={{
-                            flex: 1,
-                            flexDirection: 'column',
-                            justifyContent: 'flex-end',
-                        }}>
-                            <View style={{ flex: 2, }}>
-                                <TouchableOpacity
-                                    onPress={() => this.setState({ modalCity: !this.state.modalCity })}
-                                    style={{ flex: 1 }}
-                                ></TouchableOpacity>
-                            </View>
-
-                            <FlatList
-                                style={{ flex: 1, backgroundColor: '#ffffff' }}
-                                data={this.state.listCity}
-                                renderItem={({ item }) =>
-                                    <TouchableOpacity
-                                        style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderTopWidth: 0.5 }}
-                                        onPress={() => {
-                                            item.hide == 1 ? console.log(item.city_name) :
-                                                this.setState({
-                                                    city_name: item.city_name,
-                                                    modalCity: false,
-                                                })
-                                        }}
-                                    >
-                                        <Text style={item.hide == 1 ? { fontSize: 18, flex: 1, padding: 8, color: '#888' } : { fontSize: 18, flex: 1, padding: 8 }}>{item.city_name}</Text>
-                                    </TouchableOpacity>}
-                                keyExtractor={item => item.city_id}
-                            />
-                        </View>
-                    </Modal>
-
-                    <Modal
-                        animationType="slide"
-                        transparent={true}
-                        visible={this.state.modalListTime}
-                        onOrientationChange={true}
-                        onRequestClose={() => {
-                            console.log('a');
-                        }}>
-                        <View style={{
-                            flex: 1,
-                            flexDirection: 'column',
-                            justifyContent: 'flex-end',
-                        }}>
-                            <View style={{ flex: 2, }}>
-                                <TouchableOpacity
-                                    onPress={() => this.setState({ modalListTime: !this.state.modalListTime })}
-                                    style={{ flex: 1 }}
-                                ></TouchableOpacity>
-                            </View>
-
-                            <FlatList
-                                style={{ flex: 1, backgroundColor: '#ffffff' }}
-                                data={this.state.listTime}
-                                renderItem={({ item }) =>
-                                    <TouchableOpacity
-                                        style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderTopWidth: 0.5 }}
-                                        onPress={() => {
-                                            this.setState({
-                                                duration: item.time,
-                                                modalListTime: false,
-                                            })
-                                            this.props.addDurationTaiXe(item.time);
-                                        }}
-                                    >
-                                        <Text style={{ fontSize: 18, flex: 1, padding: 8, color: item.time === this.state.duration ? '#77a300' : '#000000' }}>{item.time} giờ</Text>
-                                    </TouchableOpacity>}
-                                keyExtractor={item => item.city_id}
-                            />
-                        </View>
-                    </Modal>
                 </View>
+
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={this.state.dialogCalendarVisible}
+                    onOrientationChange={true}
+                    onRequestClose={() => {
+                        console.log('a');
+                    }}>
+                    <View style={{
+                        flex: 1,
+                        flexDirection: 'column',
+                        justifyContent: 'flex-end',
+                    }}>
+                        <View style={{ flex: 1, backgroundColor: '#fff', alignItems: "center" }}>
+                            <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#77a300', margin: 16 }}>Chọn thời gian đi</Text>
+                            <Calendar
+                                minDate={minDate}
+                                onDateChange={(date) => {
+                                    this.setState({
+                                        date: date,
+                                        dialogTimeVisible: true,
+                                    })
+                                }}
+                            />
+                        </View>
+                    </View>
+                </Modal>
+
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={this.state.dialogTimeVisible}
+                    onOrientationChange={true}
+                    onRequestClose={() => {
+                    }}>
+                    <View style={{
+                        flex: 1,
+                        flexDirection: 'column',
+                        justifyContent: 'flex-end',
+                        padding: 10,
+                    }}>
+                        <View style={{ flex: 2, }}>
+                            <TouchableOpacity
+                                onPress={() => this.setState({ dialogTimeVisible: !this.state.dialogTimeVisible })}
+                                style={{ flex: 1 }}
+                            ></TouchableOpacity>
+                        </View>
+
+                        <FlatList
+                            style={{ flex: 1, backgroundColor: '#ffffff' }}
+                            data={listHour}
+                            initialScrollIndex={this.state.scroll - 1}
+                            getItemLayout={this.getItemLayout}
+                            renderItem={({ item }) =>
+                                <TouchableOpacity
+                                    style={{ flexDirection: 'row', height: 40 }}
+                                    onPress={() => {
+                                        var isDayAlight = this.state.spesentDay == this.state.date.format('DD-MM-YYYY');
+                                        var timeClicker = ((item.hour == this.state.hoursAlive && item.minute > this.state.minutesAlive) || item.hour > this.state.hoursAlive);
+
+                                        if (isDayAlight) {
+                                            if (timeClicker) {
+                                                this.setState({
+                                                    selectedHours: item.hour,
+                                                    selectedMinutes: item.minute,
+                                                    scroll: item.id,
+                                                    dialogTimeVisible: false,
+                                                    dialogCalendarVisible: false,
+                                                    depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                })
+                                                this.props.addDepartTimeTaixe(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
+                                            }
+                                        } else {
+                                            this.setState({
+                                                selectedHours: item.hour,
+                                                selectedMinutes: item.minute,
+                                                scroll: item.id,
+                                                dialogTimeVisible: false,
+                                                dialogCalendarVisible: false,
+                                                depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                            })
+                                            this.props.addDepartTimeTaixe(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
+                                        }
+                                    }}
+                                >
+                                    <Text style={{ textAlign: 'center', fontSize: 18, flex: 1, padding: 8, backgroundColor: (item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes) ? '#77a300' : '#fff', color: (this.state.spesentDay == this.state.date.format('DD-MM-YYYY') && ((item.hour == this.state.hoursAlive && item.minute < this.state.minutesAlive) || item.hour < this.state.hoursAlive)) ? '#aaa' : item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes ? '#fff' : '#000000' }}>{item.hour < 10 ? '0' + item.hour : item.hour} : {item.minute == 0 ? '00' : item.minute}</Text>
+                                </TouchableOpacity>}
+                            scrollToIndex={this.state.scroll}
+                            keyExtractor={item => item.id}
+                        />
+                    </View>
+                </Modal>
+
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={this.state.modalCity}
+                    onOrientationChange={true}
+                    onRequestClose={() => {
+                        console.log('a');
+                    }}>
+                    <View style={{
+                        flex: 1,
+                        flexDirection: 'column',
+                        justifyContent: 'flex-end',
+                    }}>
+                        <View style={{ flex: 2, }}>
+                            <TouchableOpacity
+                                onPress={() => this.setState({ modalCity: !this.state.modalCity })}
+                                style={{ flex: 1 }}
+                            ></TouchableOpacity>
+                        </View>
+
+                        <FlatList
+                            style={{ flex: 1, backgroundColor: '#ffffff' }}
+                            data={this.state.listCity}
+                            renderItem={({ item }) =>
+                                <TouchableOpacity
+                                    style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderTopWidth: 0.3 }}
+                                    onPress={() => {
+                                        item.hide == 1 ? console.log(item.city_name) :
+                                            this.setState({
+                                                city_name: item.city_name,
+                                                modalCity: false,
+                                            })
+                                    }}
+                                >
+                                    <Text style={item.hide == 1 ? { fontSize: 18, flex: 1, padding: 8, color: '#888' } : { fontSize: 18, flex: 1, padding: 8 }}>{item.city_name}</Text>
+                                </TouchableOpacity>}
+                            keyExtractor={item => item.city_id}
+                        />
+                    </View>
+                </Modal>
+
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={this.state.modalListTime}
+                    onOrientationChange={true}
+                    onRequestClose={() => {
+                        console.log('a');
+                    }}>
+                    <View style={{
+                        flex: 1,
+                        flexDirection: 'column',
+                        justifyContent: 'flex-end',
+                    }}>
+                        <View style={{ flex: 2, }}>
+                            <TouchableOpacity
+                                onPress={() => this.setState({ modalListTime: !this.state.modalListTime })}
+                                style={{ flex: 1 }}
+                            ></TouchableOpacity>
+                        </View>
+
+                        <FlatList
+                            style={{ flex: 1, backgroundColor: '#ffffff' }}
+                            data={this.state.listTime}
+                            renderItem={({ item }) =>
+                                <TouchableOpacity
+                                    style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderTopWidth: 0.3 }}
+                                    onPress={() => {
+                                        this.setState({
+                                            duration: item.time,
+                                            modalListTime: false,
+                                        })
+                                        this.props.addDurationTaiXe(item.time);
+                                    }}
+                                >
+                                    <Text style={{ fontSize: 18, flex: 1, padding: 8, color: item.time === this.state.duration ? '#77a300' : '#000000' }}>{item.time} giờ</Text>
+                                </TouchableOpacity>}
+                            keyExtractor={item => item.city_id}
+                        />
+                    </View>
+                </Modal>
 
             </View>
         );
@@ -591,6 +631,7 @@ class MapXeChung extends Component {
 
 const styles = StyleSheet.create({
     container: {
+        marginTop: 270,
         position: 'absolute',
         top: 2,
         left: 2,
@@ -606,6 +647,17 @@ const styles = StyleSheet.create({
         right: 0,
         bottom: 400,
     },
+    borderBot: {
+        backgroundColor: '#ffffff',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderBottomEndRadius: 0,
+        borderBottomStartRadius: 0
+    },
+    borderTop: {
+        borderTopEndRadius: 8,
+        borderTopStartRadius: 8
+    }
 });
 
 function mapStateToProps(state) {
@@ -622,4 +674,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { addDepartTimeTaixe: addDepartTimeTaixe, addPeopleTaixe: addPeopleTaixe, swapAddressTaixe: swapAddressTaixe, addDurationTaiXe : addDurationTaiXe })(MapXeChung)
+export default connect(mapStateToProps, { addDepartTimeTaixe: addDepartTimeTaixe, addPeopleTaixe: addPeopleTaixe, swapAddressTaixe: swapAddressTaixe, addDurationTaiXe: addDurationTaiXe })(MapXeChung)

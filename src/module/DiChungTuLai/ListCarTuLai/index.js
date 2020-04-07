@@ -137,7 +137,7 @@ class ListCarTuLai extends Component {
     gotoInfoCustommer = (item) => {
         const { navigation } = this.props;
         this.props.addTripInfomationTuLai(item.partner_name, item.merged, this.props.depart_time, item.chunk_id, item.vehicle_id, item.village_id, item.pm_id, item.partner_id, item.city_id, item.vehicle_name, item.toll_fee, item.dimension_id, item.vehicle_id, item.ride_method_id, item.chair, item.airport_id, item.street_id, item.vehicle_icon, item.pick_pos, item.drop_pos, item.use_range_time, item.unmerged);
-        this.props.navigation.push("InfoCustommerTuLai")
+        this.props.navigation.push("Procedure")
     }
     setStateAsync(state) {
         return new Promise((resolve) => {
@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
         borderLeftWidth: 1,
     },
     container: {
-        borderColor: '#77a300',
+        borderColor: '#e8e8e8',
         borderWidth: 0.5,
         borderRadius: 4,
         padding: 8,
