@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Button, Alert, Image, ActivityIndicator, Modal } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert, Image, ActivityIndicator, Modal } from 'react-native';
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Dialog, ConfirmDialog } from 'react-native-simple-dialogs';
@@ -6,6 +6,7 @@ import * as link from '../../../URL'
 import { deleteData } from '../../../core/Redux/action/Action'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
+import { Button } from '../../../component/Button'
 
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -282,9 +283,7 @@ class ConfirmInformationHB extends Component {
 
 
                     <Button
-                        style={{ marginTop: 8, }}
-                        color='#77a300'
-                        title='Xác nhận đặt xe'
+                        value={'Xác nhận đặt xe'}
                         onPress={() => {
                             this.state.callingApi ? null : this.createHourlyBooking();
                             this.setState({
@@ -367,7 +366,7 @@ class ConfirmInformationHB extends Component {
                                     />
                                 </TouchableOpacity>
 
-                                <Text style={{ flex: 1, fontSize: 25, fontWeight: 'bold' }}>Chi tiết đơn hàng</Text>
+                                <Text style={{ flex: 1, fontSize: 16, fontWeight: 'bold' }}>Chi tiết đơn hàng</Text>
                             </View>
                             <ScrollView>
                                 {this.renderDetailTrip()}
@@ -424,10 +423,10 @@ const styles = StyleSheet.create({
         textAlign: "right"
     },
     textBigLeft: {
-        fontSize: 15,
+        fontSize: 14,
     },
     textBigLeft1: {
-        fontSize: 18,
+        fontSize: 16,
         marginTop: 8,
         fontWeight: 'bold',
 

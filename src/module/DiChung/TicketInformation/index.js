@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { View, Text, Image, Button, StyleSheet, ActivityIndicator, ScrollView, TouchableOpacity, Modal, Linking } from 'react-native';
+import { View, Text, Image, StyleSheet, ActivityIndicator, ScrollView, TouchableOpacity, Modal, Linking } from 'react-native';
 import { Dialog } from 'react-native-simple-dialogs';
 import OTPInputView from '@twotalltotems/react-native-otp-input'
 import * as link from '../../../URL'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
+import { Button, ButtonGray } from '../../../component/Button'
 
 const imageLocation = '../../../image/location.png'
 const imageCalendar = '../../../image/calendar.png'
@@ -340,9 +341,7 @@ class TicketInformation extends Component {
                         {this.renderTT(item)}
 
                         <Button
-                            style={{ marginTop: 8, fontSize: 22 }}
-                            color='#77a300'
-                            title='ĐẶT CHUYẾN MỚI'
+                            value='ĐẶT CHUYẾN MỚI'
                             onPress={() => {
                                 // this.props.navigation.navigate('Home')
                                 const resetAction = StackActions.reset({
@@ -355,10 +354,8 @@ class TicketInformation extends Component {
                         />
                         <View style={{ marginBottom: 8, }}></View>
                         {item.transaction_status_id == '4' ? null :
-                            <Button
-                                style={{ marginTop: 8 }}
-                                color='#00363d'
-                                title='HỦY VÉ'
+                            <ButtonGray
+                                value='HỦY VÉ'
                                 onPress={() => {
                                     this.setState({
                                         modalVisible: true,
@@ -447,7 +444,7 @@ class TicketInformation extends Component {
                                         {this.renderRadio()}
 
                                         <Button
-                                            title='Gửi'
+                                            value='Gửi'
                                             onPress={() => {
                                                 if (this.state.value != 0) {
                                                     this.feedbackWhyCancel();

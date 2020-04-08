@@ -39,13 +39,13 @@ function InputTextDiChung({
 const styles = StyleSheet.create({
     textInput: {
         padding: 8,
-        fontSize: 16,
+        fontSize: 14,
         borderRadius: 4,
         flex: 1,
     },
     borderView: {
         marginTop : 8,
-        borderWidth: 0.2,
+        borderWidth: 1,
         borderColor: '#e8e8e8',
         borderRadius: 4,
         flexDirection: 'row',

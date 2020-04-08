@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import CheckBoxList from '../../../component/CheckBoxList'
 import CheckBox from 'react-native-check-box'
 import StarVote from '../../../component/StarVote'
+import { Button } from '../../../component/Button'
 
 import { addTripInfomation, addIsFromAirport, addAirport } from '../../../core/Redux/action/Action'
 import HTML from 'react-native-render-html';
@@ -374,9 +375,9 @@ class ListCar extends Component {
                                             <View style={styles.containerr}>
                                                 {item.ride_method_id == '1' ?
                                                     <View style={{ flexDirection: 'row' }}>
-                                                        <Text style={{ color: '#ffffff', fontSize: 18, backgroundColor: '#ef465e', padding: 4, fontWeight: 'bold' }}>ĐI RIÊNG</Text>
+                                                        <Text style={{ color: '#ffffff', fontSize: 14, backgroundColor: '#ef465e', padding: 4, fontWeight: 'bold' }}>ĐI RIÊNG</Text>
                                                     </View> : <View style={{ flexDirection: 'row' }}>
-                                                        <Text style={{ color: '#ffffff', fontSize: 18, backgroundColor: '#77a300', padding: 4, fontWeight: 'bold' }}>ĐI GHÉP</Text>
+                                                        <Text style={{ color: '#ffffff', fontSize: 14, backgroundColor: '#77a300', padding: 4, fontWeight: 'bold' }}>ĐI GHÉP</Text>
                                                     </View>}
                                                 <Text style={styles.tentuyen}>
                                                     {item.partner_name.toUpperCase()}
@@ -402,18 +403,18 @@ class ListCar extends Component {
                                                     <Image
                                                         style={{ width: 20, height: 20, marginRight: 8, marginLeft: 8 }}
                                                         source={require('../../../image/check.png')} />
-                                                    <Text>Giá trọn gói</Text>
+                                                    <Text style={{ fontSize: 12 }}>Giá trọn gói</Text>
                                                 </View> : item.toll_fee == 'NA' ?
                                                     <View style={{ flexDirection: 'row' }}>
                                                         <Image
                                                             style={{ width: 20, height: 20, marginRight: 8, marginLeft: 8 }}
                                                             source={require('../../../image/check.png')} />
-                                                        <Text>Giá chưa bao gồm phí cầu đường</Text>
+                                                        <Text style={{ fontSize: 12 }}>Giá chưa bao gồm phí cầu đường</Text>
                                                     </View> : <View style={{ flexDirection: 'row' }}>
                                                         <Image
                                                             style={{ width: 20, height: 20, marginRight: 8, marginLeft: 8 }}
                                                             source={require('../../../image/notetollfee.png')} />
-                                                        <Text>Phí cầu đường : {parseInt(item.toll_fee).format(0, 3, '.')} đ</Text>
+                                                        <Text style={{ fontSize: 12 }}>Phí cầu đường : {parseInt(item.toll_fee).format(0, 3, '.')} đ</Text>
                                                     </View>
                                             :
                                             <View>
@@ -421,13 +422,13 @@ class ListCar extends Component {
                                                     <Image
                                                         style={{ width: 20, height: 20, marginRight: 8, marginLeft: 8 }}
                                                         source={require('../../../image/people.png')} />
-                                                    <Text>Tối đa {item.max_share_seats} chỗ</Text>
+                                                    <Text style={{ fontSize: 12 }}>Tối đa {item.max_share_seats} chỗ</Text>
                                                 </View>
                                                 <View style={{ flexDirection: 'row' }}>
                                                     <Image
                                                         style={{ width: 20, height: 20, marginRight: 8, marginLeft: 8 }}
                                                         source={require('../../../image/vali.png')} />
-                                                    <Text>{item.partner_luggage}</Text>
+                                                    <Text style={{ fontSize: 12 }}>{item.partner_luggage}</Text>
                                                 </View>
                                             </View>
                                         }
@@ -437,7 +438,7 @@ class ListCar extends Component {
                                                 <Image
                                                     style={{ width: 20, height: 20, marginRight: 8, marginLeft: 8 }}
                                                     source={require('../../../image/check.png')} />
-                                                <Text>{item.full_package_by_km}</Text>
+                                                <Text style={{ fontSize: 12 }}>{item.full_package_by_km}</Text>
                                             </View> : null}
 
                                         <View style={{ marginLeft: 8, flexDirection: 'row', }}>
@@ -454,7 +455,7 @@ class ListCar extends Component {
                                                 <HTML html={item.discount_data.partner_note.replace("</a>", "").replace("</p>", "").replace("<p>", "")} imagesMaxWidth={Dimensions.get('window').width} />
                                             </View>}
 
-                                        <TouchableOpacity
+                                        {/* <TouchableOpacity
                                             style={{ height: 40, padding: 4, justifyContent: 'center', backgroundColor: '#77a300', alignItems: 'center', marginTop: 8 }}
                                             onPress={() => {
                                                 console.log(index)
@@ -464,7 +465,16 @@ class ListCar extends Component {
                                             }
                                         >
                                             <Text style={{ color: '#FFFFFF', fontSize: 20, fontWeight: 'bold' }}>CHỌN XE</Text>
-                                        </TouchableOpacity>
+                                        </TouchableOpacity> */}
+
+                                        <Button
+                                            onPress={() => {
+                                                console.log(index)
+                                                console.log(item.discount_data.partner_note)
+                                                this.gotoInfoCustommer(item)
+                                            }}
+                                            value={'CHỌN XE'}
+                                        />
 
                                     </View>
                                 }
@@ -556,8 +566,8 @@ const styles = StyleSheet.create({
         fontSize: 14,
     },
     giaTien: {
-        fontSize: 20,
-        color: '#00363e',
+        fontSize: 22,
+        color: '#00363d',
     },
     viewChitiet: {
         paddingTop: 8,

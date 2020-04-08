@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Button, Alert, Image, TextInput, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, Image, TextInput, ScrollView } from 'react-native';
 import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBox from 'react-native-check-box'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import { connect } from 'react-redux';
 import { addInfoPeople1, addInfoPeople2, addVAT, addInfoFlight, addPromotionCode, addPaymentMethodID, addComment } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
+import { Button } from '../../../component/Button'
 
 var radio_payment_detail = [
     { label: 'ATM', value: 0, payment_method_ID: '8' },
@@ -100,10 +101,10 @@ class InfoCustommerHourlyBooking extends Component {
                                         })
                                     }}
                                     borderWidth={0.5}
-                                    buttonInnerColor={'#00363d'}
-                                    buttonOuterColor={'#00363d'}
+                                    buttonInnerColor={'#77a300'}
+                                    buttonOuterColor={'#77a300'}
                                     buttonSize={10}
-                                    buttonOuterSize={20}
+                                    buttonOuterSize={16}
                                     buttonStyle={7}
                                     buttonWrapStyle={{ marginLeft: 10 }}
                                 />
@@ -120,7 +121,7 @@ class InfoCustommerHourlyBooking extends Component {
                                             payment_method_ID: obj.payment_method_ID,
                                         })
                                     }}
-                                    labelStyle={{ fontSize: 18, color: '#000' }}
+                                    labelStyle={{ fontSize: 14, color: '#333333' }}
                                     labelWrapStyle={{}}
                                 />
                             </RadioButton>
@@ -483,7 +484,7 @@ class InfoCustommerHourlyBooking extends Component {
                         }}
                         isChecked={this.state.is_checked}
                         rightText={"Đặt xe cho người khác"}
-                        rightTextStyle={{ fontSize: 20 }}
+                        rightTextStyle={{ fontSize: 16 }}
                         checkedImage={<Image source={require(imageCheck)} style={{ width: 25, height: 25 }} />}
                         unCheckedImage={<Image source={require(imageUnCheck)} style={{ width: 25, height: 25 }} />}
                     />
@@ -515,7 +516,7 @@ class InfoCustommerHourlyBooking extends Component {
                                     buttonInnerColor={'#77a300'}
                                     buttonOuterColor={'#77a300'}
                                     buttonSize={10}
-                                    buttonOuterSize={20}
+                                    buttonOuterSize={16}
                                     buttonStyle={7}
                                     buttonWrapStyle={{ marginTop: 8 }}
                                 />
@@ -531,7 +532,7 @@ class InfoCustommerHourlyBooking extends Component {
                                             payment_method_ID: obj.payment_method_ID,
                                         })
                                     }}
-                                    labelStyle={{ fontSize: 18, color: '#000' }}
+                                    labelStyle={{ fontSize: 16, color: '#000' }}
                                     labelWrapStyle={{ marginTop: 8 }}
                                 />
                             </RadioButton>
@@ -592,10 +593,10 @@ class InfoCustommerHourlyBooking extends Component {
                             })
                         }}
                         isChecked={this.state.vat}
-                        rightText={"VAT 10 %"}
-                        rightTextStyle={{ fontSize: 20 }}
-                        checkedImage={<Image source={require(imageCheck)} style={{ width: 25, height: 25 }} />}
-                        unCheckedImage={<Image source={require(imageUnCheck)} style={{ width: 25, height: 25 }} />}
+                        rightText={"Xuất hóa đơn"}
+                        rightTextStyle={{ fontSize: 16 }}
+                    // checkedImage={<Image source={require(imageCheck)} style={{ width: 25, height: 25 }} />}
+                    // unCheckedImage={<Image source={require(imageUnCheck)} style={{ width: 25, height: 25 }} />}
                     />
                     {this.renderFormVAT()}
 
@@ -616,6 +617,21 @@ class InfoCustommerHourlyBooking extends Component {
                         <Text style={{ color: '#ffffff' }}>TIẾP TỤC</Text>
                     </TouchableOpacity>
 
+                    <Button
+                        onPress={() => {
+                            const { xhd, company_name, company_address, company_address_receive, company_mst, full_name, use_phone, email, full_name1, use_phone1, email1, payment_method_ID, comment } = this.state;
+                            this.props.addVAT(xhd ? '1' : '0', company_name, company_address, company_mst, company_address_receive);
+                            this.props.addInfoPeople2(full_name1, use_phone1, email1);
+                            this.props.addInfoPeople1(full_name, use_phone, email);
+                            this.props.addComment(comment);
+                            // add payment method id
+                            console.log(payment_method_ID)
+                            this.props.addPaymentMethodID(payment_method_ID);
+                            this.checkInfoCustommerHourlyBooking();
+                        }}
+                        value={'TIẾP TỤC'}
+                    />
+
                 </ScrollView>
             </View>
         )
@@ -632,26 +648,28 @@ const styles = StyleSheet.create({
 
     textBig: {
         marginTop: 8,
-        fontSize: 22,
+        fontSize: 16,
         fontWeight: 'bold',
-        color: '#00363e'
+        color: '#333333'
     },
 
     textNomal: {
         marginTop: 8,
-        fontSize: 18,
+        color: '#333333',
+        fontSize: 14,
     },
 
     textSmall: {
         marginTop: 8,
-        fontSize: 14,
+        color: '#333333',
+        fontSize: 12,
     },
 
     textInput: {
         borderWidth: 0,
         padding: 8,
         borderColor: '#e8e8e8',
-        fontSize: 16,
+        fontSize: 14,
         borderRadius: 4,
         flex: 1,
     },

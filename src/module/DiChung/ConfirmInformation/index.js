@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Button, Alert, Image, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert, Image, ActivityIndicator } from 'react-native';
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Dialog, ConfirmDialog } from 'react-native-simple-dialogs';
@@ -7,6 +7,7 @@ import * as link from '../../../URL'
 import { deleteData } from '../../../core/Redux/action/Action'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
+import { Button } from '../../../component/Button'
 
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -292,9 +293,7 @@ class ConfirmInformation extends Component {
 
 
                     <Button
-                        style={{ marginTop: 8, }}
-                        color='#77a300'
-                        title='Xác nhận đặt xe'
+                        value={'Xác nhận đặt xe'}
                         onPress={() => {
                             this.state.callingApi ? null : navigation.getParam('Payment') == '0' ? this.addTicket() : this.addTicketPaymentOnline()
                             this.setState({
@@ -311,7 +310,7 @@ class ConfirmInformation extends Component {
                                 source={require(gifNightBooking)}
                                 style={{ width: 185, height: 110 }}
                             />
-                            <Text style={{ fontSize: 18 }}>Quý khách vui lòng đợi trong giây lát...</Text>
+                            <Text style={{ fontSize: 16 }}>Quý khách vui lòng đợi trong giây lát...</Text>
                             <CountDown
                                 until={180}
                                 onFinish={() => {
@@ -355,7 +354,7 @@ class ConfirmInformation extends Component {
                                 source={require(imageSorry)}
                             />
 
-                            <Text style={{ fontSize: 18 }}>Hiện tại không có tài xế nào nhận yêu cầu của bạn. Xin vui lòng thử lại hoặc chọn giờ đi khác.</Text>
+                            <Text style={{ fontSize: 16 }}>Hiện tại không có tài xế nào nhận yêu cầu của bạn. Xin vui lòng thử lại hoặc chọn giờ đi khác.</Text>
 
                         </View>
                     </ConfirmDialog>
@@ -771,18 +770,17 @@ const styles = StyleSheet.create({
 
     textBigRight: {
         padding: 1,
-        fontSize: 15,
+        fontSize: 16,
         color: '#00363d',
         flex: 1,
     },
     textBigLeft: {
-        fontSize: 15,
+        fontSize: 14,
     },
     textBigLeft1: {
-        fontSize: 18,
+        fontSize: 16,
         marginTop: 8,
         fontWeight: 'bold',
-
     },
     kengang: {
         height: 1,

@@ -8,7 +8,7 @@ function StarVote({
     number
 }) {
     return (
-        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'baseline' }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'baseline', marginBottom : 4, marginTop : 4 }}>
             <Image
                 style={{ height: 18, width: 18, resizeMode: 'contain' }}
                 source={number>= 1 ? require(starfull) : number> 0 ? require(starhalf) : require(starempty)}

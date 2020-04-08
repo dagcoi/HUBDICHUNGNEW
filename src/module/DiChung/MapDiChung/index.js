@@ -465,17 +465,6 @@ class MapDiChung extends Component {
                 <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
                     <View style={{ flex: 1 }}></View>
                 </View>
-
-                {/* <View style={{ height: 56, flexDirection: 'row', }}>
-                    <TouchableOpacity
-                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', margin: 8 }}
-                        onPress={() => {
-                            this.gotoListCarHourlyBooking();
-                        }}
-                    >
-                        <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold', margin: 8 }}>XEM GIÁ</Text>
-                    </TouchableOpacity>
-                </View> */}
             </View>
         )
     }
@@ -491,7 +480,7 @@ class MapDiChung extends Component {
                         })
                     }}
                 >
-                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: this.state.selectTaxi ? '#77a300' : '#fff' }}>Sân bay, đường dài</Text>
+                    <Text style={{ fontSize: 16, fontWeight: 'bold', color: this.state.selectTaxi ? '#77a300' : '#fff' }}>Sân bay, đường dài</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: this.state.selectTaxi ? '#aaa' : '#fff', borderTopEndRadius: 8 }}
@@ -501,7 +490,7 @@ class MapDiChung extends Component {
                         })
                     }}
                 >
-                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: this.state.selectTaxi ? '#fff' : '#77a300' }}>Thuê xe tour</Text>
+                    <Text style={{ fontSize: 16, fontWeight: 'bold', color: this.state.selectTaxi ? '#fff' : '#77a300' }}>Thuê xe tour</Text>
                 </TouchableOpacity>
             </View>
         )
@@ -541,7 +530,7 @@ class MapDiChung extends Component {
         return (
             <View style={{ flex: 1 }}>
                 <View style={{ height: 48, backgroundColor: '#eee', justifyContent: 'center', paddingLeft: 16 }}>
-                    <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Bạn sẽ đi đâu hôm nay?</Text>
+                    <Text style={{ fontWeight: 'bold', fontSize: 16 }}>Bạn sẽ đi đâu hôm nay?</Text>
                 </View>
                 <View style={[{ flex: 1, backgroundColor: '#eee' }]}>
                     {this.renderPicktoDrop()}
@@ -583,7 +572,7 @@ class MapDiChung extends Component {
                                         source={require(imageCancel)}
                                     />
                                 </TouchableOpacity>
-                                <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#77a300', flex: 1, textAlign: 'center' }}>Chọn thời gian đi</Text>
+                                <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#77a300', flex: 1, textAlign: 'center' }}>Chọn thời gian đi</Text>
                             </View>
                             <CalendarPicker
                                 textStyle={{
@@ -671,7 +660,7 @@ class MapDiChung extends Component {
                                         }
                                     }}
                                 >
-                                    <Text style={{ textAlign: 'center', fontSize: 18, flex: 1, padding: 8, backgroundColor: (item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes) ? '#77a300' : '#fff', color: (this.state.spesentDay == this.state.date.format('DD-MM-YYYY') && ((item.hour == this.state.hoursAlive && item.minute < this.state.minutesAlive) || item.hour < this.state.hoursAlive)) ? '#aaa' : item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes ? '#fff' : '#000000' }}>{item.hour < 10 ? '0' + item.hour : item.hour} : {item.minute == 0 ? '00' : item.minute}</Text>
+                                    <Text style={{ textAlign: 'center', fontSize: 16, flex: 1, padding: 8, backgroundColor: (item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes) ? '#77a300' : '#fff', color: (this.state.spesentDay == this.state.date.format('DD-MM-YYYY') && ((item.hour == this.state.hoursAlive && item.minute < this.state.minutesAlive) || item.hour < this.state.hoursAlive)) ? '#aaa' : item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes ? '#fff' : '#000000' }}>{item.hour < 10 ? '0' + item.hour : item.hour} : {item.minute == 0 ? '00' : item.minute}</Text>
                                 </TouchableOpacity>}
                             scrollToIndex={this.state.scroll}
                             keyExtractor={item => item.id}
@@ -714,7 +703,7 @@ class MapDiChung extends Component {
                                         // this.props.addDuration(item.chair);
                                     }}
                                 >
-                                    <Text style={{ fontSize: 18, flex: 1, padding: 8, color: item.chair == this.props.chair ? '#77a300' : '#000000' }}>{item.chair} người</Text>
+                                    <Text style={{ fontSize: 16, flex: 1, padding: 8, color: item.chair == this.props.chair ? '#77a300' : '#000000' }}>{item.chair} người</Text>
                                 </TouchableOpacity>}
                             keyExtractor={item => item.chair}
                         />
@@ -754,7 +743,7 @@ class MapDiChung extends Component {
                                         this.props.addDuration(item.time);
                                     }}
                                 >
-                                    <Text style={{ fontSize: 18, flex: 1, padding: 8, color: item.time === this.state.duration ? '#77a300' : '#000000' }}>{item.time} giờ</Text>
+                                    <Text style={{ fontSize: 16, flex: 1, padding: 8, color: item.time === this.state.duration ? '#77a300' : '#000000' }}>{item.time} giờ</Text>
                                 </TouchableOpacity>}
                             keyExtractor={item => item.time}
                         />
@@ -793,7 +782,7 @@ class MapDiChung extends Component {
                                         modalSelectCar: false,
                                     })}
                                 >
-                                    <Text style={{ fontSize: 18, flex: 1, padding: 8, color: item.carname === this.state.carType ? '#77a300' : '#000000' }}>{item.carname}</Text>
+                                    <Text style={{ fontSize: 14, flex: 1, padding: 8, color: item.carname === this.state.carType ? '#77a300' : '#000000' }}>{item.carname}</Text>
                                 </TouchableOpacity>}
                             keyExtractor={item => item.carname}
                         />
