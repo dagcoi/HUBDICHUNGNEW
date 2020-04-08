@@ -105,7 +105,7 @@ class SearchPlace extends Component {
 
                             styles={{
                                 textInputContainer: {
-                                    // borderRadius: 4,
+                                    borderRadius: 4,
                                     borderBottomWidth: 0.5,
                                     backgroundColor: '#ffffff',
                                     width: '100%',

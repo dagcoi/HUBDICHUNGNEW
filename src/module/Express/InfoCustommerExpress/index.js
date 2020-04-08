@@ -4,6 +4,7 @@ import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBoxList from '../../../component/CheckBoxList'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import { connect } from 'react-redux';
+import { Button } from '../../../component/Button'
 import { addInfoPeople1VanChuyen, addInfoPeople2VanChuyen, addVATVanChuyen, addCommentVanChuyen, addPromotionCodeVanChuyen, addPaymentMethodIDVanChuyen, } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
 
@@ -45,7 +46,7 @@ class InfoCustommerExpress extends Component {
             email: this.props.email,
             email1: this.props.email1,
             comment: this.props.comment,
-            promotion_code : '',
+            promotion_code: '',
         })
         this._validateEmail(this.props.email)
         this.mobileValidate(this.props.use_phone)
@@ -222,7 +223,7 @@ class InfoCustommerExpress extends Component {
             "promotion": this.state.promotion_code,
             "blDiscount": this.state.blDiscount,
             "Payment": this.state.value_payment,
-            "detailPromotion" : this.state.detailPromotion,
+            "detailPromotion": this.state.detailPromotion,
         });
     }
 
@@ -380,7 +381,7 @@ class InfoCustommerExpress extends Component {
                                     buttonInnerColor={'#77a300'}
                                     buttonOuterColor={'#77a300'}
                                     buttonSize={10}
-                                    buttonOuterSize={20}
+                                    buttonOuterSize={16}
                                     buttonStyle={7}
                                     buttonWrapStyle={{ marginLeft: 10 }}
                                 />
@@ -395,7 +396,7 @@ class InfoCustommerExpress extends Component {
                                             payment_method_ID: obj.payment_method_ID,
                                         })
                                     }}
-                                    labelStyle={{ fontSize: 18, color: '#000' }}
+                                    labelStyle={{ fontSize: 16, color: '#000' }}
                                     labelWrapStyle={{}}
                                 />
                             </RadioButton>
@@ -444,7 +445,7 @@ class InfoCustommerExpress extends Component {
                     />
                     {this.renderFormVAT()}
 
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                         style={{ marginTop: 8, backgroundColor: '#77a300', justifyContent: 'center', alignItems: "center", height: 40, borderRadius: 4 }}
                         onPress={() => {
                             const { xhd, company_name, company_address, company_address_receive, company_mst, full_name, use_phone, email, full_name1, use_phone1, email1, comment, payment_method_ID } = this.state;
@@ -457,7 +458,20 @@ class InfoCustommerExpress extends Component {
                         }}
                     >
                         <Text style={{ color: '#ffffff' }}>TIẾP TỤC</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
+
+                    <Button
+                        value={'TIẾP TỤC'}
+                        onPress={() => {
+                            const { xhd, company_name, company_address, company_address_receive, company_mst, full_name, use_phone, email, full_name1, use_phone1, email1, comment, payment_method_ID } = this.state;
+                            this.props.addVATVanChuyen(xhd ? '1' : '0', company_name, company_address, company_mst, company_address_receive);
+                            this.props.addInfoPeople2VanChuyen(full_name1, use_phone1, email1);
+                            this.props.addInfoPeople1VanChuyen(full_name, use_phone, email);
+                            this.props.addCommentVanChuyen(comment);
+                            this.props.addPaymentMethodIDVanChuyen(payment_method_ID);
+                            this.checkInfoCustommerExpress();
+                        }}
+                    />
 
                 </ScrollView>
             </View>
@@ -475,21 +489,21 @@ const styles = StyleSheet.create({
 
     textBig: {
         marginTop: 8,
-        fontSize: 18,
+        fontSize: 14,
         fontWeight: 'bold',
-        color: '#000'
+        color: '#333333'
     },
     textTitle: {
         marginTop: 8,
-        fontSize: 20,
+        fontSize: 16,
         fontWeight: 'bold',
-        color: '#000'
+        color: '#333333'
     },
 
     textInput: {
         borderWidth: 0.5,
         padding: 8,
-        borderColor: '#000',
+        borderColor: '#333333',
         fontSize: 16,
         borderRadius: 4,
         flex: 1,

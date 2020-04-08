@@ -6,6 +6,7 @@ import StarVote from '../../../component/StarVote'
 import { addTripInfomationTaixe } from '../../../core/Redux/action/Action'
 import HTML from 'react-native-render-html';
 import * as link from '../../../URL'
+import { Button } from '../../../component/Button'
 
 class ListDriverXeChung extends Component {
 
@@ -145,7 +146,7 @@ class ListDriverXeChung extends Component {
                                     <HTML html={item.discount_data.partner_note.replace("</a>", "").replace("</p>", "").replace("<p>", "")} imagesMaxWidth={Dimensions.get('window').width} />
                                 </View>}
 
-                            <TouchableOpacity
+                            {/* <TouchableOpacity
                                 style={{ height: 40, padding: 4, justifyContent: 'center', backgroundColor: '#77a300', alignItems: 'center', marginTop: 8 }}
                                 onPress={() => {
                                     console.log(index)
@@ -154,7 +155,14 @@ class ListDriverXeChung extends Component {
                                 }}
                             >
                                 <Text style={{ color: '#FFFFFF', fontSize: 20, fontWeight: 'bold' }}>CHỌN TÀI XẾ</Text>
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
+
+                            <Button
+                                onPress={() => {
+                                    this.alertItemName(item)
+                                }}
+                                value={'CHỌN TÀI XẾ'}
+                            />
 
                         </View>
                     </View>
@@ -192,8 +200,8 @@ class ListDriverXeChung extends Component {
                     </ScrollView>
                     : <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
                         <Text>Không tìm thấy tài xế phù hợp. Vui lòng gọi <Text style={{ color: '#77a300' }}
-                        onPress={() => Linking.openURL(`tel: 19006022`)}>19006022</Text></Text>
-                        <Text style = {{padding : 4,  fontSize : 18}}>HOẶC</Text>
+                            onPress={() => Linking.openURL(`tel: 19006022`)}>19006022</Text></Text>
+                        <Text style={{ padding: 4, fontSize: 16 }}>HOẶC</Text>
                         <TouchableOpacity
                             style={{ backgroundColor: '#77a300', margin: 8, padding: 8 }}
                             onPress={() => {
@@ -236,16 +244,16 @@ const styles = StyleSheet.create({
     tentuyen: {
         marginTop: 8,
         padding: 1,
-        fontSize: 16,
+        fontSize: 14,
         color: '#00363e',
         fontStyle: 'italic',
         backgroundColor: '#ffffff'
     },
     loaixe: {
-        fontSize: 20,
+        fontSize: 16,
     },
     giaTien: {
-        fontSize: 20,
+        fontSize: 16,
         color: '#00363e',
     },
 })

@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Button, Alert, Image, TextInput, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, Image, TextInput, ScrollView } from 'react-native';
 import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBox from 'react-native-check-box'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import { connect } from 'react-redux';
 import { addInfoPeople1TuLai, addInfoPeople2TuLai, addVATTuLai, addPromotionCodeTuLai, addPaymentMethodIDTuLai, addCommentTuLai } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
+import { Button } from '../../../component/Button'
 
 const imageCancel = '../../../image/cancel.png'
 const imageCheck = '../../../image/checked.png'
@@ -42,7 +43,7 @@ class InfoCustommerTuLai extends Component {
             discount_price: 0,
             blDiscount: false,
             promotionStatus: false,
-            comment : ''
+            comment: ''
         }
     }
 
@@ -393,7 +394,6 @@ class InfoCustommerTuLai extends Component {
                     <Text style={styles.textBig}>Email</Text>
 
                     <InputTextDiChung
-                        // ref={(input) => { this.email = input; }}
                         style={styles.textInput}
                         placeholder='Nhập Email'
                         value={this.state.email}
@@ -412,9 +412,7 @@ class InfoCustommerTuLai extends Component {
                         }}
                         isChecked={this.state.is_checked}
                         rightText={"Đặt xe cho người khác"}
-                        rightTextStyle={{ fontSize: 20 }}
-                        checkedImage={<Image source={require(imageCheck)} style={{ width: 25, height: 25 }} />}
-                        unCheckedImage={<Image source={require(imageUnCheck)} style={{ width: 25, height: 25 }} />}
+                        rightTextStyle={{ fontSize: 16 }}
                     />
 
                     {this.renderDatHo()}
@@ -444,7 +442,7 @@ class InfoCustommerTuLai extends Component {
                                     buttonInnerColor={'#77a300'}
                                     buttonOuterColor={'#77a300'}
                                     buttonSize={10}
-                                    buttonOuterSize={20}
+                                    buttonOuterSize={16}
                                     buttonStyle={7}
                                     buttonWrapStyle={{ marginLeft: 10 }}
                                 />
@@ -460,7 +458,7 @@ class InfoCustommerTuLai extends Component {
                                             payment_method_ID: obj.payment_method_ID,
                                         })
                                     }}
-                                    labelStyle={{ fontSize: 18, color: '#000' }}
+                                    labelStyle={{ fontSize: 16, color: '#000' }}
                                     labelWrapStyle={{}}
                                 />
                             </RadioButton>
@@ -517,10 +515,10 @@ class InfoCustommerTuLai extends Component {
                             })
                         }}
                         isChecked={this.state.vat}
-                        rightText={"VAT 10 %"}
-                        rightTextStyle={{ fontSize: 20 }}
-                        checkedImage={<Image source={require(imageCheck)} style={{ width: 25, height: 25 }} />}
-                        unCheckedImage={<Image source={require(imageUnCheck)} style={{ width: 25, height: 25 }} />}
+                        rightText={"Xuất hóa đơn"}
+                        rightTextStyle={{ fontSize: 16 }}
+                    // checkedImage={<Image source={require(imageCheck)} style={{ width: 25, height: 25 }} />}
+                    // unCheckedImage={<Image source={require(imageUnCheck)} style={{ width: 25, height: 25 }} />}
                     />
                     {this.renderFormVAT()}
                     {this.props.is_from_airport == 'false' ? null :
@@ -533,16 +531,16 @@ class InfoCustommerTuLai extends Component {
                             }}
                             isChecked={this.state.boardPrice}
                             rightText={"Đón biển tên : +30.000 đ"}
-                            rightTextStyle={{ fontSize: 20 }}
-                            checkedImage={<Image source={require(imageCheck)} style={{ width: 25, height: 25 }} />}
-                            unCheckedImage={<Image source={require(imageUnCheck)} style={{ width: 25, height: 25 }} />}
+                            rightTextStyle={{ fontSize: 16 }}
+                        // checkedImage={<Image source={require(imageCheck)} style={{ width: 25, height: 25 }} />}
+                        // unCheckedImage={<Image source={require(imageUnCheck)} style={{ width: 25, height: 25 }} />}
                         />
                     }
 
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                         style={{ marginTop: 8, backgroundColor: '#77a300', justifyContent: 'center', alignItems: "center", height: 40, borderRadius: 4 }}
                         onPress={() => {
-                            const { xhd, company_name, company_address, company_address_receive, company_mst, plane_number, plane_type,comment, full_name, use_phone, email, full_name1, use_phone1, email1, payment_method_ID } = this.state;
+                            const { xhd, company_name, company_address, company_address_receive, company_mst, plane_number, plane_type, comment, full_name, use_phone, email, full_name1, use_phone1, email1, payment_method_ID } = this.state;
                             this.props.addVATTuLai(xhd ? '1' : '0', company_name, company_address, company_mst, company_address_receive);
                             this.props.addInfoPeople2TuLai(full_name1, use_phone1, email1);
                             this.props.addInfoPeople1TuLai(full_name, use_phone, email);
@@ -554,7 +552,22 @@ class InfoCustommerTuLai extends Component {
                         }}
                     >
                         <Text style={{ color: '#ffffff' }}>TIẾP TỤC</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
+
+                    <Button
+                        onPress={() => {
+                            const { xhd, company_name, company_address, company_address_receive, company_mst, plane_number, plane_type, comment, full_name, use_phone, email, full_name1, use_phone1, email1, payment_method_ID } = this.state;
+                            this.props.addVATTuLai(xhd ? '1' : '0', company_name, company_address, company_mst, company_address_receive);
+                            this.props.addInfoPeople2TuLai(full_name1, use_phone1, email1);
+                            this.props.addInfoPeople1TuLai(full_name, use_phone, email);
+                            // add payment method id
+                            console.log(payment_method_ID)
+                            this.props.addPaymentMethodIDTuLai(payment_method_ID);
+                            this.checkInfoCustommerTuLai();
+                            this.props.addCommentTuLai(comment)
+                        }}
+                        value = {'TIẾP TỤC'}
+                    />
 
                 </ScrollView>
             </View>
@@ -572,26 +585,26 @@ const styles = StyleSheet.create({
 
     textBig: {
         marginTop: 8,
-        fontSize: 22,
+        fontSize: 16,
         fontWeight: 'bold',
-        color: '#00363e'
+        color: '#333333'
     },
 
     textNomal: {
         marginTop: 8,
-        fontSize: 18,
+        fontSize: 14,
     },
 
     textSmall: {
         marginTop: 8,
-        fontSize: 14,
+        fontSize: 12,
     },
 
     textInput: {
         borderWidth: 0,
         padding: 8,
         borderColor: '#e8e8e8',
-        fontSize: 16,
+        fontSize: 14,
         borderRadius: 4,
         flex: 1,
     },

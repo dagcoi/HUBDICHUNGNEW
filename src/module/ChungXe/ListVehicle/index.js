@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, ActivityIndicator, Image, Modal, ScrollView } from 'react-native'
 import { connect } from 'react-redux';
 import CheckBoxList from '../../../component/CheckBoxList';
+import { Button } from '../../../component/Button'
 
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -46,7 +47,8 @@ class ListVehicle extends Component {
                 <Text style={{
                     flex: 1,
                     fontSize: 22,
-                    textAlign: 'left'
+                    textAlign: 'left',
+                    justifyContent: 'center'
                 }}>
                     Danh sách xe
                 </Text>
@@ -172,7 +174,7 @@ class ListVehicle extends Component {
                         showsVerticalScrollIndicator={false}
 
                     >
-                        <Text style={{ fontSize: 24, fontWeight: '700', padding: 8 }}>Động cơ</Text>
+                        <Text style={{ fontSize: 16, fontWeight: '700', padding: 8 }}>Động cơ</Text>
 
                         <FlatList
                             showsHorizontalScrollIndicator={false}
@@ -196,7 +198,7 @@ class ListVehicle extends Component {
                             }
                             }
                         />
-                        <Text style={{ fontSize: 24, fontWeight: '700', padding: 8 }}>Thương hiệu</Text>
+                        <Text style={{ fontSize: 16, fontWeight: '700', padding: 8 }}>Thương hiệu</Text>
                         <FlatList
                             showsHorizontalScrollIndicator={false}
                             showsVerticalScrollIndicator={false}
@@ -216,7 +218,7 @@ class ListVehicle extends Component {
                                 </View>
                             }
                         />
-                        {maxSeat.length == 0 ? null : <Text style={{ fontSize: 24, fontWeight: '700', padding: 8 }}>Số ghế</Text>}
+                        {maxSeat.length == 0 ? null : <Text style={{ fontSize: 16, fontWeight: '700', padding: 8 }}>Số ghế</Text>}
 
                         <FlatList
                             showsHorizontalScrollIndicator={false}
@@ -242,7 +244,7 @@ class ListVehicle extends Component {
                     <View style={{ flexDirection: 'row' }}>
 
                         <TouchableOpacity
-                            style={{ padding: 8, backgroundColor: '#999999', borderRadius: 4, alignItems: 'center', marginTop: 10, flex: 1 }}
+                            style={{ padding: 8, backgroundColor: '#e8e8e8', borderRadius: 4, alignItems: 'center', marginTop: 10, flex: 1 }}
                             onPress={() => {
                                 this.setState({
                                     listVehicleSeatCheck: [],
@@ -250,7 +252,7 @@ class ListVehicle extends Component {
                                     listVehicleNameCheck: [],
                                 })
                             }}>
-                            <Text style={{ fontSize: 18, color: '#00363d' }}>BỎ LỌC</Text>
+                            <Text style={{ fontSize: 16, color: '#00363d' }}>BỎ LỌC</Text>
                         </TouchableOpacity>
                         <View style={{ margin: 8 }} />
                         <TouchableOpacity
@@ -259,7 +261,7 @@ class ListVehicle extends Component {
                                 this.setModalVisible(!this.state.showFilter)
                                 // console.log(this.state.listFilterType)
                             }}>
-                            <Text style={{ fontSize: 18, color: '#fff' }}>ÁP DỤNG</Text>
+                            <Text style={{ fontSize: 16, color: '#fff' }}>ÁP DỤNG</Text>
                         </TouchableOpacity>
                     </View>
 
@@ -311,24 +313,24 @@ class ListVehicle extends Component {
                                     <View style={{ flexDirection: 'row' }}>
                                         <View style={{ flex: 1, justifyContent: 'flex-start' }}>
                                             <View style={{ flexDirection: 'row' }}>
-                                                <Text style={{ fontSize: 16, color: '#ffffff', backgroundColor: '#77a300', padding: 4 }}>
+                                                <Text style={{ fontSize: 14, color: '#ffffff', backgroundColor: '#77a300', padding: 4 }}>
                                                     {item.part.vhc_type_id == 1 ? item.vhc_part_name_short : item.vhc_part_name}
                                                 </Text>
                                             </View>
 
-                                            <Text style={{ fontSize: 15, marginTop: 8, marginBottom: 8 }}>{item.part.part_addr_shor}</Text>
+                                            <Text style={{ fontSize: 14, marginTop: 8, marginBottom: 8 }}>{item.part.part_addr_shor}</Text>
                                             {this.state.carType == '1' ?
                                                 <View>
-                                                    <Text style={{ fontWeight: 'bold', fontSize: 16 }}>xe {item.vhc.vhc_seat_num} chỗ {item.vhc.vhc_tms_name}</Text>
+                                                    <Text style={{ fontWeight: 'bold', fontSize: 14 }}>xe {item.vhc.vhc_seat_num} chỗ {item.vhc.vhc_tms_name}</Text>
                                                     <Text>Hoặc tương đương</Text>
                                                 </View>
                                                 :
                                                 <View>
-                                                    <Text style={{ fontWeight: 'bold', fontSize: 16 }}>{item.vhc.vhc_tms_name}</Text>
+                                                    <Text style={{ fontWeight: 'bold', fontSize: 14 }}>{item.vhc.vhc_tms_name}</Text>
                                                 </View>
                                             }
 
-                                            <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#00363d', marginTop: 8 }}>{item.vhc_part_defa_prie.format(0, 3, `.`)} đ/Ngày</Text>
+                                            <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#00363d', marginTop: 8 }}>{item.vhc_part_defa_prie.format(0, 3, `.`)} đ/Ngày</Text>
                                         </View>
 
                                         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -339,7 +341,7 @@ class ListVehicle extends Component {
                                         </View>
                                     </View>
 
-                                    <TouchableOpacity
+                                    {/* <TouchableOpacity
                                         style={{ flexDirection: 'row', marginTop: 8, borderBottomColor: '#00363d', backgroundColor: '#77a300', borderWidth: 0.5, justifyContent: 'center', borderRadius: 4, alignItems: 'center' }}
                                         onPress={() => {
                                             // console.log(item.vhc_part_name)
@@ -347,7 +349,13 @@ class ListVehicle extends Component {
                                         }}
                                     >
                                         <Text style={{ fontSize: 18, padding: 8, color: '#ffffff', }}>CHỌN XE</Text>
-                                    </TouchableOpacity>
+                                    </TouchableOpacity> */}
+                                    <Button
+                                        onPress={() => {
+                                            this.props.navigation.navigate('InfoChungXe', { item: item })
+                                        }}
+                                        value={'CHỌN XE'}
+                                    />
                                 </View>
                                 {/* } */}
                             </View>

@@ -480,7 +480,7 @@ class MapDiChung extends Component {
                         })
                     }}
                 >
-                    <Text style={{ fontSize: 16, fontWeight: 'bold', color: this.state.selectTaxi ? '#77a300' : '#fff' }}>Sân bay, đường dài</Text>
+                    <Text style={{ fontSize: 16, fontWeight: 'bold', color: this.state.selectTaxi ? '#77a300' : '#fff' }}>Sân bay, Đường dài</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: this.state.selectTaxi ? '#aaa' : '#fff', borderTopEndRadius: 8 }}

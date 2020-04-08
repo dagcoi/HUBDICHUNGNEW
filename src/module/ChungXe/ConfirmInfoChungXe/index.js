@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, Alert, ActivityIndicator, ScrollView, Image, Button, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Alert, ActivityIndicator, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux'
 import { Dialog, ConfirmDialog } from 'react-native-simple-dialogs';
 import Moment from 'moment';
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
+import { Button } from '../../../component/Button'
 
 const imageLocation = '../../../image/location.png'
 const imageCalendar = '../../../image/calendar.png'
@@ -80,8 +81,7 @@ class ConfirmInfoChungXe extends Component {
                         {this.renderTotalCode()}
 
                         <Button
-                            color='#77a300'
-                            title='TIẾP TỤC'
+                            value={'TIẾP TỤC'}
                             onPress={() => {
                                 this.addBookingChungXe();
                                 this.setState({ addingTicket: true, })
@@ -109,7 +109,7 @@ class ConfirmInfoChungXe extends Component {
                                 <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>
                                 <View style={{ flexDirection: 'row', height: 45, padding: 4 }}>
                                     <TouchableOpacity
-                                        style={{ backgroundColor: '#77a300', justifyContent: 'center', borderRadius: 4, flex: 1, alignItems: 'center',borderWidth: 0.2, }}
+                                        style={{ backgroundColor: '#77a300', justifyContent: 'center', borderRadius: 4, flex: 1, alignItems: 'center', borderWidth: 0.2, }}
                                         onPress={() => {
                                             // this.props.navigation.navigate('Home')
                                             const resetAction = StackActions.reset({
@@ -126,7 +126,7 @@ class ConfirmInfoChungXe extends Component {
                                     <View style={{ margin: 8 }}></View>
 
                                     <TouchableOpacity
-                                        style={{ backgroundColor: '#77a300', justifyContent: 'center', borderRadius: 4, flex: 1, alignItems: 'center',borderWidth: 0.2, }} //, borderWidth: 0.5
+                                        style={{ backgroundColor: '#77a300', justifyContent: 'center', borderRadius: 4, flex: 1, alignItems: 'center', borderWidth: 0.2, }} //, borderWidth: 0.5
                                         onPress={() => {
                                             this.props.navigation.navigate('ChungXeTicketInformation', {
                                                 'ticket_id': this.state.book_code,
@@ -161,7 +161,7 @@ class ConfirmInfoChungXe extends Component {
 
                 <ImageTextDiChung
                     source={require(imageCalendar)}
-                    text={this.props.time_pick + ' - ' +this.props.time_drop}
+                    text={this.props.time_pick + ' - ' + this.props.time_drop}
                 />
             </View>
         )
@@ -256,7 +256,7 @@ class ConfirmInfoChungXe extends Component {
                 cstm_deli_addr_lng: navigation.getParam('selectRentCar') == 0 ? null : this.props.lngtitude_pick,
                 // latitude: navigation.getParam('selectRentCar') == 0 ? this.props.lattitude_pick : null,
                 // longitude:navigation.getParam('selectRentCar') == 0 ? this.props.lngtitude_pick : null,
-                cstm_name : this.props.full_name,
+                cstm_name: this.props.full_name,
                 cstm_emai: this.props.email,
                 cstm_pay_meth_id: '1',
                 cstm_phon: this.props.use_phone,
@@ -312,16 +312,16 @@ const styles = StyleSheet.create({
     },
 
     textBold: {
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: "bold",
-        color: '#00363d',
+        color: '#333333',
         marginTop: 8,
         marginLeft: 8,
     },
 
     textNomal: {
-        fontSize: 16,
-        color: "#00363d",
+        fontSize: 14,
+        color: "#333333",
         padding: 2,
     }
 

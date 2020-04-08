@@ -18,7 +18,7 @@ function CheckBoxList({
                 onClick={onClick}
                 isChecked={isChecked}
                 rightText={rightText}
-                rightTextStyle={[{ fontSize: 20 }, style]}
+                rightTextStyle={[{ fontSize: 16 }, style]}
                 checkBoxColor = '#77a300'
                 // checkedImage={<Image source={require(imageCheck)} style={{ width: 25, height: 25 }} />}
                 // unCheckedImage={<Image source={require(imageUnCheck)} style={{ width: 25, height: 25 }} />}

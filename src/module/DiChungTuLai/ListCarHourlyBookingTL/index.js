@@ -5,7 +5,7 @@ import StarVote from '../../../component/StarVote'
 
 import { addTripInfomationHourlyBookingTuLai } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
-
+import { Button } from '../../../component/Button'
 const imageMaxToMin = '../../../image/maxtomin.png'
 const imageMinToMax = '../../../image/mintomax.png'
 
@@ -32,7 +32,8 @@ class ListCarHourlyBookingTL extends Component {
                 <Text style={{
                     flex: 1,
                     fontSize: 22,
-                    textAlign: 'left'
+                    textAlign: 'left',
+                    justifyContent: 'center'
                 }}>
                     Danh sách xe theo tour
                 </Text>
@@ -160,22 +161,22 @@ class ListCarHourlyBookingTL extends Component {
                                             <Image
                                                 style={{ width: 16, height: 16, marginRight: 8, }}
                                                 source={require('../../../image/note.png')} />
-                                            <Text style={{ flex: 1, }}>Phụ trội theo km : {item.extra_price_km} đ/km</Text>
+                                            <Text style={styles.textNomal}>Phụ trội theo km : {item.extra_price_km} đ/km</Text>
                                         </View>
                                         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                                             <Image
                                                 style={{ width: 16, height: 16, marginRight: 8, }}
                                                 source={require('../../../image/note.png')} />
-                                            <Text style={{ flex: 1, }}>Phụ trội theo giờ : {item.extra_price_hour} đ/giờ</Text>
+                                            <Text style={styles.textNomal}>Phụ trội theo giờ : {item.extra_price_hour} đ/giờ</Text>
                                         </View>
                                         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                                             <Image
                                                 style={{ width: 16, height: 16, marginRight: 8, }}
                                                 source={require('../../../image/note.png')} />
-                                            <Text style={{ flex: 1, }}>Giá đã bao gồm tiền xăng và lái xe, chưa bao gồm phí cầu đường, bến bãi, đỗ xe.</Text>
+                                            <Text style={styles.textNomal}>Giá đã bao gồm tiền xăng và lái xe, chưa bao gồm phí cầu đường, bến bãi, đỗ xe.</Text>
                                         </View>
                                     </View>
-                                    <TouchableOpacity
+                                    {/* <TouchableOpacity
                                         style={{ height: 40, padding: 4, justifyContent: 'center', backgroundColor: '#77a300', alignItems: 'center', marginTop: 8 }}
                                         onPress={() => {
                                             this.gotoInfocustommerHourlyBookingTL(item);
@@ -183,7 +184,14 @@ class ListCarHourlyBookingTL extends Component {
                                         }
                                     >
                                         <Text style={{ color: '#FFFFFF', fontSize: 20, fontWeight: 'bold' }}>CHỌN XE</Text>
-                                    </TouchableOpacity>
+                                    </TouchableOpacity> */}
+
+                                    <Button
+                                        onPress={() => {
+                                            this.gotoInfocustommerHourlyBookingTL(item);
+                                        }}
+                                        value={'CHỌN XE'}
+                                    />
 
                                 </View>
 
@@ -225,10 +233,9 @@ class ListCarHourlyBookingTL extends Component {
 }
 
 const styles = StyleSheet.create({
-    textView: {
-        fontSize: 18,
-        color: '#123456',
-        marginTop: 8,
+    textNomal: {
+        fontSize: 14,
+        flex: 1,
     },
     viewColumn: {
         backgroundColor: '#ffffaa',
@@ -264,18 +271,18 @@ const styles = StyleSheet.create({
     },
     tentuyen: {
         padding: 1,
-        fontSize: 16,
-        color: '#00363e',
+        fontSize: 14,
+        color: '#333333',
         fontStyle: 'italic',
         backgroundColor: '#ffffff'
     },
     loaixe: {
-        fontSize: 20,
+        fontSize: 16,
         color: '#77a300',
         fontWeight: 'bold'
     },
     giaTien: {
-        fontSize: 16,
+        fontSize: 18,
         color: '#00363e',
     },
     viewChitiet: {

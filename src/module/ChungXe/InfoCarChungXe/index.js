@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { View, Image, Text, TouchableOpacity, TextInput, StyleSheet, Modal, Keyboard, ActivityIndicator, FlatList, Alert, ScrollView, Button } from 'react-native';
+import { View, Image, Text, TouchableOpacity, TextInput, StyleSheet, Modal, Keyboard, ActivityIndicator, FlatList, Alert, ScrollView, } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import Geocoder from 'react-native-geocoding';
 import CheckBox from 'react-native-check-box'
 import InputTextDiChung from '../../../component/InputTextDiChung'
+import { Button } from '../../../component/Button'
 
 import { addInfoPeople1 } from '../../../core/Redux/action/Action'
 
@@ -106,7 +107,7 @@ class InfoCarChungXe extends Component {
         if (this.state.value3Index == 1) {
             return (
                 <View
-                    style={{ borderRadius: 4, borderColor: '#00363d', borderWidth: 0.2 }}
+                    style={{ borderRadius: 4, borderColor: '#e8e8e8', borderWidth: 1 }}
                 >
                     <TouchableOpacity
                         style={{ flex: 1, height: 40, flexDirection: 'row', alignItems: 'center', }}
@@ -128,7 +129,7 @@ class InfoCarChungXe extends Component {
                             pointerEvents="none"
                             onSubmitEditing={Keyboard.dismiss}
                             placeholder='Nhập điểm nhận xe'
-                            style={{ fontSize: 16, height: 40, color: '#000' }}
+                            style={{ fontSize: 14, height: 40, color: '#000' }}
                             pointerEvents="none"
                             value={this.props.pick_add}
                         />
@@ -173,7 +174,7 @@ class InfoCarChungXe extends Component {
                         source={{ uri: item.vhc.vhc_imgs }}
                     />
                     <View style={{ flexDirection: 'row', marginTop: 8 }}>
-                        <Text style={{ backgroundColor: '#77a300', padding: 4, color: '#fff', fontWeight: 'bold', fontSize: 18 }}>{item.vhc_part_name}</Text>
+                        <Text style={{ backgroundColor: '#77a300', padding: 4, color: '#fff', fontWeight: 'bold', fontSize: 16 }}>{item.vhc_part_name}</Text>
                     </View>
 
                     <View style={{ flexDirection: 'row', marginTop: 8 }}>
@@ -273,7 +274,7 @@ class InfoCarChungXe extends Component {
                                         buttonInnerColor={'#77a300'}
                                         buttonOuterColor={'#77a300'}
                                         buttonSize={10}
-                                        buttonOuterSize={20}
+                                        buttonOuterSize={16}
                                         buttonStyle={7}
                                         buttonWrapStyle={{ marginLeft: 10 }}
                                     />
@@ -289,7 +290,7 @@ class InfoCarChungXe extends Component {
                                                 selectRentCar: i
                                             })
                                         }}
-                                        labelStyle={{ fontSize: 18, color: '#000' }}
+                                        labelStyle={{ fontSize: 16, color: '#000' }}
                                         labelWrapStyle={{}}
                                     />
                                 </RadioButton>
@@ -344,8 +345,8 @@ class InfoCarChungXe extends Component {
 
                             }}
                             isChecked={this.state.vat}
-                            rightText={"VAT"}
-                            rightTextStyle={{ fontSize: 20 }}
+                            rightText={"Xuất hóa đơn"}
+                            rightTextStyle={{ fontSize: 16 }}
 
                         />
 
@@ -360,8 +361,7 @@ class InfoCarChungXe extends Component {
                         </View>
 
                         <Button
-                            color='#77a300'
-                            title='TIẾP TỤC'
+                            value='TIẾP TỤC'
                             onPress={() => {
                                 const { fullname, use_phone, email } = this.state;
                                 console.log(fullname + use_phone + email)
@@ -413,7 +413,7 @@ class InfoCarChungXe extends Component {
                                 />
                             </TouchableOpacity>
                             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                <Text style={{ color: '#00363d', fontSize: 20, fontWeight: 'bold' }}>Chi tiết xe</Text>
+                                <Text style={{ color: '#33333', fontSize: 16, fontWeight: 'bold' }}>Chi tiết xe</Text>
                             </View>
                         </View>
                         <ScrollView
@@ -429,7 +429,7 @@ class InfoCarChungXe extends Component {
                                 </View>
 
                                 <View style={{ flexDirection: 'row', marginTop: 8 }}>
-                                    <Text style={{ backgroundColor: '#77a300', color: '#fff', padding: 4, fontSize: 18, fontWeight: 'bold' }}>{dataVhcPartId.vhc_part_name}</Text>
+                                    <Text style={{ backgroundColor: '#77a300', color: '#fff', padding: 4, fontSize: 14, fontWeight: 'bold' }}>{dataVhcPartId.vhc_part_name}</Text>
                                 </View>
 
                                 <View>
@@ -719,38 +719,38 @@ class InfoCarChungXe extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#eeeeee',
+        backgroundColor: '#ffffff',
         padding: 8,
     },
 
     textBig: {
         marginTop: 8,
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: 'bold',
-        color: '#00363e'
+        color: '#333333'
     },
 
     textNomal: {
         marginTop: 8,
-        fontSize: 16,
+        fontSize: 14,
     },
 
     textSmall: {
         marginTop: 8,
-        fontSize: 14,
+        fontSize: 13,
     },
 
     textInput: {
         borderWidth: 0,
         padding: 8,
         borderColor: '#e8e8e8',
-        fontSize: 16,
+        fontSize: 14,
         borderRadius: 4,
         flex: 1,
     },
     borderView: {
         marginTop: 8,
-        borderWidth: 0.5,
+        borderWidth: 1,
         borderColor: '#e8e8e8',
         borderRadius: 4,
         flexDirection: 'row',

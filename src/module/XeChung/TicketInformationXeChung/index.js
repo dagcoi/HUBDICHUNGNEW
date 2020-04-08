@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { View, Text, Image, Button, StyleSheet, ActivityIndicator, ScrollView } from 'react-native';
+import { View, Text, Image, StyleSheet, ActivityIndicator, ScrollView } from 'react-native';
 import * as link from '../../../URL'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
-
+import { Button } from '../../../component/Button'
 
 const imageLocation = '../../../image/location.png'
 const imageCalendar = '../../../image/calendar.png'
@@ -59,7 +59,7 @@ class TicketInformationXeChung extends Component {
         return (
             <View>
                 <Text style={styles.textBigLeft1}>Chi tiết dịch vụ</Text>
- 
+
                 <ImageTextDiChung
                     source={require(imageLocation)}
                     text={item.pick_address_api}
@@ -72,7 +72,7 @@ class TicketInformationXeChung extends Component {
 
                 <ImageTextDiChung
                     source={require(imageCalendar)}
-                    text={item.in_time+' ' +item.in_date}
+                    text={item.in_time + ' ' + item.in_date}
                 />
             </View>
         )
@@ -85,7 +85,7 @@ class TicketInformationXeChung extends Component {
 
                 <ImageTextDiChung
                     source={require(imageIconCar)}
-                    text={'Loại dịch vụ : ' +item.transport_partner_name}
+                    text={'Loại dịch vụ : ' + item.transport_partner_name}
                 />
             </View>
         )
@@ -205,9 +205,7 @@ class TicketInformationXeChung extends Component {
                         {this.renderTT(item)}
 
                         <Button
-                            style={{ marginTop: 8, fontSize: 22 }}
-                            color='#77a300'
-                            title='Trang chủ'
+                            value={'Trang chủ'}
                             onPress={() => {
                                 // this.props.navigation.navigate('Home')
                                 const resetAction = StackActions.reset({
@@ -235,18 +233,18 @@ const styles = StyleSheet.create({
 
     textBigRight: {
         padding: 1,
-        fontSize: 15,
+        fontSize: 14,
         color: '#00363d',
         flex: 1,
     },
     textBigLeft1: {
-        fontSize: 18,
+        fontSize: 16,
         marginTop: 8,
         fontWeight: 'bold',
     },
     textBigRight1: {
         padding: 1,
-        fontSize: 18,
+        fontSize: 16,
         color: '#77a300',
         flex: 1,
         textAlign: "right"

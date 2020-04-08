@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Button, Alert, Image, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert, Image, ActivityIndicator } from 'react-native';
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Dialog, ConfirmDialog } from 'react-native-simple-dialogs';
@@ -6,6 +6,7 @@ import CountDown from 'react-native-countdown-component';
 import * as link from '../../../URL'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
+import { Button } from '../../../component/Button'
 
 
 Number.prototype.format = function (n, x) {
@@ -256,9 +257,7 @@ class ConfirmInformationXeChung extends Component {
 
 
                     <Button
-                        style={{ marginTop: 8, }}
-                        color='#77a300'
-                        title='Hoàn thành thuê tài xế'
+                        value='Hoàn thành thuê tài xế'
                         onPress={() => {
                             this.state.callingApi ? null : this.addTicket()
                             this.setState({
@@ -272,7 +271,7 @@ class ConfirmInformationXeChung extends Component {
                         title="Đang tìm tài xế">
                         <View style={{ flexDirection: 'row' }}>
                             <ActivityIndicator size='large' />
-                            <Text style={{ fontSize: 25 }}>Quý khách vui lòng đợi trong giây lát...</Text>
+                            <Text style={{ fontSize: 16 }}>Quý khách vui lòng đợi trong giây lát...</Text>
                         </View>
                         <CountDown
                             until={180}
@@ -316,7 +315,7 @@ class ConfirmInformationXeChung extends Component {
                                 source={require(imageSorry)}
                             />
 
-                            <Text style={{ fontSize: 18 }}>Hiện tại không có tài xế nào nhận yêu cầu của bạn. Xin vui lòng thử lại hoặc chọn giờ đi khác.</Text>
+                            <Text style={{ fontSize: 16 }}>Hiện tại không có tài xế nào nhận yêu cầu của bạn. Xin vui lòng thử lại hoặc chọn giờ đi khác.</Text>
 
                         </View>
                     </ConfirmDialog>
@@ -523,13 +522,13 @@ const styles = StyleSheet.create({
     },
     textBigRight1: {
         padding: 1,
-        fontSize: 18,
+        fontSize: 16,
         color: '#77a300',
         flex: 1,
         textAlign: "right"
     },
     textBigLeft1: {
-        fontSize: 18,
+        fontSize: 16,
         marginTop: 8,
         fontWeight: 'bold',
     },

@@ -5,6 +5,7 @@ import StarVote from '../../../component/StarVote'
 
 import { addTripInfomationHourlyBookingTaixe } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
+import { Button } from '../../../component/Button'
 
 const imageMaxToMin = '../../../image/maxtomin.png'
 const imageMinToMax = '../../../image/mintomax.png'
@@ -32,7 +33,8 @@ class ListDriverHourlyBooking extends Component {
                 <Text style={{
                     flex: 1,
                     fontSize: 22,
-                    textAlign: 'left'
+                    textAlign: 'left',
+                    justifyContent: 'center'
                 }}>
                     Danh sách tài xế
                 </Text>
@@ -165,7 +167,7 @@ class ListDriverHourlyBooking extends Component {
                                             <Text style={{ flex: 1, }}>Giá đã bao gồm tiền xăng và lái xe, chưa bao gồm phí cầu đường, bến bãi, đỗ xe.</Text>
                                         </View> */}
                                     </View>
-                                    <TouchableOpacity
+                                    {/* <TouchableOpacity
                                         style={{ height: 40, padding: 4, justifyContent: 'center', backgroundColor: '#77a300', alignItems: 'center', marginTop: 8 }}
                                         onPress={() => {
                                             this.gotoInfocustommerDriverHourlyBooking(item);
@@ -173,8 +175,14 @@ class ListDriverHourlyBooking extends Component {
                                         }
                                     >
                                         <Text style={{ color: '#FFFFFF', fontSize: 20, fontWeight: 'bold' }}>CHỌN XE</Text>
-                                    </TouchableOpacity>
+                                    </TouchableOpacity> */}
 
+                                    <Button
+                                        onPress={() => {
+                                            this.gotoInfocustommerDriverHourlyBooking(item);
+                                        }}
+                                        value={'CHỌN XE'}
+                                    />
                                 </View>
 
                             </View>
@@ -216,7 +224,7 @@ class ListDriverHourlyBooking extends Component {
 
 const styles = StyleSheet.create({
     textView: {
-        fontSize: 18,
+        fontSize: 14,
         color: '#123456',
         marginTop: 8,
     },
@@ -254,13 +262,13 @@ const styles = StyleSheet.create({
     },
     tentuyen: {
         padding: 1,
-        fontSize: 16,
-        color: '#00363e',
+        fontSize: 14,
+        color: '#333333',
         fontStyle: 'italic',
         backgroundColor: '#ffffff'
     },
     loaixe: {
-        fontSize: 20,
+        fontSize: 16,
         color: '#77a300',
         fontWeight: 'bold'
     },

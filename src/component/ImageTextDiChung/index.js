@@ -33,8 +33,8 @@ const styles = StyleSheet.create({
     },
     textBigRight: {
         padding: 1,
-        fontSize: 15,
-        color: '#00363d',
+        fontSize: 14,
+        color: '#333333',
         flex: 1,
     },
     textBigRightBold: {

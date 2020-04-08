@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { View, Text, Image, Button, StyleSheet, ActivityIndicator, ScrollView, TouchableOpacity, Modal, Linking } from 'react-native';
+import { View, Text, Image, StyleSheet, ActivityIndicator, ScrollView, TouchableOpacity, Modal, Linking } from 'react-native';
 import { Dialog } from 'react-native-simple-dialogs';
 import OTPInputView from '@twotalltotems/react-native-otp-input'
 import * as link from '../../../URL'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
+import { Button, ButtonGray } from '../../../component/Button'
 
 const imageLocation = '../../../image/location.png'
 const imageCalendar = '../../../image/calendar.png'
@@ -320,9 +321,7 @@ class TicketInformationTuLai extends Component {
                         {this.renderOther(item)}
                         {this.renderTT(item)}
                         <Button
-                            style={{ marginTop: 8, fontSize: 22 }}
-                            color='#77a300'
-                            title='ĐẶT CHUYẾN MỚI'
+                            value={'ĐẶT CHUYẾN MỚI'}
                             onPress={() => {
                                 // this.props.navigation.navigate('Home')
                                 const resetAction = StackActions.reset({
@@ -336,10 +335,8 @@ class TicketInformationTuLai extends Component {
 
                         <View style={{ marginBottom: 8, }}></View>
                         {item.transaction_status_id == '4' ? null :
-                            <Button
-                                style={{ marginTop: 8 }}
-                                color='#00363d'
-                                title='HỦY VÉ'
+                            <ButtonGray
+                                value={'HỦY VÉ'}
                                 onPress={() => {
                                     this.setState({
                                         modalVisible: true,
@@ -356,7 +353,7 @@ class TicketInformationTuLai extends Component {
                                 height: 180,
                                 alignItems: "center",
                             }}>
-                                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Mã xác thực hủy chuyến được gửi tới email và số điện thoại của bạn</Text>
+                                <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Mã xác thực hủy chuyến được gửi tới email và số điện thoại của bạn</Text>
 
                                 <OTPInputView
                                     style={{ padding: 20, height: 80, justifyContent: 'center', alignItems: 'center' }}
@@ -425,11 +422,11 @@ class TicketInformationTuLai extends Component {
                             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                                 <View style={{ padding: 16 }}>
                                     <ScrollView showsVerticalScrollIndicator={false}>
-                                        <Text style={{ fontSize: 22, fontWeight: 'bold', padding: 8 }}>Lí do hủy vé</Text>
+                                        <Text style={{ fontSize: 16, fontWeight: 'bold', padding: 8 }}>Lí do hủy vé</Text>
                                         {this.renderRadio()}
 
                                         <Button
-                                            title='Gửi'
+                                            View='Gửi'
                                             onPress={() => {
                                                 if (this.state.value != 0) {
                                                     this.feedbackWhyCancel();
@@ -462,12 +459,12 @@ const styles = StyleSheet.create({
     },
     textBigRight: {
         padding: 1,
-        fontSize: 15,
-        color: '#00363d',
+        fontSize: 14,
+        color: '#333333',
         flex: 1,
     },
     textBigLeft1: {
-        fontSize: 18,
+        fontSize: 16,
         marginTop: 8,
         fontWeight: 'bold',
 
@@ -497,7 +494,7 @@ const styles = StyleSheet.create({
     },
     textBigRight1: {
         padding: 1,
-        fontSize: 18,
+        fontSize: 16,
         color: '#77a300',
         flex: 1,
         textAlign: "right"

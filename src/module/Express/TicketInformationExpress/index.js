@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { View, Text, Image, Button, StyleSheet, ActivityIndicator, ScrollView, Modal } from 'react-native';
+import { View, Text, Image, StyleSheet, ActivityIndicator, ScrollView, Modal } from 'react-native';
 import * as link from '../../../URL'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
+import { Button } from '../../../component/Button'
 
 const imageLocation = '../../../image/location.png'
 const imageCalendar = '../../../image/calendar.png'
@@ -191,7 +192,7 @@ class TicketInformationExpress extends Component {
                             <Text style={{ padding: 4 }}>{item.vehicle_name}</Text>
                         </View>
                         <View style={{ justifyContent: "center", alignItems: 'flex-start', marginTop: 8 }}>
-                            <Text style={{ backgroundColor: '#77a300', color: '#fff', padding: 8,  }}>{item.transport_partner_name.toUpperCase()}</Text>
+                            <Text style={{ backgroundColor: '#77a300', color: '#fff', padding: 8, }}>{item.transport_partner_name.toUpperCase()}</Text>
                         </View>
                         <Text style={styles.textBigRight}>Mã đơn hàng của bạn: <Text style={{ fontWeight: 'bold' }}>{item.ticket_code}</Text></Text>
 
@@ -203,9 +204,7 @@ class TicketInformationExpress extends Component {
                         {this.renderOther(item)}
                         {this.renderTT(item)}
                         <Button
-                            style={{ marginTop: 8, fontSize: 22 }}
-                            color='#77a300'
-                            title='Trang chủ'
+                            value='Trang chủ'
                             onPress={() => {
                                 // this.props.navigation.navigate('Home')
                                 const resetAction = StackActions.reset({
@@ -233,13 +232,13 @@ const styles = StyleSheet.create({
 
     textBigRight1: {
         padding: 1,
-        fontSize: 18,
+        fontSize: 16,
         color: '#77a300',
         flex: 1,
         textAlign: "right"
     },
     textBigLeft1: {
-        fontSize: 18,
+        fontSize: 16,
         marginTop: 8,
         fontWeight: 'bold',
     },

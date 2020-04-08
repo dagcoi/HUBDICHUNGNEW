@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Button, Alert, Image, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert, Image, ActivityIndicator } from 'react-native';
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Dialog, ConfirmDialog } from 'react-native-simple-dialogs';
@@ -7,6 +7,7 @@ import * as link from '../../../URL'
 import { deleteDataTuLai } from '../../../core/Redux/action/Action'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
+import { Button } from '../../../component/Button'
 
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -199,9 +200,7 @@ class ConfirmInformationTuLai extends Component {
 
 
                     <Button
-                        style={{ marginTop: 8, }}
-                        color='#77a300'
-                        title='Xác nhận đặt xe'
+                        value={'Xác nhận đặt xe'}
                         onPress={() => {
                             this.state.callingApi ? null : this.addTicket()
                             this.setState({
@@ -234,7 +233,7 @@ class ConfirmInformationTuLai extends Component {
                                 source={require(imageSorry)}
                             />
 
-                            <Text style={{ fontSize: 18 }}>Hiện tại không có tài xế nào nhận yêu cầu của bạn. Xin vui lòng thử lại hoặc chọn giờ đi khác.</Text>
+                            <Text style={{ fontSize: 16 }}>Hiện tại không có tài xế nào nhận yêu cầu của bạn. Xin vui lòng thử lại hoặc chọn giờ đi khác.</Text>
 
                         </View>
                     </ConfirmDialog>
@@ -457,7 +456,7 @@ const styles = StyleSheet.create({
     },
     textBigRight1: {
         padding: 1,
-        fontSize: 18,
+        fontSize: 16,
         color: '#77a300',
         flex: 1,
         textAlign: "right"
@@ -465,15 +464,16 @@ const styles = StyleSheet.create({
 
     textBigRight: {
         padding: 1,
-        fontSize: 15,
-        color: '#00363d',
+        fontSize: 14,
+        color: '#333333',
         flex: 1,
     },
     textBigLeft: {
-        fontSize: 15,
+        fontSize: 14,
+        color : '#333333'
     },
     textBigLeft1: {
-        fontSize: 18,
+        fontSize: 16,
         marginTop: 8,
         fontWeight: 'bold',
 

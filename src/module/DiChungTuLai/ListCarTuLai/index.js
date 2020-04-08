@@ -6,6 +6,7 @@ import CheckBoxList from '../../../component/CheckBoxList'
 import { addTripInfomationTuLai } from '../../../core/Redux/action/Action'
 import HTML from 'react-native-render-html';
 import * as link from '../../../URL'
+import { Button } from '../../../component/Button'
 
 const imageMaxToMin = '../../../image/maxtomin.png'
 const imageMinToMax = '../../../image/mintomax.png'
@@ -37,7 +38,8 @@ class ListCarTuLai extends Component {
                 <Text style={{
                     flex: 1,
                     fontSize: 22,
-                    textAlign: 'left'
+                    textAlign: 'left',
+                    justifyContent: 'center',
                 }}>
                     Danh sách xe
                 </Text>
@@ -161,7 +163,7 @@ class ListCarTuLai extends Component {
                         flexDirection: 'column',
                         padding: 16,
                     }}>
-                        <Text style={{ fontSize: 24, fontWeight: '700', padding: 8 }}>Kích thước</Text>
+                        <Text style={{ fontSize: 16, fontWeight: '700', padding: 8 }}>Kích thước</Text>
                         <FlatList
                             showsHorizontalScrollIndicator={false}
                             showsVerticalScrollIndicator={false}
@@ -192,7 +194,7 @@ class ListCarTuLai extends Component {
                                         listcarfilter: [],
                                     })
                                 }}>
-                                <Text style={{ fontSize: 18, color: '#00363d' }}>BỎ LỌC</Text>
+                                <Text style={{ fontSize: 16, color: '#00363d' }}>BỎ LỌC</Text>
                             </TouchableOpacity>
                             <View style={{ margin: 8 }} />
                             <TouchableOpacity
@@ -200,7 +202,7 @@ class ListCarTuLai extends Component {
                                 onPress={() => {
                                     this.setState({ showFilter: false })
                                 }}>
-                                <Text style={{ fontSize: 18, color: '#fff' }}>ÁP DỤNG</Text>
+                                <Text style={{ fontSize: 16, color: '#fff' }}>ÁP DỤNG</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -266,7 +268,7 @@ class ListCarTuLai extends Component {
                                             <View style={{ flexDirection: 'column', flex: 1, padding: 8 }}>
                                                 <HTML html={item.discount_data.partner_note.replace("</a>", "").replace("</p>", "").replace("<p>", "")} imagesMaxWidth={Dimensions.get('window').width} />
                                             </View>}
-
+                                        {/* 
                                         <TouchableOpacity
                                             style={{ height: 40, padding: 4, justifyContent: 'center', backgroundColor: '#77a300', alignItems: 'center', marginTop: 8 }}
                                             onPress={() => {
@@ -277,7 +279,14 @@ class ListCarTuLai extends Component {
                                             }
                                         >
                                             <Text style={{ color: '#FFFFFF', fontSize: 20, fontWeight: 'bold' }}>CHỌN XE</Text>
-                                        </TouchableOpacity>
+                                        </TouchableOpacity> */}
+
+                                        <Button
+                                            onPress={() => {
+                                                this.gotoInfoCustommer(item)
+                                            }}
+                                            value={'CHỌN XE'}
+                                        />
 
                                     </View>
                                 }

@@ -5,6 +5,7 @@ import StarVote from '../../../component/StarVote'
 
 import { addTripInfomationHourlyBookingVanChuyen } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
+import { Button } from '../../../component/Button'
 
 const imageMaxToMin = '../../../image/maxtomin.png'
 const imageMinToMax = '../../../image/mintomax.png'
@@ -32,7 +33,8 @@ class ListFreightTruck extends Component {
                 <Text style={{
                     flex: 1,
                     fontSize: 22,
-                    textAlign: 'left'
+                    textAlign: 'left',
+                    justifyContent: 'center',
                 }}>
                     Danh sách dịch vụ
                 </Text>
@@ -167,7 +169,7 @@ class ListFreightTruck extends Component {
                                             <Text style={{ flex: 1, }}>Giá đã bao gồm tiền xăng và lái xe, chưa bao gồm phí cầu đường, bến bãi, đỗ xe.</Text>
                                         </View> */}
                                     </View>
-                                    <TouchableOpacity
+                                    {/* <TouchableOpacity
                                         style={{ height: 40, padding: 4, justifyContent: 'center', backgroundColor: '#77a300', alignItems: 'center', marginTop: 8 }}
                                         onPress={() => {
                                             this.gotoInfoCustommerHourlyFreightTruck(item);
@@ -175,8 +177,13 @@ class ListFreightTruck extends Component {
                                         }
                                     >
                                         <Text style={{ color: '#FFFFFF', fontSize: 20, fontWeight: 'bold' }}>CHỌN XE</Text>
-                                    </TouchableOpacity>
-
+                                    </TouchableOpacity> */}
+                                    <Button
+                                        onPress={() => {
+                                            this.gotoInfoCustommerHourlyFreightTruck(item);
+                                        }}
+                                        value={'CHỌN XE'}
+                                    />
                                 </View>
 
                             </View>
@@ -218,7 +225,7 @@ class ListFreightTruck extends Component {
 
 const styles = StyleSheet.create({
     textView: {
-        fontSize: 18,
+        fontSize: 14,
         color: '#123456',
         marginTop: 8,
     },
@@ -256,18 +263,18 @@ const styles = StyleSheet.create({
     },
     tentuyen: {
         padding: 1,
-        fontSize: 16,
+        fontSize: 14,
         color: '#00363e',
         fontStyle: 'italic',
         backgroundColor: '#ffffff'
     },
     loaixe: {
-        fontSize: 20,
+        fontSize: 16,
         color: '#77a300',
         fontWeight: 'bold'
     },
     giaTien: {
-        fontSize: 16,
+        fontSize: 14,
         color: '#00363e',
     },
     viewChitiet: {

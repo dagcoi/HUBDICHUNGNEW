@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Button, Alert, Image, TextInput, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, Image, TextInput, ScrollView } from 'react-native';
 import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBox from 'react-native-check-box'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import { connect } from 'react-redux';
 import { addInfoPeople1Taixe, addInfoPeople2Taixe, addVATTaixe, addPromotionCodeTaixe, addPaymentMethodIDTaixe, addCommentTaixe } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
+import {Button} from '../../../component/Button'
 
 const imageCancel = '../../../image/cancel.png'
 const imageCheck = '../../../image/checked.png'
@@ -52,7 +53,7 @@ class InfoCustommerHourlyRentDriver extends Component {
             use_phone1: this.props.use_phone1,
             email: this.props.email,
             email1: this.props.email1,
-            promotion_code : '',
+            promotion_code: '',
         })
         this._validateEmail(this.props.email)
         this.mobileValidate(this.props.use_phone)
@@ -230,7 +231,7 @@ class InfoCustommerHourlyRentDriver extends Component {
                     "xhd": this.state.vat,
                     "promotion": this.state.promotion_code,
                     "blDiscount": this.state.blDiscount,
-                    "detailPromotion" : this.state.detailPromotion,
+                    "detailPromotion": this.state.detailPromotion,
                 });
             }
         } else {
@@ -240,7 +241,7 @@ class InfoCustommerHourlyRentDriver extends Component {
                 "promotion": this.state.promotion_code,
                 "blDiscount": this.state.blDiscount,
                 "Payment": this.state.value_payment,
-                "detailPromotion" : this.state.detailPromotion,
+                "detailPromotion": this.state.detailPromotion,
             });
         }
     }
@@ -406,9 +407,7 @@ class InfoCustommerHourlyRentDriver extends Component {
                         }}
                         isChecked={this.state.is_checked}
                         rightText={"Đặt xe cho người khác"}
-                        rightTextStyle={{ fontSize: 20 }}
-                        checkedImage={<Image source={require(imageCheck)} style={{ width: 25, height: 25 }} />}
-                        unCheckedImage={<Image source={require(imageUnCheck)} style={{ width: 25, height: 25 }} />}
+                        rightTextStyle={{ fontSize: 16 }}
                     />
 
                     {this.renderDatHo()}
@@ -416,50 +415,51 @@ class InfoCustommerHourlyRentDriver extends Component {
 
 
                     <Text style={styles.textBig}>Hình thức thanh toán</Text>
-
-                    <RadioForm
-                        animation={true}
-                    >
-                        {radio_payment.map((obj, i) => (
-                            <RadioButton labelHorizontal={true} key={i} >
-                                <RadioButtonInput
-                                    obj={obj}
-                                    index={i}
-                                    isSelected={this.state.value_payment === i}
-                                    onPress={() => {
-                                        console.log(obj.label)
-                                        this.setState({
-                                            value_payment: i,
-                                            selectRentCar: i,
-                                            payment_method_ID: obj.payment_method_ID,
-                                        })
-                                    }}
-                                    borderWidth={0.5}
-                                    buttonInnerColor={'#77a300'}
-                                    buttonOuterColor={'#77a300'}
-                                    buttonSize={10}
-                                    buttonOuterSize={20}
-                                    buttonStyle={7}
-                                    buttonWrapStyle={{ marginLeft: 10 }}
-                                />
-                                <RadioButtonLabel
-                                    obj={obj}
-                                    index={i}
-                                    key={i}
-                                    labelHorizontal={true}
-                                    onPress={() => {
-                                        console.log(obj.label)
-                                        this.setState({
-                                            value_payment: i,
-                                            payment_method_ID: obj.payment_method_ID,
-                                        })
-                                    }}
-                                    labelStyle={{ fontSize: 18, color: '#000' }}
-                                    labelWrapStyle={{}}
-                                />
-                            </RadioButton>
-                        ))}
-                    </RadioForm>
+                    <View>
+                        <RadioForm
+                            animation={true}
+                        >
+                            {radio_payment.map((obj, i) => (
+                                <RadioButton labelHorizontal={true} key={i} >
+                                    <RadioButtonInput
+                                        obj={obj}
+                                        index={i}
+                                        isSelected={this.state.value_payment === i}
+                                        onPress={() => {
+                                            console.log(obj.label)
+                                            this.setState({
+                                                value_payment: i,
+                                                selectRentCar: i,
+                                                payment_method_ID: obj.payment_method_ID,
+                                            })
+                                        }}
+                                        borderWidth={0.5}
+                                        buttonInnerColor={'#77a300'}
+                                        buttonOuterColor={'#77a300'}
+                                        buttonSize={10}
+                                        buttonOuterSize={16}
+                                        buttonStyle={7}
+                                        buttonWrapStyle={{ marginLeft: 10 }}
+                                    />
+                                    <RadioButtonLabel
+                                        obj={obj}
+                                        index={i}
+                                        key={i}
+                                        labelHorizontal={true}
+                                        onPress={() => {
+                                            console.log(obj.label)
+                                            this.setState({
+                                                value_payment: i,
+                                                payment_method_ID: obj.payment_method_ID,
+                                            })
+                                        }}
+                                        labelStyle={{ fontSize: 16, color: '#000' }}
+                                        labelWrapStyle={{}}
+                                    />
+                                </RadioButton>
+                            ))}
+                        </RadioForm>
+                    </View>
 
                     <Text style={styles.textBig}>Mã giảm giá</Text>
 
@@ -511,14 +511,12 @@ class InfoCustommerHourlyRentDriver extends Component {
                             })
                         }}
                         isChecked={this.state.vat}
-                        rightText={"VAT 10 %"}
-                        rightTextStyle={{ fontSize: 20 }}
-                        checkedImage={<Image source={require(imageCheck)} style={{ width: 25, height: 25 }} />}
-                        unCheckedImage={<Image source={require(imageUnCheck)} style={{ width: 25, height: 25 }} />}
+                        rightText={"Xuất hóa đơn"}
+                        rightTextStyle={{ fontSize: 16 }}
                     />
                     {this.renderFormVAT()}
 
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                         style={{ marginTop: 8, backgroundColor: '#77a300', justifyContent: 'center', alignItems: "center", height: 40, borderRadius: 4 }}
                         onPress={() => {
                             const { xhd, company_name, company_address, company_address_receive, company_mst, full_name, use_phone, email, full_name1, use_phone1, email1, payment_method_ID, comment } = this.state;
@@ -533,7 +531,22 @@ class InfoCustommerHourlyRentDriver extends Component {
                         }}
                     >
                         <Text style={{ color: '#ffffff' }}>TIẾP TỤC</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
+
+                    <Button
+                        onPress={() => {
+                            const { xhd, company_name, company_address, company_address_receive, company_mst, full_name, use_phone, email, full_name1, use_phone1, email1, payment_method_ID, comment } = this.state;
+                            this.props.addVATTaixe(xhd ? '1' : '0', company_name, company_address, company_mst, company_address_receive);
+                            this.props.addInfoPeople2Taixe(full_name1, use_phone1, email1);
+                            this.props.addInfoPeople1Taixe(full_name, use_phone, email);
+                            this.props.addCommentTaixe(comment);
+                            // add payment method id
+                            console.log(payment_method_ID)
+                            this.props.addPaymentMethodIDTaixe(payment_method_ID);
+                            this.checkInfoCustommerHourlyRentDriver();
+                        }}
+                        value = {'TIẾP TỤC'}
+                    />
 
                 </ScrollView>
             </View>
@@ -551,26 +564,26 @@ const styles = StyleSheet.create({
 
     textBig: {
         marginTop: 8,
-        fontSize: 22,
+        fontSize: 16,
         fontWeight: 'bold',
         color: '#00363e'
     },
 
     textNomal: {
         marginTop: 8,
-        fontSize: 18,
+        fontSize: 14,
     },
 
     textSmall: {
         marginTop: 8,
-        fontSize: 14,
+        fontSize: 12,
     },
 
     textInput: {
         borderWidth: 0,
         padding: 8,
         borderColor: '#e8e8e8',
-        fontSize: 16,
+        fontSize: 14,
         borderRadius: 4,
         flex: 1,
     },
@@ -603,7 +616,7 @@ function mapStateToProps(state) {
         extra_price_km_format: state.rdTaixe.extra_price_km_format,
         extra_price_hour_format: state.rdTaixe.extra_price_hour_format,
         km_limit_format: state.rdTaixe.km_limit_format,
-        transport_partner_id : state.rdTaixe.brand_partner_id,
+        transport_partner_id: state.rdTaixe.brand_partner_id,
     }
 }
 

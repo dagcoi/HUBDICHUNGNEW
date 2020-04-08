@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, ActivityIndicator, ScrollView, Image, Button, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux'
 import { Dialog } from 'react-native-simple-dialogs';
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
-
+import { Button } from '../../../component/Button'
 const imageLocation = '../../../image/location.png'
 const imageCalendar = '../../../image/calendar.png'
 const imageIconCar = '../../../image/iconcar.png'
@@ -83,19 +83,14 @@ class ChungXeTicketInformation extends Component {
                             {this.renderTotalCode(data)}
 
                             <Button
-                                color='#77a300'
-                                title='TRANG CHỦ'
+                                value={'TRANG CHỦ'}
                                 onPress={() => {
-                                    this
-                                    // this.addBookingChungXe();
-                                    // this.props.navigation.navigate('Home')
                                     const resetAction = StackActions.reset({
                                         index: 0,
                                         key: null,
                                         actions: [NavigationActions.navigate({ routeName: 'Home' })],
                                     });
                                     this.props.navigation.dispatch(resetAction);
-                                    // this.setState({ addingTicket: true, })
                                 }}
                             />
 
@@ -195,9 +190,9 @@ const styles = StyleSheet.create({
     },
 
     textBold: {
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: "bold",
-        color: '#00363d',
+        color: '#333333',
         marginTop: 8,
         marginLeft: 8,
     },
