@@ -1,12 +1,12 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert, Image, ActivityIndicator, Modal } from 'react-native';
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { Dialog, ConfirmDialog } from 'react-native-simple-dialogs';
 import * as link from '../../../URL'
 import { deleteDataTaixe } from '../../../core/Redux/action/Action'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
 import { Button } from '../../../component/Button'
+import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -292,50 +292,62 @@ class ConfirmInformationRentDriver extends Component {
                     />
 
                     <Dialog
+                        width={0.8}
                         visible={this.state.addingTicket}
-                        title="">
-                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                            <ActivityIndicator size='large' />
-                        </View>
+                        dialogTitle={<DialogTitle />}
+                    >
+                        <DialogContent>
+                            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                                <ActivityIndicator size='large' />
+                            </View>
+                        </DialogContent>
                     </Dialog>
                 </ScrollView>
-                <ConfirmDialog
+                <Dialog
                     visible={this.state.bookingSuccess}
-                    positiveButton={{
-                        title: 'Chi tiết',
-                        onPress: () => {
-                            this.setState({
-                                modalDetailTrip: true,
-                            })
-                        }
-                    }}
-                    negativeButton={{
-                        title: 'Trang chủ',
-                        onPress: () => {
-                            this.setState({
-                                bookingSuccess: false
-                            })
-                            this.props.deleteDataTaixe();
-                            // this.props.navigation.push("Home");
-                            const resetAction = StackActions.reset({
-                                index: 0,
-                                key: null,
-                                actions: [NavigationActions.navigate({ routeName: 'Home' })],
-                            });
-                            this.props.navigation.dispatch(resetAction);
-                        }
-                    }}
-                    title="Đặt xe thành công">
-                    <View style={{ flexDirection: 'column', }}>
-                        <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                            <Image
-                                style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
-                                source={{ uri: this.props.vehicle_icon }}
+                    width={0.8}
+                    footer={
+                        <DialogFooter>
+                            <DialogButton
+                                text='Chi tiết'
+                                onPress={() => {
+                                    this.setState({
+                                        modalDetailTrip: true,
+                                    })
+                                }}
                             />
+
+                            <DialogButton
+                                text='Trang chủ'
+                                onPress={() => {
+                                    this.setState({
+                                        bookingSuccess: false
+                                    })
+                                    this.props.deleteDataTaixe();
+                                    const resetAction = StackActions.reset({
+                                        index: 0,
+                                        key: null,
+                                        actions: [NavigationActions.navigate({ routeName: 'Home' })],
+                                    });
+                                    this.props.navigation.dispatch(resetAction);
+                                }}
+                            />
+                        </DialogFooter>
+                    }
+                    dialogTitle={<DialogTitle title="Đặt xe thành công" />}
+                >
+                    <DialogContent>
+                        <View style={{ flexDirection: 'column', }}>
+                            <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                                <Image
+                                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
+                                    source={{ uri: this.props.vehicle_icon }}
+                                />
+                            </View>
+                            <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sé liên lạc trong thời gian sớm nhất.</Text>
                         </View>
-                        <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sé liên lạc trong thời gian sớm nhất.</Text>
-                    </View>
-                </ConfirmDialog>
+                    </DialogContent>
+                </Dialog>
 
                 <Modal
                     animationType="slide"

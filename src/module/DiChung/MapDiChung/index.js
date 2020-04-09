@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, Alert, Modal, FlatList } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Modal, FlatList } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 import CalendarPicker from 'react-native-calendar-picker';
 import { connect } from 'react-redux';
@@ -7,6 +7,8 @@ import { addDepartTime, addPeople, swapAddress, addDuration } from '../../../cor
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
 import * as key from '../../../component/KeyGG'
 import listHour from '../../../component/TimeSelect/listTime'
+import AwesomeAlert from 'react-native-awesome-alerts'
+import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 
 import MapViewDirections from 'react-native-maps-directions';
 import { TextInput } from 'react-native-gesture-handler';
@@ -91,6 +93,8 @@ class MapDiChung extends Component {
             ],
             scroll: 48,
             forceRefresh: 1,
+            showAlertTime: false,
+            showAlertInfo: false,
         }
         this.mapRef = null;
     }
@@ -256,9 +260,9 @@ class MapDiChung extends Component {
             console.log(this.state.date.format('DD-MM-YYYY'))
             if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                 if (this.state.hoursAlive > this.state.selectedHours) {
-                    Alert.alert('Giờ đi phải lớn hơn giờ hiện tại')
+                    this.setState({ showAlertTime: true })
                 } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                    Alert.alert('Giờ đi phải lớn hơn giờ hiện tại')
+                    this.setState({ showAlertTime: true })
                 } else {
                     this.checkNightBooking()
                 }
@@ -268,8 +272,58 @@ class MapDiChung extends Component {
             }
         }
         else {
-            Alert.alert('Vui lòng điền đầy đủ thông tin để xem giá.')
+            this.setState({ showAlertInfo: true })
         }
+    }
+
+    renderAlertTime() {
+        return (
+            <Dialog
+                visible={this.state.showAlertTime}
+                width={0.8}
+                footer={
+                    <DialogFooter>
+                        <DialogButton
+                            text="Đồng ý"
+                            onPress={() => {
+                                this.setState({ showAlertTime: false, })
+                            }}
+                        />
+                    </DialogFooter>
+                }
+            >
+                <DialogContent>
+                    <View style = {{padding : 8}}>
+                        <Text style={{ fontSize: 16, fontWeight: '100' }}>Giờ đi phải lớn hơn giờ hiện tại</Text>
+                    </View>
+                </DialogContent>
+            </Dialog>
+        )
+    }
+
+    renderAlertInfo() {
+        return (
+            <Dialog
+                visible={this.state.showAlertInfo}
+                width={0.8}
+                footer={
+                    <DialogFooter>
+                        <DialogButton
+                            text="Đồng ý"
+                            onPress={() => {
+                                this.setState({ showAlertInfo: false, })
+                            }}
+                        />
+                    </DialogFooter>
+                }
+            >
+                <DialogContent>
+                    <View style = {{padding : 8}}>
+                        <Text style={{ fontSize: 16, fontWeight: '100' }}>Vui lòng điền đầy đủ thông tin để xem giá.</Text>
+                    </View>
+                </DialogContent>
+            </Dialog>
+        )
     }
 
     addPeople(people) {
@@ -406,7 +460,7 @@ class MapDiChung extends Component {
                     </View>
 
                     <TouchableOpacity
-                        style={{ borderLeftWidth: 1, borderColor : '#e8e8e8' }}
+                        style={{ borderLeftWidth: 1, borderColor: '#e8e8e8' }}
                         onPress={() => {
                             this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.lattitude_drop, this.props.lngtitude_drop, this.props.pick_add, this.props.component_pick, this.props.lattitude_pick, this.props.lngtitude_pick);
                         }}
@@ -504,9 +558,9 @@ class MapDiChung extends Component {
         if (this.props.pick_add != '' && this.state.carType != '' && this.state.depart_time != '') {
             if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                 if (this.state.hoursAlive > this.state.selectedHours) {
-                    Alert.alert('Giờ đi phải lớn hơn giờ hiện tại')
+                    this.setState({ showAlertTime: true })
                 } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                    Alert.alert('Giờ đi phải lớn hơn giờ hiện tại')
+                    this.setState({ showAlertTime: true })
                 } else {
                     //sang màn danh sách xe
                     this.props.navigation.navigate("ListCarHourlyBooking", {
@@ -520,7 +574,7 @@ class MapDiChung extends Component {
                 });
             }
         } else {
-            Alert.alert('Vui lòng điền đầy đủ thông tin để xem giá.')
+            this.setState({ showAlertInfo: true })
         }
     }
 
@@ -547,6 +601,8 @@ class MapDiChung extends Component {
                         />
                     }
                 </View>
+                {this.renderAlertTime()}
+                {this.renderAlertInfo()}
                 <Modal
                     animationType="slide"
                     transparent={true}

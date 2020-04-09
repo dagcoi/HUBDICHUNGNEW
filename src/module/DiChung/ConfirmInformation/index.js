@@ -1,13 +1,13 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert, Image, ActivityIndicator } from 'react-native';
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { Dialog, ConfirmDialog } from 'react-native-simple-dialogs';
 import CountDown from 'react-native-countdown-component';
 import * as link from '../../../URL'
 import { deleteData } from '../../../core/Redux/action/Action'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
 import { Button } from '../../../component/Button'
+import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -222,7 +222,7 @@ class ConfirmInformation extends Component {
             <View>
                 <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', }}>
                     <Text style={styles.textBigLeft1}>Tổng thanh toán : </Text>
-                    <Text style={styles.textBigRight1}>{((this.props.merged + (navigation.getParam('broad_price') ? 30000 : 0) - (navigation.getParam('blDiscount') ? this.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1) +( this.props.toll_fee == 'NA' ? 0 : + parseInt(this.props.toll_fee)) ).format(0, 3, '.')} đ</Text>
+                    <Text style={styles.textBigRight1}>{((this.props.merged + (navigation.getParam('broad_price') ? 30000 : 0) - (navigation.getParam('blDiscount') ? this.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1) + (this.props.toll_fee == 'NA' ? 0 : + parseInt(this.props.toll_fee))).format(0, 3, '.')} đ</Text>
                 </View>
                 <Text style={{ marginBottom: 8, textAlign: 'right' }}>{this.props.toll_fee == "NA" ? "Giá chưa bao gồm phí cầu đường" : "Giá trọn gói không phí ẩn"}</Text>
             </View>
@@ -304,82 +304,151 @@ class ConfirmInformation extends Component {
 
                     <Dialog
                         visible={this.state.visibleSearchDriver}
-                        title="Đang tìm tài xế">
-                        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                            <Image
-                                source={require(gifNightBooking)}
-                                style={{ width: 185, height: 110 }}
-                            />
-                            <Text style={{ fontSize: 16 }}>Quý khách vui lòng đợi trong giây lát...</Text>
-                            <CountDown
-                                until={180}
-                                onFinish={() => {
-                                    this.quitNightBooKing();
-                                    this.setState({
-                                        visibleSearchDriver: false,
-                                        result: false,
-                                        visibalAgain: true,
-                                    })
-                                }}
-                                digitStyle={{ backgroundColor: '#FFF' }}
-                                digitTxtStyle={{ color: '#00363d' }}
-                                timeToShow={['M', 'S']}
-                                timeLabels={{ m: null, s: null }}
-                                size={20}
-                            />
-                        </View>
-                    </Dialog>
-
-                    <ConfirmDialog
-                        visible={this.state.visibalAgain}
-                        title="Tìm kiếm thất bại"
-                        positiveButton={{
-                            title: 'Thử Lại',
-                            onPress: () => {
-                                this.reBiddingTicket();
-                            }
-                        }}
-                        negativeButton={{
-                            title: 'Chọn hãng khác',
-                            onPress: () => {
-                                this.setState({ visibalAgain: false })
-                                this.props.navigation.push("MapDiChung")
-
-                            }
-                        }}
+                        width={0.8}
+                        dialogTitle={<DialogTitle title="Đang tìm tài xế" />}
                     >
-                        <View>
-                            <Image
-                                style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
-                                source={require(imageSorry)}
-                            />
+                        <DialogContent>
+                            <View style={{ justifyContent: 'center', alignItems: 'center', padding : 8 }}>
+                                <Image
+                                    source={require(gifNightBooking)}
+                                    style={{ width: 185, height: 110 }}
+                                />
+                                <Text style={{ fontSize: 16 }}>Quý khách vui lòng đợi trong giây lát...</Text>
+                                <CountDown
+                                    until={180}
+                                    onFinish={() => {
+                                        this.quitNightBooKing();
+                                        this.setState({
+                                            visibleSearchDriver: false,
+                                            result: false,
+                                            visibalAgain: true,
+                                        })
+                                    }}
+                                    digitStyle={{ backgroundColor: '#FFF' }}
+                                    digitTxtStyle={{ color: '#00363d' }}
+                                    timeToShow={['M', 'S']}
+                                    timeLabels={{ m: null, s: null }}
+                                    size={20}
+                                />
+                            </View>
+                        </DialogContent>
 
-                            <Text style={{ fontSize: 16 }}>Hiện tại không có tài xế nào nhận yêu cầu của bạn. Xin vui lòng thử lại hoặc chọn giờ đi khác.</Text>
-
-                        </View>
-                    </ConfirmDialog>
+                    </Dialog>
 
                     <Dialog
-                        visible={this.state.addingTicket}
-                        title="">
-                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                            <ActivityIndicator size='large' />
-                        </View>
+                        visible={this.state.visibalAgain}
+                        width={0.8}
+                        dialogTitle={<DialogTitle title="Tìm kiếm thất bại" />}
+                        footer={
+                            <DialogFooter>
+                                <DialogButton
+                                    text="Thử Lại"
+                                    onPress={() => {
+                                        this.reBiddingTicket();
+                                    }}
+                                />
+                                <DialogButton
+                                    text="Chọn hãng khác"
+                                    onPress={() => {
+                                        this.setState({ visibalAgain: false })
+                                        this.props.navigation.push("MapDiChung")
+                                    }}
+                                />
+                            </DialogFooter>
+                        }
+                    >
+                        <DialogContent>
+                            <View>
+                                <Image
+                                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
+                                    source={require(imageSorry)}
+                                />
+
+                                <Text style={{ fontSize: 16 }}>Hiện tại không có tài xế nào nhận yêu cầu của bạn. Xin vui lòng thử lại hoặc chọn giờ đi khác.</Text>
+
+                            </View>
+                        </DialogContent>
+
                     </Dialog>
 
-                    <ConfirmDialog
+                    <Dialog
+                        width={0.8}
+                        visible={this.state.addingTicket}
+                    >
+                        <DialogContent>
+                            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                                <ActivityIndicator size='large' />
+                            </View>
+                        </DialogContent>
+                    </Dialog>
+
+                    <Dialog
+                        width={0.8}
                         visible={this.state.result}
-                        title="Đặt xe thành công"
-                        positiveButton={{
-                            title: 'Xem',
-                            onPress: () => {
-                                this.setState({
-                                    result: false,
-                                })
-                                this.props.deleteData();
-                                this.TicketInformation()
-                            }
-                        }}
+                        dialogTitle={<DialogTitle title='Đặt xe thành công' />}
+                        footer={
+                            <DialogFooter>
+                                <DialogButton
+                                    text="Xem"
+                                    onPress={() => {
+                                        this.setState({
+                                            result: false,
+                                        })
+                                        this.props.deleteData();
+                                        this.TicketInformation()
+                                    }}
+                                />
+                            </DialogFooter>
+                        }
+                    >
+                        <DialogContent>
+                            <View style={{ flexDirection: 'column',padding : 8 }}>
+                                <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                                    <Image
+                                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
+                                        source={{ uri: this.props.vehicle_icon }}
+                                    />
+                                </View>
+                                <Text>Mã vé của bạn là :<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
+                                <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sé liên lạc trong thời gian sớm nhất.</Text>
+                            </View>
+                        </DialogContent>
+                    </Dialog>
+
+                    <Dialog
+                        visible={!this.state.is_night_booking}
+                        width={0.8}
+                        footer={
+                            <DialogFooter>
+                                <DialogButton
+                                    text="Xem"
+                                    onPress={() => {
+                                        this.setState({
+                                            dialogCalendarVisible: false,
+                                            is_night_booking: true
+                                        })
+                                        this.props.deleteData();
+                                        this.TicketInformation()
+                                    }}
+                                />
+                                <DialogButton
+                                    text="Trang chủ"
+                                    onPress={() => {
+                                        this.setState({
+                                            is_night_booking: true
+                                        })
+                                        this.props.deleteData();
+                                        const resetAction = StackActions.reset({
+                                            index: 0,
+                                            key: null,
+                                            actions: [NavigationActions.navigate({ routeName: 'Home' })],
+                                        });
+                                        this.props.navigation.dispatch(resetAction);
+                                    }}
+                                />
+                            </DialogFooter>
+                        }
+                        dialogTitle={<DialogTitle title="Đặt xe thành công" />}
                     >
                         <View style={{ flexDirection: 'column', }}>
                             <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
@@ -391,49 +460,7 @@ class ConfirmInformation extends Component {
                             <Text>Mã vé của bạn là :<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
                             <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sé liên lạc trong thời gian sớm nhất.</Text>
                         </View>
-                    </ConfirmDialog>
-
-                    <ConfirmDialog
-                        visible={!this.state.is_night_booking}
-                        positiveButton={{
-                            title: 'Xem',
-                            onPress: () => {
-                                this.setState({
-                                    dialogCalendarVisible: false,
-                                    is_night_booking: true
-                                })
-                                this.props.deleteData();
-                                this.TicketInformation()
-                            }
-                        }}
-                        negativeButton={{
-                            title: 'Trang chủ',
-                            onPress: () => {
-                                this.setState({
-                                    is_night_booking: true
-                                })
-                                this.props.deleteData();
-                                // this.props.navigation.push("Home");
-                                const resetAction = StackActions.reset({
-                                    index: 0,
-                                    key: null,
-                                    actions: [NavigationActions.navigate({ routeName: 'Home' })],
-                                });
-                                this.props.navigation.dispatch(resetAction);
-                            }
-                        }}
-                        title="Đặt xe thành công">
-                        <View style={{ flexDirection: 'column', }}>
-                            <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                                <Image
-                                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
-                                    source={{ uri: this.props.vehicle_icon }}
-                                />
-                            </View>
-                            <Text>Mã vé của bạn là :<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
-                            <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sé liên lạc trong thời gian sớm nhất.</Text>
-                        </View>
-                    </ConfirmDialog>
+                    </Dialog>
 
 
 

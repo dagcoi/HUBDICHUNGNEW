@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { View, Text, Image, StyleSheet, ActivityIndicator, ScrollView, TouchableOpacity, Modal, Linking } from 'react-native';
-import { Dialog } from 'react-native-simple-dialogs';
 import OTPInputView from '@twotalltotems/react-native-otp-input'
 import * as link from '../../../URL'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
 import { Button, ButtonGray } from '../../../component/Button'
+import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 
 const imageLocation = '../../../image/location.png'
 const imageCalendar = '../../../image/calendar.png'
@@ -343,7 +343,6 @@ class TicketInformation extends Component {
                         <Button
                             value='ĐẶT CHUYẾN MỚI'
                             onPress={() => {
-                                // this.props.navigation.navigate('Home')
                                 const resetAction = StackActions.reset({
                                     index: 0,
                                     key: null,
@@ -366,32 +365,12 @@ class TicketInformation extends Component {
                         }
                         <Dialog
                             visible={this.state.dialogOTP}
-                        >
-                            <View style={{
-                                height: 180,
-                                alignItems: "center",
-                            }}>
-                                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Mã xác thực hủy chuyến được gửi tới email và số điện thoại của bạn</Text>
-
-                                <OTPInputView
-                                    style={{ padding: 20, height: 80, justifyContent: 'center', alignItems: 'center' }}
-                                    pinCount={4}
-                                    autoFocusOnLoad
-                                    code={this.state.otp}
-                                    onCodeChanged={code => { this.setState({ otp: code }) }}
-                                    codeInputHighlightStyle={styles.underlineStyleHighLighted}
-                                    onCodeFilled={(code => {
-                                        this.setState({
-                                            otp: code,
-                                        })
-                                    })}
-                                />
-
-                                <Text>{this.state.message}</Text>
-
-                                <View style={{ flexDirection: 'row', marginTop: 8 }}>
-                                    <TouchableOpacity
-                                        style={{ backgroundColor: this.state.otp.length < 4 ? '#aaaaaa' : '#77a300', padding: 8, }}
+                            width={0.8}
+                            dialogTitle={<DialogTitle title="Xác nhận hủy vé" />}
+                            footer={
+                                <DialogFooter>
+                                    <DialogButton
+                                        text="Hủy vé"
                                         onPress={() => {
                                             if (this.state.otp.length < 4) {
 
@@ -400,24 +379,42 @@ class TicketInformation extends Component {
                                                 this.cancelBooking();
                                             }
                                         }}
-                                    >
-                                        <Text style={{ fontSize: 16, color: '#ffffff', }}>Hủy vé</Text>
-                                    </TouchableOpacity>
-
-                                    <TouchableOpacity
-                                        style={{ backgroundColor: '#77a300', padding: 8, marginLeft: 16 }}
+                                    />
+                                    <DialogButton
+                                        text="Đóng"
                                         onPress={() => {
                                             this.setState({
                                                 dialogOTP: false,
                                                 otp: '',
                                             })
                                         }}
-                                    >
-                                        <Text style={{ fontSize: 16, color: '#ffffff', }}>Đóng</Text>
-                                    </TouchableOpacity>
-                                </View>
+                                    />
+                                </DialogFooter>
+                            }
+                        >
+                            <DialogContent>
+                                <View style={{
+                                    height: 120,
+                                    alignItems: "center",
+                                }}>
+                                    <Text style={{ fontSize: 16, fontWeight: '100' }}>Mã xác thực hủy chuyến được gửi tới email và số điện thoại của bạn</Text>
 
-                            </View>
+                                    <OTPInputView
+                                        style={{ padding: 20, height: 80, justifyContent: 'center', alignItems: 'center' }}
+                                        pinCount={4}
+                                        autoFocusOnLoad
+                                        code={this.state.otp}
+                                        onCodeChanged={code => { this.setState({ otp: code }) }}
+                                        codeInputHighlightStyle={styles.underlineStyleHighLighted}
+                                        onCodeFilled={(code => {
+                                            this.setState({
+                                                otp: code,
+                                            })
+                                        })}
+                                    />
+                                    <Text>{this.state.message}</Text>
+                                </View>
+                            </DialogContent>
 
                         </Dialog>
 
@@ -448,7 +445,6 @@ class TicketInformation extends Component {
                                             onPress={() => {
                                                 if (this.state.value != 0) {
                                                     this.feedbackWhyCancel();
-                                                    // this.props.navigation.navigate('Home')
                                                     const resetAction = StackActions.reset({
                                                         index: 0,
                                                         key: null,

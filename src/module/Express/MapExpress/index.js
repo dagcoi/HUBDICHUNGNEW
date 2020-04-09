@@ -9,6 +9,7 @@ import AmountOfPracel from './AmountOfPracel'
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
 import * as key from '../../../component/KeyGG'
 import { ButtonFull } from '../../../component/Button'
+import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 
 import MapViewDirections from 'react-native-maps-directions';
 import { TextInput } from 'react-native-gesture-handler';
@@ -85,6 +86,9 @@ class MapExpress extends Component {
                 { 'id': 16, 'chair': '16' },
             ],
             scroll: 48,
+            alertTimeSent: false,
+            alertTimeRent: false,
+            alertInfo: false,
         }
         this.mapRef = null;
     }
@@ -205,21 +209,19 @@ class MapExpress extends Component {
         if (this.props.pick_add != '' && this.props.drop_add != '' && this.state.depart_time != '' && this.state.city_name != '') {
             if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                 if (this.state.hoursAlive > this.state.selectedHours) {
-                    Alert.alert('Giờ gửi hàng phải lớn hơn giờ hiện tại')
+                    this.setState({ alertTimeSent: true })
                 } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                    Alert.alert('Giờ gửi hàng phải lớn hơn giờ hiện tại')
+                    this.setState({ alertTimeSent: true })
                 } else {
                     this.props.navigation.push("ListDriverExpress", { datdem: false });
                 }
-
             } else {
                 console.log('datdem : false')
                 this.props.navigation.push("ListDriverExpress", { datdem: false });
             }
-
         }
         else {
-            Alert.alert('Vui lòng điền đầy đủ thông tin để xem giá.')
+            this.setState({ alertInfo: true })
         }
     }
 
@@ -228,9 +230,9 @@ class MapExpress extends Component {
         if (this.props.pick_add != '' && this.state.depart_time != '' && this.state.city_name != '') {
             if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                 if (this.state.hoursAlive > this.state.selectedHours) {
-                    Alert.alert('Giờ thuê phải lớn hơn giờ hiện tại')
+                    this.setState({ alertTimeRent: true })
                 } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                    Alert.alert('Giờ thuê phải lớn hơn giờ hiện tại')
+                    this.setState({ alertTimeRent: true })
                 } else {
                     this.props.navigation.push("ListFreightTruck");
                 }
@@ -240,8 +242,39 @@ class MapExpress extends Component {
 
         }
         else {
-            Alert.alert('Vui lòng điền đầy đủ thông tin để xem giá.')
+            this.setState({ alertInfo: true })
         }
+    }
+
+    renderAlertInfo() {
+        return (
+            <Dialog
+                visible={this.state.alertInfo || this.state.alertTimeRent || this.state.alertTimeSent}
+                width={0.8}
+                footer={
+                    <DialogFooter>
+                        <DialogButton
+                            text="Đồng ý"
+                            onPress={() => {
+                                this.setState({
+                                    alertInfo: false,
+                                    alertTimeRent: false,
+                                    alertTimeSent: false,
+                                })
+                            }}
+                        />
+                    </DialogFooter>
+                }
+            >
+                <DialogContent>
+                    <View style={{ padding: 8 }}>
+                        {this.state.alertInfo ? <Text style={{ fontSize: 16, fontWeight: '100' }}>Vui lòng điền đầy đủ thông tin để xem giá.</Text> : null}
+                        {this.state.alertTimeSent ? <Text style={{ fontSize: 16, fontWeight: '100' }}>Giờ gửi hàng phải lớn hơn giờ hiện tại.</Text> : null}
+                        {this.state.alertTimeRent ? <Text style={{ fontSize: 16, fontWeight: '100' }}>Giờ thuê phải lớn hơn giờ hiện tại.</Text> : null}
+                    </View>
+                </DialogContent>
+            </Dialog>
+        )
     }
 
     addPeopleVanChuyen(people) {
@@ -491,6 +524,7 @@ class MapExpress extends Component {
                         value={'Xem giá'}
                     />
                 }
+                {this.renderAlertInfo()}
                 <Modal
                     animationType="slide"
                     transparent={true}

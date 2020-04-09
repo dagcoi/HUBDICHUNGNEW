@@ -11,6 +11,7 @@ import MapViewDirections from 'react-native-maps-directions';
 import { TextInput } from 'react-native-gesture-handler';
 import * as key from '../../../component/KeyGG'
 import listHour from '../../../component/TimeSelect/listTime'
+import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 
 const origin = { latitude: 21.2187149, longitude: 105.80417090000003 };
 // const destination = { latitude: 21.0019302, longitude: 105.85090579999996 };
@@ -84,6 +85,9 @@ class MapXeChung extends Component {
                 { 'id': 6, 'time': 12 },
             ],
             hourlyBooking: false,
+            alertCity: false,
+            alertTime: false,
+            alertInfo: false,
         }
         this.mapRef = null;
     }
@@ -157,7 +161,7 @@ class MapXeChung extends Component {
                     this.mapRef.fitToSuppliedMarkers(['mk1', 'mk2'], {
                         edgePadding:
                         {
-                            top: 200,
+                            top: 250,
                             right: 50,
                             bottom: 50,
                             left: 50
@@ -196,7 +200,7 @@ class MapXeChung extends Component {
                         this.mapRef.fitToSuppliedMarkers(['mk1', 'mk2'], {
                             edgePadding:
                             {
-                                top: 200,
+                                top: 250,
                                 right: 50,
                                 bottom: 50,
                                 left: 50
@@ -221,15 +225,15 @@ class MapXeChung extends Component {
         this.getDateTimeAlive.bind(this);
         if (this.props.pick_add != '' && this.props.drop_add != '' && this.state.depart_time != '' && this.state.city_name != '') {
             if (this.props.pick_add.search(this.state.city_name) < 0 || this.props.drop_add.search(this.state.city_name) < 0) {
-                Alert.alert('Vui lòng nhập đúng địa chỉ trong khu vực thành phố!')
+                this.setState({ alertCity: true })
             } else {
                 console.log(this.state.spesentDay)
                 console.log(this.state.date.format('DD-MM-YYYY'))
                 if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                     if (this.state.hoursAlive > this.state.selectedHours) {
-                        Alert.alert('Giờ đi phải lớn hơn giờ hiện tại')
+                        this.setState({ alertTime: true })
                     } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                        Alert.alert('Giờ đi phải lớn hơn giờ hiện tại')
+                        this.setState({ alertTime: true })
                     } else {
                         this.props.navigation.push("ListDriverXeChung", { datdem: false });
                     }
@@ -241,7 +245,7 @@ class MapXeChung extends Component {
             }
         }
         else {
-            Alert.alert('Vui lòng điền đầy đủ thông tin để xem giá.')
+            this.setState({ alertInfo: true })
         }
     }
 
@@ -254,13 +258,13 @@ class MapXeChung extends Component {
         this.getDateTimeAlive.bind(this);
         if (this.props.pick_add != '' && this.state.depart_time != '' && this.state.city_name != '') {
             if (this.props.pick_add.search(this.state.city_name) < 0) {
-                Alert.alert('Vui lòng nhập đúng địa chỉ trong khu vực thành phố!')
+                this.setState({ alertCity: true })
             } else {
                 if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                     if (this.state.hoursAlive > this.state.selectedHours) {
-                        Alert.alert('Giờ đi phải lớn hơn giờ hiện tại')
+                        this.setState({ alertTime: true })
                     } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                        Alert.alert('Giờ đi phải lớn hơn giờ hiện tại')
+                        this.setState({ alertTime: true })
                     } else {
                         this.props.navigation.push("ListDriverHourlyBooking");
                     }
@@ -270,8 +274,40 @@ class MapXeChung extends Component {
             }
         }
         else {
-            Alert.alert('Vui lòng điền đầy đủ thông tin để xem giá.')
+            this.setState({ alertInfo: true })
         }
+    }
+
+    renderAlert() {
+        return (
+            <Dialog
+                visible={this.state.alertCity || this.state.alertInfo || this.state.alertTime}
+                width={0.8}
+                dialogTitle={<DialogTitle title='Thông tin chưa đủ' />}
+                footer={
+                    <DialogFooter>
+                        <DialogButton
+                            text="Đồng ý"
+                            onPress={() => {
+                                this.setState({
+                                    alertCity: false,
+                                    alertInfo: false,
+                                    alertTime: false,
+                                })
+                            }}
+                        />
+                    </DialogFooter>
+                }
+            >
+                <DialogContent>
+                    <View style={{ padding: 8, flexDirection: 'column' }}>
+                        {this.state.alertCity ? <Text>Vui lòng nhập đúng địa chỉ trong thành phố.</Text> : null}
+                        {this.state.alertInfo ? <Text>Vui lòng nhập đầy đủ thông tin trước khi xem giá.</Text> : null}
+                        {this.state.alertTime ? <Text>Thời gian chọn phải lớn hơn thời gian hiện tại.</Text> : null}
+                    </View>
+                </DialogContent>
+            </Dialog>
+        )
     }
 
     renderFormThueTaiTheoGio() {
@@ -320,12 +356,12 @@ class MapXeChung extends Component {
                 <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
                     <View style={{ flex: 1 }}></View>
                 </View>
-                <ButtonFull
+                {/* <ButtonFull
                     onPress={() => {
                         this.gotoListDriverHourlyBooking();
                     }}
                     value={'Xem giá'}
-                />
+                /> */}
             </View >
         )
     }
@@ -410,12 +446,12 @@ class MapXeChung extends Component {
                 <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
                     <View style={{ flex: 1 }}></View>
                 </View>
-                <ButtonFull
+                {/* <ButtonFull
                     onPress={() => {
                         this.nextScreen()
                     }}
                     value={'Xem giá'}
-                />
+                /> */}
             </View>
         )
     }
@@ -453,6 +489,21 @@ class MapXeChung extends Component {
                 <View style={{ backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', }}>
                     {this.state.hourlyBooking ? this.renderFormThueTaiTheoGio() : this.renderFormThueTai()}
                 </View>
+                {this.state.hourlyBooking ?
+                    <ButtonFull
+                        onPress={() => {
+                            this.gotoListDriverHourlyBooking();
+                        }}
+                        value={'Xem giá'}
+                    /> :
+                    <ButtonFull
+                        onPress={() => {
+                            this.nextScreen()
+                        }}
+                        value={'Xem giá'}
+                    />
+                }
+                {this.renderAlert()}
 
                 <Modal
                     animationType="slide"
@@ -636,7 +687,7 @@ class MapXeChung extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 270,
+        marginTop: 210,
         position: 'absolute',
         top: 2,
         left: 2,

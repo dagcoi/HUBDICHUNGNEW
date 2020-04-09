@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Alert, Image, TextInput, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView } from 'react-native';
 import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBox from 'react-native-check-box'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { addInfoPeople1Taixe, addInfoPeople2Taixe, addVATTaixe, addPromotionCodeTaixe, addPaymentMethodIDTaixe, addCommentTaixe } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
 import {Button} from '../../../component/Button'
+import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 
 const imageCancel = '../../../image/cancel.png'
 const imageCheck = '../../../image/checked.png'
@@ -42,6 +43,12 @@ class InfoCustommerHourlyRentDriver extends Component {
             discount_price: 0,
             blDiscount: false,
             promotionStatus: false,
+            alertName: false,
+            alertPhone: false,
+            alertEmail: false,
+            alertName2: false,
+            alertPhone2: false,
+            alertCompany: false,
         }
     }
 
@@ -76,6 +83,44 @@ class InfoCustommerHourlyRentDriver extends Component {
             });
             return true;
         }
+    }
+
+    renderAlert() {
+        return (
+            <Dialog
+                visible={this.state.alertName || this.state.alertPhone || this.state.alertEmail || this.state.alertName2 || this.state.alertPhone2 || this.state.alertCompany}
+                width={0.8}
+                dialogTitle={<DialogTitle title='Thông tin chưa đủ' />}
+                footer={
+                    <DialogFooter>
+                        <DialogButton
+                            text="Đồng ý"
+                            onPress={() => {
+                                this.setState({
+                                    alertName: false,
+                                    alertPhone: false,
+                                    alertEmail: false,
+                                    alertName2: false,
+                                    alertPhone2: false,
+                                    alertCompany: false,
+                                })
+                            }}
+                        />
+                    </DialogFooter>
+                }
+            >
+                <DialogContent>
+                    <View style={{ padding: 8, flexDirection: 'column' }}>
+                        {this.state.alertName ? <Text>Vui lòng nhập tên</Text> : null}
+                        {this.state.alertPhone ? <Text>Vui lòng nhập số điện thoại</Text> : null}
+                        {this.state.alertEmail ? <Text>Vui lòng nhập Email</Text> : null}
+                        {this.state.alertName2 ? <Text>Vui lòng nhập tên người đi</Text> : null}
+                        {this.state.alertPhone2 ? <Text>Vui lòng nhập số diện thoại người đi</Text> : null}
+                        {this.state.alertCompany ? <Text>Vui lòng nhập đầy đủ thông tin nhận hóa đơn</Text> : null}
+                    </View>
+                </DialogContent>
+            </Dialog>
+        )
     }
 
     renderDatHo() {
@@ -183,24 +228,24 @@ class InfoCustommerHourlyRentDriver extends Component {
 
     checkInfoCustommerHourlyRentDriver() {
         if (this.state.full_name.trim().length < 2) {
-            Alert.alert('Vui lòng nhập tên');
+            this.setState({alertName : true})
             return;
         }
         else if (!this.state.mobile_validate) {
-            Alert.alert(`Vui lòng nhập đúng Số điện thoại`);
+            this.setState({alertPhone : true})
             return;
         }
         else if (!this.state.checkEmail) {
-            Alert.alert(`Vui lòng nhập đúng địa chỉ email.`)
+            this.setState({alertEmail : true})
         }
         else {
             if (this.state.is_checked) {
                 if (this.state.full_name1.trim().length < 2) {
-                    Alert.alert('Vui lòng nhập tên người đi');
+                    this.setState({alertName2 : true})
                     return;
                 }
                 else if (!this.state.mobile_validate1) {
-                    Alert.alert(`Vui lòng nhập đúng Số điện thoại người đi`);
+                    this.setState({alertPhone2 : true})
                     return;
                 }
             }
@@ -214,16 +259,16 @@ class InfoCustommerHourlyRentDriver extends Component {
     checkVat() {
         if (this.state.vat) {
             if (this.state.company_name.trim() == '') {
-                Alert.alert('Nhập tên công ty');
+                this.setState({alertCompany : true})
                 return;
             } else if (this.state.company_address.trim() == '') {
-                Alert.alert('nhập địa chỉ công ty');
+                this.setState({alertCompany : true})
                 return;
             } else if (this.state.company_mst.trim() == '') {
-                Alert.alert('nhập mã số thuế');
+                this.setState({alertCompany : true})
                 return;
             } else if (this.state.company_address_receive.trim() == '') {
-                Alert.alert('nhập địa chỉ nhận hóa đơn')
+                this.setState({alertCompany : true})
                 return;
             } else {
                 this.props.navigation.navigate('ConfirmInformationRentDriver', {
@@ -547,7 +592,7 @@ class InfoCustommerHourlyRentDriver extends Component {
                         }}
                         value = {'TIẾP TỤC'}
                     />
-
+                    {this.renderAlert()}
                 </ScrollView>
             </View>
         )

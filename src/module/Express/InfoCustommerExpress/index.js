@@ -34,6 +34,13 @@ class InfoCustommerExpress extends Component {
             company_address_receive: '',
             blDiscount: false,
             promotion_code: '',
+            alertName: false,
+            alertPhone: false,
+            alertEmail: false,
+            alertName2: false,
+            alertPhone2: false,
+            alertCompany: false,
+            alertAirport: false,
         }
     }
 
@@ -168,24 +175,25 @@ class InfoCustommerExpress extends Component {
     }
 
     checkInfoCustommerExpress() {
-        if (this.state.full_name.trim().length < 2) {
-            Alert.alert('Vui lòng nhập tên');
+        if (this.state.full_name.trim().length < 1) {
+            this.setState({ alertName: true })
             return;
         }
         else if (!this.state.mobile_validate) {
-            Alert.alert(`Vui lòng nhập đúng Số điện thoại người gửi`);
+            this.setState({ alertPhone: true })
             return;
         }
         else if (!this.state.checkEmail) {
-            Alert.alert(`Vui lòng nhập đúng địa chỉ email.`);
+            this.setState({ alertEmail: true })
+
             return;
         }
         else if (this.state.full_name1.trim().length < 2) {
-            Alert.alert('Vui lòng nhập tên người nhận');
+            this.setState({ alertName2: true })
             return;
         }
         else if (!this.state.mobile_validate1) {
-            Alert.alert(`Vui lòng nhập đúng Số điện thoại người nhận`);
+            this.setState({ alertPhone2: true })
             return;
         }
         else {
@@ -196,16 +204,16 @@ class InfoCustommerExpress extends Component {
     checkVat() {
         if (this.state.vat) {
             if (this.state.company_name.trim() == '') {
-                Alert.alert('Nhập tên công ty');
+                this.setState({ alertCompany: true })
                 return;
             } else if (this.state.company_address.trim() == '') {
-                Alert.alert('nhập địa chỉ công ty');
+                this.setState({ alertCompany: true })
                 return;
             } else if (this.state.company_mst.trim() == '') {
-                Alert.alert('nhập mã số thuế');
+                this.setState({ alertCompany: true })
                 return;
             } else if (this.state.company_address_receive.trim() == '') {
-                Alert.alert('nhập địa chỉ nhận hóa đơn')
+                this.setState({ alertCompany: true })
                 return;
             } else {
                 this.nextScreen();
@@ -225,6 +233,44 @@ class InfoCustommerExpress extends Component {
             "Payment": this.state.value_payment,
             "detailPromotion": this.state.detailPromotion,
         });
+    }
+
+    renderAlert() {
+        return (
+            <Dialog
+                visible={this.state.alertName || this.state.alertPhone || this.state.alertEmail || this.state.alertName2 || this.state.alertPhone2 || this.state.alertCompany}
+                width={0.8}
+                dialogTitle={<DialogTitle title='Thông tin chưa đủ' />}
+                footer={
+                    <DialogFooter>
+                        <DialogButton
+                            text="Đồng ý"
+                            onPress={() => {
+                                this.setState({
+                                    alertName: false,
+                                    alertPhone: false,
+                                    alertEmail: false,
+                                    alertName2: false,
+                                    alertPhone2: false,
+                                    alertCompany: false,
+                                })
+                            }}
+                        />
+                    </DialogFooter>
+                }
+            >
+                <DialogContent>
+                    <View style={{ padding: 8, flexDirection: 'column' }}>
+                        {this.state.alertName ? <Text>Vui lòng nhập tên</Text> : null}
+                        {this.state.alertPhone ? <Text>Vui lòng nhập số điện thoại</Text> : null}
+                        {this.state.alertEmail ? <Text>Vui lòng nhập Email</Text> : null}
+                        {this.state.alertName2 ? <Text>Vui lòng nhập tên người đi</Text> : null}
+                        {this.state.alertPhone2 ? <Text>Vui lòng nhập số diện thoại người đi</Text> : null}
+                        {this.state.alertCompany ? <Text>Vui lòng nhập đầy đủ thông tin nhận hóa đơn</Text> : null}
+                    </View>
+                </DialogContent>
+            </Dialog>
+        )
     }
 
     setStateAsync(state) {
@@ -472,6 +518,7 @@ class InfoCustommerExpress extends Component {
                             this.checkInfoCustommerExpress();
                         }}
                     />
+                    {this.renderAlert()}
 
                 </ScrollView>
             </View>

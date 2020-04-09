@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, Alert, ActivityIndicator, Modal, FlatList, TouchableHighlight, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, ActivityIndicator, Modal, FlatList, TouchableHighlight, ScrollView } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 import { ConfirmDialog } from 'react-native-simple-dialogs';
 import CalendarPicker from 'react-native-calendar-picker';
@@ -11,6 +11,7 @@ import { TextInput } from 'react-native-gesture-handler';
 import MapViewDirections from 'react-native-maps-directions';
 import listHour from '../../../component/TimeSelect/listTime';
 import { ButtonFull } from '../../../component/Button'
+import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 
 const imageLocation = '../../../image/location.png'
 const imageDrop = '../../../image/drop.png'
@@ -78,6 +79,9 @@ class MapChungXe extends Component {
             isShowModalCity: false,
             scrollNhan: 48,
             scrollTra: 48,
+            showAlertTime: false,
+            showAlertInfo: false,
+            showAlertTimeDrop: false,
         },
             this.mapRef = null;
     }
@@ -112,6 +116,62 @@ class MapChungXe extends Component {
                 isLoading: false
             });
         }
+    }
+
+    // renderAlertTime() {
+    //     return (
+    //         <Dialog
+    //             visible={this.state.showAlertTime}
+    //             width={0.8}
+    //             footer={
+    //                 <DialogFooter>
+    //                     <DialogButton
+    //                         text="Đồng ý"
+    //                         onPress={() => {
+    //                             this.setState({ showAlertTime: false, })
+    //                         }}
+    //                     />
+    //                 </DialogFooter>
+    //             }
+    //         >
+    //             <DialogContent>
+    //                 <View style = {{padding : 8}}>
+    //                     <Text style={{ fontSize: 16, fontWeight: '100' }}>Giờ đi phải lớn hơn giờ hiện tại</Text>
+    //                 </View>
+    //             </DialogContent>
+    //         </Dialog>
+    //     )
+    // }
+
+    renderAlertInfo() {
+        return (
+            <Dialog
+                visible={this.state.showAlertInfo || this.state.showAlertTime || this.state.showAlertTimeDrop}
+                width={0.8}
+                footer={
+                    <DialogFooter>
+                        <DialogButton
+                            text="Đồng ý"
+                            onPress={() => {
+                                this.setState({
+                                    showAlertInfo: false,
+                                    showAlertTime: false,
+                                    showAlertTimeDrop: false
+                                })
+                            }}
+                        />
+                    </DialogFooter>
+                }
+            >
+                <DialogContent>
+                    <View style={{ padding: 8 }}>
+                        {this.state.showAlertInfo ? <Text style={{ fontSize: 16, fontWeight: '100' }}>Vui lòng điền đầy đủ thông tin để xem giá.</Text> : null}
+                        {this.state.showAlertTime ? <Text style={{ fontSize: 16, fontWeight: '100' }}>Giờ đi phải lớn hơn giờ hiện tại</Text> : null}
+                        {this.state.showAlertTimeDrop ? <Text style={{ fontSize: 16, fontWeight: '100' }}>Giờ trả xe phải lớn hơn giờ đi</Text> : null}
+                    </View>
+                </DialogContent>
+            </Dialog>
+        )
     }
 
     getDateTimeAlive() {
@@ -456,9 +516,9 @@ class MapChungXe extends Component {
             console.log(this.state.date.format('DD-MM-YYYY'))
             if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                 if (this.state.hoursAlive > this.state.selectedHours) {
-                    Alert.alert('Giờ đi phải lớn hơn giờ hiện tại')
+                    this.setState({ showAlertTime: true })
                 } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                    Alert.alert('Giờ đi phải lớn hơn giờ hiện tại')
+                    this.setState({ showAlertTime: true })
                 } else {
                     this.props.navigation.push("ListCarTuLai");
                 }
@@ -467,7 +527,7 @@ class MapChungXe extends Component {
             }
         }
         else {
-            Alert.alert('Vui lòng điền đầy đủ thông tin để xem giá.')
+            this.setState({ showAlertInfo: true })
         }
     }
 
@@ -606,7 +666,7 @@ class MapChungXe extends Component {
                         onPress={() => { this.nextScreen() }}
                         value={'Xem giá'}
                     />}
-
+                {this.renderAlertInfo()}
                 <Modal
                     visible={this.state.dialogCalendarVisible}
                     animationType="slide"
@@ -819,6 +879,7 @@ class MapChungXe extends Component {
                                                         dialogTimeVisible: false,
                                                         dialogCalendarVisible: false,
                                                         time_pick: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`,
+                                                        rent_date: `${this.state.date.format('YYYY-MM-DD')}`,
                                                         // time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
                                                     })
                                                     this.props.addDepartTimeTuLai(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
@@ -831,6 +892,7 @@ class MapChungXe extends Component {
                                                     dialogTimeVisible: false,
                                                     dialogCalendarVisible: false,
                                                     time_pick: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`,
+                                                    rent_date: `${this.state.date.format('YYYY-MM-DD')}`,
                                                     // time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
                                                 })
                                                 this.props.addDepartTimeTuLai(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
@@ -844,7 +906,8 @@ class MapChungXe extends Component {
                                                         scrollTra: item.id,
                                                         dialogTimeVisible: false,
                                                         dialogCalendarVisible: false,
-                                                        time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date1.format('DD/MM/YYYY')}`
+                                                        time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date1.format('DD/MM/YYYY')}`,
+                                                        return_date: `${this.state.date1.format('YYYY-MM-DD')}`,
                                                     })
                                                     // this.props.addDepartTimeTuLai(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
                                                 }
@@ -855,7 +918,8 @@ class MapChungXe extends Component {
                                                     scrollTra: item.id,
                                                     dialogTimeVisible: false,
                                                     dialogCalendarVisible: false,
-                                                    time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date1.format('DD/MM/YYYY')}`
+                                                    time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date1.format('DD/MM/YYYY')}`,
+                                                    return_date: `${this.state.date1.format('YYYY-MM-DD')}`,
                                                 })
                                                 // this.props.addDepartTimeTuLai(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
                                             }
@@ -895,17 +959,20 @@ class MapChungXe extends Component {
         console.log(spesentDay)
         console.log('a')
         if (this.state.city == '') {
-            Alert.alert('Bạn chưa chọn Thành phố');
+            this.setState({ showAlertInfo: true })
+            return;
         } else if (this.state.rent_date == '' || this.state.return_date == '') {
-            Alert.alert('Vui lòng chọn thời gian nhận trả xe');
+            this.setState({ showAlertInfo: true })
+            return;
         } else if (this.selectedDate()) {
-            Alert.alert('Thời gian trả xe phải lớn hơn nhận xe')
+            this.setState({ showAlertTimeDrop: true })
+            return;
         } else if (spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
             // console.log(spesentDay)
             if (this.state.hoursAlive > this.state.selectedHours) {
-                Alert.alert('Giờ nhận xe phải lớn hơn giờ hiện tại')
+                this.setState({ showAlertTime: true })
             } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                Alert.alert('Giờ nhận xe phải lớn hơn giờ hiện tại')
+                this.setState({ showAlertTime: true })
             } else {
                 this.addData()
             }
