@@ -6,7 +6,7 @@ import TimePicker from './TimePicker'
 import { connect } from 'react-redux';
 import { addDepartTimeTaixe, addPeopleTaixe, swapAddressTaixe, addDurationTaiXe } from '../../../core/Redux/action/Action'
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
-import { ButtonFull } from '../../../component/Button'
+import { ButtonFull, ButtonDialog } from '../../../component/Button'
 import MapViewDirections from 'react-native-maps-directions';
 import { TextInput } from 'react-native-gesture-handler';
 import * as key from '../../../component/KeyGG'
@@ -22,6 +22,7 @@ const imageDrop = '../../../image/drop.png'
 const imageSwap = '../../../image/swap.png'
 const imageTime = '../../../image/time.png'
 const imageHourglass = '../../../image/hourglass.png'
+const imageCheck = '../../../image/done.png'
 
 class MapXeChung extends Component {
 
@@ -284,9 +285,28 @@ class MapXeChung extends Component {
                 visible={this.state.alertCity || this.state.alertInfo || this.state.alertTime}
                 width={0.8}
                 dialogTitle={<DialogTitle title='Thông tin chưa đủ' />}
-                footer={
-                    <DialogFooter>
-                        <DialogButton
+                // footer={
+                //     <DialogFooter>
+                //         <DialogButton
+                //             text="Đồng ý"
+                //             onPress={() => {
+                //                 this.setState({
+                //                     alertCity: false,
+                //                     alertInfo: false,
+                //                     alertTime: false,
+                //                 })
+                //             }}
+                //         />
+                //     </DialogFooter>
+                // }
+            >
+                <View>
+                    <View style={{ padding: 8, flexDirection: 'column' }}>
+                        {this.state.alertCity ? <Text>Vui lòng nhập đúng địa chỉ trong thành phố.</Text> : null}
+                        {this.state.alertInfo ? <Text>Vui lòng nhập đầy đủ thông tin trước khi xem giá.</Text> : null}
+                        {this.state.alertTime ? <Text>Thời gian chọn phải lớn hơn thời gian hiện tại.</Text> : null}
+
+                        <ButtonDialog
                             text="Đồng ý"
                             onPress={() => {
                                 this.setState({
@@ -296,16 +316,8 @@ class MapXeChung extends Component {
                                 })
                             }}
                         />
-                    </DialogFooter>
-                }
-            >
-                <DialogContent>
-                    <View style={{ padding: 8, flexDirection: 'column' }}>
-                        {this.state.alertCity ? <Text>Vui lòng nhập đúng địa chỉ trong thành phố.</Text> : null}
-                        {this.state.alertInfo ? <Text>Vui lòng nhập đầy đủ thông tin trước khi xem giá.</Text> : null}
-                        {this.state.alertTime ? <Text>Thời gian chọn phải lớn hơn thời gian hiện tại.</Text> : null}
                     </View>
-                </DialogContent>
+                </View>
             </Dialog>
         )
     }
@@ -408,13 +420,14 @@ class MapXeChung extends Component {
                                 editable={false}
                                 onTouchStart={() => this.props.navigation.push("SearchPlaceXeChung", {
                                     search: 'Drop',
-                                    placeholder: 'Nhập điểm đích',
+                                    placeholder: ' Nhập điểm đích',
                                 })
                                 }
-                                style={{ fontSize: 14, height: 40, color: "#00363d" }}
+                                style={{ fontSize: 14, height: 40, color: "#00363d", marginLeft : 4 }}
                                 pointerEvents="none"
                                 value={this.props.drop_add}
                                 placeholder='Nhập điểm đích'
+                                placeholderTextColor = '#333333'
                             />
                         </TouchableOpacity>
                     </View>
@@ -546,7 +559,7 @@ class MapXeChung extends Component {
                         justifyContent: 'flex-end',
                         padding: 10,
                     }}>
-                        <View style={{ flex: 2, }}>
+                        <View style={{ flex: 1, }}>
                             <TouchableOpacity
                                 onPress={() => this.setState({ dialogTimeVisible: !this.state.dialogTimeVisible })}
                                 style={{ flex: 1 }}
@@ -623,7 +636,7 @@ class MapXeChung extends Component {
                             data={this.state.listCity}
                             renderItem={({ item }) =>
                                 <TouchableOpacity
-                                    style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderTopWidth: 1 }}
+                                    style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems : 'center' }}
                                     onPress={() => {
                                         item.hide == 1 ? console.log(item.city_name) :
                                             this.setState({
@@ -633,6 +646,10 @@ class MapXeChung extends Component {
                                     }}
                                 >
                                     <Text style={item.hide == 1 ? { fontSize: 18, flex: 1, padding: 8, color: '#888' } : { fontSize: 18, flex: 1, padding: 8 }}>{item.city_name}</Text>
+                                    {item.chair == this.props.chair ? <Image
+                                        style={{ height: 24, width: 24, marginRight: 8 }}
+                                        source={require(imageCheck)}
+                                    /> : null}
                                 </TouchableOpacity>}
                             keyExtractor={item => item.city_id}
                         />
@@ -652,7 +669,7 @@ class MapXeChung extends Component {
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
                     }}>
-                        <View style={{ flex: 2, }}>
+                        <View style={{ flex: 1, }}>
                             <TouchableOpacity
                                 onPress={() => this.setState({ modalListTime: !this.state.modalListTime })}
                                 style={{ flex: 1 }}
@@ -664,7 +681,7 @@ class MapXeChung extends Component {
                             data={this.state.listTime}
                             renderItem={({ item }) =>
                                 <TouchableOpacity
-                                    style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderTopWidth: 1 }}
+                                    style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent :  'center', alignItems : 'center' }}
                                     onPress={() => {
                                         this.setState({
                                             duration: item.time,
@@ -674,6 +691,10 @@ class MapXeChung extends Component {
                                     }}
                                 >
                                     <Text style={{ fontSize: 18, flex: 1, padding: 8, color: item.time === this.state.duration ? '#77a300' : '#000000' }}>{item.time} giờ</Text>
+                                    {item.time == this.state.duration ? <Image
+                                        style={{ height: 24, width: 24, marginLeft: 8 }}
+                                        source={require(imageCheck)}
+                                    /> : null}
                                 </TouchableOpacity>}
                             keyExtractor={item => item.city_id}
                         />

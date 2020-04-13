@@ -8,7 +8,7 @@ import { addDepartTimeVanChuyen, addPeopleVanChuyen, swapAddressVanChuyen, addDu
 import AmountOfPracel from './AmountOfPracel'
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
 import * as key from '../../../component/KeyGG'
-import { ButtonFull } from '../../../component/Button'
+import { ButtonFull, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 
 import MapViewDirections from 'react-native-maps-directions';
@@ -26,6 +26,8 @@ const imageSwap = '../../../image/swap.png'
 const imageTime = '../../../image/time.png'
 const imageParcel = '../../../image/parcel.png'
 const imageHourglass = '../../../image/hourglass.png'
+const imageCheck = '../../../image/done.png'
+const imageDown = '../../../image/arrowdown.png'
 
 
 class MapExpress extends Component {
@@ -251,9 +253,28 @@ class MapExpress extends Component {
             <Dialog
                 visible={this.state.alertInfo || this.state.alertTimeRent || this.state.alertTimeSent}
                 width={0.8}
-                footer={
-                    <DialogFooter>
-                        <DialogButton
+            // footer={
+            //     <DialogFooter>
+            //         <DialogButton
+            //             text="Đồng ý"
+            //             onPress={() => {
+            //                 this.setState({
+            //                     alertInfo: false,
+            //                     alertTimeRent: false,
+            //                     alertTimeSent: false,
+            //                 })
+            //             }}
+            //         />
+            //     </DialogFooter>
+            // }
+            >
+                <View>
+                    <View style={{ padding: 8 }}>
+                        {this.state.alertInfo ? <Text style={{ fontSize: 16, fontWeight: '100' }}>Vui lòng điền đầy đủ thông tin để xem giá.</Text> : null}
+                        {this.state.alertTimeSent ? <Text style={{ fontSize: 16, fontWeight: '100' }}>Giờ gửi hàng phải lớn hơn giờ hiện tại.</Text> : null}
+                        {this.state.alertTimeRent ? <Text style={{ fontSize: 16, fontWeight: '100' }}>Giờ thuê phải lớn hơn giờ hiện tại.</Text> : null}
+
+                        <ButtonDialog
                             text="Đồng ý"
                             onPress={() => {
                                 this.setState({
@@ -263,16 +284,8 @@ class MapExpress extends Component {
                                 })
                             }}
                         />
-                    </DialogFooter>
-                }
-            >
-                <DialogContent>
-                    <View style={{ padding: 8 }}>
-                        {this.state.alertInfo ? <Text style={{ fontSize: 16, fontWeight: '100' }}>Vui lòng điền đầy đủ thông tin để xem giá.</Text> : null}
-                        {this.state.alertTimeSent ? <Text style={{ fontSize: 16, fontWeight: '100' }}>Giờ gửi hàng phải lớn hơn giờ hiện tại.</Text> : null}
-                        {this.state.alertTimeRent ? <Text style={{ fontSize: 16, fontWeight: '100' }}>Giờ thuê phải lớn hơn giờ hiện tại.</Text> : null}
                     </View>
-                </DialogContent>
+                </View>
             </Dialog>
         )
     }
@@ -310,6 +323,7 @@ class MapExpress extends Component {
                             pointerEvents="none"
                             value={this.props.pick_add}
                             placeholder='Điểm nhận hàng'
+                            selection={{ start: 0, end: 0 }}
                         />
                     </TouchableOpacity>
                 </View>
@@ -340,6 +354,7 @@ class MapExpress extends Component {
                                 pointerEvents="none"
                                 value={this.props.drop_add}
                                 placeholder='Điểm giao hàng'
+                                selection={{ start: 0, end: 0 }}
                             />
                         </TouchableOpacity>
                     </View>
@@ -395,6 +410,10 @@ class MapExpress extends Component {
                             source={require(imageParcel)}
                         />
                         <Text style={{ flex: 1 }}>{this.props.chair} gói</Text>
+                        <Image
+                            style={{ height: 24, width: 24, margin: 8 }}
+                            source={require(imageDown)}
+                        />
                     </TouchableOpacity>
                 </View>
                 <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
@@ -432,6 +451,7 @@ class MapExpress extends Component {
                             pointerEvents="none"
                             value={this.props.pick_add}
                             placeholder='Điểm nhận hàng'
+                            selection={{ start: 0, end: 0 }}
                         />
                     </TouchableOpacity>
                 </View>
@@ -460,6 +480,7 @@ class MapExpress extends Component {
                             placeholder={'Chọn giờ thuê'}
                             source={require(imageHourglass)}
                             value={this.state.duration + ' giờ'}
+                            imageRight={true}
                         />
                     </View>
                 </View>
@@ -568,7 +589,7 @@ class MapExpress extends Component {
                         justifyContent: 'flex-end',
                         padding: 10,
                     }}>
-                        <View style={{ flex: 2, }}>
+                        <View style={{ flex: 1, }}>
                             <TouchableOpacity
                                 onPress={() => this.setState({ dialogTimeVisible: !this.state.dialogTimeVisible })}
                                 style={{ flex: 1 }}
@@ -632,7 +653,7 @@ class MapExpress extends Component {
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
                     }}>
-                        <View style={{ flex: 2, }}>
+                        <View style={{ flex: 1, }}>
                             <TouchableOpacity
                                 onPress={() => this.setState({ dialogSelectPeople: !this.state.dialogSelectPeople })}
                                 style={{ flex: 1 }}
@@ -644,7 +665,7 @@ class MapExpress extends Component {
                             data={this.state.listChair}
                             renderItem={({ item }) =>
                                 <TouchableOpacity
-                                    style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderWidth: 1 }}
+                                    style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent : 'center', alignItems : 'center' }}
                                     onPress={() => {
                                         this.setState({
                                             people: item.chair,
@@ -655,6 +676,10 @@ class MapExpress extends Component {
                                     }}
                                 >
                                     <Text style={{ fontSize: 18, flex: 1, padding: 8, color: item.chair == this.props.chair ? '#77a300' : '#000000' }}>{item.chair} gói</Text>
+                                    {item.chair == this.props.chair ? <Image
+                                        style={{ height: 24, width: 24, marginLeft: 8 }}
+                                        source={require(imageCheck)}
+                                    /> : null}
                                 </TouchableOpacity>}
                             keyExtractor={item => item.chair}
                         />
@@ -686,7 +711,7 @@ class MapExpress extends Component {
                             data={this.state.listTime}
                             renderItem={({ item }) =>
                                 <TouchableOpacity
-                                    style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderBottomWidth: 1 }}
+                                    style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent : 'center', alignItems : 'center' }}
                                     onPress={() => {
                                         this.setState({
                                             duration: item.time,
@@ -696,6 +721,10 @@ class MapExpress extends Component {
                                     }}
                                 >
                                     <Text style={{ fontSize: 18, flex: 1, padding: 8, color: item.time === this.state.duration ? '#77a300' : '#000000' }}>{item.time} giờ</Text>
+                                    {item.time == this.state.duration ? <Image
+                                        style={{ height: 24, width: 24, marginLeft: 8 }}
+                                        source={require(imageCheck)}
+                                    /> : null}
                                 </TouchableOpacity>}
                             keyExtractor={item => item.time}
                         />

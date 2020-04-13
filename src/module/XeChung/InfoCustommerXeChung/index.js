@@ -5,7 +5,7 @@ import CheckBoxList from '../../../component/CheckBoxList'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import { connect } from 'react-redux';
 import { addInfoPeople1Taixe, addInfoPeople2Taixe, addVATTaixe, addCommentTaixe, addPromotionCodeTaixe, addPaymentMethodIDTaixe, } from '../../../core/Redux/action/Action'
-import { Button } from '../../../component/Button'
+import { Button, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 
 class InfoCustommerXeChung extends Component {
@@ -123,9 +123,34 @@ class InfoCustommerXeChung extends Component {
                 visible={this.state.alertName || this.state.alertPhone || this.state.alertEmail || this.state.alertName2 || this.state.alertPhone2 || this.state.alertCompany}
                 width={0.8}
                 dialogTitle={<DialogTitle title='Thông tin chưa đủ' />}
-                footer={
-                    <DialogFooter>
-                        <DialogButton
+                // footer={
+                //     <DialogFooter>
+                //         <DialogButton
+                //             text="Đồng ý"
+                //             onPress={() => {
+                //                 this.setState({
+                //                     alertName: false,
+                //                     alertPhone: false,
+                //                     alertEmail: false,
+                //                     alertName2: false,
+                //                     alertPhone2: false,
+                //                     alertCompany: false,
+                //                 })
+                //             }}
+                //         />
+                //     </DialogFooter>
+                // }
+            >
+                <View>
+                    <View style={{ padding: 8, flexDirection: 'column' }}>
+                        {this.state.alertName ? <Text>Vui lòng nhập tên</Text> : null}
+                        {this.state.alertPhone ? <Text>Vui lòng nhập số điện thoại</Text> : null}
+                        {this.state.alertEmail ? <Text>Vui lòng nhập Email</Text> : null}
+                        {this.state.alertName2 ? <Text>Vui lòng nhập tên người đi</Text> : null}
+                        {this.state.alertPhone2 ? <Text>Vui lòng nhập số điện thoại người đi</Text> : null}
+                        {this.state.alertCompany ? <Text>Vui lòng nhập đầy đủ thông tin nhận hóa đơn</Text> : null}
+
+                        <ButtonDialog
                             text="Đồng ý"
                             onPress={() => {
                                 this.setState({
@@ -138,19 +163,8 @@ class InfoCustommerXeChung extends Component {
                                 })
                             }}
                         />
-                    </DialogFooter>
-                }
-            >
-                <DialogContent>
-                    <View style={{ padding: 8, flexDirection: 'column' }}>
-                        {this.state.alertName ? <Text>Vui lòng nhập tên</Text> : null}
-                        {this.state.alertPhone ? <Text>Vui lòng nhập số điện thoại</Text> : null}
-                        {this.state.alertEmail ? <Text>Vui lòng nhập Email</Text> : null}
-                        {this.state.alertName2 ? <Text>Vui lòng nhập tên người đi</Text> : null}
-                        {this.state.alertPhone2 ? <Text>Vui lòng nhập số diện thoại người đi</Text> : null}
-                        {this.state.alertCompany ? <Text>Vui lòng nhập đầy đủ thông tin nhận hóa đơn</Text> : null}
                     </View>
-                </DialogContent>
+                </View>
             </Dialog>
         )
     }
@@ -482,7 +496,7 @@ class InfoCustommerXeChung extends Component {
                                                 payment_method_ID: obj.payment_method_ID,
                                             })
                                         }}
-                                        labelStyle={{ fontSize: 16, color: '#000' }}
+                                        labelStyle={{ fontSize: 14, color: '#000' }}
                                         labelWrapStyle={{}}
                                     />
                                 </RadioButton>
@@ -529,23 +543,6 @@ class InfoCustommerXeChung extends Component {
                         rightText={"VAT 10 %"}
                     />
                     {this.renderFormVAT()}
-
-                    {/* <TouchableOpacity
-                        style={{ marginTop: 8, backgroundColor: '#77a300', justifyContent: 'center', alignItems: "center", height: 40, borderRadius: 4 }}
-                        onPress={() => {
-                            const { xhd, company_name, company_address, company_address_receive, company_mst, full_name, use_phone, email, full_name1, use_phone1, email1, comment, payment_method_ID } = this.state;
-                            this.props.addVATTaixe(xhd ? '1' : '0', company_name, company_address, company_mst, company_address_receive);
-                            this.props.addInfoPeople2Taixe(full_name1, use_phone1, email1);
-                            this.props.addInfoPeople1Taixe(full_name, use_phone, email);
-                            // add payment method id
-                            this.props.addCommentTaixe(comment);
-                            console.log(payment_method_ID);
-                            this.props.addPaymentMethodIDTaixe(payment_method_ID);
-                            this.checkInfoCustommerXeChung();
-                        }}
-                    >
-                        <Text style={{ color: '#ffffff' }}>TIẾP TỤC</Text>
-                    </TouchableOpacity> */}
 
                     <Button
                         value={'TIẾP TỤC'}

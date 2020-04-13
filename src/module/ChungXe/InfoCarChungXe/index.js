@@ -290,7 +290,7 @@ class InfoCarChungXe extends Component {
                                                 selectRentCar: i
                                             })
                                         }}
-                                        labelStyle={{ fontSize: 16, color: '#000' }}
+                                        labelStyle={{ fontSize: 14, color: '#000' }}
                                         labelWrapStyle={{}}
                                     />
                                 </RadioButton>
@@ -347,7 +347,7 @@ class InfoCarChungXe extends Component {
                             isChecked={this.state.vat}
                             rightText={"Xuất hóa đơn"}
                             rightTextStyle={{ fontSize: 16 }}
-
+                            checkBoxColor = {'#77a300'}
                         />
 
                         {this.renderFormVAT()}

@@ -190,7 +190,7 @@ class ListCarHourlyBooking extends Component {
                                         onPress={() => {
                                             this.gotoInfocustommerHourlyBooking(item);
                                         }}
-                                        value={'XEM GIÁ'}
+                                        value={'CHỌN XE'}
                                     />
 
 

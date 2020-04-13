@@ -4,7 +4,7 @@ import OTPInputView from '@twotalltotems/react-native-otp-input'
 import * as link from '../../../URL'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
-import { Button, ButtonGray } from '../../../component/Button'
+import { Button, ButtonGray, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 
 const imageLocation = '../../../image/location.png'
@@ -367,35 +367,34 @@ class TicketInformation extends Component {
                             visible={this.state.dialogOTP}
                             width={0.8}
                             dialogTitle={<DialogTitle title="Xác nhận hủy vé" />}
-                            footer={
-                                <DialogFooter>
-                                    <DialogButton
-                                        text="Hủy vé"
-                                        onPress={() => {
-                                            if (this.state.otp.length < 4) {
+                            // footer={
+                            //     <DialogFooter>
+                            //         <DialogButton
+                            //             text="Hủy vé"
+                            //             onPress={() => {
+                            //                 if (this.state.otp.length < 4) {
 
-                                            } else {
-                                                this.setState({ modalVisible: true, })
-                                                this.cancelBooking();
-                                            }
-                                        }}
-                                    />
-                                    <DialogButton
-                                        text="Đóng"
-                                        onPress={() => {
-                                            this.setState({
-                                                dialogOTP: false,
-                                                otp: '',
-                                            })
-                                        }}
-                                    />
-                                </DialogFooter>
-                            }
+                            //                 } else {
+                            //                     this.setState({ modalVisible: true, })
+                            //                     this.cancelBooking();
+                            //                 }
+                            //             }}
+                            //         />
+                            //         <DialogButton
+                            //             text="Đóng"
+                            //             onPress={() => {
+                            //                 this.setState({
+                            //                     dialogOTP: false,
+                            //                     otp: '',
+                            //                 })
+                            //             }}
+                            //         />
+                            //     </DialogFooter>
+                            // }
                         >
-                            <DialogContent>
+                            <View>
                                 <View style={{
-                                    height: 120,
-                                    alignItems: "center",
+                                    alignItems: "center", padding : 8
                                 }}>
                                     <Text style={{ fontSize: 16, fontWeight: '100' }}>Mã xác thực hủy chuyến được gửi tới email và số điện thoại của bạn</Text>
 
@@ -413,8 +412,30 @@ class TicketInformation extends Component {
                                         })}
                                     />
                                     <Text>{this.state.message}</Text>
+                                    <View style = {{flexDirection : 'column'}}>
+                                    <ButtonDialog
+                                        text="Hủy vé"
+                                        onPress={() => {
+                                            if (this.state.otp.length < 4) {
+
+                                            } else {
+                                                this.setState({ modalVisible: true, })
+                                                this.cancelBooking();
+                                            }
+                                        }}
+                                    />
+                                    <ButtonDialog
+                                        text="Đóng"
+                                        onPress={() => {
+                                            this.setState({
+                                                dialogOTP: false,
+                                                otp: '',
+                                            })
+                                        }}
+                                    />
+                                    </View>
                                 </View>
-                            </DialogContent>
+                            </View>
 
                         </Dialog>
 

@@ -5,7 +5,7 @@ import * as link from '../../../URL'
 import { deleteDataTaixe } from '../../../core/Redux/action/Action'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
-import { Button } from '../../../component/Button'
+import { Button, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 
 Number.prototype.format = function (n, x) {
@@ -296,48 +296,48 @@ class ConfirmInformationRentDriver extends Component {
                         visible={this.state.addingTicket}
                         dialogTitle={<DialogTitle />}
                     >
-                        <DialogContent>
+                        <View>
                             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                                 <ActivityIndicator size='large' />
                             </View>
-                        </DialogContent>
+                        </View>
                     </Dialog>
                 </ScrollView>
                 <Dialog
                     visible={this.state.bookingSuccess}
                     width={0.8}
-                    footer={
-                        <DialogFooter>
-                            <DialogButton
-                                text='Chi tiết'
-                                onPress={() => {
-                                    this.setState({
-                                        modalDetailTrip: true,
-                                    })
-                                }}
-                            />
+                    // footer={
+                    //     <DialogFooter>
+                    //         <DialogButton
+                    //             text='Chi tiết'
+                    //             onPress={() => {
+                    //                 this.setState({
+                    //                     modalDetailTrip: true,
+                    //                 })
+                    //             }}
+                    //         />
 
-                            <DialogButton
-                                text='Trang chủ'
-                                onPress={() => {
-                                    this.setState({
-                                        bookingSuccess: false
-                                    })
-                                    this.props.deleteDataTaixe();
-                                    const resetAction = StackActions.reset({
-                                        index: 0,
-                                        key: null,
-                                        actions: [NavigationActions.navigate({ routeName: 'Home' })],
-                                    });
-                                    this.props.navigation.dispatch(resetAction);
-                                }}
-                            />
-                        </DialogFooter>
-                    }
+                    //         <DialogButton
+                    //             text='Trang chủ'
+                    //             onPress={() => {
+                    //                 this.setState({
+                    //                     bookingSuccess: false
+                    //                 })
+                    //                 this.props.deleteDataTaixe();
+                    //                 const resetAction = StackActions.reset({
+                    //                     index: 0,
+                    //                     key: null,
+                    //                     actions: [NavigationActions.navigate({ routeName: 'Home' })],
+                    //                 });
+                    //                 this.props.navigation.dispatch(resetAction);
+                    //             }}
+                    //         />
+                    //     </DialogFooter>
+                    // }
                     dialogTitle={<DialogTitle title="Đặt xe thành công" />}
                 >
-                    <DialogContent>
-                        <View style={{ flexDirection: 'column', }}>
+                    <View>
+                        <View style={{ flexDirection: 'column', padding : 8 }}>
                             <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                                 <Image
                                     style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
@@ -345,8 +345,35 @@ class ConfirmInformationRentDriver extends Component {
                                 />
                             </View>
                             <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sé liên lạc trong thời gian sớm nhất.</Text>
+
+                            <View style={{ flexDirection: 'row' }}>
+                                <ButtonDialog
+                                    text='Chi tiết'
+                                    onPress={() => {
+                                        this.setState({
+                                            modalDetailTrip: true,
+                                        })
+                                    }}
+                                />
+
+                                <ButtonDialog
+                                    text='Trang chủ'
+                                    onPress={() => {
+                                        this.setState({
+                                            bookingSuccess: false
+                                        })
+                                        this.props.deleteDataTaixe();
+                                        const resetAction = StackActions.reset({
+                                            index: 0,
+                                            key: null,
+                                            actions: [NavigationActions.navigate({ routeName: 'Home' })],
+                                        });
+                                        this.props.navigation.dispatch(resetAction);
+                                    }}
+                                />
+                            </View>
                         </View>
-                    </DialogContent>
+                    </View>
                 </Dialog>
 
                 <Modal

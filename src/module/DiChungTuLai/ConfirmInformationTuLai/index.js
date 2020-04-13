@@ -6,7 +6,7 @@ import * as link from '../../../URL'
 import { deleteDataTuLai } from '../../../core/Redux/action/Action'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
-import { Button } from '../../../component/Button'
+import { Button, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 
 Number.prototype.format = function (n, x) {
@@ -213,52 +213,91 @@ class ConfirmInformationTuLai extends Component {
                         visible={this.state.visibalAgain}
                         width={0.8}
                         dialogTitle={<DialogTitle title="Tìm kiếm thất bại" />}
-                        footer={
-                            <DialogFooter>
-                                <DialogButton
-                                    text="Thử Lại"
-                                    onPress={() => {
-                                        this.reBiddingTicket();
-                                    }}
-                                />
-                                <DialogButton
-                                    text="Chọn hãng khác"
-                                    onPress={() => {
-                                        this.setState({ visibalAgain: false })
-                                        this.props.navigation.push("MapChungXe")
-                                    }}
-                                />
-                            </DialogFooter>
-                        }
+                    // footer={
+                    //     <DialogFooter>
+                    //         <DialogButton
+                    //             text="Thử Lại"
+                    //             onPress={() => {
+                    //                 this.reBiddingTicket();
+                    //             }}
+                    //         />
+                    //         <DialogButton
+                    //             text="Chọn hãng khác"
+                    //             onPress={() => {
+                    //                 this.setState({ visibalAgain: false })
+                    //                 this.props.navigation.push("MapChungXe")
+                    //             }}
+                    //         />
+                    //     </DialogFooter>
+                    // }
                     >
-                        <DialogContent>
-                            <View>
+                        <View>
+                            <View style = {{padding : 8}}>
                                 <Image
                                     style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
                                     source={require(imageSorry)}
                                 />
                                 <Text style={{ fontSize: 16 }}>Hiện tại không có tài xế nào nhận yêu cầu của bạn. Xin vui lòng thử lại hoặc chọn giờ đi khác.</Text>
+                                <View style={{ flexDirection: 'column' }}>
+                                    <ButtonDialog
+                                        text="Thử Lại"
+                                        onPress={() => {
+                                            this.reBiddingTicket();
+                                        }}
+                                    />
+                                    <ButtonDialog
+                                        text="Chọn hãng khác"
+                                        onPress={() => {
+                                            this.setState({ visibalAgain: false })
+                                            this.props.navigation.push("MapChungXe")
+                                        }}
+                                    />
+                                </View>
                             </View>
-                        </DialogContent>
+                        </View>
                     </Dialog>
 
                     <Dialog
                         width={0.8}
                         visible={this.state.addingTicket}
                     >
-                        <DialogContent>
+                        <View>
                             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                                 <ActivityIndicator size='large' />
                             </View>
-                        </DialogContent>
+                        </View>
                     </Dialog>
 
                     <Dialog
                         width={0.8}
                         visible={this.state.result}
                         dialogTitle={<DialogTitle title='Đặt xe thành công' />}
-                        footer={
-                            <DialogFooter>
+                    // footer={
+                    //     <DialogFooter>
+                    //         <DialogButton
+                    //             text="Xem"
+                    //             onPress={() => {
+                    //                 this.setState({
+                    //                     result: false,
+                    //                 })
+                    //                 this.props.deleteDataTuLai();
+                    //                 this.TicketInformation()
+                    //             }}
+                    //         />
+                    //     </DialogFooter>
+                    // }
+                    >
+                        <View>
+                            <View style={{ flexDirection: 'column', padding: 8 }}>
+                                <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                                    <Image
+                                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
+                                        source={{ uri: this.props.vehicle_icon }}
+                                    />
+                                </View>
+                                <Text>Mã vé của bạn là :<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
+                                <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sé liên lạc trong thời gian sớm nhất.</Text>
+
                                 <DialogButton
                                     text="Xem"
                                     onPress={() => {
@@ -269,29 +308,57 @@ class ConfirmInformationTuLai extends Component {
                                         this.TicketInformation()
                                     }}
                                 />
-                            </DialogFooter>
-                        }
-                    >
-                        <DialogContent>
-                            <View style={{ flexDirection: 'column', padding: 8 }}>
-                                <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                                    <Image
-                                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
-                                        source={{ uri: this.props.vehicle_icon }}
-                                    />
-                                </View>
-                                <Text>Mã vé của bạn là :<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
-                                <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sé liên lạc trong thời gian sớm nhất.</Text>
                             </View>
-                        </DialogContent>
+                        </View>
                     </Dialog>
 
                     <Dialog
                         visible={!this.state.is_night_booking}
                         width={0.8}
-                        footer={
-                            <DialogFooter>
-                                <DialogButton
+                        // footer={
+                        //     <DialogFooter>
+                        //         <DialogButton
+                        //             text="Xem"
+                        //             onPress={() => {
+                        //                 this.setState({
+                        //                     dialogCalendarVisible: false,
+                        //                     is_night_booking: true
+                        //                 })
+                        //                 this.props.deleteDataTuLai();
+                        //                 this.TicketInformation()
+                        //             }}
+                        //         />
+                        //         <DialogButton
+                        //             text="Trang chủ"
+                        //             onPress={() => {
+                        //                 this.setState({
+                        //                     is_night_booking: true
+                        //                 })
+                        //                 this.props.deleteDataTuLai();
+                        //                 const resetAction = StackActions.reset({
+                        //                     index: 0,
+                        //                     key: null,
+                        //                     actions: [NavigationActions.navigate({ routeName: 'Home' })],
+                        //                 });
+                        //                 this.props.navigation.dispatch(resetAction);
+                        //             }}
+                        //         />
+                        //     </DialogFooter>
+                        // }
+                        dialogTitle={<DialogTitle title="Đặt xe thành công" />}
+                    >
+                        <View style={{ flexDirection: 'column', padding : 8 }}>
+                            <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                                <Image
+                                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
+                                    source={{ uri: this.props.vehicle_icon }}
+                                />
+                            </View>
+                            <Text>Mã vé của bạn là :<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
+                            <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sé liên lạc trong thời gian sớm nhất.</Text>
+
+                            <View style={{ flexDirection: 'row' }}>
+                                <ButtonDialog
                                     text="Xem"
                                     onPress={() => {
                                         this.setState({
@@ -302,34 +369,7 @@ class ConfirmInformationTuLai extends Component {
                                         this.TicketInformation()
                                     }}
                                 />
-                                <DialogButton
-                                    text="Trang chủ"
-                                    onPress={() => {
-                                        this.setState({
-                                            is_night_booking: true
-                                        })
-                                        this.props.deleteDataTuLai();
-                                        const resetAction = StackActions.reset({
-                                            index: 0,
-                                            key: null,
-                                            actions: [NavigationActions.navigate({ routeName: 'Home' })],
-                                        });
-                                        this.props.navigation.dispatch(resetAction);
-                                    }}
-                                />
-                            </DialogFooter>
-                        }
-                        dialogTitle={<DialogTitle title="Đặt xe thành công" />}
-                    >
-                        <View style={{ flexDirection: 'column', }}>
-                            <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                                <Image
-                                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
-                                    source={{ uri: this.props.vehicle_icon }}
-                                />
                             </View>
-                            <Text>Mã vé của bạn là :<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
-                            <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sé liên lạc trong thời gian sớm nhất.</Text>
                         </View>
                     </Dialog>
 

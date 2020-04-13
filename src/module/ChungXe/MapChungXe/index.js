@@ -10,7 +10,7 @@ import * as key from '../../../component/KeyGG'
 import { TextInput } from 'react-native-gesture-handler';
 import MapViewDirections from 'react-native-maps-directions';
 import listHour from '../../../component/TimeSelect/listTime';
-import { ButtonFull } from '../../../component/Button'
+import { ButtonFull,ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 
 const imageLocation = '../../../image/location.png'
@@ -19,7 +19,7 @@ const imageSwap = '../../../image/swap.png'
 const imageTime = '../../../image/time.png'
 const imageCancel = '../../../image/cancel.png'
 const imageHourglass = '../../../image/hourglass.png'
-const imageCar = '../../../image/iconcar.png'
+const imageCheck = '../../../image/done.png'
 
 const origin = { latitude: 21.2187149, longitude: 105.80417090000003 };
 // const destination = { latitude: 21.0019302, longitude: 105.85090579999996 };
@@ -148,9 +148,27 @@ class MapChungXe extends Component {
             <Dialog
                 visible={this.state.showAlertInfo || this.state.showAlertTime || this.state.showAlertTimeDrop}
                 width={0.8}
-                footer={
-                    <DialogFooter>
-                        <DialogButton
+                // footer={
+                //     <DialogFooter>
+                //         <DialogButton
+                //             text="Đồng ý"
+                //             onPress={() => {
+                //                 this.setState({
+                //                     showAlertInfo: false,
+                //                     showAlertTime: false,
+                //                     showAlertTimeDrop: false
+                //                 })
+                //             }}
+                //         />
+                //     </DialogFooter>
+                // }
+            >
+                <View>
+                    <View style={{ padding: 8 }}>
+                        {this.state.showAlertInfo ? <Text style={{ fontSize: 16, fontWeight: '100' }}>Vui lòng điền đầy đủ thông tin để xem giá.</Text> : null}
+                        {this.state.showAlertTime ? <Text style={{ fontSize: 16, fontWeight: '100' }}>Giờ đi phải lớn hơn giờ hiện tại</Text> : null}
+                        {this.state.showAlertTimeDrop ? <Text style={{ fontSize: 16, fontWeight: '100' }}>Giờ trả xe phải lớn hơn giờ đi</Text> : null}
+                        <ButtonDialog
                             text="Đồng ý"
                             onPress={() => {
                                 this.setState({
@@ -160,16 +178,8 @@ class MapChungXe extends Component {
                                 })
                             }}
                         />
-                    </DialogFooter>
-                }
-            >
-                <DialogContent>
-                    <View style={{ padding: 8 }}>
-                        {this.state.showAlertInfo ? <Text style={{ fontSize: 16, fontWeight: '100' }}>Vui lòng điền đầy đủ thông tin để xem giá.</Text> : null}
-                        {this.state.showAlertTime ? <Text style={{ fontSize: 16, fontWeight: '100' }}>Giờ đi phải lớn hơn giờ hiện tại</Text> : null}
-                        {this.state.showAlertTimeDrop ? <Text style={{ fontSize: 16, fontWeight: '100' }}>Giờ trả xe phải lớn hơn giờ đi</Text> : null}
                     </View>
-                </DialogContent>
+                </View>
             </Dialog>
         )
     }
@@ -334,7 +344,7 @@ class MapChungXe extends Component {
                         data={this.state.listCityDC}
                         renderItem={({ item }) =>
                             <TouchableOpacity
-                                style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderTopWidth: 1 }}
+                                style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}
                                 onPress={() => {
                                     item.hide == 1 ? console.log(item.city_name) :
                                         this.setState({
@@ -343,7 +353,11 @@ class MapChungXe extends Component {
                                         })
                                 }}
                             >
-                                <Text style={item.hide == 1 ? { fontSize: 18, flex: 1, padding: 8, color: '#888' } : { fontSize: 18, flex: 1, padding: 8 }}>{item.city_name}</Text>
+                                <Text style={item.hide == 1 ? { fontSize: 18, flex: 1, padding: 8, color: '#888' } : { fontSize: 18, flex: 1, padding: 8, color: item.city_name == this.state.city_name_dc ? '#77a300' : '#000' }}>{item.city_name}</Text>
+                                {item.city_name == this.state.city_name_dc ? <Image
+                                    style={{ height: 24, width: 24, marginLeft: 8 }}
+                                    source={require(imageCheck)}
+                                /> : null}
                             </TouchableOpacity>}
                         keyExtractor={item => item.city_id}
                     />
@@ -379,6 +393,7 @@ class MapChungXe extends Component {
                         pointerEvents="none"
                         value={this.props.pick_add}
                         placeholder='Nhập điểm xuất phát'
+                        selection={{ start: 0, end: 0 }}
                     />
                 </TouchableOpacity>
             </View>
@@ -441,9 +456,10 @@ class MapChungXe extends Component {
                             }
                             }
                             style={{ fontSize: 14, color: "#00363d" }}
-                            pointerEvents='auto'
+                            pointerEvents='none'
                             value={this.state.city_name_dc}
                             placeholder='Chọn thành phố'
+                            selection={{ start: 0, end: 0 }}
                         />
 
                     </TouchableOpacity>
@@ -477,6 +493,7 @@ class MapChungXe extends Component {
                                 pointerEvents="none"
                                 value={this.props.drop_add}
                                 placeholder='Nhập điểm đến'
+                                selection={{ start: 0, end: 0 }}
                             />
                         </TouchableOpacity>
                     </View>
@@ -737,7 +754,7 @@ class MapChungXe extends Component {
                             data={this.state.listCity}
                             renderItem={({ item }) =>
                                 <TouchableOpacity
-                                    style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderTopWidth: 1 }}
+                                    style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}
                                     onPress={() => this.setState({
                                         city: item.city_name,
                                         city_id: item.city_id,
@@ -745,7 +762,11 @@ class MapChungXe extends Component {
                                         modalListCity: false,
                                     })}
                                 >
-                                    <Text style={{ fontSize: 18, flex: 1, padding: 8 }}>{item.city_name}</Text>
+                                    <Text style={{ fontSize: 18, flex: 1, padding: 8, color: this.state.city_name == item.city_name ? '#77a300' : '#333333' }}>{item.city_name}</Text>
+                                    {item.city_name == this.state.city_name ? <Image
+                                        style={{ height: 24, width: 24, marginLeft: 8 }}
+                                        source={require(imageCheck)}
+                                    /> : null}
                                 </TouchableOpacity>}
                             keyExtractor={item => item.city_id}
                         />

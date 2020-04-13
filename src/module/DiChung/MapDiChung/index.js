@@ -8,11 +8,11 @@ import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
 import * as key from '../../../component/KeyGG'
 import listHour from '../../../component/TimeSelect/listTime'
 import AwesomeAlert from 'react-native-awesome-alerts'
-import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
+import Dialog, { DialogFooter, DialogContent, DialogTitle, DialogButton } from 'react-native-popup-dialog';
 
 import MapViewDirections from 'react-native-maps-directions';
 import { TextInput } from 'react-native-gesture-handler';
-import { ButtonFull } from '../../../component/Button'
+import { ButtonFull, ButtonDialog } from '../../../component/Button'
 
 const origin = { latitude: 21.2187149, longitude: 105.80417090000003 };
 // const destination = { latitude: 21.0019302, longitude: 105.85090579999996 };
@@ -25,6 +25,8 @@ const imageTime = '../../../image/time.png'
 const imageCancel = '../../../image/cancel.png'
 const imageHourglass = '../../../image/hourglass.png'
 const imageCar = '../../../image/iconcar.png'
+const imageDown = '../../../image/arrowdown.png'
+const imageCheck = '../../../image/done.png'
 
 class MapDiChung extends Component {
 
@@ -281,22 +283,28 @@ class MapDiChung extends Component {
             <Dialog
                 visible={this.state.showAlertTime}
                 width={0.8}
-                footer={
-                    <DialogFooter>
-                        <DialogButton
-                            text="Đồng ý"
+            // footer={
+            //     <DialogFooter>
+            //         <DialogButton
+            //             text="Đồng ý"
+            //             onPress={() => {
+            //                 this.setState({ showAlertTime: false, })
+            //             }}
+            //         />
+            //     </DialogFooter>
+            // }
+            >
+                <View>
+                    <View style={{ padding: 8 }}>
+                        <Text style={{ fontSize: 16, fontWeight: '100' }}>Giờ đi phải lớn hơn giờ hiện tại</Text>
+                        <ButtonDialog
+                            text={'Đồng ý'}
                             onPress={() => {
                                 this.setState({ showAlertTime: false, })
                             }}
                         />
-                    </DialogFooter>
-                }
-            >
-                <DialogContent>
-                    <View style = {{padding : 8}}>
-                        <Text style={{ fontSize: 16, fontWeight: '100' }}>Giờ đi phải lớn hơn giờ hiện tại</Text>
                     </View>
-                </DialogContent>
+                </View>
             </Dialog>
         )
     }
@@ -306,22 +314,38 @@ class MapDiChung extends Component {
             <Dialog
                 visible={this.state.showAlertInfo}
                 width={0.8}
-                footer={
-                    <DialogFooter>
-                        <DialogButton
-                            text="Đồng ý"
+                // footer={
+                //     // <DialogFooter>
+                //     //     <DialogButton
+                //     //         text="Đồng ý"
+                //     //         onPress={() => {
+                //     //             this.setState({ showAlertInfo: false, })
+                //     //         }}
+                //     //     />
+                //     // </DialogFooter>
+                //     <View>
+                //         <View style={{ padding: 8, justifyContent: 'center', alignItems: 'center' }}>
+                //             <ButtonDialog
+                //                 text={'Đồng ý'}
+                //                 onPress={() => {
+                //                     this.setState({ showAlertInfo: false, })
+                //                 }}
+                //             />
+                //         </View>
+                //     </View>
+                // }
+            >
+                <View>
+                    <View style={{ padding: 8, marginTop: 8, justifyContent: 'center', alignItems: 'center', }}>
+                        <Text style={{ fontSize: 16, fontWeight: '100' }}>Vui lòng điền đầy đủ thông tin để xem giá.</Text>
+                        <ButtonDialog
+                            text={'Đồng ý'}
                             onPress={() => {
                                 this.setState({ showAlertInfo: false, })
                             }}
                         />
-                    </DialogFooter>
-                }
-            >
-                <DialogContent>
-                    <View style = {{padding : 8}}>
-                        <Text style={{ fontSize: 16, fontWeight: '100' }}>Vui lòng điền đầy đủ thông tin để xem giá.</Text>
                     </View>
-                </DialogContent>
+                </View>
             </Dialog>
         )
     }
@@ -376,6 +400,7 @@ class MapDiChung extends Component {
                 source={require(imageHourglass)}
                 placeholder={'Chọn số giờ'}
                 value={this.state.duration + ' giờ'}
+                imageRight={true}
             />
         )
     }
@@ -389,8 +414,9 @@ class MapDiChung extends Component {
                     })
                 }}
                 source={require(imageCar)}
-                placeholder={'Loại xe'}
+                placeholder={'Chọn loại xe'}
                 value={this.state.carType}
+                imageRight={true}
             />
         )
     }
@@ -489,6 +515,10 @@ class MapDiChung extends Component {
                             source={require(imagePeople)}
                         />
                         <Text style={{ flex: 1 }}>{this.props.chair} người</Text>
+                        <Image
+                            style={{ height: 24, width: 24, margin: 8 }}
+                            source={require(imageDown)}
+                        />
                     </TouchableOpacity>
                 </View>
 
@@ -672,7 +702,7 @@ class MapDiChung extends Component {
                         justifyContent: 'flex-end',
                         padding: 10,
                     }}>
-                        <View style={{ flex: 2, }}>
+                        <View style={{ flex: 1, }}>
                             <TouchableOpacity
                                 onPress={() => this.setState({ dialogTimeVisible: !this.state.dialogTimeVisible })}
                                 style={{ flex: 1 }}
@@ -737,7 +767,7 @@ class MapDiChung extends Component {
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
                     }}>
-                        <View style={{ flex: 2, }}>
+                        <View style={{ flex: 1, }}>
                             <TouchableOpacity
                                 onPress={() => this.setState({ dialogSelectPeople: !this.state.dialogSelectPeople })}
                                 style={{ flex: 1 }}
@@ -749,7 +779,7 @@ class MapDiChung extends Component {
                             data={this.state.listChair}
                             renderItem={({ item }) =>
                                 <TouchableOpacity
-                                    style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderWidth: 1 }}
+                                    style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}
                                     onPress={() => {
                                         this.setState({
                                             people: item.chair,
@@ -760,6 +790,10 @@ class MapDiChung extends Component {
                                     }}
                                 >
                                     <Text style={{ fontSize: 16, flex: 1, padding: 8, color: item.chair == this.props.chair ? '#77a300' : '#000000' }}>{item.chair} người</Text>
+                                    {item.chair == this.props.chair ? <Image
+                                        style={{ height: 24, width: 24, marginLeft: 8 }}
+                                        source={require(imageCheck)}
+                                    /> : null}
                                 </TouchableOpacity>}
                             keyExtractor={item => item.chair}
                         />
@@ -790,7 +824,7 @@ class MapDiChung extends Component {
                             data={this.state.listTime}
                             renderItem={({ item }) =>
                                 <TouchableOpacity
-                                    style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderWidth: 1 }}
+                                    style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}
                                     onPress={() => {
                                         this.setState({
                                             duration: item.time,
@@ -800,6 +834,10 @@ class MapDiChung extends Component {
                                     }}
                                 >
                                     <Text style={{ fontSize: 16, flex: 1, padding: 8, color: item.time === this.state.duration ? '#77a300' : '#000000' }}>{item.time} giờ</Text>
+                                    {item.time === this.state.duration ? <Image
+                                        style={{ height: 24, width: 24, marginLeft: 8 }}
+                                        source={require(imageCheck)}
+                                    /> : null}
                                 </TouchableOpacity>}
                             keyExtractor={item => item.time}
                         />
@@ -831,14 +869,18 @@ class MapDiChung extends Component {
                             data={this.state.listCar}
                             renderItem={({ item }) =>
                                 <TouchableOpacity
-                                    style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderWidth: 1 }}
+                                    style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}
                                     onPress={() => this.setState({
                                         carType: item.carname,
                                         selectCar: item.listCarType,
                                         modalSelectCar: false,
                                     })}
                                 >
-                                    <Text style={{ fontSize: 14, flex: 1, padding: 8, color: item.carname === this.state.carType ? '#77a300' : '#000000' }}>{item.carname}</Text>
+                                    <Text style={{ fontSize: 16, flex: 1, padding: 8, color: item.carname === this.state.carType ? '#77a300' : '#000000' }}>{item.carname}</Text>
+                                    {item.carname === this.state.carType ? <Image
+                                        style={{ height: 24, width: 24, marginLeft: 8 }}
+                                        source={require(imageCheck)}
+                                    /> : null}
                                 </TouchableOpacity>}
                             keyExtractor={item => item.carname}
                         />

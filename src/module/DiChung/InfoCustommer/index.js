@@ -6,7 +6,7 @@ import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'reac
 import { connect } from 'react-redux';
 import { addInfoPeople1, addInfoPeople2, addVAT, addInfoFlight, addPromotionCode, addPaymentMethodID, addComment } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
-import { Button } from '../../../component/Button'
+import { Button, ButtonDialog } from '../../../component/Button'
 import AwesomeAlert from 'react-native-awesome-alerts'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 
@@ -113,10 +113,10 @@ class InfoCustommer extends Component {
                                         })
                                     }}
                                     borderWidth={1}
-                                    buttonInnerColor={'#00363d'}
-                                    buttonOuterColor={'#00363d'}
+                                    buttonInnerColor={'#77a300'}
+                                    buttonOuterColor={'#77a300'}
                                     buttonSize={10}
-                                    buttonOuterSize={20}
+                                    buttonOuterSize={16}
                                     buttonStyle={7}
                                     buttonWrapStyle={{ marginLeft: 10 }}
                                 />
@@ -133,7 +133,7 @@ class InfoCustommer extends Component {
                                             payment_method_ID: obj.payment_method_ID,
                                         })
                                     }}
-                                    labelStyle={{ fontSize: 18, color: '#000' }}
+                                    labelStyle={{ fontSize: 14, color: '#000' }}
                                     labelWrapStyle={{}}
                                 />
                             </RadioButton>
@@ -343,9 +343,43 @@ class InfoCustommer extends Component {
                 visible={this.state.alertName || this.state.alertPhone || this.state.alertEmail || this.state.alertName2 || this.state.alertPhone2 || this.state.alertCompany || this.state.alertAirport}
                 width={0.8}
                 dialogTitle={<DialogTitle title='Thông tin chưa đủ' />}
-                footer={
-                    <DialogFooter>
-                        <DialogButton
+                // footer={
+                //     <DialogFooter>
+                //         <DialogButton
+                //             text="Đồng ý"
+                //             onPress={() => {
+                //                 this.setState({
+                //                     alertName: false,
+                //                     alertPhone: false,
+                //                     alertEmail: false,
+                //                     alertName2: false,
+                //                     alertPhone2: false,
+                //                     alertCompany: false,
+                //                     alertAirport: false,
+                //                 })
+                //             }}
+                //         />
+                //     </DialogFooter>
+                // }
+            >
+                <View>
+                    <View style={{ padding: 8, flexDirection: 'column' }}>
+                        {/* <Text style={{ fontSize: 16, fontWeight: '100' }}>
+                            {this.state.alertName ? "Vui lòng nhập tên" :
+                                this.state.alertPhone ? "Vui lòng nhập số điện thoại" :
+                                    this.state.alertEmail ? "Vui lòng nhập Email" :
+                                        this.state.alertName2 ? "Vui lòng nhập tên người đi" :
+                                            this.state.alertPhone2 ? "Vui lòng nhập số điện thoại người đi" :
+                                                this.state.alertCompany ? "Vui lòng nhập đầy đủ thông tin nhận hóa đơn" : ''}
+                        </Text> */}
+                        {this.state.alertName ? <Text>Vui lòng nhập tên</Text> : null}
+                        {this.state.alertPhone ? <Text>Vui lòng nhập số điện thoại</Text> : null}
+                        {this.state.alertEmail ? <Text>Vui lòng nhập Email</Text> : null}
+                        {this.state.alertName2 ? <Text>Vui lòng nhập tên người đi</Text> : null}
+                        {this.state.alertPhone2 ? <Text>Vui lòng nhập số điện thoại người đi</Text> : null}
+                        {this.state.alertCompany ? <Text>Vui lòng nhập đầy đủ thông tin nhận hóa đơn</Text> : null}
+                        {this.state.alertAirport ? <Text>Vui lòng nhập mã chuyến bay</Text> : null}
+                        <ButtonDialog
                             text="Đồng ý"
                             onPress={() => {
                                 this.setState({
@@ -359,28 +393,8 @@ class InfoCustommer extends Component {
                                 })
                             }}
                         />
-                    </DialogFooter>
-                }
-            >
-                <DialogContent>
-                    <View style={{ padding: 8, flexDirection: 'column' }}>
-                        {/* <Text style={{ fontSize: 16, fontWeight: '100' }}>
-                            {this.state.alertName ? "Vui lòng nhập tên" :
-                                this.state.alertPhone ? "Vui lòng nhập số điện thoại" :
-                                    this.state.alertEmail ? "Vui lòng nhập Email" :
-                                        this.state.alertName2 ? "Vui lòng nhập tên người đi" :
-                                            this.state.alertPhone2 ? "Vui lòng nhập số diện thoại người đi" :
-                                                this.state.alertCompany ? "Vui lòng nhập đầy đủ thông tin nhận hóa đơn" : ''}
-                        </Text> */}
-                        {this.state.alertName ? <Text>Vui lòng nhập tên</Text> : null}
-                        {this.state.alertPhone ? <Text>Vui lòng nhập số điện thoại</Text> : null}
-                        {this.state.alertEmail ? <Text>Vui lòng nhập Email</Text> : null}
-                        {this.state.alertName2 ? <Text>Vui lòng nhập tên người đi</Text> : null}
-                        {this.state.alertPhone2 ? <Text>Vui lòng nhập số diện thoại người đi</Text> : null}
-                        {this.state.alertCompany ? <Text>Vui lòng nhập đầy đủ thông tin nhận hóa đơn</Text> : null}
-                        {this.state.alertAirport ? <Text>Vui lòng nhập mã chuyến bay</Text> : null}
                     </View>
-                </DialogContent>
+                </View>
             </Dialog>
         )
     }
@@ -630,6 +644,7 @@ class InfoCustommer extends Component {
                         isChecked={this.state.is_checked}
                         rightText={"Đặt xe cho người khác"}
                         rightTextStyle={{ fontSize: 16 }}
+                        checkBoxColor = {'#77a300'}
                     />
 
                     {this.renderDatHo()}
@@ -740,6 +755,7 @@ class InfoCustommer extends Component {
                         isChecked={this.state.vat}
                         rightText={"Xuất hóa đơn"}
                         rightTextStyle={{ fontSize: 16 }}
+                        checkBoxColor = {'#77a300'}
                     />
                     {this.renderFormVAT()}
                     {this.props.is_airport == 'false' ? null :
@@ -753,25 +769,9 @@ class InfoCustommer extends Component {
                             isChecked={this.state.boardPrice}
                             rightText={"Đón biển tên : +30.000 đ"}
                             rightTextStyle={{ fontSize: 16 }}
+                            checkBoxColor = {'#77a300'}
                         />
                     }
-
-                    {/* <TouchableOpacity
-                        style={{ marginTop: 8, backgroundColor: '#77a300', justifyContent: 'center', alignItems: "center", height: 40, borderRadius: 4 }}
-                        onPress={() => {
-                            const { xhd, company_name, company_address, company_address_receive, company_mst, plane_number, plane_type, full_name, use_phone, email, full_name1, use_phone1, email1, payment_method_ID } = this.state;
-                            this.props.addVAT(xhd ? '1' : '0', company_name, company_address, company_mst, company_address_receive);
-                            this.props.addInfoFlight(plane_number, plane_type);
-                            this.props.addInfoPeople2(full_name1, use_phone1, email1);
-                            this.props.addInfoPeople1(full_name, use_phone, email);
-                            // add payment method id
-                            console.log(payment_method_ID)
-                            this.props.addPaymentMethodID(payment_method_ID);
-                            this.checkInfoCustommer();
-                        }}
-                    >
-                        <Text style={{ color: '#ffffff' }}>TIẾP TỤC</Text>
-                    </TouchableOpacity> */}
 
                     <Button
                         onPress={() => {

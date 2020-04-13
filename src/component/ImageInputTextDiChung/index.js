@@ -7,6 +7,7 @@ function ImageInputTextDiChung({
     source,
     value,
     placeholder,
+    imageRight
 }) {
     return (
         <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 1, justifyContent: 'center', alignItems: 'center', }}>
@@ -25,8 +26,14 @@ function ImageInputTextDiChung({
                     pointerEvents="none"
                     value={value}
                     placeholder={placeholder}
+                    selection={{ start: 0, end: 0 }}
+                    placeholderTextColor={'#333333'}
                 />
             </TouchableOpacity>
+            {imageRight ? <Image
+                style={{ height: 28, width: 28, marginLeft: 8, resizeMode: 'contain' }}
+                source={require('../../image/arrowdown.png')}
+            /> : null}
         </View>
     )
 }

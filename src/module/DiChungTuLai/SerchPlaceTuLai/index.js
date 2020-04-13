@@ -105,7 +105,9 @@ class SearchPlaceTuLai extends Component {
                             styles={{
                                 textInputContainer: {
                                     borderRadius: 4,
-                                    borderWidth: 0.5,
+                                    borderBottomWidth: 0.5,
+                                    borderTopWidth : 2,
+                                    borderTopColor : '#ffffff',
                                     backgroundColor: '#ffffff',
                                     width: '100%',
                                 },

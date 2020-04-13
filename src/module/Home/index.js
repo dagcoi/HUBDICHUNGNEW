@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, BackHandler, Alert, Image, Linking, Dimensions, ScrollView,SafeAreaView } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, BackHandler, Alert, Image, Linking, Dimensions, ScrollView, SafeAreaView } from 'react-native';
 import { connect } from 'react-redux';
 import * as link from '../../URL'
 import Header from '../../component/Header'
@@ -107,21 +107,21 @@ class Home extends Component {
 
 
     render() {
-        if (this.state.isLoadingAttractivePlaces || this.state.isLoadingPromotion) {
-            return (
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#00363e' }}>
-                    <Image
-                        style={{ height: 150, width: 150, marginLeft: 8 }}
-                        source={require('../../image/icon.png')}
-                    />
-                    {(process.env.NODE_ENV === 'development') ? <View>
-                        <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fff' }}>
-                            Bản Dev
-                        </Text>
-                    </View> : null}
-                </View>
-            )
-        }
+        // if (this.state.isLoadingAttractivePlaces || this.state.isLoadingPromotion) {
+        //     return (
+        //         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#00363e' }}>
+        //             <Image
+        //                 style={{ height: 150, width: 150, marginLeft: 8 }}
+        //                 source={require('../../image/icon.png')}
+        //             />
+        //             {(process.env.NODE_ENV === 'development') ? <View>
+        //                 <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fff' }}>
+        //                     Bản Dev
+        //                 </Text>
+        //             </View> : null}
+        //         </View>
+        //     )
+        // }
         return (
             <SafeAreaView
                 // onSwipe={this.onSwipe}
@@ -177,67 +177,69 @@ class Home extends Component {
                             title={'Thuê xe tự lái'}
                             textDetail={'Thuê xe tự lái Đi chung'}
                         /> */}
+                        {this.state.isLoadingPromotion ? null :
+                            <View style={{ height: Dimensions.get('window').width / 2 + 8, backgroundColor: '#ffffff', marginBottom: 16 }}>
+                                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Khuyến mãi</Text>
+                                <SwiperFlatList
+                                    autoplay={true}
+                                    autoplayDelay={7}
+                                    autoplayLoop={true}
+                                    index={0}
+                                    data={this.state.dataPromotion}
+                                    style={{ flexDirection: 'row' }}
+                                    renderItem={({ item }) => {
+                                        return (
+                                            <View style={[styles.child, { alignItems: 'center' }]}>
+                                                <TouchableOpacity
+                                                    style={styles.child}
+                                                    onPress={() => {
+                                                        Linking.openURL(item.link)
+                                                    }}
+                                                >
+                                                    <Image
+                                                        style={styles.imageChild}
+                                                        source={{ uri: item._embedded['wp:featuredmedia'][0].source_url }}
+                                                    />
+                                                </TouchableOpacity>
+                                            </View>
+                                        )
+                                    }}
+                                />
+                            </View>
+                        }
 
-                        <View style={{ height: Dimensions.get('window').width / 2 + 8, backgroundColor: '#ffffff', marginBottom: 16 }}>
-                            <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Khuyến mãi</Text>
-                            <SwiperFlatList
-                                autoplay={true}
-                                autoplayDelay={7}
-                                autoplayLoop={true}
-                                index={0}
-                                data={this.state.dataPromotion}
-                                style={{ flexDirection: 'row' }}
-                                renderItem={({ item }) => {
-                                    return (
-                                        <View style={[styles.child, { alignItems: 'center' }]}>
-                                            <TouchableOpacity
-                                                style={styles.child}
-                                                onPress={() => {
-                                                    Linking.openURL(item.link)
-                                                }}
-                                            >
-                                                <Image
-                                                    style={styles.imageChild}
-                                                    source={{ uri: item._embedded['wp:featuredmedia'][0].source_url }}
-                                                />
-                                            </TouchableOpacity>
-                                        </View>
-                                    )
-                                }}
-                            />
-                        </View>
-
-                        <View style={{ height: Dimensions.get('window').width / 2 + 8, backgroundColor: '#ffffff', marginBottom: 16 }}>
-                            <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Địa điểm hấp đẫn</Text>
-                            <SwiperFlatList
-                                autoplay={true}
-                                autoplayDelay={5}
-                                autoplayLoop={true}
-                                index={0}
-                                data={this.state.dataAttractivePlaces}
-                                style={{ flexDirection: 'row' }}
-                                renderItem={({ item }) => {
-                                    return (
-                                        <View style={[styles.child, { alignItems: 'center' }]}>
-                                            <TouchableOpacity
-                                                style={styles.child}
-                                                onPress={() => {
-                                                    Linking.openURL(item.link)
-                                                }}
-                                            >
-                                                <Image
-                                                    style={styles.imageChild}
-                                                    source={{ uri: item._embedded['wp:featuredmedia'][0].media_details.sizes.thumbnail.source_url }}
-                                                />
-                                                <View style={{ position: 'absolute', top: -30, left: 8, right: 8, height: 300, alignItems: 'center', justifyContent: 'center' }}>
-                                                    <Text style={{ color: '#fff', backgroundColor: '#00000033', padding: 4, borderRadius: 4, fontSize: 13, }}>{item.title.rendered}</Text>
-                                                </View>
-                                            </TouchableOpacity>
-                                        </View>
-                                    )
-                                }}
-                            />
-                        </View>
+                        {this.state.isLoadingAttractivePlaces ? null :
+                            <View style={{ height: Dimensions.get('window').width / 2 + 8, backgroundColor: '#ffffff', marginBottom: 16 }}>
+                                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Địa điểm hấp đẫn</Text>
+                                <SwiperFlatList
+                                    autoplay={true}
+                                    autoplayDelay={5}
+                                    autoplayLoop={true}
+                                    index={0}
+                                    data={this.state.dataAttractivePlaces}
+                                    style={{ flexDirection: 'row' }}
+                                    renderItem={({ item }) => {
+                                        return (
+                                            <View style={[styles.child, { alignItems: 'center' }]}>
+                                                <TouchableOpacity
+                                                    style={styles.child}
+                                                    onPress={() => {
+                                                        Linking.openURL(item.link)
+                                                    }}
+                                                >
+                                                    <Image
+                                                        style={styles.imageChild}
+                                                        source={{ uri: item._embedded['wp:featuredmedia'][0].media_details.sizes.thumbnail.source_url }}
+                                                    />
+                                                    <View style={{ position: 'absolute', top: -30, left: 8, right: 8, height: 300, alignItems: 'center', justifyContent: 'center' }}>
+                                                        <Text style={{ color: '#fff', backgroundColor: '#00000033', padding: 4, borderRadius: 4, fontSize: 13, }}>{item.title.rendered}</Text>
+                                                    </View>
+                                                </TouchableOpacity>
+                                            </View>
+                                        )
+                                    }}
+                                />
+                            </View>}
                     </ScrollView>
                 </View>
 

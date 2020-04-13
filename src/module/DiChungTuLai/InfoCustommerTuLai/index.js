@@ -6,7 +6,7 @@ import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'reac
 import { connect } from 'react-redux';
 import { addInfoPeople1TuLai, addInfoPeople2TuLai, addVATTuLai, addPromotionCodeTuLai, addPaymentMethodIDTuLai, addCommentTuLai } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
-import { Button } from '../../../component/Button'
+import { Button, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 
 const imageCancel = '../../../image/cancel.png'
@@ -242,9 +242,35 @@ class InfoCustommerTuLai extends Component {
                 visible={this.state.alertName || this.state.alertPhone || this.state.alertEmail || this.state.alertName2 || this.state.alertPhone2 || this.state.alertCompany || this.state.alertAirport}
                 width={0.8}
                 dialogTitle={<DialogTitle title='Thông tin chưa đủ' />}
-                footer={
-                    <DialogFooter>
-                        <DialogButton
+                // footer={
+                //     <DialogFooter>
+                //         <DialogButton
+                //             text="Đồng ý"
+                //             onPress={() => {
+                //                 this.setState({
+                //                     alertName: false,
+                //                     alertPhone: false,
+                //                     alertEmail: false,
+                //                     alertName2: false,
+                //                     alertPhone2: false,
+                //                     alertCompany: false,
+                //                     alertAirport: false,
+                //                 })
+                //             }}
+                //         />
+                //     </DialogFooter>
+                // }
+            >
+                <View>
+                    <View style={{ padding: 8, flexDirection: 'column' }}>
+                        {this.state.alertName ? <Text>Vui lòng nhập tên</Text> : null}
+                        {this.state.alertPhone ? <Text>Vui lòng nhập số điện thoại</Text> : null}
+                        {this.state.alertEmail ? <Text>Vui lòng nhập Email</Text> : null}
+                        {this.state.alertName2 ? <Text>Vui lòng nhập tên người đi</Text> : null}
+                        {this.state.alertPhone2 ? <Text>Vui lòng nhập số điện thoại người đi</Text> : null}
+                        {this.state.alertCompany ? <Text>Vui lòng nhập đầy đủ thông tin nhận hóa đơn</Text> : null}
+                        {this.state.alertAirport ? <Text>Vui lòng nhập mã chuyến bay</Text> : null}
+                        <ButtonDialog
                             text="Đồng ý"
                             onPress={() => {
                                 this.setState({
@@ -258,20 +284,8 @@ class InfoCustommerTuLai extends Component {
                                 })
                             }}
                         />
-                    </DialogFooter>
-                }
-            >
-                <DialogContent>
-                    <View style={{ padding: 8, flexDirection: 'column' }}>
-                        {this.state.alertName ? <Text>Vui lòng nhập tên</Text> : null}
-                        {this.state.alertPhone ? <Text>Vui lòng nhập số điện thoại</Text> : null}
-                        {this.state.alertEmail ? <Text>Vui lòng nhập Email</Text> : null}
-                        {this.state.alertName2 ? <Text>Vui lòng nhập tên người đi</Text> : null}
-                        {this.state.alertPhone2 ? <Text>Vui lòng nhập số diện thoại người đi</Text> : null}
-                        {this.state.alertCompany ? <Text>Vui lòng nhập đầy đủ thông tin nhận hóa đơn</Text> : null}
-                        {this.state.alertAirport ? <Text>Vui lòng nhập mã chuyến bay</Text> : null}
                     </View>
-                </DialogContent>
+                </View>
             </Dialog>
         )
     }
@@ -462,6 +476,7 @@ class InfoCustommerTuLai extends Component {
                         isChecked={this.state.is_checked}
                         rightText={"Đặt xe cho người khác"}
                         rightTextStyle={{ fontSize: 16 }}
+                        checkBoxColor = {'#77a300'}
                     />
 
                     {this.renderDatHo()}
@@ -507,7 +522,7 @@ class InfoCustommerTuLai extends Component {
                                             payment_method_ID: obj.payment_method_ID,
                                         })
                                     }}
-                                    labelStyle={{ fontSize: 16, color: '#000' }}
+                                    labelStyle={{ fontSize: 14, color: '#000' }}
                                     labelWrapStyle={{}}
                                 />
                             </RadioButton>
@@ -566,8 +581,7 @@ class InfoCustommerTuLai extends Component {
                         isChecked={this.state.vat}
                         rightText={"Xuất hóa đơn"}
                         rightTextStyle={{ fontSize: 16 }}
-                    // checkedImage={<Image source={require(imageCheck)} style={{ width: 25, height: 25 }} />}
-                    // unCheckedImage={<Image source={require(imageUnCheck)} style={{ width: 25, height: 25 }} />}
+                        checkBoxColor = {'#77a300'}
                     />
                     {this.renderFormVAT()}
                     {this.props.is_from_airport == 'false' ? null :
@@ -581,8 +595,7 @@ class InfoCustommerTuLai extends Component {
                             isChecked={this.state.boardPrice}
                             rightText={"Đón biển tên : +30.000 đ"}
                             rightTextStyle={{ fontSize: 16 }}
-                        // checkedImage={<Image source={require(imageCheck)} style={{ width: 25, height: 25 }} />}
-                        // unCheckedImage={<Image source={require(imageUnCheck)} style={{ width: 25, height: 25 }} />}
+                            checkBoxColor = {'#77a300'}
                         />
                     }
 

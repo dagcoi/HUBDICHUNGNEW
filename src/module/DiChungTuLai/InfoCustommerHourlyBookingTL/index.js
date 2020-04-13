@@ -417,8 +417,7 @@ class InfoCustommerHourlyBookingTL extends Component {
                         isChecked={this.state.is_checked}
                         rightText={"Đặt xe cho người khác"}
                         rightTextStyle={{ fontSize: 16 }}
-                        checkedImage={<Image source={require(imageCheck)} style={{ width: 25, height: 25 }} />}
-                        unCheckedImage={<Image source={require(imageUnCheck)} style={{ width: 25, height: 25 }} />}
+                        checkBoxColor = {'#77a300'}
                     />
 
                     {this.renderDatHo()}
@@ -464,7 +463,7 @@ class InfoCustommerHourlyBookingTL extends Component {
                                             payment_method_ID: obj.payment_method_ID,
                                         })
                                     }}
-                                    labelStyle={{ fontSize: 16, color: '#000' }}
+                                    labelStyle={{ fontSize: 14, color: '#000' }}
                                     labelWrapStyle={{marginTop : 8}}
                                 />
                             </RadioButton>
@@ -525,8 +524,7 @@ class InfoCustommerHourlyBookingTL extends Component {
                         isChecked={this.state.vat}
                         rightText={"Xuất hóa đơn"}
                         rightTextStyle={{ fontSize: 16 }}
-                        // checkedImage={<Image source={require(imageCheck)} style={{ width: 25, height: 25 }} />}
-                        // unCheckedImage={<Image source={require(imageUnCheck)} style={{ width: 25, height: 25 }} />}
+                        checkBoxColor = {'#77a300'}
                     />
                     {this.renderFormVAT()}
 
