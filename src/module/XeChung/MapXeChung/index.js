@@ -12,6 +12,7 @@ import { TextInput } from 'react-native-gesture-handler';
 import * as key from '../../../component/KeyGG'
 import listHour from '../../../component/TimeSelect/listTime'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
+import PopUp from '../../../component/PopUp'
 
 const origin = { latitude: 21.2187149, longitude: 105.80417090000003 };
 // const destination = { latitude: 21.0019302, longitude: 105.85090579999996 };
@@ -285,20 +286,20 @@ class MapXeChung extends Component {
                 visible={this.state.alertCity || this.state.alertInfo || this.state.alertTime}
                 width={0.8}
                 dialogTitle={<DialogTitle title='Thông tin chưa đủ' />}
-                // footer={
-                //     <DialogFooter>
-                //         <DialogButton
-                //             text="Đồng ý"
-                //             onPress={() => {
-                //                 this.setState({
-                //                     alertCity: false,
-                //                     alertInfo: false,
-                //                     alertTime: false,
-                //                 })
-                //             }}
-                //         />
-                //     </DialogFooter>
-                // }
+            // footer={
+            //     <DialogFooter>
+            //         <DialogButton
+            //             text="Đồng ý"
+            //             onPress={() => {
+            //                 this.setState({
+            //                     alertCity: false,
+            //                     alertInfo: false,
+            //                     alertTime: false,
+            //                 })
+            //             }}
+            //         />
+            //     </DialogFooter>
+            // }
             >
                 <View>
                     <View style={{ padding: 8, flexDirection: 'column' }}>
@@ -364,6 +365,7 @@ class MapXeChung extends Component {
                     placeholder={'Chọn giờ thuê'}
                     source={require(imageHourglass)}
                     value={this.state.duration + ' giờ'}
+                    imageRight={true}
                 />
                 <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
                     <View style={{ flex: 1 }}></View>
@@ -423,11 +425,11 @@ class MapXeChung extends Component {
                                     placeholder: ' Nhập điểm đích',
                                 })
                                 }
-                                style={{ fontSize: 14, height: 40, color: "#00363d", marginLeft : 4 }}
+                                style={{ fontSize: 14, height: 40, color: "#00363d", marginLeft: 4 }}
                                 pointerEvents="none"
                                 value={this.props.drop_add}
                                 placeholder='Nhập điểm đích'
-                                placeholderTextColor = '#333333'
+                                placeholderTextColor='#333333'
                             />
                         </TouchableOpacity>
                     </View>
@@ -557,7 +559,6 @@ class MapXeChung extends Component {
                         flex: 1,
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
-                        padding: 10,
                     }}>
                         <View style={{ flex: 1, }}>
                             <TouchableOpacity
@@ -566,20 +567,36 @@ class MapXeChung extends Component {
                             ></TouchableOpacity>
                         </View>
 
-                        <FlatList
-                            style={{ flex: 1, backgroundColor: '#ffffff' }}
-                            data={listHour}
-                            initialScrollIndex={this.state.scroll - 1}
-                            getItemLayout={this.getItemLayout}
-                            renderItem={({ item }) =>
-                                <TouchableOpacity
-                                    style={{ flexDirection: 'row', height: 40 }}
-                                    onPress={() => {
-                                        var isDayAlight = this.state.spesentDay == this.state.date.format('DD-MM-YYYY');
-                                        var timeClicker = ((item.hour == this.state.hoursAlive && item.minute > this.state.minutesAlive) || item.hour > this.state.hoursAlive);
+                        <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
+                            <View style={{ height: 40, justifyContent: 'center', alignItems: 'center' }}>
+                                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Chọn giờ đi</Text>
+                            </View>
 
-                                        if (isDayAlight) {
-                                            if (timeClicker) {
+                            <FlatList
+                                style={{ flex: 1, backgroundColor: '#ffffff' }}
+                                data={listHour}
+                                initialScrollIndex={this.state.scroll - 1}
+                                getItemLayout={this.getItemLayout}
+                                renderItem={({ item }) =>
+                                    <TouchableOpacity
+                                        style={{ flexDirection: 'row', height: 40 }}
+                                        onPress={() => {
+                                            var isDayAlight = this.state.spesentDay == this.state.date.format('DD-MM-YYYY');
+                                            var timeClicker = ((item.hour == this.state.hoursAlive && item.minute > this.state.minutesAlive) || item.hour > this.state.hoursAlive);
+
+                                            if (isDayAlight) {
+                                                if (timeClicker) {
+                                                    this.setState({
+                                                        selectedHours: item.hour,
+                                                        selectedMinutes: item.minute,
+                                                        scroll: item.id,
+                                                        dialogTimeVisible: false,
+                                                        dialogCalendarVisible: false,
+                                                        depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                    })
+                                                    this.props.addDepartTimeTaixe(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
+                                                }
+                                            } else {
                                                 this.setState({
                                                     selectedHours: item.hour,
                                                     selectedMinutes: item.minute,
@@ -590,24 +607,14 @@ class MapXeChung extends Component {
                                                 })
                                                 this.props.addDepartTimeTaixe(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
                                             }
-                                        } else {
-                                            this.setState({
-                                                selectedHours: item.hour,
-                                                selectedMinutes: item.minute,
-                                                scroll: item.id,
-                                                dialogTimeVisible: false,
-                                                dialogCalendarVisible: false,
-                                                depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
-                                            })
-                                            this.props.addDepartTimeTaixe(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
-                                        }
-                                    }}
-                                >
-                                    <Text style={{ textAlign: 'center', fontSize: 18, flex: 1, padding: 8, backgroundColor: (item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes) ? '#77a300' : '#fff', color: (this.state.spesentDay == this.state.date.format('DD-MM-YYYY') && ((item.hour == this.state.hoursAlive && item.minute < this.state.minutesAlive) || item.hour < this.state.hoursAlive)) ? '#aaa' : item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes ? '#fff' : '#000000' }}>{item.hour < 10 ? '0' + item.hour : item.hour} : {item.minute == 0 ? '00' : item.minute}</Text>
-                                </TouchableOpacity>}
-                            scrollToIndex={this.state.scroll}
-                            keyExtractor={item => item.id}
-                        />
+                                        }}
+                                    >
+                                        <Text style={{ textAlign: 'center', fontSize: 18, flex: 1, padding: 8, backgroundColor: (item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes) ? '#77a300' : '#fff', color: (this.state.spesentDay == this.state.date.format('DD-MM-YYYY') && ((item.hour == this.state.hoursAlive && item.minute < this.state.minutesAlive) || item.hour < this.state.hoursAlive)) ? '#aaa' : item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes ? '#fff' : '#000000' }}>{item.hour < 10 ? '0' + item.hour : item.hour} : {item.minute == 0 ? '00' : item.minute}</Text>
+                                    </TouchableOpacity>}
+                                scrollToIndex={this.state.scroll}
+                                keyExtractor={item => item.id}
+                            />
+                        </View>
                     </View>
                 </Modal>
 
@@ -636,7 +643,7 @@ class MapXeChung extends Component {
                             data={this.state.listCity}
                             renderItem={({ item }) =>
                                 <TouchableOpacity
-                                    style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems : 'center' }}
+                                    style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}
                                     onPress={() => {
                                         item.hide == 1 ? console.log(item.city_name) :
                                             this.setState({
@@ -681,7 +688,7 @@ class MapXeChung extends Component {
                             data={this.state.listTime}
                             renderItem={({ item }) =>
                                 <TouchableOpacity
-                                    style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent :  'center', alignItems : 'center' }}
+                                    style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}
                                     onPress={() => {
                                         this.setState({
                                             duration: item.time,

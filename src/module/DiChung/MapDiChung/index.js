@@ -9,6 +9,7 @@ import * as key from '../../../component/KeyGG'
 import listHour from '../../../component/TimeSelect/listTime'
 import AwesomeAlert from 'react-native-awesome-alerts'
 import Dialog, { DialogFooter, DialogContent, DialogTitle, DialogButton } from 'react-native-popup-dialog';
+import PopUp from '../../../component/PopUp'
 
 import MapViewDirections from 'react-native-maps-directions';
 import { TextInput } from 'react-native-gesture-handler';
@@ -648,7 +649,7 @@ class MapDiChung extends Component {
                     }}>
                         <View style={{ flex: 1, backgroundColor: '#fff', alignItems: "center" }}>
                             <View style={{ flexDirection: 'row', margin: 16 }}>
-                                <TouchableOpacity
+                                {/* <TouchableOpacity
                                     onPress={() => this.setState({
                                         dialogCalendarVisible: false
                                     })}
@@ -657,8 +658,8 @@ class MapDiChung extends Component {
                                         style={{ width: 30, height: 30, }}
                                         source={require(imageCancel)}
                                     />
-                                </TouchableOpacity>
-                                <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#77a300', flex: 1, textAlign: 'center' }}>Chọn thời gian đi</Text>
+                                </TouchableOpacity> */}
+                                <Text style={{ fontSize: 18, fontWeight: 'bold', flex: 1, textAlign: 'center' }}>Chọn thời gian đi</Text>
                             </View>
                             <CalendarPicker
                                 textStyle={{
@@ -700,7 +701,7 @@ class MapDiChung extends Component {
                         flex: 1,
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
-                        padding: 10,
+                        backgroundColor: '#000000AA'
                     }}>
                         <View style={{ flex: 1, }}>
                             <TouchableOpacity
@@ -709,6 +710,10 @@ class MapDiChung extends Component {
                             ></TouchableOpacity>
                         </View>
 
+                        <View style = {{flex : 1, backgroundColor: '#ffffff' }}>
+                            <View  style = {{height : 40, justifyContent : 'center', alignItems : 'center'}}>
+                                <Text style  = {{fontSize : 18, fontWeight : 'bold'}}>Chọn giờ đi</Text>
+                            </View>
                         <FlatList
                             style={{ flex: 1, backgroundColor: '#ffffff' }}
                             data={listHour}
@@ -751,6 +756,7 @@ class MapDiChung extends Component {
                             scrollToIndex={this.state.scroll}
                             keyExtractor={item => item.id}
                         />
+                        </View>
                     </View>
                 </Modal>
 
@@ -766,6 +772,7 @@ class MapDiChung extends Component {
                         flex: 1,
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
+                        backgroundColor: '#000000AA'
                     }}>
                         <View style={{ flex: 1, }}>
                             <TouchableOpacity

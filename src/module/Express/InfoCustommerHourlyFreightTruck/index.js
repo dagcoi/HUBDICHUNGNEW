@@ -8,6 +8,7 @@ import { addInfoPeople1VanChuyen, addInfoPeople2VanChuyen, addVATVanChuyen, addP
 import * as link from '../../../URL'
 import { Button, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
+import PopUp from '../../../component/PopUp'
 
 var radio_payment_detail = [
     { label: 'ATM', value: 0, payment_method_ID: '8' },

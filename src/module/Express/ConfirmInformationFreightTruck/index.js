@@ -7,6 +7,7 @@ import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
 import { Button, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
+import PopUp from '../../../component/PopUp'
 
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -334,7 +335,7 @@ class ConfirmInformationFreightTruck extends Component {
                     dialogTitle={<DialogTitle title="Đặt xe thành công" />}
                 >
                     <View>
-                        <View style={{ flexDirection: 'column', padding : 8 }}>
+                        <View style={{ flexDirection: 'column', padding: 8 }}>
                             <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                                 <Image
                                     style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
@@ -342,16 +343,14 @@ class ConfirmInformationFreightTruck extends Component {
                                 />
                             </View>
                             <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sé liên lạc trong thời gian sớm nhất.</Text>
-                            <View style={{ flexDirection: 'row' }}>
-                                <ButtonDialog
-                                    text='Chi tiết'
-                                    onPress={() => {
-                                        this.setState({
-                                            modalDetailTrip: true,
-                                        })
-                                    }}
-                                />
-                            </View>
+                            <ButtonDialog
+                                text='Chi tiết'
+                                onPress={() => {
+                                    this.setState({
+                                        modalDetailTrip: true,
+                                    })
+                                }}
+                            />
                         </View>
                     </View>
                 </Dialog>
@@ -371,7 +370,7 @@ class ConfirmInformationFreightTruck extends Component {
                     }}>
                         <View style={{ flex: 1, backgroundColor: '#fff', padding: 8 }}>
                             <View style={{ height: 48, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                                <TouchableOpacity
+                                {/* <TouchableOpacity
                                     onPress={() => {
                                         this.setState({
                                             modalDetailTrip: false,
@@ -382,9 +381,9 @@ class ConfirmInformationFreightTruck extends Component {
                                         style={{ width: 40, height: 40, }}
                                         source={require(imageCancel)}
                                     />
-                                </TouchableOpacity>
+                                </TouchableOpacity> */}
 
-                                <Text style={{ flex: 1, fontSize: 16, fontWeight: 'bold' }}>Chi tiết đơn hàng</Text>
+                                <Text style={{ flex: 1, fontSize: 18, fontWeight: 'bold' }}>Chi tiết đơn hàng</Text>
                             </View>
                             <ScrollView>
                                 {this.renderDetailTrip()}

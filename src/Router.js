@@ -419,7 +419,7 @@ const DrawerNavi = createDrawerNavigator({
     Main: {
         screen: RootStack,
         navigationOptions: {
-            title: 'Đặt xe',
+            title: 'Trang chủ',
             alignItems: 'center'
         }
     },

@@ -7,6 +7,7 @@ import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
 import { Button, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
+import PopUp from '../../../component/PopUp'
 
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -325,21 +326,19 @@ class ConfirmInformationXeChung extends Component {
 
                                 <Text style={{ fontSize: 16 }}>Hiện tại không có tài xế nào nhận yêu cầu của bạn. Xin vui lòng thử lại hoặc chọn giờ đi khác.</Text>
 
-                                <View style={{ flexDirection: 'column' }}>
-                                    <ButtonDialog
-                                        text={'Thử lại'}
-                                        onPress={() => {
-                                            this.reBiddingTicket();
-                                        }}
-                                    />
-                                    <ButtonDialog
-                                        text={'Chọn hãng khác'}
-                                        onPress={() => {
-                                            this.setState({ visibalAgain: false })
-                                            this.props.navigation.push("MapXeChung")
-                                        }}
-                                    />
-                                </View>
+                                <ButtonDialog
+                                    text={'Thử lại'}
+                                    onPress={() => {
+                                        this.reBiddingTicket();
+                                    }}
+                                />
+                                <ButtonDialog
+                                    text={'Chọn hãng khác'}
+                                    onPress={() => {
+                                        this.setState({ visibalAgain: false })
+                                        this.props.navigation.push("MapXeChung")
+                                    }}
+                                />
                             </View>
                         </View>
                     </Dialog>
@@ -375,7 +374,7 @@ class ConfirmInformationXeChung extends Component {
                     // }
                     >
                         <View>
-                            <View style={{ flexDirection: 'column', padding : 8 }}>
+                            <View style={{ flexDirection: 'column', padding: 8 }}>
                                 <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                                     <Image
                                         style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
@@ -386,7 +385,7 @@ class ConfirmInformationXeChung extends Component {
                                 <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sé liên lạc trong thời gian sớm nhất.</Text>
 
                                 <ButtonDialog
-                                    text={'Xem'}
+                                    text={'Chi tiết mã vé'}
                                     onPress={() => {
                                         this.setState({
                                             result: false,
@@ -432,7 +431,7 @@ class ConfirmInformationXeChung extends Component {
                         dialogTitle={<DialogTitle title="Đặt xe thành công" />}
                     >
                         <View>
-                            <View style={{ flexDirection: 'column',padding : 8 }}>
+                            <View style={{ flexDirection: 'column', padding: 8 }}>
                                 <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                                     <Image
                                         style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
@@ -443,7 +442,7 @@ class ConfirmInformationXeChung extends Component {
                                 <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sé liên lạc trong thời gian sớm nhất.</Text>
 
                                 <ButtonDialog
-                                    text='Xem'
+                                    text='Chi tiết mã vé'
                                     onPress={() => {
                                         this.setState({
                                             dialogCalendarVisible: false,

@@ -9,6 +9,7 @@ import * as link from '../../../URL'
 import { Button, ButtonDialog } from '../../../component/Button'
 import AwesomeAlert from 'react-native-awesome-alerts'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
+import PopUp from '../../../component/PopUp'
 
 var radio_props = [
     { label: 'Nội địa', value: 1 },

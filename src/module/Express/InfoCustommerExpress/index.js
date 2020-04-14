@@ -7,6 +7,8 @@ import { connect } from 'react-redux';
 import { Button, ButtonDialog } from '../../../component/Button'
 import { addInfoPeople1VanChuyen, addInfoPeople2VanChuyen, addVATVanChuyen, addCommentVanChuyen, addPromotionCodeVanChuyen, addPaymentMethodIDVanChuyen, } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
+import PopUp from '../../../component/PopUp'
+import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 
 class InfoCustommerExpress extends Component {
 
@@ -61,7 +63,7 @@ class InfoCustommerExpress extends Component {
     }
 
     async checkPromotionCode() {
-        const url = link.URL_API + `passenger/check_promotion_code?promotion_code=${this.state.promotion_code}&phone_number=84${this.state.use_phone}&chunk_id=${this.props.chunk_id}&ride_method_id=2&depart_time=${this.props.depart_time}&transport_partner_id=${this.props.transport_partner_id}`;
+        const url = link.URL_API + `passenger/check_promotion_code?promotion_code=${this.state.promotion_code}&phone_number=84${this.state.use_phone}&chunk_id=${this.props.chunk_id}&ride_method_id=2&depart_time=${this.props.depart_time}&transport_partner_id=${this.props.brand_partner_id}`;
         return fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
@@ -571,6 +573,7 @@ function mapStateToProps(state) {
         ride_method_id: state.rdVanChuyen.ride_method_id,
         depart_time: state.rdVanChuyen.depart_time,
         transport_partner_id: state.rdVanChuyen.transport_partner_id,
+        brand_partner_id : state.rdVanChuyen.brand_partner_id,
     }
 }
 

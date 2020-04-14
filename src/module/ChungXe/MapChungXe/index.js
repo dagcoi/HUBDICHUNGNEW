@@ -10,8 +10,9 @@ import * as key from '../../../component/KeyGG'
 import { TextInput } from 'react-native-gesture-handler';
 import MapViewDirections from 'react-native-maps-directions';
 import listHour from '../../../component/TimeSelect/listTime';
-import { ButtonFull,ButtonDialog } from '../../../component/Button'
+import { ButtonFull, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
+import PopUp from '../../../component/PopUp'
 
 const imageLocation = '../../../image/location.png'
 const imageDrop = '../../../image/drop.png'
@@ -118,69 +119,22 @@ class MapChungXe extends Component {
         }
     }
 
-    // renderAlertTime() {
-    //     return (
-    //         <Dialog
-    //             visible={this.state.showAlertTime}
-    //             width={0.8}
-    //             footer={
-    //                 <DialogFooter>
-    //                     <DialogButton
-    //                         text="Đồng ý"
-    //                         onPress={() => {
-    //                             this.setState({ showAlertTime: false, })
-    //                         }}
-    //                     />
-    //                 </DialogFooter>
-    //             }
-    //         >
-    //             <DialogContent>
-    //                 <View style = {{padding : 8}}>
-    //                     <Text style={{ fontSize: 16, fontWeight: '100' }}>Giờ đi phải lớn hơn giờ hiện tại</Text>
-    //                 </View>
-    //             </DialogContent>
-    //         </Dialog>
-    //     )
-    // }
-
     renderAlertInfo() {
         return (
-            <Dialog
-                visible={this.state.showAlertInfo || this.state.showAlertTime || this.state.showAlertTimeDrop}
-                width={0.8}
-                // footer={
-                //     <DialogFooter>
-                //         <DialogButton
-                //             text="Đồng ý"
-                //             onPress={() => {
-                //                 this.setState({
-                //                     showAlertInfo: false,
-                //                     showAlertTime: false,
-                //                     showAlertTimeDrop: false
-                //                 })
-                //             }}
-                //         />
-                //     </DialogFooter>
-                // }
-            >
-                <View>
-                    <View style={{ padding: 8 }}>
-                        {this.state.showAlertInfo ? <Text style={{ fontSize: 16, fontWeight: '100' }}>Vui lòng điền đầy đủ thông tin để xem giá.</Text> : null}
-                        {this.state.showAlertTime ? <Text style={{ fontSize: 16, fontWeight: '100' }}>Giờ đi phải lớn hơn giờ hiện tại</Text> : null}
-                        {this.state.showAlertTimeDrop ? <Text style={{ fontSize: 16, fontWeight: '100' }}>Giờ trả xe phải lớn hơn giờ đi</Text> : null}
-                        <ButtonDialog
-                            text="Đồng ý"
-                            onPress={() => {
-                                this.setState({
-                                    showAlertInfo: false,
-                                    showAlertTime: false,
-                                    showAlertTimeDrop: false
-                                })
-                            }}
-                        />
-                    </View>
-                </View>
-            </Dialog>
+            <PopUp
+                showModal={this.state.showAlertInfo || this.state.showAlertTime || this.state.showAlertTimeDrop}
+                textMessage={this.state.showAlertInfo ? 'Vui lòng điền đầy đủ thông tin để xem giá.' :
+                    this.state.showAlertTime ? 'Giờ đi phải lớn hơn giờ hiện tại.' :
+                        this.state.showAlertTimeDrop ? 'Giờ trả xe phải lớn hơn giờ đi.' : ''}
+                textButtonLeft={'Đồng ý'}
+                onPressLeft={() => {
+                    this.setState({
+                        showAlertInfo: false,
+                        showAlertTime: false,
+                        showAlertTimeDrop: false
+                    })
+                }}
+            />            
         )
     }
 
@@ -331,6 +285,7 @@ class MapChungXe extends Component {
                     flex: 1,
                     flexDirection: 'column',
                     justifyContent: 'flex-end',
+                    backgroundColor: '#000000AA'
                 }}>
                     <View style={{ flex: 2, }}>
                         <TouchableOpacity
@@ -742,6 +697,7 @@ class MapChungXe extends Component {
                         flex: 1,
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
+                        backgroundColor: '#000000AA'
                     }}>
                         <View style={{ flex: 1, }}>
                             <TouchableOpacity
@@ -870,15 +826,18 @@ class MapChungXe extends Component {
                         flex: 1,
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
-                        padding: 10,
+                        backgroundColor: '#000000AA'
                     }}>
-                        <View style={{ flex: 2, }}>
+                        <View style={{ flex: 1, }}>
                             <TouchableOpacity
                                 onPress={() => this.setState({ dialogTimeVisible: !this.state.dialogTimeVisible })}
                                 style={{ flex: 1 }}
                             ></TouchableOpacity>
                         </View>
-
+                        <View style = {{flex : 1, backgroundColor: '#ffffff' }}>
+                            <View  style = {{height : 40, justifyContent : 'center', alignItems : 'center'}}>
+                                <Text style  = {{fontSize : 18, fontWeight : 'bold'}}>Chọn giờ đi</Text>
+                            </View>
                         <FlatList
                             style={{ flex: 1, backgroundColor: '#ffffff' }}
                             data={listHour}
@@ -952,6 +911,7 @@ class MapChungXe extends Component {
                             scrollToIndex={this.state.scroll}
                             keyExtractor={item => item.id}
                         />
+                        </View>
                     </View>
                 </Modal>
                 {this.formModalListCity()}

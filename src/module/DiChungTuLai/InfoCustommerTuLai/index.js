@@ -8,6 +8,7 @@ import { addInfoPeople1TuLai, addInfoPeople2TuLai, addVATTuLai, addPromotionCode
 import * as link from '../../../URL'
 import { Button, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
+import PopUp from '../../../component/PopUp'
 
 const imageCancel = '../../../image/cancel.png'
 const imageCheck = '../../../image/checked.png'
@@ -298,7 +299,7 @@ class InfoCustommerTuLai extends Component {
     }
 
     async checkPromotionCode() {
-        const url = link.URL_API + `passenger/check_promotion_code?promotion_code=${this.state.promotion_code}&phone_number=84${this.state.use_phone}&chunk_id=${this.props.chunk_id}&ride_method_id=${this.props.ride_method_id}&depart_time=${this.props.depart_time}&transport_partner_id=${this.props.transport_partner_id}`;
+        const url = link.URL_API + `passenger/check_promotion_code?promotion_code=${this.state.promotion_code}&phone_number=84${this.state.use_phone}&chunk_id=${this.props.chunk_id}&ride_method_id=${this.props.ride_method_id}&depart_time=${this.props.depart_time}&transport_partner_id=${this.props.brand_partner_id}`;
         console.log(url)
         return fetch(url)
             .then((response) => response.json())
@@ -698,6 +699,7 @@ function mapStateToProps(state) {
         ride_method_id: state.rdTuLai.ride_method_id,
         depart_time: state.rdTuLai.depart_time,
         transport_partner_id: state.rdTuLai.transport_partner_id,
+        brand_partner_id : state.rdTuLai.brand_partner_id,
     }
 }
 

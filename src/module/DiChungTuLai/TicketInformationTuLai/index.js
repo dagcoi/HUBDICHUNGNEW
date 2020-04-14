@@ -7,6 +7,7 @@ import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
 import { Button, ButtonGray, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
+import PopUp from '../../../component/PopUp'
 
 const imageLocation = '../../../image/location.png'
 const imageCalendar = '../../../image/calendar.png'
@@ -347,7 +348,7 @@ class TicketInformationTuLai extends Component {
                             />
                         }
 
-                        <Dialog
+                        {/* <Dialog
                             visible={this.state.dialogOTP}
                             width={0.8}
                             dialogTitle={<DialogTitle title="Xác nhận hủy vé" />}
@@ -422,7 +423,66 @@ class TicketInformationTuLai extends Component {
                                 </View>
                             </View>
 
-                        </Dialog>
+                        </Dialog> */}
+
+                        <Modal
+                            visible={this.state.dialogOTP}
+                            transparent={true}
+                        >
+                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000000AA' }}>
+                                <View style={{ width: '80%', justifyContent: 'center', borderRadius: 8, minHeight: 100, backgroundColor: '#eee', padding: 8 }}>
+                                    <View style={{ borderBottomWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', }}>
+                                        <Text style={{ fontSize: 20, }}>Xác nhận hủy vé</Text>
+                                    </View>
+                                    <View style={{ padding: 8 }}>
+                                        <Text><Text>Mã xác thực hủy chuyến được gửi tới email và số điện thoại của bạn</Text></Text>
+
+                                        <OTPInputView
+                                            style={{ padding: 20, height: 80, justifyContent: 'center', alignItems: 'center' }}
+                                            pinCount={4}
+                                            autoFocusOnLoad
+                                            code={this.state.otp}
+                                            onCodeChanged={code => { this.setState({ otp: code, showMessage: false }) }}
+                                            codeInputHighlightStyle={styles.underlineStyleHighLighted}
+                                            onCodeFilled={code => {
+                                                this.setState({
+                                                    otp: code,
+                                                })
+                                            }}
+                                        />
+                                        {this.state.showMessage ?
+                                            <Text>{this.state.message}</Text> : null}
+                                    </View>
+
+                                    <View style={{ flexDirection: 'row', height: 48, alignItems: 'center', justifyContent: 'center' }}>
+
+                                        <TouchableOpacity
+                                            onPress={() => {
+                                                if (this.state.otp.length < 4) {
+
+                                                } else {
+                                                    this.setState({ modalVisible: true, })
+                                                    this.cancelBooking();
+                                                }
+                                            }}
+                                            style={{ backgroundColor: '#77a300', margin: 4, flex: 1, alignItems: 'center', justifyContent: 'center', padding: 4 }}>
+                                            <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold', margin: 8 }}>Hủy vé</Text>
+                                        </TouchableOpacity>
+
+                                        <TouchableOpacity
+                                            onPress={() => {
+                                                this.setState({
+                                                    dialogOTP: false,
+                                                    otp: '',
+                                                })
+                                            }}
+                                            style={{ backgroundColor: '#77a300', margin: 4, flex: 1, alignItems: 'center', justifyContent: 'center', padding: 4 }}>
+                                            <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold', margin: 8 }}>Đóng</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                            </View>
+                        </Modal>
 
                         <Modal
                             visible={this.state.modalVisible}
@@ -441,7 +501,7 @@ class TicketInformationTuLai extends Component {
                             animationType="slide"
                         >
                             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                                <View style={{ padding: 16 }}>
+                                <View style={{ padding: 8 }}>
                                     <ScrollView showsVerticalScrollIndicator={false}>
                                         <Text style={{ fontSize: 16, fontWeight: 'bold', padding: 8 }}>Lí do hủy vé</Text>
                                         {this.renderRadio()}
@@ -510,7 +570,7 @@ const styles = StyleSheet.create({
     checkedCircle: {
         width: 14,
         height: 14,
-        borderRadius: 4,
+        borderRadius: 7,
         backgroundColor: '#77a300',
     },
     textBigRight1: {

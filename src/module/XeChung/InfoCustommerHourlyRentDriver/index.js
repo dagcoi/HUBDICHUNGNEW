@@ -8,6 +8,7 @@ import { addInfoPeople1Taixe, addInfoPeople2Taixe, addVATTaixe, addPromotionCode
 import * as link from '../../../URL'
 import {Button, ButtonDialog} from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
+import PopUp from '../../../component/PopUp'
 
 const imageCancel = '../../../image/cancel.png'
 const imageCheck = '../../../image/checked.png'

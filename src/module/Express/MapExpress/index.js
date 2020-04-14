@@ -10,6 +10,7 @@ import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
 import * as key from '../../../component/KeyGG'
 import { ButtonFull, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
+import PopUp from '../../../component/PopUp'
 
 import MapViewDirections from 'react-native-maps-directions';
 import { TextInput } from 'react-native-gesture-handler';
@@ -520,7 +521,7 @@ class MapExpress extends Component {
                         })
                     }}
                 >
-                    <Text style={{ color: this.state.hourlyBooking ? '#77a300' : '#fff', fontWeight: 'bold', fontSize: 20 }}>Thuê xe tải</Text>
+                    <Text style={{ color: this.state.hourlyBooking ? '#77a300' : '#fff', fontWeight: 'bold', fontSize: 20 }}>Thuê xe tải theo giờ</Text>
                 </TouchableOpacity>
             </View>
         )
@@ -595,21 +596,35 @@ class MapExpress extends Component {
                                 style={{ flex: 1 }}
                             ></TouchableOpacity>
                         </View>
+                        <View style = {{flex : 1, backgroundColor: '#ffffff' }}>
+                            <View  style = {{height : 40, justifyContent : 'center', alignItems : 'center'}}>
+                                <Text style  = {{fontSize : 18, fontWeight : 'bold'}}>Chọn giờ đi</Text>
+                            </View>
+                            <FlatList
+                                style={{ flex: 1, backgroundColor: '#ffffff' }}
+                                data={listHour}
+                                initialScrollIndex={this.state.scroll - 1}
+                                getItemLayout={this.getItemLayout}
+                                renderItem={({ item }) =>
+                                    <TouchableOpacity
+                                        style={{ flexDirection: 'row', height: 40 }}
+                                        onPress={() => {
+                                            var isDayAlight = this.state.spesentDay == this.state.date.format('DD-MM-YYYY');
+                                            var timeClicker = ((item.hour == this.state.hoursAlive && item.minute > this.state.minutesAlive) || item.hour > this.state.hoursAlive);
 
-                        <FlatList
-                            style={{ flex: 1, backgroundColor: '#ffffff' }}
-                            data={listHour}
-                            initialScrollIndex={this.state.scroll - 1}
-                            getItemLayout={this.getItemLayout}
-                            renderItem={({ item }) =>
-                                <TouchableOpacity
-                                    style={{ flexDirection: 'row', height: 40 }}
-                                    onPress={() => {
-                                        var isDayAlight = this.state.spesentDay == this.state.date.format('DD-MM-YYYY');
-                                        var timeClicker = ((item.hour == this.state.hoursAlive && item.minute > this.state.minutesAlive) || item.hour > this.state.hoursAlive);
-
-                                        if (isDayAlight) {
-                                            if (timeClicker) {
+                                            if (isDayAlight) {
+                                                if (timeClicker) {
+                                                    this.setState({
+                                                        selectedHours: item.hour,
+                                                        selectedMinutes: item.minute,
+                                                        scroll: item.id,
+                                                        dialogTimeVisible: false,
+                                                        dialogCalendarVisible: false,
+                                                        depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                    })
+                                                    this.props.addDepartTimeVanChuyen(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
+                                                }
+                                            } else {
                                                 this.setState({
                                                     selectedHours: item.hour,
                                                     selectedMinutes: item.minute,
@@ -620,23 +635,13 @@ class MapExpress extends Component {
                                                 })
                                                 this.props.addDepartTimeVanChuyen(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
                                             }
-                                        } else {
-                                            this.setState({
-                                                selectedHours: item.hour,
-                                                selectedMinutes: item.minute,
-                                                scroll: item.id,
-                                                dialogTimeVisible: false,
-                                                dialogCalendarVisible: false,
-                                                depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
-                                            })
-                                            this.props.addDepartTimeVanChuyen(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
-                                        }
-                                    }}
-                                >
-                                    <Text style={{ textAlign: 'center', fontSize: 18, flex: 1, padding: 8, backgroundColor: (item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes) ? '#77a300' : '#fff', color: (this.state.spesentDay == this.state.date.format('DD-MM-YYYY') && ((item.hour == this.state.hoursAlive && item.minute < this.state.minutesAlive) || item.hour < this.state.hoursAlive)) ? '#aaa' : item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes ? '#fff' : '#000000' }}>{item.hour < 10 ? '0' + item.hour : item.hour} : {item.minute == 0 ? '00' : item.minute}</Text>
-                                </TouchableOpacity>}
-                            keyExtractor={item => item.id}
-                        />
+                                        }}
+                                    >
+                                        <Text style={{ textAlign: 'center', fontSize: 18, flex: 1, padding: 8, backgroundColor: (item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes) ? '#77a300' : '#fff', color: (this.state.spesentDay == this.state.date.format('DD-MM-YYYY') && ((item.hour == this.state.hoursAlive && item.minute < this.state.minutesAlive) || item.hour < this.state.hoursAlive)) ? '#aaa' : item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes ? '#fff' : '#000000' }}>{item.hour < 10 ? '0' + item.hour : item.hour} : {item.minute == 0 ? '00' : item.minute}</Text>
+                                    </TouchableOpacity>}
+                                keyExtractor={item => item.id}
+                            />
+                        </View>
                     </View>
                 </Modal>
 
@@ -665,7 +670,7 @@ class MapExpress extends Component {
                             data={this.state.listChair}
                             renderItem={({ item }) =>
                                 <TouchableOpacity
-                                    style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent : 'center', alignItems : 'center' }}
+                                    style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}
                                     onPress={() => {
                                         this.setState({
                                             people: item.chair,
@@ -711,7 +716,7 @@ class MapExpress extends Component {
                             data={this.state.listTime}
                             renderItem={({ item }) =>
                                 <TouchableOpacity
-                                    style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent : 'center', alignItems : 'center' }}
+                                    style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}
                                     onPress={() => {
                                         this.setState({
                                             duration: item.time,

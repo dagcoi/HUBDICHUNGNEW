@@ -8,6 +8,7 @@ import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
 import { Button, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
+import PopUp from '../../../component/PopUp'
 
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -350,6 +351,7 @@ class ConfirmInformationHB extends Component {
                                 text="Chi tiết"
                                 onPress={() => {
                                     this.setState({
+                                        bookingSuccess: false,
                                         modalDetailTrip: true,
                                     })
                                 }}
@@ -370,10 +372,11 @@ class ConfirmInformationHB extends Component {
                         flex: 1,
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
+                        padding : 16,
                     }}>
                         <View style={{ flex: 1, backgroundColor: '#fff', }}>
                             <View style={{ height: 48, flexDirection: 'row', justifyContent: 'center', margin: 8, alignItems: 'center' }}>
-                                <TouchableOpacity
+                                {/* <TouchableOpacity
                                     onPress={() => {
                                         this.setState({
                                             modalDetailTrip: false,
@@ -384,9 +387,9 @@ class ConfirmInformationHB extends Component {
                                         style={{ width: 40, height: 40, }}
                                         source={require(imageCancel)}
                                     />
-                                </TouchableOpacity>
+                                </TouchableOpacity> */}
 
-                                <Text style={{ flex: 1, fontSize: 16, fontWeight: 'bold' }}>Chi tiết đơn hàng</Text>
+                                <Text style={{ flex: 1, fontSize: 18, fontWeight: 'bold' }}>Chi tiết đơn hàng</Text>
                             </View>
                             <ScrollView>
                                 {this.renderDetailTrip()}

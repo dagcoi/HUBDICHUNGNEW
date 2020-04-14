@@ -8,6 +8,7 @@ import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
 import { Button, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
+import PopUp from '../../../component/PopUp'
 
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -232,27 +233,25 @@ class ConfirmInformationTuLai extends Component {
                     // }
                     >
                         <View>
-                            <View style = {{padding : 8}}>
+                            <View style={{ padding: 8 }}>
                                 <Image
                                     style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
                                     source={require(imageSorry)}
                                 />
                                 <Text style={{ fontSize: 16 }}>Hiện tại không có tài xế nào nhận yêu cầu của bạn. Xin vui lòng thử lại hoặc chọn giờ đi khác.</Text>
-                                <View style={{ flexDirection: 'column' }}>
-                                    <ButtonDialog
-                                        text="Thử Lại"
-                                        onPress={() => {
-                                            this.reBiddingTicket();
-                                        }}
-                                    />
-                                    <ButtonDialog
-                                        text="Chọn hãng khác"
-                                        onPress={() => {
-                                            this.setState({ visibalAgain: false })
-                                            this.props.navigation.push("MapChungXe")
-                                        }}
-                                    />
-                                </View>
+                                <ButtonDialog
+                                    text="Thử Lại"
+                                    onPress={() => {
+                                        this.reBiddingTicket();
+                                    }}
+                                />
+                                <ButtonDialog
+                                    text="Chọn hãng khác"
+                                    onPress={() => {
+                                        this.setState({ visibalAgain: false })
+                                        this.props.navigation.push("MapChungXe")
+                                    }}
+                                />
                             </View>
                         </View>
                     </Dialog>
@@ -298,8 +297,8 @@ class ConfirmInformationTuLai extends Component {
                                 <Text>Mã vé của bạn là :<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
                                 <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sé liên lạc trong thời gian sớm nhất.</Text>
 
-                                <DialogButton
-                                    text="Xem"
+                                <ButtonDialog
+                                    text="Chi tiết mã vé"
                                     onPress={() => {
                                         this.setState({
                                             result: false,
@@ -347,7 +346,7 @@ class ConfirmInformationTuLai extends Component {
                         // }
                         dialogTitle={<DialogTitle title="Đặt xe thành công" />}
                     >
-                        <View style={{ flexDirection: 'column', padding : 8 }}>
+                        <View style={{ flexDirection: 'column', padding: 8 }}>
                             <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                                 <Image
                                     style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
@@ -357,19 +356,18 @@ class ConfirmInformationTuLai extends Component {
                             <Text>Mã vé của bạn là :<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
                             <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sé liên lạc trong thời gian sớm nhất.</Text>
 
-                            <View style={{ flexDirection: 'row' }}>
-                                <ButtonDialog
-                                    text="Xem"
-                                    onPress={() => {
-                                        this.setState({
-                                            dialogCalendarVisible: false,
-                                            is_night_booking: true
-                                        })
-                                        this.props.deleteDataTuLai();
-                                        this.TicketInformation()
-                                    }}
-                                />
-                            </View>
+                            {/* <View style={{ flexDirection: 'row' }}> */}
+                            <ButtonDialog
+                                text="Chi tiết mã vé"
+                                onPress={() => {
+                                    this.setState({
+                                        is_night_booking: true
+                                    })
+                                    this.props.deleteDataTuLai();
+                                    this.TicketInformation()
+                                }}
+                            />
+                            {/* </View> */}
                         </View>
                     </Dialog>
 
