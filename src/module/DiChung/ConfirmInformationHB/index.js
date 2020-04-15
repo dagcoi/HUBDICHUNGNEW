@@ -373,6 +373,7 @@ class ConfirmInformationHB extends Component {
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
                         padding : 16,
+                        backgroundColor: '#fff',
                     }}>
                         <View style={{ flex: 1, backgroundColor: '#fff', }}>
                             <View style={{ height: 48, flexDirection: 'row', justifyContent: 'center', margin: 8, alignItems: 'center' }}>

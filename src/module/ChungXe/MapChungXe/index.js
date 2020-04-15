@@ -484,9 +484,9 @@ class MapChungXe extends Component {
 
     nextScreen() {
         this.getDateTimeAlive();
-        if (this.props.pick_add != '' && this.props.drop_add != '' && this.state.depart_time != '') {
-            console.log(this.state.spesentDay)
-            console.log(this.state.date.format('DD-MM-YYYY'))
+        if (this.props.pick_add != '' && this.props.drop_add != '' && this.state.time_pick != ''  &&this.state.city_name_dc != '') {
+            // console.log(this.state.spesentDay)
+            // console.log(this.state.date.format('DD-MM-YYYY'))
             if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                 if (this.state.hoursAlive > this.state.selectedHours) {
                     this.setState({ showAlertTime: true })

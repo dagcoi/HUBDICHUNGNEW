@@ -626,7 +626,7 @@ function mapStateToProps(state) {
         chunk_id: state.rdTaixe.chunk_id,
         ride_method_id: state.rdTaixe.ride_method_id,
         depart_time: state.rdTaixe.depart_time,
-        transport_partner_id: state.rdTaixe.transport_partner_id,
+        transport_partner_id: state.rdTaixe.brand_partner_id,
     }
 }
 
