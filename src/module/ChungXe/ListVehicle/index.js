@@ -3,7 +3,7 @@ import { View, Text, FlatList, StyleSheet, TouchableOpacity, ActivityIndicator, 
 import { connect } from 'react-redux';
 import CheckBoxList from '../../../component/CheckBoxList';
 import { Button } from '../../../component/Button'
-
+import StarVote from '../../../component/StarVote'
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
     return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
@@ -103,7 +103,7 @@ class ListVehicle extends Component {
             listTransmissionCheck: [],
             listVehicleNameCheck: [],
         });
-        // console.log(jsonRes.data);   
+        console.log(jsonRes.data);   
     }
 
     async callVehicleSeat(carType) {
@@ -313,13 +313,16 @@ class ListVehicle extends Component {
                                     <View style={{ flexDirection: 'row' }}>
                                         <View style={{ flex: 1, justifyContent: 'flex-start' }}>
                                             <View style={{ flexDirection: 'row' }}>
-                                                <Text style={{ fontSize: 14, color: '#ffffff', backgroundColor: '#77a300', padding: 4 }}>
+                                                <Text style={{ fontSize: 14, color: '#ffffff', backgroundColor: '#77a300', padding: 4, fontWeight : 'bold' }}>
                                                     {item.part.vhc_type_id == 1 ? item.vhc_part_name_short : item.vhc_part_name}
                                                 </Text>
                                             </View>
 
                                             <Text style={{ fontSize: 14, marginTop: 8, marginBottom: 8 }}>{item.part.part_addr_shor}</Text>
-                                            {this.state.carType == '1' ?
+
+                                            <StarVote number = {item.vhc_part_star}/> 
+
+                                            {/* {this.state.carType == '1' ?
                                                 <View>
                                                     <Text style={{ fontWeight: 'bold', fontSize: 14 }}>xe {item.vhc.vhc_seat_num} chỗ {item.vhc.vhc_tms_name}</Text>
                                                     <Text>Hoặc tương đương</Text>
@@ -328,7 +331,7 @@ class ListVehicle extends Component {
                                                 <View>
                                                     <Text style={{ fontWeight: 'bold', fontSize: 14 }}>{item.vhc.vhc_tms_name}</Text>
                                                 </View>
-                                            }
+                                            } */}
 
                                             <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#00363d', marginTop: 8 }}>{item.vhc_part_defa_prie.format(0, 3, `.`)} đ/Ngày</Text>
                                         </View>

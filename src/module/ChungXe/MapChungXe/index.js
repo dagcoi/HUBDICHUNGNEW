@@ -50,6 +50,7 @@ class MapChungXe extends Component {
             time_drop: '',
             date: '',
             date1: '',
+            date2: '',
             spesentTime: '',
             spesentDay: '',
             hoursAlive: 0,
@@ -134,7 +135,7 @@ class MapChungXe extends Component {
                         showAlertTimeDrop: false
                     })
                 }}
-            />            
+            />
         )
     }
 
@@ -670,11 +671,13 @@ class MapChungXe extends Component {
                                 if (this.state.nhanxe) {
                                     this.setState({
                                         date: date,
+                                        date2: date,
                                         dialogTimeVisible: true,
                                     })
                                 } else {
                                     this.setState({
                                         date1: date,
+                                        date2: date,
                                         dialogTimeVisible: true,
                                     })
                                 }
@@ -731,90 +734,6 @@ class MapChungXe extends Component {
                 </Modal>
 
 
-
-                {/* Dialog chọn giờ nhận hoặc trả xe */}
-                {/* <Modal
-                    visible={this.state.dialogTimeVisible}
-                    animationType="slide"
-                    transparent={true}
-                    onOrientationChange={true}
-                >
-                    <View style={{ flex: 1, margin: 10 }}>
-                        <View style={{ flex: 2 }}>
-                            <TouchableOpacity
-                                onPress={() => {
-                                    this.setState({ dialogTimeVisible: false })
-                                }}
-                            >
-                                <View style={{ flex: 1 }}></View>
-                            </TouchableOpacity>
-                        </View>
-                        <View
-                            style={{
-                                flex: 1,
-                                flexDirection: 'column',
-                                backgroundColor: '#fff',
-                                padding: 10,
-                            }}>
-                            <TimePicker
-                                selectedHours={this.state.nhanxe ? this.state.selectedHours : this.state.selectedHours1}
-                                selectedMinutes={this.state.nhanxe ? this.state.selectedMinutes : this.state.selectedMinutes1}
-                                onChange={(hours, minutes) => {
-                                    if (this.state.nhanxe) {
-                                        this.setState({ selectedHours: hours, selectedMinutes: minutes, })
-
-                                    } else {
-                                        this.setState({ selectedHours1: hours, selectedMinutes1: minutes, })
-                                    }
-                                }}
-                            />
-                            <TouchableOpacity
-                                onPress={() => {
-                                    this.props.addDepartTimeTuLai(`${this.state.selectedHours < 10 ? '0' + this.state.selectedHours : this.state.selectedHours}:${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes} ${this.state.date.format('DD/MM/YYYY')}`);
-                                    if (this.state.nhanxe) {
-                                        this.setStateAsync({
-                                            dialogCalendarVisible: false,
-                                            dialogTimeVisible: false,
-                                            rent_date: `${this.state.date.format('YYYY-MM-DD')}`,
-                                            // rent_date: `${this.state.selectedHours}:${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}:00 ${this.state.date.format('YYYY-MM-DD')}`,
-                                            // time_pick: ` ${this.state.date.format('YYYY-MM-DD')} ${this.state.selectedHours}:${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}`
-                                            time_pick: `${this.state.selectedHours}:${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes} ${this.state.date.format('DD/MM/YYYY')}`
-                                        })
-                                        if (this.state.date1 == '' || this.state.date > this.state.date1) {
-                                            // console.log(this.state.date)
-                                            this.setStateAsync({
-                                                date1: this.state.date,
-                                                selectedHours1: 21,
-                                                selectedMinutes1: 45,
-                                                return_date: `${this.state.date.format('YYYY-MM-DD')}`,
-                                                time_drop: `21:45 ${this.state.date.format('DD/MM/YYYY')}`
-                                            })
-                                        }
-                                    } else {
-                                        this.setStateAsync({
-                                            dialogCalendarVisible: false,
-                                            dialogTimeVisible: false,
-                                            return_date: `${this.state.date1.format('YYYY-MM-DD')}`,
-                                            time_drop: `${this.state.selectedHours1}:${this.state.selectedMinutes1 == 0 ? '00' : this.state.selectedMinutes1} ${this.state.date1.format('DD/MM/YYYY')}`
-                                        })
-                                        if (this.state.date == '' || this.state.date > this.state.date1) {
-                                            this.setStateAsync({
-                                                date: this.state.date1,
-                                                selectedHours: 6,
-                                                selectedMinutes: 0,
-                                                rent_date: `${this.state.date1.format('YYYY-MM-DD')}`,
-                                                time_pick: `6:00 ${this.state.date1.format('DD/MM/YYYY')}`
-                                            })
-                                        }
-                                    }
-                                }}
-                            >
-                                <Text style={{ textAlign: "center", backgroundColor: "#77a300", color: '#fff', padding: 8, fontSize: 16 }}>Tiếp tục</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </Modal> */}
-
                 <Modal
                     animationType="slide"
                     transparent={true}
@@ -834,24 +753,37 @@ class MapChungXe extends Component {
                                 style={{ flex: 1 }}
                             ></TouchableOpacity>
                         </View>
-                        <View style = {{flex : 1, backgroundColor: '#ffffff' }}>
-                            <View  style = {{height : 40, justifyContent : 'center', alignItems : 'center'}}>
-                                <Text style  = {{fontSize : 18, fontWeight : 'bold'}}>Chọn giờ đi</Text>
+                        <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
+                            <View style={{ height: 40, justifyContent: 'center', alignItems: 'center' }}>
+                                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Chọn giờ đi</Text>
                             </View>
-                        <FlatList
-                            style={{ flex: 1, backgroundColor: '#ffffff' }}
-                            data={listHour}
-                            initialScrollIndex={this.state.nhanxe ? this.state.scrollNhan - 1 : this.state.scrollTra - 1}
-                            getItemLayout={this.getItemLayout}
-                            renderItem={({ item }) =>
-                                <TouchableOpacity
-                                    style={{ flexDirection: 'row', height: 40 }}
-                                    onPress={() => {
-                                        var isDayAlight = this.state.spesentDay == this.state.date.format('DD-MM-YYYY');
-                                        var timeClicker = ((item.hour == this.state.hoursAlive && item.minute > this.state.minutesAlive) || item.hour > this.state.hoursAlive);
-                                        if (this.state.nhanxe) {
-                                            if (isDayAlight) {
-                                                if (timeClicker) {
+                            <FlatList
+                                style={{ flex: 1, backgroundColor: '#ffffff' }}
+                                data={listHour}
+                                initialScrollIndex={this.state.nhanxe ? this.state.scrollNhan - 1 : this.state.scrollTra - 1}
+                                getItemLayout={this.getItemLayout}
+                                renderItem={({ item }) =>
+                                    <TouchableOpacity
+                                        style={{ flexDirection: 'row', height: 40 }}
+                                        onPress={() => {
+                                            var isDayAlight = this.state.spesentDay == this.state.date2.format('DD-MM-YYYY');
+                                            var timeClicker = ((item.hour == this.state.hoursAlive && item.minute > this.state.minutesAlive) || item.hour > this.state.hoursAlive);
+                                            if (this.state.nhanxe) {
+                                                if (isDayAlight) {
+                                                    if (timeClicker) {
+                                                        this.setState({
+                                                            selectedHours: item.hour,
+                                                            selectedMinutes: item.minute,
+                                                            scrollNhan: item.id,
+                                                            dialogTimeVisible: false,
+                                                            dialogCalendarVisible: false,
+                                                            time_pick: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`,
+                                                            rent_date: `${this.state.date.format('YYYY-MM-DD')}`,
+                                                            // time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                        })
+                                                        this.props.addDepartTimeTuLai(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
+                                                    }
+                                                } else {
                                                     this.setState({
                                                         selectedHours: item.hour,
                                                         selectedMinutes: item.minute,
@@ -865,21 +797,20 @@ class MapChungXe extends Component {
                                                     this.props.addDepartTimeTuLai(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
                                                 }
                                             } else {
-                                                this.setState({
-                                                    selectedHours: item.hour,
-                                                    selectedMinutes: item.minute,
-                                                    scrollNhan: item.id,
-                                                    dialogTimeVisible: false,
-                                                    dialogCalendarVisible: false,
-                                                    time_pick: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`,
-                                                    rent_date: `${this.state.date.format('YYYY-MM-DD')}`,
-                                                    // time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
-                                                })
-                                                this.props.addDepartTimeTuLai(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
-                                            }
-                                        } else {
-                                            if (isDayAlight) {
-                                                if (timeClicker) {
+                                                if (isDayAlight) {
+                                                    if (timeClicker) {
+                                                        this.setState({
+                                                            selectedHours1: item.hour,
+                                                            selectedMinutes1: item.minute,
+                                                            scrollTra: item.id,
+                                                            dialogTimeVisible: false,
+                                                            dialogCalendarVisible: false,
+                                                            time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date1.format('DD/MM/YYYY')}`,
+                                                            return_date: `${this.state.date1.format('YYYY-MM-DD')}`,
+                                                        })
+                                                        // this.props.addDepartTimeTuLai(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
+                                                    }
+                                                } else {
                                                     this.setState({
                                                         selectedHours1: item.hour,
                                                         selectedMinutes1: item.minute,
@@ -891,26 +822,14 @@ class MapChungXe extends Component {
                                                     })
                                                     // this.props.addDepartTimeTuLai(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
                                                 }
-                                            } else {
-                                                this.setState({
-                                                    selectedHours1: item.hour,
-                                                    selectedMinutes1: item.minute,
-                                                    scrollTra: item.id,
-                                                    dialogTimeVisible: false,
-                                                    dialogCalendarVisible: false,
-                                                    time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date1.format('DD/MM/YYYY')}`,
-                                                    return_date: `${this.state.date1.format('YYYY-MM-DD')}`,
-                                                })
-                                                // this.props.addDepartTimeTuLai(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
                                             }
-                                        }
-                                    }}
-                                >
-                                    <Text style={{ textAlign: 'center', fontSize: 18, flex: 1, padding: 8, backgroundColor: (item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes) ? '#77a300' : '#fff', color: (this.state.spesentDay == this.state.date.format('DD-MM-YYYY') && ((item.hour == this.state.hoursAlive && item.minute < this.state.minutesAlive) || item.hour < this.state.hoursAlive)) ? '#aaa' : item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes ? '#fff' : '#000000' }}>{item.hour < 10 ? '0' + item.hour : item.hour} : {item.minute == 0 ? '00' : item.minute}</Text>
-                                </TouchableOpacity>}
-                            scrollToIndex={this.state.scroll}
-                            keyExtractor={item => item.id}
-                        />
+                                        }}
+                                    >
+                                        <Text style={{ textAlign: 'center', fontSize: 18, flex: 1, padding: 8, backgroundColor: (item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes) ? '#77a300' : '#fff', color: (this.state.spesentDay == this.state.date2.format('DD-MM-YYYY') && ((item.hour == this.state.hoursAlive && item.minute < this.state.minutesAlive) || item.hour < this.state.hoursAlive)) ? '#aaa' : item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes ? '#fff' : '#000000' }}>{item.hour < 10 ? '0' + item.hour : item.hour} : {item.minute == 0 ? '00' : item.minute}</Text>
+                                    </TouchableOpacity>}
+                                scrollToIndex={this.state.scroll}
+                                keyExtractor={item => item.id}
+                            />
                         </View>
                     </View>
                 </Modal>
@@ -919,16 +838,33 @@ class MapChungXe extends Component {
         );
     }
     selectedDate() {
-        var { rent_date, return_date } = this.state;
+        var { rent_date, return_date, selectedHours, selectedHours1, selectedMinutes1, selectedMinutes } = this.state;
         console.log(rent_date);
         console.log(return_date);
         var datePick = new Date(this.state.rent_date).getTime();
         var dateReturn = new Date(this.state.return_date).getTime();
         var Difference_In_Time = dateReturn - datePick
         var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24) + 1;
-        // console.log(Difference_In_Days);
+        console.log('a');
+        console.log(rent_date);
+        console.log(return_date);
+        console.log(datePick);
+        console.log(dateReturn);
+        console.log(Difference_In_Days);
         if (Difference_In_Days < 1) {
             return true;
+        } else if (Difference_In_Days == 1) {
+            if(selectedHours > selectedHours1){
+                return  true;
+            }else if(selectedHours == selectedHours1) {
+                if(selectedMinutes >= selectedMinutes1){
+                    return true;
+                }else{
+                    return false;
+                }
+            }else {
+                return false;
+            }
         } else {
             return false;
         }

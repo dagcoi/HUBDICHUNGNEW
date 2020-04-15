@@ -370,7 +370,7 @@ class SpecialRequirements extends Component {
                         }}>
                             <View style={{ flex: 1, backgroundColor: '#fff', alignItems: "center" }}>
                                 <View style={{ flexDirection: 'row', margin: 16 }}>
-                                    <TouchableOpacity
+                                    {/* <TouchableOpacity
                                         onPress={() => this.setState({
                                             dialogCalendarVisible: false
                                         })}
@@ -379,8 +379,8 @@ class SpecialRequirements extends Component {
                                             style={{ width: 30, height: 30, }}
                                             source={require(imageCancel)}
                                         />
-                                    </TouchableOpacity>
-                                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#77a300', flex: 1, textAlign: 'center' }}>Chọn thời gian đi</Text>
+                                    </TouchableOpacity> */}
+                                    <Text style={{ fontSize: 18, fontWeight: 'bold', flex: 1, textAlign: 'center' }}>Chọn thời gian đi</Text>
                                 </View>
                                 <CalendarPicker
                                     textStyle={{
@@ -423,7 +423,7 @@ class SpecialRequirements extends Component {
                             flex: 1,
                             flexDirection: 'column',
                             justifyContent: 'flex-end',
-                            padding: 10,
+                            backgroundColor: '#000000AA'
                         }}>
                             <View style={{ flex: 2, }}>
                                 <TouchableOpacity

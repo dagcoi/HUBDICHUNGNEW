@@ -534,7 +534,7 @@ class MapXeChung extends Component {
                         justifyContent: 'flex-end',
                     }}>
                         <View style={{ flex: 1, backgroundColor: '#fff', alignItems: "center" }}>
-                            <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#77a300', margin: 16 }}>Chọn thời gian đi</Text>
+                            <Text style={{ fontSize: 18, fontWeight: 'bold', margin: 16 }}>Chọn thời gian đi</Text>
                             <Calendar
                                 minDate={minDate}
                                 onDateChange={(date) => {
@@ -559,6 +559,7 @@ class MapXeChung extends Component {
                         flex: 1,
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
+                        backgroundColor: '#000000AA'
                     }}>
                         <View style={{ flex: 1, }}>
                             <TouchableOpacity

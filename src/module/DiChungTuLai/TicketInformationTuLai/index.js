@@ -500,14 +500,14 @@ class TicketInformationTuLai extends Component {
                             visible={this.state.dialogCancelSuccess}
                             animationType="slide"
                         >
-                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                                <View style={{ padding: 8 }}>
+                            <View style={{ flex: 1,}}>
+                                <View style={{ padding: 16 }}>
                                     <ScrollView showsVerticalScrollIndicator={false}>
                                         <Text style={{ fontSize: 16, fontWeight: 'bold', padding: 8 }}>Lí do hủy vé</Text>
                                         {this.renderRadio()}
 
                                         <Button
-                                            View='Gửi'
+                                            value='Gửi'
                                             onPress={() => {
                                                 if (this.state.value != 0) {
                                                     this.feedbackWhyCancel();
@@ -560,7 +560,7 @@ const styles = StyleSheet.create({
     circle: {
         height: 20,
         width: 20,
-        borderRadius: 4,
+        borderRadius: 10,
         borderWidth: 0.5,
         borderColor: '#e8e8e8',
         alignItems: 'center',

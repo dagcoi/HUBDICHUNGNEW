@@ -438,7 +438,7 @@ class MapDiChungTuLai extends Component {
                                             source={require(imageCancel)}
                                         />
                                     </TouchableOpacity>
-                                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#77a300', flex: 1, textAlign: 'center' }}>Chọn thời gian đi</Text>
+                                    <Text style={{ fontSize: 18, fontWeight: 'bold', flex: 1, textAlign: 'center' }}>Chọn thời gian đi</Text>
                                 </View>
                                 <CalendarPicker
                                     textStyle={{

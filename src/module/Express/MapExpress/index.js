@@ -588,7 +588,7 @@ class MapExpress extends Component {
                         flex: 1,
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
-                        padding: 10,
+                        backgroundColor: '#000000AA'
                     }}>
                         <View style={{ flex: 1, }}>
                             <TouchableOpacity
