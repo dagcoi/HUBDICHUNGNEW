@@ -351,9 +351,10 @@ class ConfirmInformationHourlyBookingTL extends Component {
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
                         padding : 8,
+                        backgroundColor: '#fff',
                     }}>
                         <View style={{ flex: 1, backgroundColor: '#fff', }}>
-                            <View style={{ height: 48, flexDirection: 'row', justifyContent: 'center', margin: 8, alignItems: 'center' }}>
+                            <View style={{ height: 0, flexDirection: 'row', justifyContent: 'center', margin: 8, alignItems: 'center' }}>
                                 {/* <TouchableOpacity
                                     onPress={() => {
                                         this.setState({
@@ -367,7 +368,7 @@ class ConfirmInformationHourlyBookingTL extends Component {
                                     />
                                 </TouchableOpacity> */}
 
-                                <Text style={{ flex: 1, fontSize: 18, fontWeight: 'bold' }}>Chi tiết đơn hàng</Text>
+                                {/* <Text style={{ flex: 1, fontSize: 18, fontWeight: 'bold' }}>Chi tiết đơn hàng</Text> */}
                             </View>
                             <ScrollView>
                                 {this.renderDetailTrip()}
@@ -378,7 +379,7 @@ class ConfirmInformationHourlyBookingTL extends Component {
                                 {this.renderVAT()}
                                 {this.renderMGG()}
                                 {this.renderTT()}
-                                <TouchableOpacity
+                                {/* <TouchableOpacity
                                     style={{ backgroundColor: '#77a300', padding: 8, justifyContent: 'center', alignItems: 'center' }}
                                     onPress={() => {
                                         this.setState({
@@ -396,7 +397,24 @@ class ConfirmInformationHourlyBookingTL extends Component {
                                     }}
                                 >
                                     <Text style={{ color: '#fff', fontWeight: 'bold' }}>Trang chủ</Text>
-                                </TouchableOpacity>
+                                </TouchableOpacity> */}
+                                <Button
+                                    value={'Trang chủ'}
+                                    onPress={() => {
+                                        this.setState({
+                                            bookingSuccess: false,
+                                            modalDetailTrip: false,
+                                        })
+                                        this.props.deleteDataTuLai();
+                                        // this.props.navigation.push("Home");
+                                        const resetAction = StackActions.reset({
+                                            index: 0,
+                                            key: null,
+                                            actions: [NavigationActions.navigate({ routeName: 'Home' })],
+                                        });
+                                        this.props.navigation.dispatch(resetAction);
+                                    }}
+                                />
                             </ScrollView>
                         </View>
                     </View>

@@ -374,7 +374,7 @@ class ConfirmInformationRentDriver extends Component {
                         justifyContent: 'flex-end',
                     }}>
                         <View style={{ flex: 1, backgroundColor: '#fff', padding: 8 }}>
-                            <View style={{ height: 48, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                            <View style={{ height: 0, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                                 {/* <TouchableOpacity
                                     onPress={() => {
                                         this.setState({
@@ -388,7 +388,7 @@ class ConfirmInformationRentDriver extends Component {
                                     />
                                 </TouchableOpacity> */}
 
-                                <Text style={{ flex: 1, fontSize: 18, fontWeight: 'bold' }}>Chi tiết đơn hàng</Text>
+                                {/* <Text style={{ flex: 1, fontSize: 18, fontWeight: 'bold' }}>Chi tiết đơn hàng</Text> */}
                             </View>
                             <ScrollView style={{ padding: 8 }}>
                                 {/* <View style = {{padding : 8}}> */}
@@ -400,7 +400,7 @@ class ConfirmInformationRentDriver extends Component {
                                 {this.renderVAT()}
                                 {this.renderMGG()}
                                 {this.renderTT()}
-                                <TouchableOpacity
+                                {/* <TouchableOpacity
                                     style={{ backgroundColor: '#77a300', padding: 8, justifyContent: 'center', alignItems: 'center' }}
                                     onPress={() => {
                                         this.setState({
@@ -418,7 +418,24 @@ class ConfirmInformationRentDriver extends Component {
                                     }}
                                 >
                                     <Text style={{ color: '#fff', fontWeight: 'bold' }}>Trang chủ</Text>
-                                </TouchableOpacity>
+                                </TouchableOpacity> */}
+                                <Button
+                                    value={'Trang chủ'}
+                                    onPress={() => {
+                                        this.setState({
+                                            bookingSuccess: false,
+                                            modalDetailTrip: false,
+                                        })
+                                        this.props.deleteDataTaixe();
+                                        // this.props.navigation.push("Home");
+                                        const resetAction = StackActions.reset({
+                                            index: 0,
+                                            key: null,
+                                            actions: [NavigationActions.navigate({ routeName: 'Home' })],
+                                        });
+                                        this.props.navigation.dispatch(resetAction);
+                                    }}
+                                />
                                 {/* </View> */}
                             </ScrollView>
                         </View>

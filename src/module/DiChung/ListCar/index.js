@@ -395,53 +395,53 @@ class ListCar extends Component {
                                         </View>
                                         {item.ride_method_id == '1' ?
                                             item.toll_fee == 0 ?
-                                                <View style={{ flexDirection: 'row' }}>
+                                                <View style={{ flexDirection: 'row', alignItems : 'center', }}>
                                                     <Image
-                                                        style={{ width: 20, height: 20, marginRight: 8, marginLeft: 8 }}
+                                                        style={{ width: 14, height: 14, marginRight: 8, marginLeft: 8 }}
                                                         source={require('../../../image/check.png')} />
-                                                    <Text style={{ fontSize: 12 }}>Giá trọn gói</Text>
+                                                    <Text style={{ fontSize: 14 }}>Giá trọn gói</Text>
                                                 </View> : item.toll_fee == 'NA' ?
-                                                    <View style={{ flexDirection: 'row' }}>
+                                                    <View style={{ flexDirection: 'row', alignItems : 'center', }}>
                                                         <Image
-                                                            style={{ width: 20, height: 20, marginRight: 8, marginLeft: 8 }}
+                                                            style={{ width: 14, height: 14, marginRight: 8, marginLeft: 8 }}
                                                             source={require('../../../image/check.png')} />
-                                                        <Text style={{ fontSize: 12 }}>Giá chưa bao gồm phí cầu đường</Text>
-                                                    </View> : <View style={{ flexDirection: 'row' }}>
+                                                        <Text style={{ fontSize: 14 }}>Giá chưa bao gồm phí cầu đường</Text>
+                                                    </View> : <View style={{ flexDirection: 'row', alignItems : 'center', }}>
                                                         <Image
-                                                            style={{ width: 20, height: 20, marginRight: 8, marginLeft: 8 }}
+                                                            style={{ width: 16, height: 16, marginRight: 8, marginLeft: 8 }}
                                                             source={require('../../../image/notetollfee.png')} />
-                                                        <Text style={{ fontSize: 12 }}>Phí cầu đường : {parseInt(item.toll_fee).format(0, 3, '.')} đ</Text>
+                                                        <Text style={{ fontSize: 14 }}>Phí cầu đường : {parseInt(item.toll_fee).format(0, 3, '.')} đ</Text>
                                                     </View>
                                             :
                                             <View>
-                                                <View style={{ flexDirection: 'row' }}>
+                                                <View style={{ flexDirection: 'row', alignItems : 'center', }}>
                                                     <Image
-                                                        style={{ width: 20, height: 20, marginRight: 8, marginLeft: 8 }}
+                                                        style={{ width: 16, height: 16, marginRight: 8, marginLeft: 8 }}
                                                         source={require('../../../image/people.png')} />
-                                                    <Text style={{ fontSize: 12 }}>Tối đa {item.max_share_seats} chỗ</Text>
+                                                    <Text style={{ fontSize: 14 }}>Tối đa {item.max_share_seats} chỗ</Text>
                                                 </View>
-                                                <View style={{ flexDirection: 'row' }}>
+                                                <View style={{ flexDirection: 'row', alignItems : 'center', }}>
                                                     <Image
-                                                        style={{ width: 20, height: 20, marginRight: 8, marginLeft: 8 }}
+                                                        style={{ width: 16, height: 16, marginRight: 8, marginLeft: 8 }}
                                                         source={require('../../../image/vali.png')} />
-                                                    <Text style={{ fontSize: 12 }}>{item.partner_luggage}</Text>
+                                                    <Text style={{ fontSize: 14 }}>{item.partner_luggage}</Text>
                                                 </View>
                                             </View>
                                         }
 
                                         {item.full_package_by_km ?
-                                            <View style={{ flexDirection: 'row' }}>
+                                            <View style={{ flexDirection: 'row', alignItems : 'center', }}>
                                                 <Image
-                                                    style={{ width: 20, height: 20, marginRight: 8, marginLeft: 8 }}
+                                                    style={{ width: 14, height: 14, marginRight: 8, marginLeft: 8 }}
                                                     source={require('../../../image/check.png')} />
-                                                <Text style={{ fontSize: 12 }}>{item.full_package_by_km}</Text>
+                                                <Text style={{ fontSize: 14 }}>{item.full_package_by_km}</Text>
                                             </View> : null}
 
                                         <View style={{ marginLeft: 8, flexDirection: 'row', }}>
                                             {item.discount_text == '' ? null :
-                                                <View style={{ flexDirection: 'row', flex: 1 }}>
+                                                <View style={{ flexDirection: 'row', flex: 1, alignItems : 'center', }}>
                                                     <Image
-                                                        style={{ width: 20, height: 20, marginRight: 8 }}
+                                                        style={{ width: 14, height: 14, marginRight: 8 }}
                                                         source={require('../../../image/check.png')} />
                                                     <HTML html={item.discount_text} imagesMaxWidth={Dimensions.get('window').width} />
                                                 </View>}

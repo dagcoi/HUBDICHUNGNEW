@@ -252,7 +252,7 @@ class ListDriverExpress extends Component {
                             {item.discount_text == '' ? null :
                                 <View style={{ flexDirection: 'row', flex: 1 }}>
                                     <Image
-                                        style={{ width: 20, height: 20, marginRight: 8 }}
+                                        style={{ width: 14, height: 14, marginRight: 8 }}
                                         source={require('../../../image/check.png')} />
                                     <HTML html={item.discount_text} imagesMaxWidth={Dimensions.get('window').width} />
                                 </View>}
@@ -261,7 +261,7 @@ class ListDriverExpress extends Component {
                         <View style={{ marginLeft: 8, flexDirection: 'row', }}>
                             <View style={{ flexDirection: 'row', flex: 1 }}>
                                 <Image
-                                    style={{ width: 20, height: 20, marginRight: 8 }}
+                                    style={{ width: 14, height: 14, marginRight: 8 }}
                                     source={require('../../../image/check.png')} />
                                 <Text>Bảo đảm cho hàng dễ vỡ</Text>
                             </View>
@@ -270,7 +270,7 @@ class ListDriverExpress extends Component {
                         <View style={{ marginLeft: 8, flexDirection: 'row', }}>
                             <View style={{ flexDirection: 'row', flex: 1 }}>
                                 <Image
-                                    style={{ width: 20, height: 20, marginRight: 8 }}
+                                    style={{ width: 14, height: 14, marginRight: 8 }}
                                     source={require('../../../image/check.png')} />
                                 <Text>Thời gian chờ lấy hàng tối đa 15 phút</Text>
                             </View>
@@ -280,7 +280,7 @@ class ListDriverExpress extends Component {
                             <View style={{ flexDirection: 'column', flex: 1, paddingLeft: 8 }}>
                                 <View style={{ flexDirection: 'row', flex: 1 }}>
                                     <Image
-                                        style={{ width: 20, height: 20, marginRight: 8 }}
+                                        style={{ width: 14, height: 14, marginRight: 8 }}
                                         source={require('../../../image/check.png')} />
                                     <HTML html={item.partner_luggage.replace("</a>", "").replace("</p>", "").replace("<p>", "")} imagesMaxWidth={Dimensions.get('window').width} />
                                 </View>

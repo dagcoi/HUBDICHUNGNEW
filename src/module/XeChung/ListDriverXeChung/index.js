@@ -110,7 +110,7 @@ class ListDriverXeChung extends Component {
                                 {item.discount_text == '' ? null :
                                     <View style={{ flexDirection: 'row', flex: 1 }}>
                                         <Image
-                                            style={{ width: 20, height: 20, marginRight: 8 }}
+                                            style={{ width: 14, height: 14, marginRight: 8 }}
                                             source={require('../../../image/check.png')} />
                                         <HTML html={item.discount_text} imagesMaxWidth={Dimensions.get('window').width} />
                                     </View>}
@@ -119,7 +119,7 @@ class ListDriverXeChung extends Component {
                             <View style={{ marginLeft: 8, flexDirection: 'row', }}>
                                 <View style={{ flexDirection: 'row', flex: 1 }}>
                                     <Image
-                                        style={{ width: 20, height: 20, marginRight: 8 }}
+                                        style={{ width: 14, height: 14, marginRight: 8 }}
                                         source={require('../../../image/check.png')} />
                                     <Text>Tài xế được xác thực bởi Đi Chung</Text>
                                 </View>
@@ -128,7 +128,7 @@ class ListDriverXeChung extends Component {
                             <View style={{ marginLeft: 8, flexDirection: 'row', }}>
                                 <View style={{ flexDirection: 'row', flex: 1 }}>
                                     <Image
-                                        style={{ width: 20, height: 20, marginRight: 8 }}
+                                        style={{ width: 14, height: 14, marginRight: 8 }}
                                         source={require('../../../image/check.png')} />
                                     <Text>Thời gian chờ tối đa 15 phút</Text>
                                 </View>
@@ -136,7 +136,7 @@ class ListDriverXeChung extends Component {
                             <View style={{ marginLeft: 8, flexDirection: 'row', }}>
                                 <View style={{ flexDirection: 'row', flex: 1 }}>
                                     <Image
-                                        style={{ width: 20, height: 20, marginRight: 8 }}
+                                        style={{ width: 14, height: 14, marginRight: 8 }}
                                         source={require('../../../image/check.png')} />
                                     <Text>{item.partner_luggage}</Text>
                                 </View>

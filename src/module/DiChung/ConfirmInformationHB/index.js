@@ -309,37 +309,37 @@ class ConfirmInformationHB extends Component {
                     visible={this.state.bookingSuccess}
                     dialogTitle={<DialogTitle title="Đặt xe thành công" />}
                     width={0.8}
-                    // footer={
-                    //     <DialogFooter>
-                    //         <DialogButton
-                    //             text="Chi tiết"
-                    //             onPress={() => {
-                    //                 this.setState({
-                    //                     modalDetailTrip: true,
-                    //                 })
-                    //             }}
-                    //         />
-                    //         <DialogButton
-                    //             text="Trang chủ"
-                    //             onPress={() => {
-                    //                 this.setState({
-                    //                     bookingSuccess: false
-                    //                 })
-                    //                 this.props.deleteData();
-                    //                 // this.props.navigation.push("Home");
-                    //                 const resetAction = StackActions.reset({
-                    //                     index: 0,
-                    //                     key: null,
-                    //                     actions: [NavigationActions.navigate({ routeName: 'Home' })],
-                    //                 });
-                    //                 this.props.navigation.dispatch(resetAction);
-                    //             }}
-                    //         />
-                    //     </DialogFooter>
-                    // }
+                // footer={
+                //     <DialogFooter>
+                //         <DialogButton
+                //             text="Chi tiết"
+                //             onPress={() => {
+                //                 this.setState({
+                //                     modalDetailTrip: true,
+                //                 })
+                //             }}
+                //         />
+                //         <DialogButton
+                //             text="Trang chủ"
+                //             onPress={() => {
+                //                 this.setState({
+                //                     bookingSuccess: false
+                //                 })
+                //                 this.props.deleteData();
+                //                 // this.props.navigation.push("Home");
+                //                 const resetAction = StackActions.reset({
+                //                     index: 0,
+                //                     key: null,
+                //                     actions: [NavigationActions.navigate({ routeName: 'Home' })],
+                //                 });
+                //                 this.props.navigation.dispatch(resetAction);
+                //             }}
+                //         />
+                //     </DialogFooter>
+                // }
                 >
                     <View>
-                        <View style={{ flexDirection: 'column', padding : 8 }}>
+                        <View style={{ flexDirection: 'column', padding: 8 }}>
                             <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                                 <Image
                                     style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
@@ -372,11 +372,11 @@ class ConfirmInformationHB extends Component {
                         flex: 1,
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
-                        padding : 16,
+                        padding: 8,
                         backgroundColor: '#fff',
                     }}>
                         <View style={{ flex: 1, backgroundColor: '#fff', }}>
-                            <View style={{ height: 48, flexDirection: 'row', justifyContent: 'center', margin: 8, alignItems: 'center' }}>
+                            <View style={{ height: 0, flexDirection: 'row',  margin: 8 }}>
                                 {/* <TouchableOpacity
                                     onPress={() => {
                                         this.setState({
@@ -390,7 +390,7 @@ class ConfirmInformationHB extends Component {
                                     />
                                 </TouchableOpacity> */}
 
-                                <Text style={{ flex: 1, fontSize: 18, fontWeight: 'bold' }}>Chi tiết đơn hàng</Text>
+                                {/* <Text style={{ flex: 1, fontSize: 18, fontWeight: 'bold' }}>Chi tiết đơn hàng</Text> */}
                             </View>
                             <ScrollView>
                                 {this.renderDetailTrip()}
@@ -401,7 +401,7 @@ class ConfirmInformationHB extends Component {
                                 {this.renderVAT()}
                                 {this.renderMGG()}
                                 {this.renderTT()}
-                                <TouchableOpacity
+                                {/* <TouchableOpacity
                                     style={{ backgroundColor: '#77a300', padding: 8, justifyContent: 'center', alignItems: 'center' }}
                                     onPress={() => {
                                         this.setState({
@@ -419,7 +419,24 @@ class ConfirmInformationHB extends Component {
                                     }}
                                 >
                                     <Text style={{ color: '#fff', fontWeight: 'bold' }}>Trang chủ</Text>
-                                </TouchableOpacity>
+                                </TouchableOpacity> */}
+                                <Button
+                                    value={'Trang chủ'}
+                                    onPress={() => {
+                                        this.setState({
+                                            bookingSuccess: false,
+                                            modalDetailTrip: false,
+                                        })
+                                        this.props.deleteData();
+                                        // this.props.navigation.push("Home");
+                                        const resetAction = StackActions.reset({
+                                            index: 0,
+                                            key: null,
+                                            actions: [NavigationActions.navigate({ routeName: 'Home' })],
+                                        });
+                                        this.props.navigation.dispatch(resetAction);
+                                    }}
+                                />
                             </ScrollView>
                         </View>
                     </View>
