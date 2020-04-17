@@ -5,9 +5,12 @@ import TimePicker from '../../../component/TimePicker'
 import * as link from '../../../URL'
 import CalendarPicker from 'react-native-calendar-picker';
 import { connect } from 'react-redux'
-import { Dialog, ConfirmDialog } from 'react-native-simple-dialogs';
+import { ConfirmDialog } from 'react-native-simple-dialogs';
 import { deleteData, deleteDataTaixe, deleteDataVanChuyen, } from '../../../core/Redux/action/Action'
 import { NavigationActions, StackActions } from 'react-navigation';
+import listHour from '../../../component/TimeSelect/listTime'
+import { Button, ButtonDialog } from '../../../component/Button'
+import Dialog, { DialogFooter, DialogContent, DialogTitle, DialogButton } from 'react-native-popup-dialog';
 
 const imageCancel = '../../../image/cancel.png'
 
@@ -41,43 +44,80 @@ class SpecialRequirements extends Component {
                 { 'id': '26', 'carName': 'Xe 45 chỗ (Huyndai Universe hoặc tương tự)' },
             ],
             isLoading: false,
-            bookingSuccess: '',
+            bookingSuccess: false,
+            scroll: 48,
+            spesentDay: '',
+            hoursAlive: 0,
+            minutesAlive: 0,
+            spesentTime: '',
+            alertName: false,
+            alertPhone: false,
+            alertTime: false,
+            alertCar: false,
+            alertPeople: false,
+            alertDay: false,
+            alertNote: false,
         }
     }
 
+    renderAlertInfo() {
+        return (
+            <Dialog
+                visible={this.state.alertName || this.state.alertPhone || this.state.alertTime || this.state.alertCar || this.state.alertPeople || this.state.alertDay || this.state.alertNote}
+                width={0.8}
+            >
+                <View>
+                    <View style={{ padding: 8, marginTop: 8, justifyContent: 'center', alignItems: 'center', }}>
+                        <Text style={{ fontSize: 16, fontWeight: '100' }}>Vui lòng điền đầy đủ thông tin để xem giá.</Text>
+                        <ButtonDialog
+                            text={'Đồng ý'}
+                            onPress={() => {
+                                this.setState({
+                                    alertName: false,
+                                    alertPhone: false,
+                                    alertTime: false,
+                                    alertCar: false,
+                                    alertPeople: false,
+                                    alertDay: false,
+                                    alertNote: false,
+                                })
+                            }}
+                        />
+                    </View>
+                </View>
+            </Dialog>
+        )
+    }
+
     checkData() {
-        if (this.state.full_name.trim().length < 2) {
-            Alert.alert('Vui lòng điền đúng họ tên')
+        if (this.state.full_name.trim().length < 1) {
+            this.setState({ alertName: true, })
             return;
-        }
-        if (!this.state.mobile_validate) {
-            Alert.alert(`Vui lòng nhập đúng Số điện thoại`);
+        } else if (!this.state.mobile_validate) {
+            this.setState({ alertPhone: true, })
             return;
-        }
-        if (this.state.time_pick.trim() == '') {
-            Alert.alert('Vui lòng chọn thời gian')
+        } else if (this.state.time_pick.trim() == '') {
+            this.setState({ alertTime: true, })
             return;
-        }
-        if (this.state.carType == '') {
-            Alert.alert('Vui lòng chọn loại xe')
+        } else if (this.state.carType == '') {
+            this.setState({ alertCar: true, })
             return;
-        }
-        if (this.state.people == '') {
-            Alert.alert('Vui lòng nhập số người đi')
+        } else if (this.state.people == '') {
+            this.setState({ alertPeople: true, })
             return;
-        }
-        if (this.state.day_tour == '') {
-            Alert.alert('Vui lòng chọn số ngày thuê')
+        } else if (this.state.day_tour == '') {
+            this.setState({ alertDay: true, })
             return;
-        }
-        if (this.state.note == '') {
-            Alert.alert('Vui lòng nhập lộ trình của bạn')
+        } else if (this.state.note == '') {
+            this.setState({ alertNote: true, })
             return;
+        } else {
+            this.sentSpecialRequirements()
+            this.setState({
+                isLoading: true,
+            })
         }
-        this.setState({
-            isLoading: true,
-        })
-        this.sentSpecialRequirements()
+
     }
 
     async sentSpecialRequirements() {
@@ -107,7 +147,7 @@ class SpecialRequirements extends Component {
         const responseJson = await response.json();
         this.setState({
             isLoading: false,
-            bookingSuccess: responseJson.code,
+            bookingSuccess: responseJson.code == 'success' ? true : false,
         });
         return responseJson.data;
     }
@@ -131,6 +171,32 @@ class SpecialRequirements extends Component {
         }
     }
 
+    getDateTimeAlive() {
+        var that = this;
+        var date = new Date().getDate(); //Current Date
+        if (date < 10) {
+            date = '0' + date
+        }
+        var month = new Date().getMonth() + 1; //Current Month
+        if (month < 10) {
+            month = '0' + month
+        }
+        var year = new Date().getFullYear(); //Current Year
+        var hours = new Date().getHours(); //Current Hours
+        var min = new Date().getMinutes(); //Current Minutes
+        var sec = new Date().getSeconds(); //Current Seconds
+        that.setState({
+            //Setting the value of the date time
+            spesentTime:
+                date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec,
+            spesentDay: date + '-' + month + '-' + year,
+            hoursAlive: hours,
+            minutesAlive: min,
+        });
+        console.log(date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec)
+        return date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec;
+    }
+
     gotoSearchPlaceSR() {
         const { navigation } = this.props;
         const screen = navigation.getParam('screen');
@@ -152,6 +218,24 @@ class SpecialRequirements extends Component {
                 'placeholder': 'Nhập địa chỉ YCDB'
             })
         }
+    }
+
+    getItemLayout = (data, index) => (
+        { length: 40, offset: 40 * index, index }
+    )
+
+    gotoHome() {
+
+        this.props.deleteDataTaixe();
+        this.props.deleteData();
+        this.props.deleteDataVanChuyen();
+        const resetAction = StackActions.reset({
+            index: 0,
+            key: null,
+            actions: [NavigationActions.navigate({ routeName: 'Home' })],
+        });
+        this.props.navigation.dispatch(resetAction);
+
     }
 
     render() {
@@ -214,6 +298,7 @@ class SpecialRequirements extends Component {
                                 this.setState({
                                     dialogCalendarVisible: true,
                                 })
+                                this.getDateTimeAlive()
                             }}
                         >
                             <TextInput
@@ -224,6 +309,7 @@ class SpecialRequirements extends Component {
                                     this.setState({
                                         dialogCalendarVisible: true,
                                     })
+                                    this.getDateTimeAlive()
                                 }}
                             />
                         </TouchableOpacity>
@@ -311,14 +397,23 @@ class SpecialRequirements extends Component {
                             multiline={true}
                         />
 
-                        <TouchableOpacity
+                        {/* <TouchableOpacity
                             style={{ padding: 8, margin: 8, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300' }}
                             onPress={() => {
                                 this.checkData()
                             }}
                         >
                             <Text style={{ color: '#fff', fontWeight: 'bold', }}>Gửi yêu cầu</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
+
+                        <Button
+                            value={'Gửi yêu cầu'}
+                            onPress={() => {
+                                this.checkData()
+                            }}
+                        />
+
+                        {this.renderAlertInfo()}
 
                         <Dialog
                             visible={this.state.isLoading}
@@ -328,31 +423,42 @@ class SpecialRequirements extends Component {
                             </View>
                         </Dialog>
 
-                        <ConfirmDialog
-                            visible={this.state.bookingSuccess == 'success'}
-                            negativeButton={{
-                                title: 'Trang chủ',
-                                onPress: () => {
-                                    this.setState({
-                                        bookingSuccess: 'successed'
-                                    })
-                                    this.props.deleteDataTaixe();
-                                    this.props.deleteData();
-                                    this.props.deleteDataVanChuyen();
-                                    // this.props.navigation.push("Home");
-                                    const resetAction = StackActions.reset({
-                                        index: 0,
-                                        key: null,
-                                        actions: [NavigationActions.navigate({ routeName: 'Home' })],
-                                    });
-                                    this.props.navigation.dispatch(resetAction);
-                                }
-                            }}
-                            title="Gửi yêu cầu thành công">
-                            <View style={{ flexDirection: 'column', }}>
-                                <Text>Yêu cầu của bạn đã được hệ thống ghi nhận. Chúng tôi sé liên lạc trong thời gian sớm nhất.</Text>
+                        <Modal
+                            visible={this.state.bookingSuccess}
+                            transparent={true}
+                        >
+                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000000AA' }}>
+                                <View style={{ width: '80%', justifyContent: 'center', borderRadius: 8, minHeight: 100, backgroundColor: '#eee', padding: 8 }}>
+                                    <View style={{ borderBottomWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', }}>
+                                        <Text style={{ fontSize: 20, }}>Gửi yêu cầu thành công</Text>
+                                    </View>
+                                    <View style={{ padding: 8 }}>
+                                        <Text>Yêu cầu của bạn đã được hệ thống ghi nhận. Chúng tôi sé liên lạc trong thời gian sớm nhất.</Text>
+
+                                    </View>
+
+                                    <View style={{ flexDirection: 'row', height: 48, alignItems: 'center', justifyContent: 'center' }}>
+
+                                        <TouchableOpacity
+                                            onPress={() => {
+                                                this.setState({
+                                                    bookingSuccess: false,
+                                                    scroll: 48,
+                                                    hoursAlive: 0,
+                                                    minutesAlive: 0,
+                                                });
+                                                this.gotoHome();
+                                            }}
+                                            style={{ backgroundColor: '#77a300', margin: 4, flex: 1, alignItems: 'center', justifyContent: 'center', padding: 4 }}
+                                        >
+                                            <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold', margin: 8 }}>Trang chủ</Text>
+                                        </TouchableOpacity>
+
+
+                                    </View>
+                                </View>
                             </View>
-                        </ConfirmDialog>
+                        </Modal>
                     </View>
 
                     <Modal
@@ -425,16 +531,16 @@ class SpecialRequirements extends Component {
                             justifyContent: 'flex-end',
                             backgroundColor: '#000000AA'
                         }}>
-                            <View style={{ flex: 2, }}>
+                            <View style={{ flex: 1, }}>
                                 <TouchableOpacity
                                     onPress={() => this.setState({ dialogTimeVisible: !this.state.dialogTimeVisible })}
                                     style={{ flex: 1 }}
                                 ></TouchableOpacity>
                             </View>
 
-                            <View style={{ flex: 1, backgroundColor: '#fff', alignItems: "center", padding: 10 }}>
-                                <Text style={{ color: '#00363d', fontSize: 18, fontWeight: 'bold' }}>Chọn giờ đi</Text>
-                                <TimePicker
+                            <View style={{ flex: 1, backgroundColor: '#fff', }}>
+                                <Text style={{ color: '#00363d', fontSize: 18, fontWeight: 'bold', textAlign: 'center' }}>Chọn giờ đi</Text>
+                                {/* <TimePicker
                                     selectedHours={this.state.selectedHours}
                                     selectedMinutes={this.state.selectedMinutes}
                                     onChange={(hours, minutes) => {
@@ -453,7 +559,47 @@ class SpecialRequirements extends Component {
                                     >
                                         <Text style={{ textAlign: "right", backgroundColor: "#77a300", color: '#fff', padding: 8, borderRadius: 4, fontSize: 16 }}>Tiếp tục</Text>
                                     </TouchableOpacity>
-                                </View>
+                                </View> */}
+                                <FlatList
+                                    style={{ flex: 1, backgroundColor: '#ffffff' }}
+                                    data={listHour}
+                                    initialScrollIndex={this.state.scroll - 1}
+                                    getItemLayout={this.getItemLayout}
+                                    renderItem={({ item }) =>
+                                        <TouchableOpacity
+                                            style={{ flexDirection: 'row', height: 40 }}
+                                            onPress={() => {
+                                                var isDayAlight = this.state.spesentDay == this.state.date.format('DD-MM-YYYY');
+                                                var timeClicker = ((item.hour == this.state.hoursAlive && item.minute > this.state.minutesAlive) || item.hour > this.state.hoursAlive);
+
+                                                if (isDayAlight) {
+                                                    if (timeClicker) {
+                                                        this.setState({
+                                                            selectedHours: item.hour,
+                                                            selectedMinutes: item.minute,
+                                                            scroll: item.id,
+                                                            dialogTimeVisible: false,
+                                                            dialogCalendarVisible: false,
+                                                            time_pick: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                        })
+                                                    }
+                                                } else {
+                                                    this.setState({
+                                                        selectedHours: item.hour,
+                                                        selectedMinutes: item.minute,
+                                                        scroll: item.id,
+                                                        dialogTimeVisible: false,
+                                                        dialogCalendarVisible: false,
+                                                        time_pick: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                    })
+                                                }
+                                            }}
+                                        >
+                                            <Text style={{ textAlign: 'center', fontSize: 16, flex: 1, padding: 8, backgroundColor: (item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes) ? '#77a300' : '#fff', color: (this.state.spesentDay == this.state.date.format('DD-MM-YYYY') && ((item.hour == this.state.hoursAlive && item.minute < this.state.minutesAlive) || item.hour < this.state.hoursAlive)) ? '#aaa' : item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes ? '#fff' : '#000000' }}>{item.hour < 10 ? '0' + item.hour : item.hour} : {item.minute == 0 ? '00' : item.minute}</Text>
+                                        </TouchableOpacity>}
+                                    scrollToIndex={this.state.scroll}
+                                    keyExtractor={item => item.id}
+                                />
                             </View>
                         </View>
                     </Modal>
@@ -470,10 +616,11 @@ class SpecialRequirements extends Component {
                             flex: 1,
                             flexDirection: 'column',
                             justifyContent: 'flex-end',
+                            backgroundColor: '#000000AA'
                         }}>
                             <View style={{ flex: 1, }}>
                                 <TouchableOpacity
-                                    onPress={() => this.setModalVisible(!this.state.modalCarType)}
+                                    onPress={() => this.setState({ modalCarType: false })}
                                     style={{ flex: 1 }}
                                 ></TouchableOpacity>
                             </View>
@@ -482,7 +629,7 @@ class SpecialRequirements extends Component {
                                 data={this.state.listCarType}
                                 renderItem={({ item }) =>
                                     <TouchableOpacity
-                                        style={{ flexDirection: 'row', borderBottomColor: '#00363d', borderWidth: 0.5 }}
+                                        style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderBottomWidth: 1 }}
                                         onPress={() => this.setState({
                                             carType: item.id,
                                             carName: item.carName,
