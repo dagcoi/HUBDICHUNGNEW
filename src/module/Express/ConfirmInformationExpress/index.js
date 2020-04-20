@@ -361,7 +361,8 @@ class ConfirmInformationExpress extends Component {
 
                     <Dialog
                         visible={this.state.addingTicket}
-                        width={0.8}>
+                        // width={0.8}
+                    >
                         <View>
                             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                                 <ActivityIndicator size='large' />

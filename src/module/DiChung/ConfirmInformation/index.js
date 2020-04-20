@@ -353,7 +353,7 @@ class ConfirmInformation extends Component {
                     />
 
                     <Dialog
-                        width={0.8}
+                        // width={0.8}
                         visible={this.state.addingTicket}
                     >
                         <View>

@@ -337,6 +337,10 @@ class ListCar extends Component {
         return (
             obj.length < 1 ?
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
+                    <Image
+                        style={{ width: 80, height: 80}}
+                        source={require('../../../image/sorry.png')} 
+                    />                    
                     <Text style={{ textAlign: 'center' }}>Không tìm thấy tài xế phù hợp. Vui lòng gọi <Text style={{ color: '#77a300' }}
                         onPress={() => Linking.openURL(`tel: 19006022`)}>19006022</Text></Text>
                     <Text style={{ padding: 4, fontSize: 18 }}>HOẶC</Text>
@@ -348,7 +352,7 @@ class ListCar extends Component {
                             })
                         }}
                     >
-                        <Text style={{ color: '#fff', fontWeight: 'bold' }}>Yêu cầu đặc biệt</Text>
+                        <Text style={{ color: '#fff', fontWeight: 'bold' }}>ĐẶT XE THEO YÊU CẦU</Text>
                     </TouchableOpacity>
                 </View> :
                 <ScrollView
@@ -395,18 +399,18 @@ class ListCar extends Component {
                                         </View>
                                         {item.ride_method_id == '1' ?
                                             item.toll_fee == 0 ?
-                                                <View style={{ flexDirection: 'row', alignItems : 'center', }}>
+                                                <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                                                     <Image
                                                         style={{ width: 14, height: 14, marginRight: 8, marginLeft: 8 }}
                                                         source={require('../../../image/check.png')} />
                                                     <Text style={{ fontSize: 14 }}>Giá trọn gói</Text>
                                                 </View> : item.toll_fee == 'NA' ?
-                                                    <View style={{ flexDirection: 'row', alignItems : 'center', }}>
+                                                    <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                                                         <Image
                                                             style={{ width: 14, height: 14, marginRight: 8, marginLeft: 8 }}
                                                             source={require('../../../image/check.png')} />
                                                         <Text style={{ fontSize: 14 }}>Giá chưa bao gồm phí cầu đường</Text>
-                                                    </View> : <View style={{ flexDirection: 'row', alignItems : 'center', }}>
+                                                    </View> : <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                                                         <Image
                                                             style={{ width: 16, height: 16, marginRight: 8, marginLeft: 8 }}
                                                             source={require('../../../image/notetollfee.png')} />
@@ -414,13 +418,13 @@ class ListCar extends Component {
                                                     </View>
                                             :
                                             <View>
-                                                <View style={{ flexDirection: 'row', alignItems : 'center', }}>
+                                                <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                                                     <Image
                                                         style={{ width: 16, height: 16, marginRight: 8, marginLeft: 8 }}
                                                         source={require('../../../image/people.png')} />
                                                     <Text style={{ fontSize: 14 }}>Tối đa {item.max_share_seats} chỗ</Text>
                                                 </View>
-                                                <View style={{ flexDirection: 'row', alignItems : 'center', }}>
+                                                <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                                                     <Image
                                                         style={{ width: 16, height: 16, marginRight: 8, marginLeft: 8 }}
                                                         source={require('../../../image/vali.png')} />
@@ -430,7 +434,7 @@ class ListCar extends Component {
                                         }
 
                                         {item.full_package_by_km ?
-                                            <View style={{ flexDirection: 'row', alignItems : 'center', }}>
+                                            <View style={{ flexDirection: 'row', alignItems: 'center', }}>
                                                 <Image
                                                     style={{ width: 14, height: 14, marginRight: 8, marginLeft: 8 }}
                                                     source={require('../../../image/check.png')} />
@@ -439,7 +443,7 @@ class ListCar extends Component {
 
                                         <View style={{ marginLeft: 8, flexDirection: 'row', }}>
                                             {item.discount_text == '' ? null :
-                                                <View style={{ flexDirection: 'row', flex: 1, alignItems : 'center', }}>
+                                                <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center', }}>
                                                     <Image
                                                         style={{ width: 14, height: 14, marginRight: 8 }}
                                                         source={require('../../../image/check.png')} />

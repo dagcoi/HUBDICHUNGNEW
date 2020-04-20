@@ -125,15 +125,15 @@ class SpecialRequirements extends Component {
 
         const url = link.URL_API + `home/add_new_special_request`
         const formData = new FormData();
-        formData.append('name', this.state.full_name)
-        formData.append('email', this.state.email)
+        formData.append('name', this.state.full_name.trim())
+        formData.append('email', this.state.email.trim())
         formData.append('phone_number', this.state.use_phone)
-        formData.append('in_date', this.state.time_pick)
+        formData.append('in_date', this.state.time_pick.trim())
         formData.append('passenger', this.state.people)
         formData.append('total_day', this.state.day_tour)
         formData.append('pick_address', pick_add)
         formData.append('vehicle', this.state.carType)
-        formData.append('trip_detail', this.state.note)
+        formData.append('trip_detail', this.state.note.trim())
 
         console.log(formData)
         const response = await fetch(url, {
@@ -248,10 +248,10 @@ class SpecialRequirements extends Component {
                 >
                     <View style={{ padding: 8, backgroundColor: '#77a300' }}>
                         <Text style={{ fontSize: 25, color: '#fff', fontWeight: 'bold' }}>Đi Chung cung cấp dịch vụ đặc biệt:</Text>
-                        <Text style={{ fontSize: 16, color: '#fff' }}>Thuê xe nhiều ngày </Text>
-                        <Text style={{ fontSize: 16, color: '#fff' }}>Đặt xe trọn gói (tour) </Text>
-                        <Text style={{ fontSize: 16, color: '#fff' }}>Đặt xe theo lịch trình của bạn </Text>
-                        <Text style={{ fontSize: 16, color: '#fff' }}>Các dòng xe từ 4 - 45 chỗ</Text>
+                        <Text style={{ fontSize: 16, color: '#fff' }}>- Thuê xe nhiều ngày </Text>
+                        <Text style={{ fontSize: 16, color: '#fff' }}>- Đặt xe trọn gói (tour) </Text>
+                        <Text style={{ fontSize: 16, color: '#fff' }}>- Đặt xe theo lịch trình của bạn </Text>
+                        <Text style={{ fontSize: 16, color: '#fff' }}>- Các dòng xe từ 4 - 45 chỗ</Text>
                         <Text style={{ fontSize: 20, color: '#fff', fontWeight: 'bold' }}>Bắt đầu hành trình của bạn cùng Đi Chung!</Text>
                     </View>
                     <View style={{ padding: 8 }}>
@@ -380,6 +380,8 @@ class SpecialRequirements extends Component {
                                 placeholder='Nhập điểm xuất phát'
                                 style={{ padding: 8, fontSize: 16, borderRadius: 4, flex: 1, }}
                                 value={pick_add}
+                                pointerEvents="none"
+                                selection={{ start: 0, end: 0 }}
                                 onTouchStart={() => this.gotoSearchPlaceSR()}
                             />
                         </TouchableOpacity>

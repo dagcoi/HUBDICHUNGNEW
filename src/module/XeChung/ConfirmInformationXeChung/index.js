@@ -344,9 +344,8 @@ class ConfirmInformationXeChung extends Component {
                     </Dialog>
 
                     <Dialog
-                        width={0.8}
+                        // width={0.8}
                         visible={this.state.addingTicket}
-                        dialogTitle={<DialogTitle />}
                     >
                         <View>
                             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>

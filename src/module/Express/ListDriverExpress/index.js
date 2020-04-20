@@ -336,6 +336,10 @@ class ListDriverExpress extends Component {
             <View style={{ flex: 1, padding: 8, }}>
                 {obj.length < 1 ?
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        <Image
+                            style={{ width: 80, height: 80 }}
+                            source={require('../../../image/sorry.png')}
+                        />
                         <Text>Không tìm thấy đối tác phù hợp. Vui lòng gọi <Text style={{ color: '#77a300' }}
                             onPress={() => Linking.openURL(`tel: 19006022`)}>19006022</Text></Text>
                         <Text style={{ padding: 4, fontSize: 16 }}>HOẶC</Text>
@@ -347,7 +351,7 @@ class ListDriverExpress extends Component {
                                 })
                             }}
                         >
-                            <Text style={{ color: '#fff', fontWeight: 'bold' }}>Yêu cầu đặc biệt</Text>
+                            <Text style={{ color: '#fff', fontWeight: 'bold' }}>ĐẶT XE THEO YÊU CẦU</Text>
                         </TouchableOpacity>
                     </View> :
                     <ScrollView

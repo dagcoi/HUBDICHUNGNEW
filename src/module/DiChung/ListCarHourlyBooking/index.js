@@ -117,6 +117,10 @@ class ListCarHourlyBooking extends Component {
         return (
             obj.length < 1 ?
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
+                    <Image
+                        style={{ width: 80, height: 80}}
+                        source={require('../../../image/sorry.png')} 
+                    />
                     <Text style={{ textAlign: 'center' }}>Khu vực bạn chọn hiện không có xe. </Text>
                     <TouchableOpacity
                         style={{ backgroundColor: '#77a300', margin: 8, padding: 8 }}
@@ -126,7 +130,7 @@ class ListCarHourlyBooking extends Component {
                             })
                         }}
                     >
-                        <Text style={{ color: '#fff', fontWeight: 'bold' }}>Yêu cầu đặc biệt</Text>
+                        <Text style={{ color: '#fff', fontWeight: 'bold' }}>ĐẶT XE THEO YÊU CẦU</Text>
                     </TouchableOpacity>
                 </View> :
                 <ScrollView
