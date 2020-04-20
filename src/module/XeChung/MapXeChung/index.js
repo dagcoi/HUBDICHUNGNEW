@@ -428,6 +428,7 @@ class MapXeChung extends Component {
                                 style={{ fontSize: 14, height: 40, color: "#00363d", marginLeft: 4 }}
                                 pointerEvents="none"
                                 value={this.props.drop_add}
+                                selection={{ start: 0, end: 0 }}
                                 placeholder='Nhập điểm đích'
                                 placeholderTextColor='#333333'
                             />

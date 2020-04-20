@@ -114,7 +114,7 @@ class ListFreightTruck extends Component {
                         source={require('../../../image/sorry.png')} 
                     />
                     <Text style={{ textAlign: 'center' }}>Khu vực bạn chọn hiện không có xe phù hợp. Vui lòng chọn khu vực khác!</Text>
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                         style={{ backgroundColor: '#77a300', margin: 8, padding: 8 }}
                         onPress={() => {
                             this.props.navigation.push("SpecialRequirements", {
@@ -123,7 +123,7 @@ class ListFreightTruck extends Component {
                         }}
                     >
                         <Text style={{ color: '#fff', fontWeight: 'bold' }}>ĐẶT XE THEO YÊU CẦU</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View> :
                 <ScrollView
                     showsVerticalScrollIndicator={false}

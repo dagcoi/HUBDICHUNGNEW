@@ -33,6 +33,7 @@ class ListDriverHourlyBooking extends Component {
                 <Text style={{
                     flex: 1,
                     fontSize: 22,
+                    margin : 8,
                     textAlign: 'left',
                     justifyContent: 'center'
                 }}>
@@ -112,7 +113,7 @@ class ListDriverHourlyBooking extends Component {
                         source={require('../../../image/sorry.png')} 
                     />
                     <Text style={{ textAlign: 'center' }}>Khu vực bạn chọn hiện không có lái xe.</Text>
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                         style={{ backgroundColor: '#77a300', margin: 8, padding: 8 }}
                         onPress={() => {
                             this.props.navigation.push("SpecialRequirements", {
@@ -121,7 +122,7 @@ class ListDriverHourlyBooking extends Component {
                         }}
                     >
                         <Text style={{ color: '#fff', fontWeight: 'bold' }}>ĐẶT XE THEO YÊU CẦU</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View> :
                 <ScrollView
                     showsVerticalScrollIndicator={false}

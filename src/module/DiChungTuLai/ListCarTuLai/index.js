@@ -33,16 +33,20 @@ class ListCarTuLai extends Component {
             headerTitle: () => <View style={{
                 flex: 1,
                 flexDirection: 'row',
-                justifyContent: 'center'
+                justifyContent: 'center',
+                alignItems: 'center'
             }}>
-                <Text style={{
-                    flex: 1,
-                    fontSize: 22,
-                    textAlign: 'left',
-                    justifyContent: 'center',
-                }}>
-                    Danh sách xe
+                <View style = {{flex : 1, justifyContent : 'flex-start', alignItems : 'center'}}>
+                    <Text style={{
+                        // flex: 1,
+                        fontSize: 22,
+                        textAlign: 'left',
+                        // justifyContent: 'center',
+                    }}>
+                        Danh sách xe
                 </Text>
+                </View>
+
 
                 <View
                     style={{ width: 35, height: 35 }}
@@ -153,61 +157,59 @@ class ListCarTuLai extends Component {
         console.log(listcar);
         console.log(listcarfilter);
         return (
-            <View style={{ flex: 1 }}>
-                <Modal
-                    visible={showFilter}
-                    animationType='slide'
-                >
-                    <View style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        padding: 16,
-                    }}>
-                        <Text style={{ fontSize: 16, fontWeight: '700', padding: 8 }}>Kích thước</Text>
-                        <FlatList
-                            showsHorizontalScrollIndicator={false}
-                            showsVerticalScrollIndicator={false}
-                            data={listcar}
-                            renderItem={({ item }) => {
-                                return (
-                                    <View style={{ marginTop: 8 }}>
+            <Modal
+                visible={showFilter}
+                animationType='slide'
+            >
+                <View style={{
+                    flex: 1,
+                    flexDirection: 'column',
+                    padding: 16,
+                }}>
+                    <Text style={{ fontSize: 16, fontWeight: '700', padding: 8 }}>Kích thước</Text>
+                    <FlatList
+                        showsHorizontalScrollIndicator={false}
+                        showsVerticalScrollIndicator={false}
+                        data={listcar}
+                        renderItem={({ item }) => {
+                            return (
+                                <View style={{ marginTop: 8 }}>
 
-                                        <CheckBoxList
-                                            onClick={() => {
-                                                (listcarfilter.indexOf(item.vehicle_id) > -1) ? (listcarfilter.splice(listcarfilter.indexOf(item.vehicle_id), 1)) : listcarfilter.push(item.vehicle_id);
-                                                this.setState({ listcarfilter: listcarfilter })
-                                            }}
-                                            isChecked={listcarfilter.indexOf(item.vehicle_id) > -1}
-                                            rightText={item.vehicle_name + ' '}
-                                        />
-                                    </View>
-                                )
-                            }
-                            }
-                        />
+                                    <CheckBoxList
+                                        onClick={() => {
+                                            (listcarfilter.indexOf(item.vehicle_id) > -1) ? (listcarfilter.splice(listcarfilter.indexOf(item.vehicle_id), 1)) : listcarfilter.push(item.vehicle_id);
+                                            this.setState({ listcarfilter: listcarfilter })
+                                        }}
+                                        isChecked={listcarfilter.indexOf(item.vehicle_id) > -1}
+                                        rightText={item.vehicle_name + ' '}
+                                    />
+                                </View>
+                            )
+                        }
+                        }
+                    />
 
-                        <View style={{ flexDirection: 'row' }}>
-                            <TouchableOpacity
-                                style={{ padding: 8, backgroundColor: '#999999', borderRadius: 4, alignItems: 'center', marginTop: 10, flex: 1 }}
-                                onPress={() => {
-                                    this.setState({
-                                        listcarfilter: [],
-                                    })
-                                }}>
-                                <Text style={{ fontSize: 16, color: '#00363d' }}>BỎ LỌC</Text>
-                            </TouchableOpacity>
-                            <View style={{ margin: 8 }} />
-                            <TouchableOpacity
-                                style={{ padding: 8, backgroundColor: '#77a300', borderRadius: 4, alignItems: 'center', marginTop: 10, flex: 1 }}
-                                onPress={() => {
-                                    this.setState({ showFilter: false })
-                                }}>
-                                <Text style={{ fontSize: 16, color: '#fff' }}>ÁP DỤNG</Text>
-                            </TouchableOpacity>
-                        </View>
+                    <View style={{ flexDirection: 'row' }}>
+                        <TouchableOpacity
+                            style={{ padding: 8, backgroundColor: '#999999', borderRadius: 4, alignItems: 'center', marginTop: 10, flex: 1 }}
+                            onPress={() => {
+                                this.setState({
+                                    listcarfilter: [],
+                                })
+                            }}>
+                            <Text style={{ fontSize: 16, color: '#00363d' }}>BỎ LỌC</Text>
+                        </TouchableOpacity>
+                        <View style={{ margin: 8 }} />
+                        <TouchableOpacity
+                            style={{ padding: 8, backgroundColor: '#77a300', borderRadius: 4, alignItems: 'center', marginTop: 10, flex: 1 }}
+                            onPress={() => {
+                                this.setState({ showFilter: false })
+                            }}>
+                            <Text style={{ fontSize: 16, color: '#fff' }}>ÁP DỤNG</Text>
+                        </TouchableOpacity>
                     </View>
-                </Modal>
-            </View>
+                </View>
+            </Modal>
         )
     }
 
@@ -220,6 +222,10 @@ class ListCarTuLai extends Component {
         return (
             obj.length < 1 ?
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
+                    <Image
+                        style={{ width: 80, height: 80 }}
+                        source={require('../../../image/sorry.png')}
+                    />
                     <Text style={{ textAlign: 'center' }}>Không tìm thấy đối tác phù hợp. Vui lòng gọi <Text style={{ color: '#77a300' }}
                         onPress={() => Linking.openURL(`tel: 19006022`)}>19006022</Text></Text>
                 </View> :

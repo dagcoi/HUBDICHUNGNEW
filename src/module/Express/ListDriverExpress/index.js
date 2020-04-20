@@ -335,14 +335,14 @@ class ListDriverExpress extends Component {
         return (
             <View style={{ flex: 1, padding: 8, }}>
                 {obj.length < 1 ?
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
                         <Image
                             style={{ width: 80, height: 80 }}
                             source={require('../../../image/sorry.png')}
                         />
                         <Text>Không tìm thấy đối tác phù hợp. Vui lòng gọi <Text style={{ color: '#77a300' }}
                             onPress={() => Linking.openURL(`tel: 19006022`)}>19006022</Text></Text>
-                        <Text style={{ padding: 4, fontSize: 16 }}>HOẶC</Text>
+                        {/* <Text style={{ padding: 4, fontSize: 16 }}>HOẶC</Text>
                         <TouchableOpacity
                             style={{ backgroundColor: '#77a300', margin: 8, padding: 8 }}
                             onPress={() => {
@@ -352,7 +352,7 @@ class ListDriverExpress extends Component {
                             }}
                         >
                             <Text style={{ color: '#fff', fontWeight: 'bold' }}>ĐẶT XE THEO YÊU CẦU</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View> :
                     <ScrollView
                         showsVerticalScrollIndicator={false}

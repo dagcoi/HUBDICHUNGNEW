@@ -346,7 +346,7 @@ const RootStack = createStackNavigator({
     SerchPlaceTuLai: {
         screen: SerchPlaceTuLai,
         navigationOptions: {
-            title: 'Nhập địa chỉ tự lái DC',
+            title: 'Nhập địa chỉ',
         }
     },
 

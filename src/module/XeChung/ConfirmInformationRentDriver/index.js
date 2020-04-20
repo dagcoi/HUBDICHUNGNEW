@@ -345,7 +345,7 @@ class ConfirmInformationRentDriver extends Component {
                                     source={{ uri: this.props.vehicle_icon }}
                                 />
                             </View>
-                            <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sé liên lạc trong thời gian sớm nhất.</Text>
+                            <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất.</Text>
 
                             <ButtonDialog
                                 text='Chi tiết'

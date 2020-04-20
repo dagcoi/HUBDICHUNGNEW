@@ -435,7 +435,7 @@ class SpecialRequirements extends Component {
                                         <Text style={{ fontSize: 20, }}>Gửi yêu cầu thành công</Text>
                                     </View>
                                     <View style={{ padding: 8 }}>
-                                        <Text>Yêu cầu của bạn đã được hệ thống ghi nhận. Chúng tôi sé liên lạc trong thời gian sớm nhất.</Text>
+                                        <Text>Yêu cầu của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất.</Text>
 
                                     </View>
 

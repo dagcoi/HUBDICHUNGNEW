@@ -381,7 +381,7 @@ class ConfirmInformationXeChung extends Component {
                                     />
                                 </View>
                                 <Text>Mã vé của bạn là :<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
-                                <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sé liên lạc trong thời gian sớm nhất.</Text>
+                                <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất.</Text>
 
                                 <ButtonDialog
                                     text={'Chi tiết mã vé'}
@@ -438,7 +438,7 @@ class ConfirmInformationXeChung extends Component {
                                     />
                                 </View>
                                 <Text>Mã vé của bạn là :<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
-                                <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sé liên lạc trong thời gian sớm nhất.</Text>
+                                <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất.</Text>
 
                                 <ButtonDialog
                                     text='Chi tiết mã vé'

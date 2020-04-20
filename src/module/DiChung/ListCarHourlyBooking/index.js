@@ -229,7 +229,7 @@ class ListCarHourlyBooking extends Component {
         }
         var obj = [...this.state.dataSource];
         return (
-            <View style={{ flex: 1, padding: 8, }}>
+            <View style={{ flex: 1, padding: 8,justifyContent: 'center', alignItems : 'center' }}>
                 {this.renderItem(obj)}
             </View>
         );
