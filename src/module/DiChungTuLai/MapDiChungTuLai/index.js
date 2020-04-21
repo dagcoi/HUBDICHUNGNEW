@@ -490,7 +490,7 @@ class MapDiChungTuLai extends Component {
                             </View>
 
                             <View style={{ flex: 1, backgroundColor: '#fff', alignItems: "center", padding: 10 }}>
-                                <Text style={{ color: '#00363d', fontSize: 18, fontWeight: 'bold' }}>Chọn giờ đi</Text>
+                                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Chọn giờ đi</Text>
                                 <TimePicker
                                     selectedHours={this.state.selectedHours}
                                     selectedMinutes={this.state.selectedMinutes}

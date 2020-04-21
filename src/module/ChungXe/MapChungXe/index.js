@@ -650,7 +650,7 @@ class MapChungXe extends Component {
                         flexDirection: 'column',
                         backgroundColor: '#fff',
                     }}>
-                        <Text style={{ fontSize: 20, fontWeight: 'bold', margin: 8 }}>{this.state.nhanxe ? 'Chọn ngày nhận xe' : 'Chọn ngày trả xe'}</Text>
+                        <Text style={{ fontSize: 18, fontWeight: 'bold', margin: 8, textAlign : 'center' }}>{this.state.nhanxe ? 'Chọn ngày nhận xe' : 'Chọn ngày trả xe'}</Text>
                         <CalendarPicker
                             textStyle={{
                                 color: '#000000',

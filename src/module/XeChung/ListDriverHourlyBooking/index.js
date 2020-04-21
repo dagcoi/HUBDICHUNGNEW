@@ -28,7 +28,8 @@ class ListDriverHourlyBooking extends Component {
             headerTitle: () => <View style={{
                 flex: 1,
                 flexDirection: 'row',
-                justifyContent: 'center'
+                justifyContent: 'center',
+                alignItems : 'center',
             }}>
                 <Text style={{
                     flex: 1,

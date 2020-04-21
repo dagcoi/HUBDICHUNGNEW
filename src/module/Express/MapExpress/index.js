@@ -561,7 +561,7 @@ class MapExpress extends Component {
                         justifyContent: 'flex-end',
                     }}>
                         <View style={{ flex: 1, backgroundColor: '#fff', alignItems: "center" }}>
-                            <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#77a300', margin: 16 }}>Chọn thời gian gửi</Text>
+                            <Text style={{ fontSize: 18, fontWeight: 'bold', margin: 16 }}>Chọn thời gian gửi</Text>
                             <Calendar
                                 minDate={minDate}
 
@@ -598,7 +598,7 @@ class MapExpress extends Component {
                         </View>
                         <View style = {{flex : 1, backgroundColor: '#ffffff' }}>
                             <View  style = {{height : 40, justifyContent : 'center', alignItems : 'center'}}>
-                                <Text style  = {{fontSize : 18, fontWeight : 'bold'}}>Chọn giờ đi</Text>
+                                <Text style  = {{fontSize : 18, fontWeight : 'bold'}}>Chọn giờ gửi</Text>
                             </View>
                             <FlatList
                                 style={{ flex: 1, backgroundColor: '#ffffff' }}
