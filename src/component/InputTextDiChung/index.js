@@ -11,6 +11,7 @@ function InputTextDiChung({
     returnKeyType,
     onSubmitEditing,
     multiline,
+    editable
 }) {
     return (
         <View style={styles.borderView} >
@@ -24,6 +25,7 @@ function InputTextDiChung({
                 onChangeText={onChangeText}
                 keyboardType={keyboardType}
                 multiline = {multiline}
+                editable = {editable}
             />
             <TouchableOpacity
                 onPress={onPress}

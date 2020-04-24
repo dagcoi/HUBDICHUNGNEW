@@ -73,12 +73,7 @@ import { createDrawerNavigator } from 'react-navigation-drawer'
 
 const RootStack = createStackNavigator({
 
-    // Login : {
-    //     screen : Login,
-    //     navigationOptions : {
-    //         header : null,
-    //     }
-    // },
+    
 
     // OTP : {
     //     screen : OTP,
@@ -460,12 +455,20 @@ const DrawerNavi = createDrawerNavigator({
             alignItems: 'center'
         },
     },
+    Login : {
+        screen : Login,
+        navigationOptions : {
+            title : 'Thông tin cá nhân',
+            alignItems : 'center'
+        }
+    },
 }, {
     initialRouteName: 'Main',
     drawerPosition: 'left',
     drawerWidth: 300,
     contentOptions: {
         activeTintColor: '#77a300',
+        activeBackgroundColor: '#e8e8e8',
     }
 })
 
