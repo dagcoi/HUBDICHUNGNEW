@@ -63,6 +63,7 @@ import PoliciesAndServices from './module/WebView/PoliciesAndServices'
 
 import SearchTicket from './module/SearchTicket'
 import Login from './module/Account/Login'
+import ListBooking from './module/ListBooking'
 import Registration from './module/Account/Registration'
 
 import { createDrawerNavigator } from 'react-navigation-drawer'
@@ -454,6 +455,13 @@ const DrawerNavi = createDrawerNavigator({
             title: 'Chính sách vận chuyển',
             alignItems: 'center'
         },
+    },
+    ListBooking : {
+        screen : ListBooking,
+        navigationOptions : {
+            title : 'Danh sách vé',
+            alignItems: 'center'
+        }
     },
     Login : {
         screen : Login,

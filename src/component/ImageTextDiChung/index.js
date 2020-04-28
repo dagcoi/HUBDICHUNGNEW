@@ -4,10 +4,11 @@ import { View, StyleSheet, Image, Text } from 'react-native';
 function ImageTextDiChung({
     text,
     textBold,
-    source
+    source,
+    style
 }) {
     return (
-        <View style={styles.container}>
+        <View style={style ?? styles.container}>
             {source == null ? null :
                 <Image
                     style={styles.leftIcon}

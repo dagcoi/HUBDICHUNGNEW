@@ -7,9 +7,6 @@ import InputTextDiChung from '../../../component/InputTextDiChung'
 
 const logo = '../../../image/logo_dc_taxi.png'
 const people = '../../../image/person.png'
-const lock = '../../../image/lock.png'
-const hide = '../../../image/hide.png'
-const visibility = '../../../image/visibility.png'
 const cancel = '../../../image/cancel.png'
 const iconCacbonic = '../../../image/iconcacbonic.png'
 const iconHappy = '../../../image/iconhappy.png'
@@ -48,6 +45,7 @@ class Login extends Component {
             address: '',
             editable: false,
             editablePhone: false,
+            passWord: '',
         }
     }
 
@@ -109,9 +107,10 @@ class Login extends Component {
                 } else {
                     this.setState({
                         showRePass: false,
-                        passOld : '',
-                        changPass : '',
-                        reChangPass : '',
+                        passOld: '',
+                        changPass: '',
+                        reChangPass: '',
+                        passWord: newPass,
                     })
                     alert('đổi mật khẩu thành công')
                 }
@@ -141,6 +140,7 @@ class Login extends Component {
                         pass: '',
                         rePass: '',
                         infoCustommer: resJson.data,
+                        passWord: passWord,
                     })
                     this.getDataInJson(resJson.data)
                 }
@@ -166,16 +166,6 @@ class Login extends Component {
         await AsyncStorage.removeItem('token')
     }
 
-    _storeDataLogin = async () => {
-        try {
-            await AsyncStorage.setItem('username', this.state.user);
-            await AsyncStorage.setItem('password', this.state.pass);
-        } catch (error) {
-            // Error saving data
-            console.log(error)
-        }
-    };
-
     inputUsername() {
         return (
             <View style={styles.borderView}>
@@ -183,6 +173,32 @@ class Login extends Component {
                     style={styles.icon}
                     source={require(people)}
                 />
+                <TextInput
+                    style={[styles.textInput,]}
+                    placeholder={"Email"}
+                    value={this.state.user}
+                    onChangeText={(text) => {
+                        this.validateEmail(text);
+                    }}
+                />
+                <TouchableOpacity
+                    onPress={() => {
+                        this.setState({
+                            user: '',
+                        })
+                    }}
+                ><Image
+                        style={{ width: 20, height: 20, margin: 8 }}
+                        source={this.state.user.length == 0 ? null : require(cancel)}
+                    />
+                </TouchableOpacity>
+            </View>
+        )
+    }
+
+    inputUsernameSignUp() {
+        return (
+            <View style={styles.borderViewAll}>
                 <TextInput
                     style={styles.textInput}
                     placeholder={"Email"}
@@ -241,12 +257,16 @@ class Login extends Component {
     _retrieveData = async () => {
         try {
             const dataLogin = await AsyncStorage.getItem('dataLogin')
+            const password = await AsyncStorage.getItem('password')
             if (dataLogin !== null) {
                 let json = JSON.parse(dataLogin)
                 console.log(dataLogin)
                 console.log(json.token)
                 this.setState({ infoCustommer: json })
                 this.getDataInJson(json)
+            }
+            if (password !== null) {
+                this.setState({ passWord: password })
             }
         } catch (error) {
             // Error retrieving data
@@ -294,6 +314,31 @@ class Login extends Component {
                 pressEye={() => { this.setState({ visibal: !this.state.visibal }) }}
                 secureTextEntry={this.state.visibal}
                 value={this.state.pass}
+                imageLeft={true}
+                noBorder={true}
+                styleRight={{ borderColor: '#e8e8e8', borderStartWidth: 1, }}
+            />
+        )
+    }
+
+    inputPassSignUp() {
+        return (
+            <InputPassWord
+                onChangeText={(text) => {
+                    this.setState({
+                        pass: text.trim().toLowerCase(),
+                    })
+                }}
+                placeholder={"Mật khẩu"}
+                pressDelete={() => {
+                    this.setState({
+                        pass: '',
+                    })
+                }}
+                pressEye={() => { this.setState({ visibal: !this.state.visibal }) }}
+                secureTextEntry={this.state.visibal}
+                value={this.state.pass}
+                hidePass={true}
             />
         )
     }
@@ -379,6 +424,30 @@ class Login extends Component {
                 pressEye={() => { this.setState({ visibal: !this.state.visibal }) }}
                 secureTextEntry={this.state.visibal}
                 value={this.state.rePass}
+                imageLeft={true}
+                noBorder={true}
+            />
+        )
+    }
+
+    inputRePassSignUp() {
+        return (
+            <InputPassWord
+                onChangeText={(text) => {
+                    this.setState({
+                        rePass: text.trim().toLowerCase(),
+                    })
+                }}
+                placeholder={"Nhập lại mật khẩu"}
+                pressDelete={() => {
+                    this.setState({
+                        rePass: '',
+                    })
+                }}
+                pressEye={() => { this.setState({ visibal: !this.state.visibal }) }}
+                secureTextEntry={this.state.visibal}
+                value={this.state.rePass}
+                hidePass={true}
             />
         )
     }
@@ -391,7 +460,7 @@ class Login extends Component {
             >
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000000AA' }}>
                     <View style={{ width: '80%', justifyContent: 'center', borderRadius: 8, minHeight: 100, backgroundColor: '#fff', padding: 8 }}>
-                        <View style={{ borderBottomWidth: 1, borderColor: '#e8e8e8', padding: 8, justContain: 'center', alignItems: 'center', flexDirection: 'row' }}>
+                        <View style={styles.titleModal}>
                             <Text style={{ fontSize: 20, flex: 1, textAlign: 'center' }}>Đổi mật khẩu</Text>
                             <TouchableOpacity
                                 onPress={() => { this.setState({ showRePass: false }) }}
@@ -432,7 +501,7 @@ class Login extends Component {
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000000AA' }}>
                     {this.state.showLogin ?
                         <View style={{ width: '80%', justifyContent: 'center', borderRadius: 8, minHeight: 100, backgroundColor: '#fff', padding: 8 }}>
-                            <View style={{ borderBottomWidth: 1, borderColor: '#e8e8e8', padding: 8, justContain: 'center', alignItems: 'center', flexDirection: 'row' }}>
+                            <View style={styles.titleModal}>
                                 <Text style={{ fontSize: 20, flex: 1, textAlign: 'center' }}>Đăng nhập</Text>
                                 <TouchableOpacity
                                     onPress={() => { this.setState({ showLogin: false }) }}
@@ -443,9 +512,13 @@ class Login extends Component {
                                     />
                                 </TouchableOpacity>
                             </View>
-                            {this.inputUsername()}
-                            {this.inputPass()}
-                            <Text style={{ color: '#ef465f', marginStart: 8 }}>{this.state.messageLogin}</Text>
+                            <View style={{ borderWidth: 1, borderColor: '#e8e8e8', borderRadius: 8, marginVertical: 8 }}>
+                                {this.inputUsername()}
+                                {this.inputPass()}
+                            </View>
+                            {this.state.messageLogin == '' ? null :
+                                <Text style={{ color: '#ef465f', marginStart: 8 }}>{this.state.messageLogin}</Text>
+                            }
                             <ButtonWrap
                                 onPress={() => {
                                     this.checkDataLogin()
@@ -460,22 +533,13 @@ class Login extends Component {
                                     })
                                 }}
                             >
-                                <Text style={{ color: '#77a300', textAlign: 'center' }}>Bạn chưa có tài khoản? Đăng kí.</Text>
+                                <Text style={styles.textLine}>Bạn chưa có tài khoản? Đăng kí.</Text>
                             </TouchableOpacity>
 
-                            {/* <ButtonWrap
-                            onPress={() => {
-                                this.setState({
-                                    showLogin: false,
-                                    showSignUp: true,
-                                })
-                            }}
-                            value={'Đăng kí'}
-                        /> */}
                         </View> :
                         <View style={{ width: '80%', justifyContent: 'center', borderRadius: 8, minHeight: 100, backgroundColor: '#fff', padding: 8 }}>
 
-                            <View style={{ borderBottomWidth: 1, borderColor: '#e8e8e8', padding: 8, justContain: 'center', alignItems: 'center', flexDirection: 'row' }}>
+                            <View style={styles.titleModal}>
                                 <Text style={{ fontSize: 20, flex: 1, textAlign: 'center' }}>Đăng kí</Text>
                                 <TouchableOpacity
                                     onPress={() => { this.setState({ showSignUp: false }) }}
@@ -486,9 +550,9 @@ class Login extends Component {
                                     />
                                 </TouchableOpacity>
                             </View>
-                            {this.inputUsername()}
-                            {this.inputPass()}
-                            {this.inputRePass()}
+                            {this.inputUsernameSignUp()}
+                            {this.inputPassSignUp()}
+                            {this.inputRePassSignUp()}
                             <Text style={{ color: '#ef465f', marginStart: 8 }}>{this.state.messageAddUser}</Text>
                             <ButtonWrap
                                 onPress={() => {
@@ -505,18 +569,9 @@ class Login extends Component {
                                     })
                                 }}
                             >
-                                <Text style={{ color: '#77a300', textAlign: 'center' }}>Đã có tài khoản? Đăng nhập</Text>
+                                <Text style={styles.textLine}>Đã có tài khoản? Đăng nhập</Text>
                             </TouchableOpacity>
 
-                            {/* <ButtonWrap
-                            onPress={() => {
-                                this.setState({
-                                    showLogin: true,
-                                    showSignUp: false,
-                                })
-                            }}
-                            value={'Đăng nhập'}
-                        /> */}
                         </View>
                     }
 
@@ -583,7 +638,7 @@ class Login extends Component {
                         <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
                             <Text style={{ flex: 1, textAlign: 'left', fontSize: 16, fontWeight: 'bold' }}>Thông tin cá nhân</Text>
                             <Text
-                                style={{ color: '#77a300', borderBottomWidth: 1, borderColor: '#77a300' }}
+                                style={styles.textLine}
                                 onPress={() => this.setState({ editable: true })}
                             >Chỉnh sửa</Text>
                         </View>
@@ -604,21 +659,14 @@ class Login extends Component {
                             editable={this.state.editable}
                         />
 
-                        <InputTextDiChung
-                            value={this.state.email}
-                            placeholder='Email'
-                            onChangeText={(text) => this.setState({
-                                email: text.trim(),
-                            })}
-                            keyboardType='email-address'
-                            onPress={() => {
-                                this.state.editable ?
-                                    this.setState({
-                                        email: ''
-                                    }) : null
-                            }}
-                            editable={this.state.editable}
-                        />
+                        <View style={[styles.borderViewAll, { backgroundColor: '#eee' }]}>
+                            <TextInput
+                                style={styles.textInput}
+                                value={this.state.email}
+                                // secureTextEntry={true}
+                                editable={false}
+                            />
+                        </View>
 
                         <InputTextDiChung
                             value={this.state.phone}
@@ -650,6 +698,23 @@ class Login extends Component {
                             editable={this.state.editable}
                         />
 
+                        <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8 }}>
+                            <Text style={{ flex: 1, textAlign: 'left', fontSize: 16, fontWeight: 'bold' }}>Mật khẩu</Text>
+                            <Text
+                                style={styles.textLine}
+                                onPress={() => this.setState({ showRePass: true })}
+                            >Chỉnh sửa</Text>
+                        </View>
+
+                        <View style={styles.borderViewAll}>
+                            <TextInput
+                                style={styles.textInput}
+                                value={this.state.passWord}
+                                secureTextEntry={true}
+                                editable={false}
+                            />
+                        </View>
+
                         <ButtonWrap
                             onPress={() => {
                                 this.state.editable ? (
@@ -660,12 +725,6 @@ class Login extends Component {
                             value={'Lưu thông tin'}
                         />
 
-                        <ButtonWrap
-                            onPress={() => {
-                                this.setState({ showRePass: true })
-                            }}
-                            value={'Đổi mật khẩu'}
-                        />
                         <View style={{ margin: 4 }} />
                         <ButtonGray
                             onPress={() => {
@@ -716,27 +775,6 @@ class Login extends Component {
                 <Header onPressLeft={() => this.props.navigation.openDrawer()} />
                 {this.state.loginSuccess ?
                     <View style={styles.container}>
-                        {/* <Text>Thông tin tài khoản</Text>
-
-                        <Text>Email : <Text>{this.state.infoCustommer.email}</Text></Text>
-                        <Text>Username : <Text>{this.state.infoCustommer.username}</Text></Text>
-                        <Text>createdAt : <Text>{this.state.infoCustommer.createdAt}</Text></Text>
-
-                        <ButtonWrap
-                            onPress={() => {
-                                { this.removeDataLogin() }
-                                this.setState({ loginSuccess: false })
-                            }}
-                            value={'Đăng xuất'}
-                        />
-
-                        <ButtonWrap
-                            onPress={() => {
-                                this.setState({ showRePass: true })
-                            }}
-                            value={'Đổi mật khẩu'}
-                        />
-                        {this.showModalRePass()} */}
                         {this.accountInfo()}
                     </View> :
                     <View style={styles.container}>
@@ -744,7 +782,7 @@ class Login extends Component {
                             style={styles.logo}
                             source={require(logo)}
                         />
-                        <Text>Vui lòng đăng nhập hoặc đăng kí để xem thông tin</Text>
+                        <Text style={{ marginTop: 16 }}>Vui lòng đăng nhập hoặc đăng kí để xem thông tin</Text>
 
                         <ButtonWrap
                             onPress={() => {
@@ -753,9 +791,9 @@ class Login extends Component {
                             value={'Đăng nhập'}
                         />
 
-                        {/* <TouchableOpacity>
-                            <Text style={{ color: '#77a300', }}>Quên mật khẩu?</Text>
-                        </TouchableOpacity> */}
+                        <TouchableOpacity style={{ marginTop: 8, }}>
+                            <Text style={styles.textLine}>Quên mật khẩu?</Text>
+                        </TouchableOpacity>
 
                         <TouchableOpacity style={{ margin: 8 }}
                             onPress={() => {
@@ -764,11 +802,10 @@ class Login extends Component {
                                 })
                             }}
                         >
-                            <Text style={{ color: '#77a300', }}>Bạn chưa có tài khoản? Đăng kí.</Text>
+                            <Text style={styles.textLine}>Bạn chưa có tài khoản? Đăng kí.</Text>
                         </TouchableOpacity>
 
                         {this.showModalLogin()}
-                        {/* {this.showModalSignUp()} */}
                     </View>
                 }
             </View>
@@ -785,11 +822,19 @@ const styles = StyleSheet.create({
     logo: {
         width: 150,
         height: 150,
-        borderRadius: 4,
+        borderRadius: 100,
     },
     borderView: {
+        borderBottomWidth: 0,
+        borderColor: '#e8e8e8',
+        borderRadius: 80,
+        flexDirection: 'row',
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    borderViewAll: {
         marginTop: 8,
-        borderBottomWidth: 1,
+        borderWidth: 1,
         borderColor: '#e8e8e8',
         borderRadius: 4,
         flexDirection: 'row',
@@ -805,9 +850,20 @@ const styles = StyleSheet.create({
     },
     textInput: {
         padding: 8,
-        fontSize: 16,
+        fontSize: 14,
         borderRadius: 4,
         flex: 1,
+    },
+    titleModal: {
+        padding: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row'
+    },
+    textLine: {
+        color: '#77a300',
+        textDecorationLine: 'underline',
+        textAlign: 'center'
     }
 })
 
