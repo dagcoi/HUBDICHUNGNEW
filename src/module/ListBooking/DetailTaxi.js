@@ -16,7 +16,7 @@ const imageComment = '../../image/comment.png'
 
 function DetailTaxi({ item }) {
     return (
-        <ScrollView style={{ paddingHorizontal: 16 }}>
+        <View style={{ paddingHorizontal: 16 }}>
             {renderDetailTrip(item)}
             {renderDetailOrder(item)}
             {renderDetailCustommer(item)}
@@ -24,7 +24,7 @@ function DetailTaxi({ item }) {
             {renderComment(item)}
             {renderOther(item)}
             {renderTT(item)}
-        </ScrollView>
+        </View>
     )
 }
 

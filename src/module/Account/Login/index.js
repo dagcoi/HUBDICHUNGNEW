@@ -22,14 +22,11 @@ class Login extends Component {
             user: '',
             pass: '',
             visibal: true,
-            showLogin: false,
+            showLogin: true,
             showSignUp: false,
-            verificationCode: '',
-            userId: '',
             loginSuccess: false,
-            isLoading: true,
+            isLoading: false,
             clickLogin: true,
-            clickSignUp: true,
             messageAddUser: '',
             messageLogin: '',
             validate: false,
@@ -39,23 +36,18 @@ class Login extends Component {
             passOld: '',
             changPass: '',
             reChangPass: '',
-            fullName: '',
             email: '',
-            phone: '',
-            address: '',
-            editable: false,
-            editablePhone: false,
             passWord: '',
         }
     }
 
     componentDidMount() {
         this._login();
-        this._retrieveData()
+        // this._retrieveData()
     }
 
     apiAddUser(userName, passWord) {
-        fetch('http://dev.portal.dichung.vn/api/user/v1/users', {
+        fetch('https://dev.portal.dichung.vn/api/user/v1/users', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json, text/plain, */*',
@@ -68,7 +60,7 @@ class Login extends Component {
                 if (resJson.data) {
                     this.addDataLogin(userName, passWord, resJson.data)
                     this.setState({
-                        showLogin: false,
+                        showLogin: true,
                         showSignUp: false,
                         loginSuccess: true,
                         isLoading: false,
@@ -78,8 +70,10 @@ class Login extends Component {
                         pass: '',
                         rePass: '',
                         infoCustommer: resJson.data,
+                        messageAddUser: '',
                     })
-                    this.getDataInJson(resJson.data)
+                    this.gotoProfileScreen(userName, passWord,JSON.stringify(resJson.data))
+                    // this.getDataInJson(resJson.data)
                 } else (
                     this.setState({
                         messageAddUser: resJson.error.message,
@@ -88,37 +82,11 @@ class Login extends Component {
             });
     }
 
-    apiChangPass(id, newPass, oldPassword) {
-        let url = `http://dev.portal.dichung.vn/api/user/v1/users/${id}/password`
-        console.log(url)
-        fetch(url, {
-            method: 'PATCH',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ 'password': newPass, 'oldPassword': oldPassword })
-        })
-            .then(res => res.json())
-            .then(resJson => {
-                console.log(JSON.stringify(resJson))
-                if (resJson.error) {
-                    this.setState({ messageChangPass: resJson.error.message })
-                } else {
-                    this.setState({
-                        showRePass: false,
-                        passOld: '',
-                        changPass: '',
-                        reChangPass: '',
-                        passWord: newPass,
-                    })
-                    alert('đổi mật khẩu thành công')
-                }
-            })
-    }
-
     apiLogin(userName, passWord) {
-        fetch('http://dev.portal.dichung.vn/api/user/v1/users/login', {
+        let url = 'https://dev.portal.dichung.vn/api/user/v1/users/login'
+        console.log(url)
+        console.log(userName + passWord)
+        fetch(url, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json, text/plain, */*',
@@ -131,9 +99,9 @@ class Login extends Component {
                 if (resJson.data) {
                     this.addDataLogin(userName, passWord, resJson.data)
                     this.setState({
-                        showLogin: false,
+                        showLogin: true,
                         loginSuccess: true,
-                        isLoading: false,
+                        // isLoading: false,
                         data: resJson.data,
                         clickLogin: true,
                         user: '',
@@ -141,8 +109,10 @@ class Login extends Component {
                         rePass: '',
                         infoCustommer: resJson.data,
                         passWord: passWord,
+                        messageLogin: ''
                     })
-                    this.getDataInJson(resJson.data)
+                    this.gotoProfileScreen(userName, passWord, JSON.stringify(resJson.data))
+                    console.log(resJson.data)
                 }
                 else {
                     this.setState({
@@ -150,6 +120,15 @@ class Login extends Component {
                     })
                 }
             });
+    }
+
+    gotoProfileScreen(userName, passWord, dataLogin) {
+        this.props.navigation.navigate('Profile', {'userName' : userName, 'passWord' : passWord, 'dataLogin' : dataLogin})
+    }
+
+
+    addPassWord = async (passWord) => {
+        await AsyncStorage.setItem('password', passWord)
     }
 
     addDataLogin = async (userName, passWord, dataLogin) => {
@@ -175,7 +154,7 @@ class Login extends Component {
                 />
                 <TextInput
                     style={[styles.textInput,]}
-                    placeholder={"Email"}
+                    placeholder={"Email/số điện thoại"}
                     value={this.state.user}
                     onChangeText={(text) => {
                         this.validateEmail(text);
@@ -223,9 +202,11 @@ class Login extends Component {
     }
 
     validateEmail(email) {
-        let regex = /^[a-z][a-z0-9_\.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/gm;
+        let regex = /^[a-z][a-z0-9_\.]{3,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/gm;
         let validate = regex.test(email.toLowerCase());
-        this.setState({ validate: validate, user: email })
+        let reg = /^[0]?[3789]\d{8}$/;
+        let validateP = reg.test(email.toLowerCase());
+        this.setState({ validate: validate || validateP, user: email })
     }
 
     _storeData = async () => {
@@ -238,22 +219,6 @@ class Login extends Component {
         }
     };
 
-    getDataInJson(json) {
-        if (json.phone !== undefined) {
-            this.setState({
-                editablePhone: false,
-                phone: '1',
-                email: json.email,
-            })
-        } else {
-            this.setState({
-                editablePhone: true,
-                phone: '',
-                email: json.email,
-            })
-        }
-    }
-
     _retrieveData = async () => {
         try {
             const dataLogin = await AsyncStorage.getItem('dataLogin')
@@ -263,7 +228,7 @@ class Login extends Component {
                 console.log(dataLogin)
                 console.log(json.token)
                 this.setState({ infoCustommer: json })
-                this.getDataInJson(json)
+                // this.getDataInJson(json)
             }
             if (password !== null) {
                 this.setState({ passWord: password })
@@ -279,13 +244,19 @@ class Login extends Component {
             const token = await AsyncStorage.getItem('token');
             const userName = await AsyncStorage.getItem('username');
             const pass = await AsyncStorage.getItem('password');
-            if (token !== null) {
-                this.setState({
-                    isLoading: false,
-                    loginSuccess: true,
-                })
-            } else if (userName !== null && pass !== null) {
+            // if (token !== null) {
+            //     this.setState({
+            //         // isLoading: false,
+            //         loginSuccess: true,
+            //     })
+            // } else
+            if (userName !== null && pass !== null) {
                 this.apiLogin(userName, pass)
+                this.setState({
+                    user: userName,
+                    pass: pass,
+                })
+                this.validateEmail(userName)
             } else {
                 this.setState({
                     isLoading: false,
@@ -452,291 +423,78 @@ class Login extends Component {
         )
     }
 
-    showModalRePass() {
+    FormLogin() {
         return (
-            <Modal
-                visible={this.state.showRePass}
-                transparent={true}
-            >
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000000AA' }}>
-                    <View style={{ width: '80%', justifyContent: 'center', borderRadius: 8, minHeight: 100, backgroundColor: '#fff', padding: 8 }}>
+            <View style={{ flex: 1, marginTop: 80 }}>
+                {this.state.showLogin ?
+                    <View style={{ width: SCREEN_WIDTH * 19 / 20, justifyContent: 'center', borderRadius: 8, minHeight: 100, padding: 8, }}>
                         <View style={styles.titleModal}>
-                            <Text style={{ fontSize: 20, flex: 1, textAlign: 'center' }}>Đổi mật khẩu</Text>
-                            <TouchableOpacity
-                                onPress={() => { this.setState({ showRePass: false }) }}
-                            >
-                                <Image
-                                    style={{ width: 30, height: 30, }}
-                                    source={require(cancel)}
-                                />
-                            </TouchableOpacity>
+                            <Text style={{ fontSize: 20, flex: 1, textAlign: 'center' }}>Đăng nhập</Text>
                         </View>
-                        {this.inputPassOld()}
-                        {this.changPassWord()}
-                        {this.reChangPassWord()}
-                        <Text style={{ color: '#ef465f', marginStart: 8 }}>{this.state.messageChangPass}</Text>
+                        <View style={{ borderWidth: 1, borderColor: '#e8e8e8', borderRadius: 8, marginVertical: 8 }}>
+                            {this.inputUsername()}
+                            {this.inputPass()}
+                        </View>
+                        {this.state.messageLogin == '' ? null :
+                            <Text style={{ color: '#ef465f', marginStart: 8 }}>{this.state.messageLogin}</Text>
+                        }
                         <ButtonWrap
                             onPress={() => {
-                                {
-                                    this.state.passOld.length >= 6 || this.state.changPass >= 6 || this.state.reChangPass >= 6 ?
-                                        this.state.changPass === this.state.reChangPass ?
-                                            this.apiChangPass(this.state.infoCustommer._id, this.state.changPass, this.state.passOld)
-                                            : this.setState({ messageChangPass: 'mật khẩu không đồng nhất' }) : this.setState({ messageChangPass: 'mật khẩu phải dài hơn 6 kí tự' })
-                                }
+                                this.checkDataLogin()
                             }}
-                            value={'Xác nhận'}
+                            value={'Đăng nhập'}
                         />
-                    </View>
-                </View>
-            </Modal>
-        )
-    }
+                        <TouchableOpacity style={{ marginTop: 16 }}
+                            onPress={() => {
+                                this.setState({
+                                    showLogin: false,
+                                    showSignUp: true,
+                                })
+                            }}
+                        >
+                            <Text style={styles.textLine}>Bạn chưa có tài khoản? Đăng ký.</Text>
+                        </TouchableOpacity>
 
-    showModalLogin() {
-        return (
-            <Modal
-                visible={this.state.showLogin || this.state.showSignUp}
-                transparent={true}
-            >
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000000AA' }}>
-                    {this.state.showLogin ?
-                        <View style={{ width: '80%', justifyContent: 'center', borderRadius: 8, minHeight: 100, backgroundColor: '#fff', padding: 8 }}>
-                            <View style={styles.titleModal}>
-                                <Text style={{ fontSize: 20, flex: 1, textAlign: 'center' }}>Đăng nhập</Text>
-                                <TouchableOpacity
-                                    onPress={() => { this.setState({ showLogin: false }) }}
-                                >
-                                    <Image
-                                        style={{ width: 30, height: 30, }}
-                                        source={require(cancel)}
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                            <View style={{ borderWidth: 1, borderColor: '#e8e8e8', borderRadius: 8, marginVertical: 8 }}>
-                                {this.inputUsername()}
-                                {this.inputPass()}
-                            </View>
-                            {this.state.messageLogin == '' ? null :
-                                <Text style={{ color: '#ef465f', marginStart: 8 }}>{this.state.messageLogin}</Text>
-                            }
-                            <ButtonWrap
-                                onPress={() => {
-                                    this.checkDataLogin()
-                                }}
-                                value={'Đăng nhập'}
-                            />
-                            <TouchableOpacity style={{ margin: 8 }}
-                                onPress={() => {
-                                    this.setState({
-                                        showLogin: false,
-                                        showSignUp: true,
-                                    })
-                                }}
-                            >
-                                <Text style={styles.textLine}>Bạn chưa có tài khoản? Đăng kí.</Text>
-                            </TouchableOpacity>
+                    </View> :
+                    <View style={{ width: SCREEN_WIDTH * 19 / 20, justifyContent: 'center', borderRadius: 8, minHeight: 100, padding: 8, }}>
 
-                        </View> :
-                        <View style={{ width: '80%', justifyContent: 'center', borderRadius: 8, minHeight: 100, backgroundColor: '#fff', padding: 8 }}>
-
-                            <View style={styles.titleModal}>
-                                <Text style={{ fontSize: 20, flex: 1, textAlign: 'center' }}>Đăng kí</Text>
-                                <TouchableOpacity
+                        <View style={styles.titleModal}>
+                            <Text style={{ fontSize: 20, flex: 1, textAlign: 'center' }}>Đăng ký</Text>
+                            {/* <TouchableOpacity
                                     onPress={() => { this.setState({ showSignUp: false }) }}
                                 >
                                     <Image
                                         style={{ width: 30, height: 30, }}
                                         source={require(cancel)}
                                     />
-                                </TouchableOpacity>
-                            </View>
-                            {this.inputUsernameSignUp()}
-                            {this.inputPassSignUp()}
-                            {this.inputRePassSignUp()}
-                            <Text style={{ color: '#ef465f', marginStart: 8 }}>{this.state.messageAddUser}</Text>
-                            <ButtonWrap
-                                onPress={() => {
-                                    this.checkDataSignUp();
-                                }}
-                                value={'Đăng kí'}
-                            />
-
-                            <TouchableOpacity style={{ margin: 8 }}
-                                onPress={() => {
-                                    this.setState({
-                                        showLogin: true,
-                                        showSignUp: false,
-                                    })
-                                }}
-                            >
-                                <Text style={styles.textLine}>Đã có tài khoản? Đăng nhập</Text>
-                            </TouchableOpacity>
-
+                                </TouchableOpacity> */}
                         </View>
-                    }
-
-                </View>
-            </Modal>
-        )
-    }
-
-    accountInfo() {
-        return (
-            <View style={{ flex: 1, }}>
-                <ScrollView>
-                    <View style={{ height: SCREEN_HEIGHT / 2, width: SCREEN_WIDTH, }}>
-                        <View style={{ height: SCREEN_HEIGHT / 2, width: SCREEN_WIDTH, justifyContent: 'center', alignItems: 'center', zIndex: 5, position: 'relative' }}>
-                            <Image
-                                style={{ width: SCREEN_WIDTH / 3, height: SCREEN_WIDTH / 3, borderRadius: SCREEN_WIDTH / 4 }}
-                                source={require(logo)}
-                            />
-                        </View>
-                        <View style={{ height: SCREEN_HEIGHT / 2, width: SCREEN_WIDTH, zIndex: 1, position: 'absolute' }}>
-                            <View style={{ flex: 1, backgroundColor: '#eee', justifyContent: 'center' }}>
-                                <Image
-                                    style={{ height: SCREEN_HEIGHT / 2, width: SCREEN_WIDTH, }}
-                                    source={require(home)}
-                                    resizeMethod={'scale'}
-                                    resizeMode={'center'}
-                                />
-                            </View>
-                            <View style={{ flex: 1, backgroundColor: '#eee', justifyContent: 'flex-start', alignItems: 'center', }}>
-                                <Text style={{ marginTop: SCREEN_WIDTH / 5, fontSize: 16, fontWeight: 'bold' }}>{this.state.fullName ? this.state.fullName : 'Họ tên'}</Text>
-                                <Text style={{ fontSize: 14, margin: 8 }}>{this.state.infoCustommer.username.toUpperCase()}</Text>
-                                <Text style={{ color: '#9b9b9b' }}>Mã giới thiệu</Text>
-                            </View>
-                        </View>
-                    </View>
-                    <View style={{ height: 120, flexDirection: 'row', backgroundColor: '#ddd' }}>
-                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                            <Image
-                                style={{ width: 40, height: 40, borderRadius: 20 }}
-                                source={require(iconCacbonic)}
-                            />
-                            <Text style={{ fontWeight: 'bold', fontSize: 16, margin: 8, }}>- Kg</Text>
-                            <Text style={{ color: '#9b9b9b' }}>CO2 giảm thải</Text>
-                        </View>
-                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                            <Image
-                                style={{ width: 40, height: 40, borderRadius: 20 }}
-                                source={require(iconHappy)}
-                            />
-                            <Text style={{ fontWeight: 'bold', fontSize: 16, margin: 8, }}>-</Text>
-                            <Text style={{ color: '#9b9b9b' }}>Chuyến đi</Text>
-                        </View>
-                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                            <Image
-                                style={{ width: 40, height: 40, borderRadius: 20 }}
-                                source={require(iconMoney)}
-                            />
-                            <Text style={{ fontWeight: 'bold', fontSize: 16, margin: 8, }}>- đ</Text>
-                            <Text style={{ color: '#9b9b9b' }}>Tiền tiết kiệm</Text>
-                        </View>
-
-                    </View>
-                    <View style={{ padding: 8 }}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                            <Text style={{ flex: 1, textAlign: 'left', fontSize: 16, fontWeight: 'bold' }}>Thông tin cá nhân</Text>
-                            <Text
-                                style={styles.textLine}
-                                onPress={() => this.setState({ editable: true })}
-                            >Chỉnh sửa</Text>
-                        </View>
-
-                        <InputTextDiChung
-                            value={this.state.fullName}
-                            placeholder='Họ và tên'
-                            onChangeText={(text) => this.setState({
-                                fullName: text,
-                            })}
-                            keyboardType='ascii-capable'
-                            onPress={() => {
-                                this.state.editable ?
-                                    this.setState({
-                                        fullName: ''
-                                    }) : null
-                            }}
-                            editable={this.state.editable}
-                        />
-
-                        <View style={[styles.borderViewAll, { backgroundColor: '#eee' }]}>
-                            <TextInput
-                                style={styles.textInput}
-                                value={this.state.email}
-                                // secureTextEntry={true}
-                                editable={false}
-                            />
-                        </View>
-
-                        <InputTextDiChung
-                            value={this.state.phone}
-                            placeholder='Số điện thoại'
-                            onChangeText={(text) => this.setState({
-                                phone: text,
-                            })}
-                            keyboardType='numeric'
-                            onPress={() => {
-                                (this.state.editablePhone && this.state.editable) ? this.setState({
-                                    phone: ''
-                                }) : null
-                            }}
-                            editable={this.state.editablePhone && this.state.editable}
-                        />
-
-                        <InputTextDiChung
-                            value={this.state.address}
-                            placeholder='Địa chỉ'
-                            onChangeText={(text) => this.setState({
-                                address: text,
-                            })}
-                            keyboardType='ascii-capable'
-                            onPress={() => {
-                                this.state.editable ? this.setState({
-                                    address: ''
-                                }) : null
-                            }}
-                            editable={this.state.editable}
-                        />
-
-                        <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8 }}>
-                            <Text style={{ flex: 1, textAlign: 'left', fontSize: 16, fontWeight: 'bold' }}>Mật khẩu</Text>
-                            <Text
-                                style={styles.textLine}
-                                onPress={() => this.setState({ showRePass: true })}
-                            >Chỉnh sửa</Text>
-                        </View>
-
-                        <View style={styles.borderViewAll}>
-                            <TextInput
-                                style={styles.textInput}
-                                value={this.state.passWord}
-                                secureTextEntry={true}
-                                editable={false}
-                            />
-                        </View>
-
+                        {this.inputUsernameSignUp()}
+                        {this.inputPassSignUp()}
+                        {this.inputRePassSignUp()}
+                        <Text style={{ color: '#ef465f', marginStart: 8 }}>{this.state.messageAddUser}</Text>
                         <ButtonWrap
                             onPress={() => {
-                                this.state.editable ? (
-                                    alert('Lưu thông tin thành công'),
-                                    this.setState({ editable: false }))
-                                    : null
+                                this.checkDataSignUp();
                             }}
-                            value={'Lưu thông tin'}
+                            value={'Đăng ký'}
                         />
 
-                        <View style={{ margin: 4 }} />
-                        <ButtonGray
+                        <TouchableOpacity style={{ marginTop: 16 }}
                             onPress={() => {
-                                { this.removeDataLogin() }
-                                this.setState({ loginSuccess: false })
+                                this.setState({
+                                    showLogin: true,
+                                    showSignUp: false,
+                                })
                             }}
-                            value={'Đăng xuất'}
-                        />
-                        {this.showModalRePass()}
+                        >
+                            <Text style={styles.textLine}>Đã có tài khoản? Đăng nhập</Text>
+                        </TouchableOpacity>
+
                     </View>
-                </ScrollView>
+                }
             </View>
+            // </Modal>
         )
     }
 
@@ -762,52 +520,9 @@ class Login extends Component {
     }
 
     render() {
-        if (this.state.isLoading) {
-            return (
-                <ActivityIndicator
-                    style={{ marginTop: 8 }}
-                    size='large'
-                />
-            )
-        }
         return (
-            <View style={{ flex: 1, flexDirection: 'column' }}>
-                <Header onPressLeft={() => this.props.navigation.openDrawer()} />
-                {this.state.loginSuccess ?
-                    <View style={styles.container}>
-                        {this.accountInfo()}
-                    </View> :
-                    <View style={styles.container}>
-                        <Image
-                            style={styles.logo}
-                            source={require(logo)}
-                        />
-                        <Text style={{ marginTop: 16 }}>Vui lòng đăng nhập hoặc đăng kí để xem thông tin</Text>
-
-                        <ButtonWrap
-                            onPress={() => {
-                                this.setState({ showLogin: true })
-                            }}
-                            value={'Đăng nhập'}
-                        />
-
-                        <TouchableOpacity style={{ marginTop: 8, }}>
-                            <Text style={styles.textLine}>Quên mật khẩu?</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={{ margin: 8 }}
-                            onPress={() => {
-                                this.setState({
-                                    showSignUp: true,
-                                })
-                            }}
-                        >
-                            <Text style={styles.textLine}>Bạn chưa có tài khoản? Đăng kí.</Text>
-                        </TouchableOpacity>
-
-                        {this.showModalLogin()}
-                    </View>
-                }
+            <View style={styles.container}>
+                {this.FormLogin()}
             </View>
         )
     }

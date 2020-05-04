@@ -11,6 +11,7 @@ class PaymentOnline extends Component {
         this.state = {
             cookie: null,
             isLoading: true,
+            url : '',
         }
     }
 
@@ -21,11 +22,12 @@ class PaymentOnline extends Component {
     async getURL() {
         const { navigation } = this.props;
         console.log(navigation.getParam('ticket_id'));
+        console.log(navigation.getParam('amount'));
         const url = `https://gateway.dichungtaxi.com/api/v1/transactions`;
         const response = await fetch(url, {
             method: 'POST',
             headers: {
-                Accept: 'application/json',
+                'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({

@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { View, Text, Image, TouchableOpacity, Alert, Linking } from 'react-native';
+import { View, Text, Image, TouchableOpacity, Alert, Linking, Dimensions } from 'react-native';
 import InputTextDiChung from '../../component/InputTextDiChung'
 import * as link from '../../URL'
 import Header from '../../component/Header'
+
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window')
 
 class SearchTicket extends Component {
     constructor() {
@@ -36,17 +38,17 @@ class SearchTicket extends Component {
             var jsonRes = await res.json();
             console.log(jsonRes)
             if (jsonRes.code == 'success') {
-                if (jsonRes.data.product_type =="TRANSFER_SERVICE") {
+                if (jsonRes.data.product_type == "TRANSFER_SERVICE") {
                     this.props.navigation.navigate('TicketInformation', {
                         'ticket_id': this.state.ticketId,
                         'phone_number': this.state.phoneNumber,
                     })
-                } else if (jsonRes.data.product_type== "DRIVER_RENTAL") {
+                } else if (jsonRes.data.product_type == "DRIVER_RENTAL") {
                     this.props.navigation.navigate('TicketInformationXeChung', {
                         'ticket_id': this.state.ticketId,
                         'phone_number': this.state.phoneNumber,
                     })
-                } else if (jsonRes.data.product_type== "CAR_RENTAL") {
+                } else if (jsonRes.data.product_type == "CAR_RENTAL") {
                     this.props.navigation.navigate('TicketInformationTuLai', {
                         'ticket_id': this.state.ticketId,
                         'phone_number': this.state.phoneNumber,
@@ -80,7 +82,7 @@ class SearchTicket extends Component {
         return (
             <View style={{ flex: 1 }}>
                 <Header onPressLeft={() => { this.props.navigation.openDrawer() }} />
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 8 }}>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 8, paddingHorizontal: SCREEN_WIDTH / 20 }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                         <Text style={{ fontSize: 25 }}>Tra cứu mã vé</Text>
                         {/* <TouchableOpacity>
@@ -122,7 +124,7 @@ class SearchTicket extends Component {
 
 
                     <TouchableOpacity
-                        style={{ backgroundColor: '#00363d', height: 45, justifyContent: 'center', alignItems: 'center', margin: 8, borderRadius: 4 }}
+                        style={{ backgroundColor: '#77a300', height: 45, justifyContent: 'center', alignItems: 'center', margin: 8, borderRadius: 4 }}
                         onPress={() => this.callApiGetTicket()}
                     >
                         <Text style={{ color: '#fff', fontSize: 20, padding: 8, borderRadius: 4 }}>TÌM KIẾM</Text>

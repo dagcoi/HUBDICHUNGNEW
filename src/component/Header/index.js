@@ -13,7 +13,7 @@ function Header({
             >
                 <View style={{ height: 50, width: 50, marginLeft: 8, justifyContent: 'center', alignItems: 'center' }}>
                     <Image
-                        style={{ height: 40, width: 40 }}
+                        style={{ height: 22, width: 22 }}
                         source={require('../../image/menu.png')}
                     />
                 </View>
@@ -23,7 +23,7 @@ function Header({
                     onPress = {onPressCenter}
                 >
                 <Image
-                    style={{ height: 36, width: 126 }}
+                    style={{ height: 24, width: 84 }}
                     source={require('../../image/dichung.png')}
                 />
                 </TouchableOpacity>
@@ -31,7 +31,7 @@ function Header({
 
             <View style={{ height: 50, width: 50, marginRight: 8, justifyContent: 'center', alignItems: 'center' }}>
                 <Image
-                    style={{ height: 30, width: 30 }}
+                    style={{ height: 22, width: 22 }}
                     source={require('../../image/notification.png')}
                 />
             </View>
