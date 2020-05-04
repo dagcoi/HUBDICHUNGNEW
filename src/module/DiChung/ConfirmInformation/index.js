@@ -743,7 +743,7 @@ class ConfirmInformation extends Component {
         this.props.navigation.navigate("PaymentOnline", {
             'ticket_id': this.state.ticket,
             'phone_number': this.props.use_phone,
-            'amount': (this.props.merged + (navigation.getParam('broad_price') ? 30000 : 0) - (navigation.getParam('blDiscount') ? this.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1)
+            'amount': (this.props.merged + (navigation.getParam('broad_price') ? 30000 : 0) - (navigation.getParam('blDiscount') ? this.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1) + (this.props.toll_fee == 'NA' ? 0 : + parseInt(this.props.toll_fee))
         })
     }
 

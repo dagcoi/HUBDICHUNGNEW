@@ -63,6 +63,8 @@ import PoliciesAndServices from './module/WebView/PoliciesAndServices'
 
 import SearchTicket from './module/SearchTicket'
 import Login from './module/Account/Login'
+import Profile from './module/Account/Profile'
+import ListBooking from './module/ListBooking'
 import Registration from './module/Account/Registration'
 
 import { createDrawerNavigator } from 'react-navigation-drawer'
@@ -73,12 +75,7 @@ import { createDrawerNavigator } from 'react-navigation-drawer'
 
 const RootStack = createStackNavigator({
 
-    // Login : {
-    //     screen : Login,
-    //     navigationOptions : {
-    //         header : null,
-    //     }
-    // },
+
 
     // OTP : {
     //     screen : OTP,
@@ -415,6 +412,22 @@ const RootStack = createStackNavigator({
 
 })
 
+const Profiles = createStackNavigator({
+    Login: {
+        screen: Login,
+        navigationOptions: {
+            header: null,
+        }
+    },
+
+    Profile: {
+        screen: Profile,
+        navigationOptions: {
+            header: null,
+        }
+    },
+})
+
 const DrawerNavi = createDrawerNavigator({
     Main: {
         screen: RootStack,
@@ -460,30 +473,53 @@ const DrawerNavi = createDrawerNavigator({
             alignItems: 'center'
         },
     },
+    ListBooking: {
+        screen: ListBooking,
+        navigationOptions: {
+            title: 'Danh sách vé',
+            alignItems: 'center'
+        }
+    },
+
+    Profile: {
+        screen: Profiles,
+        navigationOptions: {
+            title: 'Thông tin',
+            alignItems: 'center'
+        }
+    },
+
 }, {
     initialRouteName: 'Main',
     drawerPosition: 'left',
     drawerWidth: 300,
     contentOptions: {
         activeTintColor: '#77a300',
+        activeBackgroundColor: '#e8e8e8',
     }
 })
 
-// const MainStack = createStackNavigator({
+const MainStack = createStackNavigator({
 
-//     // Splash: {
-//     //     screen: Splash,
-//     //     navigationOptions: {
-//     //         header: null,
-//     //     },
-//     // },
+    Login: {
+        screen: Login,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    // Splash: {
+    //     screen: Splash,
+    //     navigationOptions: {
+    //         header: null,
+    //     },
+    // },
 
-//     Main: {
-//         screen: DrawerNavi,
-//         navigationOptions: {
-//             header: null,
-//         }
-//     }
-// })
+    Home: {
+        screen: DrawerNavi,
+        navigationOptions: {
+            header: null,
+        }
+    }
+})
 
 export default createAppContainer(DrawerNavi)

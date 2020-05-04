@@ -1,0 +1,554 @@
+import React, { Component } from 'react'
+import { View, TouchableOpacity, Text, FlatList, StyleSheet, ActivityIndicator, Modal, Image, ScrollView } from 'react-native'
+import StarVote from '../../component/StarVote'
+import Header from '../../component/Header'
+import ImageTextDiChung from '../../component/ImageTextDiChung'
+import DetailTaxi from './DetailTaxi'
+import DetailTuLai from './DetailTuLai'
+import DetailExpress from './DetailExpress'
+import DetailXeChung from './DetailXeChung'
+import * as link from '../../URL'
+import { Button, ButtonGray } from '../../component/Button'
+import OTPInputView from '@twotalltotems/react-native-otp-input'
+
+const imagePick = '../../image/location.png'
+const imageDrop = '../../image/drop.png'
+const imageTime = '../../image/time.png'
+const imageMoney = '../../image/money.png'
+const imageCancel = '../../image/cancel.png'
+
+
+const cancel_booking = link.URL_API + `passenger/cancel_booking`
+const cancel_booking_token = link.URL_API + `passenger/generate_cancel_booking_token`
+
+Number.prototype.format = function (n, x) {
+    var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
+    return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
+};
+
+class ListBooking extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            listBooking: [],
+            selectLeft: true,
+            isLoading: true,
+            bookingDetail: {},
+            isLoadingTicket: true,
+            modalTicket: false,
+            ticket: '',
+            otp: '',
+            message: '',
+            dialogOTP: false,
+            modalVisible: false,
+            modalWhyCancel: false,
+            listWhyCan: [],
+            value: 0,
+            dialogCancelSuccess: false,
+            showMessage: false
+        }
+    }
+
+    componentDidMount() {
+        this.getListBooking()
+    }
+
+    async getTicketInfo(ticket_code, phone_number) {
+        const url = link.URL_API + `passenger/get_ticket_info`
+        const formData = new FormData();
+        formData.append('ticket_code', ticket_code);
+        formData.append('phone_number', phone_number)
+        const res = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': "application/json",
+                'Content-Type': "multipart/form-data",
+            },
+            body: formData
+        });
+        const jsonRes = await res.json();
+        this.setState({
+            bookingDetail: jsonRes.data,
+            isLoadingTicket: false,
+        });
+    }
+
+    async getTicketInfoDC(_id) {
+        const url = `https://dev.portal.dichung.vn/api/booking/v1/bookings/${_id}`
+
+        const res = await fetch(url, {
+            method: 'GET',
+        });
+        const jsonRes = await res.json();
+        this.setState({
+            bookingDetail: jsonRes.data,
+            isLoadingTicket: false,
+        });
+    }
+
+    async cancelBooking() {
+        const { navigation } = this.props;
+        const formData = new FormData();
+        formData.append('ticket_id', this.state.ticket)
+        formData.append('token', this.state.otp)
+        const res = await fetch(cancel_booking, {
+            method: 'POST',
+            headers: {
+                'Accept': "application/json",
+                'Content-Type': "multipart/form-data",
+            },
+            body: formData
+        });
+        const jsonRes = await res.json();
+        this.setState({
+            message: jsonRes.msg,
+            modalVisible: false,
+            showMessage: true
+        });
+        if (jsonRes.code == 'error') {
+            this.setState({
+                otp: '',
+            });
+        }
+        else {
+            { this.whyCancel(); }
+            this.setState({
+                dialogOTP: false,
+                dialogCancelSuccess: true,
+            });
+        }
+        return jsonRes;
+    }
+
+    async cancelBookingToken() {
+        const { navigation } = this.props;
+        const formData = new FormData();
+        formData.append('ticket_id', this.state.ticket)
+        const res = await fetch(cancel_booking_token, {
+            method: 'POST',
+            headers: {
+                'Accept': "application/json",
+                'Content-Type': "multipart/form-data",
+            },
+            body: formData
+        });
+        const jsonRes = await res.json();
+        if (jsonRes.code == '0') {
+            this.setState({
+                dialogOTP: true,
+                modalVisible: false,
+            });
+        }
+    }
+
+    async whyCancel() {
+        const why_cancel = link.URL_API + `passenger/get_why_cancel_list`
+
+        const res = await fetch(why_cancel);
+        const jsonRes = await res.json();
+        this.setState({
+            listWhyCan: jsonRes.data,
+            modalWhyCancel: true,
+        });
+    }
+
+
+    renderRadio() {
+        const { value } = this.state;
+        return (
+            <View>
+                {this.state.listWhyCan.map(item => {
+                    return (
+                        <View key={item.id} style={styles.buttonContainer}>
+
+                            <TouchableOpacity
+                                style={styles.circle}
+                                onPress={() => {
+                                    this.setState({
+                                        value: item.id,
+                                        name: item.name,
+                                    });
+                                }}
+                            >
+                                {value === item.id && <View style={styles.checkedCircle} />}
+                            </TouchableOpacity>
+                            <Text style={{ marginLeft: 8 }}>{item.name}</Text>
+                        </View>
+                    );
+                })}
+            </View>
+        );
+    }
+
+    feedbackWhyCancel() {
+        const { navigation } = this.props;
+        const custom_feedback_why_cancel = link.URL_API + `passenger/customer_feedback_why_cancel?ticket_id=${navigation.getParam('ticket_id')}&why_cancel=${this.state.value}`
+        return fetch(custom_feedback_why_cancel, {
+            method: 'POST'
+        })
+    }
+
+    modalCancel() {
+        return (
+            <Modal
+                visible={this.state.dialogOTP}
+                transparent={true}
+            >
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000000AA' }}>
+                    <View style={{ width: '80%', justifyContent: 'center', borderRadius: 8, minHeight: 100, backgroundColor: '#eee', padding: 8 }}>
+                        <View style={{ borderBottomWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', }}>
+                            <Text style={{ fontSize: 20, }}>Xác nhận hủy vé</Text>
+                        </View>
+                        <View style={{ padding: 8 }}>
+                            <Text><Text>Mã xác thực hủy chuyến được gửi tới email và số điện thoại của bạn</Text></Text>
+
+                            <OTPInputView
+                                style={{ padding: 20, height: 80, justifyContent: 'center', alignItems: 'center' }}
+                                pinCount={4}
+                                autoFocusOnLoad
+                                code={this.state.otp}
+                                onCodeChanged={code => { this.setState({ otp: code, showMessage: false }) }}
+                                codeInputHighlightStyle={styles.underlineStyleHighLighted}
+                                onCodeFilled={code => {
+                                    this.setState({
+                                        otp: code,
+                                    })
+                                }}
+                            />
+                            {this.state.showMessage ?
+                                <Text>{this.state.message}</Text> : null}
+                        </View>
+
+                        <View style={{ flexDirection: 'row', height: 48, alignItems: 'center', justifyContent: 'center' }}>
+
+                            <TouchableOpacity
+                                onPress={() => {
+                                    if (this.state.otp.length < 4) {
+
+                                    } else {
+                                        this.setState({ modalVisible: true, })
+                                        this.cancelBooking();
+                                    }
+                                }}
+                                style={{ backgroundColor: '#77a300', margin: 4, flex: 1, alignItems: 'center', justifyContent: 'center', padding: 4 }}>
+                                <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold', margin: 8 }}>Hủy vé</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity
+                                onPress={() => {
+                                    this.setState({
+                                        dialogOTP: false,
+                                        otp: '',
+                                    })
+                                }}
+                                style={{ backgroundColor: '#77a300', margin: 4, flex: 1, alignItems: 'center', justifyContent: 'center', padding: 4 }}>
+                                <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold', margin: 8 }}>Đóng</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+        )
+    }
+
+    modalCancelDetail() {
+        return (
+            <Modal
+                visible={this.state.dialogCancelSuccess}
+                animationType="slide"
+            >
+                <View style={{ flex: 1, }}>
+                    <View style={{ padding: 16 }}>
+                        <ScrollView showsVerticalScrollIndicator={false}>
+                            <Text style={{ fontSize: 22, fontWeight: 'bold', padding: 8 }}>Lí do hủy vé</Text>
+                            {this.renderRadio()}
+
+                            <Button
+                                value='Gửi'
+                                onPress={() => {
+                                    if (this.state.value != 0) {
+                                        this.feedbackWhyCancel();
+                                        this.setState({
+                                            dialogCancelSuccess: false,
+                                            modalTicket: false,
+                                        })
+                                    }
+                                    // if (this.state.value != 0) {
+                                    //     this.feedbackWhyCancel();
+                                    //     const resetAction = StackActions.reset({
+                                    //         index: 0,
+                                    //         key: null,
+                                    //         actions: [NavigationActions.navigate({ routeName: 'Home' })],
+                                    //     });
+                                    //     this.props.navigation.dispatch(resetAction);
+                                    // }
+                                }}
+                            />
+                        </ScrollView>
+                    </View>
+                </View>
+            </Modal>
+        )
+    }
+
+    modalLoading() {
+        return (
+            <Modal
+                visible={this.state.modalVisible}
+                animationType="slide"
+                onOrientationChange={true}
+                transparent={true}>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <ActivityIndicator
+                        size='large'
+                    />
+                </View>
+            </Modal>
+        )
+    }
+
+    getListBooking() {
+        let url = `http://dev.portal.dichung.vn/api/booking/v1/bookings`
+        fetch(url, {
+            method: 'GET',
+        })
+            .then(res => res.json())
+            .then(resJson => {
+                console.log(resJson)
+                this.setState({
+                    listBooking: resJson.data,
+                    isLoading: false,
+                })
+            });
+    }
+
+    selectTime() {
+        return (
+            <View>
+
+            </View>
+        )
+    }
+
+    formatDate(string) {
+        var date = new Date(string);
+
+        var strDate = (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes() + ' ' + date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+        return strDate;
+    }
+
+    renderItem(item) {
+        let starVote = Math.floor((Math.random() * 6) + 5) / 2;
+        console.log(starVote)
+        return (
+            item.code ?
+                <TouchableOpacity
+                    onPress={() => {
+                        this.setState({
+                            isLoadingTicket: true,
+                            modalTicket: true,
+                            ticket: item.code,
+                        })
+                        this.getTicketInfo(item.code, item.bookingUser.phone);
+                        // this.getTicketInfoDC(item._id)
+                    }}
+                >
+                    <View style={styles.titleTicket}>
+                        <Text style={{ flex: 1, textAlign: 'left', fontSize: 16, fontWeight: 'bold' }}>{item.code}</Text>
+                        <View style={{ height: 32, borderRadius: 16, backgroundColor: item.rideMethod === 'private' ? '#77a300' : '#ef465f', paddingLeft: 10, paddingRight: 10, justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={{ color: '#fff' }}>{item.rideMethod === 'private' ? 'Đi riêng' : 'Đi chung'}</Text>
+                        </View>
+                    </View>
+
+                    <View style={styles.contentTicket}>
+                        <ImageTextDiChung
+                            source={require(imagePick)}
+                            text={item.startPoints[0].address}
+                        />
+                        <ImageTextDiChung
+                            source={require(imageDrop)}
+                            text={item.endPoints[0].address}
+                        />
+                        <ImageTextDiChung
+                            source={require(imageTime)}
+                            textBold={this.formatDate(item.bookingTime)}
+                        />
+                        {/* <ImageTextDiChung
+                        source={require(imageMoney)}
+                        textBold={`${parseInt(item.totalCost).format(0, 3, '.')}` + ' đ'}
+                    /> */}
+                    </View>
+                    <View style={{ padding: 8, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                        <StarVote number={starVote} margin={4} />
+                    </View>
+                </TouchableOpacity>
+                : null
+        )
+    }
+
+    renderListBooking(listBooking) {
+        if (this.state.isLoading) {
+            return (
+                <ActivityIndicator
+                    style={{ padding: 32, }}
+                    size='large'
+                />
+            )
+        }
+        return (
+            <View>
+                <FlatList
+                    showsVerticalScrollIndicator={false}
+                    data={listBooking}
+                    renderItem={({ item }) => {
+                        return (
+                            <View style={styles.card}>
+                                {this.renderItem(item)}
+                            </View>
+                        )
+                    }
+                    }
+                />
+            </View>
+        )
+    }
+
+    render() {
+        return (
+            <View style={{ flex: 1 }}>
+                <Header onPressLeft={() => this.props.navigation.openDrawer()} />
+                {this.selectTime()}
+                <View style={{ flex: 1 }}>
+                    {this.renderListBooking(this.state.listBooking)}
+                </View>
+                <Modal
+                    visible={this.state.modalTicket}
+                >
+                    <View>
+                        <View style={{ flexDirection: 'row', height: 56, borderBottomWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', paddingHorizontal: 16 }}>
+                            <Text style={{ flex: 1, textAlign: 'center', fontSize: 22, fontWeight: 'bold' }}>Chi tiết mã vé :{this.state.ticket}</Text>
+                            <TouchableOpacity
+                                onPress={() => { this.setState({ modalTicket: false }) }}
+                            >
+                                <Image
+                                    style={{ width: 30, height: 30 }}
+                                    source={require(imageCancel)}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                        {this.state.isLoadingTicket ?
+                            <ActivityIndicator
+                                style={{ padding: 32, }}
+                                size='large'
+                            />
+                            :
+                            <ScrollView>
+                                <View style= {{justifyContent : 'center'}}>
+                                    {this.state.bookingDetail.product_type == 'CAR_RENTAL' ? <DetailTuLai item={this.state.bookingDetail} />
+                                        : this.state.bookingDetail.product_type == 'DRIVER_RENTAL' ? <DetailXeChung item={this.state.bookingDetail} />
+                                            : this.state.bookingDetail.product_type == 'TRUCK' ? <DetailExpress item={this.state.bookingDetail} />
+                                                : <DetailTaxi item={this.state.bookingDetail} />}
+                                    {this.state.bookingDetail.transaction_status_id == '4' ? null :
+                                        <View style={{ paddingHorizontal: 16 }}>
+                                            <ButtonGray
+                                                value='HỦY VÉ'
+                                                onPress={() => {
+                                                    this.setState({
+                                                        modalVisible: true,
+                                                    })
+                                                    this.cancelBookingToken();
+                                                }}
+                                            />
+                                        </View>
+                                    }
+                                </View>
+                            </ScrollView>
+                        }
+                    </View>
+                    {this.modalCancel()}
+                    {this.modalCancelDetail()}
+                    {this.modalLoading()}
+                </Modal>
+            </View>
+        )
+    }
+
+}
+
+const styles = StyleSheet.create({
+    card: {
+        shadowOffset: { height: 1, width: 1 },
+        backgroundColor: '#fff',
+        shadowColor: '#000',
+        shadowOpacity: 0,
+        elevation: 5,
+        marginHorizontal: 8,
+        marginVertical: 8,
+        borderRadius: 8,
+    },
+    contentTicket: {
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        flexDirection: 'column',
+        borderBottomWidth: 1,
+        borderColor: '#e8e8e8',
+    },
+    titleTicket: {
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderBottomWidth: 1,
+        borderColor: '#e8e8e8'
+    },
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+        padding: 8,
+    },
+    textBigRight: {
+        padding: 1,
+        fontSize: 15,
+        color: '#00363d',
+        flex: 1,
+    },
+    textBigLeft1: {
+        fontSize: 18,
+        marginTop: 8,
+        fontWeight: 'bold',
+
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        marginBottom: 4,
+    },
+
+    circle: {
+        height: 20,
+        width: 20,
+        borderRadius: 10,
+        borderWidth: 0.5,
+        borderColor: '#e8e8e8',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+    checkedCircle: {
+        width: 14,
+        height: 14,
+        borderRadius: 7,
+        backgroundColor: '#77a300',
+    },
+    textBigRight1: {
+        padding: 1,
+        fontSize: 18,
+        color: '#77a300',
+        flex: 1,
+        textAlign: "right"
+    },
+})
+
+export default ListBooking;
