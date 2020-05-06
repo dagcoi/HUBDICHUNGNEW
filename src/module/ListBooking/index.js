@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, TouchableOpacity, Text, FlatList, StyleSheet, ActivityIndicator, Modal, Image, ScrollView } from 'react-native'
+import { View, TouchableOpacity, Text, FlatList, StyleSheet, ActivityIndicator, Modal, Image, ScrollView, Dimensions } from 'react-native'
 import StarVote from '../../component/StarVote'
 import Header from '../../component/Header'
 import ImageTextDiChung from '../../component/ImageTextDiChung'
@@ -17,6 +17,7 @@ const imageTime = '../../image/time.png'
 const imageMoney = '../../image/money.png'
 const imageCancel = '../../image/cancel.png'
 
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window')
 
 const cancel_booking = link.URL_API + `passenger/cancel_booking`
 const cancel_booking_token = link.URL_API + `passenger/generate_cancel_booking_token`
@@ -74,7 +75,7 @@ class ListBooking extends Component {
     }
 
     async getTicketInfoDC(_id) {
-        const url = `https://dev.portal.dichung.vn/api/booking/v1/bookings/${_id}`
+        const url = link.URL_API_PORTAL + `booking/v1/bookings/${_id}`
 
         const res = await fetch(url, {
             method: 'GET',
@@ -308,7 +309,7 @@ class ListBooking extends Component {
     }
 
     getListBooking() {
-        let url = `http://dev.portal.dichung.vn/api/booking/v1/bookings`
+        let url = link.URL_API_PORTAL + `booking/v1/bookings`
         fetch(url, {
             method: 'GET',
         })
@@ -436,34 +437,38 @@ class ListBooking extends Component {
                                 />
                             </TouchableOpacity>
                         </View>
-                        {this.state.isLoadingTicket ?
-                            <ActivityIndicator
-                                style={{ padding: 32, }}
-                                size='large'
-                            />
-                            :
-                            <ScrollView>
-                                <View style= {{justifyContent : 'center'}}>
-                                    {this.state.bookingDetail.product_type == 'CAR_RENTAL' ? <DetailTuLai item={this.state.bookingDetail} />
-                                        : this.state.bookingDetail.product_type == 'DRIVER_RENTAL' ? <DetailXeChung item={this.state.bookingDetail} />
-                                            : this.state.bookingDetail.product_type == 'TRUCK' ? <DetailExpress item={this.state.bookingDetail} />
-                                                : <DetailTaxi item={this.state.bookingDetail} />}
-                                    {this.state.bookingDetail.transaction_status_id == '4' ? null :
-                                        <View style={{ paddingHorizontal: 16 }}>
-                                            <ButtonGray
-                                                value='HỦY VÉ'
-                                                onPress={() => {
-                                                    this.setState({
-                                                        modalVisible: true,
-                                                    })
-                                                    this.cancelBookingToken();
-                                                }}
-                                            />
-                                        </View>
-                                    }
+                        <ScrollView style={{ height: SCREEN_HEIGHT - 80 }}>
+                            {this.state.isLoadingTicket ?
+                                <ActivityIndicator
+                                    style={{ padding: 32, }}
+                                    size='large'
+                                />
+                                :
+                                <View style={{ justifyContent: 'center' }}>
+                                    <View>
+                                        {this.state.bookingDetail.product_type == 'CAR_RENTAL' ? <DetailTuLai item={this.state.bookingDetail} />
+                                            : this.state.bookingDetail.product_type == 'DRIVER_RENTAL' ? <DetailXeChung item={this.state.bookingDetail} />
+                                                : this.state.bookingDetail.product_type == 'TRUCK' ? <DetailExpress item={this.state.bookingDetail} />
+                                                    : <DetailTaxi item={this.state.bookingDetail} />}
+                                    </View>
+                                    <View style={{ paddingHorizontal: 16 }}>
+                                        {(this.state.bookingDetail.transaction_status_id == '4' || this.state.bookingDetail.transaction_status_id == '6') ? null :
+                                            <View style={{ paddingBottom: 8 }}>
+                                                <ButtonGray
+                                                    value='HỦY VÉ'
+                                                    onPress={() => {
+                                                        this.setState({
+                                                            modalVisible: true,
+                                                        })
+                                                        this.cancelBookingToken();
+                                                    }}
+                                                />
+                                            </View>
+                                        }
+                                    </View>
                                 </View>
-                            </ScrollView>
-                        }
+                            }
+                        </ScrollView>
                     </View>
                     {this.modalCancel()}
                     {this.modalCancelDetail()}
@@ -483,7 +488,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0,
         elevation: 5,
         marginHorizontal: 8,
-        marginVertical: 8,
+        marginVertical: 2,
         borderRadius: 8,
     },
     contentTicket: {

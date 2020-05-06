@@ -68,7 +68,7 @@ import ListBooking from './module/ListBooking'
 import Registration from './module/Account/Registration'
 
 import { createDrawerNavigator } from 'react-navigation-drawer'
-
+import CustomNavigator from './component/CustomNavigator'
 
 // import OTP from './module/OTP'
 // import { createDrawerNavigator } from 'react-navigation-drawer'
@@ -401,7 +401,7 @@ const RootStack = createStackNavigator({
         navigationOptions: {
             title: 'Xác nhận đặt xe'
         }
-    }
+    },
 
     // Registration : {
     //     screen : Registration,
@@ -410,9 +410,6 @@ const RootStack = createStackNavigator({
     //     }
     // },
 
-})
-
-const Profiles = createStackNavigator({
     Login: {
         screen: Login,
         navigationOptions: {
@@ -427,6 +424,22 @@ const Profiles = createStackNavigator({
         }
     },
 })
+
+// const Profiles = createStackNavigator({
+//     Login: {
+//         screen: Login,
+//         navigationOptions: {
+//             header: null,
+//         }
+//     },
+
+//     Profile: {
+//         screen: Profile,
+//         navigationOptions: {
+//             header: null,
+//         }
+//     },
+// })
 
 const DrawerNavi = createDrawerNavigator({
     Main: {
@@ -481,13 +494,13 @@ const DrawerNavi = createDrawerNavigator({
         }
     },
 
-    Profile: {
-        screen: Profiles,
-        navigationOptions: {
-            title: 'Thông tin',
-            alignItems: 'center'
-        }
-    },
+    // Profiles: {
+    //     screen: Profiles,
+    //     navigationOptions: {
+    //         title: 'Thông tin',
+    //         alignItems: 'center'
+    //     }
+    // },
 
 }, {
     initialRouteName: 'Main',
@@ -496,7 +509,8 @@ const DrawerNavi = createDrawerNavigator({
     contentOptions: {
         activeTintColor: '#77a300',
         activeBackgroundColor: '#e8e8e8',
-    }
+    },
+    contentComponent: CustomNavigator,
 })
 
 const MainStack = createStackNavigator({

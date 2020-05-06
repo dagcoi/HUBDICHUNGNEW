@@ -4,6 +4,7 @@ import { ButtonWrap, ButtonGray } from '../../../component/Button'
 import Header from '../../../component/Header'
 import InputPassWord from './InputPassWord'
 import InputTextDiChung from '../../../component/InputTextDiChung'
+import * as link from '../../../URL'
 
 const logo = '../../../image/logo_dc_taxi.png'
 const people = '../../../image/person.png'
@@ -47,7 +48,8 @@ class Login extends Component {
     }
 
     apiAddUser(userName, passWord) {
-        fetch('https://dev.portal.dichung.vn/api/user/v1/users', {
+        url = link.URL_API_PORTAL +`user/v1/users`
+        fetch(url, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json, text/plain, */*',
@@ -83,7 +85,7 @@ class Login extends Component {
     }
 
     apiLogin(userName, passWord) {
-        let url = 'https://dev.portal.dichung.vn/api/user/v1/users/login'
+        let url = link.URL_API_PORTAL +'user/v1/users/login'
         console.log(url)
         console.log(userName + passWord)
         fetch(url, {
@@ -92,7 +94,7 @@ class Login extends Component {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ 'email': userName.toLowerCase(), 'password': passWord })
+            body: JSON.stringify({ 'email': userName, 'password': passWord })
         })
             .then(res => res.json())
             .then(resJson => {
@@ -203,10 +205,10 @@ class Login extends Component {
 
     validateEmail(email) {
         let regex = /^[a-z][a-z0-9_\.]{3,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/gm;
-        let validate = regex.test(email.toLowerCase());
+        let validate = regex.test(email.toLowerCase().trim());
         let reg = /^[0]?[3789]\d{8}$/;
         let validateP = reg.test(email.toLowerCase());
-        this.setState({ validate: validate || validateP, user: email })
+        this.setState({ validate: validate || validateP, user: email.trim() })
     }
 
     _storeData = async () => {

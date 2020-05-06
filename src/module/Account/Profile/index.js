@@ -4,6 +4,7 @@ import { ButtonWrap, ButtonGray } from '../../../component/Button'
 import Header from '../../../component/Header'
 import InputTextDiChung from '../../../component/InputTextDiChung'
 import InputPassWord from '../Login/InputPassWord'
+import * as link from '../../../URL'
 
 const logo = '../../../image/logo_dc_taxi.png'
 const people = '../../../image/person.png'
@@ -47,7 +48,7 @@ class Profile extends Component {
             dataProfile: {},
             referralCode: '',
             setProfileSuccess: false,
-            idCustommer : ''
+            idCustommer: ''
         }
     }
 
@@ -57,26 +58,30 @@ class Profile extends Component {
             let dataLogin = navigation.getParam('dataLogin')
             let json = JSON.parse(dataLogin)
             this.apiGetProfile(json._id)
-        }else {
+        } else {
             this._retrieveData()
         }
     }
 
-    componentWillMount(){
+    UNSAFE_componentWillMount() {
         const { navigation } = this.props;
         if (navigation.getParam('dataLogin')) {
             let dataLogin = navigation.getParam('dataLogin')
             let json = JSON.parse(dataLogin)
             this.apiGetProfile(json._id)
-        }else {
+        } else {
             this._retrieveData()
         }
 
-        if (navigation.getParam('passWord')){
+        if (navigation.getParam('passWord')) {
             this.setState({
-                passWord : navigation.getParam('passWord')
+                passWord: navigation.getParam('passWord')
             })
         }
+    }
+
+    addDataLogin = async (dataLogin) => {
+        await AsyncStorage.setItem('dataLogin', JSON.stringify(dataLogin))
     }
 
     _retrieveData = async () => {
@@ -85,14 +90,15 @@ class Profile extends Component {
             const password = await AsyncStorage.getItem('password')
             if (dataLogin !== null) {
                 let json = JSON.parse(dataLogin)
-                console.log(dataLogin)
-                console.log(json.token)
-                this.setState({ infoCustommer: json, idCustommer : json._id })
+                // console.log(dataLogin)
+                // console.log(json.token)
+                this.setState({ infoCustommer: json, idCustommer: json._id })
                 this.apiGetProfile(json._id)
             } else {
                 this.props.navigation.navigate('Login')
+                this.removeDataLogin()
             }
-            
+
             if (password !== null) {
                 this.setState({ passWord: password })
             }
@@ -103,7 +109,7 @@ class Profile extends Component {
     };
 
     apiSetProfile(id, address, phone, user) {
-        let url = `https://dev.portal.dichung.vn/api/user/v1/profiles/${id}`
+        let url = link.URL_API_PORTAL + `user/v1/profiles/${id}`
         console.log(url)
         fetch(url, {
             method: 'PATCH',
@@ -125,11 +131,12 @@ class Profile extends Component {
                     setProfileSuccess: true,
                     editable: false,
                 })
+                this.addDataLogin(resJson.data)
             })
     }
 
     apiGetProfile(id) {
-        let url = `https://dev.portal.dichung.vn/api/user/v1/profiles/${id}`
+        let url = link.URL_API_PORTAL + `user/v1/profiles/${id}`
         console.log(url)
         console.log('da den day')
         fetch(url, { method: 'GET' })
@@ -143,13 +150,14 @@ class Profile extends Component {
                     address: resJson.data.address ?? '',
                     phone: resJson.data.phone ?? '',
                     isLoading: false,
-                    idCustommer : id,
+                    idCustommer: id,
                 })
+                this.addDataLogin(resJson.data)
             })
     }
 
-    apiChangPass(id, newPass, oldPassword){
-        let url = `https://dev.portal.dichung.vn/api/user/v1/users/${id}/password`
+    apiChangPass(id, newPass, oldPassword) {
+        let url = link.URL_API_PORTAL + `user/v1/users/${id}/password`
         fetch(url, {
             method: 'PATCH',
             headers: {
@@ -384,13 +392,22 @@ class Profile extends Component {
                             />
                         </View>
                         {this.state.editable ?
-                            <ButtonWrap
-                                onPress={() => {
-                                    this.state.editable ? this.apiSetProfile(this.state.idCustommer, this.state.address, this.state.phone, this.state.fullName)
-                                        : null
-                                }}
-                                value={'Lưu thông tin'}
-                            />
+                            <View>
+                                <ButtonWrap
+                                    onPress={() => {
+                                        this.state.editable ? this.apiSetProfile(this.state.idCustommer, this.state.address, this.state.phone, this.state.fullName)
+                                            : null
+                                    }}
+                                    value={'Lưu thông tin'}
+                                />
+
+                                <ButtonGray
+                                    onPress={() => {
+                                        this.setState({ editable: false })
+                                    }}
+                                    value={'Hủy'}
+                                />
+                            </View>
                             :
                             <ButtonGray
                                 onPress={() => {
@@ -400,7 +417,7 @@ class Profile extends Component {
                                 value={'Đăng xuất'}
                             />
                         }
-                        <View style = {{margin :4 }}/>
+                        <View style={{ margin: 4 }} />
                         {this.showModalRePass()}
                     </View>
                 </ScrollView>
