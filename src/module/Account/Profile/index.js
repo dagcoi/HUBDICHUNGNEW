@@ -5,6 +5,9 @@ import Header from '../../../component/Header'
 import InputTextDiChung from '../../../component/InputTextDiChung'
 import InputPassWord from '../Login/InputPassWord'
 import * as link from '../../../URL'
+import { NavigationActions, StackActions } from 'react-navigation'
+import { connect } from 'react-redux'
+import { addUser } from '../../../core/Redux/action/Action'
 
 const logo = '../../../image/logo_dc_taxi.png'
 const people = '../../../image/person.png'
@@ -61,24 +64,27 @@ class Profile extends Component {
         } else {
             this._retrieveData()
         }
-    }
-
-    UNSAFE_componentWillMount() {
-        const { navigation } = this.props;
-        if (navigation.getParam('dataLogin')) {
-            let dataLogin = navigation.getParam('dataLogin')
-            let json = JSON.parse(dataLogin)
-            this.apiGetProfile(json._id)
-        } else {
-            this._retrieveData()
-        }
-
         if (navigation.getParam('passWord')) {
             this.setState({
                 passWord: navigation.getParam('passWord')
             })
         }
     }
+
+    // componentDidUpdate() {
+    //     const { navigation } = this.props;
+    //     if (navigation.getParam('dataLogin')) {
+    //         let dataLogin = navigation.getParam('dataLogin')
+    //         let json = JSON.parse(dataLogin)
+    //         this.apiGetProfile(json._id)
+    //     }
+
+    //     if (navigation.getParam('passWord')) {
+    //         this.setState({
+    //             passWord: navigation.getParam('passWord')
+    //         })
+    //     }
+    // }
 
     addDataLogin = async (dataLogin) => {
         await AsyncStorage.setItem('dataLogin', JSON.stringify(dataLogin))
@@ -95,6 +101,7 @@ class Profile extends Component {
                 this.setState({ infoCustommer: json, idCustommer: json._id })
                 this.apiGetProfile(json._id)
             } else {
+                this.props.addUser('','',0)
                 this.props.navigation.navigate('Login')
                 this.removeDataLogin()
             }
@@ -132,13 +139,14 @@ class Profile extends Component {
                     editable: false,
                 })
                 this.addDataLogin(resJson.data)
+                this.props.addUser(resJson.data.username,'123',1)
             })
     }
 
     apiGetProfile(id) {
         let url = link.URL_API_PORTAL + `user/v1/profiles/${id}`
-        console.log(url)
-        console.log('da den day')
+        // console.log(url)
+        // console.log('da den day')
         fetch(url, { method: 'GET' })
             .then(res => res.json())
             .then(resJson => {
@@ -153,6 +161,7 @@ class Profile extends Component {
                     idCustommer: id,
                 })
                 this.addDataLogin(resJson.data)
+                this.props.addUser(resJson.data.username,'123',1)
             })
     }
 
@@ -412,7 +421,14 @@ class Profile extends Component {
                             <ButtonGray
                                 onPress={() => {
                                     { this.removeDataLogin() }
-                                    this.props.navigation.navigate('Login')
+                                    this.props.addUser('','',0)
+                                    const resetAction = StackActions.reset({
+                                        index: 0,
+                                        actions: [
+                                            NavigationActions.navigate({ routeName: 'Login' })
+                                        ]
+                                    })
+                                    this.props.navigation.dispatch(resetAction)
                                 }}
                                 value={'Đăng xuất'}
                             />
@@ -573,4 +589,12 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Profile;
+function mapStateToProps(state) {
+    return {
+        link_avatar: state.thongtin.link_avatar,
+        name: state.thongtin.name,
+        isLogin: state.thongtin.isLogin,
+    }
+}
+
+export default connect(mapStateToProps, { addUser: addUser })(Profile);

@@ -41,6 +41,7 @@ class ConfirmInformation extends Component {
             result: null,
             ticket: null,
             visibalAgain: false,
+            depart_time2: ''
         }
     }
 
@@ -64,6 +65,10 @@ class ConfirmInformation extends Component {
                 return null;
             }
         }, 5000);
+        console.log(this.props.depart_time2);
+        var time = new Date(this.props.depart_time2 + '+07:00').getTime();
+        console.log(time);
+        this.setState({ depart_time2: time })
     }
 
     async reBiddingTicket() {
@@ -296,9 +301,9 @@ class ConfirmInformation extends Component {
                     <Button
                         value={'Xác nhận đặt xe'}
                         onPress={() => {
-                            this.state.callingApi ? null : navigation.getParam('Payment') == '0' ? this.addTicket() : this.addTicketPaymentOnline()
+                            this.state.callingApi ? null : navigation.getParam('Payment') == '0' ? this.addTicket2() : this.addTicketPaymentOnline()
                             this.setState({
-                                addingTicket: true,
+                                // addingTicket: true,
                             })
                         }}
                     />
@@ -572,6 +577,95 @@ class ConfirmInformation extends Component {
             });
     }
 
+    addTicket2() {
+        const url = link.URL_API_PORTAL + `booking/v1/bookings`
+        console.log(url)
+        const { navigation } = this.props;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "provider": {
+                    "name": "dichungtaxi"
+                },
+                "startPoints": [
+                    {
+                        "address": this.props.pick_add,
+                        "lat": this.props.lattitude_pick,
+                        "long": this.props.lngtitude_pick
+                    }
+                ],
+                "endPoints": [
+                    {
+                        "address": this.props.drop_add,
+                        "lat": this.props.lattitude_drop,
+                        "long": this.props.lngtitude_drop
+                    }
+                ],
+                "bookingUser": {
+                    "email": this.props.email,
+                    "phone": this.props.use_phone,
+                    "fullName": this.props.full_name,
+                    "gender": ""
+                },
+                "bookingTime": this.state.depart_time2,
+                "slot": 1,
+                "dimension": "one_way",
+                "rideMethod": "private",
+                "productType": "TRANSFER_SERVICE",
+                "vehicle": [
+                    {
+                        "id": this.props.vehice_id,
+                        "name": this.props.vehicle_name,
+                        "image": this.props.vehicle_icon
+                    }
+                ],
+                "note": this.props.comment,
+                "beneficiary": {
+                    "email": this.props.email,
+                    "phone": this.props.use_phone,
+                    "fullName": this.props.full_name,
+                    "gender": ""
+                },
+                "bookingType": "",
+                "payment": {
+                    "method": "cash"
+                },
+                "extra": {
+                    "ref_id": "",
+                    "ref_user_id": "",
+                    "ref_url": "",
+                    "plane_number": this.props.plane_number,
+                    "plane_type": this.props.plane_type > 0 ? this.props.plane_type : '',
+                    "pm_id": this.props.pm_id,
+                    "catch_in_house": this.props.catch_in_house,
+                    "chunk_id": this.props.chunk_id,
+                    "dimension_id": this.props.dimension_id,
+                    "vehicle_id": this.props.vehice_id,
+                    "ride_method_id": this.props.ride_method_id,
+                    "airport_id": this.props.airport_id,
+                    "street_id": this.props.street_id,
+                    "village_id": this.props.village_id,
+                    "ignore_duplicate_warning": this.props.ignore_duplicate_warning,
+                    "brand_partner_id": this.props.brand_partner_id,
+                    "unmerged_select": this.props.unmerged,
+                    "xhd": navigation.getParam('xhd') ? 1 : 0,
+                    "city_id": this.props.city_id,
+                    "use_range_time": this.props.use_range_time,
+                    "referral_code": ""
+                }
+            })
+        })
+            .then(res => res.json())
+            .then(resJson => {
+                console.log(JSON.stringify(resJson))
+                console.log('a')
+            })
+    }
+
     addTicketPaymentOnline() {
         const url = link.URL_API + `passenger/create_ticket_payment_online`
         const formData = new FormData();
@@ -808,6 +902,7 @@ function mapStateToProps(state) {
         pick_add: state.info.pick_add,
         merged: state.info.merged,
         depart_time: state.info.depart_time,
+        depart_time2: state.info.depart_time2,
         vehicle_name: state.info.vehicle_name,
         vat: state.info.vat,
         full_name: state.info.full_name,
@@ -856,6 +951,10 @@ function mapStateToProps(state) {
         discount_price: state.info.discount_price,
         people: state.info.people,
         is_airport: state.info.is_airport,
+        lattitude_pick: state.info.lattitude_pick,
+        lngtitude_pick: state.info.lngtitude_pick,
+        lattitude_drop: state.info.lattitude_drop,
+        lngtitude_drop: state.info.lngtitude_drop,
     }
 }
 

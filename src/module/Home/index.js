@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, BackHandler, Alert, Image, Linking, Dimensions, ScrollView, SafeAreaView } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, BackHandler, Alert, Image, Linking, Dimensions, ScrollView, SafeAreaView,AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 import * as link from '../../URL'
 import Header from '../../component/Header'
 import SwiperFlatList from 'react-native-swiper-flatlist';
 import SelectCar from './SelectCar'
 import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
+import { addUser } from '../../core/Redux/action/Action'
 
 
 class Home extends Component {
@@ -43,6 +44,7 @@ class Home extends Component {
     }
 
     componentDidMount() {
+        this._retrieveData()
         this.callApiPromotion();
         this.callApiAttractivePlaces();
         this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
@@ -51,6 +53,21 @@ class Home extends Component {
     componentWillUnmount() {
         this.backHandler.remove()
     }
+
+    _retrieveData = async () => {
+        try {
+            const dataLogin = await AsyncStorage.getItem('dataLogin')
+            if (dataLogin !== null) {
+                let json = JSON.parse(dataLogin)
+                console.log(json.username)
+                this.props.addUser(json.username, '123', 1)
+            } else {
+                this.props.addUser(json.username, 'json.avatar', 0)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    };
 
     handleBackPress = () => {
         Alert.alert(
@@ -303,4 +320,11 @@ const styles = StyleSheet.create({
     }
 })
 
-export default connect()(Home)
+function mapStateToProps(state) {
+    return {
+        drop_add: state.info.drop_add,
+        pick_add: state.info.pick_add,
+    }
+}
+
+export default connect(mapStateToProps, { addUser: addUser })(Home)

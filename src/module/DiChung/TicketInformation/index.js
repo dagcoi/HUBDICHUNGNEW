@@ -7,6 +7,7 @@ import { NavigationActions, StackActions } from 'react-navigation';
 import { Button, ButtonGray, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 import PopUp from '../../../component/PopUp'
+import OtpInputs from 'react-native-otp-inputs';
 
 const imageLocation = '../../../image/location.png'
 const imageCalendar = '../../../image/calendar.png'
@@ -42,7 +43,7 @@ class TicketInformation extends Component {
             listWhyCan: [],
             value: 0,
             dialogCancelSuccess: false,
-            showMessage : false
+            showMessage: false
         }
     }
 
@@ -210,7 +211,7 @@ class TicketInformation extends Component {
         this.setState({
             message: jsonRes.msg,
             modalVisible: false,
-            showMessage : true
+            showMessage: true
         });
         if (jsonRes.code == 'error') {
             this.setState({
@@ -371,81 +372,6 @@ class TicketInformation extends Component {
                                 }}
                             />
                         }
-                        {/* <Dialog
-                            visible={this.state.dialogOTP}
-                            width={0.8}
-                            dialogTitle={<DialogTitle title="Xác nhận hủy vé" />}
-                            // footer={
-                            //     <DialogFooter>
-                            //         <DialogButton
-                            //             text="Hủy vé"
-                            //             onPress={() => {
-                            //                 if (this.state.otp.length < 4) {
-
-                            //                 } else {
-                            //                     this.setState({ modalVisible: true, })
-                            //                     this.cancelBooking();
-                            //                 }
-                            //             }}
-                            //         />
-                            //         <DialogButton
-                            //             text="Đóng"
-                            //             onPress={() => {
-                            //                 this.setState({
-                            //                     dialogOTP: false,
-                            //                     otp: '',
-                            //                 })
-                            //             }}
-                            //         />
-                            //     </DialogFooter>
-                            // }
-                        >
-                            <View>
-                                <View style={{
-                                    alignItems: "center", padding : 8
-                                }}>
-                                    <Text style={{ fontSize: 16, fontWeight: '100' }}>Mã xác thực hủy chuyến được gửi tới email và số điện thoại của bạn</Text>
-
-                                    <OTPInputView
-                                        style={{ padding: 20, height: 80, justifyContent: 'center', alignItems: 'center' }}
-                                        pinCount={4}
-                                        autoFocusOnLoad
-                                        code={this.state.otp}
-                                        onCodeChanged={code => { this.setState({ otp: code }) }}
-                                        codeInputHighlightStyle={styles.underlineStyleHighLighted}
-                                        onCodeFilled={(code => {
-                                            this.setState({
-                                                otp: code,
-                                            })
-                                        })}
-                                    />
-                                    <Text>{this.state.message}</Text>
-                                    <View style = {{flexDirection : 'column'}}>
-                                    <ButtonDialog
-                                        text="Hủy vé"
-                                        onPress={() => {
-                                            if (this.state.otp.length < 4) {
-
-                                            } else {
-                                                this.setState({ modalVisible: true, })
-                                                this.cancelBooking();
-                                            }
-                                        }}
-                                    />
-                                    <ButtonDialog
-                                        text="Đóng"
-                                        onPress={() => {
-                                            this.setState({
-                                                dialogOTP: false,
-                                                otp: '',
-                                            })
-                                        }}
-                                    />
-                                    </View>
-                                </View>
-                            </View>
-
-                        </Dialog> */}
 
                         <Modal
                             visible={this.state.dialogOTP}
@@ -465,13 +391,17 @@ class TicketInformation extends Component {
                                             autoFocusOnLoad
                                             code={this.state.otp}
                                             onCodeChanged={code => { this.setState({ otp: code, showMessage: false }) }}
-                                            codeInputHighlightStyle={styles.underlineStyleHighLighted}
+                                            // codeInputHighlightStyle={styles.underlineStyleHighLighted}
                                             onCodeFilled={code => {
                                                 this.setState({
                                                     otp: code,
                                                 })
                                             }}
                                         />
+                                        {/* <OtpInputs
+                                            handleChange={(code) => console.log(code)}
+                                            numberOfInputs={4}
+                                        /> */}
                                         {this.state.showMessage ?
                                             <Text>{this.state.message}</Text> : null}
                                     </View>
@@ -600,6 +530,16 @@ const styles = StyleSheet.create({
         color: '#77a300',
         flex: 1,
         textAlign: "right"
+    },
+    underlineStyleBase: {
+        width: 30,
+        height: 45,
+        borderWidth: 0,
+        borderBottomWidth: 1,
+    },
+
+    underlineStyleHighLighted: {
+        borderColor: "#77a300",
     },
 })
 

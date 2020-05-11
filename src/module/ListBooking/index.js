@@ -10,6 +10,7 @@ import DetailXeChung from './DetailXeChung'
 import * as link from '../../URL'
 import { Button, ButtonGray } from '../../component/Button'
 import OTPInputView from '@twotalltotems/react-native-otp-input'
+import OtpInputs from 'react-native-otp-inputs';
 
 const imagePick = '../../image/location.png'
 const imageDrop = '../../image/drop.png'
@@ -195,27 +196,37 @@ class ListBooking extends Component {
                 visible={this.state.dialogOTP}
                 transparent={true}
             >
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000000AA' }}>
-                    <View style={{ width: '80%', justifyContent: 'center', borderRadius: 8, minHeight: 100, backgroundColor: '#eee', padding: 8 }}>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000000AA', zIndex: 5 }}>
+                    <View style={{ width: '80%', justifyContent: 'center', borderRadius: 8, minHeight: 100, backgroundColor: '#eee', padding: 8, zIndex: 6 }}>
                         <View style={{ borderBottomWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', }}>
                             <Text style={{ fontSize: 20, }}>Xác nhận hủy vé</Text>
                         </View>
                         <View style={{ padding: 8 }}>
-                            <Text><Text>Mã xác thực hủy chuyến được gửi tới email và số điện thoại của bạn</Text></Text>
+                            <Text>Mã xác thực hủy chuyến được gửi tới email và số điện thoại của bạn</Text>
 
                             <OTPInputView
                                 style={{ padding: 20, height: 80, justifyContent: 'center', alignItems: 'center' }}
                                 pinCount={4}
-                                autoFocusOnLoad
+                                autoFocusOnLoad={false}
                                 code={this.state.otp}
-                                onCodeChanged={code => { this.setState({ otp: code, showMessage: false }) }}
-                                codeInputHighlightStyle={styles.underlineStyleHighLighted}
+                                onCodeChanged={code => {
+                                    this.setState({ otp: code, showMessage: false })
+                                    console.log(code)
+                                }}
+                                // codeInputFieldStyle={styles.underlineStyleBase}
+                                // codeInputHighlightStyle={styles.underlineStyleHighLighted}
                                 onCodeFilled={code => {
                                     this.setState({
                                         otp: code,
                                     })
                                 }}
                             />
+                            {/* <View style={{ padding: 20, height: 80, justifyContent: 'center', alignItems: 'center' }}>
+                                <OtpInputs
+                                    handleChange={(code) => console.log(code)}
+                                    numberOfInputs={4}
+                                />
+                            </View> */}
                             {this.state.showMessage ?
                                 <Text>{this.state.message}</Text> : null}
                         </View>
@@ -340,7 +351,7 @@ class ListBooking extends Component {
 
     renderItem(item) {
         let starVote = Math.floor((Math.random() * 6) + 5) / 2;
-        console.log(starVote)
+        // console.log(starVote)
         return (
             item.code ?
                 <TouchableOpacity
@@ -466,13 +477,13 @@ class ListBooking extends Component {
                                             </View>
                                         }
                                     </View>
+                                    {this.modalCancel()}
+                                    {this.modalCancelDetail()}
+                                    {this.modalLoading()}
                                 </View>
                             }
                         </ScrollView>
                     </View>
-                    {this.modalCancel()}
-                    {this.modalCancelDetail()}
-                    {this.modalLoading()}
                 </Modal>
             </View>
         )
@@ -553,6 +564,16 @@ const styles = StyleSheet.create({
         color: '#77a300',
         flex: 1,
         textAlign: "right"
+    },
+    underlineStyleBase: {
+        width: 30,
+        height: 45,
+        borderWidth: 0,
+        borderBottomWidth: 1,
+    },
+
+    underlineStyleHighLighted: {
+        borderColor: "#77a300",
     },
 })
 

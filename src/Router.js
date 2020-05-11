@@ -410,6 +410,9 @@ const RootStack = createStackNavigator({
     //     }
     // },
 
+})
+
+const Profiles = createStackNavigator({
     Login: {
         screen: Login,
         navigationOptions: {
@@ -424,22 +427,6 @@ const RootStack = createStackNavigator({
         }
     },
 })
-
-// const Profiles = createStackNavigator({
-//     Login: {
-//         screen: Login,
-//         navigationOptions: {
-//             header: null,
-//         }
-//     },
-
-//     Profile: {
-//         screen: Profile,
-//         navigationOptions: {
-//             header: null,
-//         }
-//     },
-// })
 
 const DrawerNavi = createDrawerNavigator({
     Main: {
@@ -494,13 +481,14 @@ const DrawerNavi = createDrawerNavigator({
         }
     },
 
-    // Profiles: {
-    //     screen: Profiles,
-    //     navigationOptions: {
-    //         title: 'Thông tin',
-    //         alignItems: 'center'
-    //     }
-    // },
+    Profiles: {
+        screen: Profiles,
+        navigationOptions: ({navigation}) => {
+            return {
+                drawerLabel: () => null,
+            }
+        }
+    },
 
 }, {
     initialRouteName: 'Main',
@@ -515,25 +503,20 @@ const DrawerNavi = createDrawerNavigator({
 
 const MainStack = createStackNavigator({
 
-    Login: {
-        screen: Login,
-        navigationOptions: {
-            header: null,
-        }
-    },
-    // Splash: {
-    //     screen: Splash,
-    //     navigationOptions: {
-    //         header: null,
-    //     },
-    // },
-
     Home: {
         screen: DrawerNavi,
         navigationOptions: {
             header: null,
         }
-    }
+    },
+
+    Profiles: {
+        screen: Profiles,
+        navigationOptions: {
+            title: 'Thông tin',
+            alignItems: 'center'
+        }
+    },
 })
 
 export default createAppContainer(DrawerNavi)

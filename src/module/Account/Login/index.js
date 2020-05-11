@@ -5,6 +5,9 @@ import Header from '../../../component/Header'
 import InputPassWord from './InputPassWord'
 import InputTextDiChung from '../../../component/InputTextDiChung'
 import * as link from '../../../URL'
+import { addUser } from '../../../core/Redux/action/Action'
+import { connect } from 'react-redux'
+
 
 const logo = '../../../image/logo_dc_taxi.png'
 const people = '../../../image/person.png'
@@ -47,8 +50,9 @@ class Login extends Component {
         // this._retrieveData()
     }
 
+
     apiAddUser(userName, passWord) {
-        url = link.URL_API_PORTAL +`user/v1/users`
+        url = link.URL_API_PORTAL + `user/v1/users`
         fetch(url, {
             method: 'POST',
             headers: {
@@ -61,6 +65,7 @@ class Login extends Component {
             .then(resJson => {
                 if (resJson.data) {
                     this.addDataLogin(userName, passWord, resJson.data)
+                    this.props.addUser(resJson.data.username, '123', 1)
                     this.setState({
                         showLogin: true,
                         showSignUp: false,
@@ -74,7 +79,7 @@ class Login extends Component {
                         infoCustommer: resJson.data,
                         messageAddUser: '',
                     })
-                    this.gotoProfileScreen(userName, passWord,JSON.stringify(resJson.data))
+                    this.gotoProfileScreen(userName, passWord, JSON.stringify(resJson.data))
                     // this.getDataInJson(resJson.data)
                 } else (
                     this.setState({
@@ -85,7 +90,7 @@ class Login extends Component {
     }
 
     apiLogin(userName, passWord) {
-        let url = link.URL_API_PORTAL +'user/v1/users/login'
+        let url = link.URL_API_PORTAL + 'user/v1/users/login'
         console.log(url)
         console.log(userName + passWord)
         fetch(url, {
@@ -100,6 +105,7 @@ class Login extends Component {
             .then(resJson => {
                 if (resJson.data) {
                     this.addDataLogin(userName, passWord, resJson.data)
+                    this.props.addUser(resJson.data.username, '123', 1)
                     this.setState({
                         showLogin: true,
                         loginSuccess: true,
@@ -125,7 +131,7 @@ class Login extends Component {
     }
 
     gotoProfileScreen(userName, passWord, dataLogin) {
-        this.props.navigation.navigate('Profile', {'userName' : userName, 'passWord' : passWord, 'dataLogin' : dataLogin})
+        this.props.navigation.navigate('Profile', { 'userName': userName, 'passWord': passWord, 'dataLogin': dataLogin })
     }
 
 
@@ -524,6 +530,7 @@ class Login extends Component {
     render() {
         return (
             <View style={styles.container}>
+                <Header onPressLeft={() => { this.props.navigation.openDrawer() }} />
                 {this.FormLogin()}
             </View>
         )
@@ -584,4 +591,11 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Login;
+function mapStateToProps(state) {
+    return {
+        link_avatar: state.thongtin.link_avatar,
+        name: state.thongtin.name,
+        isLogin: state.thongtin.isLogin,
+    }
+}
+export default connect(mapStateToProps, { addUser: addUser })(Login);
