@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, Image, Text, AsyncStorage, TouchableOpacity, AppState } from 'react-native'
-import { DrawerItems, DrawerView } from 'react-navigation-drawer'
+import { DrawerNavigatorItems, DrawerView } from 'react-navigation-drawer'
 import { connect } from 'react-redux'
 
 const imageAvatar = '../image/logo_dc_taxi.png'
@@ -40,7 +40,7 @@ class CustomNavigator extends Component {
                     }
                 </TouchableOpacity>
                 <View style={{ flex: 1 }}>
-                    <DrawerItems {...this.props} />
+                    <DrawerNavigatorItems {...this.props} />
                 </View>
             </View>
         )

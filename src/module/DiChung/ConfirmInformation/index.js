@@ -41,7 +41,8 @@ class ConfirmInformation extends Component {
             result: null,
             ticket: null,
             visibalAgain: false,
-            depart_time2: ''
+            depart_time2: '',
+            id_booking: null,
         }
     }
 
@@ -303,7 +304,7 @@ class ConfirmInformation extends Component {
                         onPress={() => {
                             this.state.callingApi ? null : navigation.getParam('Payment') == '0' ? this.addTicket2() : this.addTicketPaymentOnline()
                             this.setState({
-                                // addingTicket: true,
+                                addingTicket: true,
                             })
                         }}
                     />
@@ -438,7 +439,7 @@ class ConfirmInformation extends Component {
                                     source={{ uri: this.props.vehicle_icon }}
                                 />
                             </View>
-                            <Text>Mã vé của bạn là :<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
+                            {/* <Text>Mã vé của bạn là :<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text> */}
                             <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất.</Text>
                             <ButtonDialog
                                 text="Chi tiết mã vé"
@@ -625,9 +626,9 @@ class ConfirmInformation extends Component {
                 ],
                 "note": this.props.comment,
                 "beneficiary": {
-                    "email": this.props.email,
-                    "phone": this.props.use_phone,
-                    "fullName": this.props.full_name,
+                    "email": navigation.getParam('not_use') ? '' : this.props.email,
+                    "phone": navigation.getParam('not_use') ? this.props.use_phone2 : this.props.use_phone,
+                    "fullName": navigation.getParam('not_use') ? this.props.full_name2 : this.props.full_name,
                     "gender": ""
                 },
                 "bookingType": "",
@@ -639,9 +640,9 @@ class ConfirmInformation extends Component {
                     "ref_user_id": "",
                     "ref_url": "",
                     "plane_number": this.props.plane_number,
-                    "plane_type": this.props.plane_type > 0 ? this.props.plane_type : '',
+                    "plane_type": this.props.is_airport == 'false' ? '' : navigation.getParam('plane_type') > 0 ? navigation.getParam('plane_type') : '',
                     "pm_id": this.props.pm_id,
-                    "catch_in_house": this.props.catch_in_house,
+                    "catch_in_house": navigation.getParam('broad_price') ? '1' : '0',
                     "chunk_id": this.props.chunk_id,
                     "dimension_id": this.props.dimension_id,
                     "vehicle_id": this.props.vehice_id,
@@ -655,7 +656,12 @@ class ConfirmInformation extends Component {
                     "xhd": navigation.getParam('xhd') ? 1 : 0,
                     "city_id": this.props.city_id,
                     "use_range_time": this.props.use_range_time,
-                    "referral_code": ""
+                    "referral_code": "",
+                    "company_name": navigation.getParam('xhd') ? this.props.company_name : "",
+                    "company_address": navigation.getParam('xhd') ? this.props.company_address : "",
+                    "company_mst": navigation.getParam('xhd') ? this.props.company_mst : "",
+                    "company_address_receive": navigation.getParam('xhd') ? this.props.company_address_receive : "",
+                    "promotion": navigation.getParam('blDiscount') ? this.props.promotion_code : ""
                 }
             })
         })
@@ -663,6 +669,13 @@ class ConfirmInformation extends Component {
             .then(resJson => {
                 console.log(JSON.stringify(resJson))
                 console.log('a')
+                this.setState({
+                    callingApi: false,
+                    addingTicket: false,
+                    is_night_booking: resJson.is_night_booking,
+                    visibleSearchDriver: resJson.is_night_booking,
+                    id_booking: resJson.data._id,
+                })
             })
     }
 
@@ -845,6 +858,7 @@ class ConfirmInformation extends Component {
         this.props.navigation.navigate("TicketInformation", {
             'ticket_id': this.state.ticket,
             'phone_number': this.props.use_phone,
+            'id_booking': this.state.id_booking,
         })
     }
 

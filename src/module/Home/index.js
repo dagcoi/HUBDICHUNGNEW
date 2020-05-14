@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, BackHandler, Alert, Image, Linking, Dimensions, ScrollView, SafeAreaView,AsyncStorage } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, BackHandler, Alert, Image, Linking, Dimensions, ScrollView, SafeAreaView, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 import * as link from '../../URL'
 import Header from '../../component/Header'
@@ -153,8 +153,9 @@ class Home extends Component {
                         showsHorizontalScrollIndicator={false}
                         showsVerticalScrollIndicator={false}
                     >
-                        <Text style={{ fontSize: 28, fontWeight: 'bold', }}>Chào! Hãy cùng tìm một chuyến đi. </Text>
-
+                        <View style = {{minHeight : 48, justifyContent : 'center'}}>
+                            <Text style={{ fontSize: 20, fontWeight: 'bold', }}>Chào! Hãy cùng tìm một chuyến đi.</Text>
+                        </View>
                         <SelectCar
                             backgroundColor={'#fff'}
                             onPress={() => { this.props.navigation.push("MapDiChung") }}
@@ -195,8 +196,8 @@ class Home extends Component {
                             textDetail={'Thuê xe tự lái Đi chung'}
                         /> */}
                         {this.state.isLoadingPromotion ? null :
-                            <View style={{ height: Dimensions.get('window').width / 2 + 8, backgroundColor: '#ffffff', marginBottom: 16 }}>
-                                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Khuyến mãi</Text>
+                            <View style={{ height: Dimensions.get('window').width / 2 + 8, backgroundColor: '#f9f9f9', marginBottom: 16, marginTop : 17 }}>
+                                <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Khuyến mãi</Text>
                                 <SwiperFlatList
                                     autoplay={true}
                                     autoplayDelay={7}
@@ -226,8 +227,8 @@ class Home extends Component {
                         }
 
                         {this.state.isLoadingAttractivePlaces ? null :
-                            <View style={{ height: Dimensions.get('window').width / 2 + 8, backgroundColor: '#ffffff', marginBottom: 16 }}>
-                                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Địa điểm hấp đẫn</Text>
+                            <View style={{ height: Dimensions.get('window').width / 2 + 8, backgroundColor: '#f9f9f9', marginBottom: 16 }}>
+                                <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Địa điểm hấp đẫn</Text>
                                 <SwiperFlatList
                                     autoplay={true}
                                     autoplayDelay={5}
@@ -249,7 +250,7 @@ class Home extends Component {
                                                         source={{ uri: item._embedded['wp:featuredmedia'][0].media_details.sizes.thumbnail.source_url }}
                                                     />
                                                     <View style={{ position: 'absolute', top: -30, left: 8, right: 8, height: 300, alignItems: 'center', justifyContent: 'center' }}>
-                                                        <Text style={{ color: '#fff', backgroundColor: '#00000033', padding: 4, borderRadius: 4, fontSize: 13, }}>{item.title.rendered}</Text>
+                                                        <Text style={{ color: '#fff', backgroundColor: '#00000033', padding: 4, borderRadius: 4, fontSize: 12, }}>{item.title.rendered}</Text>
                                                     </View>
                                                 </TouchableOpacity>
                                             </View>
@@ -269,8 +270,8 @@ class Home extends Component {
 const styles = StyleSheet.create({
     all: {
         flex: 1,
-        paddingLeft: 8,
-        paddingRight: 8
+        paddingHorizontal: 16,
+        backgroundColor : '#f9f9f9'
     },
     textInput: {
         marginTop: 8,

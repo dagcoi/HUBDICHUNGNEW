@@ -43,11 +43,42 @@ class TicketInformation extends Component {
             listWhyCan: [],
             value: 0,
             dialogCancelSuccess: false,
-            showMessage: false
+            showMessage: false,
+            loadData: true,
+            timeReload: 2000,
         }
     }
 
-    async componentDidMount() {
+    componentDidMount() {
+        this.getTicketbyBookigId()
+    }
+
+    getTicketbyBookigId() {
+        this._interval = setInterval(() => {
+            const { navigation } = this.props;
+            const url = link.URL_API_PORTAL + `booking/v1/bookings/${navigation.getParam('id_booking')}`
+            if (this.state.loadData) {
+                // console.log(url);
+                return fetch(url)
+                    .then((res) => res.json())
+                    .then((jsonRes) => {
+                        // console.log(JSON.stringify(jsonRes))
+                        // console.log(jsonRes.data.result)
+                        this.setState({
+                            info: jsonRes.data,
+                            // loadData: jsonRes.data.forward.status == 'forwarded' ? false : true,
+                            is_loading: false,
+                            timeReload: jsonRes.data.forward.status == 'forwarded' ? 10000 : 2000
+                        })
+                    }
+                    )
+            } else {
+                return null;
+            }
+        }, this.state.timeReload);
+    }
+
+    async getTicketbySDT() {
         const { navigation } = this.props;
         const url = link.URL_API + `passenger/get_ticket_info`
         const formData = new FormData();
@@ -71,28 +102,36 @@ class TicketInformation extends Component {
     }
 
     renderDetailTrip(item) {
+        const time = item.bookingTime
+        const date = new Date(time).toLocaleDateString()
+        const hours = new Date(time).toLocaleTimeString()
+        const strtime = hours + " " + date
         return (
             <View>
                 <Text style={styles.textBigLeft1}>Chi tiết chuyến đi</Text>
 
                 <ImageTextDiChung
                     source={require(imageLocation)}
-                    text={item.pick_address_api}
+                    // text={item.pick_address_api}
+                    text={item.startPoints[0].address}
                 />
 
                 <ImageTextDiChung
                     source={require(imageLocation)}
-                    text={item.drop_address_api}
+                    // text={item.drop_address_api}
+                    text={item.endPoints[0].address}
                 />
 
                 <ImageTextDiChung
                     source={require(imageCalendar)}
-                    text={item.in_time + ' ' + item.in_date}
+                    // text={item.in_time + ' ' + item.in_date}
+                    text={strtime}
                 />
 
                 <ImageTextDiChung
                     source={require(imagePeople)}
-                    text={item.chair_count + ' xe'}
+                    // text={item.chair_count + ' xe'}
+                    text={item.slot + ' xe'}
                 />
             </View>
         )
@@ -105,7 +144,8 @@ class TicketInformation extends Component {
 
                 <ImageTextDiChung
                     source={require(imageIconCar)}
-                    text={item.ride_method_id == '1' ? 'Đi riêng' : 'Đi chung'}
+                    // text={item.ride_method_id == '1' ? 'Đi riêng' : 'Đi chung'}
+                    text={item.rideMethod == 'private' ? 'Đi riêng' : 'Đi chung'}
                 />
             </View>
         )
@@ -118,17 +158,20 @@ class TicketInformation extends Component {
 
                 <ImageTextDiChung
                     source={require(imagePerson)}
-                    text={item.fullname}
+                    // text={item.fullname}
+                    text={item.bookingUser.fullName}
                 />
 
                 <ImageTextDiChung
                     source={require(imageIconPhone)}
-                    text={item.other_phone}
+                    // text={item.other_phone}
+                    text={item.bookingUser.phone}
                 />
 
                 <ImageTextDiChung
                     source={require(imageEmail)}
-                    text={item.email}
+                    // text={item.email}
+                    text={item.bookingUser.email}
                 />
             </View>
         )
@@ -142,12 +185,14 @@ class TicketInformation extends Component {
 
                 <ImageTextDiChung
                     source={require(imagePerson)}
-                    text={item.use_name}
+                    // text={item.use_name}
+                    text={item.beneficiary.fullName}
                 />
 
                 <ImageTextDiChung
                     source={require(imageIconPhone)}
-                    text={item.use_phone}
+                    // text={item.use_phone}
+                    text={item.beneficiary.phone}
                 />
 
             </View>
@@ -163,14 +208,17 @@ class TicketInformation extends Component {
                 <Text style={styles.textBigLeft1}>Thanh toán và khác</Text>
                 <ImageTextDiChung
                     source={require(imagePayment)}
-                    text={item.pay_method_name}
+                    // text={item.pay_method_name}
+                    text={item.payment.method == 'cash' ? 'Trả sau' : 'Trả trước'}
                 />
-                {item.board_price != '0' ?
+                {/* {item.board_price != '0' ? */}
+                {item.extra.catch_in_house != '0' ?
                     <ImageTextDiChung
                         source={require(imageDone)}
                         text={'Đón bằng biển tên (+ 30.000 ₫)'}
                     /> : null}
-                {item.xhd == 1 ?
+                {/* {item.xhd == 1 ? */}
+                {item.extra.xhd == 1 ?
                     <ImageTextDiChung
                         source={require(imageDone)}
                         text={'+10 %'}
@@ -184,11 +232,14 @@ class TicketInformation extends Component {
             <View>
                 <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', }}>
                     <Text style={styles.textBigLeft1}>Tổng thanh toán : </Text>
-                    <Text style={styles.textBigRight1}>
-                        {parseInt(item.total_cost).format(0, 3, '.')} đ
-                </Text>
+                    {item.forward.status == 'forwarded' ?
+                        <Text style={styles.textBigRight1}>
+                            {/* {parseInt(item.total_cost).format(0, 3, '.')} đ */}
+                            {parseInt(item.forward.result.total_cost).format(0, 3, '.')} đ
+                    </Text>
+                        : null}
                 </View>
-                <Text style={{ marginBottom: 8, textAlign: 'right' }}>{item.toll_fee == 'NA' ? "Giá chưa bao giờ phí cầu đường" : "Giá trọn gói không phí ẩn"}</Text>
+                {/* <Text style={{ marginBottom: 8, textAlign: 'right' }}>{item.toll_fee == 'NA' ? "Giá chưa bao giờ phí cầu đường" : "Giá trọn gói không phí ẩn"}</Text> */}
             </View>
         )
     }
@@ -322,17 +373,35 @@ class TicketInformation extends Component {
             return (
                 <View style={styles.container}>
                     <ScrollView showsVerticalScrollIndicator={false}>
-                        <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                        {/* <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                             <Image
                                 style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
+                                // source={{ uri: item.vehicle_icon }}
                                 source={{ uri: item.vehicle_icon }}
                             />
-                        </View>
-
+                        </View> */}
+                        {/* {item.forward.status == 'forwarded' ?
                         <Text style={styles.textBigRight}>Mã thuê xe của bạn: <Text style={{ fontWeight: 'bold' }}>{item.ticket_code}</Text></Text>
-                        {item.transaction_status_id == '1' ?
-                            <Text style={styles.textBigRight}>Yêu cầu đặt xe của bạn đã được hệ thồng ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>
-                            : <View>
+                        : null} */}
+                        {/* {item.transaction_status_id == '1' ? */}
+
+                        {item.forward.status == 'forwarded' ?
+                            <Text style={styles.textBigRight}>Mã thuê xe của bạn: <Text style={{ fontWeight: 'bold' }}>{item.forward.result.ticket_code}</Text></Text>
+                            : <Text style={styles.textBigRight}>Yêu cầu đặt xe của bạn đã được hệ thồng ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>
+                        }
+
+                        <Text style={styles.textBigRight}>Trạng thái: <Text style={{ fontWeight: 'bold' }}>Chưa xuất phát</Text></Text>
+
+                        <Text>Mọi thắc mắc vui lòng liên hệ :
+                            <Text
+                                style={{ color: '#77a300', fontWeight: 'bold',textDecorationLine : 'underline' }}
+                                onPress={() => Linking.openURL(`tel: 19006022`)}
+                            >
+                                19006022
+                            </Text>
+                        </Text>
+
+                        {/* : <View>
                                 <Text>Thông tin mã vé : <Text style={{ fontWeight: 'bold' }}>{item.transaction_status_name}</Text></Text>
                                 <Text>Mọi thắc mắc vui lòng liên hệ : <Text
                                     style={{ color: '#77a300', fontWeight: 'bold' }}
@@ -340,7 +409,7 @@ class TicketInformation extends Component {
                                 >19006022</Text>
                                 </Text>
                             </View>
-                        }
+                        } */}
                         {this.renderDetailTrip(item)}
                         {this.renderDetailOrder(item)}
                         {this.renderDetailCustommer(item)}
@@ -364,12 +433,12 @@ class TicketInformation extends Component {
                         {item.transaction_status_id == '4' ? null :
                             <ButtonGray
                                 value='HỦY VÉ'
-                                onPress={() => {
-                                    this.setState({
-                                        modalVisible: true,
-                                    })
-                                    this.cancelBookingToken();
-                                }}
+                            // onPress={() => {
+                            //     this.setState({
+                            //         modalVisible: true,
+                            //     })
+                            //     this.cancelBookingToken();
+                            // }}
                             />
                         }
 
@@ -492,7 +561,7 @@ const styles = StyleSheet.create({
     textBigRight: {
         padding: 1,
         fontSize: 15,
-        color: '#00363d',
+        // color: '#00363d',
         flex: 1,
     },
     textBigLeft1: {

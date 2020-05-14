@@ -584,14 +584,23 @@ class InfoCustommer extends Component {
 
     render() {
         const { navigation } = this.props;
-        var radio_payment = navigation.getParam('isNightBooking') ?
-            [
-                { label: 'Trả sau', value: 0, paymentMethodID: '3' }
-            ] :
-            [
-                { label: 'Trả sau', value: 0, paymentMethodID: '3' },
-                { label: 'Trả trước', value: 1 , paymentMethodID : '8'}, // ẩn phầ thanh toán online trên con thật.
-            ]
+        var pay_methods = JSON.parse(navigation.getParam('pay_methods'));
+        var radio_payment = [] 
+            if (pay_methods['3']!=null){
+                radio_payment.push({ label: 'Trả sau', value: 0, paymentMethodID: '3' })
+            }
+            if(pay_methods['8']!=null){
+                radio_payment.push({ label: 'Trả trước', value: 1 , paymentMethodID : '8'})
+            }
+          
+        // var radio_payment = navigation.getParam('isNightBooking') ?
+        //     [
+        //         { label: 'Trả sau', value: 0, paymentMethodID: '3' }
+        //     ] :
+        //     [
+        //         { label: 'Trả sau', value: 0, paymentMethodID: '3' },
+        //         { label: 'Trả trước', value: 1 , paymentMethodID : '8'}, // ẩn phầ thanh toán online trên con thật.
+        //     ]
         return (
             <View style={styles.container}>
                 <ScrollView showsVerticalScrollIndicator={false}>
