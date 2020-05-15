@@ -11,6 +11,7 @@ import * as link from '../../URL'
 import { Button, ButtonGray } from '../../component/Button'
 import OTPInputView from '@twotalltotems/react-native-otp-input'
 import OtpInputs from 'react-native-otp-inputs';
+import { connect } from 'react-redux'
 
 const imagePick = '../../image/location.png'
 const imageDrop = '../../image/drop.png'
@@ -456,10 +457,10 @@ class ListBooking extends Component {
             )
         }
         return (
-            <View>
+            <View style={{ flex: 1 }}>
                 {listBooking.length == 0 ?
-                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                        <Text>Chưa có chuyến trong danh sách vé</Text>
+                    <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+                        <Text>{this.props.isLogin == '0' ? 'Đăng nhập để xem danh sách vé của bạn.' : 'Chưa có chuyến trong danh sách vé.'}</Text>
                     </View> :
                     <FlatList
                         showsVerticalScrollIndicator={false}
@@ -494,7 +495,7 @@ class ListBooking extends Component {
                 >
                     <View>
                         <View style={{ flexDirection: 'row', height: 56, borderBottomWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', paddingHorizontal: 16 }}>
-                            <Text style={{ flex: 1, textAlign: 'center', fontSize: 22, fontWeight: 'bold' }}>Chi tiết mã vé: {this.state.ticket}</Text>
+                            <Text style={{ flex: 1, textAlign: 'center', fontSize: 16, fontWeight: 'bold' }}>Chi tiết mã vé: {this.state.ticket}</Text>
                             <TouchableOpacity
                                 onPress={() => { this.setState({ modalTicket: false }) }}
                             >
@@ -633,4 +634,13 @@ const styles = StyleSheet.create({
     },
 })
 
-export default ListBooking;
+function mapStateToProps(state) {
+    return {
+        link_avatar: state.thongtin.link_avatar,
+        name: state.thongtin.name,
+        isLogin: state.thongtin.isLogin,
+        token: state.thongtin.token,
+    }
+}
+
+export default connect(mapStateToProps)(ListBooking);
