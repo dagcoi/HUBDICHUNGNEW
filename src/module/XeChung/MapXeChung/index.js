@@ -285,7 +285,7 @@ class MapXeChung extends Component {
             <Dialog
                 visible={this.state.alertCity || this.state.alertInfo || this.state.alertTime}
                 width={0.8}
-                // dialogTitle={<DialogTitle title='Thông tin chưa đủ' />}
+            // dialogTitle={<DialogTitle title='Thông tin chưa đủ' />}
             // footer={
             //     <DialogFooter>
             //         <DialogButton

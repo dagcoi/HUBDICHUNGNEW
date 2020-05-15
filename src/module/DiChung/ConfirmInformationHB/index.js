@@ -127,7 +127,7 @@ class ConfirmInformationHB extends Component {
                 />
                 <ImageTextDiChung
                     source={require(imageHourglass)}
-                    text={'Thời lượng : ' + this.props.duration + ' giờ'}
+                    text={'Thời lượng: ' + this.props.duration + ' giờ'}
                 />
             </View>
         )
@@ -144,17 +144,17 @@ class ConfirmInformationHB extends Component {
                 <ImageTextDiChung
                     // source={require(imageIconCar)}
                     text={this.props.km_limit_format}
-                    textBold={'Giới hạn : '}
+                    textBold={'Giới hạn: '}
                 />
                 <ImageTextDiChung
                     // source={require(imageIconCar)}
                     text={this.props.extra_price_km}
-                    textBold={'Phụ trội theo km : '}
+                    textBold={'Phụ trội theo km: '}
                 />
                 <ImageTextDiChung
                     // source={require(imageIconCar)}
                     text={this.props.extra_price_hour + ' giờ'}
-                    textBold={'Phụ trội theo giờ : '}
+                    textBold={'Phụ trội theo giờ: '}
                 />
             </View>
         )
@@ -230,7 +230,7 @@ class ConfirmInformationHB extends Component {
         const { navigation } = this.props;
         return (
             <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', marginBottom: 8 }}>
-                <Text style={styles.textBigLeft1}>Tổng thanh toán : </Text>
+                <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
                 <Text style={styles.textBigRight1}>
                     {((this.props.merged - (navigation.getParam('blDiscount') ? this.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1)).format(0, 3, '.')} đ
                 </Text>
@@ -296,7 +296,7 @@ class ConfirmInformationHB extends Component {
 
                     <Dialog
                         visible={this.state.addingTicket}
-                        // width={0.8}
+                    // width={0.8}
                     >
                         <View>
                             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
@@ -376,7 +376,7 @@ class ConfirmInformationHB extends Component {
                         backgroundColor: '#fff',
                     }}>
                         <View style={{ flex: 1, backgroundColor: '#fff', }}>
-                            <View style={{ height: 0, flexDirection: 'row',  margin: 8 }}>
+                            <View style={{ height: 0, flexDirection: 'row', margin: 8 }}>
                                 {/* <TouchableOpacity
                                     onPress={() => {
                                         this.setState({

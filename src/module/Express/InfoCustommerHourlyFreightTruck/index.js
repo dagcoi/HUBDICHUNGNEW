@@ -167,23 +167,23 @@ class InfoCustommerHourlyFreightTruck extends Component {
                 visible={this.state.alertName || this.state.alertPhone || this.state.alertEmail || this.state.alertName2 || this.state.alertPhone2 || this.state.alertCompany}
                 width={0.8}
                 dialogTitle={<DialogTitle title='Thông tin chưa đủ' />}
-                // footer={
-                //     <DialogFooter>
-                //         <DialogButton
-                //             text="Đồng ý"
-                //             onPress={() => {
-                //                 this.setState({
-                //                     alertName: false,
-                //                     alertPhone: false,
-                //                     alertEmail: false,
-                //                     alertName2: false,
-                //                     alertPhone2: false,
-                //                     alertCompany: false,
-                //                 })
-                //             }}
-                //         />
-                //     </DialogFooter>
-                // }
+            // footer={
+            //     <DialogFooter>
+            //         <DialogButton
+            //             text="Đồng ý"
+            //             onPress={() => {
+            //                 this.setState({
+            //                     alertName: false,
+            //                     alertPhone: false,
+            //                     alertEmail: false,
+            //                     alertName2: false,
+            //                     alertPhone2: false,
+            //                     alertCompany: false,
+            //                 })
+            //             }}
+            //         />
+            //     </DialogFooter>
+            // }
             >
                 <View>
                     <View style={{ padding: 8, flexDirection: 'column' }}>
@@ -272,7 +272,7 @@ class InfoCustommerHourlyFreightTruck extends Component {
 
                 <InputTextDiChung
                     style={styles.textInput}
-                    placeholder='VD : Lái xe không hút thuốc'
+                    placeholder='VD: Lái xe không hút thuốc'
                     value={this.state.comment}
                     onChangeText={(text) => this.setState({
                         comment: text,
@@ -544,7 +544,7 @@ class InfoCustommerHourlyFreightTruck extends Component {
                         isChecked={this.state.is_checked}
                         rightText={"Đặt xe cho người khác"}
                         rightTextStyle={{ fontSize: 16 }}
-                        checkBoxColor = {'#77a300'}
+                        checkBoxColor={'#77a300'}
                     />
 
                     {this.renderDatHo()}
@@ -652,7 +652,7 @@ class InfoCustommerHourlyFreightTruck extends Component {
                         isChecked={this.state.vat}
                         rightText={"Xuất hóa đơn"}
                         rightTextStyle={{ fontSize: 16 }}
-                        checkBoxColor = {'#77a300'}
+                        checkBoxColor={'#77a300'}
                     />
                     {this.renderFormVAT()}
 

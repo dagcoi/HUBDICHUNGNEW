@@ -245,13 +245,13 @@ class MapDiChung extends Component {
         const hours = this.state.selectedHours - this.state.hoursAlive;
         const minutes = this.state.selectedMinutes - this.state.minutesAlive
         if (hours > 3) {
-            console.log('datdem : false1')
+            console.log('datdem: false1')
             this.props.navigation.push("ListCar", { datdem: false });
         } else if (hours == 3 && minutes >= 0) {
-            console.log('datdem : false2')
+            console.log('datdem: false2')
             this.props.navigation.push("ListCar", { datdem: false });
         } else {
-            console.log('datdem : true')
+            console.log('datdem: true')
             this.props.navigation.push("ListCar", { datdem: true });
         }
     }
@@ -270,7 +270,7 @@ class MapDiChung extends Component {
                     this.checkNightBooking()
                 }
             } else {
-                console.log('datdem : false')
+                console.log('datdem: false')
                 this.props.navigation.push("ListCar", { datdem: false });
             }
         }
@@ -315,26 +315,26 @@ class MapDiChung extends Component {
             <Dialog
                 visible={this.state.showAlertInfo}
                 width={0.8}
-                // footer={
-                //     // <DialogFooter>
-                //     //     <DialogButton
-                //     //         text="Đồng ý"
-                //     //         onPress={() => {
-                //     //             this.setState({ showAlertInfo: false, })
-                //     //         }}
-                //     //     />
-                //     // </DialogFooter>
-                //     <View>
-                //         <View style={{ padding: 8, justifyContent: 'center', alignItems: 'center' }}>
-                //             <ButtonDialog
-                //                 text={'Đồng ý'}
-                //                 onPress={() => {
-                //                     this.setState({ showAlertInfo: false, })
-                //                 }}
-                //             />
-                //         </View>
-                //     </View>
-                // }
+            // footer={
+            //     // <DialogFooter>
+            //     //     <DialogButton
+            //     //         text="Đồng ý"
+            //     //         onPress={() => {
+            //     //             this.setState({ showAlertInfo: false, })
+            //     //         }}
+            //     //     />
+            //     // </DialogFooter>
+            //     <View>
+            //         <View style={{ padding: 8, justifyContent: 'center', alignItems: 'center' }}>
+            //             <ButtonDialog
+            //                 text={'Đồng ý'}
+            //                 onPress={() => {
+            //                     this.setState({ showAlertInfo: false, })
+            //                 }}
+            //             />
+            //         </View>
+            //     </View>
+            // }
             >
                 <View>
                     <View style={{ padding: 8, marginTop: 8, justifyContent: 'center', alignItems: 'center', }}>
@@ -439,7 +439,7 @@ class MapDiChung extends Component {
 
                 <TextInput
                     editable={false}
-                    value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours} : ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
+                    value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours}: ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
                     placeholder='Chọn giờ đi'
                     onTouchStart={() => { this.setState({ dialogCalendarVisible: true }) }}
                     pointerEvents='none'
@@ -710,24 +710,35 @@ class MapDiChung extends Component {
                             ></TouchableOpacity>
                         </View>
 
-                        <View style = {{flex : 1, backgroundColor: '#ffffff' }}>
-                            <View  style = {{height : 40, justifyContent : 'center', alignItems : 'center'}}>
-                                <Text style  = {{fontSize : 18, fontWeight : 'bold'}}>Chọn giờ đi</Text>
+                        <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
+                            <View style={{ height: 40, justifyContent: 'center', alignItems: 'center' }}>
+                                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Chọn giờ đi</Text>
                             </View>
-                        <FlatList
-                            style={{ flex: 1, backgroundColor: '#ffffff' }}
-                            data={listHour}
-                            initialScrollIndex={this.state.scroll - 1}
-                            getItemLayout={this.getItemLayout}
-                            renderItem={({ item }) =>
-                                <TouchableOpacity
-                                    style={{ flexDirection: 'row', height: 40 }}
-                                    onPress={() => {
-                                        var isDayAlight = this.state.spesentDay == this.state.date.format('DD-MM-YYYY');
-                                        var timeClicker = ((item.hour == this.state.hoursAlive && item.minute > this.state.minutesAlive) || item.hour > this.state.hoursAlive);
+                            <FlatList
+                                style={{ flex: 1, backgroundColor: '#ffffff' }}
+                                data={listHour}
+                                initialScrollIndex={this.state.scroll - 1}
+                                getItemLayout={this.getItemLayout}
+                                renderItem={({ item }) =>
+                                    <TouchableOpacity
+                                        style={{ flexDirection: 'row', height: 40 }}
+                                        onPress={() => {
+                                            var isDayAlight = this.state.spesentDay == this.state.date.format('DD-MM-YYYY');
+                                            var timeClicker = ((item.hour == this.state.hoursAlive && item.minute > this.state.minutesAlive) || item.hour > this.state.hoursAlive);
 
-                                        if (isDayAlight) {
-                                            if (timeClicker) {
+                                            if (isDayAlight) {
+                                                if (timeClicker) {
+                                                    this.setState({
+                                                        selectedHours: item.hour,
+                                                        selectedMinutes: item.minute,
+                                                        scroll: item.id,
+                                                        dialogTimeVisible: false,
+                                                        dialogCalendarVisible: false,
+                                                        depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                    })
+                                                    this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
+                                                }
+                                            } else {
                                                 this.setState({
                                                     selectedHours: item.hour,
                                                     selectedMinutes: item.minute,
@@ -738,24 +749,13 @@ class MapDiChung extends Component {
                                                 })
                                                 this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
                                             }
-                                        } else {
-                                            this.setState({
-                                                selectedHours: item.hour,
-                                                selectedMinutes: item.minute,
-                                                scroll: item.id,
-                                                dialogTimeVisible: false,
-                                                dialogCalendarVisible: false,
-                                                depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
-                                            })
-                                            this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
-                                        }
-                                    }}
-                                >
-                                    <Text style={{ textAlign: 'center', fontSize: 16, flex: 1, padding: 8, backgroundColor: (item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes) ? '#77a300' : '#fff', color: (this.state.spesentDay == this.state.date.format('DD-MM-YYYY') && ((item.hour == this.state.hoursAlive && item.minute < this.state.minutesAlive) || item.hour < this.state.hoursAlive)) ? '#aaa' : item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes ? '#fff' : '#000000' }}>{item.hour < 10 ? '0' + item.hour : item.hour} : {item.minute == 0 ? '00' : item.minute}</Text>
-                                </TouchableOpacity>}
-                            scrollToIndex={this.state.scroll}
-                            keyExtractor={item => item.id}
-                        />
+                                        }}
+                                    >
+                                        <Text style={{ textAlign: 'center', fontSize: 16, flex: 1, padding: 8, backgroundColor: (item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes) ? '#77a300' : '#fff', color: (this.state.spesentDay == this.state.date.format('DD-MM-YYYY') && ((item.hour == this.state.hoursAlive && item.minute < this.state.minutesAlive) || item.hour < this.state.hoursAlive)) ? '#aaa' : item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes ? '#fff' : '#000000' }}>{item.hour < 10 ? '0' + item.hour : item.hour}: {item.minute == 0 ? '00' : item.minute}</Text>
+                                    </TouchableOpacity>}
+                                scrollToIndex={this.state.scroll}
+                                keyExtractor={item => item.id}
+                            />
                         </View>
                     </View>
                 </Modal>

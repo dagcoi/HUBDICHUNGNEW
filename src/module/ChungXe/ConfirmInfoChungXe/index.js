@@ -104,7 +104,7 @@ class ConfirmInfoChungXe extends Component {
                                     style={{ justifyContent: 'center', alignItems: 'center', height: 120, resizeMode: 'contain' }}
                                     source={{ uri: item.vhc.vhc_imgs }}
                                 />
-                                <Text>Mã đặt xe của bạn : <Text style={{ fontWeight: 'bold' }}>{this.state.book_code}</Text></Text>
+                                <Text>Mã đặt xe của bạn: <Text style={{ fontWeight: 'bold' }}>{this.state.book_code}</Text></Text>
 
                                 <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>
                                 <View style={{ flexDirection: 'row', height: 45, padding: 4 }}>

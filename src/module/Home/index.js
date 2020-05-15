@@ -6,7 +6,7 @@ import Header from '../../component/Header'
 import SwiperFlatList from 'react-native-swiper-flatlist';
 import SelectCar from './SelectCar'
 import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
-import { addUser } from '../../core/Redux/action/Action'
+import { addUser, addToken } from '../../core/Redux/action/Action'
 
 
 class Home extends Component {
@@ -61,8 +61,10 @@ class Home extends Component {
                 let json = JSON.parse(dataLogin)
                 console.log(json.username)
                 this.props.addUser(json.username, '123', 1)
+                this.props.addToken(json.token)
             } else {
                 this.props.addUser(json.username, 'json.avatar', 0)
+                this.props.addToken('')
             }
         } catch (error) {
             console.log(error)
@@ -153,7 +155,7 @@ class Home extends Component {
                         showsHorizontalScrollIndicator={false}
                         showsVerticalScrollIndicator={false}
                     >
-                        <View style = {{minHeight : 48, justifyContent : 'center'}}>
+                        <View style={{ minHeight: 48, justifyContent: 'center' }}>
                             <Text style={{ fontSize: 20, fontWeight: 'bold', }}>Chào! Hãy cùng tìm một chuyến đi.</Text>
                         </View>
                         <SelectCar
@@ -196,7 +198,7 @@ class Home extends Component {
                             textDetail={'Thuê xe tự lái Đi chung'}
                         /> */}
                         {this.state.isLoadingPromotion ? null :
-                            <View style={{ height: Dimensions.get('window').width / 2 + 8, backgroundColor: '#f9f9f9', marginBottom: 16, marginTop : 17 }}>
+                            <View style={{ height: Dimensions.get('window').width / 2 + 8, backgroundColor: '#f9f9f9', marginBottom: 16, marginTop: 17 }}>
                                 <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Khuyến mãi</Text>
                                 <SwiperFlatList
                                     autoplay={true}
@@ -271,7 +273,7 @@ const styles = StyleSheet.create({
     all: {
         flex: 1,
         paddingHorizontal: 16,
-        backgroundColor : '#f9f9f9'
+        backgroundColor: '#f9f9f9'
     },
     textInput: {
         marginTop: 8,
@@ -328,4 +330,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { addUser: addUser })(Home)
+export default connect(mapStateToProps, { addUser: addUser, addToken: addToken })(Home)

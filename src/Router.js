@@ -69,6 +69,7 @@ import Registration from './module/Account/Registration'
 
 import { createDrawerNavigator } from 'react-navigation-drawer'
 import CustomNavigator from './component/CustomNavigator'
+import { connect } from 'react-redux'
 
 // import OTP from './module/OTP'
 // import { createDrawerNavigator } from 'react-navigation-drawer'
@@ -475,15 +476,26 @@ const DrawerNavi = createDrawerNavigator({
     },
     ListBooking: {
         screen: ListBooking,
-        navigationOptions: {
-            title: 'Danh sách vé',
-            alignItems: 'center'
+        // navigationOptions: {
+        //     title: 'Danh sách vé',
+        //     alignItems: 'center'
+        // }
+        navigationOptions: ({ navigation }) => {
+            // if (this.props.isLogin == '0') {
+            //     return {
+            //         drawerLabel: () => null,
+            //     }
+            // } else {
+            return {
+                drawerLabel: () => 'Danh sách vé',
+            }
+            // }
         }
     },
 
     Profiles: {
         screen: Profiles,
-        navigationOptions: ({navigation}) => {
+        navigationOptions: ({ navigation }) => {
             return {
                 drawerLabel: () => null,
             }
@@ -519,4 +531,12 @@ const MainStack = createStackNavigator({
     },
 })
 
-export default createAppContainer(DrawerNavi)
+function mapStateToProps(state) {
+    return {
+        link_avatar: state.thongtin.link_avatar,
+        name: state.thongtin.name,
+        isLogin: state.thongtin.isLogin,
+    }
+}
+
+export default connect(mapStateToProps)(createAppContainer(DrawerNavi))

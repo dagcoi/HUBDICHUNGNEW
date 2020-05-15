@@ -125,7 +125,7 @@ class ConfirmInformationHourlyBookingTL extends Component {
                 />
                 <ImageTextDiChung
                     source={require(imageHourglass)}
-                    text={'Thời lượng : ' + this.props.duration + ' giờ'}
+                    text={'Thời lượng: ' + this.props.duration + ' giờ'}
                 />
             </View>
         )
@@ -142,17 +142,17 @@ class ConfirmInformationHourlyBookingTL extends Component {
                 <ImageTextDiChung
                     // source={require(imageIconCar)}
                     text={this.props.km_limit_format}
-                    textBold={'Giới hạn : '}
+                    textBold={'Giới hạn: '}
                 />
                 <ImageTextDiChung
                     // source={require(imageIconCar)}
                     text={this.props.extra_price_km}
-                    textBold={'Phụ trội theo km : '}
+                    textBold={'Phụ trội theo km: '}
                 />
                 <ImageTextDiChung
                     // source={require(imageIconCar)}
                     text={this.props.extra_price_hour + ' giờ'}
-                    textBold={'Phụ trội theo giờ : '}
+                    textBold={'Phụ trội theo giờ: '}
                 />
             </View>
         )
@@ -350,7 +350,7 @@ class ConfirmInformationHourlyBookingTL extends Component {
                         flex: 1,
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
-                        padding : 8,
+                        padding: 8,
                         backgroundColor: '#fff',
                     }}>
                         <View style={{ flex: 1, backgroundColor: '#fff', }}>

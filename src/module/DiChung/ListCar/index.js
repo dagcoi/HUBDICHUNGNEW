@@ -38,7 +38,7 @@ class ListCar extends Component {
                 rideMethod: [],
                 type: [],
             },
-            // buyItems : [1,17,2,33,24],
+            // buyItems: [1,17,2,33,24],
             ride_method_id_list: [1, 2],
             listcar: [],
             listcarfilter: [],
@@ -110,7 +110,7 @@ class ListCar extends Component {
             this.addListfilter(responseJson.data.data);
             this.setStateAsync({
                 isLoading: false,
-                // listFilterType : ,
+                // listFilterType: ,
                 listFliter: this.filterCar(responseJson.data.data),
                 dataSource: responseJson.data.data,
                 is_from_airport: responseJson.data.is_from_airport
@@ -154,7 +154,7 @@ class ListCar extends Component {
             this.addListfilter(responseJson.data);
             this.setStateAsync({
                 isLoading: false,
-                // listFilterType : ,
+                // listFilterType: ,
                 listFliter: this.filterCar(responseJson.data),
                 dataSource: responseJson.data,
                 is_from_airport: responseJson.is_from_airport
@@ -336,7 +336,7 @@ class ListCar extends Component {
 
         this.props.navigation.push("InfoCustommer", {
             // 'isNightBooking': navigation.getParam('datdem')
-            pay_methods :JSON.stringify(item.pay_methods)
+            pay_methods: JSON.stringify(item.pay_methods)
         })
     }
     setStateAsync(state) {
@@ -454,7 +454,7 @@ class ListCar extends Component {
                                                         <Image
                                                             style={{ width: 16, height: 16, marginRight: 8, marginLeft: 8 }}
                                                             source={require('../../../image/notetollfee.png')} />
-                                                        <Text style={{ fontSize: 14 }}>Phí cầu đường : {parseInt(item.toll_fee).format(0, 3, '.')} đ</Text>
+                                                        <Text style={{ fontSize: 14 }}>Phí cầu đường: {parseInt(item.toll_fee).format(0, 3, '.')} đ</Text>
                                                     </View>
                                             :
                                             <View>

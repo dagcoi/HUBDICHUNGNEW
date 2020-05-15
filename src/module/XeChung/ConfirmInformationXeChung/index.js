@@ -206,7 +206,7 @@ class ConfirmInformationXeChung extends Component {
         const { navigation } = this.props;
         return (
             <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', marginBottom: 8 }}>
-                <Text style={styles.textBigLeft1}>Tổng thanh toán : </Text>
+                <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
                 <Text style={styles.textBigRight1}>
                     {((this.props.merged - (navigation.getParam('blDiscount') ? this.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1)).format(0, 3, '.')} đ
                 </Text>
@@ -380,7 +380,7 @@ class ConfirmInformationXeChung extends Component {
                                         source={{ uri: this.props.vehicle_icon }}
                                     />
                                 </View>
-                                <Text>Mã vé của bạn là :<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
+                                <Text>Mã vé của bạn là:<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
                                 <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất.</Text>
 
                                 <ButtonDialog
@@ -437,7 +437,7 @@ class ConfirmInformationXeChung extends Component {
                                         source={{ uri: this.props.vehicle_icon }}
                                     />
                                 </View>
-                                <Text>Mã vé của bạn là :<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
+                                <Text>Mã vé của bạn là:<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
                                 <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất.</Text>
 
                                 <ButtonDialog

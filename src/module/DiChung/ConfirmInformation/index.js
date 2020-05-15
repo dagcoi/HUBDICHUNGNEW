@@ -47,6 +47,10 @@ class ConfirmInformation extends Component {
     }
 
     componentDidMount() {
+        console.log(this.props.token)
+        console.log(this.props.vehice_id)
+        console.log(this.props.vehicle_name)
+        console.log(this.props.vehicle_icon)
         this._interval = setInterval(() => {
             const url = link.URL_API + `agent/check_night_booking_partner_received?ticket_id=${this.state.ticket}`
             if (this.state.visibleSearchDriver) {
@@ -228,7 +232,7 @@ class ConfirmInformation extends Component {
         return (
             <View>
                 <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', }}>
-                    <Text style={styles.textBigLeft1}>Tổng thanh toán : </Text>
+                    <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
                     <Text style={styles.textBigRight1}>{((this.props.merged + (navigation.getParam('broad_price') ? 30000 : 0) - (navigation.getParam('blDiscount') ? this.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1) + (this.props.toll_fee == 'NA' ? 0 : + parseInt(this.props.toll_fee))).format(0, 3, '.')} đ</Text>
                 </View>
                 <Text style={{ marginBottom: 8, textAlign: 'right' }}>{this.props.toll_fee == "NA" ? "Giá chưa bao gồm phí cầu đường" : "Giá trọn gói không phí ẩn"}</Text>
@@ -290,7 +294,7 @@ class ConfirmInformation extends Component {
                     {!navigation.getParam('broad_price') ? null :
                         <ImageTextDiChung
                             source={require(imageDone)}
-                            text={'Đón biển tên : +30.000 đ'}
+                            text={'Đón biển tên: +30.000 đ'}
                         />
                     }
 
@@ -396,7 +400,7 @@ class ConfirmInformation extends Component {
                                         source={{ uri: this.props.vehicle_icon }}
                                     />
                                 </View>
-                                <Text>Mã vé của bạn là :<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
+                                <Text>Mã vé của bạn là:<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
                                 <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất.</Text>
                                 <ButtonDialog
                                     text="Chi tiết mã vé"
@@ -439,7 +443,7 @@ class ConfirmInformation extends Component {
                                     source={{ uri: this.props.vehicle_icon }}
                                 />
                             </View>
-                            {/* <Text>Mã vé của bạn là :<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text> */}
+                            {/* <Text>Mã vé của bạn là:<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text> */}
                             <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất.</Text>
                             <ButtonDialog
                                 text="Chi tiết mã vé"
@@ -582,88 +586,91 @@ class ConfirmInformation extends Component {
         const url = link.URL_API_PORTAL + `booking/v1/bookings`
         console.log(url)
         const { navigation } = this.props;
+        const jsonStr = JSON.stringify({
+            "provider": {
+                "name": "dichungtaxi"
+            },
+            "startPoints": [
+                {
+                    "address": this.props.pick_add,
+                    "lat": this.props.lattitude_pick,
+                    "long": this.props.lngtitude_pick
+                }
+            ],
+            "endPoints": [
+                {
+                    "address": this.props.drop_add,
+                    "lat": this.props.lattitude_drop,
+                    "long": this.props.lngtitude_drop
+                }
+            ],
+            "bookingUser": {
+                "email": this.props.email,
+                "phone": this.props.use_phone,
+                "fullName": this.props.full_name,
+                "gender": ""
+            },
+            "bookingTime": this.state.depart_time2,
+            "slot": 1,
+            "dimension": "one_way",
+            "rideMethod": "private",
+            "productType": "TRANSFER_SERVICE",
+            "vehicle": {
+                "id": this.props.vehice_id,
+                "name": this.props.vehicle_name,
+                "image": this.props.vehicle_icon
+            }
+            ,
+            "note": this.props.comment,
+            "beneficiary": {
+                "email": navigation.getParam('not_use') ? '' : this.props.email,
+                "phone": navigation.getParam('not_use') ? this.props.use_phone2 : this.props.use_phone,
+                "fullName": navigation.getParam('not_use') ? this.props.full_name2 : this.props.full_name,
+                "gender": ""
+            },
+            "bookingType": "",
+            "payment": {
+                "method": "cash"
+            },
+            "invoice": navigation.getParam('xhd') ? {
+                "name": this.props.company_name,
+                "address": this.props.company_address,
+                "taxCode": this.props.company_mst,
+                "addressReceive": this.props.company_address_receive
+            } : '',
+            "extra": {
+                "ref_id": "",
+                "ref_user_id": "",
+                "ref_url": "",
+                "plane_number": this.props.plane_number,
+                "plane_type": this.props.is_airport == 'false' ? '' : navigation.getParam('plane_type') > 0 ? navigation.getParam('plane_type') : '',
+                "pm_id": this.props.pm_id,
+                "catch_in_house": navigation.getParam('broad_price') ? '1' : '0',
+                "chunk_id": this.props.chunk_id,
+                "dimension_id": this.props.dimension_id,
+                "vehicle_id": this.props.vehice_id,
+                "ride_method_id": this.props.ride_method_id,
+                "airport_id": this.props.airport_id,
+                "street_id": this.props.street_id,
+                "village_id": this.props.village_id,
+                "ignore_duplicate_warning": this.props.ignore_duplicate_warning,
+                "brand_partner_id": this.props.brand_partner_id,
+                "unmerged_select": this.props.unmerged,
+                "xhd": navigation.getParam('xhd') ? 1 : 0,
+                "city_id": this.props.city_id,
+                "use_range_time": this.props.use_range_time,
+                "referral_code": "",
+            }
+        })
+        console.log(jsonStr)
         fetch(url, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'token': this.props.token
             },
-            body: JSON.stringify({
-                "provider": {
-                    "name": "dichungtaxi"
-                },
-                "startPoints": [
-                    {
-                        "address": this.props.pick_add,
-                        "lat": this.props.lattitude_pick,
-                        "long": this.props.lngtitude_pick
-                    }
-                ],
-                "endPoints": [
-                    {
-                        "address": this.props.drop_add,
-                        "lat": this.props.lattitude_drop,
-                        "long": this.props.lngtitude_drop
-                    }
-                ],
-                "bookingUser": {
-                    "email": this.props.email,
-                    "phone": this.props.use_phone,
-                    "fullName": this.props.full_name,
-                    "gender": ""
-                },
-                "bookingTime": this.state.depart_time2,
-                "slot": 1,
-                "dimension": "one_way",
-                "rideMethod": "private",
-                "productType": "TRANSFER_SERVICE",
-                "vehicle": [
-                    {
-                        "id": this.props.vehice_id,
-                        "name": this.props.vehicle_name,
-                        "image": this.props.vehicle_icon
-                    }
-                ],
-                "note": this.props.comment,
-                "beneficiary": {
-                    "email": navigation.getParam('not_use') ? '' : this.props.email,
-                    "phone": navigation.getParam('not_use') ? this.props.use_phone2 : this.props.use_phone,
-                    "fullName": navigation.getParam('not_use') ? this.props.full_name2 : this.props.full_name,
-                    "gender": ""
-                },
-                "bookingType": "",
-                "payment": {
-                    "method": "cash"
-                },
-                "extra": {
-                    "ref_id": "",
-                    "ref_user_id": "",
-                    "ref_url": "",
-                    "plane_number": this.props.plane_number,
-                    "plane_type": this.props.is_airport == 'false' ? '' : navigation.getParam('plane_type') > 0 ? navigation.getParam('plane_type') : '',
-                    "pm_id": this.props.pm_id,
-                    "catch_in_house": navigation.getParam('broad_price') ? '1' : '0',
-                    "chunk_id": this.props.chunk_id,
-                    "dimension_id": this.props.dimension_id,
-                    "vehicle_id": this.props.vehice_id,
-                    "ride_method_id": this.props.ride_method_id,
-                    "airport_id": this.props.airport_id,
-                    "street_id": this.props.street_id,
-                    "village_id": this.props.village_id,
-                    "ignore_duplicate_warning": this.props.ignore_duplicate_warning,
-                    "brand_partner_id": this.props.brand_partner_id,
-                    "unmerged_select": this.props.unmerged,
-                    "xhd": navigation.getParam('xhd') ? 1 : 0,
-                    "city_id": this.props.city_id,
-                    "use_range_time": this.props.use_range_time,
-                    "referral_code": "",
-                    "company_name": navigation.getParam('xhd') ? this.props.company_name : "",
-                    "company_address": navigation.getParam('xhd') ? this.props.company_address : "",
-                    "company_mst": navigation.getParam('xhd') ? this.props.company_mst : "",
-                    "company_address_receive": navigation.getParam('xhd') ? this.props.company_address_receive : "",
-                    "promotion": navigation.getParam('blDiscount') ? this.props.promotion_code : ""
-                }
-            })
+            body: jsonStr
         })
             .then(res => res.json())
             .then(resJson => {
@@ -969,6 +976,7 @@ function mapStateToProps(state) {
         lngtitude_pick: state.info.lngtitude_pick,
         lattitude_drop: state.info.lattitude_drop,
         lngtitude_drop: state.info.lngtitude_drop,
+        token: state.thongtin.token
     }
 }
 

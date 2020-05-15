@@ -16,16 +16,16 @@ function InputTextDiChung({
     return (
         <View style={styles.borderView} >
             <TextInput
-                ref = {ref}
-                returnKeyType = {returnKeyType}
-                onSubmitEditing = {onSubmitEditing}
+                ref={ref}
+                returnKeyType={returnKeyType}
+                onSubmitEditing={onSubmitEditing}
                 style={styles.textInput}
                 placeholder={placeholder}
                 value={value}
                 onChangeText={onChangeText}
                 keyboardType={keyboardType}
-                multiline = {multiline}
-                editable = {editable}
+                multiline={multiline}
+                editable={editable}
             />
             <TouchableOpacity
                 onPress={onPress}
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     borderView: {
-        marginTop : 8,
+        marginTop: 8,
         borderWidth: 1,
         borderColor: '#e8e8e8',
         borderRadius: 4,

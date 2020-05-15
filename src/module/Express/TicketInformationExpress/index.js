@@ -73,7 +73,7 @@ class TicketInformationExpress extends Component {
 
                 <ImageTextDiChung
                     source={require(imageIconCar)}
-                    text={'Loại dịch vụ : ' + item.transport_partner_name}
+                    text={'Loại dịch vụ: ' + item.transport_partner_name}
                 />
             </View>
         )
@@ -160,7 +160,7 @@ class TicketInformationExpress extends Component {
     renderTT(item) {
         return (
             <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', marginBottom: 8 }}>
-                <Text style={styles.textBigLeft1}>Tổng thanh toán : </Text>
+                <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
                 <Text style={styles.textBigRight1}>
                     {parseInt(item.total_cost).format(0, 3, '.')} đ
                 </Text>

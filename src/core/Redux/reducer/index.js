@@ -8,13 +8,13 @@ import ReducerYCDB from './ReducerYCDB'
 import ReducerInfo from './ReducerInfo'
 
 const reducer = combineReducers({
-    info : Reducer,
-    infoCX : ReducerChungXe,
-    rdTaixe : ReducerTaiXe,
-    rdVanChuyen : ReducerVanChuyen,
-    rdTuLai : ReducerTuLai,
-    dacbiet : ReducerYCDB,
-    thongtin : ReducerInfo,
+    info: Reducer,
+    infoCX: ReducerChungXe,
+    rdTaixe: ReducerTaiXe,
+    rdVanChuyen: ReducerVanChuyen,
+    rdTuLai: ReducerTuLai,
+    dacbiet: ReducerYCDB,
+    thongtin: ReducerInfo,
 });
 
 export default reducer;

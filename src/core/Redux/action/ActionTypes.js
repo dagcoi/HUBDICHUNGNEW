@@ -129,4 +129,5 @@ export const ADD_INFO_USER = 'ADD_INFO_USER'
 export const ADD_INFO_PASS = 'ADD_INFO_PASS'
 export const ADD_INFO_PHONE = 'ADD_INFO_PHONE'
 export const ADD_INFO_ADDRESS = 'ADD_INFO_ADDRESS'
+export const ADD_TOKEN = 'ADD_TOKEN'
 

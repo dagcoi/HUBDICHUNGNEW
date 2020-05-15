@@ -165,13 +165,13 @@ class ListCarHourlyBookingTL extends Component {
                                             <Image
                                                 style={{ width: 16, height: 16, marginRight: 8, }}
                                                 source={require('../../../image/note.png')} />
-                                            <Text style={styles.textNomal}>Phụ trội theo km : {item.extra_price_km} đ/km</Text>
+                                            <Text style={styles.textNomal}>Phụ trội theo km: {item.extra_price_km} đ/km</Text>
                                         </View>
                                         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                                             <Image
                                                 style={{ width: 16, height: 16, marginRight: 8, }}
                                                 source={require('../../../image/note.png')} />
-                                            <Text style={styles.textNomal}>Phụ trội theo giờ : {item.extra_price_hour} đ/giờ</Text>
+                                            <Text style={styles.textNomal}>Phụ trội theo giờ: {item.extra_price_hour} đ/giờ</Text>
                                         </View>
                                         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                                             <Image

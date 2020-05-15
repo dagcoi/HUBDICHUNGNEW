@@ -124,23 +124,23 @@ class InfoCustommerXeChung extends Component {
                 visible={this.state.alertName || this.state.alertPhone || this.state.alertEmail || this.state.alertName2 || this.state.alertPhone2 || this.state.alertCompany}
                 width={0.8}
                 dialogTitle={<DialogTitle title='Thông tin chưa đủ' />}
-                // footer={
-                //     <DialogFooter>
-                //         <DialogButton
-                //             text="Đồng ý"
-                //             onPress={() => {
-                //                 this.setState({
-                //                     alertName: false,
-                //                     alertPhone: false,
-                //                     alertEmail: false,
-                //                     alertName2: false,
-                //                     alertPhone2: false,
-                //                     alertCompany: false,
-                //                 })
-                //             }}
-                //         />
-                //     </DialogFooter>
-                // }
+            // footer={
+            //     <DialogFooter>
+            //         <DialogButton
+            //             text="Đồng ý"
+            //             onPress={() => {
+            //                 this.setState({
+            //                     alertName: false,
+            //                     alertPhone: false,
+            //                     alertEmail: false,
+            //                     alertName2: false,
+            //                     alertPhone2: false,
+            //                     alertCompany: false,
+            //                 })
+            //             }}
+            //         />
+            //     </DialogFooter>
+            // }
             >
                 <View>
                     <View style={{ padding: 8, flexDirection: 'column' }}>
@@ -256,24 +256,24 @@ class InfoCustommerXeChung extends Component {
 
     checkInfoCustommerXeChung() {
         if (this.state.full_name.trim().length < 2) {
-            this.setState({alertName : true})
+            this.setState({ alertName: true })
             return;
         }
         else if (!this.state.mobile_validate) {
-            this.setState({alertPhone : true})
+            this.setState({ alertPhone: true })
             return;
         }
         else if (!this.state.checkEmail) {
-            this.setState({alertEmail : true})
+            this.setState({ alertEmail: true })
         }
         else {
             if (this.state.is_checked) {
                 if (this.state.full_name1.trim().length < 2) {
-                    this.setState({alertName2 : true})
+                    this.setState({ alertName2: true })
                     return;
                 }
                 else if (!this.state.mobile_validate1) {
-                    this.setState({alertPhone2 : true})
+                    this.setState({ alertPhone2: true })
                     return;
                 }
             }
@@ -287,16 +287,16 @@ class InfoCustommerXeChung extends Component {
     checkVat() {
         if (this.state.vat) {
             if (this.state.company_name.trim() == '') {
-                this.setState({alertCompany : true})
+                this.setState({ alertCompany: true })
                 return;
             } else if (this.state.company_address.trim() == '') {
-                this.setState({alertCompany : true})
+                this.setState({ alertCompany: true })
                 return;
             } else if (this.state.company_mst.trim() == '') {
-                this.setState({alertCompany : true})
+                this.setState({ alertCompany: true })
                 return;
             } else if (this.state.company_address_receive.trim() == '') {
-                this.setState({alertCompany : true})
+                this.setState({ alertCompany: true })
                 return;
             } else {
                 this.nextScreen();

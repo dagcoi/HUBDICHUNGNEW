@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, TouchableOpacity, Text, FlatList, StyleSheet, ActivityIndicator, Modal, Image, ScrollView, Dimensions } from 'react-native'
+import { View, TouchableOpacity, Text, FlatList, StyleSheet, ActivityIndicator, Modal, Image, ScrollView, Dimensions, AsyncStorage } from 'react-native'
 import StarVote from '../../component/StarVote'
 import Header from '../../component/Header'
 import ImageTextDiChung from '../../component/ImageTextDiChung'
@@ -47,13 +47,51 @@ class ListBooking extends Component {
             listWhyCan: [],
             value: 0,
             dialogCancelSuccess: false,
-            showMessage: false
+            showMessage: false,
+            token: null,
+            refreshing: false,
         }
     }
 
     componentDidMount() {
-        this.getListBooking()
+        this._retrieveData()
+
+        if (this.props.navigation.state.routeName === 'ListBooking') {
+            console.log(this.props.navigation.state.routeName)
+            this._interval = setInterval(() => {
+                this._retrieveData()
+            }, 5000);
+        }
     }
+
+    _retrieveData = async () => {
+        try {
+            const dataLogin = await AsyncStorage.getItem('dataLogin')
+            if (dataLogin !== null) {
+                let json = JSON.parse(dataLogin)
+                console.log(dataLogin)
+                console.log(json.token)
+                console.log(json._id)
+                this.setState({
+                    token: json.token,
+                })
+                this.getListBooking(json.token)
+            } else {
+                // this.props.addUser(json.username, 'json.avatar', 0)
+                this.props.addToken('')
+                this.setState({
+                    listBooking: [],
+                    isLoading: false,
+                })
+            }
+        } catch (error) {
+            console.log(error)
+            this.setState({
+                listBooking: [],
+                isLoading: false,
+            })
+        }
+    };
 
     async getTicketInfo(ticket_code, phone_number) {
         const url = link.URL_API + `passenger/get_ticket_info`
@@ -76,9 +114,12 @@ class ListBooking extends Component {
     }
 
     async getTicketInfoDC(_id) {
-        const url = link.URL_API_PORTAL + `booking/v1/bookings/${_id}`
+        const url = link.URL_API_PORTAL + `booking/v1/user/bookings/${_id}`
 
         const res = await fetch(url, {
+            headers: {
+                'token': this.state.token,
+            },
             method: 'GET',
         });
         const jsonRes = await res.json();
@@ -86,6 +127,7 @@ class ListBooking extends Component {
             bookingDetail: jsonRes.data,
             isLoadingTicket: false,
         });
+        console.log(jsonRes.data)
     }
 
     async cancelBooking() {
@@ -319,9 +361,13 @@ class ListBooking extends Component {
         )
     }
 
-    getListBooking() {
-        let url = link.URL_API_PORTAL + `booking/v1/bookings`
+    getListBooking(token) {
+        let url = link.URL_API_PORTAL + `booking/v1/user/bookings`
+        console.log(url)
         fetch(url, {
+            headers: {
+                'token': token
+            },
             method: 'GET',
         })
             .then(res => res.json())
@@ -350,7 +396,8 @@ class ListBooking extends Component {
     }
 
     renderItem(item) {
-        let starVote = Math.floor((Math.random() * 6) + 5) / 2;
+        let starVote = 0;
+        // let starVote = Math.floor((Math.random() * 6) + 5) / 2;
         // console.log(starVote)
         return (
             item.code ?
@@ -361,8 +408,8 @@ class ListBooking extends Component {
                             modalTicket: true,
                             ticket: item.code,
                         })
-                        this.getTicketInfo(item.code, item.bookingUser.phone);
-                        // this.getTicketInfoDC(item._id)
+                        // this.getTicketInfo(item.code, item.bookingUser.phone);
+                        this.getTicketInfoDC(item._id)
                     }}
                 >
                     <View style={styles.titleTicket}>
@@ -394,11 +441,12 @@ class ListBooking extends Component {
                         <StarVote number={starVote} margin={4} />
                     </View>
                 </TouchableOpacity>
-                : null
+                : <View style={{ height: 1, backgroundColor: '#77a300' }} />
         )
     }
 
     renderListBooking(listBooking) {
+        // var obj = listBooking.filter(obj => obj.forward.status =='forwarded')
         if (this.state.isLoading) {
             return (
                 <ActivityIndicator
@@ -409,21 +457,29 @@ class ListBooking extends Component {
         }
         return (
             <View>
-                <FlatList
-                    showsVerticalScrollIndicator={false}
-                    data={listBooking}
-                    renderItem={({ item }) => {
-                        return (
-                            <View style={styles.card}>
-                                {this.renderItem(item)}
-                            </View>
-                        )
-                    }
-                    }
-                />
+                {listBooking.length == 0 ?
+                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                        <Text>Chưa có chuyến trong danh sách vé</Text>
+                    </View> :
+                    <FlatList
+                        showsVerticalScrollIndicator={false}
+                        data={listBooking}
+                        renderItem={({ item }) => {
+                            return (
+                                <View style={styles.card}>
+                                    {this.renderItem(item)}
+                                </View>
+                            )
+                        }
+                        }
+                        keyExtractor={item => item.code}
+                        refreshing={this.state.refreshing}
+                        onRefresh={this.handleRefesh}
+                    />}
             </View>
         )
     }
+
 
     render() {
         return (
@@ -438,7 +494,7 @@ class ListBooking extends Component {
                 >
                     <View>
                         <View style={{ flexDirection: 'row', height: 56, borderBottomWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', paddingHorizontal: 16 }}>
-                            <Text style={{ flex: 1, textAlign: 'center', fontSize: 22, fontWeight: 'bold' }}>Chi tiết mã vé :{this.state.ticket}</Text>
+                            <Text style={{ flex: 1, textAlign: 'center', fontSize: 22, fontWeight: 'bold' }}>Chi tiết mã vé: {this.state.ticket}</Text>
                             <TouchableOpacity
                                 onPress={() => { this.setState({ modalTicket: false }) }}
                             >
@@ -467,12 +523,12 @@ class ListBooking extends Component {
                                             <View style={{ paddingBottom: 8 }}>
                                                 <ButtonGray
                                                     value='HỦY VÉ'
-                                                    onPress={() => {
-                                                        this.setState({
-                                                            modalVisible: true,
-                                                        })
-                                                        this.cancelBookingToken();
-                                                    }}
+                                                // onPress={() => {
+                                                //     this.setState({
+                                                //         modalVisible: true,
+                                                //     })
+                                                //     this.cancelBookingToken();
+                                                // }}
                                                 />
                                             </View>
                                         }
@@ -499,7 +555,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0,
         elevation: 5,
         marginHorizontal: 8,
-        marginVertical: 2,
+        marginVertical: 8,
         borderRadius: 8,
     },
     contentTicket: {

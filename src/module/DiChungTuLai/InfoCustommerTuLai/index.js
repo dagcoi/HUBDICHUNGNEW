@@ -243,24 +243,24 @@ class InfoCustommerTuLai extends Component {
                 visible={this.state.alertName || this.state.alertPhone || this.state.alertEmail || this.state.alertName2 || this.state.alertPhone2 || this.state.alertCompany || this.state.alertAirport}
                 width={0.8}
                 dialogTitle={<DialogTitle title='Thông tin chưa đủ' />}
-                // footer={
-                //     <DialogFooter>
-                //         <DialogButton
-                //             text="Đồng ý"
-                //             onPress={() => {
-                //                 this.setState({
-                //                     alertName: false,
-                //                     alertPhone: false,
-                //                     alertEmail: false,
-                //                     alertName2: false,
-                //                     alertPhone2: false,
-                //                     alertCompany: false,
-                //                     alertAirport: false,
-                //                 })
-                //             }}
-                //         />
-                //     </DialogFooter>
-                // }
+            // footer={
+            //     <DialogFooter>
+            //         <DialogButton
+            //             text="Đồng ý"
+            //             onPress={() => {
+            //                 this.setState({
+            //                     alertName: false,
+            //                     alertPhone: false,
+            //                     alertEmail: false,
+            //                     alertName2: false,
+            //                     alertPhone2: false,
+            //                     alertCompany: false,
+            //                     alertAirport: false,
+            //                 })
+            //             }}
+            //         />
+            //     </DialogFooter>
+            // }
             >
                 <View>
                     <View style={{ padding: 8, flexDirection: 'column' }}>
@@ -477,7 +477,7 @@ class InfoCustommerTuLai extends Component {
                         isChecked={this.state.is_checked}
                         rightText={"Đặt xe cho người khác"}
                         rightTextStyle={{ fontSize: 16 }}
-                        checkBoxColor = {'#77a300'}
+                        checkBoxColor={'#77a300'}
                     />
 
                     {this.renderDatHo()}
@@ -582,7 +582,7 @@ class InfoCustommerTuLai extends Component {
                         isChecked={this.state.vat}
                         rightText={"Xuất hóa đơn"}
                         rightTextStyle={{ fontSize: 16 }}
-                        checkBoxColor = {'#77a300'}
+                        checkBoxColor={'#77a300'}
                     />
                     {this.renderFormVAT()}
                     {this.props.is_from_airport == 'false' ? null :
@@ -594,9 +594,9 @@ class InfoCustommerTuLai extends Component {
                                 })
                             }}
                             isChecked={this.state.boardPrice}
-                            rightText={"Đón biển tên : +30.000 đ"}
+                            rightText={"Đón biển tên: +30.000 đ"}
                             rightTextStyle={{ fontSize: 16 }}
-                            checkBoxColor = {'#77a300'}
+                            checkBoxColor={'#77a300'}
                         />
                     }
 
@@ -699,7 +699,7 @@ function mapStateToProps(state) {
         ride_method_id: state.rdTuLai.ride_method_id,
         depart_time: state.rdTuLai.depart_time,
         transport_partner_id: state.rdTuLai.transport_partner_id,
-        brand_partner_id : state.rdTuLai.brand_partner_id,
+        brand_partner_id: state.rdTuLai.brand_partner_id,
     }
 }
 

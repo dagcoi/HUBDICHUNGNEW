@@ -6,6 +6,7 @@ const defaultState = {
     email: '',
     pass: '',
     isLogin: 0,
+    token: null,
 }
 
 const ReducerInfo = (state = defaultState, action) => {
@@ -16,6 +17,12 @@ const ReducerInfo = (state = defaultState, action) => {
                 name: action.name,
                 link_avatar: action.link_avatar,
                 isLogin: action.isLogin,
+            };
+
+        case types.ADD_TOKEN:
+            return {
+                ...state,
+                token: action.token,
             };
         default:
             return state;

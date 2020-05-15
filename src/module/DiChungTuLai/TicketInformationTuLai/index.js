@@ -174,7 +174,7 @@ class TicketInformationTuLai extends Component {
     renderTT(item) {
         return (
             <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', marginBottom: 8 }}>
-                <Text style={styles.textBigLeft1}>Tổng thanh toán : </Text>
+                <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
                 <Text style={styles.textBigRight1}>
                     {parseInt(item.total_cost).format(0, 3, '.')} đ
                 </Text>
@@ -308,8 +308,8 @@ class TicketInformationTuLai extends Component {
                         {item.transaction_status_id == '1' ?
                             <Text style={styles.textBigRight}>Yêu cầu đặt xe của bạn đã được hệ thồng ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>
                             : <View>
-                                <Text>Thông tin mã vé : <Text style={{ fontWeight: 'bold' }}>{item.transaction_status_name}</Text></Text>
-                                <Text>Mọi thắc mắc vui lòng liên hệ : <Text
+                                <Text>Thông tin mã vé: <Text style={{ fontWeight: 'bold' }}>{item.transaction_status_name}</Text></Text>
+                                <Text>Mọi thắc mắc vui lòng liên hệ: <Text
                                     style={{ color: '#77a300', fontWeight: 'bold' }}
                                     onPress={() => Linking.openURL(`tel: 19006022`)}
                                 >19006022</Text>
@@ -500,7 +500,7 @@ class TicketInformationTuLai extends Component {
                             visible={this.state.dialogCancelSuccess}
                             animationType="slide"
                         >
-                            <View style={{ flex: 1,}}>
+                            <View style={{ flex: 1, }}>
                                 <View style={{ padding: 16 }}>
                                     <ScrollView showsVerticalScrollIndicator={false}>
                                         <Text style={{ fontSize: 16, fontWeight: 'bold', padding: 8 }}>Lí do hủy vé</Text>

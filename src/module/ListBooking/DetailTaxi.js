@@ -17,6 +17,16 @@ const imageComment = '../../image/comment.png'
 function DetailTaxi({ item }) {
     return (
         <View style={{ paddingHorizontal: 16 }}>
+            <Text style={styles.textBigRight}>Trạng thái: <Text style={{ fontWeight: 'bold' }}>Chưa xuất phát</Text></Text>
+
+            <Text>Mọi thắc mắc vui lòng liên hệ:
+                <Text
+                    style={{ color: '#77a300', fontWeight: 'bold', textDecorationLine: 'underline' }}
+                    onPress={() => Linking.openURL(`tel: 19006022`)}
+                >
+                    19006022
+                </Text>
+            </Text>
             {renderDetailTrip(item)}
             {renderDetailOrder(item)}
             {renderDetailCustommer(item)}
@@ -29,28 +39,37 @@ function DetailTaxi({ item }) {
 }
 
 function renderDetailTrip(item) {
+    const time = item.bookingTime
+    const date = new Date(time).toLocaleDateString()
+    const hours = new Date(time).toLocaleTimeString()
+    const strtime = hours + " " + date
     return (
         <View>
             <Text style={styles.textBigLeft1}>Chi tiết chuyến đi</Text>
 
             <ImageTextDiChung
                 source={require(imageLocation)}
-                text={item.pick_address_api}
+                text={item.startPoints[0].address}
+            // text={item.pick_address_api}
             />
 
             <ImageTextDiChung
                 source={require(imageLocation)}
-                text={item.drop_address_api}
+                text={item.endPoints[0].address}
+            // text={item.drop_address_api}
             />
 
             <ImageTextDiChung
                 source={require(imageCalendar)}
-                text={item.in_time + ' ' + item.in_date}
+                // text={item.in_time + ' ' + item.in_date}    
+                text={strtime}
+
             />
 
             <ImageTextDiChung
                 source={require(imagePeople)}
-                text={item.chair_count + ' xe'}
+                // text={item.chair_count + ' xe'}
+                text={item.slot + ' xe'}
             />
         </View>
     )
@@ -63,7 +82,8 @@ function renderDetailOrder(item) {
 
             <ImageTextDiChung
                 source={require(imageIconCar)}
-                text={item.ride_method_id == '1' ? 'Đi riêng' : 'Đi chung'}
+                text={item.rideMethod == 'private' ? 'Đi riêng' : 'Đi chung'}
+            // text={item.ride_method_id == '1' ? 'Đi riêng' : 'Đi chung'}
             />
         </View>
     )
@@ -76,17 +96,20 @@ function renderDetailCustommer(item) {
 
             <ImageTextDiChung
                 source={require(imagePerson)}
-                text={item.fullname}
+                text={item.bookingUser.fullName}
+            // text={item.fullname}
             />
 
             <ImageTextDiChung
                 source={require(imageIconPhone)}
-                text={item.other_phone}
+                text={item.bookingUser.phone}
+            // text={item.other_phone}
             />
 
             <ImageTextDiChung
                 source={require(imageEmail)}
-                text={item.email}
+                text={item.bookingUser.email}
+            // text={item.email}
             />
         </View>
     )
@@ -100,12 +123,14 @@ function renderDetailPeopleMove(item) {
 
             <ImageTextDiChung
                 source={require(imagePerson)}
-                text={item.use_name}
+                text={item.beneficiary.fullName}
+            // text={item.use_name}
             />
 
             <ImageTextDiChung
                 source={require(imageIconPhone)}
-                text={item.use_phone}
+                text={item.beneficiary.phone}
+            // text={item.use_phone}
             />
 
         </View>
@@ -119,14 +144,17 @@ function renderOther(item) {
             <Text style={styles.textBigLeft1}>Thanh toán và khác</Text>
             <ImageTextDiChung
                 source={require(imagePayment)}
-                text={item.pay_method_name}
+                text={item.payment.method == 'cash' ? 'Trả sau' : 'Trả trước'}
+            // text={item.pay_method_name}
             />
-            {item.board_price != '0' ?
+            {/* {item.board_price != '0' ? */}
+            {item.extra.catch_in_house != '0' ?
                 <ImageTextDiChung
                     source={require(imageDone)}
                     text={'Đón bằng biển tên (+ 30.000 ₫)'}
                 /> : null}
-            {item.xhd == 1 ?
+            {/* {item.xhd == 1 ? */}
+            {item.extra.xhd == 1 ?
                 <ImageTextDiChung
                     source={require(imageDone)}
                     text={'+10 %'}
@@ -139,12 +167,15 @@ function renderTT(item) {
     return (
         <View>
             <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', }}>
-                <Text style={styles.textBigLeft1}>Tổng thanh toán : </Text>
-                <Text style={styles.textBigRight1}>
-                    {parseInt(item.total_cost).format(0, 3, '.')} đ
-                </Text>
+                <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
+                {item.forward.status == 'forwarded' ?
+                    <Text style={styles.textBigRight1}>
+                        {/* {parseInt(item.total_cost).format(0, 3, '.')} đ */}
+                        {parseInt(item.forward.result.total_cost).format(0, 3, '.')} đ
+            </Text>
+                    : null}
             </View>
-            <Text style={{ marginBottom: 8, textAlign: 'right' }}>{item.toll_fee == 'NA' ? "Giá chưa bao giờ phí cầu đường" : "Giá trọn gói không phí ẩn"}</Text>
+            {/* <Text style={{ marginBottom: 8, textAlign: 'right' }}>{item.toll_fee == 'NA' ? "Giá chưa bao giờ phí cầu đường" : "Giá trọn gói không phí ẩn"}</Text> */}
         </View>
     )
 }
@@ -168,7 +199,7 @@ const styles = StyleSheet.create({
     textBigRight: {
         padding: 1,
         fontSize: 15,
-        color: '#00363d',
+        // color: '#00363d',
         flex: 1,
     },
     textBigLeft1: {

@@ -210,7 +210,7 @@ class ConfirmInformationExpress extends Component {
         const { navigation } = this.props;
         return (
             <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', marginBottom: 8 }}>
-                <Text style={styles.textBigLeft1}>Tổng thanh toán : </Text>
+                <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
                 <Text style={styles.textBigRight1}>
                     {((this.props.merged * this.props.chair - (navigation.getParam('blDiscount') ? this.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1)).format(0, 3, '.')} đ
                 </Text>
@@ -361,7 +361,7 @@ class ConfirmInformationExpress extends Component {
 
                     <Dialog
                         visible={this.state.addingTicket}
-                        // width={0.8}
+                    // width={0.8}
                     >
                         <View>
                             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
@@ -396,7 +396,7 @@ class ConfirmInformationExpress extends Component {
                                         source={{ uri: this.props.vehicle_icon }}
                                     />
                                 </View>
-                                <Text>Mã vé của bạn là :<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
+                                <Text>Mã vé của bạn là:<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
                                 <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất.</Text>
                                 <ButtonDialog
                                     text="Chi tiết mã vé"
@@ -447,7 +447,7 @@ class ConfirmInformationExpress extends Component {
                                         source={{ uri: this.props.vehicle_icon }}
                                     />
                                 </View>
-                                <Text>Mã vé của bạn là :<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
+                                <Text>Mã vé của bạn là:<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
                                 <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất.</Text>
                                 <ButtonDialog
                                     text="Chi tiết mã vé"

@@ -7,7 +7,7 @@ import InputPassWord from '../Login/InputPassWord'
 import * as link from '../../../URL'
 import { NavigationActions, StackActions } from 'react-navigation'
 import { connect } from 'react-redux'
-import { addUser } from '../../../core/Redux/action/Action'
+import { addUser, addToken } from '../../../core/Redux/action/Action'
 
 const logo = '../../../image/logo_dc_taxi.png'
 const people = '../../../image/person.png'
@@ -101,7 +101,8 @@ class Profile extends Component {
                 this.setState({ infoCustommer: json, idCustommer: json._id })
                 this.apiGetProfile(json._id)
             } else {
-                this.props.addUser('','',0)
+                this.props.addUser('', '', 0)
+                this.props.addToken('')
                 this.props.navigation.navigate('Login')
                 this.removeDataLogin()
             }
@@ -139,7 +140,8 @@ class Profile extends Component {
                     editable: false,
                 })
                 this.addDataLogin(resJson.data)
-                this.props.addUser(resJson.data.username,'123',1)
+                this.props.addUser(resJson.data.username, '123', 1)
+                this.props.addToken(resJson.data.token)
             })
     }
 
@@ -161,7 +163,8 @@ class Profile extends Component {
                     idCustommer: id,
                 })
                 this.addDataLogin(resJson.data)
-                this.props.addUser(resJson.data.username,'123',1)
+                this.props.addUser(resJson.data.username, '123', 1)
+                this.props.addToken(resJson.data.token)
             })
     }
 
@@ -421,7 +424,8 @@ class Profile extends Component {
                             <ButtonGray
                                 onPress={() => {
                                     { this.removeDataLogin() }
-                                    this.props.addUser('','',0)
+                                    this.props.addUser('', '', 0)
+                                    this.props.addToken('')
                                     const resetAction = StackActions.reset({
                                         index: 0,
                                         actions: [
@@ -594,7 +598,8 @@ function mapStateToProps(state) {
         link_avatar: state.thongtin.link_avatar,
         name: state.thongtin.name,
         isLogin: state.thongtin.isLogin,
+        token: state.thongtin.token,
     }
 }
 
-export default connect(mapStateToProps, { addUser: addUser })(Profile);
+export default connect(mapStateToProps, { addUser: addUser, addToken: addToken })(Profile);

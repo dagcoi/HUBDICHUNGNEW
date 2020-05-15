@@ -684,11 +684,18 @@ export const addTripInfomationHourlyBookingTuLai = (partner_name, merged, depart
     }
 }
 
-export const addUser = (name,link_avatar,isLogin) => {
+export const addUser = (name, link_avatar, isLogin) => {
     return {
         type: types.ADD_INFO_USER,
         name: name,
-        link_avatar : link_avatar,
-        isLogin : isLogin,
+        link_avatar: link_avatar,
+        isLogin: isLogin,
+    }
+}
+
+export const addToken = (token) => {
+    return {
+        type: types.ADD_TOKEN,
+        token: token,
     }
 }

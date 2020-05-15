@@ -143,17 +143,17 @@ class ConfirmInformationFreightTruck extends Component {
                 <ImageTextDiChung
                     // source={require(imageIconCar)}
                     text={this.props.km_limit_format}
-                    textBold={'Giới hạn : '}
+                    textBold={'Giới hạn: '}
                 />
                 <ImageTextDiChung
                     // source={require(imageIconCar)}
                     text={this.props.extra_price_km}
-                    textBold={'Phụ trội theo km : '}
+                    textBold={'Phụ trội theo km: '}
                 />
                 <ImageTextDiChung
                     // source={require(imageIconCar)}
                     text={this.props.extra_price_hour + ' giờ'}
-                    textBold={'Phụ trội theo giờ : '}
+                    textBold={'Phụ trội theo giờ: '}
                 />
             </View>
         )

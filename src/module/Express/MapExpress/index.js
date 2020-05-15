@@ -596,9 +596,9 @@ class MapExpress extends Component {
                                 style={{ flex: 1 }}
                             ></TouchableOpacity>
                         </View>
-                        <View style = {{flex : 1, backgroundColor: '#ffffff' }}>
-                            <View  style = {{height : 40, justifyContent : 'center', alignItems : 'center'}}>
-                                <Text style  = {{fontSize : 18, fontWeight : 'bold'}}>Chọn giờ gửi</Text>
+                        <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
+                            <View style={{ height: 40, justifyContent: 'center', alignItems: 'center' }}>
+                                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Chọn giờ gửi</Text>
                             </View>
                             <FlatList
                                 style={{ flex: 1, backgroundColor: '#ffffff' }}

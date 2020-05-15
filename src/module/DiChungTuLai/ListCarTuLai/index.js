@@ -36,7 +36,7 @@ class ListCarTuLai extends Component {
                 justifyContent: 'center',
                 alignItems: 'center'
             }}>
-                <View style = {{flex : 1, justifyContent : 'flex-start', alignItems : 'center'}}>
+                <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
                     <Text style={{
                         // flex: 1,
                         fontSize: 22,

@@ -66,7 +66,7 @@ class TicketInformation extends Component {
                         // console.log(jsonRes.data.result)
                         this.setState({
                             info: jsonRes.data,
-                            // loadData: jsonRes.data.forward.status == 'forwarded' ? false : true,
+                            // loadData: jsonRes.data.forward.status == 'forwarded' ? false: true,
                             is_loading: false,
                             timeReload: jsonRes.data.forward.status == 'forwarded' ? 10000 : 2000
                         })
@@ -144,7 +144,7 @@ class TicketInformation extends Component {
 
                 <ImageTextDiChung
                     source={require(imageIconCar)}
-                    // text={item.ride_method_id == '1' ? 'Đi riêng' : 'Đi chung'}
+                    // text={item.ride_method_id == '1' ? 'Đi riêng': 'Đi chung'}
                     text={item.rideMethod == 'private' ? 'Đi riêng' : 'Đi chung'}
                 />
             </View>
@@ -231,7 +231,7 @@ class TicketInformation extends Component {
         return (
             <View>
                 <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', }}>
-                    <Text style={styles.textBigLeft1}>Tổng thanh toán : </Text>
+                    <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
                     {item.forward.status == 'forwarded' ?
                         <Text style={styles.textBigRight1}>
                             {/* {parseInt(item.total_cost).format(0, 3, '.')} đ */}
@@ -239,7 +239,7 @@ class TicketInformation extends Component {
                     </Text>
                         : null}
                 </View>
-                {/* <Text style={{ marginBottom: 8, textAlign: 'right' }}>{item.toll_fee == 'NA' ? "Giá chưa bao giờ phí cầu đường" : "Giá trọn gói không phí ẩn"}</Text> */}
+                {/* <Text style={{ marginBottom: 8, textAlign: 'right' }}>{item.toll_fee == 'NA' ? "Giá chưa bao giờ phí cầu đường": "Giá trọn gói không phí ẩn"}</Text> */}
             </View>
         )
     }
@@ -382,28 +382,28 @@ class TicketInformation extends Component {
                         </View> */}
                         {/* {item.forward.status == 'forwarded' ?
                         <Text style={styles.textBigRight}>Mã thuê xe của bạn: <Text style={{ fontWeight: 'bold' }}>{item.ticket_code}</Text></Text>
-                        : null} */}
+                       : null} */}
                         {/* {item.transaction_status_id == '1' ? */}
 
                         {item.forward.status == 'forwarded' ?
-                            <Text style={styles.textBigRight}>Mã thuê xe của bạn: <Text style={{ fontWeight: 'bold' }}>{item.forward.result.ticket_code}</Text></Text>
+                            <Text style={styles.textBigRight}>Mã thuê xe của bạn: <Text style={{ fontWeight: 'bold', backgroundColor: '#77a300', color: '#fff' }}>{item.forward.result.ticket_code}</Text></Text>
                             : <Text style={styles.textBigRight}>Yêu cầu đặt xe của bạn đã được hệ thồng ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>
                         }
 
                         <Text style={styles.textBigRight}>Trạng thái: <Text style={{ fontWeight: 'bold' }}>Chưa xuất phát</Text></Text>
 
-                        <Text>Mọi thắc mắc vui lòng liên hệ :
+                        <Text>Mọi thắc mắc vui lòng liên hệ:
                             <Text
-                                style={{ color: '#77a300', fontWeight: 'bold',textDecorationLine : 'underline' }}
+                                style={{ color: '#77a300', fontWeight: 'bold', textDecorationLine: 'underline' }}
                                 onPress={() => Linking.openURL(`tel: 19006022`)}
                             >
                                 19006022
                             </Text>
                         </Text>
 
-                        {/* : <View>
-                                <Text>Thông tin mã vé : <Text style={{ fontWeight: 'bold' }}>{item.transaction_status_name}</Text></Text>
-                                <Text>Mọi thắc mắc vui lòng liên hệ : <Text
+                        {/*: <View>
+                                <Text>Thông tin mã vé: <Text style={{ fontWeight: 'bold' }}>{item.transaction_status_name}</Text></Text>
+                                <Text>Mọi thắc mắc vui lòng liên hệ: <Text
                                     style={{ color: '#77a300', fontWeight: 'bold' }}
                                     onPress={() => Linking.openURL(`tel: 19006022`)}
                                 >19006022</Text>

@@ -80,10 +80,10 @@ class App extends Component {
   render() {
     const prefix = 'https://dichung.page.link/';
     return (
-      <View style = {{flex : 1}}>
+      <View style={{ flex: 1 }}>
         {/* <OfflineNotice /> */}
         <Provider store={store}>
-          <Router uriPrefix={prefix}/>
+          <Router uriPrefix={prefix} />
         </Provider>
       </View>
     );

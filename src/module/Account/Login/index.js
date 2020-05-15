@@ -5,7 +5,7 @@ import Header from '../../../component/Header'
 import InputPassWord from './InputPassWord'
 import InputTextDiChung from '../../../component/InputTextDiChung'
 import * as link from '../../../URL'
-import { addUser } from '../../../core/Redux/action/Action'
+import { addUser, addToken } from '../../../core/Redux/action/Action'
 import { connect } from 'react-redux'
 
 
@@ -66,6 +66,7 @@ class Login extends Component {
                 if (resJson.data) {
                     this.addDataLogin(userName, passWord, resJson.data)
                     this.props.addUser(resJson.data.username, '123', 1)
+                    this.props.addToken(resJson.data.token)
                     this.setState({
                         showLogin: true,
                         showSignUp: false,
@@ -106,6 +107,7 @@ class Login extends Component {
                 if (resJson.data) {
                     this.addDataLogin(userName, passWord, resJson.data)
                     this.props.addUser(resJson.data.username, '123', 1)
+                    this.props.addToken(resJson.data.token)
                     this.setState({
                         showLogin: true,
                         loginSuccess: true,
@@ -598,4 +600,4 @@ function mapStateToProps(state) {
         isLogin: state.thongtin.isLogin,
     }
 }
-export default connect(mapStateToProps, { addUser: addUser })(Login);
+export default connect(mapStateToProps, { addUser: addUser, addToken: addToken })(Login);

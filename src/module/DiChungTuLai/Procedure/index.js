@@ -7,7 +7,7 @@ class Procedure extends Component {
         return (
             <View style={styles.container}>
                 <View>
-                    <Text style={styles.TextBig}>Thủ tục :</Text>
+                    <Text style={styles.TextBig}>Thủ tục:</Text>
                 </View>
                 <View style={{ margin: 8 }}>
                     <Text style={styles.TextNomal}>- CMND: Bản gốc</Text>

@@ -118,8 +118,8 @@ class ListCarHourlyBooking extends Component {
             obj.length < 1 ?
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
                     <Image
-                        style={{ width: 80, height: 80}}
-                        source={require('../../../image/sorry.png')} 
+                        style={{ width: 80, height: 80 }}
+                        source={require('../../../image/sorry.png')}
                     />
                     <Text style={{ textAlign: 'center' }}>Khu vực bạn chọn hiện không có xe. </Text>
                     <TouchableOpacity
@@ -166,13 +166,13 @@ class ListCarHourlyBooking extends Component {
                                             <Image
                                                 style={{ width: 16, height: 16, marginRight: 8, }}
                                                 source={require('../../../image/note.png')} />
-                                            <Text style={{ flex: 1, }}>Phụ trội theo km : {item.extra_price_km} đ/km</Text>
+                                            <Text style={{ flex: 1, }}>Phụ trội theo km: {item.extra_price_km} đ/km</Text>
                                         </View>
                                         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                                             <Image
                                                 style={{ width: 16, height: 16, marginRight: 8, }}
                                                 source={require('../../../image/note.png')} />
-                                            <Text style={{ flex: 1, }}>Phụ trội theo giờ : {item.extra_price_hour} đ/giờ</Text>
+                                            <Text style={{ flex: 1, }}>Phụ trội theo giờ: {item.extra_price_hour} đ/giờ</Text>
                                         </View>
                                         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                                             <Image
@@ -229,7 +229,7 @@ class ListCarHourlyBooking extends Component {
         }
         var obj = [...this.state.dataSource];
         return (
-            <View style={{ flex: 1, padding: 8,justifyContent: 'center', alignItems : 'center' }}>
+            <View style={{ flex: 1, padding: 8, justifyContent: 'center', alignItems: 'center' }}>
                 {this.renderItem(obj)}
             </View>
         );

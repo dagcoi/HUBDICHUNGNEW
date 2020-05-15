@@ -126,7 +126,7 @@ class ConfirmInformationRentDriver extends Component {
                 />
                 <ImageTextDiChung
                     source={require(imageHourglass)}
-                    text={'Thời lượng : ' + this.props.duration + ' giờ'}
+                    text={'Thời lượng: ' + this.props.duration + ' giờ'}
                 />
             </View>
         )
@@ -143,17 +143,17 @@ class ConfirmInformationRentDriver extends Component {
                 <ImageTextDiChung
                     // source={require(imageIconCar)}
                     text={this.props.km_limit_format}
-                    textBold={'Giới hạn : '}
+                    textBold={'Giới hạn: '}
                 />
                 <ImageTextDiChung
                     // source={require(imageIconCar)}
                     text={this.props.extra_price_km}
-                    textBold={'Phụ trội theo km : '}
+                    textBold={'Phụ trội theo km: '}
                 />
                 <ImageTextDiChung
                     // source={require(imageIconCar)}
                     text={this.props.extra_price_hour + ' giờ'}
-                    textBold={'Phụ trội theo giờ : '}
+                    textBold={'Phụ trội theo giờ: '}
                 />
             </View>
         )
@@ -229,7 +229,7 @@ class ConfirmInformationRentDriver extends Component {
         const { navigation } = this.props;
         return (
             <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', marginBottom: 8 }}>
-                <Text style={styles.textBigLeft1}>Tổng thanh toán : </Text>
+                <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
                 <Text style={styles.textBigRight1}>
                     {((this.props.merged - (navigation.getParam('blDiscount') ? this.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1)).format(0, 3, '.')} đ
                 </Text>
