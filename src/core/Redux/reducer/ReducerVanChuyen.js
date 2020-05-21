@@ -46,6 +46,7 @@ const defaultState = {
     street_id: '',
     village_id: '',
     depart_time: '',
+    depart_time2: '',
     lattitude_pick: '',
     lngtitude_pick: '',
     lattitude_drop: '',
@@ -133,6 +134,7 @@ const ReducerVanChuyen = (state = defaultState, action) => {
             return {
                 ...state,
                 depart_time: action.depart_time,
+                depart_time2: action.depart_time2,
             }
 
         case types.ADD_CHAIR_VANCHUYEN:

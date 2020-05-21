@@ -632,6 +632,7 @@ class ConfirmInformation extends Component {
             "payment": {
                 "method": "cash"
             },
+            "promotion" :navigation.getParam('blDiscount') ? navigation.getParam('promotion') : "",
             "invoice": navigation.getParam('xhd') ? {
                 "name": this.props.company_name,
                 "address": this.props.company_address,
@@ -662,7 +663,7 @@ class ConfirmInformation extends Component {
                 "referral_code": "",
             }
         })
-        console.log(jsonStr)
+        console.log('abc :.........' +jsonStr)
         fetch(url, {
             method: 'POST',
             headers: {

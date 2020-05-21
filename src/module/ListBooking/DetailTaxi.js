@@ -17,7 +17,18 @@ const imageComment = '../../image/comment.png'
 function DetailTaxi({ item }) {
     return (
         <View style={{ paddingHorizontal: 16 }}>
-            <Text style={styles.textBigRight}>Trạng thái: <Text style={{ fontWeight: 'bold' }}>Chưa xuất phát</Text></Text>
+            <Text style={styles.textBigRight}>Trạng thái: <Text style={{ fontWeight: 'bold', color : item.status == 'cancelled' ? '#ef465f' : '#333333' }}>
+                {item.status == 'wait_to_confirm' ? 'Chờ xác nhận' :
+                    item.status == 'cs_confirmed' ? 'CS xác nhận' :
+                        item.status == 'forwarded' ? 'Chuyển tiếp' :
+                            item.status == 'wait_for_driver' ? 'Tìm tài xế' :
+                                item.status == 'driver_accepted' ? 'Tài xế chấp nhận' :
+                                    item.status == 'picked_up' ? 'Đã đón khách' :
+                                        item.status == 'completed' ? 'Hoàn thành chuyến đi' :
+                                            item.status == 'cancelled' ? 'Đã hủy vé' :
+                                                'Tất cả'
+                }
+            </Text></Text>
 
             <Text>Mọi thắc mắc vui lòng liên hệ:
                 <Text
@@ -158,6 +169,11 @@ function renderOther(item) {
                 <ImageTextDiChung
                     source={require(imageDone)}
                     text={'+10 %'}
+                /> : null}
+            {item.promotion !== '' ?
+                <ImageTextDiChung
+                    source={require(imageDone)}
+                    text={'Mã giảm giá: ' + item.promotion}
                 /> : null}
         </View>
     )

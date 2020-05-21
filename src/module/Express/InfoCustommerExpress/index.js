@@ -47,19 +47,31 @@ class InfoCustommerExpress extends Component {
     }
 
     componentDidMount() {
-        this.setState({
-            full_name: this.props.full_name,
-            full_name1: this.props.full_name1,
-            use_phone: this.props.use_phone,
-            use_phone1: this.props.use_phone1,
-            email: this.props.email,
-            email1: this.props.email1,
-            comment: this.props.comment,
-            promotion_code: '',
-        })
-        this._validateEmail(this.props.email)
-        this.mobileValidate(this.props.use_phone)
-        this.mobileValidate1(this.props.use_phone1)
+        this.getdata();
+    }
+
+    async getdata(){
+        try {
+            const dataLogin = await AsyncStorage.getItem('dataLogin')
+            if (dataLogin !== null) {
+                let json = JSON.parse(dataLogin)
+                this.setState({
+                    full_name: json.username,
+                    full_name1: this.props.full_name1,
+                    use_phone: json.phone ?? '',
+                    use_phone1: this.props.use_phone1,
+                    email: json.email ?? '',
+                    email1: this.props.email1,
+                    promotion_code: '',
+                    comment: this.props.comment,
+                })
+                this._validateEmail(json.email)
+                this.mobileValidate(json.phone)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+     
     }
 
     async checkPromotionCode() {
@@ -81,6 +93,7 @@ class InfoCustommerExpress extends Component {
                         promotionStatus: true,
                         detailPromotion: responseJson.data.discount_text,
                         discount_price: responseJson.data.discount_price,
+                        promotion_code: this.state.promotion_code.toUpperCase(),
                         blDiscount: true,
                     })
                     this.props.addPromotionCodeVanChuyen(this.state.promotion_code, this.state.discount_price);
@@ -243,31 +256,14 @@ class InfoCustommerExpress extends Component {
                 visible={this.state.alertName || this.state.alertPhone || this.state.alertEmail || this.state.alertName2 || this.state.alertPhone2 || this.state.alertCompany}
                 width={0.8}
                 dialogTitle={<DialogTitle title='Thông tin chưa đủ' />}
-                // footer={
-                //     <DialogFooter>
-                //         <DialogButton
-                //             text="Đồng ý"
-                //             onPress={() => {
-                //                 this.setState({
-                //                     alertName: false,
-                //                     alertPhone: false,
-                //                     alertEmail: false,
-                //                     alertName2: false,
-                //                     alertPhone2: false,
-                //                     alertCompany: false,
-                //                 })
-                //             }}
-                //         />
-                //     </DialogFooter>
-                // }
             >
                 <View>
                     <View style={{ padding: 8, flexDirection: 'column' }}>
                         {this.state.alertName ? <Text>Vui lòng nhập tên</Text> : null}
                         {this.state.alertPhone ? <Text>Vui lòng nhập số điện thoại</Text> : null}
                         {this.state.alertEmail ? <Text>Vui lòng nhập Email</Text> : null}
-                        {this.state.alertName2 ? <Text>Vui lòng nhập tên người đi</Text> : null}
-                        {this.state.alertPhone2 ? <Text>Vui lòng nhập số điện thoại người đi</Text> : null}
+                        {this.state.alertName2 ? <Text>Vui lòng nhập tên người nhận</Text> : null}
+                        {this.state.alertPhone2 ? <Text>Vui lòng nhập số điện thoại người nhận</Text> : null}
                         {this.state.alertCompany ? <Text>Vui lòng nhập đầy đủ thông tin nhận hóa đơn</Text> : null}
 
                         <ButtonDialog
@@ -474,9 +470,12 @@ class InfoCustommerExpress extends Component {
                                 value={this.state.promotion_code}
                                 onChangeText={(text) => this.setState({
                                     promotion_code: text,
+                                    blDiscount : false,
+                                    detailPromotion:'',
                                 })}
                                 onPress={() => this.setState({
-                                    promotion_code: ''
+                                    detailPromotion:'',
+                                    promotion_code: '',
                                 })}
                             />
                         </View>

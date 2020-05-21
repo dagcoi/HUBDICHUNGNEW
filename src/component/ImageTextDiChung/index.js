@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     textBigRightBold: {
+        fontSize: 14,
         fontWeight: 'bold',
     },
 })

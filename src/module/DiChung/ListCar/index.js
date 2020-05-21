@@ -34,7 +34,7 @@ class ListCar extends Component {
             listNightBooking: [1],
 
             showFilter: false,
-            listFliter: {
+            listFilter: {
                 rideMethod: [],
                 type: [],
             },
@@ -60,26 +60,28 @@ class ListCar extends Component {
                 }}>Danh sách xe</Text>
 
                 <View
-                    style={{ width: 35, height: 35 }}
+                    style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
                 >
                     <TouchableOpacity
+                        style={{ justifyContent: 'center', alignItems: 'center' }}
                         onPress={navigation.getParam('setShowFilter')}
                     >
                         <Image
-                            style={{ width: 32, height: 32 }}
+                            style={{ width: 24, height: 24 }}
                             source={require(imageTune)}
                         />
                     </TouchableOpacity>
                 </View>
 
                 <View
-                    style={{ width: 35, height: 35 }}
+                    style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
                 >
                     <TouchableOpacity
+                        style={{ justifyContent: 'center', alignItems: 'center' }}
                         onPress={navigation.getParam('increaseCount')}
                     >
                         <Image
-                            style={{ width: 32, height: 32 }}
+                            style={{ width: 24, height: 24 }}
                             source={navigation.getParam('image') ? require(imageMaxToMin) : require(imageMinToMax)}
                         />
                     </TouchableOpacity>
@@ -111,7 +113,7 @@ class ListCar extends Component {
             this.setStateAsync({
                 isLoading: false,
                 // listFilterType: ,
-                listFliter: this.filterCar(responseJson.data.data),
+                listFilter: this.filterCar(responseJson.data.data),
                 dataSource: responseJson.data.data,
                 is_from_airport: responseJson.data.is_from_airport
             });
@@ -127,7 +129,6 @@ class ListCar extends Component {
             console.log(error);
         }
         console.log(parame)
-        console.log(formdata)
     }
 
     async getListCar() {
@@ -155,7 +156,7 @@ class ListCar extends Component {
             this.setStateAsync({
                 isLoading: false,
                 // listFilterType: ,
-                listFliter: this.filterCar(responseJson.data),
+                listFilter: this.filterCar(responseJson.data),
                 dataSource: responseJson.data,
                 is_from_airport: responseJson.is_from_airport
             });
@@ -298,16 +299,16 @@ class ListCar extends Component {
 
 
     filterCar(list) {
-        var listFliter = { rideMethod: [], type: [] }
+        var listFilter = { rideMethod: [], type: [] }
         list.forEach(element => {
-            if (listFliter.rideMethod.includes(element.ride_method_id)) {
-                listFliter.rideMethod.push(element.rideMethod)
+            if (listFilter.rideMethod.includes(element.ride_method_id)) {
+                listFilter.rideMethod.push(element.rideMethod)
             }
-            if (listFliter.type.includes(element.vehicle_id)) {
-                listFliter.type.push(element.type)
+            if (listFilter.type.includes(element.vehicle_id)) {
+                listFilter.type.push(element.type)
             }
         });
-        return listFliter;
+        return listFilter;
     }
 
     componentWillMount() {
@@ -542,7 +543,7 @@ class ListCar extends Component {
             )
         }
         var obj = [...this.state.dataSource];
-        var lf = { ...this.state.listFliter }
+        var lf = { ...this.state.listFilter }
         console.log(lf);
         return (
             <View style={{ flex: 1, padding: 8, }}>

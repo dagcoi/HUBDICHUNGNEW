@@ -36,23 +36,27 @@ function DetailXeChung({ item }) {
 }
 
 function renderDetailTrip(item) {
+    const time = item.bookingTime
+    const date = new Date(time).toLocaleDateString()
+    const hours = new Date(time).toLocaleTimeString()
+    const strtime = hours + " " + date
     return (
         <View>
             <Text style={styles.textBigLeft1}>Chi tiết dịch vụ</Text>
 
             <ImageTextDiChung
                 source={require(imageLocation)}
-                text={item.pick_address_api}
+                text={item.startPoints[0].address}
             />
 
             <ImageTextDiChung
                 source={require(imageLocation)}
-                text={item.drop_address_api}
+                text={item.endPoints[0].address}
             />
 
             <ImageTextDiChung
                 source={require(imageCalendar)}
-                text={item.in_time + ' ' + item.in_date}
+                text={strtime}
             />
         </View>
     )
@@ -78,17 +82,17 @@ function renderDetailCustommer(item) {
 
             <ImageTextDiChung
                 source={require(imagePerson)}
-                text={item.fullname}
+                text={item.bookingUser.fullName}
             />
 
             <ImageTextDiChung
                 source={require(imageIconPhone)}
-                text={item.other_phone}
+                text={item.bookingUser.phone}
             />
 
             <ImageTextDiChung
                 source={require(imageEmail)}
-                text={item.email}
+                text={item.bookingUser.email}
             />
 
             <ImageTextDiChung
@@ -107,12 +111,12 @@ function renderDetailPeopleMove(item) {
 
             <ImageTextDiChung
                 source={require(imagePerson)}
-                text={item.use_name}
+                text={item.beneficiary.fullName}
             />
 
             <ImageTextDiChung
                 source={require(imageIconPhone)}
-                text={item.use_phone}
+                text={item.beneficiary.phone}
             />
         </View>
     )
@@ -127,12 +131,17 @@ function renderOther(item) {
             <Text style={styles.textBigLeft1}>Thanh toán và khác</Text>
             <ImageTextDiChung
                 source={require(imagePayment)}
-                text={item.pay_method_name}
+                text={item.payment.method == 'cash' ? 'Trả sau' : 'Trả trước'}
             />
-            {item.xhd == 1 ?
+            {item.extra.xhd == 1 ?
                 <ImageTextDiChung
                     source={require(imageDone)}
                     text={'+10 %'}
+                /> : null}
+            {item.promotion !== '' ?
+                <ImageTextDiChung
+                    source={require(imageDone)}
+                    text={'Mã giảm giá: ' + item.promotion}
                 /> : null}
         </View>
     )
@@ -141,10 +150,15 @@ function renderOther(item) {
 function renderTT(item) {
     return (
         <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', marginBottom: 8 }}>
-            <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
-            <Text style={styles.textBigRight1}>
-                {parseInt(item.total_cost).format(0, 3, '.')} đ
+            <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', }}>
+                <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
+                {item.forward.status == 'forwarded' ?
+                    <Text style={styles.textBigRight1}>
+                        {/* {parseInt(item.total_cost).format(0, 3, '.')} đ */}
+                        {parseInt(item.forward.result.total_cost).format(0, 3, '.')} đ
             </Text>
+                    : null}
+            </View>
         </View>
     )
 }

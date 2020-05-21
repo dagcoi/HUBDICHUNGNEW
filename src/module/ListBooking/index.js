@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, TouchableOpacity, Text, FlatList, StyleSheet, ActivityIndicator, Modal, Image, ScrollView, Dimensions, AsyncStorage } from 'react-native'
+import { View, TouchableOpacity, Text, FlatList, StyleSheet, ActivityIndicator, Modal, Image, ScrollView, Dimensions, AsyncStorage, Linking } from 'react-native'
 import StarVote from '../../component/StarVote'
 import Header from '../../component/Header'
 import ImageTextDiChung from '../../component/ImageTextDiChung'
@@ -51,6 +51,7 @@ class ListBooking extends Component {
             showMessage: false,
             token: null,
             refreshing: false,
+            modalTell: false,
         }
     }
 
@@ -58,10 +59,10 @@ class ListBooking extends Component {
         this._retrieveData()
 
         if (this.props.navigation.state.routeName === 'ListBooking') {
-            console.log(this.props.navigation.state.routeName)
+            // console.log(this.props.navigation.state.routeName)
             this._interval = setInterval(() => {
                 this._retrieveData()
-            }, 5000);
+            }, 10000);
         }
     }
 
@@ -70,9 +71,9 @@ class ListBooking extends Component {
             const dataLogin = await AsyncStorage.getItem('dataLogin')
             if (dataLogin !== null) {
                 let json = JSON.parse(dataLogin)
-                console.log(dataLogin)
-                console.log(json.token)
-                console.log(json._id)
+                // console.log(dataLogin)
+                // console.log(json.token)
+                // console.log(json._id)
                 this.setState({
                     token: json.token,
                 })
@@ -86,7 +87,7 @@ class ListBooking extends Component {
                 })
             }
         } catch (error) {
-            console.log(error)
+            // console.log(error)
             this.setState({
                 listBooking: [],
                 isLoading: false,
@@ -254,7 +255,7 @@ class ListBooking extends Component {
                                 code={this.state.otp}
                                 onCodeChanged={code => {
                                     this.setState({ otp: code, showMessage: false })
-                                    console.log(code)
+                                    // console.log(code)
                                 }}
                                 // codeInputFieldStyle={styles.underlineStyleBase}
                                 // codeInputHighlightStyle={styles.underlineStyleHighLighted}
@@ -348,15 +349,45 @@ class ListBooking extends Component {
 
     modalLoading() {
         return (
+
             <Modal
                 visible={this.state.modalVisible}
                 animationType="slide"
                 onOrientationChange={true}
                 transparent={true}>
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                {/* <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <ActivityIndicator
                         size='large'
                     />
+                </View> */}
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000000AA', zIndex: 5 }}>
+                    <View style={{ width: '80%', justifyContent: 'center', borderRadius: 8, minHeight: 100, backgroundColor: '#eee', padding: 8, zIndex: 6 }}>
+                        <View style={{ borderBottomWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', }}>
+                            <Text style={{ fontSize: 20, }}>Hủy vé</Text>
+                        </View>
+                        <View style={{ padding: 8 }}>
+                            <Text>Vui lòng liên hệ: <Text
+                                style={{ color: '#77a300', textDecorationLine: 'underline' }}
+                                onPress={() => Linking.openURL(`tel: 19006022`)}
+                            >
+                                19006022
+                                        </Text> để được hỗ trợ</Text>
+
+
+                        </View>
+
+                        <View style={{ flexDirection: 'row', height: 48, alignItems: 'center', justifyContent: 'center' }}>
+                            <TouchableOpacity
+                                onPress={() => {
+                                    this.setState({
+                                        modalVisible: false,
+                                    })
+                                }}
+                                style={{ backgroundColor: '#77a300', margin: 4, flex: 1, alignItems: 'center', justifyContent: 'center', padding: 4 }}>
+                                <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold', margin: 8 }}>Đóng</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
                 </View>
             </Modal>
         )
@@ -364,7 +395,7 @@ class ListBooking extends Component {
 
     getListBooking(token) {
         let url = link.URL_API_PORTAL + `booking/v1/user/bookings`
-        console.log(url)
+        // console.log(url)
         fetch(url, {
             headers: {
                 'token': token
@@ -383,8 +414,13 @@ class ListBooking extends Component {
 
     selectTime() {
         return (
-            <View>
-
+            <View style={{ height: 64, flexDirection: 'row' }}>
+                <View style={[styles.card, { flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
+                    <Text>time 1</Text>
+                </View>
+                <View style={[styles.card, { flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
+                    <Text>time 2</Text>
+                </View>
             </View>
         )
     }
@@ -400,6 +436,7 @@ class ListBooking extends Component {
         let starVote = 0;
         // let starVote = Math.floor((Math.random() * 6) + 5) / 2;
         // console.log(starVote)
+        console.log(item)
         return (
             item.code ?
                 <TouchableOpacity
@@ -415,8 +452,8 @@ class ListBooking extends Component {
                 >
                     <View style={styles.titleTicket}>
                         <Text style={{ flex: 1, textAlign: 'left', fontSize: 16, fontWeight: 'bold' }}>{item.code}</Text>
-                        <View style={{ height: 32, borderRadius: 16, backgroundColor: item.rideMethod === 'private' ? '#77a300' : '#ef465f', paddingLeft: 10, paddingRight: 10, justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ color: '#fff' }}>{item.rideMethod === 'private' ? 'Đi riêng' : 'Đi chung'}</Text>
+                        <View style={{ height: 32, borderRadius: 16, backgroundColor: item.productType === 'EXPRESS' ? '#ef465f' : '#77a300', paddingLeft: 10, paddingRight: 10, justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={{ color: '#fff' }}>{item.vehicle.name}</Text>
                         </View>
                     </View>
 
@@ -446,7 +483,7 @@ class ListBooking extends Component {
         )
     }
 
-    renderListBooking(listBooking) {
+    renderListBooking() {
         // var obj = listBooking.filter(obj => obj.forward.status =='forwarded')
         if (this.state.isLoading) {
             return (
@@ -458,13 +495,13 @@ class ListBooking extends Component {
         }
         return (
             <View style={{ flex: 1 }}>
-                {listBooking.length == 0 ?
+                {this.state.listBooking.length == 0 ?
                     <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
                         <Text>{this.props.isLogin == '0' ? 'Đăng nhập để xem danh sách vé của bạn.' : 'Chưa có chuyến trong danh sách vé.'}</Text>
                     </View> :
                     <FlatList
                         showsVerticalScrollIndicator={false}
-                        data={listBooking}
+                        data={this.state.listBooking}
                         renderItem={({ item }) => {
                             return (
                                 <View style={styles.card}>
@@ -486,9 +523,9 @@ class ListBooking extends Component {
         return (
             <View style={{ flex: 1 }}>
                 <Header onPressLeft={() => this.props.navigation.openDrawer()} />
-                {this.selectTime()}
+                {/* {this.selectTime()} */}
                 <View style={{ flex: 1 }}>
-                    {this.renderListBooking(this.state.listBooking)}
+                    {this.renderListBooking()}
                 </View>
                 <Modal
                     visible={this.state.modalTicket}
@@ -514,28 +551,28 @@ class ListBooking extends Component {
                                 :
                                 <View style={{ justifyContent: 'center' }}>
                                     <View>
-                                        {this.state.bookingDetail.product_type == 'CAR_RENTAL' ? <DetailTuLai item={this.state.bookingDetail} />
-                                            : this.state.bookingDetail.product_type == 'DRIVER_RENTAL' ? <DetailXeChung item={this.state.bookingDetail} />
-                                                : this.state.bookingDetail.product_type == 'TRUCK' ? <DetailExpress item={this.state.bookingDetail} />
+                                        {this.state.bookingDetail.productType == 'CAR_RENTAL' ? <DetailTuLai item={this.state.bookingDetail} />
+                                            : this.state.bookingDetail.productType == 'DRIVER_RENTAL' ? <DetailXeChung item={this.state.bookingDetail} />
+                                                : this.state.bookingDetail.productType == 'EXPRESS' ? <DetailExpress item={this.state.bookingDetail} />
                                                     : <DetailTaxi item={this.state.bookingDetail} />}
                                     </View>
                                     <View style={{ paddingHorizontal: 16 }}>
-                                        {(this.state.bookingDetail.transaction_status_id == '4' || this.state.bookingDetail.transaction_status_id == '6') ? null :
+                                        {(this.state.bookingDetail.status == 'cancelled' || this.state.bookingDetail.status == 'completed' || this.state.bookingDetail.status == 'picked_up') ? null :
                                             <View style={{ paddingBottom: 8 }}>
                                                 <ButtonGray
                                                     value='HỦY VÉ'
-                                                // onPress={() => {
-                                                //     this.setState({
-                                                //         modalVisible: true,
-                                                //     })
-                                                //     this.cancelBookingToken();
-                                                // }}
+                                                    onPress={() => {
+                                                        this.setState({
+                                                            modalVisible: true,
+                                                        })
+                                                        // this.cancelBookingToken();
+                                                    }}
                                                 />
                                             </View>
                                         }
                                     </View>
-                                    {this.modalCancel()}
-                                    {this.modalCancelDetail()}
+                                    {/* {this.modalcancel2()}
+                                    {this.modalCancelDetail()} */}
                                     {this.modalLoading()}
                                 </View>
                             }

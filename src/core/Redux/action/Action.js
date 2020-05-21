@@ -371,10 +371,11 @@ export const dropAddressVanChuyen = (drop_add, component_drop, lattitude_drop, l
     }
 }
 
-export const addDepartTimeVanChuyen = (depart_time) => {
+export const addDepartTimeVanChuyen = (depart_time,depart_time2) => {
     return {
         type: types.TIME_PICK_VANCHUYEN,
         depart_time: depart_time,
+        depart_time2: depart_time2,
     }
 }
 

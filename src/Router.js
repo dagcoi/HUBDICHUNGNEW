@@ -438,42 +438,42 @@ const DrawerNavi = createDrawerNavigator({
         }
     },
 
-    SearchTicket: {
-        screen: SearchTicket,
-        navigationOptions: {
-            title: 'Tra cứu mã vé',
-            alignItems: 'center'
-        }
-    },
+    // SearchTicket: {
+    //     screen: SearchTicket,
+    //     navigationOptions: {
+    //         title: 'Tra cứu mã vé',
+    //         alignItems: 'center'
+    //     }
+    // },
 
-    AboutUs: {
-        screen: AboutUs,
-        navigationOptions: {
-            title: 'Về chúng tôi',
-            alignItems: 'center'
-        },
-    },
-    News: {
-        screen: News,
-        navigationOptions: {
-            title: 'Tin tức',
-            alignItems: 'center'
-        },
-    },
-    FAQ: {
-        screen: FAQ,
-        navigationOptions: {
-            title: 'Câu hỏi thường gặp',
-            alignItems: 'center'
-        },
-    },
-    PoliciesAndServices: {
-        screen: PoliciesAndServices,
-        navigationOptions: {
-            title: 'Chính sách vận chuyển',
-            alignItems: 'center'
-        },
-    },
+    // AboutUs: {
+    //     screen: AboutUs,
+    //     navigationOptions: {
+    //         title: 'Về chúng tôi',
+    //         alignItems: 'center'
+    //     },
+    // },
+    // News: {
+    //     screen: News,
+    //     navigationOptions: {
+    //         title: 'Tin tức',
+    //         alignItems: 'center'
+    //     },
+    // },
+    // FAQ: {
+    //     screen: FAQ,
+    //     navigationOptions: {
+    //         title: 'Câu hỏi thường gặp',
+    //         alignItems: 'center'
+    //     },
+    // },
+    // PoliciesAndServices: {
+    //     screen: PoliciesAndServices,
+    //     navigationOptions: {
+    //         title: 'Chính sách vận chuyển',
+    //         alignItems: 'center'
+    //     },
+    // },
     ListBooking: {
         screen: ListBooking,
         // navigationOptions: {
