@@ -47,10 +47,10 @@ class ConfirmInformation extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.token)
-        console.log(this.props.vehice_id)
-        console.log(this.props.vehicle_name)
-        console.log(this.props.vehicle_icon)
+        console.log('token' + this.props.token)
+        console.log('vehice_id' + this.props.vehice_id)
+        console.log('vehicle_name' + this.props.vehicle_name)
+        console.log('vehicle_icon' + this.props.vehicle_icon)
         this._interval = setInterval(() => {
             const url = link.URL_API + `agent/check_night_booking_partner_received?ticket_id=${this.state.ticket}`
             if (this.state.visibleSearchDriver) {
@@ -419,21 +419,6 @@ class ConfirmInformation extends Component {
                     <Dialog
                         visible={!this.state.is_night_booking}
                         width={0.8}
-                        // footer={
-                        //     <DialogFooter>
-                        //         <DialogButton
-                        //             text="Chi tiết mã vé"
-                        //             onPress={() => {
-                        //                 this.setState({
-                        //                     dialogCalendarVisible: false,
-                        //                     is_night_booking: true
-                        //                 })
-                        //                 this.props.deleteData();
-                        //                 this.TicketInformation()
-                        //             }}
-                        //         />
-                        //     </DialogFooter>
-                        // }
                         dialogTitle={<DialogTitle title="Đặt xe thành công" />}
                     >
                         <View style={{ flexDirection: 'column', padding: 8 }}>
@@ -632,7 +617,7 @@ class ConfirmInformation extends Component {
             "payment": {
                 "method": "cash"
             },
-            "promotion" :navigation.getParam('blDiscount') ? navigation.getParam('promotion') : "",
+            "promotion": navigation.getParam('blDiscount') ? navigation.getParam('promotion') : "",
             "invoice": navigation.getParam('xhd') ? {
                 "name": this.props.company_name,
                 "address": this.props.company_address,
@@ -663,7 +648,8 @@ class ConfirmInformation extends Component {
                 "referral_code": "",
             }
         })
-        console.log('abc :.........' +jsonStr)
+        console.log('abc :.........' + jsonStr)
+        console.log('abc :.........' + this.props.token)
         fetch(url, {
             method: 'POST',
             headers: {

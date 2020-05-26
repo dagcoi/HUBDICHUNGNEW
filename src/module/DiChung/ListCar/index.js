@@ -102,11 +102,6 @@ class ListCar extends Component {
         try {
             const response = await fetch(parame, {
                 method: 'GET',
-                // headers: {
-                //     'Accept': "application/json",
-                //     'Content-Type': "multipart/form-data",
-                // },
-                // body: formdata
             });
             const responseJson = await response.json();
             this.addListfilter(responseJson.data.data);
@@ -141,7 +136,7 @@ class ListCar extends Component {
         formdata.append("drop_address", JSON.stringify(this.props.drop_add));
         formdata.append("drop_address_component", JSON.stringify(this.props.component_drop));
         formdata.append("chair", this.props.chair);
-        formdata.append("vehicle_id", 0)
+        // formdata.append("vehicle_id", 0)
         try {
             const response = await fetch(url, {
                 method: 'POST',
@@ -510,8 +505,8 @@ class ListCar extends Component {
 
                                         <Button
                                             onPress={() => {
-                                                console.log(index)
-                                                console.log(item.discount_data.partner_note)
+                                                console.log('index ... ' +index)
+                                                console.log('partner_note' +item.discount_data.partner_note)
                                                 this.gotoInfoCustommer(item)
                                             }}
                                             value={'CHỌN XE'}

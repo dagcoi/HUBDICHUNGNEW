@@ -14,22 +14,22 @@ class News extends Component {
         }
     }
 
+    onMessage({ nativeEvent }) {
+        const data = nativeEvent.data;
+        if (data !== undefined && data !== null) {
+            Linking.openURL(data);
+        }
+    }
+
     render() {
-        var url = link.URL_REALASE+`blog`
+        var url = link.URL_REALASE + `blog`;
         return (
-            <View style={{ flex: 1, flexDirection: 'column' }}>
+            <View style={{ flex: 1 }}>
                 <Header onPressLeft={() => this.props.navigation.openDrawer()} />
                 <WebView
                     source={{ uri: url }}
-                    style={{ marginTop: -60 }}
-                    onNavigationStateChange={(event) => {
-                        if (event.url !== url) {
-                            // this.webview.stopLoading();  
-                            // this.webview.current.goBack()
-                            Linking.openURL(event.url);
-                        }
-                    }}
-                />
+                    onMessage={this.onMessage}
+                    style={{ marginTop: -60 }} />
             </View>
         )
     }

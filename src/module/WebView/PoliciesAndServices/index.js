@@ -39,7 +39,7 @@ class PoliciesAndServices extends Component {
     }
 
     render() {
-        var url = link.URL_REALASE + `chinh-sach-dich-vu`
+        var url = link.URL_REALASE + `van-chuyen`
         return (
             <View style={{ flex: 1 }}>
                 <Header onPressLeft={() => this.props.navigation.openDrawer()} />

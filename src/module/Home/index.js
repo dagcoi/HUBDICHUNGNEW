@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, BackHandler, Alert, Image, Linking, Dimensions, ScrollView, SafeAreaView, AsyncStorage } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, BackHandler, Alert, Image, Linking, Dimensions, ScrollView, SafeAreaView, AsyncStorage, Modal, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
+import WebView from 'react-native-webview';
 import * as link from '../../URL'
 import Header from '../../component/Header'
 import SwiperFlatList from 'react-native-swiper-flatlist';
@@ -8,6 +9,8 @@ import SelectCar from './SelectCar'
 import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 import { addUser, addToken } from '../../core/Redux/action/Action'
 
+const imageCancel = '../../image/cancel.png'
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window')
 
 class Home extends Component {
     constructor(props) {
@@ -21,6 +24,9 @@ class Home extends Component {
             openDrawer: false,
             detail: null,
             title: null,
+            urlWebView: null,
+            modalWebView: false,
+            titleModal: null,
         }
 
     }
@@ -62,6 +68,8 @@ class Home extends Component {
                 console.log(json.username)
                 this.props.addUser(json.username, '123', 1)
                 this.props.addToken(json.token)
+                console.log(json.token)
+                console.log(dataLogin)
             } else {
                 this.props.addUser(json.username, 'json.avatar', 0)
                 this.props.addToken('')
@@ -122,6 +130,49 @@ class Home extends Component {
             dataAttractivePlaces: jsonRes,
             isLoadingAttractivePlaces: false
         });
+    }
+
+    onMessage({ nativeEvent }) {
+        const data = nativeEvent.data;
+        if (data !== undefined && data !== null) {
+            Linking.openURL(data);
+        }
+    }
+
+    formWebView() {
+        var url = this.state.urlWebView
+        var title = this.state.titleModal
+        return (
+            <Modal
+                visible={this.state.modalWebView}
+            >
+                <View style={{ flex: 1 }}>
+                    <View style={{ flexDirection: 'row', height: 60, borderBottomWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', paddingHorizontal: 16 }}>
+                        <Text style={{ flex: 1, textAlign: 'center', fontSize: 16, fontWeight: 'bold', }}>{title}</Text>
+                        <TouchableOpacity
+                            onPress={() => { this.setState({ modalWebView: false }) }}
+                        >
+                            <Image
+                                style={{ width: 30, height: 30 }}
+                                source={require(imageCancel)}
+                            />
+                        </TouchableOpacity>
+                    </View>
+
+                    <WebView
+                        source={{ uri: url }}
+                        style={{ marginTop: -60, height: SCREEN_HEIGHT }}
+                        onMessage={this.onMessage}
+                        // renderLoading={() => { return (<ActivityIndicator style = {{position: 'absolute',left: 0,right: 0, top: 0,bottom: 0,alignItems: 'center',justifyContent: 'center'}} />)}}
+                    // ref={(webView) => { this.webView.ref = webView; }}
+                    // onNavigationStateChange={(navState) => { this.webView.canGoBack = navState.canGoBack; }}
+                    // onLoadEnd = {true}
+                    // dataDetectorTypes={'phoneNumber'}
+                    />
+
+                </View>
+            </Modal>
+        )
     }
 
 
@@ -213,7 +264,12 @@ class Home extends Component {
                                                 <TouchableOpacity
                                                     style={styles.child}
                                                     onPress={() => {
-                                                        Linking.openURL(item.link)
+                                                        // Linking.openURL(item.link)
+                                                        this.setState({
+                                                            urlWebView: item.link,
+                                                            modalWebView: true,
+                                                            titleModal: item.title.rendered,
+                                                        })
                                                     }}
                                                 >
                                                     <Image
@@ -244,7 +300,12 @@ class Home extends Component {
                                                 <TouchableOpacity
                                                     style={styles.child}
                                                     onPress={() => {
-                                                        Linking.openURL(item.link)
+                                                        // Linking.openURL(item.link)
+                                                        this.setState({
+                                                            urlWebView: item.link,
+                                                            modalWebView: true,
+                                                            titleModal: item.title.rendered,
+                                                        })
                                                     }}
                                                 >
                                                     <Image
@@ -260,6 +321,8 @@ class Home extends Component {
                                     }}
                                 />
                             </View>}
+                        {this.formWebView()}
+
                     </ScrollView>
                 </View>
 

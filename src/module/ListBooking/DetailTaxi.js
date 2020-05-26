@@ -16,7 +16,7 @@ const imageComment = '../../image/comment.png'
 
 function DetailTaxi({ item }) {
     return (
-        <View style={{ paddingHorizontal: 16 }}>
+        <ScrollView style={{ paddingHorizontal: 16 }} showsHorizontalScrollIndicator ={false}>
             <Text style={styles.textBigRight}>Trạng thái: <Text style={{ fontWeight: 'bold', color : item.status == 'cancelled' ? '#ef465f' : '#333333' }}>
                 {item.status == 'wait_to_confirm' ? 'Chờ xác nhận' :
                     item.status == 'cs_confirmed' ? 'CS xác nhận' :
@@ -45,7 +45,7 @@ function DetailTaxi({ item }) {
             {renderComment(item)}
             {renderOther(item)}
             {renderTT(item)}
-        </View>
+        </ScrollView>
     )
 }
 
@@ -56,7 +56,7 @@ function renderDetailTrip(item) {
     const strtime = hours + " " + date
     return (
         <View>
-            <Text style={styles.textBigLeft1}>Chi tiết chuyến đi</Text>
+            <Text style={styles.textBigLeft1}>Chi tiết dịch vụ taxi</Text>
 
             <ImageTextDiChung
                 source={require(imageLocation)}

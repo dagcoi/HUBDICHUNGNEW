@@ -66,6 +66,7 @@ class InfoCustommer extends Component {
     }
 
     componentDidMount() {
+        console.log('a')
         this.getdata()
     }
 
@@ -84,8 +85,8 @@ class InfoCustommer extends Component {
                     promotion_code: '',
                     comment: this.props.comment,
                 })
-                this._validateEmail(json.email)
-                this.mobileValidate(json.phone)
+                this._validateEmail(json.email ?? '')
+                this.mobileValidate(json.phone ?? '')
             }
         } catch (error) {
             console.log(error)

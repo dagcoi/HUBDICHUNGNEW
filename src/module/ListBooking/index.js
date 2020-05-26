@@ -71,9 +71,9 @@ class ListBooking extends Component {
             const dataLogin = await AsyncStorage.getItem('dataLogin')
             if (dataLogin !== null) {
                 let json = JSON.parse(dataLogin)
-                // console.log(dataLogin)
-                // console.log(json.token)
-                // console.log(json._id)
+                console.log(dataLogin)
+                console.log(json.token)
+                console.log(json._id)
                 this.setState({
                     token: json.token,
                 })
@@ -129,7 +129,7 @@ class ListBooking extends Component {
             bookingDetail: jsonRes.data,
             isLoadingTicket: false,
         });
-        console.log(jsonRes.data)
+        // console.log(jsonRes.data)
     }
 
     async cancelBooking() {
@@ -404,7 +404,7 @@ class ListBooking extends Component {
         })
             .then(res => res.json())
             .then(resJson => {
-                console.log(resJson)
+                // console.log(resJson)
                 this.setState({
                     listBooking: resJson.data,
                     isLoading: false,
@@ -436,10 +436,11 @@ class ListBooking extends Component {
         let starVote = 0;
         // let starVote = Math.floor((Math.random() * 6) + 5) / 2;
         // console.log(starVote)
-        console.log(item)
+        // console.log(item)
         return (
             item.code ?
                 <TouchableOpacity
+                    style={styles.card}
                     onPress={() => {
                         this.setState({
                             isLoadingTicket: true,
@@ -452,8 +453,8 @@ class ListBooking extends Component {
                 >
                     <View style={styles.titleTicket}>
                         <Text style={{ flex: 1, textAlign: 'left', fontSize: 16, fontWeight: 'bold' }}>{item.code}</Text>
-                        <View style={{ height: 32, borderRadius: 16, backgroundColor: item.productType === 'EXPRESS' ? '#ef465f' : '#77a300', paddingLeft: 10, paddingRight: 10, justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ color: '#fff' }}>{item.vehicle.name}</Text>
+                        <View style={{ height: 32, borderRadius: 16, backgroundColor: item.rideMethod === 'private' ? '#ef465f' : '#77a300', paddingLeft: 10, paddingRight: 10, justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={{ color: '#fff' }}>{item.rideMethod == 'private' ? 'Đi riêng' : 'Đi chung'}</Text>
                         </View>
                     </View>
 
@@ -479,7 +480,7 @@ class ListBooking extends Component {
                         <StarVote number={starVote} margin={4} />
                     </View>
                 </TouchableOpacity>
-                : <View style={{ height: 1, backgroundColor: '#77a300' }} />
+                : null
         )
     }
 
@@ -504,7 +505,7 @@ class ListBooking extends Component {
                         data={this.state.listBooking}
                         renderItem={({ item }) => {
                             return (
-                                <View style={styles.card}>
+                                <View>
                                     {this.renderItem(item)}
                                 </View>
                             )
@@ -592,8 +593,7 @@ const styles = StyleSheet.create({
         shadowColor: '#000',
         shadowOpacity: 0,
         elevation: 5,
-        marginHorizontal: 8,
-        marginVertical: 8,
+        margin: 8,
         borderRadius: 8,
     },
     contentTicket: {

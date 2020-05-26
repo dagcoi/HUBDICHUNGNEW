@@ -433,7 +433,7 @@ const DrawerNavi = createDrawerNavigator({
     Main: {
         screen: RootStack,
         navigationOptions: {
-            title: 'Trang chủ',
+            title: 'Đặt xe',
             alignItems: 'center'
         }
     },
@@ -446,34 +446,34 @@ const DrawerNavi = createDrawerNavigator({
     //     }
     // },
 
-    // AboutUs: {
-    //     screen: AboutUs,
-    //     navigationOptions: {
-    //         title: 'Về chúng tôi',
-    //         alignItems: 'center'
-    //     },
-    // },
-    // News: {
-    //     screen: News,
-    //     navigationOptions: {
-    //         title: 'Tin tức',
-    //         alignItems: 'center'
-    //     },
-    // },
-    // FAQ: {
-    //     screen: FAQ,
-    //     navigationOptions: {
-    //         title: 'Câu hỏi thường gặp',
-    //         alignItems: 'center'
-    //     },
-    // },
-    // PoliciesAndServices: {
-    //     screen: PoliciesAndServices,
-    //     navigationOptions: {
-    //         title: 'Chính sách vận chuyển',
-    //         alignItems: 'center'
-    //     },
-    // },
+    AboutUs: {
+        screen: AboutUs,
+        navigationOptions: {
+            title: 'Về chúng tôi',
+            alignItems: 'center'
+        },
+    },
+    News: {
+        screen: News,
+        navigationOptions: {
+            title: 'Tin tức',
+            alignItems: 'center'
+        },
+    },
+    FAQ: {
+        screen: FAQ,
+        navigationOptions: {
+            title: 'Câu hỏi thường gặp',
+            alignItems: 'center'
+        },
+    },
+    PoliciesAndServices: {
+        screen: PoliciesAndServices,
+        navigationOptions: {
+            title: 'Chính sách vận chuyển',
+            alignItems: 'center'
+        },
+    },
     ListBooking: {
         screen: ListBooking,
         // navigationOptions: {

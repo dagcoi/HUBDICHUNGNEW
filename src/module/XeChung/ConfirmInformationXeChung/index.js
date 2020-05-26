@@ -38,6 +38,8 @@ class ConfirmInformationXeChung extends Component {
             result: null,
             ticket: null,
             visibalAgain: false,
+            depart_time2: '',
+            id_booking : null,
         }
     }
 
@@ -58,6 +60,10 @@ class ConfirmInformationXeChung extends Component {
                 return null;
             }
         }, 5000);
+        console.log(this.props.depart_time2);
+        var time = new Date(this.props.depart_time2 + '+07:00').getTime();
+        console.log(time);
+        this.setState({ depart_time2: time })
     }
 
     async reBiddingTicket() {
@@ -259,7 +265,7 @@ class ConfirmInformationXeChung extends Component {
                     <Button
                         value='Hoàn thành thuê tài xế'
                         onPress={() => {
-                            this.state.callingApi ? null : this.addTicket()
+                            this.state.callingApi ? null : this.addTicket2()
                             this.setState({
                                 addingTicket: true,
                             })
@@ -299,23 +305,6 @@ class ConfirmInformationXeChung extends Component {
                         visible={this.state.visibalAgain}
                         width={0.8}
                         dialogTitle={<DialogTitle title="Tìm kiếm thất bại" />}
-                    // footer={
-                    //     <DialogFooter>
-                    //         <DialogButton
-                    //             text={'Thử lại'}
-                    //             onPress={() => {
-                    //                 this.reBiddingTicket();
-                    //             }}
-                    //         />
-                    //         <DialogButton
-                    //             text={'Chọn hãng khác'}
-                    //             onPress={() => {
-                    //                 this.setState({ visibalAgain: false })
-                    //                 this.props.navigation.push("MapXeChung")
-                    //             }}
-                    //         />
-                    //     </DialogFooter>
-                    // }
                     >
                         <View>
                             <View style={{ padding: 8 }}>
@@ -358,19 +347,6 @@ class ConfirmInformationXeChung extends Component {
                         width={0.8}
                         visible={this.state.result}
                         dialogTitle={<DialogTitle title="Đặt xe thành công" />}
-                    // footer={
-                    //     <DialogFooter>
-                    //         <DialogButton
-                    //             text={'Xem'}
-                    //             onPress={() => {
-                    //                 this.setState({
-                    //                     result: false,
-                    //                 })
-                    //                 this.TicketInformation()
-                    //             }}
-                    //         />
-                    //     </DialogFooter>
-                    // }
                     >
                         <View>
                             <View style={{ flexDirection: 'column', padding: 8 }}>
@@ -380,7 +356,7 @@ class ConfirmInformationXeChung extends Component {
                                         source={{ uri: this.props.vehicle_icon }}
                                     />
                                 </View>
-                                <Text>Mã vé của bạn là:<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
+                                {/* <Text>Mã vé của bạn là:<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text> */}
                                 <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất.</Text>
 
                                 <ButtonDialog
@@ -399,34 +375,6 @@ class ConfirmInformationXeChung extends Component {
                     <Dialog
                         width={0.8}
                         visible={!this.state.is_night_booking}
-                        // footer={
-                        //     <DialogFooter>
-                        //         <DialogButton
-                        //             text='Xem'
-                        //             onPress={() => {
-                        //                 this.setState({
-                        //                     dialogCalendarVisible: false,
-                        //                     is_night_booking: true
-                        //                 })
-                        //                 this.TicketInformation()
-                        //             }}
-                        //         />
-                        //         <DialogButton
-                        //             text='Trang chủ'
-                        //             onPress={() => {
-                        //                 this.setState({
-                        //                     is_night_booking: true
-                        //                 })
-                        //                 const resetAction = StackActions.reset({
-                        //                     index: 0,
-                        //                     key: null,
-                        //                     actions: [NavigationActions.navigate({ routeName: 'Home' })],
-                        //                 });
-                        //                 this.props.navigation.dispatch(resetAction);
-                        //             }}
-                        //         />
-                        //     </DialogFooter>
-                        // }
                         dialogTitle={<DialogTitle title="Đặt xe thành công" />}
                     >
                         <View>
@@ -437,7 +385,7 @@ class ConfirmInformationXeChung extends Component {
                                         source={{ uri: this.props.vehicle_icon }}
                                     />
                                 </View>
-                                <Text>Mã vé của bạn là:<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
+                                {/* <Text>Mã vé của bạn là:<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text> */}
                                 <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất.</Text>
 
                                 <ButtonDialog
@@ -459,6 +407,111 @@ class ConfirmInformationXeChung extends Component {
                 </ScrollView>
             </View>
         )
+    }
+
+    addTicket2() {
+        const url = link.URL_API_PORTAL + `booking/v1/bookings`
+        console.log(url)
+        const { navigation } = this.props;
+        const jsonStr = JSON.stringify({
+            "provider": {
+                "name": "dichungtaxi"
+            },
+            "startPoints": [
+                {
+                    "address": this.props.pick_add,
+                    "lat": this.props.lattitude_pick,
+                    "long": this.props.lngtitude_pick
+                }
+            ],
+            "endPoints": [
+                {
+                    "address": this.props.drop_add,
+                    "lat": this.props.lattitude_drop,
+                    "long": this.props.lngtitude_drop
+                }
+            ],
+            "bookingUser": {
+                "email": this.props.email,
+                "phone": this.props.use_phone,
+                "fullName": this.props.full_name,
+                "gender": ""
+            },
+            "bookingTime": this.state.depart_time2,
+            "slot": 1,
+            "dimension": "one_way",
+            "rideMethod": "private",
+            "productType": "DRIVER_RENTAL",
+            "vehicle": {
+                "id": this.props.vehice_id,
+                "name": this.props.vehicle_name,
+                "image": this.props.vehicle_icon
+            }
+            ,
+            "note": this.props.comment,
+            "beneficiary": {
+                "email": navigation.getParam('not_use') ? '' : this.props.email,
+                "phone": navigation.getParam('not_use') ? this.props.use_phone2 : this.props.use_phone,
+                "fullName": navigation.getParam('not_use') ? this.props.full_name2 : this.props.full_name,
+                "gender": ""
+            },
+            "bookingType": "",
+            "payment": {
+                "method": "cash"
+            },
+            "promotion": navigation.getParam('blDiscount') ? navigation.getParam('promotion') : "",
+            "invoice": navigation.getParam('xhd') ? {
+                "name": this.props.company_name,
+                "address": this.props.company_address,
+                "taxCode": this.props.company_mst,
+                "addressReceive": this.props.company_address_receive
+            } : '',
+            "extra": {
+                "ref_id": "",
+                "ref_user_id": "",
+                "ref_url": "",
+                "plane_number": '',
+                "plane_type": '',
+                "pm_id": this.props.pm_id,
+                "catch_in_house": navigation.getParam('broad_price') ? '1' : '0',
+                "chunk_id": this.props.chunk_id,
+                "dimension_id": this.props.dimension_id,
+                "vehicle_id": this.props.vehice_id,
+                "ride_method_id": this.props.ride_method_id,
+                "airport_id": this.props.airport_id,
+                "street_id": this.props.street_id,
+                "village_id": this.props.village_id,
+                "ignore_duplicate_warning": this.props.ignore_duplicate_warning,
+                "brand_partner_id": this.props.brand_partner_id,
+                "unmerged_select": this.props.unmerged,
+                "xhd": navigation.getParam('xhd') ? 1 : 0,
+                "city_id": this.props.city_id,
+                "use_range_time": this.props.use_range_time,
+                "referral_code": "",
+            }
+        })
+        console.log('abc :.........' + jsonStr)
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'token': this.props.token
+            },
+            body: jsonStr
+        })
+            .then(res => res.json())
+            .then(resJson => {
+                console.log(JSON.stringify(resJson))
+                console.log('a')
+                this.setState({
+                    callingApi: false,
+                    addingTicket: false,
+                    is_night_booking: resJson.is_night_booking,
+                    visibleSearchDriver: resJson.is_night_booking,
+                    id_booking: resJson.data._id,
+                })
+            })
     }
 
     addTicket() {
@@ -569,6 +622,7 @@ class ConfirmInformationXeChung extends Component {
         this.props.navigation.navigate("TicketInformationXeChung", {
             'ticket_id': this.state.ticket,
             'phone_number': this.props.use_phone,
+            'id_booking' : this.state.id_booking,
         })
     }
 }
@@ -600,6 +654,7 @@ function mapStateToProps(state) {
         pick_add: state.rdTaixe.pick_add,
         merged: state.rdTaixe.merged,
         depart_time: state.rdTaixe.depart_time,
+        depart_time2: state.rdTaixe.depart_time2,
         vehicle_name: state.rdTaixe.vehicle_name,
         vat: state.rdTaixe.vat,
         full_name: state.rdTaixe.full_name,
@@ -647,6 +702,11 @@ function mapStateToProps(state) {
         xhd: state.rdTaixe.xhd,
         vehicle_icon: state.rdTaixe.vehicle_icon,
         discount_price: state.rdTaixe.discount_price,
+        lattitude_pick: state.rdTaixe.lattitude_pick,
+        lngtitude_pick: state.rdTaixe.lngtitude_pick,
+        lattitude_drop: state.rdTaixe.lattitude_drop,
+        lngtitude_drop: state.rdTaixe.lngtitude_drop,
+        token: state.thongtin.token
     }
 }
 

@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
-import { View, Text, Image, TouchableOpacity } from 'react-native';
-import { StackActions } from 'react-navigation';
+import { View, Image, TouchableOpacity } from 'react-native';
 
 function Header({
     onPressLeft,
     onPressCenter,
 }) {
     return (
-        <View style={{ height: 50, flexDirection: 'row' }}>
+        <View style={{ height: 50, flexDirection: 'row', shadowOffset: { height: 1, width: 1 }, backgroundColor: '#fff', shadowColor: '#000', shadowOpacity: 0, elevation: 5, }}>
             <TouchableOpacity
                 onPress={onPressLeft}
             >
@@ -20,12 +19,12 @@ function Header({
             </TouchableOpacity>
             <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1, height: 50 }}>
                 <TouchableOpacity
-                    onPress = {onPressCenter}
+                    onPress={onPressCenter}
                 >
-                <Image
-                    style={{ height: 24, width: 84 }}
-                    source={require('../../image/dichung.png')}
-                />
+                    <Image
+                        style={{ height: 24, width: 84 }}
+                        source={require('../../image/dichung.png')}
+                    />
                 </TouchableOpacity>
             </View>
 

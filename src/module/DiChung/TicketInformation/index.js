@@ -385,7 +385,7 @@ class TicketInformation extends Component {
                             : <Text style={styles.textBigRight}>Yêu cầu đặt xe của bạn đã được hệ thồng ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>
                         }
 
-                        <Text style={styles.textBigRight}>Trạng thái: <Text style={{ fontWeight: 'bold' }}>
+                        <Text style={styles.textBigRight}>Trạng thái: <Text style={{ fontWeight: 'bold', color: item.status == 'cancelled' ? '#ef465f' : '#333333' }}>
                             {item.status == 'wait_to_confirm' ? 'Chờ xác nhận' :
                                 item.status == 'cs_confirmed' ? 'CS xác nhận' :
                                     item.status == 'forwarded' ? 'Chuyển tiếp' :
@@ -426,7 +426,7 @@ class TicketInformation extends Component {
                             }}
                         />
                         <View style={{ marginBottom: 8, }}></View>
-                        {item.transaction_status_id == '4' ? null :
+                        {(item.status == 'cancelled' || item.status == 'completed' || item.status == 'picked_up')? null :
                             <ButtonGray
                                 value='HỦY VÉ'
                                 onPress={() => {

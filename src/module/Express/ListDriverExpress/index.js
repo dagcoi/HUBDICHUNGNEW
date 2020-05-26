@@ -100,7 +100,7 @@ class ListDriverExpress extends Component {
     }
 
     async getListExpressNew() {
-        const url = link.URL_API_PORTAL + 'price/v1/prices?transfer_service=EXPRESS&';
+        const url = link.URL_API_PORTAL + 'price/v1/prices?product_chunk_type=EXPRESS&';
         let parame = `${url}chair=${this.props.chair}&depart_time=${this.props.depart_time}&dimension_id=1&drop_address_component=${JSON.stringify(this.props.component_drop)}&drop_address=${this.props.drop_add}&pick_address_component=${JSON.stringify(this.props.component_pick)}&pick_address=${this.props.pick_add}&provider=dichungtaxi`
         try {
             const response = await fetch(parame, {
@@ -266,6 +266,7 @@ class ListDriverExpress extends Component {
         { this.state.listcarfilter.length == 0 ? obj = obj1 : obj = obj1.filter(ob => (this.state.listcarfilter.includes(ob.vehicle_id))) }
 
         { this.state.sort ? obj.sort((a, b) => b.merged - a.merged) : obj.sort((a, b) => a.merged - b.merged) }
+        console.log(JSON.stringify(obj))
         return (
             <View>
                 {obj.map((item, index) => (
@@ -327,7 +328,7 @@ class ListDriverExpress extends Component {
                                     <Image
                                         style={{ width: 14, height: 14, marginRight: 8 }}
                                         source={require('../../../image/check.png')} />
-                                    <HTML html={item.partner_luggage.replace("</a>", "").replace("</p>", "").replace("<p>", "")} imagesMaxWidth={Dimensions.get('window').width} />
+                                    <HTML html={item.partner_luggage} imagesMaxWidth={Dimensions.get('window').width} /> 
                                 </View>
                             </View>}
 
