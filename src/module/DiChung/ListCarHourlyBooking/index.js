@@ -59,9 +59,11 @@ class ListCarHourlyBooking extends Component {
         };
     };
 
+    componentDidMount(){
+        this.getListCarNew()
+    }
 
-
-    async componentDidMount() {
+    async getListCar() {
         const { navigation } = this.props;
         var listCarType = navigation.getParam('listCarType');
         const formdata = new FormData();
@@ -94,6 +96,34 @@ class ListCarHourlyBooking extends Component {
             });
             console.log(error);
         }
+    }
+
+    async getListCarNew() {
+        const { navigation } = this.props;
+        var listCarType = navigation.getParam('listCarType');
+        console.log(listCarType)
+        const url = link.URL_API_PORTAL + 'price/v1/prices?service_type=HOURLY_RENT_TAXI&';
+        let parame = `${url}vehicle_id=0&depart_time=${this.props.depart_time}&duration=${this.props.duration}&pick_address_component=${JSON.stringify(this.props.component_pick)}&pick_address=${this.props.pick_add}&provider=dichungtaxi`
+        try {
+            const response = await fetch(parame, {
+                method: 'GET',
+            });
+            const responseJson = await response.json();
+            this.setStateAsync({
+                isLoading: false,
+                dataSource: responseJson.data.data,
+            });
+            // console.log(responseJson)
+            console.log(parame)
+            return responseJson.data.data;
+        }
+        catch (error) {
+            this.setStateAsync({
+                isLoading: false
+            });
+            console.log(error);
+        }
+        console.log(parame)
     }
 
     componentWillMount() {

@@ -42,13 +42,14 @@ class ListDriverHourlyBooking extends Component {
                 </Text>
 
                 <View
-                    style={{ width: 35, height: 35 }}
+                    style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
                 >
                     <TouchableOpacity
                         onPress={navigation.getParam('increaseCount')}
+                        style={{ justifyContent: 'center', alignItems: 'center' }}
                     >
                         <Image
-                            style={{ width: 32, height: 32 }}
+                            style={{ width: 24, height: 24 }}
                             source={navigation.getParam('image') ? require(imageMaxToMin) : require(imageMinToMax)}
                         />
                     </TouchableOpacity>
@@ -56,7 +57,12 @@ class ListDriverHourlyBooking extends Component {
             </View>,
         };
     };
-    async componentDidMount() {
+
+    componentDidMount() {
+        this.getListCarNew()
+    }
+
+    async getListCar() {
         const formdata = new FormData();
         formdata.append('depart_time', this.props.depart_time)
         formdata.append('pick_address', JSON.stringify(this.props.pick_add))
@@ -87,7 +93,35 @@ class ListDriverHourlyBooking extends Component {
             });
             console.log(error);
         }
-    } z
+    }
+
+    async getListCarNew() {
+        const { navigation } = this.props;
+        var listCarType = navigation.getParam('listCarType');
+        console.log(listCarType)
+        const url = link.URL_API_PORTAL + 'price/v1/prices?service_type=HOURLY_RENT_DRIVER&';
+        let parame = `${url}vehicle_id=0&depart_time=${this.props.depart_time}&duration=${this.props.duration}&pick_address_component=${JSON.stringify(this.props.component_pick)}&pick_address=${this.props.pick_add}&provider=dichungtaxi`
+        try {
+            const response = await fetch(parame, {
+                method: 'GET',
+            });
+            const responseJson = await response.json();
+            this.setStateAsync({
+                isLoading: false,
+                dataSource: responseJson.data.data,
+            });
+            // console.log(responseJson)
+            console.log(parame)
+            return responseJson.data.data;
+        }
+        catch (error) {
+            this.setStateAsync({
+                isLoading: false
+            });
+            console.log(error);
+        }
+        console.log(parame)
+    }
 
     componentWillMount() {
         this.props.navigation.setParams({ 'increaseCount': this._increaseCount });
@@ -114,16 +148,6 @@ class ListDriverHourlyBooking extends Component {
                         source={require('../../../image/sorry.png')}
                     />
                     <Text style={{ textAlign: 'center' }}>Khu vực bạn chọn hiện không có lái xe.</Text>
-                    {/* <TouchableOpacity
-                        style={{ backgroundColor: '#77a300', margin: 8, padding: 8 }}
-                        onPress={() => {
-                            this.props.navigation.push("SpecialRequirements", {
-                                'screen': 'TaiXe'
-                            })
-                        }}
-                    >
-                        <Text style={{ color: '#fff', fontWeight: 'bold' }}>ĐẶT XE THEO YÊU CẦU</Text>
-                    </TouchableOpacity> */}
                 </View> :
                 <ScrollView
                     showsVerticalScrollIndicator={false}

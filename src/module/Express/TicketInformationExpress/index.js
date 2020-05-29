@@ -214,14 +214,14 @@ class TicketInformationExpress extends Component {
                         }
 
                         <Text style={styles.textBigRight}>Trạng thái: <Text style={{ fontWeight: 'bold' }}>
-                            {item.status == 'wait_to_confirm' ? 'Chờ xác nhận' :
-                                item.status == 'cs_confirmed' ? 'CS xác nhận' :
-                                    item.status == 'forwarded' ? 'Chuyển tiếp' :
-                                        item.status == 'wait_for_driver' ? 'Tìm tài xế' :
-                                            item.status == 'driver_accepted' ? 'Tài xế chấp nhận' :
-                                                item.status == 'picked_up' ? 'Đã đón khách' :
-                                                    item.status == 'completed' ? 'Hoàn thành chuyến đi' :
-                                                        item.status == 'cancelled' ? 'Đã hủy vé' :
+                            {item.forward.status == 'wait_to_confirm' ? 'Chờ xác nhận' :
+                                item.forward.status == 'cs_confirmed' ? 'CS xác nhận' :
+                                    item.forward.status == 'forwarded' ? 'Đặt xe thành công' :
+                                        item.forward.status == 'wait_for_driver' ? 'Tìm tài xế' :
+                                            item.forward.status == 'driver_accepted' ? 'Tài xế chấp nhận' :
+                                                item.forward.status == 'picked_up' ? 'Đã đón khách' :
+                                                    item.forward.status == 'completed' ? 'Hoàn thành chuyến đi' :
+                                                        item.forward.status == 'cancelled' ? 'Đã hủy vé' :
                                                             'Tất cả'
                             }
                         </Text></Text>

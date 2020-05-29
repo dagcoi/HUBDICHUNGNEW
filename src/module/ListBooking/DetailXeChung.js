@@ -25,14 +25,14 @@ function DetailXeChung({ item }) {
             showsVerticalScrollIndicator={false}
         >
             <Text style={styles.textBigRight}>Trạng thái: <Text style={{ fontWeight: 'bold', color: item.status == 'cancelled' ? '#ef465f' : '#333333' }}>
-                {item.status == 'wait_to_confirm' ? 'Chờ xác nhận' :
-                    item.status == 'cs_confirmed' ? 'CS xác nhận' :
-                        item.status == 'forwarded' ? 'Chuyển tiếp' :
-                            item.status == 'wait_for_driver' ? 'Tìm tài xế' :
-                                item.status == 'driver_accepted' ? 'Tài xế chấp nhận' :
-                                    item.status == 'picked_up' ? 'Đã đón khách' :
-                                        item.status == 'completed' ? 'Hoàn thành chuyến đi' :
-                                            item.status == 'cancelled' ? 'Đã hủy vé' :
+                {item.forward.status == 'wait_to_confirm' ? 'Chờ xác nhận' :
+                    item.forward.status == 'cs_confirmed' ? 'CS xác nhận' :
+                        item.forward.status == 'forwarded' ? 'Đặt xe thành công' :
+                            item.forward.status == 'wait_for_driver' ? 'Tìm tài xế' :
+                                item.forward.status == 'driver_accepted' ? 'Tài xế chấp nhận' :
+                                    item.forward.status == 'picked_up' ? 'Đã đón khách' :
+                                        item.forward.status == 'completed' ? 'Hoàn thành chuyến đi' :
+                                            item.forward.status == 'cancelled' ? 'Đã hủy vé' :
                                                 'Tất cả'
                 }
             </Text></Text>
@@ -87,11 +87,9 @@ function renderDetailTrip(item) {
 function renderDetailOrder(item) {
     return (
         <View>
-            <Text style={styles.textBigLeft1}>Chi tiết đơn hàng</Text>
-
             <ImageTextDiChung
                 source={require(imageIconCar)}
-                text={'Loại dịch vụ: ' + item.transport_partner_name}
+                text={'Loại dịch vụ: Thuê tài xế'}
             />
         </View>
     )

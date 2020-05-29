@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert, Image, ActivityIndicator, Modal } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, ActivityIndicator, Modal } from 'react-native';
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import * as link from '../../../URL'
@@ -6,8 +6,7 @@ import { deleteDataTaixe } from '../../../core/Redux/action/Action'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
 import { Button, ButtonDialog } from '../../../component/Button'
-import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
-import PopUp from '../../../component/PopUp'
+import Dialog, { DialogTitle } from 'react-native-popup-dialog';
 
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -24,7 +23,6 @@ const imagePayment = '../../../image/payment.png'
 const imageHourglass = '../../../image/hourglass.png'
 const imageComment = '../../../image/comment.png'
 const imageIconCar = '../../../image/iconcar.png'
-const imageCancel = '../../../image/cancel.png'
 
 class ConfirmInformationRentDriver extends Component {
 
@@ -39,12 +37,18 @@ class ConfirmInformationRentDriver extends Component {
             visibalAgain: false,
             pick_pos: null,
             modalDetailTrip: false,
+            depart_time2: '',
+            id_booking: null,
         }
     }
 
     componentDidMount() {
+        console.log(this.props.depart_time2);
+        var time = new Date(this.props.depart_time2 + '+07:00').getTime();
+        console.log(time);
         this.setState({
             pick_pos: this.props.lattitude_pick + ',' + this.props.lngtitude_pick,
+            depart_time2: time
         })
     }
 
@@ -111,6 +115,106 @@ class ConfirmInformationRentDriver extends Component {
             console.log(error);
         }
     }
+
+
+    async createHourlyBookingNew() {
+        const url = link.URL_API_PORTAL + `booking/v1/bookings`
+        console.log(url)
+        const { navigation } = this.props;
+        const jsonStr = JSON.stringify({
+            "provider": {
+                "name": "dichungtaxi"
+            },
+            "startPoints": [
+                {
+                    "address": this.props.pick_add,
+                    "lat": this.props.lattitude_pick,
+                    "long": this.props.lngtitude_pick
+                }
+            ],
+            "endPoints": [
+                {
+                    "address": '',
+                    "lat": '',
+                    "long": ''
+                }
+            ],
+            "bookingUser": {
+                "email": this.props.email,
+                "phone": this.props.use_phone,
+                "fullName": this.props.full_name,
+                "gender": ""
+            },
+            "bookingTime": this.state.depart_time2,
+            "slot": 1,
+            "dimension": "one_way",
+            "rideMethod": "private",
+            "productType": "HOURLY_RENT_DRIVER",
+            "vehicle": {
+                "id": this.props.vehicle_id,
+                "name": this.props.vehicle_name,
+                "image": this.props.vehicle_icon
+            },
+            "note": this.props.comment,
+            "beneficiary": {
+                "email": navigation.getParam('not_use') ? '' : this.props.email,
+                "phone": navigation.getParam('not_use') ? this.props.use_phone2 : this.props.use_phone,
+                "fullName": navigation.getParam('not_use') ? this.props.full_name2 : this.props.full_name,
+                "gender": ""
+            },
+            "bookingType": "",
+            "payment": {
+                "method": "cash"
+            },
+            "duration": this.props.duration,
+            "promotion": navigation.getParam('blDiscount') ? navigation.getParam('promotion') : "",
+            "invoice": navigation.getParam('xhd') ? {
+                "name": this.props.company_name,
+                "address": this.props.company_address,
+                "taxCode": this.props.company_mst,
+                "addressReceive": this.props.company_address_receive
+            } : '',
+            "extra": {
+                "ref_id": "",
+                "ref_user_id": "",
+                "ref_url": "",
+                "pm_id": this.props.pm_id,
+                "catch_in_house": navigation.getParam('broad_price') ? '1' : '0',
+                "vehicle_id": this.props.vehicle_id,
+                "brand_partner_id": this.props.partner_id,
+                "xhd": navigation.getParam('xhd') ? 1 : 0,
+                "city_id": this.props.city_id,
+                "referral_code": "",
+                "extra_price_hour": this.props.extra_price_hour,
+                "extra_price_km": this.props.extra_price_km
+
+            }
+        })
+        console.log('abc :.........' + jsonStr)
+        console.log('abc :.........' + this.props.token)
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'token': this.props.token
+            },
+            body: jsonStr
+        })
+            .then(res => res.json())
+            .then(resJson => {
+                console.log(JSON.stringify(resJson))
+                console.log('a')
+                this.setState({
+                    // ticket: jsonRes.data.trip_price_inquiry_code,
+                    visibalAgain: false,
+                    addingTicket: false,
+                    bookingSuccess: true,
+                    id_booking: resJson.data._id,
+                })
+            })
+    }
+
 
     renderDetailTrip() {
         return (
@@ -285,7 +389,7 @@ class ConfirmInformationRentDriver extends Component {
                     <Button
                         value='Xác nhận đặt xe'
                         onPress={() => {
-                            this.state.callingApi ? null : this.createHourlyBooking();
+                            this.state.callingApi ? null : this.createHourlyBookingNew();
                             this.setState({
                                 addingTicket: true,
                             })
@@ -307,34 +411,6 @@ class ConfirmInformationRentDriver extends Component {
                 <Dialog
                     visible={this.state.bookingSuccess}
                     width={0.8}
-                    // footer={
-                    //     <DialogFooter>
-                    //         <DialogButton
-                    //             text='Chi tiết'
-                    //             onPress={() => {
-                    //                 this.setState({
-                    //                     modalDetailTrip: true,
-                    //                 })
-                    //             }}
-                    //         />
-
-                    //         <DialogButton
-                    //             text='Trang chủ'
-                    //             onPress={() => {
-                    //                 this.setState({
-                    //                     bookingSuccess: false
-                    //                 })
-                    //                 this.props.deleteDataTaixe();
-                    //                 const resetAction = StackActions.reset({
-                    //                     index: 0,
-                    //                     key: null,
-                    //                     actions: [NavigationActions.navigate({ routeName: 'Home' })],
-                    //                 });
-                    //                 this.props.navigation.dispatch(resetAction);
-                    //             }}
-                    //         />
-                    //     </DialogFooter>
-                    // }
                     dialogTitle={<DialogTitle title="Đặt xe thành công" />}
                 >
                     <View>
@@ -479,6 +555,7 @@ function mapStateToProps(state) {
         pick_add: state.rdTaixe.pick_add,
         merged: state.rdTaixe.merged,
         depart_time: state.rdTaixe.depart_time,
+        depart_time2: state.rdTaixe.depart_time2,
         vehicle_name: state.rdTaixe.vehicle_name,
         vat: state.rdTaixe.vat,
         full_name: state.rdTaixe.full_name,

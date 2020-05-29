@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView, AsyncStorage } from 'react-native';
 import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBox from 'react-native-check-box'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
@@ -54,18 +54,31 @@ class InfoCustommerHourlyRentDriver extends Component {
     }
 
     componentDidMount() {
-        this.setState({
-            full_name: this.props.full_name,
-            full_name1: this.props.full_name1,
-            use_phone: this.props.use_phone,
-            use_phone1: this.props.use_phone1,
-            email: this.props.email,
-            email1: this.props.email1,
-            promotion_code: '',
-        })
-        this._validateEmail(this.props.email)
-        this.mobileValidate(this.props.use_phone)
-        this.mobileValidate1(this.props.use_phone1)
+        console.log('a')
+        this.getdata()
+    }
+
+    async getdata() {
+        try {
+            const dataLogin = await AsyncStorage.getItem('dataLogin')
+            if (dataLogin !== null) {
+                let json = JSON.parse(dataLogin)
+                this.setState({
+                    full_name: json.username,
+                    full_name1: this.props.full_name1,
+                    // use_phone: json.phone ?? '',
+                    use_phone1: this.props.use_phone1,
+                    email: json.email ?? '',
+                    email1: this.props.email1,
+                    promotion_code: '',
+                })
+                this._validateEmail(json.email ?? '')
+                this.mobileValidate(json.phone ?? '')
+                this.mobileValidate1(this.props.use_phone1)
+            }
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     mobileValidate1(text) {
@@ -92,23 +105,6 @@ class InfoCustommerHourlyRentDriver extends Component {
                 visible={this.state.alertName || this.state.alertPhone || this.state.alertEmail || this.state.alertName2 || this.state.alertPhone2 || this.state.alertCompany}
                 width={0.8}
                 dialogTitle={<DialogTitle title='Thông tin chưa đủ' />}
-            // footer={
-            //     <DialogFooter>
-            //         <DialogButton
-            //             text="Đồng ý"
-            //             onPress={() => {
-            //                 this.setState({
-            //                     alertName: false,
-            //                     alertPhone: false,
-            //                     alertEmail: false,
-            //                     alertName2: false,
-            //                     alertPhone2: false,
-            //                     alertCompany: false,
-            //                 })
-            //             }}
-            //         />
-            //     </DialogFooter>
-            // }
             >
                 <View>
                     <View style={{ padding: 8, flexDirection: 'column' }}>

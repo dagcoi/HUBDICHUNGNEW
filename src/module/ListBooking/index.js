@@ -7,6 +7,7 @@ import DetailTaxi from './DetailTaxi'
 import DetailTuLai from './DetailTuLai'
 import DetailExpress from './DetailExpress'
 import DetailXeChung from './DetailXeChung'
+import DetailHourlyTaxi from './DetailHourlyTaxi'
 import * as link from '../../URL'
 import { Button, ButtonGray } from '../../component/Button'
 import OTPInputView from '@twotalltotems/react-native-otp-input'
@@ -39,6 +40,7 @@ class ListBooking extends Component {
             bookingDetail: {},
             isLoadingTicket: true,
             modalTicket: false,
+            modalTicketHourly: false,
             ticket: '',
             otp: '',
             message: '',
@@ -404,7 +406,9 @@ class ListBooking extends Component {
         })
             .then(res => res.json())
             .then(resJson => {
-                // console.log(resJson)
+                console.log(JSON.stringify(resJson.data))
+                console.log('url: ' + url)
+                console.log('token: ' + token)
                 this.setState({
                     listBooking: resJson.data,
                     isLoading: false,
@@ -434,9 +438,6 @@ class ListBooking extends Component {
 
     renderItem(item) {
         let starVote = 0;
-        // let starVote = Math.floor((Math.random() * 6) + 5) / 2;
-        // console.log(starVote)
-        // console.log(item)
         return (
             item.code ?
                 <TouchableOpacity
@@ -454,7 +455,7 @@ class ListBooking extends Component {
                     <View style={styles.titleTicket}>
                         <Text style={{ flex: 1, textAlign: 'left', fontSize: 16, fontWeight: 'bold' }}>{item.code}</Text>
                         <View style={{ height: 32, borderRadius: 16, backgroundColor: item.rideMethod === 'private' ? '#ef465f' : '#77a300', paddingLeft: 10, paddingRight: 10, justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ color: '#fff' }}>{item.rideMethod == 'private' ? 'Đi riêng' : 'Đi chung'}</Text>
+                            <Text style={{ color: '#fff' }}>{item.productType == 'TRANSFER_SERVICE' ? 'Thuê taxi' : item.productType == 'EXPRESS' ? 'Thuê vận chuyển' : item.productType == 'DRIVER_RENTAL' ? 'Thuê tài xế' : 'Khác'}</Text>
                         </View>
                     </View>
 
@@ -480,7 +481,62 @@ class ListBooking extends Component {
                         <StarVote number={starVote} margin={4} />
                     </View>
                 </TouchableOpacity>
+
                 : null
+        )
+    }
+
+    renderItem2(item) {
+        let starVote = 0;
+        return (
+            item.forward.error ? null
+                : //item.forward.result.code ?
+                    <TouchableOpacity
+                        style={styles.card}
+                        onPress={() => {
+                            this.setState({
+                                isLoadingTicket: true,
+                                modalTicketHourly: true,
+                            })
+                            this.getTicketInfoDC(item._id)
+                        }}
+                    >
+                        <View style={styles.titleTicket}>
+                            <Text style={{ flex: 1, textAlign: 'left', fontSize: 16, fontWeight: 'bold' }}>
+                                {/* {item.forward.result.data.trip_price_inquiry_code} */}
+                                {item.code}
+                            </Text>
+                            <View style={{ height: 32, borderRadius: 16, backgroundColor: '#77a300', paddingLeft: 10, paddingRight: 10, justifyContent: 'center', alignItems: 'flex-end' }}>
+                                <Text style={{ color: '#fff' }}>{item.productType == 'HOURLY_RENT_TAXI' ? 'Thuê taxi theo giờ' : item.productType == 'HOURLY_FREIGHT_TRUCK' ? 'Thuê vận chuyển theo giờ' : item.productType == 'HOURLY_RENT_DRIVER' ? 'Thuê tài xế theo giờ' : 'Khác'}</Text>
+                            </View>
+                        </View>
+
+                        <View style={styles.contentTicket}>
+                            <ImageTextDiChung
+                                source={require(imagePick)}
+                                text={item.startPoints[0].address}
+                            />
+
+                            <ImageTextDiChung
+                                source={require(imageTime)}
+                                textBold={this.formatDate(item.bookingTime)}
+                            />
+
+                            <ImageTextDiChung
+                                source={require(imageTime)}
+                                textBold={'Thời gian: '}
+                                text={item.duration + ' giờ'}
+                            />
+                            {/* <ImageTextDiChung
+                source={require(imageMoney)}
+                textBold={`${parseInt(item.totalCost).format(0, 3, '.')}` + ' đ'}
+            /> */}
+                        </View>
+                        <View style={{ padding: 8, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                            <StarVote number={starVote} margin={4} />
+                        </View>
+                    </TouchableOpacity>
+                   // : null
         )
     }
 
@@ -506,7 +562,7 @@ class ListBooking extends Component {
                         renderItem={({ item }) => {
                             return (
                                 <View>
-                                    {this.renderItem(item)}
+                                    {(item.productType == 'TRANSFER_SERVICE' || item.productType == 'EXPRESS' || item.productType == 'DRIVER_RENTAL') ? this.renderItem(item) : this.renderItem2(item)}
                                 </View>
                             )
                         }
@@ -575,6 +631,56 @@ class ListBooking extends Component {
                                     {/* {this.modalcancel2()}
                                     {this.modalCancelDetail()} */}
                                     {this.modalLoading()}
+                                </View>
+                            }
+                        </ScrollView>
+                    </View>
+                </Modal>
+
+                <Modal
+                    visible={this.state.modalTicketHourly}
+                >
+                    <View>
+                        <View style={{ flexDirection: 'row', height: 56, borderBottomWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', paddingHorizontal: 16 }}>
+                            <Text style={{ flex: 1, textAlign: 'center', fontSize: 16, fontWeight: 'bold' }}>Chi tiết dịch vụ</Text>
+                            <TouchableOpacity
+                                onPress={() => { this.setState({ modalTicketHourly: false }) }}
+                            >
+                                <Image
+                                    style={{ width: 30, height: 30 }}
+                                    source={require(imageCancel)}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                        <ScrollView style={{ height: SCREEN_HEIGHT - 80 }}>
+                            {this.state.isLoadingTicket ?
+                                <ActivityIndicator
+                                    style={{ padding: 32, }}
+                                    size='large'
+                                />
+                                :
+                                <View style={{ justifyContent: 'center' }}>
+                                    <View>
+                                        <DetailHourlyTaxi item={this.state.bookingDetail} />
+                                    </View>
+                                    {/* <View style={{ paddingHorizontal: 16 }}>
+                                        {(this.state.bookingDetail.status == 'cancelled' || this.state.bookingDetail.status == 'completed' || this.state.bookingDetail.status == 'picked_up') ? null :
+                                            <View style={{ paddingBottom: 8 }}>
+                                                <ButtonGray
+                                                    value='HỦY VÉ'
+                                                    onPress={() => {
+                                                        this.setState({
+                                                            modalVisible: true,
+                                                        })
+                                                        // this.cancelBookingToken();
+                                                    }}
+                                                />
+                                            </View>
+                                        }
+                                    </View> */}
+                                    {/* {this.modalcancel2()}
+                                    {this.modalCancelDetail()} */}
+                                    {/* {this.modalLoading()} */}
                                 </View>
                             }
                         </ScrollView>
