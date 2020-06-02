@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet, ScrollView, } from 'react-native';
 import ImageTextDiChung from '../../component/ImageTextDiChung'
 
-const imageLocation = '../../image/location.png'
+const imageLocation = '../../image/location2.png'
 const imageCalendar = '../../image/calendar.png'
 const imagePeople = '../../image/people.png'
 const imageIconCar = '../../image/iconcar.png'
@@ -181,7 +181,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#77a300',
         flex: 1,
-        textAlign: "right"
+        textAlign: "right",
+        marginTop : 8,
     },
 })
 

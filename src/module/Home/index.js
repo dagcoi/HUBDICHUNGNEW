@@ -28,7 +28,7 @@ class Home extends Component {
             modalWebView: false,
             titleModal: null,
         }
-
+        this.handleBackPress = this.handleBackPress.bind(this);
     }
 
     onSwipe(gestureName, gestureState) {
@@ -49,15 +49,44 @@ class Home extends Component {
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         this._retrieveData()
         this.callApiPromotion();
         this.callApiAttractivePlaces();
-        this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+        if (Platform.OS === "android") {
+            Linking.getInitialURL().then(url => {
+                console.log('url is', url);
+                this.navigate(url);
+            });
+        }
     }
 
+    navigate = url => {
+        const { navigate } = this.props.navigation;
+        let regex = /^[a-z][a-z0-9_\.]{3,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/gm;
+        const route = url.replace(/.*?:\/\//g, '');
+        console.log('route: ' + route)
+
+        const id = route.match(/\/([^\/]+)\/?$/)[1];
+        console.log('id: ' + id)
+
+        const routeName = route.split("/")[0];
+        if (id === "thue-xe-taxi") {
+            navigate("MapDiChung");
+        } if (id === "thue-lai-xe") {
+            navigate("MapXeChung");
+        } if (id === "thue-van-chuyen") {
+            navigate("MapExpress");
+        } if (id === "thue-xe-tu-lai-theo-km") {
+            navigate("MapChungXe");
+        }
+
+        console.log('routeName' + routeName)
+    };
+
     componentWillUnmount() {
-        this.backHandler.remove()
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
     }
 
     _retrieveData = async () => {
@@ -80,19 +109,22 @@ class Home extends Component {
     };
 
     handleBackPress = () => {
-        Alert.alert(
-            'Thoát',
-            'Bạn muốn thoát khỏi chương trình ứng dụng?',
-            [
-                { text: 'Không', style: 'cancel' },
-                {
-                    text: 'Thoát', onPress: () => {
-                        BackHandler.exitApp()
-                    }
-                }
-            ]
-        );
-        return true;
+        var { modalWebView } = this.state
+        console.log(modalWebView)
+        if (modalWebView) {
+            this.setState({ modalWebView: false })
+            return true;
+        } else {
+            Alert.alert(
+                'Thoát',
+                'Bạn muốn thoát khỏi chương trình ứng dụng?',
+                [
+                    { text: 'Không', style: 'cancel' },
+                    { text: 'Thoát', onPress: () => { BackHandler.exitApp() } }
+                ]
+            );
+            return true;
+        }
     }
 
     async callApiPromotion() {
@@ -145,6 +177,7 @@ class Home extends Component {
         return (
             <Modal
                 visible={this.state.modalWebView}
+                onRequestClose={this.handleBackPress}
             >
                 <View style={{ flex: 1 }}>
                     <View style={{ flexDirection: 'row', height: 60, borderBottomWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', paddingHorizontal: 16 }}>
@@ -163,7 +196,7 @@ class Home extends Component {
                         source={{ uri: url }}
                         style={{ marginTop: -60, height: SCREEN_HEIGHT }}
                         onMessage={this.onMessage}
-                        // renderLoading={() => { return (<ActivityIndicator style = {{position: 'absolute',left: 0,right: 0, top: 0,bottom: 0,alignItems: 'center',justifyContent: 'center'}} />)}}
+                    // renderLoading={() => { return (<ActivityIndicator style = {{position: 'absolute',left: 0,right: 0, top: 0,bottom: 0,alignItems: 'center',justifyContent: 'center'}} />)}}
                     // ref={(webView) => { this.webView.ref = webView; }}
                     // onNavigationStateChange={(navState) => { this.webView.canGoBack = navState.canGoBack; }}
                     // onLoadEnd = {true}
@@ -173,6 +206,10 @@ class Home extends Component {
                 </View>
             </Modal>
         )
+    }
+
+    gotoHomeScreen = () =>{
+        this.props.navigation.navigate('Home')
     }
 
 
@@ -199,8 +236,10 @@ class Home extends Component {
                     flex: 1,
                     backgroundColor: '#ffffff'
                 }}>
-                <Header onPressLeft={() => { this.props.navigation.openDrawer() }} />
-
+                <Header
+                    onPressLeft={() => { this.props.navigation.openDrawer() }}
+                    onPressCenter={this.gotoHomeScreen}
+                />
                 <View style={styles.all}>
                     <ScrollView
                         showsHorizontalScrollIndicator={false}

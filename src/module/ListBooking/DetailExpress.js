@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, ScrollView, } from 'react-native';
 import ImageTextDiChung from '../../component/ImageTextDiChung'
+import { StatusTicket } from '../../component/Ticket'
 
-const imageLocation = '../../image/location.png'
+const imageLocation = '../../image/location2.png'
 const imageCalendar = '../../image/calendar.png'
 const imagePeople = '../../image/people.png'
 const imageIconCar = '../../image/iconcar.png'
@@ -26,7 +27,7 @@ function DetailExpress({ item }) {
             style={{ paddingHorizontal: 16 }}
             showsVerticalScrollIndicator={false}
         >
-            <Text style={styles.textBigRight}>Trạng thái: <Text style={{ fontWeight: 'bold', color : item.status == 'cancelled' ? '#ef465f' : '#333333' }}>
+            {/* <Text style={styles.textBigRight}>Trạng thái: <Text style={{ fontWeight: 'bold', color: item.status == 'cancelled' ? '#ef465f' : '#333333' }}>
                 {item.forward.status == 'wait_to_confirm' ? 'Chờ xác nhận' :
                     item.forward.status == 'cs_confirmed' ? 'CS xác nhận' :
                         item.forward.status == 'forwarded' ? 'Đặt xe thành công' :
@@ -37,7 +38,9 @@ function DetailExpress({ item }) {
                                             item.forward.status == 'cancelled' ? 'Đã hủy vé' :
                                                 'Tất cả'
                 }
-            </Text></Text>
+            </Text></Text> */}
+
+            <StatusTicket item={item}/>
 
             <Text>Mọi thắc mắc vui lòng liên hệ:
                 <Text
@@ -76,7 +79,7 @@ function renderDetailTrip(item) {
 
             <ImageTextDiChung
                 source={require(imageIconCar)}
-                text={'Loại dịch vụ: Vận chuyển hàng' }
+                text={'Loại dịch vụ: Vận chuyển hàng'}
             />
         </View>
     )
@@ -149,7 +152,7 @@ function renderOther(item) {
             <ImageTextDiChung
                 source={require(imagePayment)}
                 text={'Người gửi thanh toán'}
-                // text={item.payment.method == 'cash' ? 'Trả sau' : 'Trả trước'}
+            // text={item.payment.method == 'cash' ? 'Trả sau' : 'Trả trước'}
             />
             {item.extra.xhd == 1 ?
                 <ImageTextDiChung
@@ -195,7 +198,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#77a300',
         flex: 1,
-        textAlign: "right"
+        textAlign: "right",
+        marginTop : 8,
     },
     textBigLeft1: {
         fontSize: 16,

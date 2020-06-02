@@ -516,6 +516,10 @@ class Profile extends Component {
         await AsyncStorage.removeItem('token')
     }
 
+    gotoHomeScreen = () =>{
+        this.props.navigation.navigate('Home')
+    }
+
     render() {
         if (this.state.isLoading) {
             return (
@@ -527,7 +531,10 @@ class Profile extends Component {
         }
         return (
             <View style={{ flex: 1, flexDirection: 'column' }}>
-                <Header onPressLeft={() => this.props.navigation.openDrawer()} />
+                <Header
+                    onPressLeft={() => { this.props.navigation.openDrawer() }}
+                    onPressCenter={this.gotoHomeScreen}
+                />
 
                 <View style={styles.container}>
                     {this.accountInfo()}

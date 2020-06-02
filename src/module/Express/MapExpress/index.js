@@ -382,7 +382,7 @@ class MapExpress extends Component {
                         }}
                     >
                         <Image
-                            style={{ height: 24, width: 24, margin: 8 }}
+                            style={{ height: 24, width: 24, marginLeft: 8, }}
                             source={require(imageTime)}
                         />
 
@@ -458,8 +458,9 @@ class MapExpress extends Component {
                 </View>
 
                 <View style={{ height: 40, flexDirection: 'row', }}>
-                    <View style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', }}>
+                    <View style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center',paddingLeft : 4 }}>
                         <ImageInputTextDiChung
+                            widthHeightImage={24}
                             onPress={() => {
                                 this.setState({
                                     dialogCalendarVisible: true,

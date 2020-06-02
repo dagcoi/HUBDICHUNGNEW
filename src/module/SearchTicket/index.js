@@ -78,10 +78,17 @@ class SearchTicket extends Component {
         }
     }
 
+    gotoHomeScreen = () =>{
+        this.props.navigation.navigate('Home')
+    }
+
     render() {
         return (
             <View style={{ flex: 1 }}>
-                <Header onPressLeft={() => { this.props.navigation.openDrawer() }} />
+                <Header
+                    onPressLeft={() => { this.props.navigation.openDrawer() }}
+                    onPressCenter={this.gotoHomeScreen}
+                />
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 8, paddingHorizontal: SCREEN_WIDTH / 20 }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                         <Text style={{ fontSize: 25 }}>Tra cứu mã vé</Text>

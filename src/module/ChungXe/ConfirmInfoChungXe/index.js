@@ -287,7 +287,7 @@ class ConfirmInfoChungXe extends Component {
         return (
             <View style={styles.viewChild}>
                 <Text style={styles.textBold}>Tổng thanh toán</Text>
-                <Text style={{ flex: 1, textAlign: 'right', fontWeight: 'bold', fontSize: 16, color: '#77a300', }}>{((navigation.getParam('xhd') ? 11 / 10 : 1) * navigation.getParam('moneyPaymet')).format(0, 3, ',')} đ</Text>
+                <Text style={{ flex: 1, textAlign: 'right', fontWeight: 'bold', fontSize: 16, color: '#77a300', marginTop : 8, }}>{((navigation.getParam('xhd') ? 11 / 10 : 1) * navigation.getParam('moneyPaymet')).format(0, 3, ',')} đ</Text>
             </View>
         )
     }

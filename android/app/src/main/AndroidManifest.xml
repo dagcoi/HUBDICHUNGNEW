@@ -56,7 +56,7 @@
           <data
             android:scheme="https"
             android:host="dichung.vn"
-            android:pathPattern="/"
+            android:pathPrefix="/"
           />
         </intent-filter>
       </activity>

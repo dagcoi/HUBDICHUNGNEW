@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { View, Image, StyleSheet, Text, ScrollView, Linking } from 'react-native'
 import ImageTextDiChung from '../../component/ImageTextDiChung'
+import { StatusTicket } from '../../component/Ticket'
 
 
-const imageLocation = '../../image/location.png'
+const imageLocation = '../../image/location2.png'
 const imageCalendar = '../../image/calendar.png'
 const imagePeople = '../../image/people.png'
 const imageIconCar = '../../image/iconcar.png'
@@ -16,8 +17,8 @@ const imageComment = '../../image/comment.png'
 
 function DetailTaxi({ item }) {
     return (
-        <ScrollView style={{ paddingHorizontal: 16 }} showsHorizontalScrollIndicator ={false}>
-            <Text style={styles.textBigRight}>Trạng thái: <Text style={{ fontWeight: 'bold', color : item.status == 'cancelled' ? '#ef465f' : '#333333' }}>
+        <ScrollView style={{ paddingHorizontal: 16 }} showsHorizontalScrollIndicator={false}>
+            {/* <Text style={styles.textBigRight}>Trạng thái: <Text style={{ fontWeight: 'bold', color : item.status == 'cancelled' ? '#ef465f' : '#333333' }}>
                 {item.forward.status == 'wait_to_confirm' ? 'Chờ xác nhận' :
                     item.forward.status == 'cs_confirmed' ? 'CS xác nhận' :
                         item.forward.status == 'forwarded' ? 'Đặt xe thành công' :
@@ -28,7 +29,9 @@ function DetailTaxi({ item }) {
                                             item.forward.status == 'cancelled' ? 'Đã hủy vé' :
                                                 'Tất cả'
                 }
-            </Text></Text>
+            </Text></Text> */}
+
+            <StatusTicket item={item} />
 
             <Text>Mọi thắc mắc vui lòng liên hệ:
                 <Text
@@ -252,7 +255,8 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#77a300',
         flex: 1,
-        textAlign: "right"
+        textAlign: "right",
+        marginTop : 8,
     },
 })
 

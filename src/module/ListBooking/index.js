@@ -13,9 +13,10 @@ import { Button, ButtonGray } from '../../component/Button'
 import OTPInputView from '@twotalltotems/react-native-otp-input'
 import OtpInputs from 'react-native-otp-inputs';
 import { connect } from 'react-redux'
+import { NavigationEvents } from 'react-navigation';
 
-const imagePick = '../../image/location.png'
-const imageDrop = '../../image/drop.png'
+const imagePick = '../../image/location2.png'
+const imageDrop = '../../image/location2.png'
 const imageTime = '../../image/time.png'
 const imageMoney = '../../image/money.png'
 const imageCancel = '../../image/cancel.png'
@@ -60,12 +61,12 @@ class ListBooking extends Component {
     componentDidMount() {
         this._retrieveData()
 
-        if (this.props.navigation.state.routeName === 'ListBooking') {
-            // console.log(this.props.navigation.state.routeName)
-            this._interval = setInterval(() => {
-                this._retrieveData()
-            }, 10000);
-        }
+        // if (this.props.navigation.state.routeName === 'ListBooking') {
+        //     // console.log(this.props.navigation.state.routeName)
+        //     this._interval = setInterval(() => {
+        //         this._retrieveData
+        //     }, 10000);
+        // }
     }
 
     _retrieveData = async () => {
@@ -78,6 +79,7 @@ class ListBooking extends Component {
                 console.log(json._id)
                 this.setState({
                     token: json.token,
+                    isLoading: true,
                 })
                 this.getListBooking(json.token)
             } else {
@@ -355,6 +357,7 @@ class ListBooking extends Component {
             <Modal
                 visible={this.state.modalVisible}
                 animationType="slide"
+                onRequestClose={() => this.setState({ modalVisible: false })}
                 onOrientationChange={true}
                 transparent={true}>
                 {/* <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -395,7 +398,7 @@ class ListBooking extends Component {
         )
     }
 
-    getListBooking(token) {
+    getListBooking = (token) => {
         let url = link.URL_API_PORTAL + `booking/v1/user/bookings`
         // console.log(url)
         fetch(url, {
@@ -406,14 +409,14 @@ class ListBooking extends Component {
         })
             .then(res => res.json())
             .then(resJson => {
-                console.log(JSON.stringify(resJson.data))
-                console.log('url: ' + url)
-                console.log('token: ' + token)
+                // console.log(JSON.stringify(resJson.data))
+                // console.log('url: ' + url)
+                // console.log('token: ' + token)
                 this.setState({
                     listBooking: resJson.data,
                     isLoading: false,
                 })
-            });
+            }).finally(() => this.setState({ isLoading: false }));
     }
 
     selectTime() {
@@ -491,52 +494,52 @@ class ListBooking extends Component {
         return (
             item.forward.error ? null
                 : //item.forward.result.code ?
-                    <TouchableOpacity
-                        style={styles.card}
-                        onPress={() => {
-                            this.setState({
-                                isLoadingTicket: true,
-                                modalTicketHourly: true,
-                            })
-                            this.getTicketInfoDC(item._id)
-                        }}
-                    >
-                        <View style={styles.titleTicket}>
-                            <Text style={{ flex: 1, textAlign: 'left', fontSize: 16, fontWeight: 'bold' }}>
-                                {/* {item.forward.result.data.trip_price_inquiry_code} */}
-                                {item.code}
-                            </Text>
-                            <View style={{ height: 32, borderRadius: 16, backgroundColor: '#77a300', paddingLeft: 10, paddingRight: 10, justifyContent: 'center', alignItems: 'flex-end' }}>
-                                <Text style={{ color: '#fff' }}>{item.productType == 'HOURLY_RENT_TAXI' ? 'Thuê taxi theo giờ' : item.productType == 'HOURLY_FREIGHT_TRUCK' ? 'Thuê vận chuyển theo giờ' : item.productType == 'HOURLY_RENT_DRIVER' ? 'Thuê tài xế theo giờ' : 'Khác'}</Text>
-                            </View>
+                <TouchableOpacity
+                    style={styles.card}
+                    onPress={() => {
+                        this.setState({
+                            isLoadingTicket: true,
+                            modalTicketHourly: true,
+                        })
+                        this.getTicketInfoDC(item._id)
+                    }}
+                >
+                    <View style={styles.titleTicket}>
+                        <Text style={{ flex: 1, textAlign: 'left', fontSize: 16, fontWeight: 'bold' }}>
+                            {/* {item.forward.result.data.trip_price_inquiry_code} */}
+                            {item.code}
+                        </Text>
+                        <View style={{ height: 32, borderRadius: 16, backgroundColor: '#77a300', paddingLeft: 10, paddingRight: 10, justifyContent: 'center', alignItems: 'flex-end' }}>
+                            <Text style={{ color: '#fff' }}>{item.productType == 'HOURLY_RENT_TAXI' ? 'Thuê taxi theo giờ' : item.productType == 'HOURLY_FREIGHT_TRUCK' ? 'Thuê vận chuyển theo giờ' : item.productType == 'HOURLY_RENT_DRIVER' ? 'Thuê tài xế theo giờ' : 'Khác'}</Text>
                         </View>
+                    </View>
 
-                        <View style={styles.contentTicket}>
-                            <ImageTextDiChung
-                                source={require(imagePick)}
-                                text={item.startPoints[0].address}
-                            />
+                    <View style={styles.contentTicket}>
+                        <ImageTextDiChung
+                            source={require(imagePick)}
+                            text={item.startPoints[0].address}
+                        />
 
-                            <ImageTextDiChung
-                                source={require(imageTime)}
-                                textBold={this.formatDate(item.bookingTime)}
-                            />
+                        <ImageTextDiChung
+                            source={require(imageTime)}
+                            textBold={this.formatDate(item.bookingTime)}
+                        />
 
-                            <ImageTextDiChung
-                                source={require(imageTime)}
-                                textBold={'Thời gian: '}
-                                text={item.duration + ' giờ'}
-                            />
-                            {/* <ImageTextDiChung
+                        <ImageTextDiChung
+                            source={require(imageTime)}
+                            textBold={'Thời gian: '}
+                            text={item.duration + ' giờ'}
+                        />
+                        {/* <ImageTextDiChung
                 source={require(imageMoney)}
                 textBold={`${parseInt(item.totalCost).format(0, 3, '.')}` + ' đ'}
             /> */}
-                        </View>
-                        <View style={{ padding: 8, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                            <StarVote number={starVote} margin={4} />
-                        </View>
-                    </TouchableOpacity>
-                   // : null
+                    </View>
+                    <View style={{ padding: 8, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                        <StarVote number={starVote} margin={4} />
+                    </View>
+                </TouchableOpacity>
+            // : null
         )
     }
 
@@ -569,17 +572,24 @@ class ListBooking extends Component {
                         }
                         keyExtractor={item => item.code}
                         refreshing={this.state.refreshing}
-                        onRefresh={this.handleRefesh}
+                        onRefresh={this._retrieveData}
                     />}
             </View>
         )
     }
 
+    gotoHomeScreen = () => {
+        this.props.navigation.navigate('Home')
+    }
 
     render() {
         return (
             <View style={{ flex: 1 }}>
-                <Header onPressLeft={() => this.props.navigation.openDrawer()} />
+                <Header
+                    onPressLeft={() => { this.props.navigation.openDrawer() }}
+                    onPressCenter={this.gotoHomeScreen}
+                />
+                <NavigationEvents onDidFocus={this._retrieveData}/>
                 {/* {this.selectTime()} */}
                 <View style={{ flex: 1 }}>
                     {this.renderListBooking()}

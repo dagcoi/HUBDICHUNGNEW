@@ -5,7 +5,7 @@ import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
 import { Button } from '../../../component/Button'
 
-const imageLocation = '../../../image/location.png'
+const imageLocation = '../../../image/location2.png'
 const imageCalendar = '../../../image/calendar.png'
 const imageIconCar = '../../../image/iconcar.png'
 const imagePerson = '../../../image/person.png'
@@ -226,7 +226,7 @@ class TicketInformationXeChung extends Component {
                 <View style={styles.container}>
                     <ScrollView showsVerticalScrollIndicator={false}>
                         {item.forward.status == 'forwarded' ?
-                            <Text style={styles.textBigRight}>Mã vé của bạn: <Text style={{ fontWeight: 'bold', backgroundColor: '#77a300', color: '#fff', padding: 4 }}>{item.forward.result.ticket_code}</Text></Text>
+                            <Text style={styles.textBigRight}>Mã vé của bạn: <Text style={{ fontWeight: 'bold', backgroundColor: '#77a300', color: '#fff', padding: 4 }}>{item.code}</Text></Text>
                             : <Text style={styles.textBigRight}>Yêu cầu của bạn đã được hệ thồng ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>
                         }
 
@@ -301,7 +301,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#77a300',
         flex: 1,
-        textAlign: "right"
+        textAlign: "right",
+        marginTop : 8,
     },
 })
 

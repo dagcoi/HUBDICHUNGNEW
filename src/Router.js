@@ -98,7 +98,7 @@ const RootStack = createStackNavigator({
         navigationOptions: {
             title: 'Thuê xe taxi',
         },
-        path: 'https://dichung.vn/thue-xe-taxi'
+        path: '/thue-xe-taxi'
     },
 
     ConfirmInformation: {

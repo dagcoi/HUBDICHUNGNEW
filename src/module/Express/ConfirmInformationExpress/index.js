@@ -15,7 +15,7 @@ Number.prototype.format = function (n, x) {
     return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
 };
 
-const imageLocation = '../../../image/location.png'
+const imageLocation = '../../../image/location2.png'
 const imageCalendar = '../../../image/calendar.png'
 const imagePerson = '../../../image/person.png'
 const imageIconPhone = '../../../image/iconphone.png'
@@ -260,13 +260,18 @@ class ConfirmInformationExpress extends Component {
 
                     <Text style={styles.textBigLeft1}>Thanh toán và khác</Text>
 
-                    <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center' }}>
+                    {/* <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center' }}>
                         <Image
                             style={styles.leftIcon}
                             source={require(imagePayment)}
                         />
                         <Text style={styles.textBigRight}>{navigation.getParam('Payment') == '0' ? 'Người gửi trả tiền mặt' : 'Trả trước'}</Text>
-                    </View>
+                    </View> */}
+
+                    <ImageTextDiChung
+                        source={require(imagePayment)}
+                        text={navigation.getParam('Payment') == '0' ? 'Người gửi trả tiền mặt' : 'Trả trước'}
+                    />
 
                     {this.renderVAT()}
 
@@ -698,7 +703,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#77a300',
         flex: 1,
-        textAlign: "right"
+        textAlign: "right",
+        marginTop : 8,
     },
 
     textBigRight: {

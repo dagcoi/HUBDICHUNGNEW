@@ -10,6 +10,7 @@ import listHour from '../../../component/TimeSelect/listTime'
 import AwesomeAlert from 'react-native-awesome-alerts'
 import Dialog, { DialogFooter, DialogContent, DialogTitle, DialogButton } from 'react-native-popup-dialog';
 import PopUp from '../../../component/PopUp'
+import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../../component/AndroidBackButton'
 
 import MapViewDirections from 'react-native-maps-directions';
 import { TextInput } from 'react-native-gesture-handler';
@@ -112,7 +113,16 @@ class MapDiChung extends Component {
             isShowLocation: true,
             forceRefresh: Math.floor(Math.random() * 100)
         })
+        // handleAndroidBackButton(this.goBack)
     }
+
+    // goBack = () => {
+    //     this.props.navigation.pop()
+    // }
+
+    // componentWillUnmount() {
+    //     removeAndroidBackButtonHandler();
+    // }
 
     componentWillMount() {
         this.setState({
@@ -358,35 +368,46 @@ class MapDiChung extends Component {
 
     renderPickAddress() {
         return (
-            <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 0, justifyContent: 'center', alignItems: 'center' }}>
-                <Image
-                    style={{ height: 30, width: 24, marginLeft: 8 }}
-                    source={require(imageLocation)}
-                />
-                <TouchableOpacity
-                    style={{ flex: 1, height: 40, flexDirection: 'row', alignItems: 'center', }}
-                    onPress={() => {
-                        this.props.navigation.push("SearchPlace", {
-                            search: 'Pick',
-                            placeholder: 'Nhập điểm xuất phát',
-                        });
-                    }}
-                >
-                    <TextInput
-                        editable={false}
-                        onTouchStart={() => this.props.navigation.push("SearchPlace", {
-                            search: 'Pick',
-                            placeholder: 'Nhập điểm xuất phát'
-                        })
-                        }
-                        style={{ fontSize: 14, height: 40, color: "#00363d" }}
-                        pointerEvents="none"
-                        value={this.props.pick_add}
-                        placeholder='Nhập điểm xuất phát'
-                        selection={{ start: 0, end: 0 }}
-                    />
-                </TouchableOpacity>
-            </View>
+            <ImageInputTextDiChung
+                onPress={() => {
+                    this.props.navigation.push("SearchPlace", {
+                        search: 'Pick',
+                        placeholder: 'Nhập điểm xuất phát',
+                    });
+                }}
+                source={require(imageLocation)}
+                placeholder={'Nhập điểm xuất phát'}
+                value={this.props.pick_add}
+            />
+            // <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 0, justifyContent: 'center', alignItems: 'center' }}>
+            //     <Image
+            //         style={{ height: 30, width: 24, marginLeft: 8 }}
+            //         source={require(imageLocation)}
+            //     />
+            //     <TouchableOpacity
+            //         style={{ flex: 1, height: 40, flexDirection: 'row', alignItems: 'center', }}
+            //         onPress={() => {
+            //             this.props.navigation.push("SearchPlace", {
+            //                 search: 'Pick',
+            //                 placeholder: 'Nhập điểm xuất phát',
+            //             });
+            //         }}
+            //     >
+            //         <TextInput
+            //             editable={false}
+            //             onTouchStart={() => this.props.navigation.push("SearchPlace", {
+            //                 search: 'Pick',
+            //                 placeholder: 'Nhập điểm xuất phát'
+            //             })
+            //             }
+            //             style={{ fontSize: 14, height: 40, color: "#00363d" }}
+            //             pointerEvents="none"
+            //             value={this.props.pick_add}
+            //             placeholder='Nhập điểm xuất phát'
+            //             selection={{ start: 0, end: 0 }}
+            //         />
+            //     </TouchableOpacity>
+            // </View>
         )
     }
 
@@ -424,29 +445,43 @@ class MapDiChung extends Component {
 
     renderTimePick() {
         return (
-            <TouchableOpacity
-                style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
-                onPress={() => {
-                    this.setState({
-                        dialogCalendarVisible: true,
-                    })
-                }}
+            // <TouchableOpacity
+            //     style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
+            //     onPress={() => {
+            //         this.setState({
+            //             dialogCalendarVisible: true,
+            //         })
+            //     }}
+            // >
+            //     <Image
+            //         style={{ height: 24, width: 24, marginLeft: 8 }}
+            //         source={require(imageTime)}
+            //     />
+
+            //     <TextInput
+            //         editable={false}
+            //         value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours}: ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
+            //         placeholder='Chọn giờ đi'
+            //         onTouchStart={() => { this.setState({ dialogCalendarVisible: true }) }}
+            //         pointerEvents='none'
+            //         style={{ fontSize: 14, height: 40, color: "#00363d", flex: 1 }}
+            //     />
+
+            // </TouchableOpacity>
+            <View style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
             >
-                <Image
-                    style={{ height: 24, width: 24, marginLeft: 8 }}
+                <ImageInputTextDiChung
+                    widthHeightImage = {24}
+                    onPress={() => {
+                        this.setState({
+                            dialogCalendarVisible: true,
+                        })
+                    }}
                     source={require(imageTime)}
-                />
-
-                <TextInput
-                    editable={false}
+                    placeholder={'Chọn giờ đi'}
                     value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours}: ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
-                    placeholder='Chọn giờ đi'
-                    onTouchStart={() => { this.setState({ dialogCalendarVisible: true }) }}
-                    pointerEvents='none'
-                    style={{ fontSize: 14, height: 40, color: "#00363d", flex: 1 }}
                 />
-
-            </TouchableOpacity>
+            </View>
         )
     }
 
@@ -458,11 +493,11 @@ class MapDiChung extends Component {
                 <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ flex: 1, flexDirection: 'row', borderColor: '#e8e8e8', borderRightWidth: 0.0, justifyContent: 'center', alignItems: 'center', }}>
                         <Image
-                            style={{ height: 30, width: 24, marginLeft: 8, alignItems: 'center', justifyContent: 'center' }}
-                            source={require(imageDrop)}
+                            style={{ height: 28, width: 28, marginLeft: 4, alignItems: 'center', justifyContent: 'center' }}
+                            source={require(imageLocation)}
                         />
                         <TouchableOpacity
-                            style={{ flex: 1, height: 40 }}
+                            style={{ flex: 1, height: 40, marginLeft : -4}}
                             onPress={() => {
                                 this.props.navigation.push("SearchPlace", {
                                     search: 'Drop',
@@ -538,7 +573,7 @@ class MapDiChung extends Component {
                 <View style={{ height: 40, flexDirection: 'row', }}>
                     {this.renderTimePick()}
                 </View>
-                <View style={{ height: 40, flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#e8e8e8' }}>
+                <View style={{ height: 40, flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#e8e8e8', }}>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
                         {this.renderHourglass()}
                     </View>

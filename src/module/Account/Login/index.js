@@ -136,6 +136,9 @@ class Login extends Component {
         this.props.navigation.navigate('Profile', { 'userName': userName, 'passWord': passWord, 'dataLogin': dataLogin })
     }
 
+    gotoHomeScreen = () =>{
+        this.props.navigation.navigate('Home')
+    }
 
     addPassWord = async (passWord) => {
         await AsyncStorage.setItem('password', passWord)
@@ -532,7 +535,10 @@ class Login extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Header onPressLeft={() => { this.props.navigation.openDrawer() }} />
+                <Header
+                    onPressLeft={() => { this.props.navigation.openDrawer() }}
+                    onPressCenter={this.gotoHomeScreen}
+                />
                 {this.FormLogin()}
             </View>
         )

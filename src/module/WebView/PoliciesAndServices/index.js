@@ -6,8 +6,8 @@ import WebView from 'react-native-webview';
 import * as link from '../../../URL'
 
 class PoliciesAndServices extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             data: null,
             isLoading: true,
@@ -38,18 +38,25 @@ class PoliciesAndServices extends Component {
         }
     }
 
+    gotoHomeScreen = () =>{
+        this.props.navigation.navigate('Home')
+    }
+
     render() {
         var url = link.URL_REALASE + `van-chuyen`
         return (
             <View style={{ flex: 1 }}>
-                <Header onPressLeft={() => this.props.navigation.openDrawer()} />
+                <Header
+                    onPressLeft={() => { this.props.navigation.openDrawer() }}
+                    onPressCenter={this.gotoHomeScreen}
+                />
                 <WebView
                     source={{ uri: url }}
                     style={{ marginTop: -60 }}
                     ref={(webView) => { this.webView.ref = webView; }}
                     onNavigationStateChange={(navState) => { this.webView.canGoBack = navState.canGoBack; }}
                     // onLoadEnd = {true}
-                    dataDetectorTypes = {'phoneNumber'}
+                    dataDetectorTypes={'phoneNumber'}
                 />
             </View>
         )

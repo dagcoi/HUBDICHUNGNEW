@@ -15,7 +15,7 @@ Number.prototype.format = function (n, x) {
     return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
 };
 
-const imageLocation = '../../../image/location.png'
+const imageLocation = '../../../image/location2.png'
 const imageCalendar = '../../../image/calendar.png'
 const imagePeople = '../../../image/people.png'
 const imageIconCar = '../../../image/iconcar.png'
@@ -231,7 +231,7 @@ class ConfirmInformation extends Component {
         const { navigation } = this.props;
         return (
             <View>
-                <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                     <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
                     <Text style={styles.textBigRight1}>{((this.props.merged + (navigation.getParam('broad_price') ? 30000 : 0) - (navigation.getParam('blDiscount') ? this.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1) + (this.props.toll_fee == 'NA' ? 0 : + parseInt(this.props.toll_fee))).format(0, 3, '.')} đ</Text>
                 </View>
@@ -881,7 +881,8 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#77a300',
         flex: 1,
-        textAlign: "right"
+        textAlign: "right",
+        marginTop : 8,
     },
 
     textBigRight: {

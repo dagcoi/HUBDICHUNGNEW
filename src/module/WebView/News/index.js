@@ -6,8 +6,8 @@ import Header from '../../../component/Header'
 import * as link from '../../../URL'
 
 class News extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             data: null,
             isLoading: true,
@@ -21,11 +21,18 @@ class News extends Component {
         }
     }
 
+    gotoHomeScreen = () =>{
+        this.props.navigation.navigate('Home')
+    }
+
     render() {
         var url = link.URL_REALASE + `blog`;
         return (
             <View style={{ flex: 1 }}>
-                <Header onPressLeft={() => this.props.navigation.openDrawer()} />
+                <Header
+                    onPressLeft={() => { this.props.navigation.openDrawer() }}
+                    onPressCenter={this.gotoHomeScreen}
+                />
                 <WebView
                     source={{ uri: url }}
                     onMessage={this.onMessage}

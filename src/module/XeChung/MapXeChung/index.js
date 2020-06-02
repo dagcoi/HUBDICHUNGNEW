@@ -19,7 +19,7 @@ const origin = { latitude: 21.2187149, longitude: 105.80417090000003 };
 const GOOGLE_MAPS_APIKEY = key.KEY_GOOGLE;
 
 const imageLocation = '../../../image/location.png'
-const imageDrop = '../../../image/drop.png'
+const imageDrop = '../../../image/location.png'
 const imageSwap = '../../../image/swap.png'
 const imageTime = '../../../image/time.png'
 const imageHourglass = '../../../image/hourglass.png'
@@ -346,6 +346,7 @@ class MapXeChung extends Component {
                 />
 
                 <ImageInputTextDiChung
+                    widthHeightImage={24}
                     onPress={() => {
                         this.setState({
                             dialogCalendarVisible: true,
@@ -403,53 +404,20 @@ class MapXeChung extends Component {
                     value={this.props.pick_add}
                 />
 
-                <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 1, justifyContent: 'center', alignItems: 'center', }}>
-                    <View style={{ flex: 1, flexDirection: 'row', borderColor: '#e8e8e8', borderRightWidth: 0.1, justifyContent: 'center', alignItems: 'center', }}>
-                        <Image
-                            style={{ height: 30, width: 24, marginLeft: 8, alignItems: 'center', justifyContent: 'center' }}
-                            source={require(imageDrop)}
-                        />
-                        <TouchableOpacity
-                            style={{ flex: 1, height: 40 }}
-                            onPress={() => {
-                                this.props.navigation.push("SearchPlaceXeChung", {
-                                    search: 'Drop',
-                                    placeholder: 'Nhập điểm đích',
-                                });
-                            }}
-                        >
-                            <TextInput
-                                editable={false}
-                                onTouchStart={() => this.props.navigation.push("SearchPlaceXeChung", {
-                                    search: 'Drop',
-                                    placeholder: ' Nhập điểm đích',
-                                })
-                                }
-                                style={{ fontSize: 14, height: 40, color: "#00363d", marginLeft: 4 }}
-                                pointerEvents="none"
-                                value={this.props.drop_add}
-                                selection={{ start: 0, end: 0 }}
-                                placeholder='Nhập điểm đích'
-                                placeholderTextColor='#333333'
-                            />
-                        </TouchableOpacity>
-                    </View>
-
-                    <TouchableOpacity
-                        style={{ borderLeftWidth: 0.5, borderColor: '#e8e8e8' }}
-                        onPress={() => {
-                            this.props.swapAddressTaixe(this.props.drop_add, this.props.component_drop, this.props.lattitude_drop, this.props.lngtitude_drop, this.props.pick_add, this.props.component_pick, this.props.lattitude_pick, this.props.lngtitude_pick);
-                        }}
-                    >
-                        <Image
-                            style={{ height: 24, width: 24, margin: 8 }}
-                            source={require(imageSwap)}
-                        />
-                    </TouchableOpacity>
-
-                </View>
+                <ImageInputTextDiChung
+                    onPress={() => {
+                        this.props.navigation.push("SearchPlaceXeChung", {
+                            search: 'Drop',
+                            placeholder: 'Nhập điểm đích'
+                        });
+                    }}
+                    placeholder={'Nhập điểm đích'}
+                    source={require(imageLocation)}
+                    value={this.props.drop_add}
+                />
 
                 <ImageInputTextDiChung
+                    widthHeightImage={24}
                     onPress={() => {
                         this.setState({
                             dialogCalendarVisible: true,

@@ -12,8 +12,8 @@ function replaceAll(str, find, replace) {
 }
 
 class AboutUs extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             data: null,
             isLoading: true,
@@ -27,11 +27,18 @@ class AboutUs extends Component {
         }
     }
 
+    gotoHomeScreen = () =>{
+        this.props.navigation.navigate('Home')
+    }
+
     render() {
         var url = link.URL_REALASE + `ve-chung-toi`;
         return (
             <View style={{ flex: 1 }}>
-                <Header onPressLeft={() => this.props.navigation.openDrawer()} />
+                <Header
+                    onPressLeft={() => { this.props.navigation.openDrawer() }}
+                    onPressCenter={this.gotoHomeScreen}
+                />
                 <WebView
                     source={{ uri: url }}
                     onMessage={this.onMessage}

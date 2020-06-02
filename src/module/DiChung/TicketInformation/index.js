@@ -8,8 +8,9 @@ import { Button, ButtonGray, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 import PopUp from '../../../component/PopUp'
 import OtpInputs from 'react-native-otp-inputs';
+import { handleAndroidBackButton, removeAndroidBackButtonHandler, exitAlert } from '../../../component/AndroidBackButton'
 
-const imageLocation = '../../../image/location.png'
+const imageLocation = '../../../image/location2.png'
 const imageCalendar = '../../../image/calendar.png'
 const imagePeople = '../../../image/people.png'
 const imageIconCar = '../../../image/iconcar.png'
@@ -52,6 +53,11 @@ class TicketInformation extends Component {
 
     componentDidMount() {
         this.getTicketbyBookigId()
+        handleAndroidBackButton(exitAlert)
+    }
+
+    componentWillUnmount(){
+        removeAndroidBackButtonHandler()
     }
 
     getTicketbyBookigId() {
@@ -59,15 +65,11 @@ class TicketInformation extends Component {
             const { navigation } = this.props;
             const url = link.URL_API_PORTAL + `booking/v1/bookings/${navigation.getParam('id_booking')}`
             if (this.state.loadData) {
-                // console.log(url);
                 return fetch(url)
                     .then((res) => res.json())
                     .then((jsonRes) => {
-                        // console.log(JSON.stringify(jsonRes))
-                        // console.log(jsonRes.data.result)
                         this.setState({
                             info: jsonRes.data,
-                            // loadData: jsonRes.data.forward.status == 'forwarded' ? false: true,
                             is_loading: false,
                             timeReload: jsonRes.data.forward.status == 'forwarded' ? 10000 : 2000
                         })
@@ -381,7 +383,7 @@ class TicketInformation extends Component {
                     <ScrollView showsVerticalScrollIndicator={false}>
 
                         {item.forward.status == 'forwarded' ?
-                            <Text style={styles.textBigRight}>Mã thuê xe của bạn: <Text style={{ fontWeight: 'bold', backgroundColor: '#77a300', color: '#fff', padding: 4 }}>{item.forward.result.ticket_code}</Text></Text>
+                            <Text style={styles.textBigRight}>Mã thuê xe của bạn: <Text style={{ fontWeight: 'bold', backgroundColor: '#77a300', color: '#fff', padding: 4 }}>{item.code}</Text></Text>
                             : <Text style={styles.textBigRight}>Yêu cầu đặt xe của bạn đã được hệ thồng ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>
                         }
 
@@ -625,7 +627,8 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#77a300',
         flex: 1,
-        textAlign: "right"
+        textAlign: "right", 
+        marginTop : 8,
     },
     underlineStyleBase: {
         width: 30,
