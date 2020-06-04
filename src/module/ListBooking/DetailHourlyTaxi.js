@@ -20,7 +20,7 @@ function DetailHourlyTaxi({ item }) {
     const hours = new Date(time).toLocaleTimeString()
     const strtime = hours + " " + date
     return (
-        <View style={{ paddingHorizontal: 8 }}>
+        <View style={{ paddingHorizontal: 16 }}>
             <Text style={styles.textBigLeft1}>Chi tiết chuyến đi</Text>
             <ImageTextDiChung
                 source={require(imageLocation)}

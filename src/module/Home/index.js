@@ -8,6 +8,7 @@ import SwiperFlatList from 'react-native-swiper-flatlist';
 import SelectCar from './SelectCar'
 import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 import { addUser, addToken } from '../../core/Redux/action/Action'
+import { setupPushNotification } from "../../service/pushNotificaion"
 
 const imageCancel = '../../image/cancel.png'
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window')
@@ -57,9 +58,18 @@ class Home extends Component {
         if (Platform.OS === "android") {
             Linking.getInitialURL().then(url => {
                 console.log('url is', url);
-                this.navigate(url);
+                if (url) {
+                    console.log('url is', url);
+                    this.navigate(url);
+                }
             });
         }
+        this.pushNotification = setupPushNotification(this._handleNotificationOpen)
+    }
+
+    _handleNotificationOpen = () => {
+        const { navigate } = this.props.navigation
+        navigate("ListBooking")
     }
 
     navigate = url => {
@@ -208,7 +218,7 @@ class Home extends Component {
         )
     }
 
-    gotoHomeScreen = () =>{
+    gotoHomeScreen = () => {
         this.props.navigation.navigate('Home')
     }
 

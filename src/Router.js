@@ -65,6 +65,7 @@ import SearchTicket from './module/SearchTicket'
 import Login from './module/Account/Login'
 import Profile from './module/Account/Profile'
 import ListBooking from './module/ListBooking'
+import DetailTicket from './module/ListBooking/DetailTicket.js'
 import Registration from './module/Account/Registration'
 
 import { createDrawerNavigator } from 'react-navigation-drawer'
@@ -73,6 +74,21 @@ import { connect } from 'react-redux'
 
 // import OTP from './module/OTP'
 // import { createDrawerNavigator } from 'react-navigation-drawer'
+
+const ListBookingDetail = createStackNavigator({
+    ListBooking: {
+        screen: ListBooking,
+        navigationOptions : {
+            header : null,
+        }
+    },
+    DetailTicket : {
+        screen : DetailTicket,
+        navigationOptions : {
+            title: 'chi tiết mã vé'
+        }
+    }
+})
 
 const RootStack = createStackNavigator({
 
@@ -475,7 +491,7 @@ const DrawerNavi = createDrawerNavigator({
         },
     },
     ListBooking: {
-        screen: ListBooking,
+        screen: ListBookingDetail,
         // navigationOptions: {
         //     title: 'Danh sách vé',
         //     alignItems: 'center'

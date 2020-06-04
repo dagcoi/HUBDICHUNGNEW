@@ -73,7 +73,7 @@ class TicketInformationXeChung extends Component {
                             info: jsonRes.data,
                             // loadData: jsonRes.data.forward.status == 'forwarded' ? false: true,
                             is_loading: false,
-                            timeReload: jsonRes.data.forward.status == 'forwarded' ? 20000 : 2000
+                            timeReload: jsonRes.data.forward.status == 'forwarded' ? 20000 : 5000
                         })
                     }
                     )

@@ -71,7 +71,7 @@ class TicketInformation extends Component {
                         this.setState({
                             info: jsonRes.data,
                             is_loading: false,
-                            timeReload: jsonRes.data.forward.status == 'forwarded' ? 10000 : 2000
+                            timeReload: jsonRes.data.forward.status == 'forwarded' ? 20000 : 2000
                         })
                     }
                     )
