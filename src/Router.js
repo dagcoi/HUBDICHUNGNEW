@@ -1,5 +1,8 @@
+import * as React from 'react';
 import { createAppContainer } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
+import { createStore, applyMiddleware, combineReducers, bindActionCreators } from 'redux';
+// import * as ModalAction from './module/RootModal/ModalAction';
 
 import Home from './module/Home'
 import Splash from './module/Splash'
@@ -78,13 +81,13 @@ import { connect } from 'react-redux'
 const ListBookingDetail = createStackNavigator({
     ListBooking: {
         screen: ListBooking,
-        navigationOptions : {
-            header : null,
+        navigationOptions: {
+            header: null,
         }
     },
-    DetailTicket : {
-        screen : DetailTicket,
-        navigationOptions : {
+    DetailTicket: {
+        screen: DetailTicket,
+        navigationOptions: {
             title: 'chi tiết mã vé'
         }
     }

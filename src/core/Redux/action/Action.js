@@ -701,3 +701,10 @@ export const addToken = (token) => {
         token: token,
     }
 }
+
+export const addModal = (ishow) => {
+    return {
+        type: types.ADD_MODAL,
+        ishow: ishow,
+    }
+}

@@ -9,6 +9,8 @@ import SelectCar from './SelectCar'
 import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 import { addUser, addToken } from '../../core/Redux/action/Action'
 import { setupPushNotification } from "../../service/pushNotificaion"
+import PushNotification from 'react-native-push-notification';
+import { notifications } from 'react-native-firebase';
 
 const imageCancel = '../../image/cancel.png'
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window')
