@@ -11,6 +11,7 @@ import { addUser, addToken } from '../../core/Redux/action/Action'
 import { setupPushNotification } from "../../service/pushNotificaion"
 import PushNotification from 'react-native-push-notification';
 import { notifications } from 'react-native-firebase';
+import firebase, { messaging } from 'react-native-firebase'
 
 const imageCancel = '../../image/cancel.png'
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window')
@@ -53,9 +54,11 @@ class Home extends Component {
     }
 
     async componentDidMount() {
+        console.log(this.props.navigation)
         this._retrieveData()
         this.callApiPromotion();
         this.callApiAttractivePlaces();
+        this.noti()
         BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
         if (Platform.OS === "android") {
             Linking.getInitialURL().then(url => {
@@ -69,9 +72,94 @@ class Home extends Component {
         this.pushNotification = setupPushNotification(this._handleNotificationOpen)
     }
 
+    noti = async() => {
+        const enable = await firebase.messaging().hasPermission();
+
+        if (enable) {
+            const fmcToken = await firebase.messaging().getToken()
+            console.log('fmcToken........', fmcToken);
+
+            this.notificationListener = firebase.notifications().onNotification(notification => {
+                const { title, body, data, click_action } = notification;
+                console.log(notification)
+                // xử lí khi nhận notifi hiện notifi ở mọi chế độ
+                // const channelId = new firebase.notifications.Android.Channel("Default", "Default", firebase.notifications.Android.Importance.Max);
+                // firebase.notifications().android.createChannel(channelId);
+
+                // Vibration.vibrate(PATTERN)
+                if (Platform.OS === 'android') {
+
+                    const localNotifi = new firebase.notifications.Notification({
+                        sound: 'default',
+                        show_in_foreground: true,
+                    })
+                        .setNotificationId(notification.notificationId)
+                        .setTitle(title)
+                        .setSubtitle(notification.subtitle)
+                        .setBody(body)
+                        .setData(data)
+                        .android.setClickAction(click_action)
+                        .android.setChannelId('ChannelId')
+                        .android.setSmallIcon('ic_stat_ic_notification')
+                        // .android.setClickAction(navigateBookingDetail)
+                        .android.setColor('#77a300')
+                        .android.setPriority(firebase.notifications.Android.Priority.Max)
+                    firebase.notifications()
+                        .displayNotification(localNotifi)
+                        .catch((error) => console.error(error));
+                } else if (Platform.OS === 'ios') {
+                    const localNotifi = new firebase.notifications.Notification()
+                        .setNotificationId(notification.notificationId)
+                        .setTitle(title)
+                        .setSubtitle(notification.subtitle)
+                        .setBody(body)
+                        .setData(data)
+                        .ios.setBadge(notification.ios.badge);
+
+                    firebase.notifications()
+                        .displayNotification(localNotifi)
+                        .catch((error) => console.log(error));
+                }
+            })
+        } else {
+            try {
+                firebase.messaging().requestPermission();
+            }
+            catch (e) {
+                alert('use rejected the permissions');
+            }
+        }
+
+        this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
+            const notification = notificationOpen.notification;
+            console.log('notificationOpenedListenernotificationOpenedListenernotificationOpenedListener : ', notification)
+            if (notification.data && notification.data._id && notification.data.screen) {
+                //todo
+                this._handleNotificationOpen()
+            }
+            // notification.android.setChannelId(notification.notificationId)
+        })
+
+        // App close -> action open app
+        firebase.notifications().getInitialNotification()
+            .then((notificationOpen) => {
+                if (notificationOpen) {
+                    const notification = notificationOpen.notification;
+                    if (notification && notification.data && notification.data._id && notification.data.screen) {
+                        //todo            
+                        this._handleNotificationOpen()
+                        console.log('click notifi background')
+                    }
+                    // notification.android.setChannelId(notification.notificationId)
+                }
+            });
+
+
+    }
+
     _handleNotificationOpen = () => {
         const { navigate } = this.props.navigation
-        navigate("ListBooking")
+        navigate("MapDiChung")
     }
 
     navigate = url => {
