@@ -88,7 +88,7 @@ const ListBookingDetail = createStackNavigator({
     DetailTicket: {
         screen: DetailTicket,
         navigationOptions: {
-            title: 'chi tiết mã vé'
+            title: 'Chi tiết mã vé'
         }
     }
 })

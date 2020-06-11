@@ -133,8 +133,8 @@ class BookingDetail extends Component {
 
         return (
             <View>
-                <ScrollView style={{ height: SCREEN_HEIGHT }}>
-                    <Text style={{ flex: 1, fontSize: 14, fontWeight: 'bold', marginHorizontal: 16, marginTop : 8 }}>mã vé: <Text style = {{backgroundColor : '#77a300', color : '#fff'}}>{this.state.bookingDetail.code}</Text></Text>
+                <ScrollView style={{ height: SCREEN_HEIGHT - 80 }}>
+                    <Text style={{ flex: 1, fontSize: 14, fontWeight: 'bold', marginHorizontal: 16, marginTop: 8 }}>Mã vé: <Text style={{ backgroundColor: '#77a300', color: '#fff' }}>{this.state.bookingDetail.code}</Text></Text>
                     <View style={{ justifyContent: 'center' }}>
                         <View>
                             {this.state.bookingDetail.productType == 'CAR_RENTAL' ? <DetailTuLai item={this.state.bookingDetail} />

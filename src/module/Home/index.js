@@ -135,7 +135,7 @@ class Home extends Component {
             console.log('notificationOpenedListenernotificationOpenedListenernotificationOpenedListener : ', notification)
             if (notification.data && notification.data._id && notification.data.screen) {
                 //todo
-                this._handleNotificationOpen()
+                this._handleNotificationOpen(notification.data.screen, notification.data.params)
             }
             // notification.android.setChannelId(notification.notificationId)
         })
@@ -147,7 +147,7 @@ class Home extends Component {
                     const notification = notificationOpen.notification;
                     if (notification && notification.data && notification.data._id && notification.data.screen) {
                         //todo            
-                        this._handleNotificationOpen()
+                        this._handleNotificationOpen(notification.data.screen, notification.data.params)
                         console.log('click notifi background')
                     }
                     // notification.android.setChannelId(notification.notificationId)
@@ -157,9 +157,9 @@ class Home extends Component {
 
     }
 
-    _handleNotificationOpen = () => {
+    _handleNotificationOpen = (screen, params) => {
         const { navigate } = this.props.navigation
-        navigate("MapDiChung")
+        navigate(screen, {ticket_id : params})
     }
 
     navigate = url => {
