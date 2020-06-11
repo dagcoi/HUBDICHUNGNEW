@@ -328,7 +328,7 @@ class ListBooking extends Component {
                     onPressCenter={this.gotoHomeScreen}
                 />
                 <NavigationEvents
-                    onDidFocus={this.state.listBooking.length ==0 ? this._retrieveData : null}
+                    onDidFocus={this._retrieveData}
                     // onDidBlur = {this._retrieveData}
                 />
                 {/* {this.selectTime()} */}
