@@ -51,26 +51,28 @@ class ListDriverExpress extends Component {
                 </Text>
 
                 <View
-                    style={{ width: 35, height: 35 }}
+                    style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
                 >
                     <TouchableOpacity
+                        style={{ justifyContent: 'center', alignItems: 'center' }}
                         onPress={navigation.getParam('setShowFilter')}
                     >
                         <Image
-                            style={{ width: 32, height: 32 }}
+                            style={{ width: 24, height: 24 }}
                             source={require(imageTune)}
                         />
                     </TouchableOpacity>
                 </View>
 
                 <View
-                    style={{ width: 35, height: 35 }}
+                    style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
                 >
                     <TouchableOpacity
+                        style={{ justifyContent: 'center', alignItems: 'center' }}
                         onPress={navigation.getParam('increaseCount')}
                     >
                         <Image
-                            style={{ width: 32, height: 32 }}
+                            style={{ width: 24, height: 24 }}
                             source={navigation.getParam('image') ? require(imageMaxToMin) : require(imageMinToMax)}
                         />
                     </TouchableOpacity>
@@ -93,7 +95,50 @@ class ListDriverExpress extends Component {
         this.setState({ showFilter: true });
     };
 
-    async componentDidMount() {
+    componentDidMount() {
+        this.getListExpressNew()
+    }
+
+    async getListExpressNew() {
+        const url = link.URL_API_PORTAL + 'price/v1/prices?product_chunk_type=EXPRESS&';
+        let parame = `${url}chair=${this.props.chair}&depart_time=${this.props.depart_time}&dimension_id=1&drop_address_component=${JSON.stringify(this.props.component_drop)}&drop_address=${this.props.drop_add}&pick_address_component=${JSON.stringify(this.props.component_pick)}&pick_address=${this.props.pick_add}&provider=dichungtaxi`
+        try {
+            const response = await fetch(parame, {
+                method: 'GET',
+            });
+            const responseJson = await response.json();
+            this.addListfilter(responseJson.data.data);
+            this.setStateAsync({
+                isLoading: false,
+                dataSource: responseJson.data.data,
+            });
+            console.log(responseJson)
+            console.log(parame)
+            return responseJson.data.data;
+        }
+        catch (error) {
+            this.setStateAsync({
+                isLoading: false
+            });
+            console.log(error);
+        }
+        console.log(parame)
+    }
+
+    filter(list) {
+        var listFilter = { rideMethod: [], type: [] }
+        list.forEach(element => {
+            if (listFilter.rideMethod.includes(element.ride_method_id)) {
+                listFilter.rideMethod.push(element.rideMethod)
+            }
+            if (listFilter.type.includes(element.vehicle_id)) {
+                listFilter.type.push(element.type)
+            }
+        });
+        return listFilter;
+    }
+
+    async getListExpress() {
         const url = link.URL_API + 'passenger/get_price_list?product_chunk_type=EXPRESS';
         let formdata = new FormData();
         formdata.append("depart_time", this.props.depart_time);
@@ -221,6 +266,7 @@ class ListDriverExpress extends Component {
         { this.state.listcarfilter.length == 0 ? obj = obj1 : obj = obj1.filter(ob => (this.state.listcarfilter.includes(ob.vehicle_id))) }
 
         { this.state.sort ? obj.sort((a, b) => b.merged - a.merged) : obj.sort((a, b) => a.merged - b.merged) }
+        console.log(JSON.stringify(obj))
         return (
             <View>
                 {obj.map((item, index) => (
@@ -282,7 +328,7 @@ class ListDriverExpress extends Component {
                                     <Image
                                         style={{ width: 14, height: 14, marginRight: 8 }}
                                         source={require('../../../image/check.png')} />
-                                    <HTML html={item.partner_luggage.replace("</a>", "").replace("</p>", "").replace("<p>", "")} imagesMaxWidth={Dimensions.get('window').width} />
+                                    <HTML html={item.partner_luggage} imagesMaxWidth={Dimensions.get('window').width} /> 
                                 </View>
                             </View>}
 
@@ -330,7 +376,7 @@ class ListDriverExpress extends Component {
         var obj = [...this.state.dataSource];
         // var obj = obj1.filter(obj => ([0].includes(obj.hide)));
 
-        // var lf = { ...this.state.listFliter }
+        // var lf = { ...this.state.listFilter }
         // console.log(lf);
         return (
             <View style={{ flex: 1, padding: 8, }}>

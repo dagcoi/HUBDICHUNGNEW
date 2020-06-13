@@ -15,7 +15,7 @@ Number.prototype.format = function (n, x) {
     return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
 };
 
-const imageLocation = '../../../image/location.png'
+const imageLocation = '../../../image/location2.png'
 const imageCalendar = '../../../image/calendar.png'
 const imagePeople = '../../../image/people.png'
 const imageIconCar = '../../../image/iconcar.png'
@@ -140,7 +140,7 @@ class ConfirmInformationTuLai extends Component {
         const { navigation } = this.props;
         return (
             <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', marginBottom: 8 }}>
-                <Text style={styles.textBigLeft1}>Tổng thanh toán : </Text>
+                <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
                 <Text style={styles.textBigRight1}>
                     {((this.props.merged + (navigation.getParam('broad_price') ? 30000 : 0) - (navigation.getParam('blDiscount') ? this.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1)).format(0, 3, '.')} đ
                 </Text>
@@ -191,7 +191,7 @@ class ConfirmInformationTuLai extends Component {
                     {!navigation.getParam('broad_price') ? null :
                         <ImageTextDiChung
                             source={require(imageDone)}
-                            text={'Đón biển tên : +30.000 đ'}
+                            text={'Đón biển tên: +30.000 đ'}
                         />
                     }
 
@@ -294,7 +294,7 @@ class ConfirmInformationTuLai extends Component {
                                         source={{ uri: this.props.vehicle_icon }}
                                     />
                                 </View>
-                                <Text>Mã vé của bạn là :<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
+                                <Text>Mã vé của bạn là:<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
                                 <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất.</Text>
 
                                 <ButtonDialog
@@ -353,7 +353,7 @@ class ConfirmInformationTuLai extends Component {
                                     source={{ uri: this.props.vehicle_icon }}
                                 />
                             </View>
-                            <Text>Mã vé của bạn là :<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
+                            <Text>Mã vé của bạn là:<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
                             <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất.</Text>
 
                             {/* <View style={{ flexDirection: 'row' }}> */}
@@ -516,7 +516,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#77a300',
         flex: 1,
-        textAlign: "right"
+        textAlign: "right",
+        marginTop : 8,
     },
 
     textBigRight: {

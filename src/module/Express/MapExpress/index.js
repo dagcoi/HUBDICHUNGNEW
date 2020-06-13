@@ -382,7 +382,7 @@ class MapExpress extends Component {
                         }}
                     >
                         <Image
-                            style={{ height: 24, width: 24, margin: 8 }}
+                            style={{ height: 24, width: 24, marginLeft: 8, }}
                             source={require(imageTime)}
                         />
 
@@ -458,8 +458,9 @@ class MapExpress extends Component {
                 </View>
 
                 <View style={{ height: 40, flexDirection: 'row', }}>
-                    <View style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', }}>
+                    <View style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center',paddingLeft : 4 }}>
                         <ImageInputTextDiChung
+                            widthHeightImage={24}
                             onPress={() => {
                                 this.setState({
                                     dialogCalendarVisible: true,
@@ -596,9 +597,9 @@ class MapExpress extends Component {
                                 style={{ flex: 1 }}
                             ></TouchableOpacity>
                         </View>
-                        <View style = {{flex : 1, backgroundColor: '#ffffff' }}>
-                            <View  style = {{height : 40, justifyContent : 'center', alignItems : 'center'}}>
-                                <Text style  = {{fontSize : 18, fontWeight : 'bold'}}>Chọn giờ gửi</Text>
+                        <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
+                            <View style={{ height: 40, justifyContent: 'center', alignItems: 'center' }}>
+                                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Chọn giờ gửi</Text>
                             </View>
                             <FlatList
                                 style={{ flex: 1, backgroundColor: '#ffffff' }}
@@ -622,7 +623,8 @@ class MapExpress extends Component {
                                                         dialogCalendarVisible: false,
                                                         depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
                                                     })
-                                                    this.props.addDepartTimeVanChuyen(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
+                                                    this.props.addDepartTimeVanChuyen(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
+                                                    // this.props.addDepartTimeVanChuyen(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
                                                 }
                                             } else {
                                                 this.setState({
@@ -633,7 +635,8 @@ class MapExpress extends Component {
                                                     dialogCalendarVisible: false,
                                                     depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
                                                 })
-                                                this.props.addDepartTimeVanChuyen(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
+                                                this.props.addDepartTimeVanChuyen(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
+                                                // this.props.addDepartTimeVanChuyen(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
                                             }
                                         }}
                                     >

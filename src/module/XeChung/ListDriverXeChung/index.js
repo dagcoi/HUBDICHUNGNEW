@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, Alert, Switch, ActivityIndicator, Dimensions, Modal, RefreshControl, Linking } from 'react-native';
+import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, Alert, Switch, ActivityIndicator, Dimensions, Modal, RefreshControl, Linking, FlatList } from 'react-native';
 import { connect } from 'react-redux';
+import CheckBoxList from '../../../component/CheckBoxList'
 import StarVote from '../../../component/StarVote'
 
 import { addTripInfomationTaixe } from '../../../core/Redux/action/Action'
 import HTML from 'react-native-render-html';
 import * as link from '../../../URL'
 import { Button } from '../../../component/Button'
+
+const imageMaxToMin = '../../../image/maxtomin.png'
+const imageMinToMax = '../../../image/mintomax.png'
+const imageTune = '../../../image/tune.png'
 
 class ListDriverXeChung extends Component {
 
@@ -17,10 +22,115 @@ class ListDriverXeChung extends Component {
             dataSource: [],
             sort: false,
             car: false,
+            listDriver: [],
+            listDriverFilter: [],
+            showFilter: false
         }
     }
 
-    async componentDidMount() {
+
+    static navigationOptions = ({ navigation }) => {
+        return {
+            headerTitle: () => <View style={{
+                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'center'
+            }}>
+                <Text style={{
+                    flex: 1,
+                    fontSize: 22,
+                    textAlign: 'left',
+                    justifyContent: 'center'
+                }}>Danh sách xe</Text>
+
+                <View
+                    style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
+                >
+                    <TouchableOpacity
+                        style={{ justifyContent: 'center', alignItems: 'center' }}
+                        onPress={navigation.getParam('setShowFilter')}
+                    >
+                        <Image
+                            style={{ width: 24, height: 24 }}
+                            source={require(imageTune)}
+                        />
+                    </TouchableOpacity>
+                </View>
+
+                <View
+                    style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
+                >
+                    <TouchableOpacity
+                        style={{ justifyContent: 'center', alignItems: 'center' }}
+                        onPress={navigation.getParam('increaseCount')}
+                    >
+                        <Image
+                            style={{ width: 24, height: 24 }}
+                            source={navigation.getParam('image') ? require(imageMaxToMin) : require(imageMinToMax)}
+                        />
+                    </TouchableOpacity>
+                </View>
+            </View>,
+        };
+    };
+
+    componentDidMount() {
+        this.getListDriverNew()
+    }
+
+    componentWillMount() {
+        this.props.navigation.setParams({ 'increaseCount': this._increaseCount });
+        this.props.navigation.setParams({ 'setShowFilter': this.setShowFilter });
+    }
+
+    _increaseCount = () => {
+        this.setState({ sort: !this.state.sort });
+        this.props.navigation.setParams({ 'image': !this.state.sort })
+    };
+
+    setShowFilter = () => {
+        this.setState({ showFilter: true });
+    };
+
+
+    async getListDriverNew() {
+        const url = link.URL_API_PORTAL + 'price/v1/prices?product_chunk_type=DRIVER_RENTAL&';
+        let parame = `${url}chair=${this.props.chair}&depart_time=${this.props.depart_time}&dimension_id=1&drop_address_component=${JSON.stringify(this.props.component_drop)}&drop_address=${this.props.drop_add}&pick_address_component=${JSON.stringify(this.props.component_pick)}&pick_address=${this.props.pick_add}&provider=dichungtaxi`
+        try {
+            const response = await fetch(parame, {
+                method: 'GET',
+            });
+            const responseJson = await response.json();
+            this.addListfilter(responseJson.data.data);
+            this.setStateAsync({
+                isLoading: false,
+                dataSource: responseJson.data.data,
+            });
+            this.props.addIsFromAirport(responseJson.data.is_from_airport ? 'true' : 'false');
+            console.log(responseJson)
+            console.log(parame)
+            return responseJson.data.data;
+        }
+        catch (error) {
+            this.setStateAsync({
+                isLoading: false
+            });
+            console.log(error);
+        }
+        console.log(parame)
+    }
+
+    addListfilter(list) {
+        var { listDriver } = this.state;
+        for (let i = 0; i < list.length; i++) {
+            var item = { 'vehicle_id': list[i].vehicle_id, 'vehicle_name': list[i].vehicle_name }
+            if (listDriver.indexOf(item < 0) && list[i].hide == 0) {
+                listDriver.push(item)
+            }
+        }
+    }
+
+    async getListDriver() {
         const url = link.URL_API + 'passenger/get_price_list?product_chunk_type=DRIVER_RENTAL';
         let formdata = new FormData();
         formdata.append("depart_time", this.props.depart_time);
@@ -29,8 +139,6 @@ class ListDriverXeChung extends Component {
         formdata.append("pick_address_component", JSON.stringify(this.props.component_pick));
         formdata.append("drop_address", JSON.stringify(this.props.drop_add));
         formdata.append("drop_address_component", JSON.stringify(this.props.component_drop));
-        // formdata.append("transport_partner_id", '2071,2072')
-        // formdata.append("product_chunk_type", 'DRIVER_RENTAL');
         formdata.append("chair", 1);
         formdata.append("vehicle_id", 0)
         try {
@@ -72,6 +180,84 @@ class ListDriverXeChung extends Component {
         return new Promise((resolve) => {
             this.setState(state, resolve)
         });
+    }
+
+
+    modalFilter(showFilter) {
+        var listDriver = [...this.state.listDriver]
+        var listDriverFilter = [...this.state.listDriverFilter]
+        var { shareCar, car } = this.state;
+        console.log(listDriver);
+        console.log(listDriverFilter);
+        return (
+            <Modal
+                visible={showFilter}
+                animationType='slide'
+            >
+                <View style={{
+                    flex: 1,
+                    flexDirection: 'column',
+                    padding: 16,
+                }}>
+                    <Text style={{ fontSize: 24, fontWeight: '700', }}>Loại xe</Text>
+                    <FlatList
+                        showsHorizontalScrollIndicator={false}
+                        showsVerticalScrollIndicator={false}
+                        data={listDriver}
+                        renderItem={({ item }) => {
+                            return (
+                                <View style={{ marginTop: 8 }}>
+
+                                    <CheckBoxList
+                                        onClick={() => {
+                                            (listDriverFilter.indexOf(item.vehicle_id) > -1) ? (listDriverFilter.splice(listDriverFilter.indexOf(item.vehicle_id), 1)) : listDriverFilter.push(item.vehicle_id);
+                                            this.setState({ listDriverFilter: listDriverFilter })
+                                        }}
+                                        isChecked={listDriverFilter.indexOf(item.vehicle_id) > -1}
+                                        rightText={item.vehicle_name + ' '}
+                                    />
+                                </View>
+                            )
+                        }
+                        }
+                    />
+
+                    <View style={{ flexDirection: 'row' }}>
+                        <TouchableOpacity
+                            style={{ padding: 8, backgroundColor: '#999999', borderRadius: 4, alignItems: 'center', marginTop: 10, flex: 1 }}
+                            onPress={() => {
+                                this.setState({
+                                    listDriverFilter: [],
+                                })
+                            }}>
+                            <Text style={{ fontSize: 18, color: '#00363d' }}>BỎ LỌC</Text>
+                        </TouchableOpacity>
+                        <View style={{ margin: 8 }} />
+                        <TouchableOpacity
+                            style={{ padding: 8, backgroundColor: '#77a300', borderRadius: 4, alignItems: 'center', marginTop: 10, flex: 1 }}
+                            onPress={() => {
+                                var listFM = []
+                                if (this.state.shareCar) {
+                                    listFM.push(2)
+                                }
+                                if (this.state.car) {
+                                    listFM.push(1)
+                                }
+                                if (!this.state.car && !this.state.shareCar) {
+                                    listFM = [1, 2]
+                                }
+
+                                this.setState({
+                                    listFilterMethod: listFM,
+                                    showFilter: false
+                                })
+                            }}>
+                            <Text style={{ fontSize: 18, color: '#fff' }}>ÁP DỤNG</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
+        )
     }
 
     renderItem(obj1) {
@@ -197,6 +383,7 @@ class ListDriverXeChung extends Component {
                         showsVerticalScrollIndicator={false}
                     >
                         {this.renderItem(obj)}
+                        {this.modalFilter(this.state.showFilter)}
                     </ScrollView>
                     : <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
                         <Image

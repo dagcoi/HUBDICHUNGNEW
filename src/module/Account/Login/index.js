@@ -4,6 +4,10 @@ import { ButtonWrap, ButtonGray } from '../../../component/Button'
 import Header from '../../../component/Header'
 import InputPassWord from './InputPassWord'
 import InputTextDiChung from '../../../component/InputTextDiChung'
+import * as link from '../../../URL'
+import { addUser, addToken } from '../../../core/Redux/action/Action'
+import { connect } from 'react-redux'
+
 
 const logo = '../../../image/logo_dc_taxi.png'
 const people = '../../../image/person.png'
@@ -46,8 +50,10 @@ class Login extends Component {
         // this._retrieveData()
     }
 
+
     apiAddUser(userName, passWord) {
-        fetch('https://dev.portal.dichung.vn/api/user/v1/users', {
+        url = link.URL_API_PORTAL + `user/v1/users`
+        fetch(url, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json, text/plain, */*',
@@ -59,6 +65,8 @@ class Login extends Component {
             .then(resJson => {
                 if (resJson.data) {
                     this.addDataLogin(userName, passWord, resJson.data)
+                    this.props.addUser(resJson.data.username, '123', 1)
+                    this.props.addToken(resJson.data.token)
                     this.setState({
                         showLogin: true,
                         showSignUp: false,
@@ -72,7 +80,7 @@ class Login extends Component {
                         infoCustommer: resJson.data,
                         messageAddUser: '',
                     })
-                    this.gotoProfileScreen(userName, passWord,JSON.stringify(resJson.data))
+                    this.gotoProfileScreen(userName, passWord, JSON.stringify(resJson.data))
                     // this.getDataInJson(resJson.data)
                 } else (
                     this.setState({
@@ -83,7 +91,7 @@ class Login extends Component {
     }
 
     apiLogin(userName, passWord) {
-        let url = 'https://dev.portal.dichung.vn/api/user/v1/users/login'
+        let url = link.URL_API_PORTAL + 'user/v1/users/login'
         console.log(url)
         console.log(userName + passWord)
         fetch(url, {
@@ -92,12 +100,14 @@ class Login extends Component {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ 'email': userName.toLowerCase(), 'password': passWord })
+            body: JSON.stringify({ 'email': userName, 'password': passWord })
         })
             .then(res => res.json())
             .then(resJson => {
                 if (resJson.data) {
                     this.addDataLogin(userName, passWord, resJson.data)
+                    this.props.addUser(resJson.data.username, '123', 1)
+                    this.props.addToken(resJson.data.token)
                     this.setState({
                         showLogin: true,
                         loginSuccess: true,
@@ -123,9 +133,12 @@ class Login extends Component {
     }
 
     gotoProfileScreen(userName, passWord, dataLogin) {
-        this.props.navigation.navigate('Profile', {'userName' : userName, 'passWord' : passWord, 'dataLogin' : dataLogin})
+        this.props.navigation.navigate('Profile', { 'userName': userName, 'passWord': passWord, 'dataLogin': dataLogin })
     }
 
+    gotoHomeScreen = () =>{
+        this.props.navigation.navigate('Home')
+    }
 
     addPassWord = async (passWord) => {
         await AsyncStorage.setItem('password', passWord)
@@ -203,10 +216,10 @@ class Login extends Component {
 
     validateEmail(email) {
         let regex = /^[a-z][a-z0-9_\.]{3,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/gm;
-        let validate = regex.test(email.toLowerCase());
+        let validate = regex.test(email.toLowerCase().trim());
         let reg = /^[0]?[3789]\d{8}$/;
         let validateP = reg.test(email.toLowerCase());
-        this.setState({ validate: validate || validateP, user: email })
+        this.setState({ validate: validate || validateP, user: email.trim() })
     }
 
     _storeData = async () => {
@@ -522,6 +535,10 @@ class Login extends Component {
     render() {
         return (
             <View style={styles.container}>
+                <Header
+                    onPressLeft={() => { this.props.navigation.openDrawer() }}
+                    onPressCenter={this.gotoHomeScreen}
+                />
                 {this.FormLogin()}
             </View>
         )
@@ -582,4 +599,11 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Login;
+function mapStateToProps(state) {
+    return {
+        link_avatar: state.thongtin.link_avatar,
+        name: state.thongtin.name,
+        isLogin: state.thongtin.isLogin,
+    }
+}
+export default connect(mapStateToProps, { addUser: addUser, addToken: addToken })(Login);

@@ -6,84 +6,91 @@
  * @flow
  */
 
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
+import { NavigationActions } from 'react-navigation';
 
-import Router from './src/Router'
+import Navigator from './src/Router'
 import { Provider } from 'react-redux'
 import store from './src/core/Redux/store'
-import firebase from 'react-native-firebase'
 import { Platform, Vibration } from 'react-native'
 import OfflineNotice from './src/component/OfflineNotice'
-
+import NavigationService from './src/service/NavigationService'
 import { PushNotification } from './src/component/PushNotification'
 import { View } from 'react-native';
+// import * as RootNavigation from "./src/service/RootNavigation";
+// import { navigationRef } from "./src/service/RootNavigation";
+
+
+
 
 class App extends Component {
-  async componentDidMount() {
-    // let url = firebase.links().getInitialLink();
-    // console.log('incoming url', url);
-    // PushNotification.configure()
-    const enable = await firebase.messaging().hasPermission();
-    const PATTERN = [100, 200, 300, 400, 500];
-    firebase.messaging().subscribeToTopic("ALL");
-    firebase.messaging().subscribeToTopic("HANOI");  // thêm device vào topics
-    //firebase.messaging().unsubscribeFromTopic("HANOI");  // xóa device khỏi opics
-    if (enable) {
-      const fmcToken = await firebase.messaging().getToken()
-      console.log('fmcToken', fmcToken);
 
-      this.notificationListener = firebase.notifications().onNotification(notification => {
-        const { title, body, data } = notification;
-        console.log(notification)
-        // xử lí khi nhận notifi
-        Vibration.vibrate(PATTERN)
-        if (Platform.OS === 'android') {
-          const localNotifi = new firebase.notifications.Notification({
-            sound: 'default',
-            show_in_foreground: true,
-          })
-            .setNotificationId(notification.notificationId)
-            .setTitle(notification.title)
-            .setSubtitle(notification.subtitle)
-            .setBody(notification.body)
-            .setData(notification.data)
-            .android.setChannelId('ChannelId')
-            .android.setSmallIcon('ic_stat_ic_notification')
-            .android.setColor('#77a300')
-            .android.setPriority(firebase.notifications.Android.Priority.Max)
-          firebase.notifications()
-            .displayNotification(localNotifi)
-            .catch((error) => console.log(error));
-        } else if (Platform.OS === 'ios') {
-          const localNotifi = new firebase.notifications.Notification()
-            .setNotificationId(notification.notificationId)
-            .setTitle(notification.title)
-            .setSubtitle(notification.subtitle)
-            .setBody(notification.body)
-            .setData(notification.data)
-            .ios.setBadge(notification.ios.badge);
+  constructor(props) {
+    super(props);
+    this.onPressNotificacion = this.onPressNotificacion.bind(this); // you need this to use 'this' on 'onPressNotificacion'
+    this.navigator = createRef()
+  }
 
-          firebase.notifications()
-            .displayNotification(localNotifi)
-            .catch((error) => console.log(error));
-        }
-      })
-    } else {
-      try {
-        firebase.messaging().requestPermission();
-      }
-      catch (e) {
-        alert('use rejected the permissions');
-      }
+  onPressNotificacion = () => {
+    console.log('QWER')
+    console.log(this.props)
+    console.log(this.navigator)
+    console.log(NavigationActions)
+    // this.props.navogatiom.navigate('ListBooking');
+    NavigationService.navigate("ListBooking", {abc : '_id'});
+    // this.navigate("ListBooking", null)
+    // console.log(navigationRef.current)
+    // RootNavigation.navigate("ListBooking")
+  }
+
+  navigate(routeName, params = {}) {
+    console.log('navigate')
+    return {
+      type: NavigationActions.NAVIGATE,
+      routeName,
+      params
     }
   }
+
+  async componentDidMount() {
+    console.log(this.navigator)
+    // console.log('incoming url', url);
+    // PushNotification.configure()
+    const PATTERN = [100, 200, 300, 400, 500];
+
+  }
+
+  navigateNotificationDetail = () => {
+    // this.props.navigation.navigate('ListBooking')
+    console.log('qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq')
+    NavigationService.navigate("ListBooking", null);
+  }
+
+  getCurrentRoute() {
+    let route = this._nav.current.state.nav
+
+    while (route.routes) {
+      route = route.routes[route.index]
+    }
+
+    return route.routeName
+  }
+
+  handleNavigationChange(prevState, newState, action) {
+    console.log('handleNavigationChange', prevState, newState, action)
+  }
+
+  componentWillUnmount() {
+    this.notificationListener();
+  }
   render() {
-    const prefix = 'https://dichung.page.link/';
     return (
-      <View style = {{flex : 1}}>
+      <View style={{ flex: 1 }}>
         {/* <OfflineNotice /> */}
         <Provider store={store}>
-          <Router uriPrefix={prefix}/>
+          <Navigator ref={(navigationRef) => {
+            NavigationService.setTopLevelNavigator(navigationRef)
+          }} />
         </Provider>
       </View>
     );

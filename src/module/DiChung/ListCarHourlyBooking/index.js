@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
+import {
+    Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, ActivityIndicator, FlatList,Dimensions
+} from 'react-native';
 import { connect } from 'react-redux';
 import StarVote from '../../../component/StarVote'
 
@@ -9,6 +11,7 @@ import { Button } from '../../../component/Button'
 
 const imageMaxToMin = '../../../image/maxtomin.png'
 const imageMinToMax = '../../../image/mintomax.png'
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window')
 
 class ListCarHourlyBooking extends Component {
 
@@ -40,13 +43,14 @@ class ListCarHourlyBooking extends Component {
                 </Text>
 
                 <View
-                    style={{ width: 35, height: 35 }}
+                    style={{ width: 36, height: 36, justifyContent : 'center', alignItems : 'center' }}
                 >
                     <TouchableOpacity
                         onPress={navigation.getParam('increaseCount')}
+                        style = {{justifyContent : 'center', alignItems : 'center'}}
                     >
                         <Image
-                            style={{ width: 32, height: 32 }}
+                            style={{ width: 24, height: 24 }}
                             source={navigation.getParam('image') ? require(imageMaxToMin) : require(imageMinToMax)}
                         />
                     </TouchableOpacity>
@@ -55,9 +59,11 @@ class ListCarHourlyBooking extends Component {
         };
     };
 
+    componentDidMount(){
+        this.getListCarNew()
+    }
 
-
-    async componentDidMount() {
+    async getListCar() {
         const { navigation } = this.props;
         var listCarType = navigation.getParam('listCarType');
         const formdata = new FormData();
@@ -92,6 +98,34 @@ class ListCarHourlyBooking extends Component {
         }
     }
 
+    async getListCarNew() {
+        const { navigation } = this.props;
+        var listCarType = navigation.getParam('listCarType');
+        console.log(listCarType)
+        const url = link.URL_API_PORTAL + 'price/v1/prices?service_type=HOURLY_RENT_TAXI&';
+        let parame = `${url}vehicle_id=0&depart_time=${this.props.depart_time}&duration=${this.props.duration}&pick_address_component=${JSON.stringify(this.props.component_pick)}&pick_address=${this.props.pick_add}&provider=dichungtaxi`
+        try {
+            const response = await fetch(parame, {
+                method: 'GET',
+            });
+            const responseJson = await response.json();
+            this.setStateAsync({
+                isLoading: false,
+                dataSource: responseJson.data.data,
+            });
+            // console.log(responseJson)
+            console.log(parame)
+            return responseJson.data.data;
+        }
+        catch (error) {
+            this.setStateAsync({
+                isLoading: false
+            });
+            console.log(error);
+        }
+        console.log(parame)
+    }
+
     componentWillMount() {
         this.props.navigation.setParams({ 'increaseCount': this._increaseCount });
     }
@@ -107,7 +141,7 @@ class ListCarHourlyBooking extends Component {
         });
     }
 
-    renderItem(obj) {
+    renderListCar(obj) {
         // const { navigation } = this.props;
         // var listCarType = navigation.getParam('listCarType');
         // var str = listCarType.replace(/\s+/g, '');
@@ -118,8 +152,8 @@ class ListCarHourlyBooking extends Component {
             obj.length < 1 ?
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
                     <Image
-                        style={{ width: 80, height: 80}}
-                        source={require('../../../image/sorry.png')} 
+                        style={{ width: 80, height: 80 }}
+                        source={require('../../../image/sorry.png')}
                     />
                     <Text style={{ textAlign: 'center' }}>Khu vực bạn chọn hiện không có xe. </Text>
                     <TouchableOpacity
@@ -133,78 +167,65 @@ class ListCarHourlyBooking extends Component {
                         <Text style={{ color: '#fff', fontWeight: 'bold' }}>ĐẶT XE THEO YÊU CẦU</Text>
                     </TouchableOpacity>
                 </View> :
-                <ScrollView
+                <FlatList
+                    showsHorizontalScrollIndicator={false}
                     showsVerticalScrollIndicator={false}
-                >
-                    <View>
-                        {obj.map((item, index) => (
-                            <View>
-                                <View
-                                    key={index}
-                                    style={styles.container}
-                                >
-                                    <View style={{ flexDirection: 'row' }}>
-                                        <View style={styles.containerr}>
-                                            <Text style={styles.loaixe}>
-                                                {item.partner_name.toUpperCase()}
-                                            </Text>
-                                            <Text style={styles.giaTien}>{item.vehicle_name}</Text>
-                                            <StarVote number={item.star_vote} />
-                                            <Text style={styles.giaTien}>giới hạn {item.km_limit_format}</Text>
-                                            <Text style={[styles.loaixe, { color: '#00363d' }]}>{item.price_format}</Text>
-                                        </View>
-                                        <View style={styles.imageRight}>
-                                            <Image
-                                                style={{ width: 150, height: 90, }}
-                                                source={{ uri: item.vehicle_icon, }}
-                                                resizeMode="contain"
-                                            />
-                                        </View>
+                    data={obj}
+                    renderItem={({ item }) => {
+                        return (
+                            <View style = {styles.container}>
+                                <View style={{ flexDirection: 'row', }}>
+                                    <View style={styles.containerr}>
+                                        <Text style={styles.loaixe}>
+                                            {item.partner_name.toUpperCase()}
+                                        </Text>
+                                        <Text style={styles.giaTien}>{item.vehicle_name}</Text>
+                                        <StarVote number={item.star_vote} />
+                                        <Text style={styles.giaTien}>giới hạn {item.km_limit_format}</Text>
+                                        <Text style={[styles.loaixe, { color: '#00363d' }]}>{item.price_format}</Text>
                                     </View>
-                                    <View>
-                                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
-                                            <Image
-                                                style={{ width: 16, height: 16, marginRight: 8, }}
-                                                source={require('../../../image/note.png')} />
-                                            <Text style={{ flex: 1, }}>Phụ trội theo km : {item.extra_price_km} đ/km</Text>
-                                        </View>
-                                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
-                                            <Image
-                                                style={{ width: 16, height: 16, marginRight: 8, }}
-                                                source={require('../../../image/note.png')} />
-                                            <Text style={{ flex: 1, }}>Phụ trội theo giờ : {item.extra_price_hour} đ/giờ</Text>
-                                        </View>
-                                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
-                                            <Image
-                                                style={{ width: 16, height: 16, marginRight: 8, }}
-                                                source={require('../../../image/note.png')} />
-                                            <Text style={{ flex: 1, }}>Giá đã bao gồm tiền xăng và lái xe, chưa bao gồm phí cầu đường, bến bãi, đỗ xe.</Text>
-                                        </View>
+                                    <View style={styles.imageRight}>
+                                        <Image
+                                            style={{ width: 150, height: 90, }}
+                                            source={{ uri: item.vehicle_icon, }}
+                                            resizeMode="contain"
+                                        />
                                     </View>
-                                    {/* <TouchableOpacity
-                                        style={{ height: 40, padding: 4, justifyContent: 'center', backgroundColor: '#77a300', alignItems: 'center', marginTop: 8 }}
-                                        onPress={() => {
-                                            this.gotoInfocustommerHourlyBooking(item);
-                                        }
-                                        }
-                                    >
-                                        <Text style={{ color: '#FFFFFF', fontSize: 20, fontWeight: 'bold' }}>CHỌN XE</Text>
-                                    </TouchableOpacity> */}
-                                    <Button
-                                        onPress={() => {
-                                            this.gotoInfocustommerHourlyBooking(item);
-                                        }}
-                                        value={'CHỌN XE'}
-                                    />
-
-
                                 </View>
 
+                                <View>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
+                                        <Image
+                                            style={{ width: 16, height: 16, marginRight: 8, }}
+                                            source={require('../../../image/note.png')} />
+                                        <Text style={{ flex: 1, }}>Phụ trội theo km: {item.extra_price_km} đ/km</Text>
+                                    </View>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
+                                        <Image
+                                            style={{ width: 16, height: 16, marginRight: 8, }}
+                                            source={require('../../../image/note.png')} />
+                                        <Text style={{ flex: 1, }}>Phụ trội theo giờ: {item.extra_price_hour} đ/giờ</Text>
+                                    </View>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
+                                        <Image
+                                            style={{ width: 16, height: 16, marginRight: 8, }}
+                                            source={require('../../../image/note.png')} />
+                                        <Text style={{ flex: 1, }}>Giá đã bao gồm tiền xăng và lái xe, chưa bao gồm phí cầu đường, bến bãi, đỗ xe.</Text>
+                                    </View>
+                                </View>
+
+                                <Button
+                                    onPress={() => {
+                                        this.gotoInfocustommerHourlyBooking(item);
+                                    }}
+                                    value={'CHỌN XE'}
+                                />
                             </View>
-                        ))
-                        }
-                    </View>
-                </ScrollView>
+                        )
+                    }
+                    }
+                />
+
         )
     }
     nextScreen() {
@@ -229,8 +250,8 @@ class ListCarHourlyBooking extends Component {
         }
         var obj = [...this.state.dataSource];
         return (
-            <View style={{ flex: 1, padding: 8,justifyContent: 'center', alignItems : 'center' }}>
-                {this.renderItem(obj)}
+            <View style={{ flex: 1, padding: 8,}}>
+                {this.renderListCar(obj)}
             </View>
         );
     }
@@ -300,6 +321,18 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flex: 1,
         flexDirection: 'row',
+    },
+    card: {
+        shadowOffset: { height: 2, width: 2 },
+        backgroundColor: '#fff',
+        shadowColor: '#000',
+        shadowOpacity: 0,
+        elevation: 5,
+        paddingHorizontal: 8,
+        paddingVertical: 8,
+        marginVertical : 8,
+        marginHorizontal : 8,
+        borderRadius: 8,
     },
 })
 

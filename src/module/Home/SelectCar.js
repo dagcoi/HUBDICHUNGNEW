@@ -14,16 +14,16 @@ function SelectCar({
                 style={{ flex: 1, flexDirection: 'row', }}
                 onPress={onPress}
             >
-                <View style={{ width : 100, height : 100, justifyContent: 'center', backgroundColor: backgroundColor, borderBottomLeftRadius: 8, borderTopLeftRadius: 8,}}>
+                <View style={{ width: 100, height: 100, justifyContent: 'center', backgroundColor: backgroundColor, borderBottomLeftRadius: 8, borderTopLeftRadius: 8, }}>
                     <Image
-                        style={{ flex: 1,}}
+                        style={{ flex: 1, borderBottomLeftRadius: 8, borderTopLeftRadius: 8 }}
                         source={source}
-                        resizeMode = 'cover'
+                        resizeMode='cover'
                     />
                 </View>
-                <View style={{ flex: 5, padding: 8, justifyContent: 'center', borderBottomEndRadius: 8, borderTopRightRadius: 8, backgroundColor: '#eeeeee' }}>
-                    <Text style={{ fontWeight: 'bold', fontSize: 18 }}>{title}</Text>
-                    <Text>{textDetail}</Text>
+                <View style={{ flex: 5, padding: 8, justifyContent: 'center', borderBottomEndRadius: 8, borderTopRightRadius: 8, backgroundColor: '#ffffff' }}>
+                    <Text style={{ fontWeight: 'bold', fontSize: 14 }}>{title}</Text>
+                    <Text style={{ fontSize: 12 }}>{textDetail}</Text>
                 </View>
             </TouchableOpacity>
         </View>
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         borderColor: '#ffffff',
         height: 100,
-        marginTop: 8,
+        marginTop: 10,
     },
 })
 

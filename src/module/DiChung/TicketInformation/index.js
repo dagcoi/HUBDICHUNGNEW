@@ -7,8 +7,10 @@ import { NavigationActions, StackActions } from 'react-navigation';
 import { Button, ButtonGray, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 import PopUp from '../../../component/PopUp'
+import OtpInputs from 'react-native-otp-inputs';
+import { handleAndroidBackButton, removeAndroidBackButtonHandler, exitAlert } from '../../../component/AndroidBackButton'
 
-const imageLocation = '../../../image/location.png'
+const imageLocation = '../../../image/location2.png'
 const imageCalendar = '../../../image/calendar.png'
 const imagePeople = '../../../image/people.png'
 const imageIconCar = '../../../image/iconcar.png'
@@ -42,11 +44,44 @@ class TicketInformation extends Component {
             listWhyCan: [],
             value: 0,
             dialogCancelSuccess: false,
-            showMessage : false
+            showMessage: false,
+            loadData: true,
+            timeReload: 2000,
+            modalTell: false,
         }
     }
 
-    async componentDidMount() {
+    componentDidMount() {
+        this.getTicketbyBookigId()
+        handleAndroidBackButton(exitAlert)
+    }
+
+    componentWillUnmount(){
+        removeAndroidBackButtonHandler()
+    }
+
+    getTicketbyBookigId() {
+        this._interval = setInterval(() => {
+            const { navigation } = this.props;
+            const url = link.URL_API_PORTAL + `booking/v1/bookings/${navigation.getParam('id_booking')}`
+            if (this.state.loadData) {
+                return fetch(url)
+                    .then((res) => res.json())
+                    .then((jsonRes) => {
+                        this.setState({
+                            info: jsonRes.data,
+                            is_loading: false,
+                            timeReload: jsonRes.data.forward.status == 'forwarded' ? 20000 : 2000
+                        })
+                    }
+                    )
+            } else {
+                return null;
+            }
+        }, this.state.timeReload);
+    }
+
+    async getTicketbySDT() {
         const { navigation } = this.props;
         const url = link.URL_API + `passenger/get_ticket_info`
         const formData = new FormData();
@@ -70,28 +105,36 @@ class TicketInformation extends Component {
     }
 
     renderDetailTrip(item) {
+        const time = item.bookingTime
+        const date = new Date(time).toLocaleDateString()
+        const hours = new Date(time).toLocaleTimeString()
+        const strtime = hours + " " + date
         return (
             <View>
                 <Text style={styles.textBigLeft1}>Chi tiết chuyến đi</Text>
 
                 <ImageTextDiChung
                     source={require(imageLocation)}
-                    text={item.pick_address_api}
+                    // text={item.pick_address_api}
+                    text={item.startPoints[0].address}
                 />
 
                 <ImageTextDiChung
                     source={require(imageLocation)}
-                    text={item.drop_address_api}
+                    // text={item.drop_address_api}
+                    text={item.endPoints[0].address}
                 />
 
                 <ImageTextDiChung
                     source={require(imageCalendar)}
-                    text={item.in_time + ' ' + item.in_date}
+                    // text={item.in_time + ' ' + item.in_date}
+                    text={strtime}
                 />
 
                 <ImageTextDiChung
                     source={require(imagePeople)}
-                    text={item.chair_count + ' xe'}
+                    // text={item.chair_count + ' xe'}
+                    text={item.slot + ' xe'}
                 />
             </View>
         )
@@ -104,7 +147,8 @@ class TicketInformation extends Component {
 
                 <ImageTextDiChung
                     source={require(imageIconCar)}
-                    text={item.ride_method_id == '1' ? 'Đi riêng' : 'Đi chung'}
+                    // text={item.ride_method_id == '1' ? 'Đi riêng': 'Đi chung'}
+                    text={item.rideMethod == 'private' ? 'Đi riêng' : 'Đi chung'}
                 />
             </View>
         )
@@ -117,17 +161,20 @@ class TicketInformation extends Component {
 
                 <ImageTextDiChung
                     source={require(imagePerson)}
-                    text={item.fullname}
+                    // text={item.fullname}
+                    text={item.bookingUser.fullName}
                 />
 
                 <ImageTextDiChung
                     source={require(imageIconPhone)}
-                    text={item.other_phone}
+                    // text={item.other_phone}
+                    text={item.bookingUser.phone}
                 />
 
                 <ImageTextDiChung
                     source={require(imageEmail)}
-                    text={item.email}
+                    // text={item.email}
+                    text={item.bookingUser.email}
                 />
             </View>
         )
@@ -141,12 +188,14 @@ class TicketInformation extends Component {
 
                 <ImageTextDiChung
                     source={require(imagePerson)}
-                    text={item.use_name}
+                    // text={item.use_name}
+                    text={item.beneficiary.fullName}
                 />
 
                 <ImageTextDiChung
                     source={require(imageIconPhone)}
-                    text={item.use_phone}
+                    // text={item.use_phone}
+                    text={item.beneficiary.phone}
                 />
 
             </View>
@@ -162,17 +211,25 @@ class TicketInformation extends Component {
                 <Text style={styles.textBigLeft1}>Thanh toán và khác</Text>
                 <ImageTextDiChung
                     source={require(imagePayment)}
-                    text={item.pay_method_name}
+                    // text={item.pay_method_name}
+                    text={item.payment.method == 'cash' ? 'Trả sau' : 'Trả trước'}
                 />
-                {item.board_price != '0' ?
+                {/* {item.board_price != '0' ? */}
+                {item.extra.catch_in_house != '0' ?
                     <ImageTextDiChung
                         source={require(imageDone)}
                         text={'Đón bằng biển tên (+ 30.000 ₫)'}
                     /> : null}
-                {item.xhd == 1 ?
+                {/* {item.xhd == 1 ? */}
+                {item.extra.xhd == 1 ?
                     <ImageTextDiChung
                         source={require(imageDone)}
                         text={'+10 %'}
+                    /> : null}
+                {item.promotion !== '' ?
+                    <ImageTextDiChung
+                        source={require(imageDone)}
+                        text={'Mã giảm giá: ' + item.promotion}
                     /> : null}
             </View>
         )
@@ -182,12 +239,15 @@ class TicketInformation extends Component {
         return (
             <View>
                 <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', }}>
-                    <Text style={styles.textBigLeft1}>Tổng thanh toán : </Text>
-                    <Text style={styles.textBigRight1}>
-                        {parseInt(item.total_cost).format(0, 3, '.')} đ
-                </Text>
+                    <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
+                    {item.forward.status == 'forwarded' ?
+                        <Text style={styles.textBigRight1}>
+                            {/* {parseInt(item.total_cost).format(0, 3, '.')} đ */}
+                            {parseInt(item.forward.result.total_cost).format(0, 3, '.')} đ
+                    </Text>
+                        : null}
                 </View>
-                <Text style={{ marginBottom: 8, textAlign: 'right' }}>{item.toll_fee == 'NA' ? "Giá chưa bao giờ phí cầu đường" : "Giá trọn gói không phí ẩn"}</Text>
+                {/* <Text style={{ marginBottom: 8, textAlign: 'right' }}>{item.toll_fee == 'NA' ? "Giá chưa bao giờ phí cầu đường": "Giá trọn gói không phí ẩn"}</Text> */}
             </View>
         )
     }
@@ -210,7 +270,7 @@ class TicketInformation extends Component {
         this.setState({
             message: jsonRes.msg,
             modalVisible: false,
-            showMessage : true
+            showMessage: true
         });
         if (jsonRes.code == 'error') {
             this.setState({
@@ -321,25 +381,33 @@ class TicketInformation extends Component {
             return (
                 <View style={styles.container}>
                     <ScrollView showsVerticalScrollIndicator={false}>
-                        <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                            <Image
-                                style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
-                                source={{ uri: item.vehicle_icon }}
-                            />
-                        </View>
 
-                        <Text style={styles.textBigRight}>Mã thuê xe của bạn: <Text style={{ fontWeight: 'bold' }}>{item.ticket_code}</Text></Text>
-                        {item.transaction_status_id == '1' ?
-                            <Text style={styles.textBigRight}>Yêu cầu đặt xe của bạn đã được hệ thồng ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>
-                            : <View>
-                                <Text>Thông tin mã vé : <Text style={{ fontWeight: 'bold' }}>{item.transaction_status_name}</Text></Text>
-                                <Text>Mọi thắc mắc vui lòng liên hệ : <Text
-                                    style={{ color: '#77a300', fontWeight: 'bold' }}
-                                    onPress={() => Linking.openURL(`tel: 19006022`)}
-                                >19006022</Text>
-                                </Text>
-                            </View>
+                        {item.forward.status == 'forwarded' ?
+                            <Text style={styles.textBigRight}>Mã thuê xe của bạn: <Text style={{ fontWeight: 'bold', backgroundColor: '#77a300', color: '#fff', padding: 4 }}>{item.code}</Text></Text>
+                            : <Text style={styles.textBigRight}>Yêu cầu đặt xe của bạn đã được hệ thồng ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>
                         }
+
+                        <Text style={styles.textBigRight}>Trạng thái: <Text style={{ fontWeight: 'bold', color: item.status == 'cancelled' ? '#ef465f' : '#333333' }}>
+                            {item.forward.status == 'wait_to_confirm' ? 'Chờ xác nhận' :
+                                item.forward.status == 'cs_confirmed' ? 'CS xác nhận' :
+                                    item.forward.status == 'forwarded' ? 'Đặt xe thành công' :
+                                        item.forward.status == 'wait_for_driver' ? 'Tìm tài xế' :
+                                            item.forward.status == 'driver_accepted' ? 'Tài xế chấp nhận' :
+                                                item.forward.status == 'picked_up' ? 'Đã đón khách' :
+                                                    item.forward.status == 'completed' ? 'Hoàn thành chuyến đi' :
+                                                        item.forward.status == 'cancelled' ? 'Đã hủy vé' :
+                                                            'Tất cả'
+                            }
+                        </Text></Text>
+
+                        <Text>Mọi thắc mắc vui lòng liên hệ: <Text
+                            style={{ color: '#77a300', fontWeight: 'bold', textDecorationLine: 'underline' }}
+                            onPress={() => Linking.openURL(`tel: 19006022`)}
+                        >
+                            19006022
+                            </Text>
+                        </Text>
+
                         {this.renderDetailTrip(item)}
                         {this.renderDetailOrder(item)}
                         {this.renderDetailCustommer(item)}
@@ -360,92 +428,17 @@ class TicketInformation extends Component {
                             }}
                         />
                         <View style={{ marginBottom: 8, }}></View>
-                        {item.transaction_status_id == '4' ? null :
+                        {(item.status == 'cancelled' || item.status == 'completed' || item.status == 'picked_up')? null :
                             <ButtonGray
                                 value='HỦY VÉ'
                                 onPress={() => {
                                     this.setState({
-                                        modalVisible: true,
+                                        modalTell: true,
                                     })
-                                    this.cancelBookingToken();
+                                    // this.cancelBookingToken();
                                 }}
                             />
                         }
-                        {/* <Dialog
-                            visible={this.state.dialogOTP}
-                            width={0.8}
-                            dialogTitle={<DialogTitle title="Xác nhận hủy vé" />}
-                            // footer={
-                            //     <DialogFooter>
-                            //         <DialogButton
-                            //             text="Hủy vé"
-                            //             onPress={() => {
-                            //                 if (this.state.otp.length < 4) {
-
-                            //                 } else {
-                            //                     this.setState({ modalVisible: true, })
-                            //                     this.cancelBooking();
-                            //                 }
-                            //             }}
-                            //         />
-                            //         <DialogButton
-                            //             text="Đóng"
-                            //             onPress={() => {
-                            //                 this.setState({
-                            //                     dialogOTP: false,
-                            //                     otp: '',
-                            //                 })
-                            //             }}
-                            //         />
-                            //     </DialogFooter>
-                            // }
-                        >
-                            <View>
-                                <View style={{
-                                    alignItems: "center", padding : 8
-                                }}>
-                                    <Text style={{ fontSize: 16, fontWeight: '100' }}>Mã xác thực hủy chuyến được gửi tới email và số điện thoại của bạn</Text>
-
-                                    <OTPInputView
-                                        style={{ padding: 20, height: 80, justifyContent: 'center', alignItems: 'center' }}
-                                        pinCount={4}
-                                        autoFocusOnLoad
-                                        code={this.state.otp}
-                                        onCodeChanged={code => { this.setState({ otp: code }) }}
-                                        codeInputHighlightStyle={styles.underlineStyleHighLighted}
-                                        onCodeFilled={(code => {
-                                            this.setState({
-                                                otp: code,
-                                            })
-                                        })}
-                                    />
-                                    <Text>{this.state.message}</Text>
-                                    <View style = {{flexDirection : 'column'}}>
-                                    <ButtonDialog
-                                        text="Hủy vé"
-                                        onPress={() => {
-                                            if (this.state.otp.length < 4) {
-
-                                            } else {
-                                                this.setState({ modalVisible: true, })
-                                                this.cancelBooking();
-                                            }
-                                        }}
-                                    />
-                                    <ButtonDialog
-                                        text="Đóng"
-                                        onPress={() => {
-                                            this.setState({
-                                                dialogOTP: false,
-                                                otp: '',
-                                            })
-                                        }}
-                                    />
-                                    </View>
-                                </View>
-                            </View>
-
-                        </Dialog> */}
 
                         <Modal
                             visible={this.state.dialogOTP}
@@ -465,7 +458,7 @@ class TicketInformation extends Component {
                                             autoFocusOnLoad
                                             code={this.state.otp}
                                             onCodeChanged={code => { this.setState({ otp: code, showMessage: false }) }}
-                                            codeInputHighlightStyle={styles.underlineStyleHighLighted}
+                                            // codeInputHighlightStyle={styles.underlineStyleHighLighted}
                                             onCodeFilled={code => {
                                                 this.setState({
                                                     otp: code,
@@ -496,6 +489,41 @@ class TicketInformation extends Component {
                                                 this.setState({
                                                     dialogOTP: false,
                                                     otp: '',
+                                                })
+                                            }}
+                                            style={{ backgroundColor: '#77a300', margin: 4, flex: 1, alignItems: 'center', justifyContent: 'center', padding: 4 }}>
+                                            <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold', margin: 8 }}>Đóng</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                            </View>
+                        </Modal>
+
+                        <Modal
+                            visible={this.state.modalTell}
+                            transparent={true}
+                        >
+                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000000AA' }}>
+                                <View style={{ width: '80%', justifyContent: 'center', borderRadius: 8, minHeight: 100, backgroundColor: '#eee', padding: 8 }}>
+                                    <View style={{ borderBottomWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', }}>
+                                        <Text style={{ fontSize: 20, }}>Hủy vé</Text>
+                                    </View>
+                                    <View style={{ padding: 8 }}>
+                                        <Text>Vui lòng liên hệ: <Text
+                                            style={{ color: '#77a300' }}
+                                            onPress={() => Linking.openURL(`tel: 19006022`)}
+                                        >
+                                            19006022
+                                        </Text> để được hỗ trợ</Text>
+
+
+                                    </View>
+
+                                    <View style={{ flexDirection: 'row', height: 48, alignItems: 'center', justifyContent: 'center' }}>
+                                        <TouchableOpacity
+                                            onPress={() => {
+                                                this.setState({
+                                                    modalTell: false,
                                                 })
                                             }}
                                             style={{ backgroundColor: '#77a300', margin: 4, flex: 1, alignItems: 'center', justifyContent: 'center', padding: 4 }}>
@@ -562,7 +590,7 @@ const styles = StyleSheet.create({
     textBigRight: {
         padding: 1,
         fontSize: 15,
-        color: '#00363d',
+        // color: '#00363d',
         flex: 1,
     },
     textBigLeft1: {
@@ -599,7 +627,18 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#77a300',
         flex: 1,
-        textAlign: "right"
+        textAlign: "right", 
+        marginTop : 8,
+    },
+    underlineStyleBase: {
+        width: 30,
+        height: 45,
+        borderWidth: 0,
+        borderBottomWidth: 1,
+    },
+
+    underlineStyleHighLighted: {
+        borderColor: "#77a300",
     },
 })
 

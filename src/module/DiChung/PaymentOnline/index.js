@@ -11,7 +11,7 @@ class PaymentOnline extends Component {
         this.state = {
             cookie: null,
             isLoading: true,
-            url : '',
+            url: '',
         }
     }
 

@@ -1,5 +1,8 @@
+import * as React from 'react';
 import { createAppContainer } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
+import { createStore, applyMiddleware, combineReducers, bindActionCreators } from 'redux';
+// import * as ModalAction from './module/RootModal/ModalAction';
 
 import Home from './module/Home'
 import Splash from './module/Splash'
@@ -65,13 +68,30 @@ import SearchTicket from './module/SearchTicket'
 import Login from './module/Account/Login'
 import Profile from './module/Account/Profile'
 import ListBooking from './module/ListBooking'
+import DetailTicket from './module/ListBooking/DetailTicket.js'
 import Registration from './module/Account/Registration'
 
 import { createDrawerNavigator } from 'react-navigation-drawer'
-
+import CustomNavigator from './component/CustomNavigator'
+import { connect } from 'react-redux'
 
 // import OTP from './module/OTP'
 // import { createDrawerNavigator } from 'react-navigation-drawer'
+
+const ListBookingDetail = createStackNavigator({
+    ListBooking: {
+        screen: ListBooking,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    DetailTicket: {
+        screen: DetailTicket,
+        navigationOptions: {
+            title: 'Chi tiết mã vé'
+        }
+    }
+})
 
 const RootStack = createStackNavigator({
 
@@ -97,7 +117,7 @@ const RootStack = createStackNavigator({
         navigationOptions: {
             title: 'Thuê xe taxi',
         },
-        path: 'https://dichung.vn/thue-xe-taxi'
+        path: '/thue-xe-taxi'
     },
 
     ConfirmInformation: {
@@ -401,7 +421,7 @@ const RootStack = createStackNavigator({
         navigationOptions: {
             title: 'Xác nhận đặt xe'
         }
-    }
+    },
 
     // Registration : {
     //     screen : Registration,
@@ -432,18 +452,18 @@ const DrawerNavi = createDrawerNavigator({
     Main: {
         screen: RootStack,
         navigationOptions: {
-            title: 'Trang chủ',
+            title: 'Đặt xe',
             alignItems: 'center'
         }
     },
 
-    SearchTicket: {
-        screen: SearchTicket,
-        navigationOptions: {
-            title: 'Tra cứu mã vé',
-            alignItems: 'center'
-        }
-    },
+    // SearchTicket: {
+    //     screen: SearchTicket,
+    //     navigationOptions: {
+    //         title: 'Tra cứu mã vé',
+    //         alignItems: 'center'
+    //     }
+    // },
 
     AboutUs: {
         screen: AboutUs,
@@ -474,18 +494,30 @@ const DrawerNavi = createDrawerNavigator({
         },
     },
     ListBooking: {
-        screen: ListBooking,
-        navigationOptions: {
-            title: 'Danh sách vé',
-            alignItems: 'center'
+        screen: ListBookingDetail,
+        // navigationOptions: {
+        //     title: 'Danh sách vé',
+        //     alignItems: 'center'
+        // }
+        navigationOptions: ({ navigation }) => {
+            // if (this.props.isLogin == '0') {
+            //     return {
+            //         drawerLabel: () => null,
+            //     }
+            // } else {
+            return {
+                drawerLabel: () => 'Danh sách vé',
+            }
+            // }
         }
     },
 
-    Profile: {
+    Profiles: {
         screen: Profiles,
-        navigationOptions: {
-            title: 'Thông tin',
-            alignItems: 'center'
+        navigationOptions: ({ navigation }) => {
+            return {
+                drawerLabel: () => null,
+            }
         }
     },
 
@@ -496,30 +528,34 @@ const DrawerNavi = createDrawerNavigator({
     contentOptions: {
         activeTintColor: '#77a300',
         activeBackgroundColor: '#e8e8e8',
-    }
+    },
+    contentComponent: CustomNavigator,
 })
 
 const MainStack = createStackNavigator({
-
-    Login: {
-        screen: Login,
-        navigationOptions: {
-            header: null,
-        }
-    },
-    // Splash: {
-    //     screen: Splash,
-    //     navigationOptions: {
-    //         header: null,
-    //     },
-    // },
 
     Home: {
         screen: DrawerNavi,
         navigationOptions: {
             header: null,
         }
-    }
+    },
+
+    Profiles: {
+        screen: Profiles,
+        navigationOptions: {
+            title: 'Thông tin',
+            alignItems: 'center'
+        }
+    },
 })
 
-export default createAppContainer(DrawerNavi)
+function mapStateToProps(state) {
+    return {
+        link_avatar: state.thongtin.link_avatar,
+        name: state.thongtin.name,
+        isLogin: state.thongtin.isLogin,
+    }
+}
+
+export default connect(mapStateToProps)(createAppContainer(DrawerNavi))

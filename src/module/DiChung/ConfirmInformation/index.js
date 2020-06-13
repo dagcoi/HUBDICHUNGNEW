@@ -15,7 +15,7 @@ Number.prototype.format = function (n, x) {
     return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
 };
 
-const imageLocation = '../../../image/location.png'
+const imageLocation = '../../../image/location2.png'
 const imageCalendar = '../../../image/calendar.png'
 const imagePeople = '../../../image/people.png'
 const imageIconCar = '../../../image/iconcar.png'
@@ -41,10 +41,16 @@ class ConfirmInformation extends Component {
             result: null,
             ticket: null,
             visibalAgain: false,
+            depart_time2: '',
+            id_booking: null,
         }
     }
 
     componentDidMount() {
+        console.log('token' + this.props.token)
+        console.log('vehice_id' + this.props.vehice_id)
+        console.log('vehicle_name' + this.props.vehicle_name)
+        console.log('vehicle_icon' + this.props.vehicle_icon)
         this._interval = setInterval(() => {
             const url = link.URL_API + `agent/check_night_booking_partner_received?ticket_id=${this.state.ticket}`
             if (this.state.visibleSearchDriver) {
@@ -64,6 +70,10 @@ class ConfirmInformation extends Component {
                 return null;
             }
         }, 5000);
+        console.log(this.props.depart_time2);
+        var time = new Date(this.props.depart_time2 + '+07:00').getTime();
+        console.log(time);
+        this.setState({ depart_time2: time })
     }
 
     async reBiddingTicket() {
@@ -221,8 +231,8 @@ class ConfirmInformation extends Component {
         const { navigation } = this.props;
         return (
             <View>
-                <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', }}>
-                    <Text style={styles.textBigLeft1}>Tổng thanh toán : </Text>
+                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
+                    <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
                     <Text style={styles.textBigRight1}>{((this.props.merged + (navigation.getParam('broad_price') ? 30000 : 0) - (navigation.getParam('blDiscount') ? this.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1) + (this.props.toll_fee == 'NA' ? 0 : + parseInt(this.props.toll_fee))).format(0, 3, '.')} đ</Text>
                 </View>
                 <Text style={{ marginBottom: 8, textAlign: 'right' }}>{this.props.toll_fee == "NA" ? "Giá chưa bao gồm phí cầu đường" : "Giá trọn gói không phí ẩn"}</Text>
@@ -284,7 +294,7 @@ class ConfirmInformation extends Component {
                     {!navigation.getParam('broad_price') ? null :
                         <ImageTextDiChung
                             source={require(imageDone)}
-                            text={'Đón biển tên : +30.000 đ'}
+                            text={'Đón biển tên: +30.000 đ'}
                         />
                     }
 
@@ -296,7 +306,7 @@ class ConfirmInformation extends Component {
                     <Button
                         value={'Xác nhận đặt xe'}
                         onPress={() => {
-                            this.state.callingApi ? null : navigation.getParam('Payment') == '0' ? this.addTicket() : this.addTicketPaymentOnline()
+                            this.state.callingApi ? null : navigation.getParam('Payment') == '0' ? this.addTicket2() : this.addTicketPaymentOnline()
                             this.setState({
                                 addingTicket: true,
                             })
@@ -390,7 +400,7 @@ class ConfirmInformation extends Component {
                                         source={{ uri: this.props.vehicle_icon }}
                                     />
                                 </View>
-                                <Text>Mã vé của bạn là :<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
+                                <Text>Mã vé của bạn là:<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
                                 <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất.</Text>
                                 <ButtonDialog
                                     text="Chi tiết mã vé"
@@ -409,21 +419,6 @@ class ConfirmInformation extends Component {
                     <Dialog
                         visible={!this.state.is_night_booking}
                         width={0.8}
-                        // footer={
-                        //     <DialogFooter>
-                        //         <DialogButton
-                        //             text="Chi tiết mã vé"
-                        //             onPress={() => {
-                        //                 this.setState({
-                        //                     dialogCalendarVisible: false,
-                        //                     is_night_booking: true
-                        //                 })
-                        //                 this.props.deleteData();
-                        //                 this.TicketInformation()
-                        //             }}
-                        //         />
-                        //     </DialogFooter>
-                        // }
                         dialogTitle={<DialogTitle title="Đặt xe thành công" />}
                     >
                         <View style={{ flexDirection: 'column', padding: 8 }}>
@@ -433,7 +428,7 @@ class ConfirmInformation extends Component {
                                     source={{ uri: this.props.vehicle_icon }}
                                 />
                             </View>
-                            <Text>Mã vé của bạn là :<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
+                            {/* <Text>Mã vé của bạn là:<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text> */}
                             <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất.</Text>
                             <ButtonDialog
                                 text="Chi tiết mã vé"
@@ -570,6 +565,112 @@ class ConfirmInformation extends Component {
                 this.setState({ addingTicket: false })
                 // console.log(error);
             });
+    }
+
+    addTicket2() {
+        const url = link.URL_API_PORTAL + `booking/v1/bookings`
+        console.log(url)
+        const { navigation } = this.props;
+        const jsonStr = JSON.stringify({
+            "provider": {
+                "name": "dichungtaxi"
+            },
+            "startPoints": [
+                {
+                    "address": this.props.pick_add,
+                    "lat": this.props.lattitude_pick,
+                    "long": this.props.lngtitude_pick
+                }
+            ],
+            "endPoints": [
+                {
+                    "address": this.props.drop_add,
+                    "lat": this.props.lattitude_drop,
+                    "long": this.props.lngtitude_drop
+                }
+            ],
+            "bookingUser": {
+                "email": this.props.email,
+                "phone": this.props.use_phone,
+                "fullName": this.props.full_name,
+                "gender": ""
+            },
+            "bookingTime": this.state.depart_time2,
+            "slot": 1,
+            "dimension": "one_way",
+            "rideMethod": "private",
+            "productType": "TRANSFER_SERVICE",
+            "vehicle": {
+                "id": this.props.vehice_id,
+                "name": this.props.vehicle_name,
+                "image": this.props.vehicle_icon
+            }
+            ,
+            "note": this.props.comment,
+            "beneficiary": {
+                "email": navigation.getParam('not_use') ? '' : this.props.email,
+                "phone": navigation.getParam('not_use') ? this.props.use_phone2 : this.props.use_phone,
+                "fullName": navigation.getParam('not_use') ? this.props.full_name2 : this.props.full_name,
+                "gender": ""
+            },
+            "bookingType": "",
+            "payment": {
+                "method": "cash"
+            },
+            "promotion": navigation.getParam('blDiscount') ? navigation.getParam('promotion') : "",
+            "invoice": navigation.getParam('xhd') ? {
+                "name": this.props.company_name,
+                "address": this.props.company_address,
+                "taxCode": this.props.company_mst,
+                "addressReceive": this.props.company_address_receive
+            } : '',
+            "extra": {
+                "ref_id": "",
+                "ref_user_id": "",
+                "ref_url": "",
+                "plane_number": this.props.plane_number,
+                "plane_type": this.props.is_airport == 'false' ? '' : navigation.getParam('plane_type') > 0 ? navigation.getParam('plane_type') : '',
+                "pm_id": this.props.pm_id,
+                "catch_in_house": navigation.getParam('broad_price') ? '1' : '0',
+                "chunk_id": this.props.chunk_id,
+                "dimension_id": this.props.dimension_id,
+                "vehicle_id": this.props.vehice_id,
+                "ride_method_id": this.props.ride_method_id,
+                "airport_id": this.props.airport_id,
+                "street_id": this.props.street_id,
+                "village_id": this.props.village_id,
+                "ignore_duplicate_warning": this.props.ignore_duplicate_warning,
+                "brand_partner_id": this.props.brand_partner_id,
+                "unmerged_select": this.props.unmerged,
+                "xhd": navigation.getParam('xhd') ? 1 : 0,
+                "city_id": this.props.city_id,
+                "use_range_time": this.props.use_range_time,
+                "referral_code": "",
+            }
+        })
+        console.log('abc :.........' + jsonStr)
+        console.log('abc :.........' + this.props.token)
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'token': this.props.token
+            },
+            body: jsonStr
+        })
+            .then(res => res.json())
+            .then(resJson => {
+                console.log(JSON.stringify(resJson))
+                console.log('a')
+                this.setState({
+                    callingApi: false,
+                    addingTicket: false,
+                    is_night_booking: resJson.is_night_booking,
+                    visibleSearchDriver: resJson.is_night_booking,
+                    id_booking: resJson.data._id,
+                })
+            })
     }
 
     addTicketPaymentOnline() {
@@ -751,6 +852,7 @@ class ConfirmInformation extends Component {
         this.props.navigation.navigate("TicketInformation", {
             'ticket_id': this.state.ticket,
             'phone_number': this.props.use_phone,
+            'id_booking': this.state.id_booking,
         })
     }
 
@@ -779,7 +881,8 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#77a300',
         flex: 1,
-        textAlign: "right"
+        textAlign: "right",
+        marginTop : 8,
     },
 
     textBigRight: {
@@ -808,6 +911,7 @@ function mapStateToProps(state) {
         pick_add: state.info.pick_add,
         merged: state.info.merged,
         depart_time: state.info.depart_time,
+        depart_time2: state.info.depart_time2,
         vehicle_name: state.info.vehicle_name,
         vat: state.info.vat,
         full_name: state.info.full_name,
@@ -856,6 +960,11 @@ function mapStateToProps(state) {
         discount_price: state.info.discount_price,
         people: state.info.people,
         is_airport: state.info.is_airport,
+        lattitude_pick: state.info.lattitude_pick,
+        lngtitude_pick: state.info.lngtitude_pick,
+        lattitude_drop: state.info.lattitude_drop,
+        lngtitude_drop: state.info.lngtitude_drop,
+        token: state.thongtin.token
     }
 }
 

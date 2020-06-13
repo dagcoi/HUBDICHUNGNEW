@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView, AsyncStorage } from 'react-native';
 import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBox from 'react-native-check-box'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
@@ -17,18 +17,12 @@ var radio_payment_detail = [
     { label: 'Paypal', value: 3, payment_method_ID: '4' },
 ]
 
-// var radio_payment = [
-//     { label: 'Trả sau', value: 0 },
-//     // { label: 'Trả trước', value: 1 },
-// ]
-
 const imageCancel = '../../../image/cancel.png'
 const imageCheck = '../../../image/checked.png'
 const imageUnCheck = '../../../image/unchecked.png'
 
 
 class InfoCustommerHourlyBooking extends Component {
-
     constructor() {
         super();
         this.state = {
@@ -67,23 +61,31 @@ class InfoCustommerHourlyBooking extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.merged)
-        console.log(this.props.partner_name)
-        console.log(this.props.extra_price_km_format)
-        console.log(this.props.extra_price_hour_format)
-        console.log(this.props.km_limit_format)
-        this.setState({
-            full_name: this.props.full_name,
-            full_name1: this.props.full_name1,
-            use_phone: this.props.use_phone,
-            use_phone1: this.props.use_phone1,
-            email: this.props.email,
-            email1: this.props.email1,
-            promotion_code: '',
-        })
-        this._validateEmail(this.props.email)
-        this.mobileValidate(this.props.use_phone)
-        this.mobileValidate1(this.props.use_phone1)
+        this.getdata()
+    }
+
+    async getdata(){
+        try {
+            const dataLogin = await AsyncStorage.getItem('dataLogin')
+            if (dataLogin !== null) {
+                let json = JSON.parse(dataLogin)
+                this.setState({
+                    full_name: json.username,
+                    full_name1: this.props.full_name1,
+                    use_phone: json.phone ?? '',
+                    use_phone1: this.props.use_phone1,
+                    email: json.email ?? '',
+                    email1: this.props.email1,
+                    promotion_code: '',
+                })
+                this._validateEmail(json.email ?? '')
+                this.mobileValidate(json.phone ?? '')
+                this.mobileValidate1(this.props.use_phone1)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+       
     }
 
     renderPostpaid() {
@@ -167,24 +169,24 @@ class InfoCustommerHourlyBooking extends Component {
                 visible={this.state.alertName || this.state.alertPhone || this.state.alertEmail || this.state.alertName2 || this.state.alertPhone2 || this.state.alertCompany || this.state.alertAirport}
                 width={0.8}
                 dialogTitle={<DialogTitle title='Thông tin chưa đủ' />}
-                // footer={
-                //     <DialogFooter>
-                //         <DialogButton
-                //             text="Đồng ý"
-                //             onPress={() => {
-                //                 this.setState({
-                //                     alertName: false,
-                //                     alertPhone: false,
-                //                     alertEmail: false,
-                //                     alertName2: false,
-                //                     alertPhone2: false,
-                //                     alertCompany: false,
-                //                     alertAirport: false,
-                //                 })
-                //             }}
-                //         />
-                //     </DialogFooter>
-                // }
+            // footer={
+            //     <DialogFooter>
+            //         <DialogButton
+            //             text="Đồng ý"
+            //             onPress={() => {
+            //                 this.setState({
+            //                     alertName: false,
+            //                     alertPhone: false,
+            //                     alertEmail: false,
+            //                     alertName2: false,
+            //                     alertPhone2: false,
+            //                     alertCompany: false,
+            //                     alertAirport: false,
+            //                 })
+            //             }}
+            //         />
+            //     </DialogFooter>
+            // }
             >
                 <View>
                     <View style={{ padding: 8, flexDirection: 'column' }}>
@@ -237,7 +239,7 @@ class InfoCustommerHourlyBooking extends Component {
                     <Text style={styles.textBig}>Số điện thoại</Text>
 
                     <InputTextDiChung
-                        style={styles.textInput}
+                        // style={styles.textInput}
                         placeholder='Số điện thoại'
                         value={this.state.use_phone1}
                         keyboardType='numeric'
@@ -250,7 +252,7 @@ class InfoCustommerHourlyBooking extends Component {
                     <Text style={styles.textBig}>Email</Text>
 
                     <InputTextDiChung
-                        style={styles.textInput}
+                        // style={styles.textInput}
                         placeholder='Email'
                         value={this.state.email1}
                         onChangeText={(text) => this.setState({
@@ -273,7 +275,7 @@ class InfoCustommerHourlyBooking extends Component {
                 <Text style={styles.textBig}>Ghi chú(Tùy chọn)</Text>
 
                 <InputTextDiChung
-                    style={styles.textInput}
+                    // style={styles.textInput}
                     placeholder='VD : Lái xe không hút thuốc'
                     value={this.state.comment}
                     onChangeText={(text) => {
@@ -324,24 +326,24 @@ class InfoCustommerHourlyBooking extends Component {
 
     checkInfoCustommerHourlyBooking() {
         if (this.state.full_name.trim().length < 2) {
-            this.setState({alertName : true})
+            this.setState({ alertName: true })
             return;
         }
         else if (!this.state.mobile_validate) {
-            this.setState({alertPhone : true})
+            this.setState({ alertPhone: true })
             return;
         }
         else if (!this.state.checkEmail) {
-            this.setState({alertEmail : true})
+            this.setState({ alertEmail: true })
         }
         else {
             if (this.state.is_checked) {
                 if (this.state.full_name1.trim().length < 2) {
-                    this.setState({alertName2 : true})
+                    this.setState({ alertName2: true })
                     return;
                 }
                 else if (!this.state.mobile_validate1) {
-                    this.setState({alertPhone2 : true})
+                    this.setState({ alertPhone2: true })
                     return;
                 }
             } else {
@@ -354,16 +356,16 @@ class InfoCustommerHourlyBooking extends Component {
     checkVat() {
         if (this.state.vat) {
             if (this.state.company_name.trim() == '') {
-                this.setState({alertCompany : true})
+                this.setState({ alertCompany: true })
                 return;
             } else if (this.state.company_address.trim() == '') {
-                this.setState({alertCompany : true})
+                this.setState({ alertCompany: true })
                 return;
             } else if (this.state.company_mst.trim() == '') {
-                this.setState({alertCompany : true})
+                this.setState({ alertCompany: true })
                 return;
             } else if (this.state.company_address_receive.trim() == '') {
-                this.setState({alertCompany : true})
+                this.setState({ alertCompany: true })
                 return;
             } else {
                 this.props.navigation.navigate('ConfirmInformationHB', {
@@ -439,7 +441,7 @@ class InfoCustommerHourlyBooking extends Component {
         return (
             <View>
                 <InputTextDiChung
-                    style={styles.textInput}
+                    // style={styles.textInput}
                     placeholder='Tên công ty'
                     value={this.state.company_name}
                     onChangeText={(text) => this.setState({
@@ -451,7 +453,7 @@ class InfoCustommerHourlyBooking extends Component {
                 />
 
                 <InputTextDiChung
-                    style={styles.textInput}
+                    // style={styles.textInput}
                     placeholder='Địa chỉ công ty'
                     value={this.state.company_address}
                     onChangeText={(text) => this.setState({
@@ -463,7 +465,7 @@ class InfoCustommerHourlyBooking extends Component {
                 />
 
                 <InputTextDiChung
-                    style={styles.textInput}
+                    // style={styles.textInput}
                     placeholder='Mã số thuế'
                     value={this.state.company_mst}
                     onChangeText={(text) => this.setState({
@@ -475,7 +477,7 @@ class InfoCustommerHourlyBooking extends Component {
                 />
 
                 <InputTextDiChung
-                    style={styles.textInput}
+                    // style={styles.textInput}
                     placeholder='Địa chỉ nhận hóa đơn'
                     value={this.state.company_address_receive}
                     onChangeText={(text) => this.setState({
@@ -501,7 +503,7 @@ class InfoCustommerHourlyBooking extends Component {
                     <Text style={styles.textBig}>Họ và tên</Text>
 
                     <InputTextDiChung
-                        style={styles.textInput}
+                        // style={styles.textInput}
                         placeholder='Nhập họ tên'
                         value={this.state.full_name}
                         onChangeText={(text) => this.setState({
@@ -515,7 +517,7 @@ class InfoCustommerHourlyBooking extends Component {
                     <Text style={styles.textBig}>Số điện thoại</Text>
 
                     <InputTextDiChung
-                        style={styles.textInput}
+                        // style={styles.textInput}
                         placeholder='Nhập số điện thoại'
                         value={this.state.use_phone}
                         onChangeText={(text) => this.mobileValidate(text)}
@@ -529,7 +531,7 @@ class InfoCustommerHourlyBooking extends Component {
 
                     <InputTextDiChung
                         // ref={(input) => { this.email = input; }}
-                        style={styles.textInput}
+                        // style={styles.textInput}
                         placeholder='Nhập Email'
                         value={this.state.email}
                         onChangeText={(text) => this._validateEmail(text)}
@@ -548,7 +550,7 @@ class InfoCustommerHourlyBooking extends Component {
                         isChecked={this.state.is_checked}
                         rightText={"Đặt xe cho người khác"}
                         rightTextStyle={{ fontSize: 16 }}
-                        checkBoxColor = {'#77a300'}
+                        checkBoxColor={'#77a300'}
                     />
 
                     {this.renderDatHo()}
@@ -657,7 +659,7 @@ class InfoCustommerHourlyBooking extends Component {
                         isChecked={this.state.vat}
                         rightText={"Xuất hóa đơn"}
                         rightTextStyle={{ fontSize: 16 }}
-                        checkBoxColor = {'#77a300'}
+                        checkBoxColor={'#77a300'}
                     />
                     {this.renderFormVAT()}
 

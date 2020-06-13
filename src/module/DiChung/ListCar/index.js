@@ -34,11 +34,11 @@ class ListCar extends Component {
             listNightBooking: [1],
 
             showFilter: false,
-            listFliter: {
+            listFilter: {
                 rideMethod: [],
                 type: [],
             },
-            // buyItems : [1,17,2,33,24],
+            // buyItems: [1,17,2,33,24],
             ride_method_id_list: [1, 2],
             listcar: [],
             listcarfilter: [],
@@ -60,26 +60,28 @@ class ListCar extends Component {
                 }}>Danh sách xe</Text>
 
                 <View
-                    style={{ width: 35, height: 35 }}
+                    style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
                 >
                     <TouchableOpacity
+                        style={{ justifyContent: 'center', alignItems: 'center' }}
                         onPress={navigation.getParam('setShowFilter')}
                     >
                         <Image
-                            style={{ width: 32, height: 32 }}
+                            style={{ width: 24, height: 24 }}
                             source={require(imageTune)}
                         />
                     </TouchableOpacity>
                 </View>
 
                 <View
-                    style={{ width: 35, height: 35 }}
+                    style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
                 >
                     <TouchableOpacity
+                        style={{ justifyContent: 'center', alignItems: 'center' }}
                         onPress={navigation.getParam('increaseCount')}
                     >
                         <Image
-                            style={{ width: 32, height: 32 }}
+                            style={{ width: 24, height: 24 }}
                             source={navigation.getParam('image') ? require(imageMaxToMin) : require(imageMinToMax)}
                         />
                     </TouchableOpacity>
@@ -90,7 +92,41 @@ class ListCar extends Component {
 
 
 
-    async componentDidMount() {
+    componentDidMount() {
+        this.getListCarNew()
+    }
+
+    async getListCarNew() {
+        const url = link.URL_API_PORTAL + 'price/v1/prices?transfer_service=TRANSFER_SERVICE&';
+        let parame = `${url}chair=${this.props.chair}&depart_time=${this.props.depart_time}&dimension_id=1&drop_address_component=${JSON.stringify(this.props.component_drop)}&drop_address=${this.props.drop_add}&pick_address_component=${JSON.stringify(this.props.component_pick)}&pick_address=${this.props.pick_add}&provider=dichungtaxi`
+        try {
+            const response = await fetch(parame, {
+                method: 'GET',
+            });
+            const responseJson = await response.json();
+            this.addListfilter(responseJson.data.data);
+            this.setStateAsync({
+                isLoading: false,
+                // listFilterType: ,
+                listFilter: this.filterCar(responseJson.data.data),
+                dataSource: responseJson.data.data,
+                is_from_airport: responseJson.data.is_from_airport
+            });
+            this.props.addIsFromAirport(responseJson.data.is_from_airport ? 'true' : 'false');
+            console.log(responseJson)
+            console.log(parame)
+            return responseJson.data.data;
+        }
+        catch (error) {
+            this.setStateAsync({
+                isLoading: false
+            });
+            console.log(error);
+        }
+        console.log(parame)
+    }
+
+    async getListCar() {
         const url = link.URL_API + 'passenger/get_price_list?product_chunk_type=TRANSFER_SERVICE';
         let formdata = new FormData();
         formdata.append("depart_time", this.props.depart_time);
@@ -100,7 +136,7 @@ class ListCar extends Component {
         formdata.append("drop_address", JSON.stringify(this.props.drop_add));
         formdata.append("drop_address_component", JSON.stringify(this.props.component_drop));
         formdata.append("chair", this.props.chair);
-        formdata.append("vehicle_id", 0)
+        // formdata.append("vehicle_id", 0)
         try {
             const response = await fetch(url, {
                 method: 'POST',
@@ -114,8 +150,8 @@ class ListCar extends Component {
             this.addListfilter(responseJson.data);
             this.setStateAsync({
                 isLoading: false,
-                // listFilterType : ,
-                listFliter: this.filterCar(responseJson.data),
+                // listFilterType: ,
+                listFilter: this.filterCar(responseJson.data),
                 dataSource: responseJson.data,
                 is_from_airport: responseJson.is_from_airport
             });
@@ -133,7 +169,6 @@ class ListCar extends Component {
         console.log(url)
         console.log(formdata)
     }
-
 
     addListfilter(list) {
         // var { listcar } = this.state;
@@ -259,16 +294,16 @@ class ListCar extends Component {
 
 
     filterCar(list) {
-        var listFliter = { rideMethod: [], type: [] }
+        var listFilter = { rideMethod: [], type: [] }
         list.forEach(element => {
-            if (listFliter.rideMethod.includes(element.ride_method_id)) {
-                listFliter.rideMethod.push(element.rideMethod)
+            if (listFilter.rideMethod.includes(element.ride_method_id)) {
+                listFilter.rideMethod.push(element.rideMethod)
             }
-            if (listFliter.type.includes(element.vehicle_id)) {
-                listFliter.type.push(element.type)
+            if (listFilter.type.includes(element.vehicle_id)) {
+                listFilter.type.push(element.type)
             }
         });
-        return listFliter;
+        return listFilter;
     }
 
     componentWillMount() {
@@ -293,8 +328,11 @@ class ListCar extends Component {
         } else {
             this.props.addTripInfomation(item.partner_name, item.merged, this.props.depart_time, item.chunk_id, item.vehicle_id, item.village_id, item.pm_id, item.partner_id, item.city_id, item.vehicle_name, item.toll_fee, item.dimension_id, item.vehicle_id, item.ride_method_id, item.chair, item.airport_id, item.street_id, item.vehicle_icon, item.pick_pos, item.drop_pos, item.use_range_time, item.unmerged);
         }
+        // this.props.addPayMethod(item.pay_methods)
+
         this.props.navigation.push("InfoCustommer", {
-            'isNightBooking': navigation.getParam('datdem')
+            // 'isNightBooking': navigation.getParam('datdem')
+            pay_methods: JSON.stringify(item.pay_methods)
         })
     }
     setStateAsync(state) {
@@ -412,7 +450,7 @@ class ListCar extends Component {
                                                         <Image
                                                             style={{ width: 16, height: 16, marginRight: 8, marginLeft: 8 }}
                                                             source={require('../../../image/notetollfee.png')} />
-                                                        <Text style={{ fontSize: 14 }}>Phí cầu đường : {parseInt(item.toll_fee).format(0, 3, '.')} đ</Text>
+                                                        <Text style={{ fontSize: 14 }}>Phí cầu đường: {parseInt(item.toll_fee).format(0, 3, '.')} đ</Text>
                                                     </View>
                                             :
                                             <View>
@@ -467,8 +505,8 @@ class ListCar extends Component {
 
                                         <Button
                                             onPress={() => {
-                                                console.log(index)
-                                                console.log(item.discount_data.partner_note)
+                                                console.log('index ... ' +index)
+                                                console.log('partner_note' +item.discount_data.partner_note)
                                                 this.gotoInfoCustommer(item)
                                             }}
                                             value={'CHỌN XE'}
@@ -500,7 +538,7 @@ class ListCar extends Component {
             )
         }
         var obj = [...this.state.dataSource];
-        var lf = { ...this.state.listFliter }
+        var lf = { ...this.state.listFilter }
         console.log(lf);
         return (
             <View style={{ flex: 1, padding: 8, }}>

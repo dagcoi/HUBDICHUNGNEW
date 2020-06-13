@@ -7,7 +7,7 @@ function Button({
     value,
 }) {
     return (
-        <View style={{ height: 40, flexDirection: 'row', backgroundColor: '#00000000', marginTop : 8 }} >
+        <View style={{ height: 40, flexDirection: 'row', backgroundColor: '#00000000', marginTop: 8 }} >
             <TouchableOpacity
                 style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300' }}
                 onPress={onPress}

@@ -13,7 +13,7 @@ Number.prototype.format = function (n, x) {
     return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
 };
 
-const imageLocation = '../../../image/location.png'
+const imageLocation = '../../../image/location2.png'
 const imageCalendar = '../../../image/calendar.png'
 const imagePerson = '../../../image/person.png'
 const imageIconPhone = '../../../image/iconphone.png'
@@ -125,7 +125,7 @@ class ConfirmInformationHourlyBookingTL extends Component {
                 />
                 <ImageTextDiChung
                     source={require(imageHourglass)}
-                    text={'Thời lượng : ' + this.props.duration + ' giờ'}
+                    text={'Thời lượng: ' + this.props.duration + ' giờ'}
                 />
             </View>
         )
@@ -142,17 +142,17 @@ class ConfirmInformationHourlyBookingTL extends Component {
                 <ImageTextDiChung
                     // source={require(imageIconCar)}
                     text={this.props.km_limit_format}
-                    textBold={'Giới hạn : '}
+                    textBold={'Giới hạn: '}
                 />
                 <ImageTextDiChung
                     // source={require(imageIconCar)}
                     text={this.props.extra_price_km}
-                    textBold={'Phụ trội theo km : '}
+                    textBold={'Phụ trội theo km: '}
                 />
                 <ImageTextDiChung
                     // source={require(imageIconCar)}
                     text={this.props.extra_price_hour + ' giờ'}
-                    textBold={'Phụ trội theo giờ : '}
+                    textBold={'Phụ trội theo giờ: '}
                 />
             </View>
         )
@@ -350,7 +350,7 @@ class ConfirmInformationHourlyBookingTL extends Component {
                         flex: 1,
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
-                        padding : 8,
+                        padding: 8,
                         backgroundColor: '#fff',
                     }}>
                         <View style={{ flex: 1, backgroundColor: '#fff', }}>
@@ -439,7 +439,8 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#77a300',
         flex: 1,
-        textAlign: "right"
+        textAlign: "right",
+        marginTop : 8,
     },
     textBigLeft: {
         fontSize: 14,

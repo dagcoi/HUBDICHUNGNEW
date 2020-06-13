@@ -484,7 +484,7 @@ class MapChungXe extends Component {
 
     nextScreen() {
         this.getDateTimeAlive();
-        if (this.props.pick_add != '' && this.props.drop_add != '' && this.state.time_pick != ''  &&this.state.city_name_dc != '') {
+        if (this.props.pick_add != '' && this.props.drop_add != '' && this.state.time_pick != '' && this.state.city_name_dc != '') {
             // console.log(this.state.spesentDay)
             // console.log(this.state.date.format('DD-MM-YYYY'))
             if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
@@ -650,7 +650,7 @@ class MapChungXe extends Component {
                         flexDirection: 'column',
                         backgroundColor: '#fff',
                     }}>
-                        <Text style={{ fontSize: 18, fontWeight: 'bold', margin: 8, textAlign : 'center' }}>{this.state.nhanxe ? 'Chọn ngày nhận xe' : 'Chọn ngày trả xe'}</Text>
+                        <Text style={{ fontSize: 18, fontWeight: 'bold', margin: 8, textAlign: 'center' }}>{this.state.nhanxe ? 'Chọn ngày nhận xe' : 'Chọn ngày trả xe'}</Text>
                         <CalendarPicker
                             textStyle={{
                                 color: '#000000',
@@ -854,15 +854,15 @@ class MapChungXe extends Component {
         if (Difference_In_Days < 1) {
             return true;
         } else if (Difference_In_Days == 1) {
-            if(selectedHours > selectedHours1){
-                return  true;
-            }else if(selectedHours == selectedHours1) {
-                if(selectedMinutes >= selectedMinutes1){
+            if (selectedHours > selectedHours1) {
+                return true;
+            } else if (selectedHours == selectedHours1) {
+                if (selectedMinutes >= selectedMinutes1) {
                     return true;
-                }else{
+                } else {
                     return false;
                 }
-            }else {
+            } else {
                 return false;
             }
         } else {

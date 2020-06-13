@@ -5,7 +5,7 @@ import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
 import { Button } from '../../../component/Button'
 
-const imageLocation = '../../../image/location.png'
+const imageLocation = '../../../image/location2.png'
 const imageCalendar = '../../../image/calendar.png'
 const imageIconCar = '../../../image/iconcar.png'
 const imagePerson = '../../../image/person.png'
@@ -31,49 +31,64 @@ class TicketInformationExpress extends Component {
             is_loading: true,
             message: '',
             value: 0,
+            loadData: true,
+            timeReload: 2000,
+            modalTell: false,
         }
     }
 
-    async componentDidMount() {
-        const { navigation } = this.props;
-        const url = link.URL_API + `passenger/get_ticket_info`
-        const formData = new FormData();
-        formData.append('ticket_code', navigation.getParam('ticket_id'));
-        formData.append('phone_number', navigation.getParam('phone_number'))
-        const res = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Accept': "application/json",
-                'Content-Type': "multipart/form-data",
-            },
-            body: formData
-        });
-        const jsonRes = await res.json();
-        this.setState({
-            info: jsonRes.data,
-            is_loading: false,
-        });
-        return (jsonRes);
+    componentDidMount() {
+        this.getTicketbyBookigId()
     }
 
+    getTicketbyBookigId() {
+        this._interval = setInterval(() => {
+            const { navigation } = this.props;
+            const url = link.URL_API_PORTAL + `booking/v1/bookings/${navigation.getParam('id_booking')}`
+            if (this.state.loadData) {
+                console.log(url);
+                return fetch(url)
+                    .then((res) => res.json())
+                    .then((jsonRes) => {
+                        // console.log(JSON.stringify(jsonRes))
+                        // console.log(jsonRes.data.result)
+                        this.setState({
+                            info: jsonRes.data,
+                            // loadData: jsonRes.data.forward.status == 'forwarded' ? false: true,
+                            is_loading: false,
+                            timeReload: jsonRes.data.forward.status == 'forwarded' ? 20000 : 2000
+                        })
+                    }
+                    )
+            } else {
+                return null;
+            }
+        }, this.state.timeReload);
+    }
+
+
     renderDetailTrip(item) {
+        const time = item.bookingTime
+        const date = new Date(time).toLocaleDateString()
+        const hours = new Date(time).toLocaleTimeString()
+        const strtime = hours + " " + date
         return (
             <View>
                 <Text style={styles.textBigLeft1}>Chi tiết dịch vụ</Text>
 
                 <ImageTextDiChung
                     source={require(imageCalendar)}
-                    text={item.in_time + ' ' + item.in_date}
+                    text={strtime}
                 />
 
                 <ImageTextDiChung
                     source={require(imageParcel)}
-                    text={item.chair_count + ' Bưu kiện'}
+                    text={item.slot + ' Bưu kiện'}
                 />
 
                 <ImageTextDiChung
                     source={require(imageIconCar)}
-                    text={'Loại dịch vụ : ' + item.transport_partner_name}
+                    text={'Loại dịch vụ: Vận chuyển hàng'}
                 />
             </View>
         )
@@ -86,22 +101,22 @@ class TicketInformationExpress extends Component {
 
                 <ImageTextDiChung
                     source={require(imagePerson)}
-                    text={item.fullname}
+                    text={item.bookingUser.fullName}
                 />
 
                 <ImageTextDiChung
                     source={require(imageIconPhone)}
-                    text={item.other_phone}
+                    text={item.bookingUser.phone}
                 />
 
                 <ImageTextDiChung
                     source={require(imageEmail)}
-                    text={item.email}
+                    text={item.bookingUser.email}
                 />
 
                 <ImageTextDiChung
                     source={require(imageLocation)}
-                    text={item.pick_address_api}
+                    text={item.startPoints[0].address}
                 />
 
                 <ImageTextDiChung
@@ -120,17 +135,17 @@ class TicketInformationExpress extends Component {
 
                 <ImageTextDiChung
                     source={require(imagePerson)}
-                    text={item.use_name}
+                    text={item.beneficiary.fullName}
                 />
 
                 <ImageTextDiChung
                     source={require(imageIconPhone)}
-                    text={item.use_phone}
+                    text={item.beneficiary.phone}
                 />
 
                 <ImageTextDiChung
                     source={require(imageLocation)}
-                    text={item.drop_address_api}
+                    text={item.endPoints[0].address}
                 />
             </View>
         )
@@ -145,25 +160,37 @@ class TicketInformationExpress extends Component {
 
                 <ImageTextDiChung
                     source={require(imagePayment)}
-                    text={item.pay_method_name}
+                    text={'Người gửi thanh toán'}
+                // text={item.payment.method == 'cash' ? 'Trả sau' : 'Trả trước'}
                 />
-                {item.xhd == 1 ?
+                {item.extra.xhd == 1 ?
                     <ImageTextDiChung
                         source={require(imageDone)}
                         text={'+10 %'}
                     />
                     : null}
+                {item.promotion !== '' ?
+                    <ImageTextDiChung
+                        source={require(imageDone)}
+                        text={'Mã giảm giá: ' + item.promotion}
+                    /> : null}
             </View>
         )
     }
 
     renderTT(item) {
         return (
-            <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', marginBottom: 8 }}>
-                <Text style={styles.textBigLeft1}>Tổng thanh toán : </Text>
-                <Text style={styles.textBigRight1}>
-                    {parseInt(item.total_cost).format(0, 3, '.')} đ
-                </Text>
+            <View>
+                <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', }}>
+                    <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
+                    {item.forward.status == 'forwarded' ?
+                        <Text style={styles.textBigRight1}>
+                            {/* {parseInt(item.total_cost).format(0, 3, '.')} đ */}
+                            {parseInt(item.forward.result.total_cost).format(0, 3, '.')} đ
+                    </Text>
+                        : null}
+                </View>
+                {/* <Text style={{ marginBottom: 8, textAlign: 'right' }}>{item.toll_fee == 'NA' ? "Giá chưa bao giờ phí cầu đường": "Giá trọn gói không phí ẩn"}</Text> */}
             </View>
         )
     }
@@ -181,22 +208,31 @@ class TicketInformationExpress extends Component {
             return (
                 <View style={styles.container}>
                     <ScrollView showsVerticalScrollIndicator={false}>
-                        <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                            <Image
-                                style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
-                                source={{ uri: item.vehicle_icon }}
-                            />
-                        </View>
+                        {item.forward.status == 'forwarded' ?
+                            <Text style={styles.textBigRight}>Mã vé của bạn: <Text style={{ fontWeight: 'bold', backgroundColor: '#77a300', color: '#fff', padding: 4 }}>{item.code}</Text></Text>
+                            : <Text style={styles.textBigRight}>Yêu cầu của bạn đã được hệ thồng ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>
+                        }
 
-                        <View style={{ justifyContent: "center", alignItems: "center" }}>
-                            <Text style={{ padding: 4 }}>{item.vehicle_name}</Text>
-                        </View>
-                        <View style={{ justifyContent: "center", alignItems: 'flex-start', marginTop: 8 }}>
-                            <Text style={{ backgroundColor: '#77a300', color: '#fff', padding: 8, }}>{item.transport_partner_name.toUpperCase()}</Text>
-                        </View>
-                        <Text style={styles.textBigRight}>Mã đơn hàng của bạn: <Text style={{ fontWeight: 'bold' }}>{item.ticket_code}</Text></Text>
+                        <Text style={styles.textBigRight}>Trạng thái: <Text style={{ fontWeight: 'bold' }}>
+                            {item.forward.status == 'wait_to_confirm' ? 'Chờ xác nhận' :
+                                item.forward.status == 'cs_confirmed' ? 'CS xác nhận' :
+                                    item.forward.status == 'forwarded' ? 'Đặt xe thành công' :
+                                        item.forward.status == 'wait_for_driver' ? 'Tìm tài xế' :
+                                            item.forward.status == 'driver_accepted' ? 'Tài xế chấp nhận' :
+                                                item.forward.status == 'picked_up' ? 'Đã đón khách' :
+                                                    item.forward.status == 'completed' ? 'Hoàn thành chuyến đi' :
+                                                        item.forward.status == 'cancelled' ? 'Đã hủy vé' :
+                                                            'Tất cả'
+                            }
+                        </Text></Text>
 
-                        <Text style={styles.textBigRight}>Yêu cầu đặt xe của bạn đã được hệ thồng ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>
+                        <Text>Mọi thắc mắc vui lòng liên hệ: <Text
+                            style={{ color: '#77a300', fontWeight: 'bold', textDecorationLine: 'underline' }}
+                            onPress={() => Linking.openURL(`tel: 19006022`)}
+                        >
+                            19006022
+                            </Text>
+                        </Text>
 
                         {this.renderDetailTrip(item)}
                         {this.renderDetailCustommer(item)}
@@ -235,7 +271,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#77a300',
         flex: 1,
-        textAlign: "right"
+        textAlign: "right",
+        marginTop : 8,
     },
     textBigLeft1: {
         fontSize: 16,

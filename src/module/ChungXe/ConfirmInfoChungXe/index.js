@@ -104,7 +104,7 @@ class ConfirmInfoChungXe extends Component {
                                     style={{ justifyContent: 'center', alignItems: 'center', height: 120, resizeMode: 'contain' }}
                                     source={{ uri: item.vhc.vhc_imgs }}
                                 />
-                                <Text>Mã đặt xe của bạn : <Text style={{ fontWeight: 'bold' }}>{this.state.book_code}</Text></Text>
+                                <Text>Mã đặt xe của bạn: <Text style={{ fontWeight: 'bold' }}>{this.state.book_code}</Text></Text>
 
                                 <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>
                                 <View style={{ flexDirection: 'row', height: 45, padding: 4 }}>
@@ -287,7 +287,7 @@ class ConfirmInfoChungXe extends Component {
         return (
             <View style={styles.viewChild}>
                 <Text style={styles.textBold}>Tổng thanh toán</Text>
-                <Text style={{ flex: 1, textAlign: 'right', fontWeight: 'bold', fontSize: 16, color: '#77a300', }}>{((navigation.getParam('xhd') ? 11 / 10 : 1) * navigation.getParam('moneyPaymet')).format(0, 3, ',')} đ</Text>
+                <Text style={{ flex: 1, textAlign: 'right', fontWeight: 'bold', fontSize: 16, color: '#77a300', marginTop : 8, }}>{((navigation.getParam('xhd') ? 11 / 10 : 1) * navigation.getParam('moneyPaymet')).format(0, 3, ',')} đ</Text>
             </View>
         )
     }

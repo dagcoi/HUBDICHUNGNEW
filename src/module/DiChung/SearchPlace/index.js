@@ -58,7 +58,7 @@ class SearchPlace extends Component {
             lat: lattitude,
             lng: lngtitude,
         });
-        console.log(`lat : ${this.state.lat} lng : ${this.state.lng}`);
+        console.log(`lat: ${this.state.lat} lng: ${this.state.lng}`);
     }
 
     render() {
@@ -107,8 +107,8 @@ class SearchPlace extends Component {
                                 textInputContainer: {
                                     borderRadius: 4,
                                     borderBottomWidth: 0.5,
-                                    borderTopWidth : 2,
-                                    borderTopColor : '#ffffff',
+                                    borderTopWidth: 2,
+                                    borderTopColor: '#ffffff',
                                     backgroundColor: '#ffffff',
                                     width: '100%',
                                 },
@@ -184,4 +184,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { dropAddress: dropAddress, pickAddress: pickAddress, addAddressYCDB : addAddressYCDB })(SearchPlace)
+export default connect(mapStateToProps, { dropAddress: dropAddress, pickAddress: pickAddress, addAddressYCDB: addAddressYCDB })(SearchPlace)

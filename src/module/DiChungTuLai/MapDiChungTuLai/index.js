@@ -327,7 +327,7 @@ class MapDiChungTuLai extends Component {
                 <View style={{ flexDirection: 'row', height: 40, marginTop: 8 }}>
                     {this.renderTimePick()}
                 </View>
-                <View style = {{height : 0.5, backgroundColor : '#000'}}></View>
+                <View style={{ height: 0.5, backgroundColor: '#000' }}></View>
 
                 <View style={{ height: 40, flexDirection: 'row', marginTop: 8 }}>
                     <TouchableOpacity
@@ -353,7 +353,7 @@ class MapDiChungTuLai extends Component {
                 <View style={{ flexDirection: 'column', height: 40, marginBottom: 4, marginTop: 4 }}>
                     {this.renderHourglass()}
                 </View>
-                <View style = {{height : 0.5, backgroundColor : '#000'}}></View>
+                <View style={{ height: 0.5, backgroundColor: '#000' }}></View>
 
                 <View style={{ height: 40, flexDirection: 'row', marginTop: 8 }}>
                     <TouchableOpacity

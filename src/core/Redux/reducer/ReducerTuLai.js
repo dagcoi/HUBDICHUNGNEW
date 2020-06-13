@@ -250,7 +250,7 @@ const ReducerTuLai = (state = defaultState, action) => {
                 km_limit_format: action.km_limit_format,
                 vehicle_icon: action.vehicle_icon,
                 vehicle_id: action.vehicle_id,
-                vehicle_name : action.vehicle_name,
+                vehicle_name: action.vehicle_name,
                 city_id: action.city_id,
                 brand_partner_id: action.partner_id,
             }

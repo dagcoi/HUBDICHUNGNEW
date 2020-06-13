@@ -18,7 +18,7 @@ function PopUp({
             visible={showModal}
             transparent={true}
         >
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',backgroundColor: '#000000AA' }}>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000000AA' }}>
                 <View style={{ width: '80%', justifyContent: 'center', borderRadius: 8, minHeight: 100, backgroundColor: '#fff', padding: 8 }}>
                     {textTitle ?
                         <View style={{ borderBottomWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', }}>

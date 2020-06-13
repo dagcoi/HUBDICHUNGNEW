@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Alert, Image, TextInput, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, Image, TextInput, ScrollView, AsyncStorage } from 'react-native';
 import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBox from 'react-native-check-box'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
@@ -23,18 +23,9 @@ var radio_payment_detail = [
     { label: 'Paypal', value: 3, payment_method_ID: '4' },
 ]
 
-// var radio_payment = [
-//     { label: 'Trả sau', value: 0 },
-//     // { label: 'Trả trước', value: 1 },
-// ]
-
 const imageCancel = '../../../image/cancel.png'
-const imageCheck = '../../../image/checked.png'
-const imageUnCheck = '../../../image/unchecked.png'
-
 
 class InfoCustommer extends Component {
-
     constructor() {
         super();
         this.state = {
@@ -75,19 +66,32 @@ class InfoCustommer extends Component {
     }
 
     componentDidMount() {
-        this.setState({
-            full_name: this.props.full_name,
-            full_name1: this.props.full_name1,
-            use_phone: this.props.use_phone,
-            use_phone1: this.props.use_phone1,
-            email: this.props.email,
-            email1: this.props.email1,
-            promotion_code: '',
-            comment: this.props.comment,
-        })
-        this._validateEmail(this.props.email)
-        this.mobileValidate(this.props.use_phone)
-        this.mobileValidate1(this.props.use_phone1)
+        console.log('a')
+        this.getdata()
+    }
+
+    async getdata(){
+        try {
+            const dataLogin = await AsyncStorage.getItem('dataLogin')
+            if (dataLogin !== null) {
+                let json = JSON.parse(dataLogin)
+                this.setState({
+                    full_name: json.username,
+                    full_name1: this.props.full_name1,
+                    use_phone: json.phone ?? '',
+                    use_phone1: this.props.use_phone1,
+                    email: json.email ?? '',
+                    email1: this.props.email1,
+                    promotion_code: '',
+                    comment: this.props.comment,
+                })
+                this._validateEmail(json.email ?? '')
+                this.mobileValidate(json.phone ?? '')
+            }
+        } catch (error) {
+            console.log(error)
+        }
+       
     }
 
     renderPostpaid() {
@@ -139,8 +143,6 @@ class InfoCustommer extends Component {
                                 />
                             </RadioButton>
                         ))}
-
-
                     </RadioForm>
                 </View>
             )
@@ -344,35 +346,9 @@ class InfoCustommer extends Component {
                 visible={this.state.alertName || this.state.alertPhone || this.state.alertEmail || this.state.alertName2 || this.state.alertPhone2 || this.state.alertCompany || this.state.alertAirport}
                 width={0.8}
                 dialogTitle={<DialogTitle title='Thông tin chưa đủ' />}
-                // footer={
-                //     <DialogFooter>
-                //         <DialogButton
-                //             text="Đồng ý"
-                //             onPress={() => {
-                //                 this.setState({
-                //                     alertName: false,
-                //                     alertPhone: false,
-                //                     alertEmail: false,
-                //                     alertName2: false,
-                //                     alertPhone2: false,
-                //                     alertCompany: false,
-                //                     alertAirport: false,
-                //                 })
-                //             }}
-                //         />
-                //     </DialogFooter>
-                // }
             >
                 <View>
                     <View style={{ padding: 8, flexDirection: 'column' }}>
-                        {/* <Text style={{ fontSize: 16, fontWeight: '100' }}>
-                            {this.state.alertName ? "Vui lòng nhập tên" :
-                                this.state.alertPhone ? "Vui lòng nhập số điện thoại" :
-                                    this.state.alertEmail ? "Vui lòng nhập Email" :
-                                        this.state.alertName2 ? "Vui lòng nhập tên người đi" :
-                                            this.state.alertPhone2 ? "Vui lòng nhập số điện thoại người đi" :
-                                                this.state.alertCompany ? "Vui lòng nhập đầy đủ thông tin nhận hóa đơn" : ''}
-                        </Text> */}
                         {this.state.alertName ? <Text>Vui lòng nhập tên</Text> : null}
                         {this.state.alertPhone ? <Text>Vui lòng nhập số điện thoại</Text> : null}
                         {this.state.alertEmail ? <Text>Vui lòng nhập Email</Text> : null}
@@ -510,6 +486,7 @@ class InfoCustommer extends Component {
                         detailPromotion: responseJson.data.discount_text,
                         discount_price: responseJson.data.discount_price,
                         blDiscount: true,
+                        promotion_code : this.state.promotion_code.toUpperCase()
                     })
                     this.props.addPromotionCode(this.state.promotion_code, this.state.discount_price);
                 }
@@ -584,14 +561,14 @@ class InfoCustommer extends Component {
 
     render() {
         const { navigation } = this.props;
-        var radio_payment = navigation.getParam('isNightBooking') ?
-            [
-                { label: 'Trả sau', value: 0, paymentMethodID: '3' }
-            ] :
-            [
-                { label: 'Trả sau', value: 0, paymentMethodID: '3' },
-                { label: 'Trả trước', value: 1 , paymentMethodID : '8'}, // ẩn phầ thanh toán online trên con thật.
-            ]
+        var pay_methods = JSON.parse(navigation.getParam('pay_methods'));
+        var radio_payment = []
+        if (pay_methods['3'] != null) {
+            radio_payment.push({ label: 'Trả sau', value: 0, paymentMethodID: '3' })
+        }
+        if (pay_methods['8'] != null) {
+            radio_payment.push({ label: 'Trả trước', value: 1, paymentMethodID: '8' })
+        }
         return (
             <View style={styles.container}>
                 <ScrollView showsVerticalScrollIndicator={false}>
@@ -645,7 +622,7 @@ class InfoCustommer extends Component {
                         isChecked={this.state.is_checked}
                         rightText={"Đặt xe cho người khác"}
                         rightTextStyle={{ fontSize: 16 }}
-                        checkBoxColor = {'#77a300'}
+                        checkBoxColor={'#77a300'}
                     />
 
                     {this.renderDatHo()}
@@ -756,7 +733,7 @@ class InfoCustommer extends Component {
                         isChecked={this.state.vat}
                         rightText={"Xuất hóa đơn"}
                         rightTextStyle={{ fontSize: 16 }}
-                        checkBoxColor = {'#77a300'}
+                        checkBoxColor={'#77a300'}
                     />
                     {this.renderFormVAT()}
                     {this.props.is_airport == 'false' ? null :
@@ -768,9 +745,9 @@ class InfoCustommer extends Component {
                                 })
                             }}
                             isChecked={this.state.boardPrice}
-                            rightText={"Đón biển tên : +30.000 đ"}
+                            rightText={"Đón biển tên: +30.000 đ"}
                             rightTextStyle={{ fontSize: 16 }}
-                            checkBoxColor = {'#77a300'}
+                            checkBoxColor={'#77a300'}
                         />
                     }
 

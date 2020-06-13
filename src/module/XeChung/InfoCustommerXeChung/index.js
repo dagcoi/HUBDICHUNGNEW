@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Alert, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, ScrollView, AsyncStorage } from 'react-native';
 import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBoxList from '../../../component/CheckBoxList'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import { connect } from 'react-redux';
+import * as link from '../../../URL'
 import { addInfoPeople1Taixe, addInfoPeople2Taixe, addVATTaixe, addCommentTaixe, addPromotionCodeTaixe, addPaymentMethodIDTaixe, } from '../../../core/Redux/action/Action'
 import { Button, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
@@ -41,23 +42,37 @@ class InfoCustommerXeChung extends Component {
             alertName2: false,
             alertPhone2: false,
             alertCompany: false,
+            detailPromotion : '',
+            promotion : '',
         }
     }
 
     componentDidMount() {
-        this.setState({
-            full_name: this.props.full_name,
-            full_name1: this.props.full_name1,
-            use_phone: this.props.use_phone,
-            use_phone1: this.props.use_phone1,
-            email: this.props.email,
-            email1: this.props.email1,
-            comment: this.props.comment,
-            promotion_code: '',
-        })
-        this._validateEmail(this.props.email)
-        this.mobileValidate(this.props.use_phone)
-        this.mobileValidate1(this.props.use_phone1)
+        this.getData()
+    }
+
+    async getData() {
+        try {
+            const dataLogin = await AsyncStorage.getItem('dataLogin')
+            if (dataLogin !== null) {
+                let json = JSON.parse(dataLogin)
+                this.setState({
+                    full_name: json.username,
+                    full_name1: this.props.full_name1,
+                    use_phone: json.phone ?? '',
+                    use_phone1: this.props.use_phone1,
+                    email: json.email ?? '',
+                    email1: this.props.email1,
+                    comment: this.props.comment,
+                    promotion_code: '',
+                })
+                this._validateEmail(json.email ?? '')
+                this.mobileValidate(json.phone ?? '')
+                this.mobileValidate1(this.props.use_phone1)
+            }
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     async checkPromotionCode() {
@@ -84,9 +99,10 @@ class InfoCustommerXeChung extends Component {
                         promotionStatus: true,
                         detailPromotion: responseJson.data.discount_text,
                         discount_price: responseJson.data.discount_price,
+                        promotion_code: this.state.promotion_code.toUpperCase(),
                         blDiscount: true,
                     })
-                    this.props.addPromotionCode(this.state.promotion_code, this.state.discount_price);
+                    this.props.addPromotionCodeTaixe(this.state.promotion_code, this.state.discount_price);
                 }
                 return responseJson.code;
             })
@@ -124,23 +140,6 @@ class InfoCustommerXeChung extends Component {
                 visible={this.state.alertName || this.state.alertPhone || this.state.alertEmail || this.state.alertName2 || this.state.alertPhone2 || this.state.alertCompany}
                 width={0.8}
                 dialogTitle={<DialogTitle title='Thông tin chưa đủ' />}
-                // footer={
-                //     <DialogFooter>
-                //         <DialogButton
-                //             text="Đồng ý"
-                //             onPress={() => {
-                //                 this.setState({
-                //                     alertName: false,
-                //                     alertPhone: false,
-                //                     alertEmail: false,
-                //                     alertName2: false,
-                //                     alertPhone2: false,
-                //                     alertCompany: false,
-                //                 })
-                //             }}
-                //         />
-                //     </DialogFooter>
-                // }
             >
                 <View>
                     <View style={{ padding: 8, flexDirection: 'column' }}>
@@ -256,24 +255,24 @@ class InfoCustommerXeChung extends Component {
 
     checkInfoCustommerXeChung() {
         if (this.state.full_name.trim().length < 2) {
-            this.setState({alertName : true})
+            this.setState({ alertName: true })
             return;
         }
         else if (!this.state.mobile_validate) {
-            this.setState({alertPhone : true})
+            this.setState({ alertPhone: true })
             return;
         }
         else if (!this.state.checkEmail) {
-            this.setState({alertEmail : true})
+            this.setState({ alertEmail: true })
         }
         else {
             if (this.state.is_checked) {
                 if (this.state.full_name1.trim().length < 2) {
-                    this.setState({alertName2 : true})
+                    this.setState({ alertName2: true })
                     return;
                 }
                 else if (!this.state.mobile_validate1) {
-                    this.setState({alertPhone2 : true})
+                    this.setState({ alertPhone2: true })
                     return;
                 }
             }
@@ -287,16 +286,16 @@ class InfoCustommerXeChung extends Component {
     checkVat() {
         if (this.state.vat) {
             if (this.state.company_name.trim() == '') {
-                this.setState({alertCompany : true})
+                this.setState({ alertCompany: true })
                 return;
             } else if (this.state.company_address.trim() == '') {
-                this.setState({alertCompany : true})
+                this.setState({ alertCompany: true })
                 return;
             } else if (this.state.company_mst.trim() == '') {
-                this.setState({alertCompany : true})
+                this.setState({ alertCompany: true })
                 return;
             } else if (this.state.company_address_receive.trim() == '') {
-                this.setState({alertCompany : true})
+                this.setState({ alertCompany: true })
                 return;
             } else {
                 this.nextScreen();
@@ -514,6 +513,8 @@ class InfoCustommerXeChung extends Component {
                                 value={this.state.promotion_code}
                                 onChangeText={(text) => this.setState({
                                     promotion_code: text,
+                                    detailPromotion : '',
+                                    blDiscount : false
                                 })}
                                 onPress={() => this.setState({
                                     promotion_code: ''
@@ -533,6 +534,8 @@ class InfoCustommerXeChung extends Component {
                             <Text style={{ color: '#ffffff' }}>ÁP DỤNG</Text>
                         </TouchableOpacity>
                     </View>
+
+                    <View>{this.state.detailPromotion == '' ? null : <Text style={{ color: this.state.promotion_code=='' ? "#EF465E" : "#77a300" }}>{this.state.detailPromotion}</Text>}</View>
 
                     <CheckBoxList
                         onClick={() => {

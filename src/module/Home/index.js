@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, BackHandler, Alert, Image, Linking, Dimensions, ScrollView, SafeAreaView } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, BackHandler, Alert, Image, Linking, Dimensions, ScrollView, SafeAreaView, AsyncStorage, Modal, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
+import WebView from 'react-native-webview';
 import * as link from '../../URL'
 import Header from '../../component/Header'
 import SwiperFlatList from 'react-native-swiper-flatlist';
 import SelectCar from './SelectCar'
 import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
+import { addUser, addToken } from '../../core/Redux/action/Action'
+import { setupPushNotification } from "../../service/pushNotificaion"
+import PushNotification from 'react-native-push-notification';
+import { notifications } from 'react-native-firebase';
+import firebase, { messaging } from 'react-native-firebase'
 
+const imageCancel = '../../image/cancel.png'
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window')
 
 class Home extends Component {
     constructor(props) {
@@ -20,8 +28,11 @@ class Home extends Component {
             openDrawer: false,
             detail: null,
             title: null,
+            urlWebView: null,
+            modalWebView: false,
+            titleModal: null,
         }
-
+        this.handleBackPress = this.handleBackPress.bind(this);
     }
 
     onSwipe(gestureName, gestureState) {
@@ -42,30 +53,178 @@ class Home extends Component {
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        console.log(this.props.navigation)
+        this._retrieveData()
         this.callApiPromotion();
         this.callApiAttractivePlaces();
-        this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+        this.noti()
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+        if (Platform.OS === "android") {
+            Linking.getInitialURL().then(url => {
+                console.log('url is', url);
+                if (url) {
+                    console.log('url is', url);
+                    this.navigate(url);
+                }
+            });
+        }
+        this.pushNotification = setupPushNotification(this._handleNotificationOpen)
     }
+
+    noti = async() => {
+        const enable = await firebase.messaging().hasPermission();
+
+        if (enable) {
+            const fmcToken = await firebase.messaging().getToken()
+            console.log('fmcToken........', fmcToken);
+
+            this.notificationListener = firebase.notifications().onNotification(notification => {
+                const { title, body, data, click_action } = notification;
+                console.log(notification)
+                // xử lí khi nhận notifi hiện notifi ở mọi chế độ
+                // const channelId = new firebase.notifications.Android.Channel("Default", "Default", firebase.notifications.Android.Importance.Max);
+                // firebase.notifications().android.createChannel(channelId);
+
+                // Vibration.vibrate(PATTERN)
+                if (Platform.OS === 'android') {
+
+                    const localNotifi = new firebase.notifications.Notification({
+                        sound: 'default',
+                        show_in_foreground: true,
+                    })
+                        .setNotificationId(notification.notificationId)
+                        .setTitle(title)
+                        .setSubtitle(notification.subtitle)
+                        .setBody(body)
+                        .setData(data)
+                        .android.setClickAction(click_action)
+                        .android.setChannelId('ChannelId')
+                        .android.setSmallIcon('ic_stat_ic_notification')
+                        // .android.setClickAction(navigateBookingDetail)
+                        .android.setColor('#77a300')
+                        .android.setPriority(firebase.notifications.Android.Priority.Max)
+                    firebase.notifications()
+                        .displayNotification(localNotifi)
+                        .catch((error) => console.error(error));
+                } else if (Platform.OS === 'ios') {
+                    const localNotifi = new firebase.notifications.Notification()
+                        .setNotificationId(notification.notificationId)
+                        .setTitle(title)
+                        .setSubtitle(notification.subtitle)
+                        .setBody(body)
+                        .setData(data)
+                        .ios.setBadge(notification.ios.badge);
+
+                    firebase.notifications()
+                        .displayNotification(localNotifi)
+                        .catch((error) => console.log(error));
+                }
+            })
+        } else {
+            try {
+                firebase.messaging().requestPermission();
+            }
+            catch (e) {
+                alert('use rejected the permissions');
+            }
+        }
+
+        this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
+            const notification = notificationOpen.notification;
+            console.log('notificationOpenedListenernotificationOpenedListenernotificationOpenedListener : ', notification)
+            if (notification.data && notification.data._id && notification.data.screen) {
+                //todo
+                this._handleNotificationOpen(notification.data.screen, notification.data.params)
+            }
+            // notification.android.setChannelId(notification.notificationId)
+        })
+
+        // App close -> action open app
+        firebase.notifications().getInitialNotification()
+            .then((notificationOpen) => {
+                if (notificationOpen) {
+                    const notification = notificationOpen.notification;
+                    if (notification && notification.data && notification.data._id && notification.data.screen) {
+                        //todo            
+                        this._handleNotificationOpen(notification.data.screen, notification.data.params)
+                        console.log('click notifi background')
+                    }
+                    // notification.android.setChannelId(notification.notificationId)
+                }
+            });
+
+
+    }
+
+    _handleNotificationOpen = (screen, params) => {
+        const { navigate } = this.props.navigation
+        navigate(screen, {ticket_id : params})
+    }
+
+    navigate = url => {
+        const { navigate } = this.props.navigation;
+        let regex = /^[a-z][a-z0-9_\.]{3,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/gm;
+        const route = url.replace(/.*?:\/\//g, '');
+        console.log('route: ' + route)
+
+        const id = route.match(/\/([^\/]+)\/?$/)[1];
+        console.log('id: ' + id)
+
+        const routeName = route.split("/")[0];
+        if (id === "thue-xe-taxi") {
+            navigate("MapDiChung");
+        } if (id === "thue-lai-xe") {
+            navigate("MapXeChung");
+        } if (id === "thue-van-chuyen") {
+            navigate("MapExpress");
+        } if (id === "thue-xe-tu-lai-theo-km") {
+            navigate("MapChungXe");
+        }
+
+        console.log('routeName' + routeName)
+    };
 
     componentWillUnmount() {
-        this.backHandler.remove()
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
     }
 
+    _retrieveData = async () => {
+        try {
+            const dataLogin = await AsyncStorage.getItem('dataLogin')
+            if (dataLogin !== null) {
+                let json = JSON.parse(dataLogin)
+                console.log(json.username)
+                this.props.addUser(json.username, '123', 1)
+                this.props.addToken(json.token)
+                console.log(json.token)
+                console.log(dataLogin)
+            } else {
+                this.props.addUser(json.username, 'json.avatar', 0)
+                this.props.addToken('')
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    };
+
     handleBackPress = () => {
-        Alert.alert(
-            'Thoát',
-            'Bạn muốn thoát khỏi chương trình ứng dụng?',
-            [
-                { text: 'Không', style: 'cancel' },
-                {
-                    text: 'Thoát', onPress: () => {
-                        BackHandler.exitApp()
-                    }
-                }
-            ]
-        );
-        return true;
+        var { modalWebView } = this.state
+        console.log(modalWebView)
+        if (modalWebView) {
+            this.setState({ modalWebView: false })
+            return true;
+        } else {
+            Alert.alert(
+                'Thoát',
+                'Bạn muốn thoát khỏi chương trình ứng dụng?',
+                [
+                    { text: 'Không', style: 'cancel' },
+                    { text: 'Thoát', onPress: () => { BackHandler.exitApp() } }
+                ]
+            );
+            return true;
+        }
     }
 
     async callApiPromotion() {
@@ -105,6 +264,54 @@ class Home extends Component {
         });
     }
 
+    onMessage({ nativeEvent }) {
+        const data = nativeEvent.data;
+        if (data !== undefined && data !== null) {
+            Linking.openURL(data);
+        }
+    }
+
+    formWebView() {
+        var url = this.state.urlWebView
+        var title = this.state.titleModal
+        return (
+            <Modal
+                visible={this.state.modalWebView}
+                onRequestClose={this.handleBackPress}
+            >
+                <View style={{ flex: 1 }}>
+                    <View style={{ flexDirection: 'row', height: 60, borderBottomWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', paddingHorizontal: 16 }}>
+                        <Text style={{ flex: 1, textAlign: 'center', fontSize: 16, fontWeight: 'bold', }}>{title}</Text>
+                        <TouchableOpacity
+                            onPress={() => { this.setState({ modalWebView: false }) }}
+                        >
+                            <Image
+                                style={{ width: 30, height: 30 }}
+                                source={require(imageCancel)}
+                            />
+                        </TouchableOpacity>
+                    </View>
+
+                    <WebView
+                        source={{ uri: url }}
+                        style={{ marginTop: -60, height: SCREEN_HEIGHT }}
+                        onMessage={this.onMessage}
+                    // renderLoading={() => { return (<ActivityIndicator style = {{position: 'absolute',left: 0,right: 0, top: 0,bottom: 0,alignItems: 'center',justifyContent: 'center'}} />)}}
+                    // ref={(webView) => { this.webView.ref = webView; }}
+                    // onNavigationStateChange={(navState) => { this.webView.canGoBack = navState.canGoBack; }}
+                    // onLoadEnd = {true}
+                    // dataDetectorTypes={'phoneNumber'}
+                    />
+
+                </View>
+            </Modal>
+        )
+    }
+
+    gotoHomeScreen = () => {
+        this.props.navigation.navigate('Home')
+    }
+
 
     render() {
         // if (this.state.isLoadingAttractivePlaces || this.state.isLoadingPromotion) {
@@ -129,15 +336,18 @@ class Home extends Component {
                     flex: 1,
                     backgroundColor: '#ffffff'
                 }}>
-                <Header onPressLeft={() => { this.props.navigation.openDrawer() }} />
-
+                <Header
+                    onPressLeft={() => { this.props.navigation.openDrawer() }}
+                    onPressCenter={this.gotoHomeScreen}
+                />
                 <View style={styles.all}>
                     <ScrollView
                         showsHorizontalScrollIndicator={false}
                         showsVerticalScrollIndicator={false}
                     >
-                        <Text style={{ fontSize: 28, fontWeight: 'bold', }}>Chào! Hãy cùng tìm một chuyến đi. </Text>
-
+                        <View style={{ minHeight: 48, justifyContent: 'center' }}>
+                            <Text style={{ fontSize: 20, fontWeight: 'bold', }}>Chào! Hãy cùng tìm một chuyến đi.</Text>
+                        </View>
                         <SelectCar
                             backgroundColor={'#fff'}
                             onPress={() => { this.props.navigation.push("MapDiChung") }}
@@ -178,8 +388,8 @@ class Home extends Component {
                             textDetail={'Thuê xe tự lái Đi chung'}
                         /> */}
                         {this.state.isLoadingPromotion ? null :
-                            <View style={{ height: Dimensions.get('window').width / 2 + 8, backgroundColor: '#ffffff', marginBottom: 16 }}>
-                                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Khuyến mãi</Text>
+                            <View style={{ height: Dimensions.get('window').width / 2 + 8, backgroundColor: '#f9f9f9', marginBottom: 16, marginTop: 17 }}>
+                                <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Khuyến mãi</Text>
                                 <SwiperFlatList
                                     autoplay={true}
                                     autoplayDelay={7}
@@ -193,7 +403,12 @@ class Home extends Component {
                                                 <TouchableOpacity
                                                     style={styles.child}
                                                     onPress={() => {
-                                                        Linking.openURL(item.link)
+                                                        // Linking.openURL(item.link)
+                                                        this.setState({
+                                                            urlWebView: item.link,
+                                                            modalWebView: true,
+                                                            titleModal: item.title.rendered,
+                                                        })
                                                     }}
                                                 >
                                                     <Image
@@ -209,8 +424,8 @@ class Home extends Component {
                         }
 
                         {this.state.isLoadingAttractivePlaces ? null :
-                            <View style={{ height: Dimensions.get('window').width / 2 + 8, backgroundColor: '#ffffff', marginBottom: 16 }}>
-                                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Địa điểm hấp đẫn</Text>
+                            <View style={{ height: Dimensions.get('window').width / 2 + 8, backgroundColor: '#f9f9f9', marginBottom: 16 }}>
+                                <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Địa điểm hấp đẫn</Text>
                                 <SwiperFlatList
                                     autoplay={true}
                                     autoplayDelay={5}
@@ -224,7 +439,12 @@ class Home extends Component {
                                                 <TouchableOpacity
                                                     style={styles.child}
                                                     onPress={() => {
-                                                        Linking.openURL(item.link)
+                                                        // Linking.openURL(item.link)
+                                                        this.setState({
+                                                            urlWebView: item.link,
+                                                            modalWebView: true,
+                                                            titleModal: item.title.rendered,
+                                                        })
                                                     }}
                                                 >
                                                     <Image
@@ -232,7 +452,7 @@ class Home extends Component {
                                                         source={{ uri: item._embedded['wp:featuredmedia'][0].media_details.sizes.thumbnail.source_url }}
                                                     />
                                                     <View style={{ position: 'absolute', top: -30, left: 8, right: 8, height: 300, alignItems: 'center', justifyContent: 'center' }}>
-                                                        <Text style={{ color: '#fff', backgroundColor: '#00000033', padding: 4, borderRadius: 4, fontSize: 13, }}>{item.title.rendered}</Text>
+                                                        <Text style={{ color: '#fff', backgroundColor: '#00000033', padding: 4, borderRadius: 4, fontSize: 12, }}>{item.title.rendered}</Text>
                                                     </View>
                                                 </TouchableOpacity>
                                             </View>
@@ -240,6 +460,8 @@ class Home extends Component {
                                     }}
                                 />
                             </View>}
+                        {this.formWebView()}
+
                     </ScrollView>
                 </View>
 
@@ -252,8 +474,8 @@ class Home extends Component {
 const styles = StyleSheet.create({
     all: {
         flex: 1,
-        paddingLeft: 8,
-        paddingRight: 8
+        paddingHorizontal: 16,
+        backgroundColor: '#f9f9f9'
     },
     textInput: {
         marginTop: 8,
@@ -303,4 +525,11 @@ const styles = StyleSheet.create({
     }
 })
 
-export default connect()(Home)
+function mapStateToProps(state) {
+    return {
+        drop_add: state.info.drop_add,
+        pick_add: state.info.pick_add,
+    }
+}
+
+export default connect(mapStateToProps, { addUser: addUser, addToken: addToken })(Home)

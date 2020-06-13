@@ -5,13 +5,14 @@ function ImageTextDiChung({
     text,
     textBold,
     source,
-    style
+    style,
+    styleIcon,
 }) {
     return (
         <View style={style ?? styles.container}>
             {source == null ? null :
                 <Image
-                    style={styles.leftIcon}
+                    style={styleIcon ?? styles.leftIcon}
                     source={source}
                 />
             }
@@ -28,8 +29,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     leftIcon: {
-        height: 20,
-        width: 20,
+        height: 18,
+        width: 18,
         marginRight: 8,
     },
     textBigRight: {
@@ -39,6 +40,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     textBigRightBold: {
+        fontSize: 14,
         fontWeight: 'bold',
     },
 })

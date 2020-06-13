@@ -1,21 +1,19 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert, Image, ActivityIndicator, Modal } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, ActivityIndicator, Modal } from 'react-native';
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-// import { Dialog, ConfirmDialog } from 'react-native-simple-dialogs';
 import * as link from '../../../URL'
 import { deleteData } from '../../../core/Redux/action/Action'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
 import { Button, ButtonDialog } from '../../../component/Button'
-import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
-import PopUp from '../../../component/PopUp'
+import Dialog, { DialogTitle } from 'react-native-popup-dialog';
 
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
     return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
 };
 
-const imageLocation = '../../../image/location.png'
+const imageLocation = '../../../image/location2.png'
 const imageCalendar = '../../../image/calendar.png'
 const imagePerson = '../../../image/person.png'
 const imageIconPhone = '../../../image/iconphone.png'
@@ -25,7 +23,6 @@ const imagePayment = '../../../image/payment.png'
 const imageHourglass = '../../../image/hourglass.png'
 const imageComment = '../../../image/comment.png'
 const imageIconCar = '../../../image/iconcar.png'
-const imageCancel = '../../../image/cancel.png'
 
 class ConfirmInformationHB extends Component {
 
@@ -40,12 +37,18 @@ class ConfirmInformationHB extends Component {
             visibalAgain: false,
             pick_pos: null,
             modalDetailTrip: false,
+            depart_time2: '',
+            id_booking: null,
         }
     }
 
     componentDidMount() {
+        console.log(this.props.depart_time2);
+        var time = new Date(this.props.depart_time2 + '+07:00').getTime();
+        console.log(time);
         this.setState({
             pick_pos: this.props.lattitude_pick + ',' + this.props.lngtitude_pick,
+            depart_time2: time
         })
     }
 
@@ -84,7 +87,7 @@ class ConfirmInformationHB extends Component {
         }
         formData.append('partner_domain', 'hub.dichung.vn')
         try {
-            var url = link.URL_API + `passenger/create_hourly_booking?service_type=HOURLY_FREIGHT_TRUCK`
+            var url = link.URL_API + `passenger/create_hourly_booking?service_type=HOURLY_RENT_TAXI`
             console.log(url);
             const res = await fetch(url, {
                 method: 'POST',
@@ -113,6 +116,104 @@ class ConfirmInformationHB extends Component {
         }
     }
 
+    async createHourlyBookingNew() {
+        const url = link.URL_API_PORTAL + `booking/v1/bookings`
+        console.log(url)
+        const { navigation } = this.props;
+        const jsonStr = JSON.stringify({
+            "provider": {
+                "name": "dichungtaxi"
+            },
+            "startPoints": [
+                {
+                    "address": this.props.pick_add,
+                    "lat": this.props.lattitude_pick,
+                    "long": this.props.lngtitude_pick
+                }
+            ],
+            "endPoints": [
+                {
+                    "address": '',
+                    "lat": '',
+                    "long": ''
+                }
+            ],
+            "bookingUser": {
+                "email": this.props.email,
+                "phone": this.props.use_phone,
+                "fullName": this.props.full_name,
+                "gender": ""
+            },
+            "bookingTime": this.state.depart_time2,
+            "slot": 1,
+            "dimension": "one_way",
+            "rideMethod": "private",
+            "productType": "HOURLY_RENT_TAXI",
+            "vehicle": {
+                "id": this.props.vehicle_id,
+                "name": this.props.vehicle_name,
+                "image": this.props.vehicle_icon
+            },
+            "note": this.props.comment,
+            "beneficiary": {
+                "email": navigation.getParam('not_use') ? '' : this.props.email,
+                "phone": navigation.getParam('not_use') ? this.props.use_phone2 : this.props.use_phone,
+                "fullName": navigation.getParam('not_use') ? this.props.full_name2 : this.props.full_name,
+                "gender": ""
+            },
+            "bookingType": "",
+            "payment": {
+                "method": "cash"
+            },
+            "duration": this.props.duration,
+            "promotion": navigation.getParam('blDiscount') ? navigation.getParam('promotion') : "",
+            "invoice": navigation.getParam('xhd') ? {
+                "name": this.props.company_name,
+                "address": this.props.company_address,
+                "taxCode": this.props.company_mst,
+                "addressReceive": this.props.company_address_receive
+            } : '',
+            "extra": {
+                "ref_id": "",
+                "ref_user_id": "",
+                "ref_url": "",
+                "pm_id": this.props.pm_id,
+                "catch_in_house": navigation.getParam('broad_price') ? '1' : '0',
+                "vehicle_id": this.props.vehicle_id,
+                "brand_partner_id": this.props.partner_id,
+                "xhd": navigation.getParam('xhd') ? 1 : 0,
+                "city_id": this.props.city_id,
+                "referral_code": "",
+                "extra_price_hour": this.props.extra_price_hour,
+                "extra_price_km": this.props.extra_price_km
+
+            }
+        })
+        console.log('abc :.........' + jsonStr)
+        console.log('abc :.........' + this.props.token)
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'token': this.props.token
+            },
+            body: jsonStr
+        })
+            .then(res => res.json())
+            .then(resJson => {
+                console.log(JSON.stringify(resJson))
+                console.log('a')
+                this.setState({
+                    // ticket: jsonRes.data.trip_price_inquiry_code,
+                    visibalAgain: false,
+                    addingTicket: false,
+                    bookingSuccess: true,
+                    id_booking: resJson.data._id,
+                })
+            })
+    }
+
     renderDetailTrip() {
         return (
             <View>
@@ -127,7 +228,7 @@ class ConfirmInformationHB extends Component {
                 />
                 <ImageTextDiChung
                     source={require(imageHourglass)}
-                    text={'Thời lượng : ' + this.props.duration + ' giờ'}
+                    text={'Thời lượng: ' + this.props.duration + ' giờ'}
                 />
             </View>
         )
@@ -144,17 +245,17 @@ class ConfirmInformationHB extends Component {
                 <ImageTextDiChung
                     // source={require(imageIconCar)}
                     text={this.props.km_limit_format}
-                    textBold={'Giới hạn : '}
+                    textBold={'Giới hạn: '}
                 />
                 <ImageTextDiChung
                     // source={require(imageIconCar)}
                     text={this.props.extra_price_km}
-                    textBold={'Phụ trội theo km : '}
+                    textBold={'Phụ trội theo km: '}
                 />
                 <ImageTextDiChung
                     // source={require(imageIconCar)}
                     text={this.props.extra_price_hour + ' giờ'}
-                    textBold={'Phụ trội theo giờ : '}
+                    textBold={'Phụ trội theo giờ: '}
                 />
             </View>
         )
@@ -230,7 +331,7 @@ class ConfirmInformationHB extends Component {
         const { navigation } = this.props;
         return (
             <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', marginBottom: 8 }}>
-                <Text style={styles.textBigLeft1}>Tổng thanh toán : </Text>
+                <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
                 <Text style={styles.textBigRight1}>
                     {((this.props.merged - (navigation.getParam('blDiscount') ? this.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1)).format(0, 3, '.')} đ
                 </Text>
@@ -253,7 +354,6 @@ class ConfirmInformationHB extends Component {
     }
 
     render() {
-        const { navigation } = this.props;
         return (
             <View style={{ padding: 8 }}>
                 <ScrollView showsVerticalScrollIndicator={false}>
@@ -287,7 +387,7 @@ class ConfirmInformationHB extends Component {
                     <Button
                         value={'Xác nhận đặt xe'}
                         onPress={() => {
-                            this.state.callingApi ? null : this.createHourlyBooking();
+                            this.state.callingApi ? null : this.createHourlyBookingNew();
                             this.setState({
                                 addingTicket: true,
                             })
@@ -296,7 +396,7 @@ class ConfirmInformationHB extends Component {
 
                     <Dialog
                         visible={this.state.addingTicket}
-                        // width={0.8}
+                    // width={0.8}
                     >
                         <View>
                             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
@@ -309,34 +409,6 @@ class ConfirmInformationHB extends Component {
                     visible={this.state.bookingSuccess}
                     dialogTitle={<DialogTitle title="Đặt xe thành công" />}
                     width={0.8}
-                // footer={
-                //     <DialogFooter>
-                //         <DialogButton
-                //             text="Chi tiết"
-                //             onPress={() => {
-                //                 this.setState({
-                //                     modalDetailTrip: true,
-                //                 })
-                //             }}
-                //         />
-                //         <DialogButton
-                //             text="Trang chủ"
-                //             onPress={() => {
-                //                 this.setState({
-                //                     bookingSuccess: false
-                //                 })
-                //                 this.props.deleteData();
-                //                 // this.props.navigation.push("Home");
-                //                 const resetAction = StackActions.reset({
-                //                     index: 0,
-                //                     key: null,
-                //                     actions: [NavigationActions.navigate({ routeName: 'Home' })],
-                //                 });
-                //                 this.props.navigation.dispatch(resetAction);
-                //             }}
-                //         />
-                //     </DialogFooter>
-                // }
                 >
                     <View>
                         <View style={{ flexDirection: 'column', padding: 8 }}>
@@ -376,21 +448,7 @@ class ConfirmInformationHB extends Component {
                         backgroundColor: '#fff',
                     }}>
                         <View style={{ flex: 1, backgroundColor: '#fff', }}>
-                            <View style={{ height: 0, flexDirection: 'row',  margin: 8 }}>
-                                {/* <TouchableOpacity
-                                    onPress={() => {
-                                        this.setState({
-                                            modalDetailTrip: false,
-                                        })
-                                    }}
-                                >
-                                    <Image
-                                        style={{ width: 40, height: 40, }}
-                                        source={require(imageCancel)}
-                                    />
-                                </TouchableOpacity> */}
-
-                                {/* <Text style={{ flex: 1, fontSize: 18, fontWeight: 'bold' }}>Chi tiết đơn hàng</Text> */}
+                            <View style={{ height: 0, flexDirection: 'row', margin: 8 }}>
                             </View>
                             <ScrollView>
                                 {this.renderDetailTrip()}
@@ -401,25 +459,6 @@ class ConfirmInformationHB extends Component {
                                 {this.renderVAT()}
                                 {this.renderMGG()}
                                 {this.renderTT()}
-                                {/* <TouchableOpacity
-                                    style={{ backgroundColor: '#77a300', padding: 8, justifyContent: 'center', alignItems: 'center' }}
-                                    onPress={() => {
-                                        this.setState({
-                                            bookingSuccess: false,
-                                            modalDetailTrip: false,
-                                        })
-                                        this.props.deleteData();
-                                        // this.props.navigation.push("Home");
-                                        const resetAction = StackActions.reset({
-                                            index: 0,
-                                            key: null,
-                                            actions: [NavigationActions.navigate({ routeName: 'Home' })],
-                                        });
-                                        this.props.navigation.dispatch(resetAction);
-                                    }}
-                                >
-                                    <Text style={{ color: '#fff', fontWeight: 'bold' }}>Trang chủ</Text>
-                                </TouchableOpacity> */}
                                 <Button
                                     value={'Trang chủ'}
                                     onPress={() => {
@@ -461,7 +500,8 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#77a300',
         flex: 1,
-        textAlign: "right"
+        textAlign: "right",
+        marginTop : 8,
     },
     textBigLeft: {
         fontSize: 14,
@@ -479,6 +519,7 @@ function mapStateToProps(state) {
         pick_add: state.info.pick_add,
         merged: state.info.merged,
         depart_time: state.info.depart_time,
+        depart_time2: state.info.depart_time2,
         vehicle_name: state.info.vehicle_name,
         vat: state.info.vat,
         full_name: state.info.full_name,
@@ -505,6 +546,7 @@ function mapStateToProps(state) {
         extra_price_hour: state.info.extra_price_hour_format,
         extra_price_km: state.info.extra_price_km_format,
         km_limit_format: state.info.km_limit_format,
+        token: state.thongtin.token
     }
 }
 

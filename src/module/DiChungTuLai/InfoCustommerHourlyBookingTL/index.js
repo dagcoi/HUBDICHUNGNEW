@@ -62,7 +62,7 @@ class InfoCustommerHourlyBookingTL extends Component {
             use_phone1: this.props.use_phone1,
             email: this.props.email,
             email1: this.props.email1,
-            promotion_code : '',
+            promotion_code: '',
         })
         this._validateEmail(this.props.email)
         this.mobileValidate(this.props.use_phone)
@@ -146,7 +146,7 @@ class InfoCustommerHourlyBookingTL extends Component {
 
                 <InputTextDiChung
                     style={styles.textInput}
-                    placeholder='VD : Lái xe không hút thuốc'
+                    placeholder='VD: Lái xe không hút thuốc'
                     value={this.state.comment}
                     onChangeText={(text) => this.setState({
                         comment: text,
@@ -240,7 +240,7 @@ class InfoCustommerHourlyBookingTL extends Component {
                     "xhd": this.state.vat,
                     "promotion": this.state.promotion_code,
                     "blDiscount": this.state.blDiscount,
-                    "detailPromotion" : this.state.detailPromotion,
+                    "detailPromotion": this.state.detailPromotion,
                 });
             }
         } else {
@@ -250,7 +250,7 @@ class InfoCustommerHourlyBookingTL extends Component {
                 "promotion": this.state.promotion_code,
                 "blDiscount": this.state.blDiscount,
                 "Payment": this.state.value_payment,
-                "detailPromotion" : this.state.detailPromotion,
+                "detailPromotion": this.state.detailPromotion,
             });
         }
     }
@@ -417,7 +417,7 @@ class InfoCustommerHourlyBookingTL extends Component {
                         isChecked={this.state.is_checked}
                         rightText={"Đặt xe cho người khác"}
                         rightTextStyle={{ fontSize: 16 }}
-                        checkBoxColor = {'#77a300'}
+                        checkBoxColor={'#77a300'}
                     />
 
                     {this.renderDatHo()}
@@ -464,7 +464,7 @@ class InfoCustommerHourlyBookingTL extends Component {
                                         })
                                     }}
                                     labelStyle={{ fontSize: 14, color: '#000' }}
-                                    labelWrapStyle={{marginTop : 8}}
+                                    labelWrapStyle={{ marginTop: 8 }}
                                 />
                             </RadioButton>
                         ))}
@@ -524,7 +524,7 @@ class InfoCustommerHourlyBookingTL extends Component {
                         isChecked={this.state.vat}
                         rightText={"Xuất hóa đơn"}
                         rightTextStyle={{ fontSize: 16 }}
-                        checkBoxColor = {'#77a300'}
+                        checkBoxColor={'#77a300'}
                     />
                     {this.renderFormVAT()}
 
@@ -613,7 +613,7 @@ function mapStateToProps(state) {
         extra_price_km_format: state.rdTuLai.extra_price_km_format,
         extra_price_hour_format: state.rdTuLai.extra_price_hour_format,
         km_limit_format: state.rdTuLai.km_limit_format,
-        partner_id : state.rdTuLai.brand_partner_id,
+        partner_id: state.rdTuLai.brand_partner_id,
     }
 }
 

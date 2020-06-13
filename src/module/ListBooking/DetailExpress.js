@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, ScrollView, } from 'react-native';
 import ImageTextDiChung from '../../component/ImageTextDiChung'
+import { StatusTicket } from '../../component/Ticket'
 
-const imageLocation = '../../image/location.png'
+const imageLocation = '../../image/location2.png'
 const imageCalendar = '../../image/calendar.png'
 const imagePeople = '../../image/people.png'
 const imageIconCar = '../../image/iconcar.png'
@@ -26,6 +27,29 @@ function DetailExpress({ item }) {
             style={{ paddingHorizontal: 16 }}
             showsVerticalScrollIndicator={false}
         >
+            {/* <Text style={styles.textBigRight}>Trạng thái: <Text style={{ fontWeight: 'bold', color: item.status == 'cancelled' ? '#ef465f' : '#333333' }}>
+                {item.forward.status == 'wait_to_confirm' ? 'Chờ xác nhận' :
+                    item.forward.status == 'cs_confirmed' ? 'CS xác nhận' :
+                        item.forward.status == 'forwarded' ? 'Đặt xe thành công' :
+                            item.forward.status == 'wait_for_driver' ? 'Tìm tài xế' :
+                                item.forward.status == 'driver_accepted' ? 'Tài xế chấp nhận' :
+                                    item.forward.status == 'picked_up' ? 'Đã đón khách' :
+                                        item.forward.status == 'completed' ? 'Hoàn thành chuyến đi' :
+                                            item.forward.status == 'cancelled' ? 'Đã hủy vé' :
+                                                'Tất cả'
+                }
+            </Text></Text> */}
+
+            <StatusTicket item={item}/>
+
+            <Text>Mọi thắc mắc vui lòng liên hệ:
+                <Text
+                    style={{ color: '#77a300', fontWeight: 'bold', textDecorationLine: 'underline' }}
+                    onPress={() => Linking.openURL(`tel: 19006022`)}
+                >
+                    19006022
+                </Text>
+            </Text>
             {renderDetailTrip(item)}
             {renderDetailCustommer(item)}
             {renderDetailPeopleMove(item)}
@@ -35,23 +59,27 @@ function DetailExpress({ item }) {
     )
 }
 function renderDetailTrip(item) {
+    const time = item.bookingTime
+    const date = new Date(time).toLocaleDateString()
+    const hours = new Date(time).toLocaleTimeString()
+    const strtime = hours + " " + date
     return (
         <View>
-            <Text style={styles.textBigLeft1}>Chi tiết dịch vụ</Text>
+            <Text style={styles.textBigLeft1}>Chi tiết dịch vụ vận chuyển</Text>
 
             <ImageTextDiChung
                 source={require(imageCalendar)}
-                text={item.in_time + ' ' + item.in_date}
+                text={strtime}
             />
 
             <ImageTextDiChung
                 source={require(imageParcel)}
-                text={item.chair_count + ' Bưu kiện'}
+                text={item.slot + ' Bưu kiện'}
             />
 
             <ImageTextDiChung
                 source={require(imageIconCar)}
-                text={'Loại dịch vụ : ' + item.transport_partner_name}
+                text={'Loại dịch vụ: Vận chuyển hàng'}
             />
         </View>
     )
@@ -64,22 +92,22 @@ function renderDetailCustommer(item) {
 
             <ImageTextDiChung
                 source={require(imagePerson)}
-                text={item.fullname}
+                text={item.bookingUser.fullName}
             />
 
             <ImageTextDiChung
                 source={require(imageIconPhone)}
-                text={item.other_phone}
+                text={item.bookingUser.phone}
             />
 
             <ImageTextDiChung
                 source={require(imageEmail)}
-                text={item.email}
+                text={item.bookingUser.email}
             />
 
             <ImageTextDiChung
                 source={require(imageLocation)}
-                text={item.pick_address_api}
+                text={item.startPoints[0].address}
             />
 
             <ImageTextDiChung
@@ -98,17 +126,17 @@ function renderDetailPeopleMove(item) {
 
             <ImageTextDiChung
                 source={require(imagePerson)}
-                text={item.use_name}
+                text={item.beneficiary.fullName}
             />
 
             <ImageTextDiChung
                 source={require(imageIconPhone)}
-                text={item.use_phone}
+                text={item.beneficiary.phone}
             />
 
             <ImageTextDiChung
                 source={require(imageLocation)}
-                text={item.drop_address_api}
+                text={item.endPoints[0].address}
             />
         </View>
     )
@@ -123,14 +151,20 @@ function renderOther(item) {
 
             <ImageTextDiChung
                 source={require(imagePayment)}
-                text={item.pay_method_name}
+                text={'Người gửi thanh toán'}
+            // text={item.payment.method == 'cash' ? 'Trả sau' : 'Trả trước'}
             />
-            {item.xhd == 1 ?
+            {item.extra.xhd == 1 ?
                 <ImageTextDiChung
                     source={require(imageDone)}
                     text={'+10 %'}
                 />
                 : null}
+            {item.promotion !== '' ?
+                <ImageTextDiChung
+                    source={require(imageDone)}
+                    text={'Mã giảm giá: ' + item.promotion}
+                /> : null}
         </View>
     )
 }
@@ -138,10 +172,15 @@ function renderOther(item) {
 function renderTT(item) {
     return (
         <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', marginBottom: 8 }}>
-            <Text style={styles.textBigLeft1}>Tổng thanh toán : </Text>
-            <Text style={styles.textBigRight1}>
-                {parseInt(item.total_cost).format(0, 3, '.')} đ
-                </Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', }}>
+                <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
+                {item.forward.status == 'forwarded' ?
+                    <Text style={styles.textBigRight1}>
+                        {/* {parseInt(item.total_cost).format(0, 3, '.')} đ */}
+                        {parseInt(item.forward.result.total_cost).format(0, 3, '.')} đ
+            </Text>
+                    : null}
+            </View>
         </View>
     )
 }
@@ -159,7 +198,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#77a300',
         flex: 1,
-        textAlign: "right"
+        textAlign: "right",
+        marginTop : 8,
     },
     textBigLeft1: {
         fontSize: 16,

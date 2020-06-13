@@ -46,6 +46,7 @@ const defaultState = {
     street_id: '',
     village_id: '',
     depart_time: '',
+    depart_time2: '',
     lattitude_pick: '',
     lngtitude_pick: '',
     lattitude_drop: '',
@@ -79,7 +80,7 @@ const defaultState = {
     extra_price_km_format: '',
     extra_price_hour_format: '',
     km_limit_format: '',
-    people : '1',
+    people: '1',
 }
 const ReducerVanChuyen = (state = defaultState, action) => {
     switch (action.type) {
@@ -133,6 +134,7 @@ const ReducerVanChuyen = (state = defaultState, action) => {
             return {
                 ...state,
                 depart_time: action.depart_time,
+                depart_time2: action.depart_time2,
             }
 
         case types.ADD_CHAIR_VANCHUYEN:
@@ -251,7 +253,7 @@ const ReducerVanChuyen = (state = defaultState, action) => {
                 km_limit_format: action.km_limit_format,
                 vehicle_icon: action.vehicle_icon,
                 vehicle_id: action.vehicle_id,
-                vehicle_name : action.vehicle_name,
+                vehicle_name: action.vehicle_name,
                 city_id: action.city_id,
                 brand_partner_id: action.partner_id,
             }

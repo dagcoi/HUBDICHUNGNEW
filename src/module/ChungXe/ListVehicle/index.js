@@ -54,26 +54,28 @@ class ListVehicle extends Component {
                 </Text>
 
                 <View
-                    style={{ width: 35, height: 35 }}
+                    style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
                 >
                     <TouchableOpacity
                         onPress={navigation.getParam('setShowFilter')}
+                        style={{ justifyContent: 'center', alignItems: 'center' }}
                     >
                         <Image
-                            style={{ width: 32, height: 32 }}
+                            style={{ width: 24, height: 24 }}
                             source={require(imageTune)}
                         />
                     </TouchableOpacity>
                 </View>
 
                 <View
-                    style={{ width: 35, height: 35 }}
+                    style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
                 >
                     <TouchableOpacity
                         onPress={navigation.getParam('increaseCount')}
+                        style={{ justifyContent: 'center', alignItems: 'center' }}
                     >
                         <Image
-                            style={{ width: 32, height: 32 }}
+                            style={{ width: 24, height: 24 }}
                             source={navigation.getParam('image') ? require(imageMaxToMin) : require(imageMinToMax)}
                         />
                     </TouchableOpacity>
@@ -103,7 +105,7 @@ class ListVehicle extends Component {
             listTransmissionCheck: [],
             listVehicleNameCheck: [],
         });
-        console.log(jsonRes.data);   
+        console.log(jsonRes.data);
     }
 
     async callVehicleSeat(carType) {
@@ -313,14 +315,14 @@ class ListVehicle extends Component {
                                     <View style={{ flexDirection: 'row' }}>
                                         <View style={{ flex: 1, justifyContent: 'flex-start' }}>
                                             <View style={{ flexDirection: 'row' }}>
-                                                <Text style={{ fontSize: 14, color: '#ffffff', backgroundColor: '#77a300', padding: 4, fontWeight : 'bold' }}>
+                                                <Text style={{ fontSize: 14, color: '#ffffff', backgroundColor: '#77a300', padding: 4, fontWeight: 'bold' }}>
                                                     {item.part.vhc_type_id == 1 ? item.vhc_part_name_short : item.vhc_part_name}
                                                 </Text>
                                             </View>
 
                                             <Text style={{ fontSize: 14, marginTop: 8, marginBottom: 8 }}>{item.part.part_addr_shor}</Text>
 
-                                            <StarVote number = {item.vhc_part_star}/> 
+                                            <StarVote number={item.vhc_part_star} />
 
                                             {/* {this.state.carType == '1' ?
                                                 <View>

@@ -39,13 +39,14 @@ class ListCarHourlyBookingTL extends Component {
                 </Text>
 
                 <View
-                    style={{ width: 35, height: 35 }}
+                    style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
                 >
                     <TouchableOpacity
                         onPress={navigation.getParam('increaseCount')}
+                        style={{ justifyContent: 'center', alignItems: 'center' }}
                     >
                         <Image
-                            style={{ width: 32, height: 32 }}
+                            style={{ width: 24, height: 24 }}
                             source={navigation.getParam('image') ? require(imageMaxToMin) : require(imageMinToMax)}
                         />
                     </TouchableOpacity>
@@ -117,8 +118,8 @@ class ListCarHourlyBookingTL extends Component {
             obj.length < 1 ?
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
                     <Image
-                        style={{ width: 80, height: 80}}
-                        source={require('../../../image/sorry.png')} 
+                        style={{ width: 80, height: 80 }}
+                        source={require('../../../image/sorry.png')}
                     />
                     <Text style={{ textAlign: 'center' }}>Khu vực bạn chọn hiện không có xe. </Text>
                     <TouchableOpacity
@@ -165,13 +166,13 @@ class ListCarHourlyBookingTL extends Component {
                                             <Image
                                                 style={{ width: 16, height: 16, marginRight: 8, }}
                                                 source={require('../../../image/note.png')} />
-                                            <Text style={styles.textNomal}>Phụ trội theo km : {item.extra_price_km} đ/km</Text>
+                                            <Text style={styles.textNomal}>Phụ trội theo km: {item.extra_price_km} đ/km</Text>
                                         </View>
                                         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                                             <Image
                                                 style={{ width: 16, height: 16, marginRight: 8, }}
                                                 source={require('../../../image/note.png')} />
-                                            <Text style={styles.textNomal}>Phụ trội theo giờ : {item.extra_price_hour} đ/giờ</Text>
+                                            <Text style={styles.textNomal}>Phụ trội theo giờ: {item.extra_price_hour} đ/giờ</Text>
                                         </View>
                                         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                                             <Image
