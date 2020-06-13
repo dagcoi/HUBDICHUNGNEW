@@ -96,7 +96,7 @@ export function StatusTicket({ item }) {
       <Text style={{ fontWeight: 'bold' }}>Trạng thái: <Text style={{ fontWeight: 'bold', color: item.status == 'cancelled' ? '#ef465f' : '#333333' }}>
         {item.forward.status == 'wait_to_confirm' ? 'Chờ xác nhận' :
           item.forward.status == 'cs_confirmed' ? 'CS xác nhận' :
-            item.forward.status == 'forwarded' ? 'Đặt xe thành công' :
+            item.forward.status == 'forwarded' ? item.payment.method == 'cash' ? 'Đặt xe thành công' : `${item.payment.status}` :
               item.forward.status == 'wait_for_driver' ? 'Tìm tài xế' :
                 item.forward.status == 'driver_accepted' ? 'Tài xế chấp nhận' :
                   item.forward.status == 'picked_up' ? 'Đã đón khách' :

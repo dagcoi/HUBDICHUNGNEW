@@ -47,10 +47,12 @@ class ConfirmInformation extends Component {
     }
 
     componentDidMount() {
+        const { navigation } = this.props;
         console.log('token' + this.props.token)
         console.log('vehice_id' + this.props.vehice_id)
         console.log('vehicle_name' + this.props.vehicle_name)
         console.log('vehicle_icon' + this.props.vehicle_icon)
+        console.log('payment:...........' + navigation.getParam('Payment'))
         this._interval = setInterval(() => {
             const url = link.URL_API + `agent/check_night_booking_partner_received?ticket_id=${this.state.ticket}`
             if (this.state.visibleSearchDriver) {
@@ -306,7 +308,7 @@ class ConfirmInformation extends Component {
                     <Button
                         value={'Xác nhận đặt xe'}
                         onPress={() => {
-                            this.state.callingApi ? null : navigation.getParam('Payment') == '0' ? this.addTicket2() : this.addTicketPaymentOnline()
+                            this.state.callingApi ? null : this.addTicket2()
                             this.setState({
                                 addingTicket: true,
                             })
@@ -615,7 +617,7 @@ class ConfirmInformation extends Component {
             },
             "bookingType": "",
             "payment": {
-                "method": "cash"
+                "method": navigation.getParam('Payment') == '0' ? "cash" : "online"
             },
             "promotion": navigation.getParam('blDiscount') ? navigation.getParam('promotion') : "",
             "invoice": navigation.getParam('xhd') ? {
@@ -882,7 +884,7 @@ const styles = StyleSheet.create({
         color: '#77a300',
         flex: 1,
         textAlign: "right",
-        marginTop : 8,
+        marginTop: 8,
     },
 
     textBigRight: {

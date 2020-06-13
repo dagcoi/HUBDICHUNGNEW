@@ -7,7 +7,9 @@ import {
     Modal,
     ActivityIndicator,
     ScrollView,
+    SafeAreaView,
 } from 'react-native'
+import WebView from 'react-native-webview';
 
 import React, { Component } from 'react'
 import DetailTaxi from './DetailTaxi'
@@ -52,6 +54,8 @@ class BookingDetail extends Component {
             token: null,
             refreshing: false,
             modalTell: false,
+            modalPayment: false,
+            urlPayment: null,
         }
     }
 
@@ -121,6 +125,60 @@ class BookingDetail extends Component {
         )
     }
 
+    renderPaymentOnline(item) {
+        if (item.payment.method == 'online' && item.payment.status == 'draft')
+            return (
+                <Button
+                    value='THANH TOÁN'
+                    onPress={() => {
+                        this.setState({
+                            modalPayment: true,
+                            urlPayment: item.payment.url,
+                        })
+                    }}
+                />
+            )
+    }
+
+    formWebView() {
+        var url = this.state.urlPayment
+        const { navigation } = this.props;
+        return (
+            <Modal
+                visible={this.state.modalPayment}
+            >
+                <SafeAreaView style={{ flex: 1 }}>
+                    <View style={{ flexDirection: 'row', height: 60, borderBottomWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', paddingHorizontal: 16 }}>
+                        <Text style={{ flex: 1, textAlign: 'center', fontSize: 16, fontWeight: 'bold', }}>Thanh Toán</Text>
+                        <TouchableOpacity
+                            onPress={() => {
+                                this.setState({ modalPayment: false })
+                                this.getTicketInfoDC(navigation.getParam('ticket_id'))
+                            }}
+                        >
+                            <Image
+                                style={{ width: 30, height: 30 }}
+                                source={require(imageCancel)}
+                            />
+                        </TouchableOpacity>
+                    </View>
+
+                    <WebView
+                        source={{ uri: url }}
+                        style={{ marginTop: -60, height: SCREEN_HEIGHT }}
+                        onMessage={this.onMessage}
+                        onNavigationStateChange={this._onNavigationStateChange.bind(this)}
+                    />
+
+                </SafeAreaView>
+            </Modal>
+        )
+    }
+
+    _onNavigationStateChange(webViewState) {
+        console.log('URL PAYMENT: ........' + webViewState.url)
+    }
+
     render() {
         if (this.state.isLoading) {
             return (
@@ -144,6 +202,7 @@ class BookingDetail extends Component {
                                             : <DetailHourlyTaxi item={this.state.bookingDetail} />}
                         </View>
                         <View style={{ paddingHorizontal: 16 }}>
+                            {this.renderPaymentOnline(this.state.bookingDetail)}
                             {(this.state.bookingDetail.status == 'cancelled' || this.state.bookingDetail.status == 'completed' || this.state.bookingDetail.status == 'picked_up') ? null :
                                 <View style={{ paddingBottom: 8 }}>
                                     <ButtonGray
@@ -158,6 +217,7 @@ class BookingDetail extends Component {
                                 </View>
                             }
                         </View>
+                        {this.formWebView()}
                         {this.modalLoading()}
                     </View>
                 </ScrollView>
