@@ -619,7 +619,7 @@ class ConfirmInformationExpress extends Component {
             },
             "bookingType": "",
             "payment": {
-                "method": "cash"
+                "method": navigation.getParam('Payment') == '0' ? "cash" : "online"
             },
             "promotion": navigation.getParam('blDiscount') ? navigation.getParam('promotion') : "",
             "invoice": navigation.getParam('xhd') ? {

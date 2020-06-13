@@ -407,10 +407,14 @@ class InfoCustommerHourlyRentDriver extends Component {
 
     render() {
         const { navigation } = this.props;
-        var radio_payment =
-            [
-                { label: 'Trả sau', value: 0, paymentMethodID: '3' }
-            ]
+        var pay_methods = JSON.parse(navigation.getParam('pay_methods'));
+        var radio_payment = []
+        if (pay_methods['3'] != null) {
+            radio_payment.push({ label: 'Trả sau', value: 0, paymentMethodID: '3' })
+        }
+        if (pay_methods['8'] != null) {
+            radio_payment.push({ label: 'Trả trước', value: 1, paymentMethodID: '8' })
+        }
         return (
             <View style={styles.container}>
                 <ScrollView showsVerticalScrollIndicator={false}>

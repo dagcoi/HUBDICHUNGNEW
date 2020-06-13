@@ -164,7 +164,7 @@ class ConfirmInformationRentDriver extends Component {
             },
             "bookingType": "",
             "payment": {
-                "method": "cash"
+                "method": navigation.getParam('Payment') == '0' ? "cash" : "online"
             },
             "duration": this.props.duration,
             "promotion": navigation.getParam('blDiscount') ? navigation.getParam('promotion') : "",

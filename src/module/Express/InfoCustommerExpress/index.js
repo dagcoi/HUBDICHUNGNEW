@@ -349,9 +349,15 @@ class InfoCustommerExpress extends Component {
     }
 
     render() {
-        var radio_payment = [
-            { label: 'Người gửi trả tiền mặt', value: 0, paymentMethodID: '3' },
-        ]
+        const { navigation } = this.props;
+        var pay_methods = JSON.parse(navigation.getParam('pay_methods'));
+        var radio_payment = []
+        if (pay_methods['3'] != null) {
+            radio_payment.push({ label: 'Người gửi trả tiền mặt', value: 0, paymentMethodID: '3' })
+        }
+        if (pay_methods['8'] != null) {
+            radio_payment.push({ label: 'Trả trước', value: 1, paymentMethodID: '8' })
+        }
         return (
             <View style={styles.container}>
                 <ScrollView showsVerticalScrollIndicator={false}>

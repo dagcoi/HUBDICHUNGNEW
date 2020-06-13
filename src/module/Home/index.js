@@ -83,8 +83,8 @@ class Home extends Component {
                 const { title, body, data, click_action } = notification;
                 console.log(notification)
                 // xử lí khi nhận notifi hiện notifi ở mọi chế độ
-                // const channelId = new firebase.notifications.Android.Channel("Default", "Default", firebase.notifications.Android.Importance.Max);
-                // firebase.notifications().android.createChannel(channelId);
+                const channelId = new firebase.notifications.Android.Channel("Default", "Default", firebase.notifications.Android.Importance.Max);
+                firebase.notifications().android.createChannel(channelId);
 
                 // Vibration.vibrate(PATTERN)
                 if (Platform.OS === 'android') {
@@ -99,7 +99,7 @@ class Home extends Component {
                         .setBody(body)
                         .setData(data)
                         .android.setClickAction(click_action)
-                        .android.setChannelId('ChannelId')
+                        .android.setChannelId('Default')
                         .android.setSmallIcon('ic_stat_ic_notification')
                         // .android.setClickAction(navigateBookingDetail)
                         .android.setColor('#77a300')

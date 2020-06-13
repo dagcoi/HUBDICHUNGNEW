@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { View, Text, Image, StyleSheet, ActivityIndicator, ScrollView, TouchableOpacity, Modal, Linking } from 'react-native';
+import { View, Text, Image, StyleSheet, ActivityIndicator, ScrollView, TouchableOpacity, Modal, Linking, Dimensions, SafeAreaView, } from 'react-native';
 import OTPInputView from '@twotalltotems/react-native-otp-input'
 import * as link from '../../../URL'
+import WebView from 'react-native-webview';
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
 import { Button, ButtonGray, ButtonDialog } from '../../../component/Button'
@@ -20,7 +21,9 @@ const imageEmail = '../../../image/email.png'
 const imageDone = '../../../image/done.png'
 const imagePayment = '../../../image/payment.png'
 const imageComment = '../../../image/comment.png'
+const imageCancel = '../../../image/cancel.png'
 
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window')
 const cancel_booking = link.URL_API + `passenger/cancel_booking`
 const cancel_booking_token = link.URL_API + `passenger/generate_cancel_booking_token`
 
@@ -48,6 +51,8 @@ class TicketInformation extends Component {
             loadData: true,
             timeReload: 2000,
             modalTell: false,
+            modalPayment: false,
+            urlPayment: null,
         }
     }
 
@@ -56,7 +61,7 @@ class TicketInformation extends Component {
         handleAndroidBackButton(exitAlert)
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         removeAndroidBackButtonHandler()
     }
 
@@ -252,6 +257,55 @@ class TicketInformation extends Component {
         )
     }
 
+    renderPaymentOnline(item) {
+        if (item.payment.method == 'online' && item.payment.status == 'draft')
+            return (
+                <Button
+                    value='THANH TOÁN'
+                    onPress={() => {
+                        this.setState({
+                            modalPayment: true,
+                            urlPayment: item.payment.url,
+                        })
+                    }}
+                />
+            )
+    }
+
+    formWebView() {
+        var url = this.state.urlPayment
+        return (
+            <Modal
+                visible={this.state.modalPayment}
+            >
+                <SafeAreaView style={{ flex: 1 }}>
+                    <View style={{ flexDirection: 'row', height: 60, borderBottomWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', paddingHorizontal: 16 }}>
+                        <Text style={{ flex: 1, textAlign: 'center', fontSize: 16, fontWeight: 'bold', }}>Thanh Toán</Text>
+                        <TouchableOpacity
+                            onPress={() => { this.setState({ modalPayment: false }) }}
+                        >
+                            <Image
+                                style={{ width: 30, height: 30 }}
+                                source={require(imageCancel)}
+                            />
+                        </TouchableOpacity>
+                    </View>
+
+                    <WebView
+                        source={{ uri: url }}
+                        style={{ marginTop: -60, height: SCREEN_HEIGHT }}
+                        onMessage={this.onMessage}
+                        onNavigationStateChange={this._onNavigationStateChange.bind(this)}
+                    />
+
+                </SafeAreaView>
+            </Modal>
+        )
+    }
+
+    _onNavigationStateChange(webViewState) {
+        console.log('URL PAYMENT: ........' + webViewState.url)
+    }
 
     async cancelBooking() {
         const { navigation } = this.props;
@@ -378,6 +432,7 @@ class TicketInformation extends Component {
             )
         } else {
             const item = this.state.info;
+            console.log(JSON.stringify(item));
             return (
                 <View style={styles.container}>
                     <ScrollView showsVerticalScrollIndicator={false}>
@@ -390,7 +445,7 @@ class TicketInformation extends Component {
                         <Text style={styles.textBigRight}>Trạng thái: <Text style={{ fontWeight: 'bold', color: item.status == 'cancelled' ? '#ef465f' : '#333333' }}>
                             {item.forward.status == 'wait_to_confirm' ? 'Chờ xác nhận' :
                                 item.forward.status == 'cs_confirmed' ? 'CS xác nhận' :
-                                    item.forward.status == 'forwarded' ? 'Đặt xe thành công' :
+                                    item.forward.status == 'forwarded' ? item.payment.method == 'cash' ? 'Đặt xe thành công' : `${item.payment.status}` :
                                         item.forward.status == 'wait_for_driver' ? 'Tìm tài xế' :
                                             item.forward.status == 'driver_accepted' ? 'Tài xế chấp nhận' :
                                                 item.forward.status == 'picked_up' ? 'Đã đón khách' :
@@ -415,6 +470,8 @@ class TicketInformation extends Component {
                         {this.renderComment(item)}
                         {this.renderOther(item)}
                         {this.renderTT(item)}
+                        {this.renderPaymentOnline(item)}
+                        {this.formWebView()}
 
                         <Button
                             value='ĐẶT CHUYẾN MỚI'
@@ -428,7 +485,7 @@ class TicketInformation extends Component {
                             }}
                         />
                         <View style={{ marginBottom: 8, }}></View>
-                        {(item.status == 'cancelled' || item.status == 'completed' || item.status == 'picked_up')? null :
+                        {(item.status == 'cancelled' || item.status == 'completed' || item.status == 'picked_up') ? null :
                             <ButtonGray
                                 value='HỦY VÉ'
                                 onPress={() => {
@@ -627,8 +684,8 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#77a300',
         flex: 1,
-        textAlign: "right", 
-        marginTop : 8,
+        textAlign: "right",
+        marginTop: 8,
     },
     underlineStyleBase: {
         width: 30,
