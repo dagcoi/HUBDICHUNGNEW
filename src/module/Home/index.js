@@ -279,7 +279,7 @@ class Home extends Component {
                 visible={this.state.modalWebView}
                 onRequestClose={this.handleBackPress}
             >
-                <View style={{ flex: 1 }}>
+                <SafeAreaView style={{ flex: 1 }}>
                     <View style={{ flexDirection: 'row', height: 60, borderBottomWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', paddingHorizontal: 16 }}>
                         <Text style={{ flex: 1, textAlign: 'center', fontSize: 16, fontWeight: 'bold', }}>{title}</Text>
                         <TouchableOpacity
@@ -303,7 +303,7 @@ class Home extends Component {
                     // dataDetectorTypes={'phoneNumber'}
                     />
 
-                </View>
+                </SafeAreaView>
             </Modal>
         )
     }

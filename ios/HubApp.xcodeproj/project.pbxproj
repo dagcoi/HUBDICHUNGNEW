@@ -194,7 +194,6 @@
 				4B6419B9304009A390C49A3E /* Pods-HubAppTests.debug.xcconfig */,
 				2FB91105B77603C9BC489DB7 /* Pods-HubAppTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -308,6 +307,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
