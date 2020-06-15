@@ -17,10 +17,10 @@ var radio_props = [
 ];
 
 var radio_payment_detail = [
-    { label: 'ATM', value: 0, payment_method_ID: '8' },
-    { label: 'Visa', value: 1, payment_method_ID: '8' },
+    // { label: 'ATM', value: 0, payment_method_ID: '8' },
+    // { label: 'Visa', value: 1, payment_method_ID: '8' },
     { label: 'Vnpay', value: 2, payment_method_ID: '8' },
-    { label: 'Paypal', value: 3, payment_method_ID: '4' },
+    // { label: 'Paypal', value: 3, payment_method_ID: '4' },
 ]
 
 const imageCancel = '../../../image/cancel.png'

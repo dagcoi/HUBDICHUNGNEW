@@ -58,7 +58,7 @@ class Home extends Component {
         this._retrieveData()
         this.callApiPromotion();
         this.callApiAttractivePlaces();
-        this.noti()
+        this.notificationClickAction()
         BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
         if (Platform.OS === "android") {
             Linking.getInitialURL().then(url => {
@@ -72,7 +72,7 @@ class Home extends Component {
         this.pushNotification = setupPushNotification(this._handleNotificationOpen)
     }
 
-    noti = async() => {
+    notificationClickAction = async () => {
         const enable = await firebase.messaging().hasPermission();
 
         if (enable) {
@@ -135,7 +135,7 @@ class Home extends Component {
             console.log('notificationOpenedListenernotificationOpenedListenernotificationOpenedListener : ', notification)
             if (notification.data && notification.data._id && notification.data.screen) {
                 //todo
-                this._handleNotificationOpen()
+                this._handleNotificationOpen(notification.data.screen, notification.data.ticket_id ?? '', notification.data.code ?? '', notification.data.phone ?? '')
             }
             // notification.android.setChannelId(notification.notificationId)
         })
@@ -147,7 +147,7 @@ class Home extends Component {
                     const notification = notificationOpen.notification;
                     if (notification && notification.data && notification.data._id && notification.data.screen) {
                         //todo            
-                        this._handleNotificationOpen()
+                        this._handleNotificationOpen(notification.data.screen, notification.data.ticket_id ?? '', notification.data.code ?? '', notification.data.phone ?? '')
                         console.log('click notifi background')
                     }
                     // notification.android.setChannelId(notification.notificationId)
@@ -157,9 +157,13 @@ class Home extends Component {
 
     }
 
-    _handleNotificationOpen = () => {
+    _handleNotificationOpen = (screen, ticket_id, code, phone) => {
         const { navigate } = this.props.navigation
-        navigate("MapDiChung")
+        navigate(screen, {
+            ticket_id: ticket_id,
+            code: code,
+            phone: phone
+        })
     }
 
     navigate = url => {

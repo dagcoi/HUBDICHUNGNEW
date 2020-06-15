@@ -518,6 +518,7 @@ class MapDiChung extends Component {
                                 value={this.props.drop_add}
                                 placeholder='Nhập điểm đến'
                                 selection={{ start: 0, end: 0 }}
+                                placeholderTextColor={'#333333'}
                             />
                         </TouchableOpacity>
                     </View>

@@ -61,13 +61,38 @@ class BookingDetail extends Component {
 
     async componentDidMount() {
         const { navigation } = this.props;
-        console.log(navigation.getParam('ticket_id'))
-
-        this.getTicketInfoDC(navigation.getParam('ticket_id'))
+        const ticket_id = navigation.getParam('ticket_id')
+        const code = navigation.getParam('code')
+        const phone = navigation.getParam('phone')
+        console.log('ticket_id' + ticket_id)
+        console.log('code' + code)
+        console.log('phone' + phone)
+        if (ticket_id) {
+            this.getTicketInfoDC(ticket_id)
+        } else {
+            this.getTicketByCode(code, phone)
+        }
     }
 
     async getTicketInfoDC(_id) {
         const url = link.URL_API_PORTAL + `booking/v1/user/bookings/${_id}`
+        console.log('ticket_id' + url)
+        const res = await fetch(url, {
+            headers: {
+                'token': this.state.token,
+            },
+            method: 'GET',
+        });
+        const jsonRes = await res.json();
+        this.setState({
+            bookingDetail: jsonRes.data,
+            isLoading: false,
+        });
+        console.log(jsonRes.data)
+    }
+
+    async getTicketByCode(code, phone) {
+        const url = link.URL_API_PORTAL + `booking/v1/bookings/code?code=${code}&phone=${phone}`
         console.log(url)
         const res = await fetch(url, {
             headers: {
@@ -192,7 +217,7 @@ class BookingDetail extends Component {
         return (
             <View>
                 <ScrollView style={{ height: SCREEN_HEIGHT }}>
-                    <Text style={{ flex: 1, fontSize: 14, fontWeight: 'bold', marginHorizontal: 16, marginTop : 8 }}>mã vé: <Text style = {{backgroundColor : '#77a300', color : '#fff'}}>{this.state.bookingDetail.code}</Text></Text>
+                    <Text style={{ flex: 1, fontSize: 14, fontWeight: 'bold', marginHorizontal: 16, marginTop: 8 }}>mã vé: <Text style={{ backgroundColor: '#77a300', color: '#fff' }}>{this.state.bookingDetail.code}</Text></Text>
                     <View style={{ justifyContent: 'center' }}>
                         <View>
                             {this.state.bookingDetail.productType == 'CAR_RENTAL' ? <DetailTuLai item={this.state.bookingDetail} />
