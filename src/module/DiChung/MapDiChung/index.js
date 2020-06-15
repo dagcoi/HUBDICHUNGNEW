@@ -15,6 +15,7 @@ import { handleAndroidBackButton, removeAndroidBackButtonHandler } from '../../.
 import MapViewDirections from 'react-native-maps-directions';
 import { TextInput } from 'react-native-gesture-handler';
 import { ButtonFull, ButtonDialog } from '../../../component/Button'
+import { SafeAreaView } from 'react-navigation';
 
 const origin = { latitude: 21.2187149, longitude: 105.80417090000003 };
 // const destination = { latitude: 21.0019302, longitude: 105.85090579999996 };
@@ -159,90 +160,90 @@ class MapDiChung extends Component {
 
     renderPicktoDrop() {
 
-        if (this.props.drop_add == '' || this.props.pick_add == '') {
-            return (
-                <MapView style={styles.container}
-                    provider={PROVIDER_GOOGLE}
-                    initialRegion={{
-                        latitude: this.props.pick_add == '' ? origin.latitude : parseFloat(this.props.lattitude_pick),
-                        longitude: this.props.pick_add == '' ? origin.longitude : parseFloat(this.props.lngtitude_pick),
-                        latitudeDelta: 2.0,
-                        longitudeDelta: 0.1,
-                    }}
-                ></MapView>
-            );
-        }
-        return (
-            <MapView style={styles.container}
-                key={this.state.forceRefresh}
-                ref={(ref) => { this.mapRef = ref }}
-                provider={PROVIDER_GOOGLE}
-                // initialCamera={{
-                //     center: {
-                //         latitude: (this.props.lattitude_pick + this.props.lattitude_drop) / 2,
-                //         longitude: (this.props.lngtitude_pick + this.props.lngtitude_drop) / 2,
-                //     },
-                //     pitch: 1,
-                //     heading: 1,
-                //     zoom: 12,
-                //     altitude: 1,
-                // }}
+        // if (this.props.drop_add == '' || this.props.pick_add == '') {
+        //     return (
+        //         <MapView style={styles.container}
+        //             provider={PROVIDER_GOOGLE}
+        //             initialRegion={{
+        //                 latitude: this.props.pick_add == '' ? origin.latitude : parseFloat(this.props.lattitude_pick),
+        //                 longitude: this.props.pick_add == '' ? origin.longitude : parseFloat(this.props.lngtitude_pick),
+        //                 latitudeDelta: 2.0,
+        //                 longitudeDelta: 0.1,
+        //             }}
+        //         ></MapView>
+        //     );
+        // }
+        // return (
+        //     <MapView style={styles.container}
+        //         key={this.state.forceRefresh}
+        //         ref={(ref) => { this.mapRef = ref }}
+        //         provider={PROVIDER_GOOGLE}
+        //         // initialCamera={{
+        //         //     center: {
+        //         //         latitude: (this.props.lattitude_pick + this.props.lattitude_drop) / 2,
+        //         //         longitude: (this.props.lngtitude_pick + this.props.lngtitude_drop) / 2,
+        //         //     },
+        //         //     pitch: 1,
+        //         //     heading: 1,
+        //         //     zoom: 12,
+        //         //     altitude: 1,
+        //         // }}
 
-                onMapReady={() => {
-                    this.mapRef.fitToSuppliedMarkers(['mk1', 'mk2'], {
-                        edgePadding:
-                        {
-                            top: 300,
-                            right: 100,
-                            bottom: 100,
-                            left: 100
-                        }
-                    })
-                    this.mapRef.fitToElements(true);
-                }}
-            >
-                <MapView.Marker
-                    coordinate={{
-                        latitude: this.props.lattitude_pick,
-                        longitude: this.props.lngtitude_pick,
-                    }}
-                    title={"Điểm đón"}
-                    description={this.props.pick_add}
-                    identifier={'mk1'}
-                />
+        //         onMapReady={() => {
+        //             this.mapRef.fitToSuppliedMarkers(['mk1', 'mk2'], {
+        //                 edgePadding:
+        //                 {
+        //                     top: 300,
+        //                     right: 100,
+        //                     bottom: 100,
+        //                     left: 100
+        //                 }
+        //             })
+        //             this.mapRef.fitToElements(true);
+        //         }}
+        //     >
+        //         <MapView.Marker
+        //             coordinate={{
+        //                 latitude: this.props.lattitude_pick,
+        //                 longitude: this.props.lngtitude_pick,
+        //             }}
+        //             title={"Điểm đón"}
+        //             description={this.props.pick_add}
+        //             identifier={'mk1'}
+        //         />
 
-                <MapView.Marker
-                    coordinate={{
-                        latitude: this.props.lattitude_drop,
-                        longitude: this.props.lngtitude_drop,
-                    }}
-                    title={"Điểm trả"}
-                    description={this.props.drop_add}
-                    identifier={'mk2'}
-                />
+        //         <MapView.Marker
+        //             coordinate={{
+        //                 latitude: this.props.lattitude_drop,
+        //                 longitude: this.props.lngtitude_drop,
+        //             }}
+        //             title={"Điểm trả"}
+        //             description={this.props.drop_add}
+        //             identifier={'mk2'}
+        //         />
 
-                <MapViewDirections
-                    origin={{ latitude: this.props.lattitude_pick, longitude: this.props.lngtitude_pick }}
-                    destination={{ latitude: this.props.lattitude_drop, longitude: this.props.lngtitude_drop }}
-                    apikey={GOOGLE_MAPS_APIKEY}
-                    strokeWidth={5}
-                    strokeColor="#669df6"
-                    resetOnChange={true}
-                    onReady={result => {
-                        this.mapRef.fitToSuppliedMarkers(['mk1', 'mk2'], {
-                            edgePadding:
-                            {
-                                top: 300,
-                                right: 100,
-                                bottom: 100,
-                                left: 100
-                            }
-                        })
-                        this.mapRef.fitToElements(true);
-                    }}
-                />
-            </MapView>
-        );
+        //         <MapViewDirections
+        //             origin={{ latitude: this.props.lattitude_pick, longitude: this.props.lngtitude_pick }}
+        //             destination={{ latitude: this.props.lattitude_drop, longitude: this.props.lngtitude_drop }}
+        //             apikey={GOOGLE_MAPS_APIKEY}
+        //             strokeWidth={5}
+        //             strokeColor="#669df6"
+        //             resetOnChange={true}
+        //             onReady={result => {
+        //                 this.mapRef.fitToSuppliedMarkers(['mk1', 'mk2'], {
+        //                     edgePadding:
+        //                     {
+        //                         top: 300,
+        //                         right: 100,
+        //                         bottom: 100,
+        //                         left: 100
+        //                     }
+        //                 })
+        //                 this.mapRef.fitToElements(true);
+        //             }}
+        //         />
+        //     </MapView>
+        // );
     }
 
     setStateAsync(state) {
@@ -471,7 +472,7 @@ class MapDiChung extends Component {
             <View style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
             >
                 <ImageInputTextDiChung
-                    widthHeightImage = {24}
+                    widthHeightImage={24}
                     onPress={() => {
                         this.setState({
                             dialogCalendarVisible: true,
@@ -497,7 +498,7 @@ class MapDiChung extends Component {
                             source={require(imageLocation)}
                         />
                         <TouchableOpacity
-                            style={{ flex: 1, height: 40, marginLeft : -4}}
+                            style={{ flex: 1, height: 40, marginLeft: -4 }}
                             onPress={() => {
                                 this.props.navigation.push("SearchPlace", {
                                     search: 'Drop',
@@ -644,6 +645,56 @@ class MapDiChung extends Component {
         }
     }
 
+    renderTimePick1() {
+        <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
+            <View style={{ height: 40, justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Chọn giờ đi</Text>
+            </View>
+            <FlatList
+                style={{ flex: 1, backgroundColor: '#ffffff' }}
+                data={listHour}
+                initialScrollIndex={this.state.scroll - 1}
+                getItemLayout={this.getItemLayout}
+                renderItem={({ item }) =>
+                    <TouchableOpacity
+                        style={{ flexDirection: 'row', height: 40 }}
+                        onPress={() => {
+                            var isDayAlight = this.state.spesentDay == this.state.date.format('DD-MM-YYYY');
+                            var timeClicker = ((item.hour == this.state.hoursAlive && item.minute > this.state.minutesAlive) || item.hour > this.state.hoursAlive);
+
+                            if (isDayAlight) {
+                                if (timeClicker) {
+                                    this.setState({
+                                        selectedHours: item.hour,
+                                        selectedMinutes: item.minute,
+                                        scroll: item.id,
+                                        dialogTimeVisible: false,
+                                        dialogCalendarVisible: false,
+                                        depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                    })
+                                    this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
+                                }
+                            } else {
+                                this.setState({
+                                    selectedHours: item.hour,
+                                    selectedMinutes: item.minute,
+                                    scroll: item.id,
+                                    dialogTimeVisible: false,
+                                    dialogCalendarVisible: false,
+                                    depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                })
+                                this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
+                            }
+                        }}
+                    >
+                        <Text style={{ textAlign: 'center', fontSize: 16, flex: 1, padding: 8, backgroundColor: (item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes) ? '#77a300' : '#fff', color: (this.state.spesentDay == this.state.date.format('DD-MM-YYYY') && ((item.hour == this.state.hoursAlive && item.minute < this.state.minutesAlive) || item.hour < this.state.hoursAlive)) ? '#aaa' : item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes ? '#fff' : '#000000' }}>{item.hour < 10 ? '0' + item.hour : item.hour}: {item.minute == 0 ? '00' : item.minute}</Text>
+                    </TouchableOpacity>}
+                scrollToIndex={this.state.scroll}
+                keyExtractor={item => item.id}
+            />
+        </View>
+    }
+
     render() {
         const minDate = new Date();
 
@@ -673,11 +724,11 @@ class MapDiChung extends Component {
                     animationType="slide"
                     transparent={true}
                     visible={this.state.dialogCalendarVisible}
-                    onOrientationChange={true}
+                    // onOrientationChange={true}
                     onRequestClose={() => {
                         console.log('a');
                     }}>
-                    <View style={{
+                    <SafeAreaView style={{
                         flex: 1,
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
@@ -722,21 +773,24 @@ class MapDiChung extends Component {
 
                             />
                         </View>
-                    </View>
+                        {this.state.dialogTimeVisible ? this.renderTimePick1() : null}
+
+                    </SafeAreaView>
                 </Modal>
 
                 <Modal
                     animationType="slide"
                     transparent={true}
                     visible={this.state.dialogTimeVisible}
-                    onOrientationChange={true}
+                    // onOrientationChange={true}
                     onRequestClose={() => {
                     }}>
-                    <View style={{
+                    <SafeAreaView style={{
                         flex: 1,
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
-                        backgroundColor: '#000000AA'
+                        backgroundColor: '#000000AA',
+                        zIndex: 9,
                     }}>
                         <View style={{ flex: 1, }}>
                             <TouchableOpacity
@@ -792,18 +846,18 @@ class MapDiChung extends Component {
                                 keyExtractor={item => item.id}
                             />
                         </View>
-                    </View>
+                    </SafeAreaView>
                 </Modal>
 
                 <Modal
                     animationType="slide"
                     transparent={true}
                     visible={this.state.dialogSelectPeople}
-                    onOrientationChange={true}
+                    // onOrientationChange={true}
                     onRequestClose={() => {
                         console.log('a');
                     }}>
-                    <View style={{
+                    <SafeAreaView style={{
                         flex: 1,
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
@@ -839,18 +893,18 @@ class MapDiChung extends Component {
                                 </TouchableOpacity>}
                             keyExtractor={item => item.chair}
                         />
-                    </View>
+                    </SafeAreaView>
                 </Modal>
 
                 <Modal
                     animationType="slide"
                     transparent={true}
                     visible={this.state.modalSelectTime}
-                    onOrientationChange={true}
+                    // onOrientationChange={true}
                     onRequestClose={() => {
                         console.log('a');
                     }}>
-                    <View style={{
+                    <SafeAreaView style={{
                         flex: 1,
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
@@ -884,18 +938,18 @@ class MapDiChung extends Component {
                             keyExtractor={item => item.time}
                         />
 
-                    </View>
+                    </SafeAreaView>
                 </Modal>
 
                 <Modal
                     animationType="slide"
                     transparent={true}
                     visible={this.state.modalSelectCar}
-                    onOrientationChange={true}
+                    // onOrientationChange={true}
                     onRequestClose={() => {
                         console.log('a');
                     }}>
-                    <View style={{
+                    <SafeAreaView style={{
                         flex: 2,
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
@@ -927,7 +981,7 @@ class MapDiChung extends Component {
                             keyExtractor={item => item.carname}
                         />
 
-                    </View>
+                    </SafeAreaView>
                 </Modal>
 
 
