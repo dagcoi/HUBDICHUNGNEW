@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, TouchableOpacity, Text, FlatList, StyleSheet, ActivityIndicator, Modal, Image, ScrollView, Dimensions, AsyncStorage, Linking } from 'react-native'
 import StarVote from '../../component/StarVote'
-import Header from '../../component/Header'
+import Header from '../../component/Header/HeaderImage'
 import ImageTextDiChung from '../../component/ImageTextDiChung'
 import DetailTaxi from './DetailTaxi'
 import DetailTuLai from './DetailTuLai'
@@ -12,7 +12,7 @@ import * as link from '../../URL'
 import { Button, ButtonGray } from '../../component/Button'
 import OTPInputView from '@twotalltotems/react-native-otp-input'
 import { connect } from 'react-redux'
-import { NavigationEvents } from 'react-navigation';
+import { NavigationEvents, SafeAreaView } from 'react-navigation';
 
 const imagePick = '../../image/location2.png'
 const imageDrop = '../../image/location2.png'
@@ -292,7 +292,7 @@ class ListBooking extends Component {
             )
         }
         return (
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, backgroundColor : '#dddddd' }}>
                 {this.state.listBooking.length == 0 ?
                     <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
                         <Text>{this.props.isLogin == '0' ? 'Đăng nhập để xem danh sách vé của bạn.' : 'Chưa có chuyến trong danh sách vé.'}</Text>
@@ -322,7 +322,7 @@ class ListBooking extends Component {
 
     render() {
         return (
-            <View style={{ flex: 1 }}>
+            <SafeAreaView style={{ flex: 1 }}>
                 <Header
                     onPressLeft={() => { this.props.navigation.openDrawer() }}
                     onPressCenter={this.gotoHomeScreen}
@@ -335,7 +335,7 @@ class ListBooking extends Component {
                 <View style={{ flex: 1 }}>
                     {this.renderListBooking()}
                 </View>            
-            </View>
+            </SafeAreaView>
         )
     }
 

@@ -7,6 +7,7 @@ import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
 import { Button, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogTitle } from 'react-native-popup-dialog';
+import {HeaderText} from '../../../component/Header'
 
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -353,9 +354,14 @@ class ConfirmInformationHB extends Component {
         }
     }
 
+    goBack = () => {
+        this.props.navigation.goBack()
+    }
+
     render() {
         return (
             <View style={{ padding: 8 }}>
+                <HeaderText textCenter={'Xác nhận thông tin'} onPressLeft={this.goBack} />
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                         <Image

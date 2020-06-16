@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { View, Text, ActivityIndicator, Dimensions, ScrollView, Linking } from 'react-native';
+import { View, Text, ActivityIndicator, Dimensions, ScrollView, Linking, SafeAreaView } from 'react-native';
 import HTML from 'react-native-render-html';
-import Header from '../../../component/Header'
+import Header from '../../../component/Header/HeaderImage'
 import WebView from 'react-native-webview'
 import * as link from '../../../URL'
 
@@ -23,14 +23,14 @@ class FAQ extends Component {
         }
     }
 
-    gotoHomeScreen = () =>{
+    gotoHomeScreen = () => {
         this.props.navigation.navigate('Home')
     }
 
     render() {
         var url = link.URL_REALASE + `cau-hoi-thuong-gap`;
         return (
-            <View style={{ flex: 1 }}>
+            <SafeAreaView style={{ flex: 1 }}>
                 <Header
                     onPressLeft={() => { this.props.navigation.openDrawer() }}
                     onPressCenter={this.gotoHomeScreen}
@@ -39,7 +39,7 @@ class FAQ extends Component {
                     source={{ uri: url }}
                     onMessage={this.onMessage}
                     style={{ marginTop: -60 }} />
-            </View>
+            </SafeAreaView>
         )
     }
 

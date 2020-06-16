@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { View, TextInput, Image, StyleSheet, TouchableOpacity, Text, Modal, AsyncStorage, ActivityIndicator, ScrollView, Dimensions } from 'react-native'
+import { View, TextInput, Image, StyleSheet, TouchableOpacity, Text, Modal, AsyncStorage, ActivityIndicator, ScrollView, Dimensions, SafeAreaView } from 'react-native'
 import { ButtonWrap, ButtonGray } from '../../../component/Button'
-import Header from '../../../component/Header'
+import Header from '../../../component/Header/HeaderImage'
 import InputTextDiChung from '../../../component/InputTextDiChung'
 import InputPassWord from '../Login/InputPassWord'
 import * as link from '../../../URL'
@@ -530,7 +530,7 @@ class Profile extends Component {
             )
         }
         return (
-            <View style={{ flex: 1, flexDirection: 'column' }}>
+            <SafeAreaView style={{ flex: 1, flexDirection: 'column' }}>
                 <Header
                     onPressLeft={() => { this.props.navigation.openDrawer() }}
                     onPressCenter={this.gotoHomeScreen}
@@ -540,7 +540,7 @@ class Profile extends Component {
                     {this.accountInfo()}
                 </View>
                 {this.showModalProfileSucess()}
-            </View>
+            </SafeAreaView>
         )
     }
 }

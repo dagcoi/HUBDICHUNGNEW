@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import {
-    Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, ActivityIndicator, FlatList,Dimensions
+    Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, ActivityIndicator, FlatList,Dimensions, SafeAreaView
 } from 'react-native';
 import { connect } from 'react-redux';
 import StarVote from '../../../component/StarVote'
+import {HeaderText} from '../../../component/Header'
 
 import { addTripInfomationHourlyBooking } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
@@ -237,22 +238,27 @@ class ListCarHourlyBooking extends Component {
         this.nextScreen();
     }
 
+    goBack = () => {
+        this.props.navigation.goBack()
+    }
+
     render() {
 
         if (this.state.isLoading) {
             return (
-                <View style={{ flex: 1, padding: 20 }}>
+                <SafeAreaView style={{ flex: 1, padding: 20 }}>
                     <ActivityIndicator
                         size='large'
                     />
-                </View>
+                </SafeAreaView>
             )
         }
         var obj = [...this.state.dataSource];
         return (
-            <View style={{ flex: 1, padding: 8,}}>
+            <SafeAreaView style={{ flex: 1, padding: 8,}}>
+                <HeaderText textCenter={'Danh sách xe'} onPressLeft={this.goBack} />
                 {this.renderListCar(obj)}
-            </View>
+            </SafeAreaView>
         );
     }
 

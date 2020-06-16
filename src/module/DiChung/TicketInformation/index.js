@@ -10,6 +10,7 @@ import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from '
 import PopUp from '../../../component/PopUp'
 import OtpInputs from 'react-native-otp-inputs';
 import { handleAndroidBackButton, removeAndroidBackButtonHandler, exitAlert } from '../../../component/AndroidBackButton'
+import { HeaderText } from '../../../component/Header'
 
 const imageLocation = '../../../image/location2.png'
 const imageCalendar = '../../../image/calendar.png'
@@ -425,17 +426,19 @@ class TicketInformation extends Component {
     render() {
         if (this.state.is_loading) {
             return (
-                <ActivityIndicator
-                    style={{ padding: 32, }}
-                    size='large'
-                />
+                <SafeAreaView>
+                    <ActivityIndicator
+                        style={{ padding: 32, }}
+                        size='large'
+                    />
+                </SafeAreaView>
             )
         } else {
             const item = this.state.info;
             console.log(JSON.stringify(item));
             return (
-                <View style={styles.container}>
-                    <ScrollView showsVerticalScrollIndicator={false}>
+                <SafeAreaView style={{ flex: 1 }}>
+                    <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
 
                         {item.forward.status == 'forwarded' ?
                             <Text style={styles.textBigRight}>Mã thuê xe của bạn: <Text style={{ fontWeight: 'bold', backgroundColor: '#77a300', color: '#fff', padding: 4 }}>{item.code}</Text></Text>
@@ -632,7 +635,7 @@ class TicketInformation extends Component {
                             </View>
                         </Modal>
                     </ScrollView>
-                </View>
+                </SafeAreaView>
             )
         }
     }

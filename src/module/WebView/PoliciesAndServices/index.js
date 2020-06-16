@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { View, Text, ActivityIndicator, Dimensions, ScrollView, BackHandler, Platform, } from 'react-native';
+import { View, Text, ActivityIndicator, Dimensions, ScrollView, BackHandler, Platform, SafeAreaView } from 'react-native';
 import HTML from 'react-native-render-html';
-import Header from '../../../component/Header'
+import Header from '../../../component/Header/HeaderImage'
 import WebView from 'react-native-webview';
 import * as link from '../../../URL'
 
@@ -38,14 +38,14 @@ class PoliciesAndServices extends Component {
         }
     }
 
-    gotoHomeScreen = () =>{
+    gotoHomeScreen = () => {
         this.props.navigation.navigate('Home')
     }
 
     render() {
         var url = link.URL_REALASE + `van-chuyen`
         return (
-            <View style={{ flex: 1 }}>
+            <SafeAreaView style={{ flex: 1 }}>
                 <Header
                     onPressLeft={() => { this.props.navigation.openDrawer() }}
                     onPressCenter={this.gotoHomeScreen}
@@ -58,7 +58,7 @@ class PoliciesAndServices extends Component {
                     // onLoadEnd = {true}
                     dataDetectorTypes={'phoneNumber'}
                 />
-            </View>
+            </SafeAreaView>
         )
     }
 }

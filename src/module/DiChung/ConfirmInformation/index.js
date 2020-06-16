@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert, Image, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert, Image, ActivityIndicator, SafeAreaView } from 'react-native';
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import CountDown from 'react-native-countdown-component';
@@ -9,7 +9,7 @@ import { NavigationActions, StackActions } from 'react-navigation';
 import { Button, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 import PopUp from '../../../component/PopUp'
-
+import { HeaderText } from '../../../component/Header'
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
     return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
@@ -155,7 +155,7 @@ class ConfirmInformation extends Component {
         )
     }
 
-    renderDetailCustommer() {
+    renderDetailCustomer() {
         return (
             <View>
                 <Text style={styles.textBigLeft1}>Chi tiết khách hàng</Text>
@@ -265,11 +265,19 @@ class ConfirmInformation extends Component {
         )
     }
 
+    goBack = () => {
+        this.props.navigation.goBack()
+    }
+
     render() {
         const { navigation } = this.props;
         return (
-            <View style={{ padding: 8 }}>
-                <ScrollView showsVerticalScrollIndicator={false}>
+            <SafeAreaView>
+                <HeaderText textCenter={'Xác nhận thông tin'} onPressLeft={this.goBack} />
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    style={{ padding: 8 }}
+                >
                     <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                         <Image
                             style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
@@ -279,7 +287,7 @@ class ConfirmInformation extends Component {
 
                     {this.renderDetailTrip()}
                     {this.renderDetailOrder()}
-                    {this.renderDetailCustommer()}
+                    {this.renderDetailCustomer()}
                     {this.renderDetailPeopleMove()}
                     {this.formComment()}
                     {this.renderAirport()}
@@ -449,7 +457,7 @@ class ConfirmInformation extends Component {
 
 
                 </ScrollView>
-            </View>
+            </SafeAreaView>
         )
     }
 

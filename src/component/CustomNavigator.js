@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Image, Text, AsyncStorage, TouchableOpacity, AppState } from 'react-native'
+import { View, Image, Text, AsyncStorage, TouchableOpacity, AppState, SafeAreaView } from 'react-native'
 import { DrawerNavigatorItems, DrawerView } from 'react-navigation-drawer'
 import { connect } from 'react-redux'
 
@@ -17,7 +17,7 @@ class CustomNavigator extends Component {
 
     render() {
         return (
-            <View style={{ flex: 1 }}>
+            <SafeAreaView style={{ flex: 1 }}>
                 <TouchableOpacity
                     onPress={() => {
                         this.props.isLogin == 0 ?
@@ -42,7 +42,7 @@ class CustomNavigator extends Component {
                 <View style={{ flex: 1 }}>
                     <DrawerNavigatorItems {...this.props} />
                 </View>
-            </View>
+            </SafeAreaView>
         )
     }
 }

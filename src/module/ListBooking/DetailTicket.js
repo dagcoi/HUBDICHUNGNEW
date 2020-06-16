@@ -17,7 +17,7 @@ import DetailTuLai from './DetailTuLai'
 import DetailExpress from './DetailExpress'
 import DetailXeChung from './DetailXeChung'
 import DetailHourlyTaxi from './DetailHourlyTaxi'
-
+import { HeaderText } from '../../component/Header'
 import * as link from '../../URL'
 import { Button, ButtonGray } from '../../component/Button'
 import { connect } from 'react-redux'
@@ -204,20 +204,27 @@ class BookingDetail extends Component {
         console.log('URL PAYMENT: ........' + webViewState.url)
     }
 
+    goBack = () => {
+        this.props.navigation.goBack()
+    }
+
     render() {
         if (this.state.isLoading) {
             return (
-                <ActivityIndicator
-                    style={{ padding: 32, }}
-                    size='large'
-                />
+                <SafeAreaView>
+                    <ActivityIndicator
+                        style={{ padding: 32, }}
+                        size='large'
+                    />
+                </SafeAreaView>
             )
         }
 
         return (
-            <View>
+            <SafeAreaView>
+                <HeaderText textCenter={'Chi tiết vé'} onPressLeft={this.goBack} />
                 <ScrollView style={{ height: SCREEN_HEIGHT }}>
-                    <Text style={{ flex: 1, fontSize: 14, fontWeight: 'bold', marginHorizontal: 16, marginTop: 8 }}>mã vé: <Text style={{ backgroundColor: '#77a300', color: '#fff' }}>{this.state.bookingDetail.code}</Text></Text>
+                    <Text style={{ flex: 1, fontSize: 14, fontWeight: 'bold', marginHorizontal: 16, marginTop: 8 }}>Mã vé: <Text style={{ backgroundColor: '#77a300', color: '#fff' }}>{this.state.bookingDetail.code}</Text></Text>
                     <View style={{ justifyContent: 'center' }}>
                         <View>
                             {this.state.bookingDetail.productType == 'CAR_RENTAL' ? <DetailTuLai item={this.state.bookingDetail} />
@@ -246,7 +253,7 @@ class BookingDetail extends Component {
                         {this.modalLoading()}
                     </View>
                 </ScrollView>
-            </View>
+            </SafeAreaView>
         )
     }
 }

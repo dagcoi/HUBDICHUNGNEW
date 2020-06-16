@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Image, SafeAreaView } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import Geocoder from 'react-native-geocoding';
 import { connect } from 'react-redux';
+import { HeaderText } from '../../../component/Header'
 
 import { pickAddress, dropAddress, addAddressYCDB } from '../../../core/Redux/action/Action'
 
@@ -61,6 +62,10 @@ class SearchPlace extends Component {
         console.log(`lat: ${this.state.lat} lng: ${this.state.lng}`);
     }
 
+    goBack = () => {
+        this.props.navigation.goBack()
+    }
+
     render() {
         const { navigation } = this.props;
         const imageLocation = '../../../image/location.png'
@@ -69,7 +74,8 @@ class SearchPlace extends Component {
         const address11 = navigation.getParam('search');
         const placeholder = navigation.getParam('placeholder');
         return (
-            <View style={{ flex: 1, padding: 4, marginTop: 16 }}>
+            <SafeAreaView style={{ flex: 1, padding: 4, marginTop: 16 }}>
+                <HeaderText textCenter={'Nhập địa chỉ'} onPressLeft={this.goBack} />
                 <View style={{ backgroundColor: '#ffffff' }}>
                     <View style={{ flexDirection: 'row' }}>
                         <GooglePlacesAutocomplete
@@ -158,7 +164,7 @@ class SearchPlace extends Component {
 
                     </View>
                 </View>
-            </View>
+            </SafeAreaView>
         );
     }
     _clearInput(inputT) {

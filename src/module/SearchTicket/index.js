@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, Image, TouchableOpacity, Alert, Linking, Dimensions } from 'react-native';
 import InputTextDiChung from '../../component/InputTextDiChung'
 import * as link from '../../URL'
-import Header from '../../component/Header'
+import Header from '../../component/Header/HeaderImage'
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window')
 

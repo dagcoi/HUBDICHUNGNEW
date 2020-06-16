@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, Alert, Switch, ActivityIndicator, Dimensions, Modal, RefreshControl, FlatList, Linking } from 'react-native';
+import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, Alert, Switch, ActivityIndicator, Dimensions, Modal, RefreshControl, FlatList, Linking, SafeAreaView } from 'react-native';
 import { connect } from 'react-redux';
 import CheckBoxList from '../../../component/CheckBoxList'
 import CheckBox from 'react-native-check-box'
 import StarVote from '../../../component/StarVote'
 import { Button } from '../../../component/Button'
+import { HeaderText } from '../../../component/Header'
 
 import { addTripInfomation, addIsFromAirport, addAirport } from '../../../core/Redux/action/Action'
 import HTML from 'react-native-render-html';
@@ -505,8 +506,8 @@ class ListCar extends Component {
 
                                         <Button
                                             onPress={() => {
-                                                console.log('index ... ' +index)
-                                                console.log('partner_note' +item.discount_data.partner_note)
+                                                console.log('index ... ' + index)
+                                                console.log('partner_note' + item.discount_data.partner_note)
                                                 this.gotoInfoCustommer(item)
                                             }}
                                             value={'CHỌN XE'}
@@ -526,26 +527,32 @@ class ListCar extends Component {
         this.setState({ showFilter: visible });
     }
 
+    goBack = () => {
+        this.props.navigation.goBack()
+    }
+
     render() {
 
         if (this.state.isLoading) {
             return (
-                <View style={{ flex: 1, padding: 20 }}>
+                <SafeAreaView style={{ flex: 1, padding: 20 }}>
                     <ActivityIndicator
                         size='large'
                     />
-                </View>
+                </SafeAreaView>
             )
         }
         var obj = [...this.state.dataSource];
         var lf = { ...this.state.listFilter }
         console.log(lf);
         return (
-            <View style={{ flex: 1, padding: 8, }}>
-
-                {this.renderItem(obj)}
-                {this.modalFilter(this.state.showFilter)}
-            </View>
+            <SafeAreaView style={{ flex: 1 }}>
+                <HeaderText textCenter={'Danh sách xe'} onPressLeft={this.goBack} />
+                <View style={{ flex: 1, paddingHorizontal: 8, }}>
+                    {this.renderItem(obj)}
+                    {this.modalFilter(this.state.showFilter)}
+                </View>
+            </SafeAreaView>
         );
     }
 

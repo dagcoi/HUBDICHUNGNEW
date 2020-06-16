@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Alert, Image, TextInput, ScrollView, AsyncStorage } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, Image, TextInput, ScrollView, AsyncStorage, SafeAreaView } from 'react-native';
 import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBox from 'react-native-check-box'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
@@ -10,6 +10,8 @@ import { Button, ButtonDialog } from '../../../component/Button'
 import AwesomeAlert from 'react-native-awesome-alerts'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 import PopUp from '../../../component/PopUp'
+import RadioGroup from 'react-native-custom-radio-group';
+import {HeaderText} from '../../../component/Header'
 
 var radio_props = [
     { label: 'Nội địa', value: 1 },
@@ -19,7 +21,7 @@ var radio_props = [
 var radio_payment_detail = [
     // { label: 'ATM', value: 0, payment_method_ID: '8' },
     // { label: 'Visa', value: 1, payment_method_ID: '8' },
-    { label: 'Vnpay', value: 2, payment_method_ID: '8' },
+    { label: 'VNPAY', value: 2, payment_method_ID: '8' },
     // { label: 'Paypal', value: 3, payment_method_ID: '4' },
 ]
 
@@ -32,6 +34,7 @@ class InfoCustommer extends Component {
             is_checked: false,
             plane_type: -1,
             value_payment: 0,
+            value_paymentDetail: 0,
             full_name: '',
             full_name1: '',
             use_phone: '',
@@ -70,7 +73,7 @@ class InfoCustommer extends Component {
         this.getdata()
     }
 
-    async getdata(){
+    async getdata() {
         try {
             const dataLogin = await AsyncStorage.getItem('dataLogin')
             if (dataLogin !== null) {
@@ -91,7 +94,7 @@ class InfoCustommer extends Component {
         } catch (error) {
             console.log(error)
         }
-       
+
     }
 
     renderPostpaid() {
@@ -99,11 +102,20 @@ class InfoCustommer extends Component {
             return null;
         } else {
             return (
-                <View style={{ padding: 8 }}>
+                <View style={{ paddingHorizontal: 8 }}>
                     <RadioForm
                         animation={true}
                     >
                         {radio_payment_detail.map((obj, i) => (
+                            // <View
+                            //     style={{ borderRadius: 4, borderWidth: 1, borderColor: this.state.value_paymentDetail === i ? '#77a300' : '#333333', justifyContent: 'center' }}
+                            //     onPress={
+                            //         this.setState({
+                            //             value_paymentDetail: i,
+                            //             payment_method_ID: obj.payment_method_ID,
+                            //         })
+                            //     }
+                            // >
                             <RadioButton labelHorizontal={true} key={i} >
                                 <RadioButtonInput
                                     obj={obj}
@@ -142,8 +154,11 @@ class InfoCustommer extends Component {
                                     labelWrapStyle={{}}
                                 />
                             </RadioButton>
+                            // </View>
                         ))}
                     </RadioForm>
+                    {/* <RadioGroup radioGroupList={radio_payment_detail} /> */}
+
                 </View>
             )
         }
@@ -486,7 +501,7 @@ class InfoCustommer extends Component {
                         detailPromotion: responseJson.data.discount_text,
                         discount_price: responseJson.data.discount_price,
                         blDiscount: true,
-                        promotion_code : this.state.promotion_code.toUpperCase()
+                        promotion_code: this.state.promotion_code.toUpperCase()
                     })
                     this.props.addPromotionCode(this.state.promotion_code, this.state.discount_price);
                 }
@@ -558,6 +573,9 @@ class InfoCustommer extends Component {
             </View>
         )
     }
+    goBack = () => {
+        this.props.navigation.goBack()
+    }
 
     render() {
         const { navigation } = this.props;
@@ -570,8 +588,9 @@ class InfoCustommer extends Component {
             radio_payment.push({ label: 'Trả trước', value: 1, paymentMethodID: '8' })
         }
         return (
-            <View style={styles.container}>
-                <ScrollView showsVerticalScrollIndicator={false}>
+            <SafeAreaView style={styles.container}>
+                <HeaderText textCenter = {'Thông tin đặt xe'} onPressLeft= {this.goBack} />
+                <ScrollView showsVerticalScrollIndicator={false} style = {styles.container}>
                     <Text style={styles.textBig}>Họ và tên</Text>
 
                     <InputTextDiChung
@@ -768,7 +787,7 @@ class InfoCustommer extends Component {
                     {this.renderAlert()}
 
                 </ScrollView>
-            </View>
+            </SafeAreaView>
         )
     }
 }

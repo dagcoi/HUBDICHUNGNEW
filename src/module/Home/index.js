@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity, StyleSheet, BackHandler, Alert, Image, Li
 import { connect } from 'react-redux';
 import WebView from 'react-native-webview';
 import * as link from '../../URL'
-import Header from '../../component/Header'
+import Header from '../../component/Header/HeaderImage'
 import SwiperFlatList from 'react-native-swiper-flatlist';
 import SelectCar from './SelectCar'
 import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
