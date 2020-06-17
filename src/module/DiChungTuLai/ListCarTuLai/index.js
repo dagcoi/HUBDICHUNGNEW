@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, ActivityIndicator, Dimensions, Modal, FlatList, Linking } from 'react-native';
+import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, ActivityIndicator, Dimensions, Modal, FlatList, Linking, SafeAreaView } from 'react-native';
 import { connect } from 'react-redux';
 import StarVote from '../../../component/StarVote'
 import CheckBoxList from '../../../component/CheckBoxList'
@@ -7,6 +7,7 @@ import { addTripInfomationTuLai } from '../../../core/Redux/action/Action'
 import HTML from 'react-native-render-html';
 import * as link from '../../../URL'
 import { Button } from '../../../component/Button'
+import { HeaderText } from '../../../component/Header'
 
 const imageMaxToMin = '../../../image/maxtomin.png'
 const imageMinToMax = '../../../image/mintomax.png'
@@ -223,7 +224,7 @@ class ListCarTuLai extends Component {
         { this.state.sort ? obj.sort((a, b) => b.merged - a.merged) : obj.sort((a, b) => a.merged - b.merged) }
         return (
             obj.length < 1 ?
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center', padding: 8 }}>
                     <Image
                         style={{ width: 80, height: 80 }}
                         source={require('../../../image/sorry.png')}
@@ -306,23 +307,28 @@ class ListCarTuLai extends Component {
         )
     }
 
+    goBack = () => {
+        this.props.navigation.goBack()
+    }
+
     render() {
 
         if (this.state.isLoading) {
             return (
-                <View style={{ flex: 1, padding: 20 }}>
+                <SafeAreaView style={{ flex: 1, padding: 20 }}>
                     <ActivityIndicator
                         size='large'
                     />
-                </View>
+                </SafeAreaView>
             )
         }
         var obj = [...this.state.dataSource];
         return (
-            <View style={{ flex: 1, padding: 8, }}>
+            <SafeAreaView style={{ flex: 1, }}>
+                <HeaderText textCenter={'Danh sách xe'} onPressLeft={this.goBack} />
                 {this.renderItem(obj)}
                 {this.modalFilter(this.state.showFilter)}
-            </View>
+            </SafeAreaView>
         );
     }
 

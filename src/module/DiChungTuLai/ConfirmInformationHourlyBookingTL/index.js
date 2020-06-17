@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert, Image, ActivityIndicator, Modal } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert, Image, ActivityIndicator, Modal, SafeAreaView } from 'react-native';
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Dialog, ConfirmDialog } from 'react-native-simple-dialogs';
@@ -7,6 +7,7 @@ import { deleteDataTuLai } from '../../../core/Redux/action/Action'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
 import { Button } from '../../../component/Button'
+import { HeaderText } from '../../../component/Header'
 
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -250,10 +251,15 @@ class ConfirmInformationHourlyBookingTL extends Component {
         }
     }
 
+    goBack = () =>{
+        this.props.navigation.goBack()
+    }
+
     render() {
         const { navigation } = this.props;
         return (
-            <View style={{ padding: 8 }}>
+            <SafeAreaView style={{ flex: 1 }}>
+                <HeaderText textCenter={'Xác nhận thông tin'} onPressLeft={this.goBack} />
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                         <Image
@@ -419,7 +425,7 @@ class ConfirmInformationHourlyBookingTL extends Component {
                         </View>
                     </View>
                 </Modal>
-            </View>
+            </SafeAreaView>
         )
     }
 

@@ -70,7 +70,7 @@ class ListBooking extends Component {
                 console.log(json._id)
                 this.setState({
                     token: json.token,
-                    isLoading: true,
+                    isLoading: false,
                 })
                 this.getListBooking(json.token)
             } else {

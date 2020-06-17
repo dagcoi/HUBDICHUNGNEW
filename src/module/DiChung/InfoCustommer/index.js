@@ -588,7 +588,7 @@ class InfoCustommer extends Component {
             radio_payment.push({ label: 'Trả trước', value: 1, paymentMethodID: '8' })
         }
         return (
-            <SafeAreaView style={styles.container}>
+            <SafeAreaView style={{flex : 1}}>
                 <HeaderText textCenter = {'Thông tin đặt xe'} onPressLeft= {this.goBack} />
                 <ScrollView showsVerticalScrollIndicator={false} style = {styles.container}>
                     <Text style={styles.textBig}>Họ và tên</Text>

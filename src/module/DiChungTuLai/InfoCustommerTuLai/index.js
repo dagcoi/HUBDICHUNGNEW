@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Alert, Image, TextInput, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, Image, TextInput, ScrollView, SafeAreaView } from 'react-native';
 import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBox from 'react-native-check-box'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
@@ -9,6 +9,7 @@ import * as link from '../../../URL'
 import { Button, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 import PopUp from '../../../component/PopUp'
+import { HeaderText } from '../../../component/Header'
 
 const imageCancel = '../../../image/cancel.png'
 const imageCheck = '../../../image/checked.png'
@@ -415,6 +416,10 @@ class InfoCustommerTuLai extends Component {
         )
     }
 
+    goBack = () => {
+        this.props.navigation.goBack()
+    }
+
     render() {
         const { navigation } = this.props;
         var radio_payment = navigation.getParam('isNightBooking') ?
@@ -426,8 +431,12 @@ class InfoCustommerTuLai extends Component {
                 // { label: 'Trả trước', value: 1 , payment_method_ID : '8'}, // ẩn phầ thanh toán online trên con thật.
             ]
         return (
-            <View style={styles.container}>
-                <ScrollView showsVerticalScrollIndicator={false}>
+            <SafeAreaView style={{ flex: 1 }}>
+                <HeaderText textCenter={'Thông tin khách hàng'} onPressLeft={this.goBack} />
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    style={styles.container}
+                >
                     <Text style={styles.textBig}>Họ và tên</Text>
 
                     <InputTextDiChung
@@ -634,7 +643,7 @@ class InfoCustommerTuLai extends Component {
 
                     {this.renderAlert()}
                 </ScrollView>
-            </View>
+            </SafeAreaView>
         )
     }
 }

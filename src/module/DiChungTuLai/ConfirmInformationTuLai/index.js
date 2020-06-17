@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert, Image, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert, Image, ActivityIndicator,SafeAreaView } from 'react-native';
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import CountDown from 'react-native-countdown-component';
@@ -9,6 +9,7 @@ import { NavigationActions, StackActions } from 'react-navigation';
 import { Button, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 import PopUp from '../../../component/PopUp'
+import { HeaderText } from '../../../component/Header'
 
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -162,10 +163,15 @@ class ConfirmInformationTuLai extends Component {
         }
     }
 
+    goBack = () =>{
+        this.props.navigation.goBack()
+    }
+
     render() {
         const { navigation } = this.props;
         return (
-            <View style={{ padding: 8 }}>
+            <SafeAreaView style={{ flex: 1 }}>
+                <HeaderText textCenter={'Xác nhận thông tin'} onPressLeft={this.goBack} />
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                         <Image
@@ -374,7 +380,7 @@ class ConfirmInformationTuLai extends Component {
 
 
                 </ScrollView>
-            </View>
+            </SafeAreaView>
         )
     }
 

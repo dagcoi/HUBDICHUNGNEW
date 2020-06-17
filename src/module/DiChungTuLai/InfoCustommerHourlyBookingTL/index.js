@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Button, Alert, Image, TextInput, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Button, Alert, Image, TextInput, ScrollView,SafeAreaView } from 'react-native';
 import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBox from 'react-native-check-box'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import { connect } from 'react-redux';
 import { addInfoPeople1TuLai, addInfoPeople2TuLai, addVATTuLai, addPromotionCodeTuLai, addPaymentMethodIDTuLai, addCommentTuLai } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
+import { HeaderText } from '../../../component/Header'
 
 // var radio_payment = [
 //     { label: 'Trả sau', value: 0 },
@@ -358,6 +359,10 @@ class InfoCustommerHourlyBookingTL extends Component {
         )
     }
 
+    goBack = () =>{
+        this.props.navigation.goBack()
+    }
+
     render() {
         const { navigation } = this.props;
         var radio_payment =
@@ -365,8 +370,9 @@ class InfoCustommerHourlyBookingTL extends Component {
                 { label: 'Trả sau', value: 0, paymentMethodID: '3' }
             ]
         return (
-            <View style={styles.container}>
-                <ScrollView showsVerticalScrollIndicator={false}>
+            <SafeAreaView style={{flex : 1}}>
+                <HeaderText textCenter={'Thông tin khách hàng'} onPressLeft={this.goBack} />
+                <ScrollView showsVerticalScrollIndicator={false} style={styles.container} >
                     <Text style={styles.textBig}>Họ và tên</Text>
 
                     <InputTextDiChung
@@ -546,7 +552,7 @@ class InfoCustommerHourlyBookingTL extends Component {
                     </TouchableOpacity>
 
                 </ScrollView>
-            </View>
+            </SafeAreaView>
         )
     }
 }

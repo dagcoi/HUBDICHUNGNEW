@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Image, SafeAreaView } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import Geocoder from 'react-native-geocoding';
 import { connect } from 'react-redux';
 
 import { pickAddressVanChuyen, dropAddressVanChuyen, addAddressYCDB, } from '../../../core/Redux/action/Action'
+import { HeaderText } from '../../../component/Header';
 
 const API_KEY = 'AIzaSyBDZSUAda65OflvYZmZ4G5XSGONZv3pkuY';
 Geocoder.init(API_KEY); // use a valid API key
@@ -61,6 +62,10 @@ class SearchPlaceExpress extends Component {
         console.log(`lat: ${this.state.lat} lng: ${this.state.lng}`);
     }
 
+    goBack = () => {
+        this.props.navigation.goBack()
+    }
+
     render() {
         const { navigation } = this.props;
         const imageLocation = '../../../image/location.png'
@@ -69,8 +74,9 @@ class SearchPlaceExpress extends Component {
         const address11 = navigation.getParam('search');
         const placeholder = navigation.getParam('placeholder');
         return (
-            <View style={{ flex: 1, padding: 4, marginTop: 16 }}>
-                <View style={{ backgroundColor: '#ffffff' }}>
+            <SafeAreaView style={{ flex: 1, }}>
+                <HeaderText textCenter={'Nhập địa chỉ'} onPressLeft={this.goBack} />
+                <View style={{ backgroundColor: '#ffffff', padding: 4, marginTop: 16 }}>
                     <View style={{ flexDirection: 'row' }}>
                         <GooglePlacesAutocomplete
                             placeholder={placeholder}
@@ -158,7 +164,7 @@ class SearchPlaceExpress extends Component {
 
                     </View>
                 </View>
-            </View>
+            </SafeAreaView>
         );
     }
     _clearInput(inputT) {

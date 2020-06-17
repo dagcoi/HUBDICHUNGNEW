@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, Alert, Switch, ActivityIndicator, Dimensions, Modal, RefreshControl, Linking, FlatList } from 'react-native';
+import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, Alert, Switch, ActivityIndicator, Dimensions, Modal, RefreshControl, Linking, FlatList, SafeAreaView } from 'react-native';
 import { connect } from 'react-redux';
 import CheckBoxList from '../../../component/CheckBoxList'
 import StarVote from '../../../component/StarVote'
@@ -8,6 +8,7 @@ import { addTripInfomationTaixe } from '../../../core/Redux/action/Action'
 import HTML from 'react-native-render-html';
 import * as link from '../../../URL'
 import { Button } from '../../../component/Button'
+import { HeaderText } from '../../../component/Header'
 
 const imageMaxToMin = '../../../image/maxtomin.png'
 const imageMinToMax = '../../../image/mintomax.png'
@@ -363,22 +364,27 @@ class ListDriverXeChung extends Component {
         this.setState({ showFilter: visible });
     }
 
+    goBack = () => {
+        this.props.navigation.goBack()
+    }
+
     render() {
 
         if (this.state.isLoading) {
             return (
-                <View style={{ flex: 1, padding: 20 }}>
+                <SafeAreaView style={{ flex: 1, }}>
                     <ActivityIndicator
                         size='large'
                     />
-                </View>
+                </SafeAreaView>
             )
         }
         var obj = [...this.state.dataSource];
         // var lf = { ...this.state.listFliter }
         // console.log(lf);
         return (
-            <View style={{ flex: 1, padding: 8, }}>
+            <SafeAreaView style={{ flex: 1, }}>
+                <HeaderText textCenter={'Danh sách tài xế'} onPressLeft={this.goBack} />
                 {obj.length > 0 ?
                     <ScrollView
                         showsVerticalScrollIndicator={false}
@@ -406,7 +412,7 @@ class ListDriverXeChung extends Component {
                         </TouchableOpacity> */}
                     </View>
                 }
-            </View>
+            </SafeAreaView>
         );
     }
 

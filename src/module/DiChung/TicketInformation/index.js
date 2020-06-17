@@ -423,6 +423,10 @@ class TicketInformation extends Component {
         );
     }
 
+    goBack = () => {
+        this.props.navigation.popToTop()
+    }
+
     render() {
         if (this.state.is_loading) {
             return (
@@ -438,6 +442,7 @@ class TicketInformation extends Component {
             console.log(JSON.stringify(item));
             return (
                 <SafeAreaView style={{ flex: 1 }}>
+                    <HeaderText textCenter={'Chi tiết vé'} onPressLeft={this.goBack} />
                     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
 
                         {item.forward.status == 'forwarded' ?

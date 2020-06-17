@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import {
-    Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, ActivityIndicator, FlatList,Dimensions, SafeAreaView
+    Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, ActivityIndicator, FlatList, Dimensions, SafeAreaView
 } from 'react-native';
 import { connect } from 'react-redux';
 import StarVote from '../../../component/StarVote'
-import {HeaderText} from '../../../component/Header'
+import { HeaderText } from '../../../component/Header'
 
 import { addTripInfomationHourlyBooking } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
@@ -44,11 +44,11 @@ class ListCarHourlyBooking extends Component {
                 </Text>
 
                 <View
-                    style={{ width: 36, height: 36, justifyContent : 'center', alignItems : 'center' }}
+                    style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
                 >
                     <TouchableOpacity
                         onPress={navigation.getParam('increaseCount')}
-                        style = {{justifyContent : 'center', alignItems : 'center'}}
+                        style={{ justifyContent: 'center', alignItems: 'center' }}
                     >
                         <Image
                             style={{ width: 24, height: 24 }}
@@ -60,7 +60,7 @@ class ListCarHourlyBooking extends Component {
         };
     };
 
-    componentDidMount(){
+    componentDidMount() {
         this.getListCarNew()
     }
 
@@ -174,7 +174,7 @@ class ListCarHourlyBooking extends Component {
                     data={obj}
                     renderItem={({ item }) => {
                         return (
-                            <View style = {styles.container}>
+                            <View style={styles.container}>
                                 <View style={{ flexDirection: 'row', }}>
                                     <View style={styles.containerr}>
                                         <Text style={styles.loaixe}>
@@ -246,7 +246,7 @@ class ListCarHourlyBooking extends Component {
 
         if (this.state.isLoading) {
             return (
-                <SafeAreaView style={{ flex: 1, padding: 20 }}>
+                <SafeAreaView style={{ flex: 1, }}>
                     <ActivityIndicator
                         size='large'
                     />
@@ -255,7 +255,7 @@ class ListCarHourlyBooking extends Component {
         }
         var obj = [...this.state.dataSource];
         return (
-            <SafeAreaView style={{ flex: 1, padding: 8,}}>
+            <SafeAreaView style={{ flex: 1, }}>
                 <HeaderText textCenter={'Danh sách xe'} onPressLeft={this.goBack} />
                 {this.renderListCar(obj)}
             </SafeAreaView>
@@ -285,8 +285,9 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         borderRadius: 4,
         padding: 8,
-        marginTop: 8,
+        marginVertical: 4,
         backgroundColor: '#ffffff',
+        marginHorizontal : 8,
     },
     text: {
         color: '#4f603c'
@@ -336,8 +337,8 @@ const styles = StyleSheet.create({
         elevation: 5,
         paddingHorizontal: 8,
         paddingVertical: 8,
-        marginVertical : 8,
-        marginHorizontal : 8,
+        marginVertical: 8,
+        marginHorizontal: 8,
         borderRadius: 8,
     },
 })

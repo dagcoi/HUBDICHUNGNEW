@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, Alert, ActivityIndicator, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Alert, ActivityIndicator, ScrollView, Image, TouchableOpacity, SafeAreaView } from 'react-native';
 import { connect } from 'react-redux'
 import { Dialog, ConfirmDialog } from 'react-native-simple-dialogs';
 import Moment from 'moment';
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
 import { Button } from '../../../component/Button'
+import { HeaderText } from '../../../component/Header';
 
 const imageLocation = '../../../image/location.png'
 const imageCalendar = '../../../image/calendar.png'
@@ -38,6 +39,10 @@ class ConfirmInfoChungXe extends Component {
 
     }
 
+    goBack = () => {
+        this.props.navigation.goBack()
+    }
+
     render() {
         // console.log(this.props.rent_date)
         // console.log(this.props.retun_date)
@@ -50,16 +55,19 @@ class ConfirmInfoChungXe extends Component {
 
         if (this.state.isLoading) {
             return (
-                <ActivityIndicator
-                    style={{ marginTop: 16 }}
-                    size='large'
-                />
+                <SafeAreaView>
+                    <ActivityIndicator
+                        style={{ marginTop: 16 }}
+                        size='large'
+                    />
+                </SafeAreaView>
             )
         }
 
         return (
 
-            <View style={{ flex: 1, }}>
+            <SafeAreaView style={{ flex: 1, }}>
+                <HeaderText textCenter={'Xác nhận thông tin'} onPressLeft={this.goBack} />
                 <ScrollView
                     showsHorizontalScrollIndicator={false}
                     showsVerticalScrollIndicator={false}
@@ -145,7 +153,7 @@ class ConfirmInfoChungXe extends Component {
 
                     </View>
                 </ScrollView>
-            </View>
+            </SafeAreaView >
         )
     }
 
@@ -287,7 +295,7 @@ class ConfirmInfoChungXe extends Component {
         return (
             <View style={styles.viewChild}>
                 <Text style={styles.textBold}>Tổng thanh toán</Text>
-                <Text style={{ flex: 1, textAlign: 'right', fontWeight: 'bold', fontSize: 16, color: '#77a300', marginTop : 8, }}>{((navigation.getParam('xhd') ? 11 / 10 : 1) * navigation.getParam('moneyPaymet')).format(0, 3, ',')} đ</Text>
+                <Text style={{ flex: 1, textAlign: 'right', fontWeight: 'bold', fontSize: 16, color: '#77a300', marginTop: 8, }}>{((navigation.getParam('xhd') ? 11 / 10 : 1) * navigation.getParam('moneyPaymet')).format(0, 3, ',')} đ</Text>
             </View>
         )
     }

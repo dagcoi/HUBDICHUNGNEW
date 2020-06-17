@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, ActivityIndicator, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, ScrollView, Image, TouchableOpacity, SafeAreaView } from 'react-native';
 import { connect } from 'react-redux'
 import { Dialog } from 'react-native-simple-dialogs';
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
@@ -61,7 +61,7 @@ class ChungXeTicketInformation extends Component {
         } else {
             var { data } = this.state;
             return (
-                <View style={{ flex: 1, }}>
+                <SafeAreaView style={{ flex: 1, }}>
                     <ScrollView
                         showsHorizontalScrollIndicator={false}
                         showsVerticalScrollIndicator={false}
@@ -96,7 +96,7 @@ class ChungXeTicketInformation extends Component {
 
                         </View>
                     </ScrollView>
-                </View>
+                </SafeAreaView>
             )
         }
     }

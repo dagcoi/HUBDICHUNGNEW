@@ -503,9 +503,9 @@ class InfoCustommerHourlyBooking extends Component {
                 { label: 'Trả sau', value: 0, paymentMethodID: '3' }
             ]
         return (
-            <SafeAreaView style={styles.container}>
+            <SafeAreaView style={{flex : 1}}>
                 <HeaderText textCenter={'Thông tin đặt xe'} onPressLeft={this.goBack} />
-                <ScrollView showsVerticalScrollIndicator={false}>
+                <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
                     <Text style={styles.textBig}>Họ và tên</Text>
 
                     <InputTextDiChung

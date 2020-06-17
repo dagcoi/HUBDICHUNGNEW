@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Image, StyleSheet, ActivityIndicator, ScrollView, TouchableOpacity, Modal, Linking } from 'react-native';
+import { View, Text, Image, StyleSheet, ActivityIndicator, ScrollView, TouchableOpacity, Modal, Linking, SafeAreaView } from 'react-native';
 // import { Dialog } from 'react-native-simple-dialogs';
 import OTPInputView from '@twotalltotems/react-native-otp-input'
 import * as link from '../../../URL'
@@ -8,6 +8,7 @@ import { NavigationActions, StackActions } from 'react-navigation';
 import { Button, ButtonGray, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 import PopUp from '../../../component/PopUp'
+import { HeaderText } from '../../../component/Header';
 
 const imageLocation = '../../../image/location2.png'
 const imageCalendar = '../../../image/calendar.png'
@@ -284,19 +285,26 @@ class TicketInformationTuLai extends Component {
         );
     }
 
+    goBack = () => {
+        this.props.navigation.popToTop()
+    }
+
     render() {
         if (this.state.is_loading) {
             return (
-                <ActivityIndicator
-                    style={{ padding: 32, }}
-                    size='large'
-                />
+                <SafeAreaView>
+                    <ActivityIndicator
+                        style={{ padding: 32, }}
+                        size='large'
+                    />
+                </SafeAreaView>
             )
         } else {
             const item = this.state.info;
             return (
-                <View style={styles.container}>
-                    <ScrollView showsVerticalScrollIndicator={false}>
+                <SafeAreaView style={{ flex: 1 }}>
+                    <HeaderText textCenter={'Chi tiết vé'} onPressLeft={this.goBack} />
+                    <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
                         <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                             <Image
                                 style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
@@ -526,7 +534,7 @@ class TicketInformationTuLai extends Component {
                             </View>
                         </Modal>
                     </ScrollView>
-                </View>
+                </SafeAreaView>
             )
         }
     }
@@ -579,7 +587,7 @@ const styles = StyleSheet.create({
         color: '#77a300',
         flex: 1,
         textAlign: "right",
-        marginTop : 8,
+        marginTop: 8,
     },
 })
 

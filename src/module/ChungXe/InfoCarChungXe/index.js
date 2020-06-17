@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Image, Text, TouchableOpacity, TextInput, StyleSheet, Modal, Keyboard, ActivityIndicator, FlatList, Alert, ScrollView, } from 'react-native';
+import { View, Image, Text, TouchableOpacity, TextInput, StyleSheet, Modal, Keyboard, ActivityIndicator, FlatList, Alert, ScrollView, SafeAreaView } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import Geocoder from 'react-native-geocoding';
 import CheckBox from 'react-native-check-box'
@@ -10,6 +10,7 @@ import { addInfoPeople1 } from '../../../core/Redux/action/Action'
 
 import { connect } from 'react-redux'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
+import { HeaderText } from '../../../component/Header';
 
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -149,24 +150,30 @@ class InfoCarChungXe extends Component {
         }
     }
 
+    goBack = () => {
+        this.props.navigation.goBack()
+    }
+
     render() {
         if (this.state.loadVehiclePartner) {
             return (
-                <View style={{ flex: 1, padding: 20 }}>
+                <SafeAreaView style={{ flex: 1 }}>
                     <ActivityIndicator
                         size='large'
                     />
-                </View>
+                </SafeAreaView>
             )
         }
 
         const item = this.props.navigation.getParam('item');
         // var moneyPaymet = ((this.state.isCheck ? 11 / 10 : 1) * Difference_In_Days * item.vhc_part_defa_prie).format(0, 3, '.')
         return (
-            <View style={styles.container}>
+            <SafeAreaView style={{ flex: 1 }}>
+                <HeaderText textCenter={'Thông tin khách hàng'} onPressLeft={this.goBack} />
                 <ScrollView
                     showsHorizontalScrollIndicator={false}
                     showsVerticalScrollIndicator={false}
+                    style={styles.container}
                 >
 
                     <Image
@@ -375,7 +382,7 @@ class InfoCarChungXe extends Component {
 
 
                 </ScrollView>
-            </View>
+            </SafeAreaView>
         )
     }
 

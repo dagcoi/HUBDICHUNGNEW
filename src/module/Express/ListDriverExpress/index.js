@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, ActivityIndicator, Dimensions, FlatList, Modal, Linking } from 'react-native';
+import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, ActivityIndicator, Dimensions, FlatList, Modal, Linking, SafeAreaView } from 'react-native';
 import { connect } from 'react-redux';
 import StarVote from '../../../component/StarVote'
 
@@ -8,6 +8,7 @@ import HTML from 'react-native-render-html';
 import * as link from '../../../URL'
 import { Button } from '../../../component/Button'
 import CheckBoxList from '../../../component/CheckBoxList';
+import { HeaderText } from '../../../component/Header';
 
 const imageMaxToMin = '../../../image/maxtomin.png'
 const imageMinToMax = '../../../image/mintomax.png'
@@ -34,52 +35,52 @@ class ListDriverExpress extends Component {
         }
     }
 
-    static navigationOptions = ({ navigation }) => {
-        return {
-            headerTitle: () => <View style={{
-                flex: 1,
-                flexDirection: 'row',
-                justifyContent: 'center'
-            }}>
-                <Text style={{
-                    flex: 1,
-                    fontSize: 22,
-                    textAlign: 'left',
-                    justifyContent: 'center',
-                }}>
-                    Danh sách dịch vụ
-                </Text>
+    // static navigationOptions = ({ navigation }) => {
+    //     return {
+    //         headerTitle: () => <View style={{
+    //             flex: 1,
+    //             flexDirection: 'row',
+    //             justifyContent: 'center'
+    //         }}>
+    //             <Text style={{
+    //                 flex: 1,
+    //                 fontSize: 22,
+    //                 textAlign: 'left',
+    //                 justifyContent: 'center',
+    //             }}>
+    //                 Danh sách dịch vụ
+    //             </Text>
 
-                <View
-                    style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
-                >
-                    <TouchableOpacity
-                        style={{ justifyContent: 'center', alignItems: 'center' }}
-                        onPress={navigation.getParam('setShowFilter')}
-                    >
-                        <Image
-                            style={{ width: 24, height: 24 }}
-                            source={require(imageTune)}
-                        />
-                    </TouchableOpacity>
-                </View>
+    //             <View
+    //                 style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
+    //             >
+    //                 <TouchableOpacity
+    //                     style={{ justifyContent: 'center', alignItems: 'center' }}
+    //                     onPress={navigation.getParam('setShowFilter')}
+    //                 >
+    //                     <Image
+    //                         style={{ width: 24, height: 24 }}
+    //                         source={require(imageTune)}
+    //                     />
+    //                 </TouchableOpacity>
+    //             </View>
 
-                <View
-                    style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
-                >
-                    <TouchableOpacity
-                        style={{ justifyContent: 'center', alignItems: 'center' }}
-                        onPress={navigation.getParam('increaseCount')}
-                    >
-                        <Image
-                            style={{ width: 24, height: 24 }}
-                            source={navigation.getParam('image') ? require(imageMaxToMin) : require(imageMinToMax)}
-                        />
-                    </TouchableOpacity>
-                </View>
-            </View>,
-        };
-    };
+    //             <View
+    //                 style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
+    //             >
+    //                 <TouchableOpacity
+    //                     style={{ justifyContent: 'center', alignItems: 'center' }}
+    //                     onPress={navigation.getParam('increaseCount')}
+    //                 >
+    //                     <Image
+    //                         style={{ width: 24, height: 24 }}
+    //                         source={navigation.getParam('image') ? require(imageMaxToMin) : require(imageMinToMax)}
+    //                     />
+    //                 </TouchableOpacity>
+    //             </View>
+    //         </View>,
+    //     };
+    // };
 
     componentWillMount() {
         this.props.navigation.setParams({ 'increaseCount': this._increaseCount });
@@ -329,7 +330,7 @@ class ListDriverExpress extends Component {
                                     <Image
                                         style={{ width: 14, height: 14, marginRight: 8 }}
                                         source={require('../../../image/check.png')} />
-                                    <HTML html={item.partner_luggage} imagesMaxWidth={Dimensions.get('window').width} /> 
+                                    <HTML html={item.partner_luggage} imagesMaxWidth={Dimensions.get('window').width} />
                                 </View>
                             </View>}
 
@@ -363,15 +364,19 @@ class ListDriverExpress extends Component {
         )
     }
 
+    goBack = () => {
+        this.props.navigation.goBack()
+    }
+
     render() {
 
         if (this.state.isLoading) {
             return (
-                <View style={{ flex: 1, padding: 20 }}>
+                <SafeAreaView style={{ flex: 1, padding: 20 }}>
                     <ActivityIndicator
                         size='large'
                     />
-                </View>
+                </SafeAreaView>
             )
         }
         var obj = [...this.state.dataSource];
@@ -380,7 +385,8 @@ class ListDriverExpress extends Component {
         // var lf = { ...this.state.listFilter }
         // console.log(lf);
         return (
-            <View style={{ flex: 1, padding: 8, }}>
+            <SafeAreaView style={{ flex: 1, }}>
+                <HeaderText textCenter={'Dánh sách xe'} onPressLeft={this.goBack} />
                 {obj.length < 1 ?
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
                         <Image
@@ -403,12 +409,13 @@ class ListDriverExpress extends Component {
                     </View> :
                     <ScrollView
                         showsVerticalScrollIndicator={false}
+                        style={{ padding: 8 }}
                     >
                         {this.renderItem(obj)}
                         {this.modalFilter(this.state.showFilter)}
                     </ScrollView>
                 }
-            </View>
+            </SafeAreaView>
         );
     }
 

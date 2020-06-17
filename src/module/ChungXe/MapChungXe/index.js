@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, ActivityIndicator, Modal, FlatList, TouchableHighlight, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, ActivityIndicator, Modal, FlatList, TouchableHighlight, ScrollView, SafeAreaView } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 import { ConfirmDialog } from 'react-native-simple-dialogs';
 import CalendarPicker from 'react-native-calendar-picker';
@@ -13,6 +13,7 @@ import listHour from '../../../component/TimeSelect/listTime';
 import { ButtonFull, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 import PopUp from '../../../component/PopUp'
+import { HeaderText } from '../../../component/Header';
 
 const imageLocation = '../../../image/location.png'
 const imageDrop = '../../../image/drop.png'
@@ -278,7 +279,7 @@ class MapChungXe extends Component {
                 animationType="slide"
                 transparent={true}
                 visible={this.state.isShowModalCity}
-                onOrientationChange={true}
+                // onOrientationChange={true}
                 onRequestClose={() => {
                     console.log('a');
                 }}>
@@ -374,7 +375,7 @@ class MapChungXe extends Component {
 
                 <TextInput
                     editable={false}
-                    value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours} : ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
+                    value={this.state.date ? this.state.time_pick : ""}
                     placeholder='Chọn giờ lấy xe'
                     onTouchStart={() => { this.setState({ dialogCalendarVisible: true }) }}
                     pointerEvents='none'
@@ -474,10 +475,10 @@ class MapChungXe extends Component {
                 <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
                     <View style={{ flex: 1 }}></View>
                 </View>
-                {/* <ButtonFull
+                <ButtonFull
                     onPress={() => { this.nextScreen() }}
                     value={'Xem giá'}
-                /> */}
+                />
             </View>
         )
     }
@@ -580,10 +581,10 @@ class MapChungXe extends Component {
                 <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
                     <View style={{ flex: 1 }}></View>
                 </View>
-                {/* <ButtonFull
+                <ButtonFull
                     onPress={() => { this.gotoListCarTour() }}
                     value={'Xem giá'}
-                /> */}
+                />
             </View>
         )
     }
@@ -597,7 +598,7 @@ class MapChungXe extends Component {
                         hourly: false
                     })}
                 >
-                    <Text style={{ color: this.state.hourly ? '#fff' : '#77a300', fontWeight: 'bold', fontSize: 20 }}>Theo tuyến</Text>
+                    <Text style={{ color: this.state.hourly ? '#fff' : '#77a300', fontWeight: 'bold', fontSize: 16 }}>Theo tuyến</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: this.state.hourly ? '#fff' : '#aaa', borderTopRightRadius: 8 }}
@@ -605,32 +606,140 @@ class MapChungXe extends Component {
                         hourly: true
                     })}
                 >
-                    <Text style={{ color: this.state.hourly ? '#77a300' : '#fff', fontWeight: 'bold', fontSize: 20 }}>Theo ngày</Text>
+                    <Text style={{ color: this.state.hourly ? '#77a300' : '#fff', fontWeight: 'bold', fontSize: 16 }}>Theo ngày</Text>
                 </TouchableOpacity>
             </View>
         )
+    }
+
+    formSelectTime() {
+        return (
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={this.state.dialogTimeVisible}
+                // onOrientationChange={true}
+                onRequestClose={() => {
+                }}>
+                <View style={{
+                    flex: 1,
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
+                    backgroundColor: '#000000AA'
+                }}>
+                    <View style={{ flex: 1, }}>
+                        <TouchableOpacity
+                            onPress={() => this.setState({ dialogTimeVisible: !this.state.dialogTimeVisible })}
+                            style={{ flex: 1 }}
+                        ></TouchableOpacity>
+                    </View>
+                    <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
+                        <View style={{ height: 40, justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Chọn giờ đi</Text>
+                        </View>
+                        <FlatList
+                            style={{ flex: 1, backgroundColor: '#ffffff' }}
+                            data={listHour}
+                            initialScrollIndex={this.state.nhanxe ? this.state.scrollNhan - 1 : this.state.scrollTra - 1}
+                            getItemLayout={this.getItemLayout}
+                            renderItem={({ item }) =>
+                                <TouchableOpacity
+                                    style={{ flexDirection: 'row', height: 40 }}
+                                    onPress={() => {
+                                        var isDayAlight = this.state.spesentDay == this.state.date2.format('DD-MM-YYYY');
+                                        var timeClicker = ((item.hour == this.state.hoursAlive && item.minute > this.state.minutesAlive) || item.hour > this.state.hoursAlive);
+                                        if (this.state.nhanxe) {
+                                            if (isDayAlight) {
+                                                if (timeClicker) {
+                                                    this.setState({
+                                                        selectedHours: item.hour,
+                                                        selectedMinutes: item.minute,
+                                                        scrollNhan: item.id,
+                                                        dialogTimeVisible: false,
+                                                        dialogCalendarVisible: false,
+                                                        time_pick: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`,
+                                                        rent_date: `${this.state.date.format('YYYY-MM-DD')}`,
+                                                        // time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                    })
+                                                    this.props.addDepartTimeTuLai(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
+                                                }
+                                            } else {
+                                                this.setState({
+                                                    selectedHours: item.hour,
+                                                    selectedMinutes: item.minute,
+                                                    scrollNhan: item.id,
+                                                    dialogTimeVisible: false,
+                                                    dialogCalendarVisible: false,
+                                                    time_pick: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`,
+                                                    rent_date: `${this.state.date.format('YYYY-MM-DD')}`,
+                                                    // time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                })
+                                                this.props.addDepartTimeTuLai(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
+                                            }
+                                        } else {
+                                            if (isDayAlight) {
+                                                if (timeClicker) {
+                                                    this.setState({
+                                                        selectedHours1: item.hour,
+                                                        selectedMinutes1: item.minute,
+                                                        scrollTra: item.id,
+                                                        dialogTimeVisible: false,
+                                                        dialogCalendarVisible: false,
+                                                        time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date1.format('DD/MM/YYYY')}`,
+                                                        return_date: `${this.state.date1.format('YYYY-MM-DD')}`,
+                                                    })
+                                                    // this.props.addDepartTimeTuLai(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
+                                                }
+                                            } else {
+                                                this.setState({
+                                                    selectedHours1: item.hour,
+                                                    selectedMinutes1: item.minute,
+                                                    scrollTra: item.id,
+                                                    dialogTimeVisible: false,
+                                                    dialogCalendarVisible: false,
+                                                    time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date1.format('DD/MM/YYYY')}`,
+                                                    return_date: `${this.state.date1.format('YYYY-MM-DD')}`,
+                                                })
+                                                // this.props.addDepartTimeTuLai(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
+                                            }
+                                        }
+                                    }}
+                                >
+                                    <Text style={{ textAlign: 'center', fontSize: 18, flex: 1, padding: 8, backgroundColor: (item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes) ? '#77a300' : '#fff', color: (this.state.spesentDay == this.state.date2.format('DD-MM-YYYY') && ((item.hour == this.state.hoursAlive && item.minute < this.state.minutesAlive) || item.hour < this.state.hoursAlive)) ? '#aaa' : item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes ? '#fff' : '#000000' }}>{item.hour < 10 ? '0' + item.hour : item.hour} : {item.minute == 0 ? '00' : item.minute}</Text>
+                                </TouchableOpacity>}
+                            scrollToIndex={this.state.scroll}
+                            keyExtractor={item => item.id}
+                        />
+                    </View>
+                </View>
+            </Modal>
+        )
+    }
+
+    goBack = () => {
+        this.props.navigation.goBack()
     }
 
     render() {
         const minDate = new Date();
         if (this.state.isLoading) {
             return (
-                <View style={{ flex: 1, padding: 20 }}>
+                <SafeAreaView style={{ flex: 1, padding: 20 }}>
                     <ActivityIndicator
                         style={{ marginTop: 8 }}
                         size='large'
                     />
-                </View>
+                </SafeAreaView>
             )
         }
         var obj = [...this.state.listCity];
         return (
-            <View style={{ flex: 1, backgroundColor: '#eee' }}>
-
-                {this.renderPicktoDrop()}
+            <SafeAreaView style={{ flex: 1, backgroundColor: '#eee' }}>
+                <HeaderText textCenter={'Thuê xe tự lái'} onPressLeft={this.goBack} />
+                {/* {this.renderPicktoDrop()} */}
                 {this.formSwitch()}
                 {this.state.hourly ? this.formCarTour() : this.formBookingDoortoDoor()}
-                {this.state.hourly ?
+                {/* {this.state.hourly ?
                     <ButtonFull
                         onPress={() => { this.gotoListCarTour() }}
                         value={'Xem giá'}
@@ -638,7 +747,7 @@ class MapChungXe extends Component {
                     <ButtonFull
                         onPress={() => { this.nextScreen() }}
                         value={'Xem giá'}
-                    />}
+                    />} */}
                 {this.renderAlertInfo()}
                 <Modal
                     visible={this.state.dialogCalendarVisible}
@@ -685,6 +794,7 @@ class MapChungXe extends Component {
                             }}
 
                         />
+                        {this.formSelectTime()}
                     </View>
                 </Modal>
 
@@ -692,7 +802,7 @@ class MapChungXe extends Component {
                     animationType="slide"
                     transparent={true}
                     visible={this.state.modalListCity}
-                    onOrientationChange={true}
+                    // onOrientationChange={true}
                     onRequestClose={() => {
                         console.log('a');
                     }}>
@@ -734,107 +844,8 @@ class MapChungXe extends Component {
                 </Modal>
 
 
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={this.state.dialogTimeVisible}
-                    onOrientationChange={true}
-                    onRequestClose={() => {
-                    }}>
-                    <View style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        justifyContent: 'flex-end',
-                        backgroundColor: '#000000AA'
-                    }}>
-                        <View style={{ flex: 1, }}>
-                            <TouchableOpacity
-                                onPress={() => this.setState({ dialogTimeVisible: !this.state.dialogTimeVisible })}
-                                style={{ flex: 1 }}
-                            ></TouchableOpacity>
-                        </View>
-                        <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
-                            <View style={{ height: 40, justifyContent: 'center', alignItems: 'center' }}>
-                                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Chọn giờ đi</Text>
-                            </View>
-                            <FlatList
-                                style={{ flex: 1, backgroundColor: '#ffffff' }}
-                                data={listHour}
-                                initialScrollIndex={this.state.nhanxe ? this.state.scrollNhan - 1 : this.state.scrollTra - 1}
-                                getItemLayout={this.getItemLayout}
-                                renderItem={({ item }) =>
-                                    <TouchableOpacity
-                                        style={{ flexDirection: 'row', height: 40 }}
-                                        onPress={() => {
-                                            var isDayAlight = this.state.spesentDay == this.state.date2.format('DD-MM-YYYY');
-                                            var timeClicker = ((item.hour == this.state.hoursAlive && item.minute > this.state.minutesAlive) || item.hour > this.state.hoursAlive);
-                                            if (this.state.nhanxe) {
-                                                if (isDayAlight) {
-                                                    if (timeClicker) {
-                                                        this.setState({
-                                                            selectedHours: item.hour,
-                                                            selectedMinutes: item.minute,
-                                                            scrollNhan: item.id,
-                                                            dialogTimeVisible: false,
-                                                            dialogCalendarVisible: false,
-                                                            time_pick: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`,
-                                                            rent_date: `${this.state.date.format('YYYY-MM-DD')}`,
-                                                            // time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
-                                                        })
-                                                        this.props.addDepartTimeTuLai(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
-                                                    }
-                                                } else {
-                                                    this.setState({
-                                                        selectedHours: item.hour,
-                                                        selectedMinutes: item.minute,
-                                                        scrollNhan: item.id,
-                                                        dialogTimeVisible: false,
-                                                        dialogCalendarVisible: false,
-                                                        time_pick: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`,
-                                                        rent_date: `${this.state.date.format('YYYY-MM-DD')}`,
-                                                        // time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
-                                                    })
-                                                    this.props.addDepartTimeTuLai(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
-                                                }
-                                            } else {
-                                                if (isDayAlight) {
-                                                    if (timeClicker) {
-                                                        this.setState({
-                                                            selectedHours1: item.hour,
-                                                            selectedMinutes1: item.minute,
-                                                            scrollTra: item.id,
-                                                            dialogTimeVisible: false,
-                                                            dialogCalendarVisible: false,
-                                                            time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date1.format('DD/MM/YYYY')}`,
-                                                            return_date: `${this.state.date1.format('YYYY-MM-DD')}`,
-                                                        })
-                                                        // this.props.addDepartTimeTuLai(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
-                                                    }
-                                                } else {
-                                                    this.setState({
-                                                        selectedHours1: item.hour,
-                                                        selectedMinutes1: item.minute,
-                                                        scrollTra: item.id,
-                                                        dialogTimeVisible: false,
-                                                        dialogCalendarVisible: false,
-                                                        time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date1.format('DD/MM/YYYY')}`,
-                                                        return_date: `${this.state.date1.format('YYYY-MM-DD')}`,
-                                                    })
-                                                    // this.props.addDepartTimeTuLai(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
-                                                }
-                                            }
-                                        }}
-                                    >
-                                        <Text style={{ textAlign: 'center', fontSize: 18, flex: 1, padding: 8, backgroundColor: (item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes) ? '#77a300' : '#fff', color: (this.state.spesentDay == this.state.date2.format('DD-MM-YYYY') && ((item.hour == this.state.hoursAlive && item.minute < this.state.minutesAlive) || item.hour < this.state.hoursAlive)) ? '#aaa' : item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes ? '#fff' : '#000000' }}>{item.hour < 10 ? '0' + item.hour : item.hour} : {item.minute == 0 ? '00' : item.minute}</Text>
-                                    </TouchableOpacity>}
-                                scrollToIndex={this.state.scroll}
-                                keyExtractor={item => item.id}
-                            />
-                        </View>
-                    </View>
-                </Modal>
                 {this.formModalListCity()}
-            </View>
+            </SafeAreaView>
         );
     }
     selectedDate() {
@@ -939,8 +950,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
         justifyContent: 'center',
         alignItems: 'center',
-        borderBottomEndRadius: 0,
-        borderBottomStartRadius: 0,
+        borderBottomEndRadius: 8,
+        borderBottomStartRadius: 8,
+        marginHorizontal: 8,
         paddingLeft: 8,
         paddingRight: 8,
         paddingTop: 4,

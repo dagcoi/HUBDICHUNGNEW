@@ -74,7 +74,7 @@ class SearchPlace extends Component {
         const address11 = navigation.getParam('search');
         const placeholder = navigation.getParam('placeholder');
         return (
-            <SafeAreaView style={{ flex: 1, padding: 4, marginTop: 16 }}>
+            <SafeAreaView style={{ flex: 1, }}>
                 <HeaderText textCenter={'Nhập địa chỉ'} onPressLeft={this.goBack} />
                 <View style={{ backgroundColor: '#ffffff' }}>
                     <View style={{ flexDirection: 'row' }}>

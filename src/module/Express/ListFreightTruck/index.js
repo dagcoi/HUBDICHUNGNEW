@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
+import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, ActivityIndicator, SafeAreaView } from 'react-native';
 import { connect } from 'react-redux';
 import StarVote from '../../../component/StarVote'
 
 import { addTripInfomationHourlyBookingVanChuyen } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
 import { Button } from '../../../component/Button'
+import { HeaderText } from '../../../component/Header';
 
 const imageMaxToMin = '../../../image/maxtomin.png'
 const imageMinToMax = '../../../image/mintomax.png'
@@ -23,38 +24,38 @@ class ListFreightTruck extends Component {
         }
     }
 
-    static navigationOptions = ({ navigation }) => {
-        return {
-            headerTitle: () => <View style={{
-                flex: 1,
-                flexDirection: 'row',
-                justifyContent: 'center'
-            }}>
-                <Text style={{
-                    flex: 1,
-                    fontSize: 22,
-                    textAlign: 'left',
-                    justifyContent: 'center',
-                }}>
-                    Danh sách dịch vụ
-                </Text>
+    // static navigationOptions = ({ navigation }) => {
+    //     return {
+    //         headerTitle: () => <View style={{
+    //             flex: 1,
+    //             flexDirection: 'row',
+    //             justifyContent: 'center'
+    //         }}>
+    //             <Text style={{
+    //                 flex: 1,
+    //                 fontSize: 22,
+    //                 textAlign: 'left',
+    //                 justifyContent: 'center',
+    //             }}>
+    //                 Danh sách dịch vụ
+    //             </Text>
 
-                <View
-                    style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
-                >
-                    <TouchableOpacity
-                        onPress={navigation.getParam('increaseCount')}
-                        style={{ justifyContent: 'center', alignItems: 'center' }}
-                    >
-                        <Image
-                            style={{ width: 24, height: 24 }}
-                            source={navigation.getParam('image') ? require(imageMaxToMin) : require(imageMinToMax)}
-                        />
-                    </TouchableOpacity>
-                </View>
-            </View>,
-        };
-    };
+    //             <View
+    //                 style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
+    //             >
+    //                 <TouchableOpacity
+    //                     onPress={navigation.getParam('increaseCount')}
+    //                     style={{ justifyContent: 'center', alignItems: 'center' }}
+    //                 >
+    //                     <Image
+    //                         style={{ width: 24, height: 24 }}
+    //                         source={navigation.getParam('image') ? require(imageMaxToMin) : require(imageMinToMax)}
+    //                     />
+    //                 </TouchableOpacity>
+    //             </View>
+    //         </View>,
+    //     };
+    // };
 
     componentDidMount() {
         this.getListCarNew()
@@ -159,6 +160,7 @@ class ListFreightTruck extends Component {
                 </View> :
                 <ScrollView
                     showsVerticalScrollIndicator={false}
+                    style={{ padding: 8 }}
                 >
                     <View>
                         {obj.map((item, index) => (
@@ -238,22 +240,28 @@ class ListFreightTruck extends Component {
         this.nextScreen();
     }
 
+    goBack = () => {
+        this.props.navigation.goBack()
+    }
+
     render() {
 
         if (this.state.isLoading) {
             return (
-                <View style={{ flex: 1, padding: 20 }}>
+                <SafeAreaView style={{ flex: 1, }}>
+                    <HeaderText textCenter={'Danh sách xe'} onPressLeft={this.goBack} />
                     <ActivityIndicator
                         size='large'
                     />
-                </View>
+                </SafeAreaView>
             )
         }
         var obj = [...this.state.dataSource];
         return (
-            <View style={{ flex: 1, padding: 8, }}>
+            <SafeAreaView style={{ flex: 1, }}>
+                <HeaderText textCenter={'Danh sách xe'} onPressLeft={this.goBack} />
                 {this.renderItem(obj)}
-            </View>
+            </SafeAreaView>
         );
     }
 

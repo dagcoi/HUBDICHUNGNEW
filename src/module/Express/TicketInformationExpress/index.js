@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { View, Text, Image, StyleSheet, ActivityIndicator, ScrollView, Modal } from 'react-native';
+import { View, Text, Image, StyleSheet, ActivityIndicator, ScrollView, Modal, SafeAreaView } from 'react-native';
 import * as link from '../../../URL'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
 import { Button } from '../../../component/Button'
+import { HeaderText } from '../../../component/Header';
 
 const imageLocation = '../../../image/location2.png'
 const imageCalendar = '../../../image/calendar.png'
@@ -195,6 +196,10 @@ class TicketInformationExpress extends Component {
         )
     }
 
+    goBack=()=>{
+        this.props.navigation.popToTop()
+    }
+
     render() {
         if (this.state.is_loading) {
             return (
@@ -206,8 +211,9 @@ class TicketInformationExpress extends Component {
         } else {
             const item = this.state.info;
             return (
-                <View style={styles.container}>
-                    <ScrollView showsVerticalScrollIndicator={false}>
+                <SafeAreaView style={{ flex: 1 }}>
+                    <HeaderText textCenter={'Chi tiết mã vé'} onPressLeft={this.goBack} />
+                    <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
                         {item.forward.status == 'forwarded' ?
                             <Text style={styles.textBigRight}>Mã vé của bạn: <Text style={{ fontWeight: 'bold', backgroundColor: '#77a300', color: '#fff', padding: 4 }}>{item.code}</Text></Text>
                             : <Text style={styles.textBigRight}>Yêu cầu của bạn đã được hệ thồng ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>
@@ -253,7 +259,7 @@ class TicketInformationExpress extends Component {
                         />
                         <View style={{ marginBottom: 8, }}></View>
                     </ScrollView>
-                </View>
+                </SafeAreaView>
             )
         }
     }
@@ -272,7 +278,7 @@ const styles = StyleSheet.create({
         color: '#77a300',
         flex: 1,
         textAlign: "right",
-        marginTop : 8,
+        marginTop: 8,
     },
     textBigLeft1: {
         fontSize: 16,

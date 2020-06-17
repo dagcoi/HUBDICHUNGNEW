@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
+import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, ActivityIndicator ,SafeAreaView} from 'react-native';
 import { connect } from 'react-redux';
 import StarVote from '../../../component/StarVote'
 
 import { addTripInfomationHourlyBookingTaixe } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
 import { Button } from '../../../component/Button'
+import {HeaderText} from '../../../component/Header'
 
 const imageMaxToMin = '../../../image/maxtomin.png'
 const imageMinToMax = '../../../image/mintomax.png'
@@ -151,6 +152,7 @@ class ListDriverHourlyBooking extends Component {
                 </View> :
                 <ScrollView
                     showsVerticalScrollIndicator={false}
+                    style={{paddingHorizontal : 8}}
                 >
                     <View>
                         {obj.map((item, index) => (
@@ -231,22 +233,27 @@ class ListDriverHourlyBooking extends Component {
         this.nextScreen();
     }
 
+    goBack = () => {
+        this.props.navigation.goBack()
+    }
+
     render() {
 
         if (this.state.isLoading) {
             return (
-                <View style={{ flex: 1, padding: 20 }}>
+                <SafeAreaView style={{ flex: 1,}}>
                     <ActivityIndicator
                         size='large'
                     />
-                </View>
+                </SafeAreaView>
             )
         }
         var obj = [...this.state.dataSource];
         return (
-            <View style={{ flex: 1, padding: 8, }}>
+            <SafeAreaView style={{ flex: 1, }}>
+                <HeaderText textCenter={'Danh sách tài xế'} onPressLeft={this.goBack} />
                 {this.renderItem(obj)}
-            </View>
+            </SafeAreaView>
         );
     }
 

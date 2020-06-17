@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Alert, ScrollView, AsyncStorage } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, ScrollView, AsyncStorage, SafeAreaView } from 'react-native';
 import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBoxList from '../../../component/CheckBoxList'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
@@ -9,6 +9,7 @@ import { addInfoPeople1Taixe, addInfoPeople2Taixe, addVATTaixe, addCommentTaixe,
 import { Button, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 import PopUp from '../../../component/PopUp'
+import { HeaderText } from '../../../component/Header'
 
 class InfoCustommerXeChung extends Component {
 
@@ -42,8 +43,8 @@ class InfoCustommerXeChung extends Component {
             alertName2: false,
             alertPhone2: false,
             alertCompany: false,
-            detailPromotion : '',
-            promotion : '',
+            detailPromotion: '',
+            promotion: '',
         }
     }
 
@@ -380,13 +381,23 @@ class InfoCustommerXeChung extends Component {
         )
     }
 
+    goBack = () => {
+        this.props.navigation.goBack()
+    }
+
     render() {
-        var radio_payment = [
-            { label: 'Trả sau', value: 0, paymentMethodID: '3' },
-        ]
+        var pay_methods = JSON.parse(navigation.getParam('pay_methods'));
+        var radio_payment = []
+        if (pay_methods['3'] != null) {
+            radio_payment.push({ label: 'Trả sau', value: 0, paymentMethodID: '3' })
+        }
+        if (pay_methods['8'] != null) {
+            radio_payment.push({ label: 'Trả trước', value: 1, paymentMethodID: '8' })
+        }
         return (
-            <View style={styles.container}>
-                <ScrollView showsVerticalScrollIndicator={false}>
+            <SafeAreaView style={{ flex: 1 }}>
+                <HeaderText textCenter={'Thông tin khách hàng'} onPressLeft={this.goBack} />
+                <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
                     <Text style={styles.textBig}>Họ và tên</Text>
 
                     <InputTextDiChung
@@ -513,8 +524,8 @@ class InfoCustommerXeChung extends Component {
                                 value={this.state.promotion_code}
                                 onChangeText={(text) => this.setState({
                                     promotion_code: text,
-                                    detailPromotion : '',
-                                    blDiscount : false
+                                    detailPromotion: '',
+                                    blDiscount: false
                                 })}
                                 onPress={() => this.setState({
                                     promotion_code: ''
@@ -535,7 +546,7 @@ class InfoCustommerXeChung extends Component {
                         </TouchableOpacity>
                     </View>
 
-                    <View>{this.state.detailPromotion == '' ? null : <Text style={{ color: this.state.promotion_code=='' ? "#EF465E" : "#77a300" }}>{this.state.detailPromotion}</Text>}</View>
+                    <View>{this.state.detailPromotion == '' ? null : <Text style={{ color: this.state.promotion_code == '' ? "#EF465E" : "#77a300" }}>{this.state.detailPromotion}</Text>}</View>
 
                     <CheckBoxList
                         onClick={() => {
@@ -565,7 +576,7 @@ class InfoCustommerXeChung extends Component {
                     {this.renderAlert()}
 
                 </ScrollView>
-            </View>
+            </SafeAreaView>
         )
     }
 }

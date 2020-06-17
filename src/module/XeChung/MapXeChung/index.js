@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, Alert, Modal, FlatList } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Alert, Modal, FlatList, SafeAreaView, ImageBackground } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 import Calendar from '../../../component/Calendar'
 import TimePicker from './TimePicker'
@@ -13,6 +13,7 @@ import * as key from '../../../component/KeyGG'
 import listHour from '../../../component/TimeSelect/listTime'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 import PopUp from '../../../component/PopUp'
+import { HeaderText } from '../../../component/Header'
 
 const origin = { latitude: 21.2187149, longitude: 105.80417090000003 };
 // const destination = { latitude: 21.0019302, longitude: 105.85090579999996 };
@@ -24,6 +25,7 @@ const imageSwap = '../../../image/swap.png'
 const imageTime = '../../../image/time.png'
 const imageHourglass = '../../../image/hourglass.png'
 const imageCheck = '../../../image/done.png'
+const imageBackground = { uri: 'https://dichung.vn/static/images/e216031ab3feeb651026e80873156f50.png' }
 
 class MapXeChung extends Component {
 
@@ -129,92 +131,6 @@ class MapXeChung extends Component {
             minutesAlive: min,
         });
         console.log(date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec)
-    }
-
-    renderPicktoDrop() {
-        if (this.props.drop_add == '' || this.props.pick_add == '') {
-            return (
-                <MapView style={styles.container}
-                    provider={PROVIDER_GOOGLE}
-                    initialRegion={{
-                        latitude: origin.latitude,
-                        longitude: origin.longitude,
-                        latitudeDelta: 2.0,
-                        longitudeDelta: 0.1,
-                    }}
-                ></MapView>
-            );
-        }
-        return (
-            <MapView style={styles.container}
-                ref={(ref) => { this.mapRef = ref }}
-                provider={PROVIDER_GOOGLE}
-                // initialCamera={{
-                //     center: {
-                //         latitude: (this.props.lattitude_pick + this.props.lattitude_drop) / 2,
-                //         longitude: (this.props.lngtitude_pick + this.props.lngtitude_drop) / 2,
-                //     },
-                //     pitch: 1,
-                //     heading: 1,
-                //     zoom: 12,
-                //     altitude: 1,
-                // }}
-                onMapReady={() => {
-                    this.mapRef.fitToSuppliedMarkers(['mk1', 'mk2'], {
-                        edgePadding:
-                        {
-                            top: 250,
-                            right: 50,
-                            bottom: 50,
-                            left: 50
-                        }
-                    })
-                    this.mapRef.fitToElements(true)
-                }}
-            >
-                <MapView.Marker
-                    coordinate={{
-                        latitude: this.props.lattitude_pick,
-                        longitude: this.props.lngtitude_pick,
-                    }}
-                    title={"Điểm đón"}
-                    description={this.props.pick_add}
-                    identifier={'mk1'}
-                />
-
-                <MapView.Marker
-                    coordinate={{
-                        latitude: this.props.lattitude_drop,
-                        longitude: this.props.lngtitude_drop,
-                    }}
-                    title={"Điểm trả"}
-                    description={this.props.drop_add}
-                    identifier={'mk2'}
-                />
-
-                <MapViewDirections
-                    origin={{ latitude: this.props.lattitude_pick, longitude: this.props.lngtitude_pick }}
-                    destination={{ latitude: this.props.lattitude_drop, longitude: this.props.lngtitude_drop }}
-                    apikey={GOOGLE_MAPS_APIKEY}
-                    strokeWidth={5}
-                    strokeColor="#669df6"
-                    onReady={() => {
-                        this.mapRef.fitToSuppliedMarkers(['mk1', 'mk2'], {
-                            edgePadding:
-                            {
-                                top: 250,
-                                right: 50,
-                                bottom: 50,
-                                left: 50
-                            }
-                        })
-                        this.mapRef.fitToElements(true)
-                    }}
-                />
-
-            </MapView>
-
-        );
     }
 
     setStateAsync(state) {
@@ -371,12 +287,12 @@ class MapXeChung extends Component {
                 <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
                     <View style={{ flex: 1 }}></View>
                 </View>
-                {/* <ButtonFull
+                <ButtonFull
                     onPress={() => {
                         this.gotoListDriverHourlyBooking();
                     }}
                     value={'Xem giá'}
-                /> */}
+                />
             </View >
         )
     }
@@ -430,13 +346,92 @@ class MapXeChung extends Component {
                 <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
                     <View style={{ flex: 1 }}></View>
                 </View>
-                {/* <ButtonFull
+                <ButtonFull
                     onPress={() => {
                         this.nextScreen()
                     }}
                     value={'Xem giá'}
-                /> */}
+                />
             </View>
+        )
+    }
+
+    goBack = () => {
+        this.props.navigation.goBack()
+    }
+
+    modalSelectTime() {
+        return (
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={this.state.dialogTimeVisible}
+                // onOrientationChange={true}
+                onRequestClose={() => {
+                }}>
+                <View style={{
+                    flex: 1,
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
+                    backgroundColor: '#000000AA'
+                }}>
+                    <View style={{ flex: 1, }}>
+                        <TouchableOpacity
+                            onPress={() => this.setState({ dialogTimeVisible: !this.state.dialogTimeVisible })}
+                            style={{ flex: 1 }}
+                        ></TouchableOpacity>
+                    </View>
+
+                    <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
+                        <View style={{ height: 40, justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Chọn giờ đi</Text>
+                        </View>
+
+                        <FlatList
+                            style={{ flex: 1, backgroundColor: '#ffffff' }}
+                            data={listHour}
+                            initialScrollIndex={this.state.scroll - 1}
+                            getItemLayout={this.getItemLayout}
+                            renderItem={({ item }) =>
+                                <TouchableOpacity
+                                    style={{ flexDirection: 'row', height: 40 }}
+                                    onPress={() => {
+                                        var isDayAlight = this.state.spesentDay == this.state.date.format('DD-MM-YYYY');
+                                        var timeClicker = ((item.hour == this.state.hoursAlive && item.minute > this.state.minutesAlive) || item.hour > this.state.hoursAlive);
+
+                                        if (isDayAlight) {
+                                            if (timeClicker) {
+                                                this.setState({
+                                                    selectedHours: item.hour,
+                                                    selectedMinutes: item.minute,
+                                                    scroll: item.id,
+                                                    dialogTimeVisible: false,
+                                                    dialogCalendarVisible: false,
+                                                    depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                })
+                                                this.props.addDepartTimeTaixe(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
+                                            }
+                                        } else {
+                                            this.setState({
+                                                selectedHours: item.hour,
+                                                selectedMinutes: item.minute,
+                                                scroll: item.id,
+                                                dialogTimeVisible: false,
+                                                dialogCalendarVisible: false,
+                                                depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                            })
+                                            this.props.addDepartTimeTaixe(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
+                                        }
+                                    }}
+                                >
+                                    <Text style={{ textAlign: 'center', fontSize: 18, flex: 1, padding: 8, backgroundColor: (item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes) ? '#77a300' : '#fff', color: (this.state.spesentDay == this.state.date.format('DD-MM-YYYY') && ((item.hour == this.state.hoursAlive && item.minute < this.state.minutesAlive) || item.hour < this.state.hoursAlive)) ? '#aaa' : item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes ? '#fff' : '#000000' }}>{item.hour < 10 ? '0' + item.hour : item.hour} : {item.minute == 0 ? '00' : item.minute}</Text>
+                                </TouchableOpacity>}
+                            scrollToIndex={this.state.scroll}
+                            keyExtractor={item => item.id}
+                        />
+                    </View>
+                </View>
+            </Modal>
         )
     }
 
@@ -444,36 +439,37 @@ class MapXeChung extends Component {
         const minDate = new Date();
 
         return (
-            <View style={{ flex: 1, backgroundColor: '#eee' }}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: '#eee' }}>
+                <HeaderText textCenter={'Thuê tài xế'} onPressLeft={this.goBack} />
+                <ImageBackground style={{ flex: 1, resizeMode: "cover", }} source={imageBackground} >
 
-                {this.renderPicktoDrop()}
-                <View style={[{ flexDirection: 'row', backgroundColor: '#fff', marginLeft: 8, marginRight: 8, marginTop: 8 }, styles.borderTop]}>
-                    <TouchableOpacity
-                        style={{ backgroundColor: this.state.hourlyBooking ? '#aaa' : '#fff', flex: 1, height: 48, justifyContent: 'center', alignItems: 'center', borderTopStartRadius: 8 }}
-                        onPress={() => {
-                            this.setState({
-                                hourlyBooking: false,
-                            })
-                        }}
-                    >
-                        <Text style={{ color: this.state.hourlyBooking ? '#fff' : '#77a300', fontWeight: 'bold', fontSize: 20 }}>Đặt tài xế</Text>
-                    </TouchableOpacity>
+                    <View style={[{ flexDirection: 'row', backgroundColor: '#fff', marginLeft: 8, marginRight: 8, marginTop: 8 }, styles.borderTop]}>
+                        <TouchableOpacity
+                            style={{ backgroundColor: this.state.hourlyBooking ? '#aaa' : '#fff', flex: 1, height: 48, justifyContent: 'center', alignItems: 'center', borderTopStartRadius: 8 }}
+                            onPress={() => {
+                                this.setState({
+                                    hourlyBooking: false,
+                                })
+                            }}
+                        >
+                            <Text style={{ color: this.state.hourlyBooking ? '#fff' : '#77a300', fontWeight: 'bold', fontSize: 16 }}>Đặt tài xế</Text>
+                        </TouchableOpacity>
 
-                    <TouchableOpacity
-                        style={{ backgroundColor: this.state.hourlyBooking ? '#fff' : '#aaa', flex: 1, height: 48, justifyContent: 'center', alignItems: 'center', borderTopEndRadius: 8 }}
-                        onPress={() => {
-                            this.setState({
-                                hourlyBooking: true,
-                            })
-                        }}
-                    >
-                        <Text style={{ color: this.state.hourlyBooking ? '#77a300' : '#fff', fontWeight: 'bold', fontSize: 20 }}>Theo giờ</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={{ backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', }}>
-                    {this.state.hourlyBooking ? this.renderFormThueTaiTheoGio() : this.renderFormThueTai()}
-                </View>
-                {this.state.hourlyBooking ?
+                        <TouchableOpacity
+                            style={{ backgroundColor: this.state.hourlyBooking ? '#fff' : '#aaa', flex: 1, height: 48, justifyContent: 'center', alignItems: 'center', borderTopEndRadius: 8 }}
+                            onPress={() => {
+                                this.setState({
+                                    hourlyBooking: true,
+                                })
+                            }}
+                        >
+                            <Text style={{ color: this.state.hourlyBooking ? '#77a300' : '#fff', fontWeight: 'bold', fontSize: 16 }}>Theo giờ</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{ justifyContent: 'center', alignItems: 'center', }}>
+                        {this.state.hourlyBooking ? this.renderFormThueTaiTheoGio() : this.renderFormThueTai()}
+                    </View>
+                    {/* {this.state.hourlyBooking ?
                     <ButtonFull
                         onPress={() => {
                             this.gotoListDriverHourlyBooking();
@@ -486,199 +482,130 @@ class MapXeChung extends Component {
                         }}
                         value={'Xem giá'}
                     />
-                }
-                {this.renderAlert()}
+                } */}
+                    {this.renderAlert()}
 
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={this.state.dialogCalendarVisible}
-                    onOrientationChange={true}
-                    onRequestClose={() => {
-                        console.log('a');
-                    }}>
-                    <View style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        justifyContent: 'flex-end',
-                    }}>
-                        <View style={{ flex: 1, backgroundColor: '#fff', alignItems: "center" }}>
-                            <Text style={{ fontSize: 18, fontWeight: 'bold', margin: 16 }}>Chọn thời gian đi</Text>
-                            <Calendar
-                                minDate={minDate}
-                                onDateChange={(date) => {
-                                    this.setState({
-                                        date: date,
-                                        dialogTimeVisible: true,
-                                    })
-                                }}
-                            />
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={this.state.dialogCalendarVisible}
+                        // onOrientationChange={true}
+                        onRequestClose={() => {
+                            console.log('a');
+                        }}>
+                        <View style={{
+                            flex: 1,
+                            flexDirection: 'column',
+                            justifyContent: 'flex-end',
+                        }}>
+                            <View style={{ flex: 1, backgroundColor: '#fff', alignItems: "center" }}>
+                                <Text style={{ fontSize: 18, fontWeight: 'bold', margin: 16 }}>Chọn thời gian đi</Text>
+                                <Calendar
+                                    minDate={minDate}
+                                    onDateChange={(date) => {
+                                        this.setState({
+                                            date: date,
+                                            dialogTimeVisible: true,
+                                        })
+                                    }}
+                                />
+                                {this.modalSelectTime()}
+                            </View>
                         </View>
-                    </View>
-                </Modal>
+                    </Modal>
 
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={this.state.dialogTimeVisible}
-                    onOrientationChange={true}
-                    onRequestClose={() => {
-                    }}>
-                    <View style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        justifyContent: 'flex-end',
-                        backgroundColor: '#000000AA'
-                    }}>
-                        <View style={{ flex: 1, }}>
-                            <TouchableOpacity
-                                onPress={() => this.setState({ dialogTimeVisible: !this.state.dialogTimeVisible })}
-                                style={{ flex: 1 }}
-                            ></TouchableOpacity>
-                        </View>
-
-                        <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
-                            <View style={{ height: 40, justifyContent: 'center', alignItems: 'center' }}>
-                                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Chọn giờ đi</Text>
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={this.state.modalCity}
+                        // onOrientationChange={true}
+                        onRequestClose={() => {
+                            console.log('a');
+                        }}>
+                        <SafeAreaView style={{
+                            flex: 1,
+                            flexDirection: 'column',
+                            justifyContent: 'flex-end',
+                        }}>
+                            <View style={{ flex: 2, }}>
+                                <TouchableOpacity
+                                    onPress={() => this.setState({ modalCity: !this.state.modalCity })}
+                                    style={{ flex: 1 }}
+                                ></TouchableOpacity>
                             </View>
 
                             <FlatList
                                 style={{ flex: 1, backgroundColor: '#ffffff' }}
-                                data={listHour}
-                                initialScrollIndex={this.state.scroll - 1}
-                                getItemLayout={this.getItemLayout}
+                                data={this.state.listCity}
                                 renderItem={({ item }) =>
                                     <TouchableOpacity
-                                        style={{ flexDirection: 'row', height: 40 }}
+                                        style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}
                                         onPress={() => {
-                                            var isDayAlight = this.state.spesentDay == this.state.date.format('DD-MM-YYYY');
-                                            var timeClicker = ((item.hour == this.state.hoursAlive && item.minute > this.state.minutesAlive) || item.hour > this.state.hoursAlive);
-
-                                            if (isDayAlight) {
-                                                if (timeClicker) {
-                                                    this.setState({
-                                                        selectedHours: item.hour,
-                                                        selectedMinutes: item.minute,
-                                                        scroll: item.id,
-                                                        dialogTimeVisible: false,
-                                                        dialogCalendarVisible: false,
-                                                        depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
-                                                    })
-                                                    this.props.addDepartTimeTaixe(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
-                                                }
-                                            } else {
+                                            item.hide == 1 ? console.log(item.city_name) :
                                                 this.setState({
-                                                    selectedHours: item.hour,
-                                                    selectedMinutes: item.minute,
-                                                    scroll: item.id,
-                                                    dialogTimeVisible: false,
-                                                    dialogCalendarVisible: false,
-                                                    depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                    city_name: item.city_name,
+                                                    modalCity: false,
                                                 })
-                                                this.props.addDepartTimeTaixe(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
-                                            }
                                         }}
                                     >
-                                        <Text style={{ textAlign: 'center', fontSize: 18, flex: 1, padding: 8, backgroundColor: (item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes) ? '#77a300' : '#fff', color: (this.state.spesentDay == this.state.date.format('DD-MM-YYYY') && ((item.hour == this.state.hoursAlive && item.minute < this.state.minutesAlive) || item.hour < this.state.hoursAlive)) ? '#aaa' : item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes ? '#fff' : '#000000' }}>{item.hour < 10 ? '0' + item.hour : item.hour} : {item.minute == 0 ? '00' : item.minute}</Text>
+                                        <Text style={item.hide == 1 ? { fontSize: 18, flex: 1, padding: 8, color: '#888' } : { fontSize: 18, flex: 1, padding: 8 }}>{item.city_name}</Text>
+                                        {item.chair == this.props.chair ? <Image
+                                            style={{ height: 24, width: 24, marginRight: 8 }}
+                                            source={require(imageCheck)}
+                                        /> : null}
                                     </TouchableOpacity>}
-                                scrollToIndex={this.state.scroll}
-                                keyExtractor={item => item.id}
+                                keyExtractor={item => item.city_id}
                             />
-                        </View>
-                    </View>
-                </Modal>
+                        </SafeAreaView>
+                    </Modal>
 
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={this.state.modalCity}
-                    onOrientationChange={true}
-                    onRequestClose={() => {
-                        console.log('a');
-                    }}>
-                    <View style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        justifyContent: 'flex-end',
-                    }}>
-                        <View style={{ flex: 2, }}>
-                            <TouchableOpacity
-                                onPress={() => this.setState({ modalCity: !this.state.modalCity })}
-                                style={{ flex: 1 }}
-                            ></TouchableOpacity>
-                        </View>
-
-                        <FlatList
-                            style={{ flex: 1, backgroundColor: '#ffffff' }}
-                            data={this.state.listCity}
-                            renderItem={({ item }) =>
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={this.state.modalListTime}
+                        // onOrientationChange={true}
+                        onRequestClose={() => {
+                            console.log('a');
+                        }}>
+                        <SafeAreaView style={{
+                            flex: 1,
+                            flexDirection: 'column',
+                            justifyContent: 'flex-end',
+                        }}>
+                            <View style={{ flex: 1, }}>
                                 <TouchableOpacity
-                                    style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}
-                                    onPress={() => {
-                                        item.hide == 1 ? console.log(item.city_name) :
+                                    onPress={() => this.setState({ modalListTime: !this.state.modalListTime })}
+                                    style={{ flex: 1 }}
+                                ></TouchableOpacity>
+                            </View>
+
+                            <FlatList
+                                style={{ flex: 1, backgroundColor: '#ffffff' }}
+                                data={this.state.listTime}
+                                renderItem={({ item }) =>
+                                    <TouchableOpacity
+                                        style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}
+                                        onPress={() => {
                                             this.setState({
-                                                city_name: item.city_name,
-                                                modalCity: false,
+                                                duration: item.time,
+                                                modalListTime: false,
                                             })
-                                    }}
-                                >
-                                    <Text style={item.hide == 1 ? { fontSize: 18, flex: 1, padding: 8, color: '#888' } : { fontSize: 18, flex: 1, padding: 8 }}>{item.city_name}</Text>
-                                    {item.chair == this.props.chair ? <Image
-                                        style={{ height: 24, width: 24, marginRight: 8 }}
-                                        source={require(imageCheck)}
-                                    /> : null}
-                                </TouchableOpacity>}
-                            keyExtractor={item => item.city_id}
-                        />
-                    </View>
-                </Modal>
+                                            this.props.addDurationTaiXe(item.time);
+                                        }}
+                                    >
+                                        <Text style={{ fontSize: 18, flex: 1, padding: 8, color: item.time === this.state.duration ? '#77a300' : '#000000' }}>{item.time} giờ</Text>
+                                        {item.time == this.state.duration ? <Image
+                                            style={{ height: 24, width: 24, marginLeft: 8 }}
+                                            source={require(imageCheck)}
+                                        /> : null}
+                                    </TouchableOpacity>}
+                                keyExtractor={item => item.city_id}
+                            />
+                        </SafeAreaView>
+                    </Modal>
+                </ImageBackground>
 
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={this.state.modalListTime}
-                    onOrientationChange={true}
-                    onRequestClose={() => {
-                        console.log('a');
-                    }}>
-                    <View style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        justifyContent: 'flex-end',
-                    }}>
-                        <View style={{ flex: 1, }}>
-                            <TouchableOpacity
-                                onPress={() => this.setState({ modalListTime: !this.state.modalListTime })}
-                                style={{ flex: 1 }}
-                            ></TouchableOpacity>
-                        </View>
-
-                        <FlatList
-                            style={{ flex: 1, backgroundColor: '#ffffff' }}
-                            data={this.state.listTime}
-                            renderItem={({ item }) =>
-                                <TouchableOpacity
-                                    style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}
-                                    onPress={() => {
-                                        this.setState({
-                                            duration: item.time,
-                                            modalListTime: false,
-                                        })
-                                        this.props.addDurationTaiXe(item.time);
-                                    }}
-                                >
-                                    <Text style={{ fontSize: 18, flex: 1, padding: 8, color: item.time === this.state.duration ? '#77a300' : '#000000' }}>{item.time} giờ</Text>
-                                    {item.time == this.state.duration ? <Image
-                                        style={{ height: 24, width: 24, marginLeft: 8 }}
-                                        source={require(imageCheck)}
-                                    /> : null}
-                                </TouchableOpacity>}
-                            keyExtractor={item => item.city_id}
-                        />
-                    </View>
-                </Modal>
-
-            </View>
+            </SafeAreaView>
         );
     }
 }
@@ -705,10 +632,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
         justifyContent: 'center',
         alignItems: 'center',
-        borderBottomEndRadius: 0,
-        borderBottomStartRadius: 0,
+        borderBottomEndRadius: 8,
+        borderBottomStartRadius: 8,
         paddingLeft: 8,
         paddingRight: 8,
+        marginHorizontal: 8
     },
     borderTop: {
         borderTopEndRadius: 8,

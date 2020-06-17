@@ -49,6 +49,7 @@ class MapDiChung extends Component {
             dateTimeSelect: '',
             spesentTime: '',
             spesentDay: '',
+            time_pick: '',
             hoursAlive: 0,
             minutesAlive: 0,
             selectedStartDate: null,
@@ -649,7 +650,7 @@ class MapDiChung extends Component {
                     </View>
                 </View>
                 <ButtonFull
-                    onPress={() => { this.nextScreen() }}
+                    onPress={() => { this.gotoListCarHourlyBooking() }}
                     value={'Xem giá'}
                 />
                 <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
@@ -969,7 +970,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingTop: 8,
         paddingLeft: 8,
         paddingRight: 8,
         marginHorizontal: 8,

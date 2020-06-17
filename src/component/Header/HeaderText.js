@@ -6,7 +6,7 @@ function HeaderText({
     textCenter,
 }) {
     return (
-        <View style={{ height: 50, flexDirection: 'row', shadowOffset: { height: 2, width: 2 }, backgroundColor: '#efefef', shadowColor: '#000', shadowOpacity: 0, elevation: 5, }}>
+        <View style={{ height: 50, flexDirection: 'row', shadowOffset: { height: 2, width: 2 }, backgroundColor: '#fff', shadowColor: '#000', shadowOpacity: 0, elevation: 5, }}>
             <TouchableOpacity
                 onPress={onPressLeft}
 

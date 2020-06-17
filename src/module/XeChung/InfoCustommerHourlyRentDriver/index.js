@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView, AsyncStorage } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView, AsyncStorage, SafeAreaView } from 'react-native';
 import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBox from 'react-native-check-box'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
@@ -9,6 +9,7 @@ import * as link from '../../../URL'
 import { Button, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 import PopUp from '../../../component/PopUp'
+import { HeaderText } from '../../../component/Header'
 
 const imageCancel = '../../../image/cancel.png'
 const imageCheck = '../../../image/checked.png'
@@ -405,19 +406,19 @@ class InfoCustommerHourlyRentDriver extends Component {
         )
     }
 
+    goBack = () => {
+        this.props.navigation.goBack()
+    }
+
     render() {
         const { navigation } = this.props;
-        var pay_methods = JSON.parse(navigation.getParam('pay_methods'));
-        var radio_payment = []
-        if (pay_methods['3'] != null) {
-            radio_payment.push({ label: 'Trả sau', value: 0, paymentMethodID: '3' })
-        }
-        if (pay_methods['8'] != null) {
-            radio_payment.push({ label: 'Trả trước', value: 1, paymentMethodID: '8' })
-        }
+        var radio_payment = [
+            { label: 'Trả sau', value: 0, paymentMethodID: '3' },
+        ]
         return (
-            <View style={styles.container}>
-                <ScrollView showsVerticalScrollIndicator={false}>
+            <SafeAreaView style={{ flex: 1 }} >
+                <HeaderText textCenter={'Thông tin khách hàng'} onPressLeft={this.goBack} />
+                <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
                     <Text style={styles.textBig}>Họ và tên</Text>
 
                     <InputTextDiChung
@@ -594,7 +595,7 @@ class InfoCustommerHourlyRentDriver extends Component {
                     />
                     {this.renderAlert()}
                 </ScrollView>
-            </View>
+            </SafeAreaView>
         )
     }
 }

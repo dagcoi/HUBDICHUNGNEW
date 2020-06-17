@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, ActivityIndicator, Image, Modal, ScrollView } from 'react-native'
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, ActivityIndicator, Image, Modal, ScrollView, SafeAreaView } from 'react-native'
 import { connect } from 'react-redux';
 import CheckBoxList from '../../../component/CheckBoxList';
 import { Button } from '../../../component/Button'
 import StarVote from '../../../component/StarVote'
+import { HeaderText } from '../../../component/Header';
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
     return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
@@ -37,52 +38,52 @@ class ListVehicle extends Component {
         }
     }
 
-    static navigationOptions = ({ navigation }) => {
-        return {
-            headerTitle: () => <View style={{
-                flex: 1,
-                flexDirection: 'row',
-                justifyContent: 'center'
-            }}>
-                <Text style={{
-                    flex: 1,
-                    fontSize: 22,
-                    textAlign: 'left',
-                    justifyContent: 'center'
-                }}>
-                    Danh sách xe
-                </Text>
+    // static navigationOptions = ({ navigation }) => {
+    //     return {
+    //         headerTitle: () => <View style={{
+    //             flex: 1,
+    //             flexDirection: 'row',
+    //             justifyContent: 'center'
+    //         }}>
+    //             <Text style={{
+    //                 flex: 1,
+    //                 fontSize: 22,
+    //                 textAlign: 'left',
+    //                 justifyContent: 'center'
+    //             }}>
+    //                 Danh sách xe
+    //             </Text>
 
-                <View
-                    style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
-                >
-                    <TouchableOpacity
-                        onPress={navigation.getParam('setShowFilter')}
-                        style={{ justifyContent: 'center', alignItems: 'center' }}
-                    >
-                        <Image
-                            style={{ width: 24, height: 24 }}
-                            source={require(imageTune)}
-                        />
-                    </TouchableOpacity>
-                </View>
+    //             <View
+    //                 style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
+    //             >
+    //                 <TouchableOpacity
+    //                     onPress={navigation.getParam('setShowFilter')}
+    //                     style={{ justifyContent: 'center', alignItems: 'center' }}
+    //                 >
+    //                     <Image
+    //                         style={{ width: 24, height: 24 }}
+    //                         source={require(imageTune)}
+    //                     />
+    //                 </TouchableOpacity>
+    //             </View>
 
-                <View
-                    style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
-                >
-                    <TouchableOpacity
-                        onPress={navigation.getParam('increaseCount')}
-                        style={{ justifyContent: 'center', alignItems: 'center' }}
-                    >
-                        <Image
-                            style={{ width: 24, height: 24 }}
-                            source={navigation.getParam('image') ? require(imageMaxToMin) : require(imageMinToMax)}
-                        />
-                    </TouchableOpacity>
-                </View>
-            </View>,
-        };
-    };
+    //             <View
+    //                 style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
+    //             >
+    //                 <TouchableOpacity
+    //                     onPress={navigation.getParam('increaseCount')}
+    //                     style={{ justifyContent: 'center', alignItems: 'center' }}
+    //                 >
+    //                     <Image
+    //                         style={{ width: 24, height: 24 }}
+    //                         source={navigation.getParam('image') ? require(imageMaxToMin) : require(imageMinToMax)}
+    //                     />
+    //                 </TouchableOpacity>
+    //             </View>
+    //         </View>,
+    //     };
+    // };
 
     componentDidMount() {
         this.callListVehicle(this.state.carType);
@@ -372,18 +373,25 @@ class ListVehicle extends Component {
         )
     }
 
+    goBack = () => {
+        this.props.navigation.goBack()
+    }
+
     render() {
         if (this.state.isLoading) {
             return (
-                <ActivityIndicator
-                    style={{ marginTop: 8 }}
-                    size='large'
-                />
+                <SafeAreaView style={{ flex: 1 }}>
+                    <ActivityIndicator
+                        style={{ marginTop: 8 }}
+                        size='large'
+                    />
+                </SafeAreaView>
             )
         }
         // var obj = [...this.state.listVehicle];
         return (
-            <View style={{ flex: 1, margin: 8, }}>
+            <SafeAreaView style={{ flex: 1, }}>
+                <HeaderText textCenter={'Danh sách xe'} onPressLeft={this.goBack} />
                 <View style={{ height: 50, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                     <View style={styles.ViewTop}>
                         <TouchableOpacity
@@ -437,7 +445,7 @@ class ListVehicle extends Component {
                 {/* {this.state.carType == 1 ? this.renderModalCar(this.state.showFilter) : this.renderModalMoto(this.state.showFilter)} */}
                 {this.renderModalCar(this.state.showFilter)}
 
-            </View>
+            </SafeAreaView>
         );
     }
 

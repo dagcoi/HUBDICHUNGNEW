@@ -535,7 +535,7 @@ class ListCar extends Component {
 
         if (this.state.isLoading) {
             return (
-                <SafeAreaView style={{ flex: 1, padding: 20 }}>
+                <SafeAreaView style={{ flex: 1,}}>
                     <ActivityIndicator
                         size='large'
                     />

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView, Image, ActivityIndicator, Modal } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, ActivityIndicator, Modal, SafeAreaView } from 'react-native';
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import * as link from '../../../URL'
@@ -7,6 +7,7 @@ import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
 import { Button, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogTitle } from 'react-native-popup-dialog';
+import { HeaderText } from '../../../component/Header'
 
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -355,10 +356,15 @@ class ConfirmInformationRentDriver extends Component {
         }
     }
 
+    goBack = () => {
+        this.props.navigation.goBack()
+    }
+
     render() {
         const { navigation } = this.props;
         return (
-            <View style={{ padding: 8 }}>
+            <SafeAreaView style={{ flex: 1 }}>
+                <HeaderText textCenter={'Xác nhận thông tin'} onPressLeft={this.goBack} />
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                         <Image
@@ -517,7 +523,7 @@ class ConfirmInformationRentDriver extends Component {
                         </View>
                     </View>
                 </Modal>
-            </View>
+            </SafeAreaView>
         )
     }
 
@@ -538,7 +544,7 @@ const styles = StyleSheet.create({
         color: '#77a300',
         flex: 1,
         textAlign: "right",
-        marginTop : 8,
+        marginTop: 8,
     },
     textBigLeft: {
         fontSize: 14,

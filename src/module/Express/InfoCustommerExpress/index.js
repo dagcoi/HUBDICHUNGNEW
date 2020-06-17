@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Alert, ScrollView,AsyncStorage } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, ScrollView, AsyncStorage, SafeAreaView } from 'react-native';
 import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBoxList from '../../../component/CheckBoxList'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
@@ -9,6 +9,7 @@ import { addInfoPeople1VanChuyen, addInfoPeople2VanChuyen, addVATVanChuyen, addC
 import * as link from '../../../URL'
 import PopUp from '../../../component/PopUp'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
+import { HeaderText } from '../../../component/Header';
 
 class InfoCustommerExpress extends Component {
 
@@ -50,7 +51,7 @@ class InfoCustommerExpress extends Component {
         this.getdata();
     }
 
-    async getdata(){
+    async getdata() {
         try {
             const dataLogin = await AsyncStorage.getItem('dataLogin')
             if (dataLogin !== null) {
@@ -71,7 +72,7 @@ class InfoCustommerExpress extends Component {
         } catch (error) {
             console.log(error)
         }
-     
+
     }
 
     async checkPromotionCode() {
@@ -348,6 +349,10 @@ class InfoCustommerExpress extends Component {
         )
     }
 
+    goBack = () => {
+        this.props.navigation.goBack()
+    }
+
     render() {
         const { navigation } = this.props;
         var pay_methods = JSON.parse(navigation.getParam('pay_methods'));
@@ -359,8 +364,9 @@ class InfoCustommerExpress extends Component {
             radio_payment.push({ label: 'Trả trước', value: 1, paymentMethodID: '8' })
         }
         return (
-            <View style={styles.container}>
-                <ScrollView showsVerticalScrollIndicator={false}>
+            <SafeAreaView style={{ flex: 1 }}>
+                <HeaderText textCenter = {'Thông tin khách hàng'} onPressLeft={this.goBack} />
+                <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
                     <Text style={styles.textTitle}>THÔNG TIN NGƯỜI GỬI</Text>
 
                     <Text style={styles.textBig}>Họ và tên</Text>
@@ -476,11 +482,11 @@ class InfoCustommerExpress extends Component {
                                 value={this.state.promotion_code}
                                 onChangeText={(text) => this.setState({
                                     promotion_code: text,
-                                    blDiscount : false,
-                                    detailPromotion:'',
+                                    blDiscount: false,
+                                    detailPromotion: '',
                                 })}
                                 onPress={() => this.setState({
-                                    detailPromotion:'',
+                                    detailPromotion: '',
                                     promotion_code: '',
                                 })}
                             />
@@ -527,7 +533,7 @@ class InfoCustommerExpress extends Component {
                     {this.renderAlert()}
 
                 </ScrollView>
-            </View>
+            </SafeAreaView>
         )
     }
 }
@@ -578,7 +584,7 @@ function mapStateToProps(state) {
         ride_method_id: state.rdVanChuyen.ride_method_id,
         depart_time: state.rdVanChuyen.depart_time,
         transport_partner_id: state.rdVanChuyen.transport_partner_id,
-        brand_partner_id : state.rdVanChuyen.brand_partner_id,
+        brand_partner_id: state.rdVanChuyen.brand_partner_id,
     }
 }
 

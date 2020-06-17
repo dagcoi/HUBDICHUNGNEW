@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, Alert, Modal, FlatList } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Alert, Modal, FlatList, SafeAreaView } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 import CalendarPicker from 'react-native-calendar-picker';
 import TimePicker from '../../../component/TimePicker'
@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { addDepartTimeTuLai, addPeopleTuLai, swapAddressTuLai, addDurationTuLai } from '../../../core/Redux/action/Action'
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
 import * as key from '../../../component/KeyGG'
+import { HeaderText } from '../../../component/Header'
 
 import MapViewDirections from 'react-native-maps-directions';
 import { TextInput } from 'react-native-gesture-handler';
@@ -107,7 +108,7 @@ class MapDiChungTuLai extends Component {
                         hourly: false
                     })}
                 >
-                    <Text style={{ color: this.state.hourly ? '#00363d' : '#77a300', fontWeight: 'bold', fontSize: 20 }}>Theo tuyến</Text>
+                    <Text style={{ color: this.state.hourly ? '#00363d' : '#77a300', fontWeight: 'bold', fontSize: 16 }}>Theo tuyến</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: this.state.hourly ? '#fff' : '#aaa', borderRadius: 4 }}
@@ -115,7 +116,7 @@ class MapDiChungTuLai extends Component {
                         hourly: true
                     })}
                 >
-                    <Text style={{ color: this.state.hourly ? '#77a300' : '#00363d', fontWeight: 'bold', fontSize: 20 }}>Theo giờ</Text>
+                    <Text style={{ color: this.state.hourly ? '#77a300' : '#00363d', fontWeight: 'bold', fontSize: 16 }}>Theo giờ</Text>
                 </TouchableOpacity>
             </View>
         )
@@ -404,11 +405,16 @@ class MapDiChungTuLai extends Component {
         )
     }
 
+    goBack = () => {
+        this.props.navigation.goBack()
+    }
+
     render() {
         const minDate = new Date();
 
         return (
-            <View style={{ flex: 1 }}>
+            <SafeAreaView style={{ flex: 1 }}>
+                <HeaderText textCenter={'Thuê xe tự lái'} onPressLeft={this.goBack} />
                 {this.renderPicktoDrop()}
                 <View style={{ flex: 1, padding: 8 }}>
                     {this.formSwitch()}
@@ -559,7 +565,7 @@ class MapDiChungTuLai extends Component {
                     </Modal>
                 </View>
 
-            </View>
+            </SafeAreaView>
         );
     }
 }
