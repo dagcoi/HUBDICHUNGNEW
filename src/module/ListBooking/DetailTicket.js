@@ -117,7 +117,7 @@ class BookingDetail extends Component {
                 onRequestClose={() => this.setState({ modalVisible: false })}
                 onOrientationChange={true}
                 transparent={true}>
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000000AA', zIndex: 5 }}>
+                <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000000AA', zIndex: 5 }}>
                     <View style={{ width: '80%', justifyContent: 'center', borderRadius: 8, minHeight: 100, backgroundColor: '#eee', padding: 8, zIndex: 6 }}>
                         <View style={{ borderBottomWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', }}>
                             <Text style={{ fontSize: 20, }}>Hủy vé</Text>
@@ -145,7 +145,7 @@ class BookingDetail extends Component {
                             </TouchableOpacity>
                         </View>
                     </View>
-                </View>
+                </SafeAreaView>
             </Modal>
         )
     }

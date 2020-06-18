@@ -437,7 +437,7 @@ class TicketInformationTuLai extends Component {
                             visible={this.state.dialogOTP}
                             transparent={true}
                         >
-                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000000AA' }}>
+                            <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000000AA' }}>
                                 <View style={{ width: '80%', justifyContent: 'center', borderRadius: 8, minHeight: 100, backgroundColor: '#eee', padding: 8 }}>
                                     <View style={{ borderBottomWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', }}>
                                         <Text style={{ fontSize: 20, }}>Xác nhận hủy vé</Text>
@@ -489,7 +489,7 @@ class TicketInformationTuLai extends Component {
                                         </TouchableOpacity>
                                     </View>
                                 </View>
-                            </View>
+                            </SafeAreaView>
                         </Modal>
 
                         <Modal
@@ -497,18 +497,18 @@ class TicketInformationTuLai extends Component {
                             animationType="slide"
                             onOrientationChange={true}
                             transparent={true}>
-                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                            <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                                 <ActivityIndicator
                                     size='large'
                                 />
-                            </View>
+                            </SafeAreaView>
                         </Modal>
 
                         <Modal
                             visible={this.state.dialogCancelSuccess}
                             animationType="slide"
                         >
-                            <View style={{ flex: 1, }}>
+                            <SafeAreaView style={{ flex: 1, }}>
                                 <View style={{ padding: 16 }}>
                                     <ScrollView showsVerticalScrollIndicator={false}>
                                         <Text style={{ fontSize: 16, fontWeight: 'bold', padding: 8 }}>Lí do hủy vé</Text>
@@ -531,7 +531,7 @@ class TicketInformationTuLai extends Component {
                                         />
                                     </ScrollView>
                                 </View>
-                            </View>
+                            </SafeAreaView>
                         </Modal>
                     </ScrollView>
                 </SafeAreaView>

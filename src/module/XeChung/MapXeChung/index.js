@@ -369,7 +369,7 @@ class MapXeChung extends Component {
                 // onOrientationChange={true}
                 onRequestClose={() => {
                 }}>
-                <View style={{
+                <SafeAreaView style={{
                     flex: 1,
                     flexDirection: 'column',
                     justifyContent: 'flex-end',
@@ -430,7 +430,7 @@ class MapXeChung extends Component {
                             keyExtractor={item => item.id}
                         />
                     </View>
-                </View>
+                </SafeAreaView>
             </Modal>
         )
     }
@@ -493,7 +493,7 @@ class MapXeChung extends Component {
                         onRequestClose={() => {
                             console.log('a');
                         }}>
-                        <View style={{
+                        <SafeAreaView style={{
                             flex: 1,
                             flexDirection: 'column',
                             justifyContent: 'flex-end',
@@ -511,7 +511,7 @@ class MapXeChung extends Component {
                                 />
                                 {this.modalSelectTime()}
                             </View>
-                        </View>
+                        </SafeAreaView>
                     </Modal>
 
                     <Modal

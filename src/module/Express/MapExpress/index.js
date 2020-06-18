@@ -677,7 +677,7 @@ class MapExpress extends Component {
                     onRequestClose={() => {
                         console.log('a');
                     }}>
-                    <View style={{
+                    <SafeAreaView style={{
                         flex: 1,
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
@@ -712,7 +712,7 @@ class MapExpress extends Component {
                                 </TouchableOpacity>}
                             keyExtractor={item => item.chair}
                         />
-                    </View>
+                    </SafeAreaView>
                 </Modal>
 
 
@@ -724,7 +724,7 @@ class MapExpress extends Component {
                     onRequestClose={() => {
                         console.log('a');
                     }}>
-                    <View style={{
+                    <SafeAreaView style={{
                         flex: 1,
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
@@ -758,7 +758,7 @@ class MapExpress extends Component {
                             keyExtractor={item => item.time}
                         />
 
-                    </View>
+                    </SafeAreaView>
                 </Modal>
             </SafeAreaView>
         );

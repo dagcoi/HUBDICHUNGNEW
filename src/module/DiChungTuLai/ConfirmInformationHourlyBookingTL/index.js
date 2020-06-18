@@ -352,7 +352,7 @@ class ConfirmInformationHourlyBookingTL extends Component {
                     onRequestClose={() => {
                         console.log('a');
                     }}>
-                    <View style={{
+                    <SafeAreaView style={{
                         flex: 1,
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
@@ -423,7 +423,7 @@ class ConfirmInformationHourlyBookingTL extends Component {
                                 />
                             </ScrollView>
                         </View>
-                    </View>
+                    </SafeAreaView>
                 </Modal>
             </SafeAreaView>
         )

@@ -201,7 +201,7 @@ class ListCar extends Component {
                 visible={showFilter}
                 animationType='slide'
             >
-                <View style={{
+                <SafeAreaView style={{
                     flex: 1,
                     flexDirection: 'column',
                     padding: 16,
@@ -287,7 +287,7 @@ class ListCar extends Component {
                             <Text style={{ fontSize: 18, color: '#fff' }}>ÁP DỤNG</Text>
                         </TouchableOpacity>
                     </View>
-                </View>
+                </SafeAreaView>
             </Modal>
         )
     }

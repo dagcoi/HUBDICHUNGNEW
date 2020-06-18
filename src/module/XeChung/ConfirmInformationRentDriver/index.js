@@ -450,7 +450,7 @@ class ConfirmInformationRentDriver extends Component {
                     onRequestClose={() => {
                         console.log('a');
                     }}>
-                    <View style={{
+                    <SafeAreaView style={{
                         flex: 1,
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
@@ -521,7 +521,7 @@ class ConfirmInformationRentDriver extends Component {
                                 {/* </View> */}
                             </ScrollView>
                         </View>
-                    </View>
+                    </SafeAreaView>
                 </Modal>
             </SafeAreaView>
         )

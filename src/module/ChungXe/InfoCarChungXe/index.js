@@ -406,7 +406,7 @@ class InfoCarChungXe extends Component {
                     visible={this.state.modalInfoVehicle}
                     onOrientationChange={true}
                 >
-                    <View style={{ flex: 1, backgroundColor: '#fff', padding: 8 }}>
+                    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff', padding: 8 }}>
 
                         <View style={{ height: 50, justifyContent: 'center', flexDirection: 'row', padding: 0 }}>
                             <TouchableOpacity
@@ -536,7 +536,7 @@ class InfoCarChungXe extends Component {
 
                             </View>
                         </ScrollView>
-                    </View>
+                    </SafeAreaView>
                 </Modal>
             </View>
         )

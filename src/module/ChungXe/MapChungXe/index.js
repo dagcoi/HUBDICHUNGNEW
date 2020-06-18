@@ -283,7 +283,7 @@ class MapChungXe extends Component {
                 onRequestClose={() => {
                     console.log('a');
                 }}>
-                <View style={{
+                <SafeAreaView style={{
                     flex: 1,
                     flexDirection: 'column',
                     justifyContent: 'flex-end',
@@ -318,7 +318,7 @@ class MapChungXe extends Component {
                             </TouchableOpacity>}
                         keyExtractor={item => item.city_id}
                     />
-                </View>
+                </SafeAreaView>
             </Modal>
         )
     }
@@ -621,7 +621,7 @@ class MapChungXe extends Component {
                 // onOrientationChange={true}
                 onRequestClose={() => {
                 }}>
-                <View style={{
+                <SafeAreaView style={{
                     flex: 1,
                     flexDirection: 'column',
                     justifyContent: 'flex-end',
@@ -711,7 +711,7 @@ class MapChungXe extends Component {
                             keyExtractor={item => item.id}
                         />
                     </View>
-                </View>
+                </SafeAreaView>
             </Modal>
         )
     }
@@ -754,7 +754,7 @@ class MapChungXe extends Component {
                     animationType="slide"
                     transparent={true}
                 >
-                    <View style={{
+                    <SafeAreaView style={{
                         flex: 1,
                         flexDirection: 'column',
                         backgroundColor: '#fff',
@@ -795,7 +795,7 @@ class MapChungXe extends Component {
 
                         />
                         {this.formSelectTime()}
-                    </View>
+                    </SafeAreaView>
                 </Modal>
 
                 <Modal
@@ -806,7 +806,7 @@ class MapChungXe extends Component {
                     onRequestClose={() => {
                         console.log('a');
                     }}>
-                    <View style={{
+                    <SafeAreaView style={{
                         flex: 1,
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
@@ -840,7 +840,7 @@ class MapChungXe extends Component {
                             keyExtractor={item => item.city_id}
                         />
 
-                    </View>
+                    </SafeAreaView>
                 </Modal>
 
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, TextInput, TouchableOpacity, Modal, Text, Image, FlatList, ScrollView, StyleSheet, Alert, ActivityIndicator } from 'react-native'
+import { View, TextInput, TouchableOpacity, Modal, Text, Image, FlatList, ScrollView, StyleSheet, Alert, ActivityIndicator, SafeAreaView } from 'react-native'
 import InputTextDiChung from '../../../component/InputTextDiChung'
 import TimePicker from '../../../component/TimePicker'
 import * as link from '../../../URL'
@@ -242,7 +242,7 @@ class SpecialRequirements extends Component {
         const minDate = new Date();
         const pick_add = this.props.pick_add;
         return (
-            <View>
+            <SafeAreaView style={{ flex: 1 }}>
                 <ScrollView
                     showsVerticalScrollIndicator={false}
                 >
@@ -429,7 +429,7 @@ class SpecialRequirements extends Component {
                             visible={this.state.bookingSuccess}
                             transparent={true}
                         >
-                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000000AA' }}>
+                            <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000000AA' }}>
                                 <View style={{ width: '80%', justifyContent: 'center', borderRadius: 8, minHeight: 100, backgroundColor: '#eee', padding: 8 }}>
                                     <View style={{ borderBottomWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', }}>
                                         <Text style={{ fontSize: 20, }}>Gửi yêu cầu thành công</Text>
@@ -459,7 +459,7 @@ class SpecialRequirements extends Component {
 
                                     </View>
                                 </View>
-                            </View>
+                            </SafeAreaView>
                         </Modal>
                     </View>
 
@@ -471,7 +471,7 @@ class SpecialRequirements extends Component {
                         onRequestClose={() => {
                             console.log('a');
                         }}>
-                        <View style={{
+                        <SafeAreaView style={{
                             flex: 1,
                             flexDirection: 'column',
                             justifyContent: 'flex-end',
@@ -516,7 +516,7 @@ class SpecialRequirements extends Component {
 
                                 />
                             </View>
-                        </View>
+                        </SafeAreaView>
                     </Modal>
 
                     <Modal
@@ -527,7 +527,7 @@ class SpecialRequirements extends Component {
                         onRequestClose={() => {
                             console.log('a');
                         }}>
-                        <View style={{
+                        <SafeAreaView style={{
                             flex: 1,
                             flexDirection: 'column',
                             justifyContent: 'flex-end',
@@ -541,7 +541,7 @@ class SpecialRequirements extends Component {
                             </View>
 
                             <View style={{ flex: 1, backgroundColor: '#fff', }}>
-                                <Text style={{  fontSize: 18, fontWeight: 'bold', textAlign: 'center' }}>Chọn giờ đi</Text>
+                                <Text style={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center' }}>Chọn giờ đi</Text>
                                 {/* <TimePicker
                                     selectedHours={this.state.selectedHours}
                                     selectedMinutes={this.state.selectedMinutes}
@@ -603,7 +603,7 @@ class SpecialRequirements extends Component {
                                     keyExtractor={item => item.id}
                                 />
                             </View>
-                        </View>
+                        </SafeAreaView>
                     </Modal>
 
                     <Modal
@@ -614,7 +614,7 @@ class SpecialRequirements extends Component {
                         onRequestClose={() => {
                             console.log('a');
                         }}>
-                        <View style={{
+                        <SafeAreaView style={{
                             flex: 1,
                             flexDirection: 'column',
                             justifyContent: 'flex-end',
@@ -643,10 +643,10 @@ class SpecialRequirements extends Component {
                                 keyExtractor={item => item.city_id}
                             />
 
-                        </View>
+                        </SafeAreaView>
                     </Modal>
                 </ScrollView>
-            </View>
+            </SafeAreaView>
         )
     }
 }

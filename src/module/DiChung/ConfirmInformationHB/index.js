@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView, Image, ActivityIndicator, Modal } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, ActivityIndicator, Modal, SafeAreaView } from 'react-native';
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import * as link from '../../../URL'
@@ -7,7 +7,7 @@ import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
 import { Button, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogTitle } from 'react-native-popup-dialog';
-import {HeaderText} from '../../../component/Header'
+import { HeaderText } from '../../../component/Header'
 
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -360,9 +360,9 @@ class ConfirmInformationHB extends Component {
 
     render() {
         return (
-            <View style={{ padding: 8 }}>
+            <SafeAreaView style={{ padding: 8 }}>
                 <HeaderText textCenter={'Xác nhận thông tin'} onPressLeft={this.goBack} />
-                <ScrollView showsVerticalScrollIndicator={false}>
+                <ScrollView showsVerticalScrollIndicator={false} style={{ paddingHorizontal: 8}}>
                     <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                         <Image
                             style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
@@ -446,7 +446,7 @@ class ConfirmInformationHB extends Component {
                     onRequestClose={() => {
                         console.log('a');
                     }}>
-                    <View style={{
+                    <SafeAreaView style={{
                         flex: 1,
                         flexDirection: 'column',
                         justifyContent: 'flex-end',
@@ -484,9 +484,9 @@ class ConfirmInformationHB extends Component {
                                 />
                             </ScrollView>
                         </View>
-                    </View>
+                    </SafeAreaView>
                 </Modal>
-            </View >
+            </SafeAreaView >
         )
     }
 
@@ -507,7 +507,7 @@ const styles = StyleSheet.create({
         color: '#77a300',
         flex: 1,
         textAlign: "right",
-        marginTop : 8,
+        marginTop: 8,
     },
     textBigLeft: {
         fontSize: 14,

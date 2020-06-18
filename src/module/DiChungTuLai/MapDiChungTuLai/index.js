@@ -427,7 +427,7 @@ class MapDiChungTuLai extends Component {
                         onRequestClose={() => {
                             console.log('a');
                         }}>
-                        <View style={{
+                        <SafeAreaView style={{
                             flex: 1,
                             flexDirection: 'column',
                             justifyContent: 'flex-end',
@@ -471,7 +471,7 @@ class MapDiChungTuLai extends Component {
 
                                 />
                             </View>
-                        </View>
+                        </SafeAreaView>
                     </Modal>
 
                     <Modal
@@ -482,7 +482,7 @@ class MapDiChungTuLai extends Component {
                         onRequestClose={() => {
                             console.log('a');
                         }}>
-                        <View style={{
+                        <SafeAreaView style={{
                             flex: 1,
                             flexDirection: 'column',
                             justifyContent: 'flex-end',
@@ -520,7 +520,7 @@ class MapDiChungTuLai extends Component {
                                     </TouchableOpacity>
                                 </View>
                             </View>
-                        </View>
+                        </SafeAreaView>
                     </Modal>
 
                     <Modal
@@ -531,7 +531,7 @@ class MapDiChungTuLai extends Component {
                         onRequestClose={() => {
                             console.log('a');
                         }}>
-                        <View style={{
+                        <SafeAreaView style={{
                             flex: 1,
                             flexDirection: 'column',
                             justifyContent: 'flex-end',
@@ -561,7 +561,7 @@ class MapDiChungTuLai extends Component {
                                 keyExtractor={item => item.time}
                             />
 
-                        </View>
+                        </SafeAreaView>
                     </Modal>
                 </View>
 

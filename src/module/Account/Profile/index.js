@@ -202,7 +202,7 @@ class Profile extends Component {
                 visible={this.state.showRePass}
                 transparent={true}
             >
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000000AA' }}>
+                <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000000AA' }}>
                     <View style={{ width: '80%', justifyContent: 'center', borderRadius: 8, minHeight: 100, backgroundColor: '#fff', padding: 8 }}>
                         <View style={styles.titleModal}>
                             <Text style={{ fontSize: 20, flex: 1, textAlign: 'center' }}>Đổi mật khẩu</Text>
@@ -231,7 +231,7 @@ class Profile extends Component {
                             value={'Xác nhận'}
                         />
                     </View>
-                </View>
+                </SafeAreaView>
             </Modal>
         )
     }
@@ -242,7 +242,7 @@ class Profile extends Component {
                 visible={this.state.setProfileSuccess}
                 transparent={true}
             >
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000000AA' }}>
+                <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000000AA' }}>
                     <View style={{ width: '80%', justifyContent: 'center', borderRadius: 8, minHeight: 100, backgroundColor: '#fff', padding: 8 }}>
                         <View style={styles.titleModal}>
                             <Text style={{ fontSize: 20, flex: 1, textAlign: 'center' }}>Thông báo</Text>
@@ -262,7 +262,7 @@ class Profile extends Component {
                             value={'Xác nhận'}
                         />
                     </View>
-                </View>
+                </SafeAreaView>
             </Modal>
         )
     }

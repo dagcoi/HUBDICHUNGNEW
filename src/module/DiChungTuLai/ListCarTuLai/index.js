@@ -164,7 +164,7 @@ class ListCarTuLai extends Component {
                 visible={showFilter}
                 animationType='slide'
             >
-                <View style={{
+                <SafeAreaView style={{
                     flex: 1,
                     flexDirection: 'column',
                     padding: 16,
@@ -211,7 +211,7 @@ class ListCarTuLai extends Component {
                             <Text style={{ fontSize: 16, color: '#fff' }}>ÁP DỤNG</Text>
                         </TouchableOpacity>
                     </View>
-                </View>
+                </SafeAreaView>
             </Modal>
         )
     }
