@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, ActivityIndicator,SafeAreaView } from 'react-native';
+import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, ActivityIndicator, SafeAreaView } from 'react-native';
 import { connect } from 'react-redux';
 import StarVote from '../../../component/StarVote'
 import { HeaderText } from '../../../component/Header'
@@ -217,7 +217,7 @@ class ListCarHourlyBookingTL extends Component {
         this.nextScreen();
     }
 
-    goBack = () =>{
+    goBack = () => {
         this.props.navigation.goBack()
     }
 
@@ -226,6 +226,7 @@ class ListCarHourlyBookingTL extends Component {
         if (this.state.isLoading) {
             return (
                 <SafeAreaView style={{ flex: 1, }}>
+                    <HeaderText textCenter={'Danh sách xe'} onPressLeft={this.goBack} />
                     <ActivityIndicator
                         size='large'
                     />
@@ -236,7 +237,9 @@ class ListCarHourlyBookingTL extends Component {
         return (
             <SafeAreaView style={{ flex: 1, }}>
                 <HeaderText textCenter={'Danh sách xe'} onPressLeft={this.goBack} />
-                {this.renderItem(obj)}
+                <View style={{ flex: 1 }}>
+                    {this.renderItem(obj)}
+                </View>
             </SafeAreaView>
         );
     }

@@ -433,183 +433,183 @@ class InfoCustommerTuLai extends Component {
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <HeaderText textCenter={'Thông tin khách hàng'} onPressLeft={this.goBack} />
-                <ScrollView
-                    showsVerticalScrollIndicator={false}
-                    style={styles.container}
-                >
-                    <Text style={styles.textBig}>Họ và tên</Text>
-
-                    <InputTextDiChung
-                        style={styles.textInput}
-                        placeholder='Nhập họ tên'
-                        value={this.state.full_name}
-                        onChangeText={(text) => this.setState({
-                            full_name: text,
-                        })}
-                        onPress={() => this.setState({
-                            full_name: ''
-                        })}
-                    />
-
-                    <Text style={styles.textBig}>Số điện thoại</Text>
-
-                    <InputTextDiChung
-                        style={styles.textInput}
-                        placeholder='Nhập số điện thoại'
-                        value={this.state.use_phone}
-                        onChangeText={(text) => this.mobileValidate(text)}
-                        keyboardType='numeric'
-                        onPress={() => this.setState({
-                            use_phone: ''
-                        })}
-                    />
-
-                    <Text style={styles.textBig}>Email</Text>
-
-                    <InputTextDiChung
-                        style={styles.textInput}
-                        placeholder='Nhập Email'
-                        value={this.state.email}
-                        onChangeText={(text) => this._validateEmail(text)}
-                        onPress={() => this.setState({
-                            email: ''
-                        })}
-                    />
-
-                    <CheckBox
-                        style={{ marginTop: 8 }}
-                        onClick={() => {
-                            this.setState({
-                                is_checked: !this.state.is_checked
-                            })
-                        }}
-                        isChecked={this.state.is_checked}
-                        rightText={"Đặt xe cho người khác"}
-                        rightTextStyle={{ fontSize: 16 }}
-                        checkBoxColor={'#77a300'}
-                    />
-
-                    {this.renderDatHo()}
-
-                    {this.renderComment()}
-
-                    <Text style={styles.textBig}>Hình thức thanh toán</Text>
-
-                    <RadioForm
-                        animation={true}
+                <View style={styles.container}>
+                    <ScrollView
+                        showsVerticalScrollIndicator={false}
                     >
-                        {radio_payment.map((obj, i) => (
-                            <RadioButton labelHorizontal={true} key={i} >
-                                <RadioButtonInput
-                                    obj={obj}
-                                    index={i}
-                                    isSelected={this.state.value_payment === i}
-                                    onPress={() => {
-                                        console.log(obj.label)
-                                        this.setState({
-                                            value_payment: i,
-                                            selectRentCar: i,
-                                            payment_method_ID: obj.payment_method_ID,
-                                        })
-                                    }}
-                                    borderWidth={0.5}
-                                    buttonInnerColor={'#77a300'}
-                                    buttonOuterColor={'#77a300'}
-                                    buttonSize={10}
-                                    buttonOuterSize={16}
-                                    buttonStyle={7}
-                                    buttonWrapStyle={{ marginLeft: 10 }}
-                                />
-                                <RadioButtonLabel
-                                    obj={obj}
-                                    index={i}
-                                    key={i}
-                                    labelHorizontal={true}
-                                    onPress={() => {
-                                        console.log(obj.label)
-                                        this.setState({
-                                            value_payment: i,
-                                            payment_method_ID: obj.payment_method_ID,
-                                        })
-                                    }}
-                                    labelStyle={{ fontSize: 14, color: '#000' }}
-                                    labelWrapStyle={{}}
-                                />
-                            </RadioButton>
-                        ))}
-                    </RadioForm>
+                        <Text style={styles.textBig}>Họ và tên</Text>
 
-                    <Text style={styles.textBig}>Mã giảm giá</Text>
+                        <InputTextDiChung
+                            style={styles.textInput}
+                            placeholder='Nhập họ tên'
+                            value={this.state.full_name}
+                            onChangeText={(text) => this.setState({
+                                full_name: text,
+                            })}
+                            onPress={() => this.setState({
+                                full_name: ''
+                            })}
+                        />
 
-                    <View style={{ flexDirection: 'row', marginTop: 8, marginBottom: 8, height: 50 }}>
-                        <View style={{ marginTop: 8, borderWidth: 0.5, borderColor: '#e8e8e8', borderRadius: 4, flexDirection: 'row', justifyContent: "center", alignItems: "center", flex: 1, }} >
-                            <TextInput
-                                style={[styles.textInput]}
-                                value={this.state.promotion_code}
-                                onChangeText={(text) => this.setState({
-                                    promotion_code: text,
-                                    blDiscount: false,
-                                })}
-                                placeholder={'Mã giảm giá'}
-                            />
-                            <TouchableOpacity
-                                onPress={() => this.setState({
-                                    promotion_code: '',
-                                    blDiscount: false,
-                                }
-                                )}
-                            >
-                                <Image
-                                    style={{ width: 20, height: 20, margin: 8 }}
-                                    source={this.state.promotion_code.length == 0 ? null : require(imageCancel)}
-                                />
-                            </TouchableOpacity>
-                        </View>
+                        <Text style={styles.textBig}>Số điện thoại</Text>
 
-                        <TouchableOpacity
-                            onPress={() => {
-                                this.setState({
-                                    isLoading: true,
-                                })
-                                this.checkPromotionCode();
-                            }}
-                            style={{ padding: 8, justifyContent: 'center', backgroundColor: '#77a300', marginLeft: 8, borderRadius: 4, marginTop: 8 }}
-                        >
-                            <Text style={{ color: '#ffffff' }}>ÁP DỤNG</Text>
-                        </TouchableOpacity>
-                    </View>
+                        <InputTextDiChung
+                            style={styles.textInput}
+                            placeholder='Nhập số điện thoại'
+                            value={this.state.use_phone}
+                            onChangeText={(text) => this.mobileValidate(text)}
+                            keyboardType='numeric'
+                            onPress={() => this.setState({
+                                use_phone: ''
+                            })}
+                        />
 
-                    <View>{this.state.detailPromotion == '' ? null : <Text style={{ color: this.state.promotion ? "#77a300" : "#fa0000" }}>{this.state.detailPromotion}</Text>}</View>
+                        <Text style={styles.textBig}>Email</Text>
 
-                    <CheckBox
-                        style={{ marginTop: 8 }}
-                        onClick={() => {
-                            this.setState({
-                                vat: !this.state.vat
-                            })
-                        }}
-                        isChecked={this.state.vat}
-                        rightText={"Xuất hóa đơn"}
-                        rightTextStyle={{ fontSize: 16 }}
-                        checkBoxColor={'#77a300'}
-                    />
-                    {this.renderFormVAT()}
-                    {this.props.is_from_airport == 'false' ? null :
+                        <InputTextDiChung
+                            style={styles.textInput}
+                            placeholder='Nhập Email'
+                            value={this.state.email}
+                            onChangeText={(text) => this._validateEmail(text)}
+                            onPress={() => this.setState({
+                                email: ''
+                            })}
+                        />
+
                         <CheckBox
                             style={{ marginTop: 8 }}
                             onClick={() => {
                                 this.setState({
-                                    boardPrice: !this.state.boardPrice
+                                    is_checked: !this.state.is_checked
                                 })
                             }}
-                            isChecked={this.state.boardPrice}
-                            rightText={"Đón biển tên: +30.000 đ"}
+                            isChecked={this.state.is_checked}
+                            rightText={"Đặt xe cho người khác"}
                             rightTextStyle={{ fontSize: 16 }}
                             checkBoxColor={'#77a300'}
                         />
-                    }
 
-                    {/* <TouchableOpacity
+                        {this.renderDatHo()}
+
+                        {this.renderComment()}
+
+                        <Text style={styles.textBig}>Hình thức thanh toán</Text>
+
+                        <RadioForm
+                            animation={true}
+                        >
+                            {radio_payment.map((obj, i) => (
+                                <RadioButton labelHorizontal={true} key={i} >
+                                    <RadioButtonInput
+                                        obj={obj}
+                                        index={i}
+                                        isSelected={this.state.value_payment === i}
+                                        onPress={() => {
+                                            console.log(obj.label)
+                                            this.setState({
+                                                value_payment: i,
+                                                selectRentCar: i,
+                                                payment_method_ID: obj.payment_method_ID,
+                                            })
+                                        }}
+                                        borderWidth={0.5}
+                                        buttonInnerColor={'#77a300'}
+                                        buttonOuterColor={'#77a300'}
+                                        buttonSize={10}
+                                        buttonOuterSize={16}
+                                        buttonStyle={7}
+                                        buttonWrapStyle={{ marginLeft: 10 }}
+                                    />
+                                    <RadioButtonLabel
+                                        obj={obj}
+                                        index={i}
+                                        key={i}
+                                        labelHorizontal={true}
+                                        onPress={() => {
+                                            console.log(obj.label)
+                                            this.setState({
+                                                value_payment: i,
+                                                payment_method_ID: obj.payment_method_ID,
+                                            })
+                                        }}
+                                        labelStyle={{ fontSize: 14, color: '#000' }}
+                                        labelWrapStyle={{}}
+                                    />
+                                </RadioButton>
+                            ))}
+                        </RadioForm>
+
+                        <Text style={styles.textBig}>Mã giảm giá</Text>
+
+                        <View style={{ flexDirection: 'row', marginTop: 8, marginBottom: 8, height: 50 }}>
+                            <View style={{ marginTop: 8, borderWidth: 0.5, borderColor: '#e8e8e8', borderRadius: 4, flexDirection: 'row', justifyContent: "center", alignItems: "center", flex: 1, }} >
+                                <TextInput
+                                    style={[styles.textInput]}
+                                    value={this.state.promotion_code}
+                                    onChangeText={(text) => this.setState({
+                                        promotion_code: text,
+                                        blDiscount: false,
+                                    })}
+                                    placeholder={'Mã giảm giá'}
+                                />
+                                <TouchableOpacity
+                                    onPress={() => this.setState({
+                                        promotion_code: '',
+                                        blDiscount: false,
+                                    }
+                                    )}
+                                >
+                                    <Image
+                                        style={{ width: 20, height: 20, margin: 8 }}
+                                        source={this.state.promotion_code.length == 0 ? null : require(imageCancel)}
+                                    />
+                                </TouchableOpacity>
+                            </View>
+
+                            <TouchableOpacity
+                                onPress={() => {
+                                    this.setState({
+                                        isLoading: true,
+                                    })
+                                    this.checkPromotionCode();
+                                }}
+                                style={{ padding: 8, justifyContent: 'center', backgroundColor: '#77a300', marginLeft: 8, borderRadius: 4, marginTop: 8 }}
+                            >
+                                <Text style={{ color: '#ffffff' }}>ÁP DỤNG</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        <View>{this.state.detailPromotion == '' ? null : <Text style={{ color: this.state.promotion ? "#77a300" : "#fa0000" }}>{this.state.detailPromotion}</Text>}</View>
+
+                        <CheckBox
+                            style={{ marginTop: 8 }}
+                            onClick={() => {
+                                this.setState({
+                                    vat: !this.state.vat
+                                })
+                            }}
+                            isChecked={this.state.vat}
+                            rightText={"Xuất hóa đơn"}
+                            rightTextStyle={{ fontSize: 16 }}
+                            checkBoxColor={'#77a300'}
+                        />
+                        {this.renderFormVAT()}
+                        {this.props.is_from_airport == 'false' ? null :
+                            <CheckBox
+                                style={{ marginTop: 8 }}
+                                onClick={() => {
+                                    this.setState({
+                                        boardPrice: !this.state.boardPrice
+                                    })
+                                }}
+                                isChecked={this.state.boardPrice}
+                                rightText={"Đón biển tên: +30.000 đ"}
+                                rightTextStyle={{ fontSize: 16 }}
+                                checkBoxColor={'#77a300'}
+                            />
+                        }
+
+                        {/* <TouchableOpacity
                         style={{ marginTop: 8, backgroundColor: '#77a300', justifyContent: 'center', alignItems: "center", height: 40, borderRadius: 4 }}
                         onPress={() => {
                             const { xhd, company_name, company_address, company_address_receive, company_mst, plane_number, plane_type, comment, full_name, use_phone, email, full_name1, use_phone1, email1, payment_method_ID } = this.state;
@@ -626,23 +626,24 @@ class InfoCustommerTuLai extends Component {
                         <Text style={{ color: '#ffffff' }}>TIẾP TỤC</Text>
                     </TouchableOpacity> */}
 
-                    <Button
-                        onPress={() => {
-                            const { xhd, company_name, company_address, company_address_receive, company_mst, plane_number, plane_type, comment, full_name, use_phone, email, full_name1, use_phone1, email1, payment_method_ID } = this.state;
-                            this.props.addVATTuLai(xhd ? '1' : '0', company_name, company_address, company_mst, company_address_receive);
-                            this.props.addInfoPeople2TuLai(full_name1, use_phone1, email1);
-                            this.props.addInfoPeople1TuLai(full_name, use_phone, email);
-                            // add payment method id
-                            console.log(payment_method_ID)
-                            this.props.addPaymentMethodIDTuLai(payment_method_ID);
-                            this.checkInfoCustommerTuLai();
-                            this.props.addCommentTuLai(comment)
-                        }}
-                        value={'TIẾP TỤC'}
-                    />
+                        <Button
+                            onPress={() => {
+                                const { xhd, company_name, company_address, company_address_receive, company_mst, plane_number, plane_type, comment, full_name, use_phone, email, full_name1, use_phone1, email1, payment_method_ID } = this.state;
+                                this.props.addVATTuLai(xhd ? '1' : '0', company_name, company_address, company_mst, company_address_receive);
+                                this.props.addInfoPeople2TuLai(full_name1, use_phone1, email1);
+                                this.props.addInfoPeople1TuLai(full_name, use_phone, email);
+                                // add payment method id
+                                console.log(payment_method_ID)
+                                this.props.addPaymentMethodIDTuLai(payment_method_ID);
+                                this.checkInfoCustommerTuLai();
+                                this.props.addCommentTuLai(comment)
+                            }}
+                            value={'TIẾP TỤC'}
+                        />
 
-                    {this.renderAlert()}
-                </ScrollView>
+                        {this.renderAlert()}
+                    </ScrollView>
+                </View>
             </SafeAreaView>
         )
     }

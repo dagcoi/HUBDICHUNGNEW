@@ -292,7 +292,7 @@ class TicketInformationTuLai extends Component {
     render() {
         if (this.state.is_loading) {
             return (
-                <SafeAreaView>
+                <SafeAreaView style={{ flex: 1 }}>
                     <ActivityIndicator
                         style={{ padding: 32, }}
                         size='large'
@@ -304,59 +304,60 @@ class TicketInformationTuLai extends Component {
             return (
                 <SafeAreaView style={{ flex: 1 }}>
                     <HeaderText textCenter={'Chi tiết vé'} onPressLeft={this.goBack} />
-                    <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-                        <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                            <Image
-                                style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
-                                source={{ uri: item.vehicle_icon }}
-                            />
-                        </View>
-
-                        <Text style={styles.textBigRight}>Mã thuê xe của bạn: <Text style={{ fontWeight: 'bold' }}>{item.ticket_code}</Text></Text>
-                        {item.transaction_status_id == '1' ?
-                            <Text style={styles.textBigRight}>Yêu cầu đặt xe của bạn đã được hệ thồng ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>
-                            : <View>
-                                <Text>Thông tin mã vé: <Text style={{ fontWeight: 'bold' }}>{item.transaction_status_name}</Text></Text>
-                                <Text>Mọi thắc mắc vui lòng liên hệ: <Text
-                                    style={{ color: '#77a300', fontWeight: 'bold' }}
-                                    onPress={() => Linking.openURL(`tel: 19006022`)}
-                                >19006022</Text>
-                                </Text>
+                    <View style={{ flex: 1 }}>
+                        <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+                            <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                                <Image
+                                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
+                                    source={{ uri: item.vehicle_icon }}
+                                />
                             </View>
-                        }
-                        {this.renderDetailTrip(item)}
-                        {this.renderDetailCustommer(item)}
-                        {this.renderDetailPeopleMove(item)}
-                        {this.renderComment(item)}
-                        {this.renderOther(item)}
-                        {this.renderTT(item)}
-                        <Button
-                            value={'ĐẶT CHUYẾN MỚI'}
-                            onPress={() => {
-                                // this.props.navigation.navigate('Home')
-                                const resetAction = StackActions.reset({
-                                    index: 0,
-                                    key: null,
-                                    actions: [NavigationActions.navigate({ routeName: 'Home' })],
-                                });
-                                this.props.navigation.dispatch(resetAction);
-                            }}
-                        />
 
-                        <View style={{ marginBottom: 8, }}></View>
-                        {item.transaction_status_id == '4' ? null :
-                            <ButtonGray
-                                value={'HỦY VÉ'}
+                            <Text style={styles.textBigRight}>Mã thuê xe của bạn: <Text style={{ fontWeight: 'bold' }}>{item.ticket_code}</Text></Text>
+                            {item.transaction_status_id == '1' ?
+                                <Text style={styles.textBigRight}>Yêu cầu đặt xe của bạn đã được hệ thồng ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>
+                                : <View>
+                                    <Text>Thông tin mã vé: <Text style={{ fontWeight: 'bold' }}>{item.transaction_status_name}</Text></Text>
+                                    <Text>Mọi thắc mắc vui lòng liên hệ: <Text
+                                        style={{ color: '#77a300', fontWeight: 'bold' }}
+                                        onPress={() => Linking.openURL(`tel: 19006022`)}
+                                    >19006022</Text>
+                                    </Text>
+                                </View>
+                            }
+                            {this.renderDetailTrip(item)}
+                            {this.renderDetailCustommer(item)}
+                            {this.renderDetailPeopleMove(item)}
+                            {this.renderComment(item)}
+                            {this.renderOther(item)}
+                            {this.renderTT(item)}
+                            <Button
+                                value={'ĐẶT CHUYẾN MỚI'}
                                 onPress={() => {
-                                    this.setState({
-                                        modalVisible: true,
-                                    })
-                                    this.cancelBookingToken();
+                                    // this.props.navigation.navigate('Home')
+                                    const resetAction = StackActions.reset({
+                                        index: 0,
+                                        key: null,
+                                        actions: [NavigationActions.navigate({ routeName: 'Home' })],
+                                    });
+                                    this.props.navigation.dispatch(resetAction);
                                 }}
                             />
-                        }
 
-                        {/* <Dialog
+                            <View style={{ marginBottom: 8, }}></View>
+                            {item.transaction_status_id == '4' ? null :
+                                <ButtonGray
+                                    value={'HỦY VÉ'}
+                                    onPress={() => {
+                                        this.setState({
+                                            modalVisible: true,
+                                        })
+                                        this.cancelBookingToken();
+                                    }}
+                                />
+                            }
+
+                            {/* <Dialog
                             visible={this.state.dialogOTP}
                             width={0.8}
                             dialogTitle={<DialogTitle title="Xác nhận hủy vé" />}
@@ -433,107 +434,108 @@ class TicketInformationTuLai extends Component {
 
                         </Dialog> */}
 
-                        <Modal
-                            visible={this.state.dialogOTP}
-                            transparent={true}
-                        >
-                            <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000000AA' }}>
-                                <View style={{ width: '80%', justifyContent: 'center', borderRadius: 8, minHeight: 100, backgroundColor: '#eee', padding: 8 }}>
-                                    <View style={{ borderBottomWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', }}>
-                                        <Text style={{ fontSize: 20, }}>Xác nhận hủy vé</Text>
+                            <Modal
+                                visible={this.state.dialogOTP}
+                                transparent={true}
+                            >
+                                <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000000AA' }}>
+                                    <View style={{ width: '80%', justifyContent: 'center', borderRadius: 8, minHeight: 100, backgroundColor: '#eee', padding: 8 }}>
+                                        <View style={{ borderBottomWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', }}>
+                                            <Text style={{ fontSize: 20, }}>Xác nhận hủy vé</Text>
+                                        </View>
+                                        <View style={{ padding: 8 }}>
+                                            <Text><Text>Mã xác thực hủy chuyến được gửi tới email và số điện thoại của bạn</Text></Text>
+
+                                            <OTPInputView
+                                                style={{ padding: 20, height: 80, justifyContent: 'center', alignItems: 'center' }}
+                                                pinCount={4}
+                                                autoFocusOnLoad
+                                                code={this.state.otp}
+                                                onCodeChanged={code => { this.setState({ otp: code, showMessage: false }) }}
+                                                codeInputHighlightStyle={styles.underlineStyleHighLighted}
+                                                onCodeFilled={code => {
+                                                    this.setState({
+                                                        otp: code,
+                                                    })
+                                                }}
+                                            />
+                                            {this.state.showMessage ?
+                                                <Text>{this.state.message}</Text> : null}
+                                        </View>
+
+                                        <View style={{ flexDirection: 'row', height: 48, alignItems: 'center', justifyContent: 'center' }}>
+
+                                            <TouchableOpacity
+                                                onPress={() => {
+                                                    if (this.state.otp.length < 4) {
+
+                                                    } else {
+                                                        this.setState({ modalVisible: true, })
+                                                        this.cancelBooking();
+                                                    }
+                                                }}
+                                                style={{ backgroundColor: '#77a300', margin: 4, flex: 1, alignItems: 'center', justifyContent: 'center', padding: 4 }}>
+                                                <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold', margin: 8 }}>Hủy vé</Text>
+                                            </TouchableOpacity>
+
+                                            <TouchableOpacity
+                                                onPress={() => {
+                                                    this.setState({
+                                                        dialogOTP: false,
+                                                        otp: '',
+                                                    })
+                                                }}
+                                                style={{ backgroundColor: '#77a300', margin: 4, flex: 1, alignItems: 'center', justifyContent: 'center', padding: 4 }}>
+                                                <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold', margin: 8 }}>Đóng</Text>
+                                            </TouchableOpacity>
+                                        </View>
                                     </View>
-                                    <View style={{ padding: 8 }}>
-                                        <Text><Text>Mã xác thực hủy chuyến được gửi tới email và số điện thoại của bạn</Text></Text>
+                                </SafeAreaView>
+                            </Modal>
 
-                                        <OTPInputView
-                                            style={{ padding: 20, height: 80, justifyContent: 'center', alignItems: 'center' }}
-                                            pinCount={4}
-                                            autoFocusOnLoad
-                                            code={this.state.otp}
-                                            onCodeChanged={code => { this.setState({ otp: code, showMessage: false }) }}
-                                            codeInputHighlightStyle={styles.underlineStyleHighLighted}
-                                            onCodeFilled={code => {
-                                                this.setState({
-                                                    otp: code,
-                                                })
-                                            }}
-                                        />
-                                        {this.state.showMessage ?
-                                            <Text>{this.state.message}</Text> : null}
+                            <Modal
+                                visible={this.state.modalVisible}
+                                animationType="slide"
+                                onOrientationChange={true}
+                                transparent={true}>
+                                <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                                    <ActivityIndicator
+                                        size='large'
+                                    />
+                                </SafeAreaView>
+                            </Modal>
+
+                            <Modal
+                                visible={this.state.dialogCancelSuccess}
+                                animationType="slide"
+                            >
+                                <SafeAreaView style={{ flex: 1, }}>
+                                    <View style={{ padding: 16 }}>
+                                        <ScrollView showsVerticalScrollIndicator={false}>
+                                            <Text style={{ fontSize: 16, fontWeight: 'bold', padding: 8 }}>Lí do hủy vé</Text>
+                                            {this.renderRadio()}
+
+                                            <Button
+                                                value='Gửi'
+                                                onPress={() => {
+                                                    if (this.state.value != 0) {
+                                                        this.feedbackWhyCancel();
+                                                        // this.props.navigation.navigate('Home')
+                                                        const resetAction = StackActions.reset({
+                                                            index: 0,
+                                                            key: null,
+                                                            actions: [NavigationActions.navigate({ routeName: 'Home' })],
+                                                        });
+                                                        this.props.navigation.dispatch(resetAction);
+                                                    }
+                                                }}
+                                            />
+                                        </ScrollView>
                                     </View>
-
-                                    <View style={{ flexDirection: 'row', height: 48, alignItems: 'center', justifyContent: 'center' }}>
-
-                                        <TouchableOpacity
-                                            onPress={() => {
-                                                if (this.state.otp.length < 4) {
-
-                                                } else {
-                                                    this.setState({ modalVisible: true, })
-                                                    this.cancelBooking();
-                                                }
-                                            }}
-                                            style={{ backgroundColor: '#77a300', margin: 4, flex: 1, alignItems: 'center', justifyContent: 'center', padding: 4 }}>
-                                            <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold', margin: 8 }}>Hủy vé</Text>
-                                        </TouchableOpacity>
-
-                                        <TouchableOpacity
-                                            onPress={() => {
-                                                this.setState({
-                                                    dialogOTP: false,
-                                                    otp: '',
-                                                })
-                                            }}
-                                            style={{ backgroundColor: '#77a300', margin: 4, flex: 1, alignItems: 'center', justifyContent: 'center', padding: 4 }}>
-                                            <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold', margin: 8 }}>Đóng</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-                            </SafeAreaView>
-                        </Modal>
-
-                        <Modal
-                            visible={this.state.modalVisible}
-                            animationType="slide"
-                            onOrientationChange={true}
-                            transparent={true}>
-                            <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                                <ActivityIndicator
-                                    size='large'
-                                />
-                            </SafeAreaView>
-                        </Modal>
-
-                        <Modal
-                            visible={this.state.dialogCancelSuccess}
-                            animationType="slide"
-                        >
-                            <SafeAreaView style={{ flex: 1, }}>
-                                <View style={{ padding: 16 }}>
-                                    <ScrollView showsVerticalScrollIndicator={false}>
-                                        <Text style={{ fontSize: 16, fontWeight: 'bold', padding: 8 }}>Lí do hủy vé</Text>
-                                        {this.renderRadio()}
-
-                                        <Button
-                                            value='Gửi'
-                                            onPress={() => {
-                                                if (this.state.value != 0) {
-                                                    this.feedbackWhyCancel();
-                                                    // this.props.navigation.navigate('Home')
-                                                    const resetAction = StackActions.reset({
-                                                        index: 0,
-                                                        key: null,
-                                                        actions: [NavigationActions.navigate({ routeName: 'Home' })],
-                                                    });
-                                                    this.props.navigation.dispatch(resetAction);
-                                                }
-                                            }}
-                                        />
-                                    </ScrollView>
-                                </View>
-                            </SafeAreaView>
-                        </Modal>
-                    </ScrollView>
+                                </SafeAreaView>
+                            </Modal>
+                        </ScrollView>
+                    </View>
                 </SafeAreaView>
             )
         }

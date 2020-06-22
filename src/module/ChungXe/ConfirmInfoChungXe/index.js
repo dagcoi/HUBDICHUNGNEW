@@ -56,6 +56,7 @@ class ConfirmInfoChungXe extends Component {
         if (this.state.isLoading) {
             return (
                 <SafeAreaView>
+                    <HeaderText textCenter={'Xác nhận thông tin'} onPressLeft={this.goBack} />
                     <ActivityIndicator
                         style={{ marginTop: 16 }}
                         size='large'

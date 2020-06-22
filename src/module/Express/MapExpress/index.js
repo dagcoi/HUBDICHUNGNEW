@@ -624,10 +624,11 @@ class MapExpress extends Component {
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: '#eee' }}>
                 <HeaderText textCenter={'Thuê vận chuyển'} onPressLeft={this.goBack} />
-                {/* {this.renderPicktoDrop()} */}
-                {this.renderSelect()}
-                {this.state.hourlyBooking ? this.renderFormExpressTheoGio() : this.renderFormExpressTheoTuyen()}
-                {/* {this.state.hourlyBooking ?
+                <View style={{ flex: 1 }}>
+                    {/* {this.renderPicktoDrop()} */}
+                    {this.renderSelect()}
+                    {this.state.hourlyBooking ? this.renderFormExpressTheoGio() : this.renderFormExpressTheoTuyen()}
+                    {/* {this.state.hourlyBooking ?
                     <ButtonFull
                         onPress={() => { this.nextScreenHourly() }}
                         value={'Xem giá'}
@@ -637,129 +638,130 @@ class MapExpress extends Component {
                         value={'Xem giá'}
                     />
                 } */}
-                {this.renderAlertInfo()}
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={this.state.dialogCalendarVisible}
-                    // onOrientationChange={true}
-                    onRequestClose={() => {
-                        console.log('a');
-                    }}>
-                    <SafeAreaView style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        justifyContent: 'flex-end',
-                    }}>
-                        <View style={{ flex: 1, backgroundColor: '#fff', alignItems: "center" }}>
-                            <Text style={{ fontSize: 18, fontWeight: 'bold', margin: 16 }}>Chọn thời gian gửi</Text>
-                            <Calendar
-                                minDate={minDate}
+                    {this.renderAlertInfo()}
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={this.state.dialogCalendarVisible}
+                        // onOrientationChange={true}
+                        onRequestClose={() => {
+                            console.log('a');
+                        }}>
+                        <SafeAreaView style={{
+                            flex: 1,
+                            flexDirection: 'column',
+                            justifyContent: 'flex-end',
+                        }}>
+                            <View style={{ flex: 1, backgroundColor: '#fff', alignItems: "center" }}>
+                                <Text style={{ fontSize: 18, fontWeight: 'bold', margin: 16 }}>Chọn thời gian gửi</Text>
+                                <Calendar
+                                    minDate={minDate}
 
-                                onDateChange={(date) => {
-                                    this.setState({
-                                        date: date,
-                                        dialogTimeVisible: true,
-                                    })
-                                }}
+                                    onDateChange={(date) => {
+                                        this.setState({
+                                            date: date,
+                                            dialogTimeVisible: true,
+                                        })
+                                    }}
+                                />
+                            </View>
+                            {this.modalTime()}
+                        </SafeAreaView>
+                    </Modal>
+
+
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={this.state.dialogSelectPeople}
+                        // onOrientationChange={true}
+                        onRequestClose={() => {
+                            console.log('a');
+                        }}>
+                        <SafeAreaView style={{
+                            flex: 1,
+                            flexDirection: 'column',
+                            justifyContent: 'flex-end',
+                        }}>
+                            <View style={{ flex: 1, }}>
+                                <TouchableOpacity
+                                    onPress={() => this.setState({ dialogSelectPeople: !this.state.dialogSelectPeople })}
+                                    style={{ flex: 1 }}
+                                ></TouchableOpacity>
+                            </View>
+
+                            <FlatList
+                                style={{ flex: 1, backgroundColor: '#ffffff' }}
+                                data={this.state.listChair}
+                                renderItem={({ item }) =>
+                                    <TouchableOpacity
+                                        style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}
+                                        onPress={() => {
+                                            this.setState({
+                                                people: item.chair,
+                                                dialogSelectPeople: false,
+                                            })
+                                            this.addPeopleVanChuyen(item.chair)
+                                            // this.props.addDuration(item.chair);
+                                        }}
+                                    >
+                                        <Text style={{ fontSize: 18, flex: 1, padding: 8, color: item.chair == this.props.chair ? '#77a300' : '#000000' }}>{item.chair} gói</Text>
+                                        {item.chair == this.props.chair ? <Image
+                                            style={{ height: 24, width: 24, marginLeft: 8 }}
+                                            source={require(imageCheck)}
+                                        /> : null}
+                                    </TouchableOpacity>}
+                                keyExtractor={item => item.chair}
                             />
-                        </View>
-                        {this.modalTime()}
-                    </SafeAreaView>
-                </Modal>
+                        </SafeAreaView>
+                    </Modal>
 
 
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={this.state.dialogSelectPeople}
-                    // onOrientationChange={true}
-                    onRequestClose={() => {
-                        console.log('a');
-                    }}>
-                    <SafeAreaView style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        justifyContent: 'flex-end',
-                    }}>
-                        <View style={{ flex: 1, }}>
-                            <TouchableOpacity
-                                onPress={() => this.setState({ dialogSelectPeople: !this.state.dialogSelectPeople })}
-                                style={{ flex: 1 }}
-                            ></TouchableOpacity>
-                        </View>
-
-                        <FlatList
-                            style={{ flex: 1, backgroundColor: '#ffffff' }}
-                            data={this.state.listChair}
-                            renderItem={({ item }) =>
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={this.state.modalSelectTime}
+                        // onOrientationChange={true}
+                        onRequestClose={() => {
+                            console.log('a');
+                        }}>
+                        <SafeAreaView style={{
+                            flex: 1,
+                            flexDirection: 'column',
+                            justifyContent: 'flex-end',
+                        }}>
+                            <View style={{ flex: 1, }}>
                                 <TouchableOpacity
-                                    style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}
-                                    onPress={() => {
-                                        this.setState({
-                                            people: item.chair,
-                                            dialogSelectPeople: false,
-                                        })
-                                        this.addPeopleVanChuyen(item.chair)
-                                        // this.props.addDuration(item.chair);
-                                    }}
-                                >
-                                    <Text style={{ fontSize: 18, flex: 1, padding: 8, color: item.chair == this.props.chair ? '#77a300' : '#000000' }}>{item.chair} gói</Text>
-                                    {item.chair == this.props.chair ? <Image
-                                        style={{ height: 24, width: 24, marginLeft: 8 }}
-                                        source={require(imageCheck)}
-                                    /> : null}
-                                </TouchableOpacity>}
-                            keyExtractor={item => item.chair}
-                        />
-                    </SafeAreaView>
-                </Modal>
+                                    onPress={() => this.setState({ modalSelectTime: false })}
+                                    style={{ flex: 1 }}
+                                ></TouchableOpacity>
+                            </View>
+                            <FlatList
+                                style={{ flex: 1, backgroundColor: '#ffffff' }}
+                                data={this.state.listTime}
+                                renderItem={({ item }) =>
+                                    <TouchableOpacity
+                                        style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}
+                                        onPress={() => {
+                                            this.setState({
+                                                duration: item.time,
+                                                modalSelectTime: false,
+                                            })
+                                            this.props.addDurationVanChuyen(item.time);
+                                        }}
+                                    >
+                                        <Text style={{ fontSize: 18, flex: 1, padding: 8, color: item.time === this.state.duration ? '#77a300' : '#000000' }}>{item.time} giờ</Text>
+                                        {item.time == this.state.duration ? <Image
+                                            style={{ height: 24, width: 24, marginLeft: 8 }}
+                                            source={require(imageCheck)}
+                                        /> : null}
+                                    </TouchableOpacity>}
+                                keyExtractor={item => item.time}
+                            />
 
-
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={this.state.modalSelectTime}
-                    // onOrientationChange={true}
-                    onRequestClose={() => {
-                        console.log('a');
-                    }}>
-                    <SafeAreaView style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        justifyContent: 'flex-end',
-                    }}>
-                        <View style={{ flex: 1, }}>
-                            <TouchableOpacity
-                                onPress={() => this.setState({ modalSelectTime: false })}
-                                style={{ flex: 1 }}
-                            ></TouchableOpacity>
-                        </View>
-                        <FlatList
-                            style={{ flex: 1, backgroundColor: '#ffffff' }}
-                            data={this.state.listTime}
-                            renderItem={({ item }) =>
-                                <TouchableOpacity
-                                    style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}
-                                    onPress={() => {
-                                        this.setState({
-                                            duration: item.time,
-                                            modalSelectTime: false,
-                                        })
-                                        this.props.addDurationVanChuyen(item.time);
-                                    }}
-                                >
-                                    <Text style={{ fontSize: 18, flex: 1, padding: 8, color: item.time === this.state.duration ? '#77a300' : '#000000' }}>{item.time} giờ</Text>
-                                    {item.time == this.state.duration ? <Image
-                                        style={{ height: 24, width: 24, marginLeft: 8 }}
-                                        source={require(imageCheck)}
-                                    /> : null}
-                                </TouchableOpacity>}
-                            keyExtractor={item => item.time}
-                        />
-
-                    </SafeAreaView>
-                </Modal>
+                        </SafeAreaView>
+                    </Modal>
+                </View>
             </SafeAreaView>
         );
     }

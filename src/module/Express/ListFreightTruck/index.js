@@ -260,7 +260,9 @@ class ListFreightTruck extends Component {
         return (
             <SafeAreaView style={{ flex: 1, }}>
                 <HeaderText textCenter={'Danh sách xe'} onPressLeft={this.goBack} />
-                {this.renderItem(obj)}
+                <View style={{ flex: 1 }}>
+                    {this.renderItem(obj)}
+                </View>
             </SafeAreaView>
         );
     }

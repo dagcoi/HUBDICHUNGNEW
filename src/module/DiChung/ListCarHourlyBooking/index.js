@@ -257,7 +257,9 @@ class ListCarHourlyBooking extends Component {
         return (
             <SafeAreaView style={{ flex: 1, }}>
                 <HeaderText textCenter={'Danh sách xe'} onPressLeft={this.goBack} />
-                {this.renderListCar(obj)}
+                <View style={{ flex: 1 }}>
+                    {this.renderListCar(obj)}
+                </View>
             </SafeAreaView>
         );
     }
@@ -287,7 +289,7 @@ const styles = StyleSheet.create({
         padding: 8,
         marginVertical: 4,
         backgroundColor: '#ffffff',
-        marginHorizontal : 8,
+        marginHorizontal: 8,
     },
     text: {
         color: '#4f603c'

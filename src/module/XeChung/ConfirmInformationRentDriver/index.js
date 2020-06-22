@@ -365,99 +365,100 @@ class ConfirmInformationRentDriver extends Component {
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <HeaderText textCenter={'Xác nhận thông tin'} onPressLeft={this.goBack} />
-                <ScrollView showsVerticalScrollIndicator={false}>
-                    <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                        <Image
-                            style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
-                            source={{ uri: this.props.vehicle_icon }}
+                <View style={{ flex: 1 }}>
+                    <ScrollView showsVerticalScrollIndicator={false}>
+                        <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                            <Image
+                                style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
+                                source={{ uri: this.props.vehicle_icon }}
+                            />
+                        </View>
+
+                        {this.renderDetailTrip()}
+                        {this.renderDetailOrder()}
+                        {this.renderDetailCustommer()}
+                        {this.renderDetailPeopleMove()}
+                        {this.renderCommnet()}
+
+                        <Text style={styles.textBigLeft1}>Thanh toán và khác</Text>
+
+                        <ImageTextDiChung
+                            source={require(imagePayment)}
+                            text={navigation.getParam('Payment') == '0' ? 'Trả sau' : 'Trả trước'}
                         />
-                    </View>
 
-                    {this.renderDetailTrip()}
-                    {this.renderDetailOrder()}
-                    {this.renderDetailCustommer()}
-                    {this.renderDetailPeopleMove()}
-                    {this.renderCommnet()}
+                        {this.renderVAT()}
 
-                    <Text style={styles.textBigLeft1}>Thanh toán và khác</Text>
+                        {this.renderMGG()}
 
-                    <ImageTextDiChung
-                        source={require(imagePayment)}
-                        text={navigation.getParam('Payment') == '0' ? 'Trả sau' : 'Trả trước'}
-                    />
+                        {this.renderTT()}
 
-                    {this.renderVAT()}
+                        <Button
+                            value='Xác nhận đặt xe'
+                            onPress={() => {
+                                this.state.callingApi ? null : this.createHourlyBookingNew();
+                                this.setState({
+                                    addingTicket: true,
+                                })
+                            }}
+                        />
 
-                    {this.renderMGG()}
-
-                    {this.renderTT()}
-
-                    <Button
-                        value='Xác nhận đặt xe'
-                        onPress={() => {
-                            this.state.callingApi ? null : this.createHourlyBookingNew();
-                            this.setState({
-                                addingTicket: true,
-                            })
-                        }}
-                    />
-
+                        <Dialog
+                            width={0.8}
+                            visible={this.state.addingTicket}
+                            dialogTitle={<DialogTitle />}
+                        >
+                            <View>
+                                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                                    <ActivityIndicator size='large' />
+                                </View>
+                            </View>
+                        </Dialog>
+                    </ScrollView>
                     <Dialog
+                        visible={this.state.bookingSuccess}
                         width={0.8}
-                        visible={this.state.addingTicket}
-                        dialogTitle={<DialogTitle />}
+                        dialogTitle={<DialogTitle title="Đặt xe thành công" />}
                     >
                         <View>
-                            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                                <ActivityIndicator size='large' />
+                            <View style={{ flexDirection: 'column', padding: 8 }}>
+                                <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                                    <Image
+                                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
+                                        source={{ uri: this.props.vehicle_icon }}
+                                    />
+                                </View>
+                                <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất.</Text>
+
+                                <ButtonDialog
+                                    text='Chi tiết'
+                                    onPress={() => {
+                                        this.setState({
+                                            modalDetailTrip: true,
+                                            bookingSuccess: false,
+                                        })
+                                    }}
+                                />
                             </View>
                         </View>
                     </Dialog>
-                </ScrollView>
-                <Dialog
-                    visible={this.state.bookingSuccess}
-                    width={0.8}
-                    dialogTitle={<DialogTitle title="Đặt xe thành công" />}
-                >
-                    <View>
-                        <View style={{ flexDirection: 'column', padding: 8 }}>
-                            <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                                <Image
-                                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
-                                    source={{ uri: this.props.vehicle_icon }}
-                                />
-                            </View>
-                            <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất.</Text>
 
-                            <ButtonDialog
-                                text='Chi tiết'
-                                onPress={() => {
-                                    this.setState({
-                                        modalDetailTrip: true,
-                                        bookingSuccess: false,
-                                    })
-                                }}
-                            />
-                        </View>
-                    </View>
-                </Dialog>
-
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={this.state.modalDetailTrip}
-                    onOrientationChange={true}
-                    onRequestClose={() => {
-                        console.log('a');
-                    }}>
-                    <SafeAreaView style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        justifyContent: 'flex-end',
-                    }}>
-                        <View style={{ flex: 1, backgroundColor: '#fff', padding: 8 }}>
-                            <View style={{ height: 0, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                                {/* <TouchableOpacity
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={this.state.modalDetailTrip}
+                        onOrientationChange={true}
+                        onRequestClose={() => {
+                            console.log('a');
+                        }}>
+                        <SafeAreaView style={{
+                            flex: 1,
+                            flexDirection: 'column',
+                            justifyContent: 'flex-end',
+                        }}>
+                            <View style={{ flex: 1, backgroundColor: '#fff', padding: 8 }}>
+                                <View style={{ height: 0, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                                    {/* <TouchableOpacity
                                     onPress={() => {
                                         this.setState({
                                             modalDetailTrip: false,
@@ -470,19 +471,19 @@ class ConfirmInformationRentDriver extends Component {
                                     />
                                 </TouchableOpacity> */}
 
-                                {/* <Text style={{ flex: 1, fontSize: 18, fontWeight: 'bold' }}>Chi tiết đơn hàng</Text> */}
-                            </View>
-                            <ScrollView style={{ padding: 8 }}>
-                                {/* <View style = {{padding : 8}}> */}
-                                {this.renderDetailTrip()}
-                                {this.renderDetailOrder()}
-                                {this.renderDetailCustommer()}
-                                {this.renderDetailPeopleMove()}
-                                {this.renderCommnet()}
-                                {this.renderVAT()}
-                                {this.renderMGG()}
-                                {this.renderTT()}
-                                {/* <TouchableOpacity
+                                    {/* <Text style={{ flex: 1, fontSize: 18, fontWeight: 'bold' }}>Chi tiết đơn hàng</Text> */}
+                                </View>
+                                <ScrollView style={{ padding: 8 }}>
+                                    {/* <View style = {{padding : 8}}> */}
+                                    {this.renderDetailTrip()}
+                                    {this.renderDetailOrder()}
+                                    {this.renderDetailCustommer()}
+                                    {this.renderDetailPeopleMove()}
+                                    {this.renderCommnet()}
+                                    {this.renderVAT()}
+                                    {this.renderMGG()}
+                                    {this.renderTT()}
+                                    {/* <TouchableOpacity
                                     style={{ backgroundColor: '#77a300', padding: 8, justifyContent: 'center', alignItems: 'center' }}
                                     onPress={() => {
                                         this.setState({
@@ -501,28 +502,29 @@ class ConfirmInformationRentDriver extends Component {
                                 >
                                     <Text style={{ color: '#fff', fontWeight: 'bold' }}>Trang chủ</Text>
                                 </TouchableOpacity> */}
-                                <Button
-                                    value={'Trang chủ'}
-                                    onPress={() => {
-                                        this.setState({
-                                            bookingSuccess: false,
-                                            modalDetailTrip: false,
-                                        })
-                                        this.props.deleteDataTaixe();
-                                        // this.props.navigation.push("Home");
-                                        const resetAction = StackActions.reset({
-                                            index: 0,
-                                            key: null,
-                                            actions: [NavigationActions.navigate({ routeName: 'Home' })],
-                                        });
-                                        this.props.navigation.dispatch(resetAction);
-                                    }}
-                                />
-                                {/* </View> */}
-                            </ScrollView>
-                        </View>
-                    </SafeAreaView>
-                </Modal>
+                                    <Button
+                                        value={'Trang chủ'}
+                                        onPress={() => {
+                                            this.setState({
+                                                bookingSuccess: false,
+                                                modalDetailTrip: false,
+                                            })
+                                            this.props.deleteDataTaixe();
+                                            // this.props.navigation.push("Home");
+                                            const resetAction = StackActions.reset({
+                                                index: 0,
+                                                key: null,
+                                                actions: [NavigationActions.navigate({ routeName: 'Home' })],
+                                            });
+                                            this.props.navigation.dispatch(resetAction);
+                                        }}
+                                    />
+                                    {/* </View> */}
+                                </ScrollView>
+                            </View>
+                        </SafeAreaView>
+                    </Modal>
+                </View>
             </SafeAreaView>
         )
     }

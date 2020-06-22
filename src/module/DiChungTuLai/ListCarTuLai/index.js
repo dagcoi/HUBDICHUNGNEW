@@ -316,6 +316,7 @@ class ListCarTuLai extends Component {
         if (this.state.isLoading) {
             return (
                 <SafeAreaView style={{ flex: 1, padding: 20 }}>
+                    <HeaderText textCenter={'Danh sách xe'} onPressLeft={this.goBack} />
                     <ActivityIndicator
                         size='large'
                     />
@@ -326,8 +327,10 @@ class ListCarTuLai extends Component {
         return (
             <SafeAreaView style={{ flex: 1, }}>
                 <HeaderText textCenter={'Danh sách xe'} onPressLeft={this.goBack} />
-                {this.renderItem(obj)}
-                {this.modalFilter(this.state.showFilter)}
+                <View style={{ flex: 1 }}>
+                    {this.renderItem(obj)}
+                    {this.modalFilter(this.state.showFilter)}
+                </View>
             </SafeAreaView>
         );
     }

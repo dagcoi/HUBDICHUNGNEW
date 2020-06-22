@@ -373,6 +373,7 @@ class ListDriverXeChung extends Component {
         if (this.state.isLoading) {
             return (
                 <SafeAreaView style={{ flex: 1, }}>
+                    <HeaderText textCenter={'Danh sách tài xế'} onPressLeft={this.goBack} />
                     <ActivityIndicator
                         size='large'
                     />
@@ -385,21 +386,22 @@ class ListDriverXeChung extends Component {
         return (
             <SafeAreaView style={{ flex: 1, }}>
                 <HeaderText textCenter={'Danh sách tài xế'} onPressLeft={this.goBack} />
-                {obj.length > 0 ?
-                    <ScrollView
-                        showsVerticalScrollIndicator={false}
-                    >
-                        {this.renderItem(obj)}
-                        {this.modalFilter(this.state.showFilter)}
-                    </ScrollView>
-                    : <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
-                        <Image
-                            style={{ width: 80, height: 80 }}
-                            source={require('../../../image/sorry.png')}
-                        />
-                        <Text>Không tìm thấy tài xế phù hợp. Vui lòng gọi <Text style={{ color: '#77a300' }}
-                            onPress={() => Linking.openURL(`tel: 19006022`)}>19006022</Text></Text>
-                        {/* <Text style={{ padding: 4, fontSize: 16 }}>HOẶC</Text>
+                <View style={{ flex: 1 }}>
+                    {obj.length > 0 ?
+                        <ScrollView
+                            showsVerticalScrollIndicator={false}
+                        >
+                            {this.renderItem(obj)}
+                            {this.modalFilter(this.state.showFilter)}
+                        </ScrollView>
+                        : <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
+                            <Image
+                                style={{ width: 80, height: 80 }}
+                                source={require('../../../image/sorry.png')}
+                            />
+                            <Text>Không tìm thấy tài xế phù hợp. Vui lòng gọi <Text style={{ color: '#77a300' }}
+                                onPress={() => Linking.openURL(`tel: 19006022`)}>19006022</Text></Text>
+                            {/* <Text style={{ padding: 4, fontSize: 16 }}>HOẶC</Text>
                         <TouchableOpacity
                             style={{ backgroundColor: '#77a300', margin: 8, padding: 8 }}
                             onPress={() => {
@@ -410,8 +412,9 @@ class ListDriverXeChung extends Component {
                         >
                             <Text style={{ color: '#fff', fontWeight: 'bold' }}>ĐẶT XE THEO YÊU CẦU</Text>
                         </TouchableOpacity> */}
-                    </View>
-                }
+                        </View>
+                    }
+                </View>
             </SafeAreaView>
         );
     }

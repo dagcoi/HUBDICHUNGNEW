@@ -76,7 +76,7 @@ class SearchPlaceXeChung extends Component {
         return (
             <SafeAreaView style={{ flex: 1, }}>
                 <HeaderText textCenter={'Nhập địa chỉ'} onPressLeft={this.goBack} />
-                <View style={{ backgroundColor: '#ffffff' }}>
+                <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
                     <View style={{ flexDirection: 'row' }}>
                         <GooglePlacesAutocomplete
                             placeholder={placeholder}

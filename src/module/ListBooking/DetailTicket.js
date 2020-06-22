@@ -211,7 +211,8 @@ class BookingDetail extends Component {
     render() {
         if (this.state.isLoading) {
             return (
-                <SafeAreaView>
+                <SafeAreaView style={{ flex: 1 }}>
+                    <HeaderText textCenter={'Chi tiết vé'} onPressLeft={this.goBack} />
                     <ActivityIndicator
                         style={{ padding: 32, }}
                         size='large'
@@ -221,38 +222,40 @@ class BookingDetail extends Component {
         }
 
         return (
-            <SafeAreaView>
+            <SafeAreaView style={{ flex: 1 }}>
                 <HeaderText textCenter={'Chi tiết vé'} onPressLeft={this.goBack} />
-                <ScrollView style={{ height: SCREEN_HEIGHT }}>
-                    <Text style={{ flex: 1, fontSize: 14, fontWeight: 'bold', marginHorizontal: 16, marginTop: 8 }}>Mã vé: <Text style={{ backgroundColor: '#77a300', color: '#fff' }}>{this.state.bookingDetail.code}</Text></Text>
-                    <View style={{ justifyContent: 'center' }}>
-                        <View>
-                            {this.state.bookingDetail.productType == 'CAR_RENTAL' ? <DetailTuLai item={this.state.bookingDetail} />
-                                : this.state.bookingDetail.productType == 'DRIVER_RENTAL' ? <DetailXeChung item={this.state.bookingDetail} />
-                                    : this.state.bookingDetail.productType == 'EXPRESS' ? <DetailExpress item={this.state.bookingDetail} />
-                                        : this.state.bookingDetail.productType == 'TRANSFER_SERVICE' ? <DetailTaxi item={this.state.bookingDetail} />
-                                            : <DetailHourlyTaxi item={this.state.bookingDetail} />}
+                <View style={{ flex: 1 }}>
+                    <ScrollView style={{ height: SCREEN_HEIGHT }}>
+                        <Text style={{ flex: 1, fontSize: 14, fontWeight: 'bold', marginHorizontal: 16, marginTop: 8 }}>Mã vé: <Text style={{ backgroundColor: '#77a300', color: '#fff' }}>{this.state.bookingDetail.code}</Text></Text>
+                        <View style={{ justifyContent: 'center' }}>
+                            <View>
+                                {this.state.bookingDetail.productType == 'CAR_RENTAL' ? <DetailTuLai item={this.state.bookingDetail} />
+                                    : this.state.bookingDetail.productType == 'DRIVER_RENTAL' ? <DetailXeChung item={this.state.bookingDetail} />
+                                        : this.state.bookingDetail.productType == 'EXPRESS' ? <DetailExpress item={this.state.bookingDetail} />
+                                            : this.state.bookingDetail.productType == 'TRANSFER_SERVICE' ? <DetailTaxi item={this.state.bookingDetail} />
+                                                : <DetailHourlyTaxi item={this.state.bookingDetail} />}
+                            </View>
+                            <View style={{ paddingHorizontal: 16 }}>
+                                {this.renderPaymentOnline(this.state.bookingDetail)}
+                                {(this.state.bookingDetail.status == 'cancelled' || this.state.bookingDetail.status == 'completed' || this.state.bookingDetail.status == 'picked_up') ? null :
+                                    <View style={{ paddingBottom: 8 }}>
+                                        <ButtonGray
+                                            value='HỦY VÉ'
+                                            onPress={() => {
+                                                this.setState({
+                                                    modalVisible: true,
+                                                })
+                                                // this.cancelBookingToken();
+                                            }}
+                                        />
+                                    </View>
+                                }
+                            </View>
+                            {this.formWebView()}
+                            {this.modalLoading()}
                         </View>
-                        <View style={{ paddingHorizontal: 16 }}>
-                            {this.renderPaymentOnline(this.state.bookingDetail)}
-                            {(this.state.bookingDetail.status == 'cancelled' || this.state.bookingDetail.status == 'completed' || this.state.bookingDetail.status == 'picked_up') ? null :
-                                <View style={{ paddingBottom: 8 }}>
-                                    <ButtonGray
-                                        value='HỦY VÉ'
-                                        onPress={() => {
-                                            this.setState({
-                                                modalVisible: true,
-                                            })
-                                            // this.cancelBookingToken();
-                                        }}
-                                    />
-                                </View>
-                            }
-                        </View>
-                        {this.formWebView()}
-                        {this.modalLoading()}
-                    </View>
-                </ScrollView>
+                    </ScrollView>
+                </View>
             </SafeAreaView>
         )
     }

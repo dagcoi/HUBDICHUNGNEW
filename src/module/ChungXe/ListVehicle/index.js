@@ -392,7 +392,7 @@ class ListVehicle extends Component {
         return (
             <SafeAreaView style={{ flex: 1, }}>
                 <HeaderText textCenter={'Danh sách xe'} onPressLeft={this.goBack} />
-                <View style={{ height: 50, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
+                <View style={{ flex: 1, height: 50, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                     <View style={styles.ViewTop}>
                         <TouchableOpacity
                             style={this.state.selectCar ? styles.TouchableOpacityTopSelected : styles.TouchableOpacityTop}

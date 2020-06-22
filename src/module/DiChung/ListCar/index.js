@@ -206,86 +206,88 @@ class ListCar extends Component {
                     flexDirection: 'column',
                     padding: 16,
                 }}>
-                    <Text style={{ fontSize: 24, fontWeight: '700' }}>Hình thức đi</Text>
+                    <View style={{ flex: 1 }}>
+                        <Text style={{ fontSize: 24, fontWeight: '700' }}>Hình thức đi</Text>
 
-                    <CheckBoxList
-                        onClick={() => {
-                            this.setState({
-                                shareCar: !shareCar
-                            })
-                        }}
-                        isChecked={shareCar}
-                        rightText={"Đi chung"}
-
-                    />
-
-                    <CheckBoxList
-                        onClick={() => {
-                            this.setState({
-                                car: !car
-                            })
-                        }}
-                        isChecked={car}
-                        rightText={"Đi riêng"}
-                    />
-                    <Text style={{ fontSize: 24, fontWeight: '700', }}>Loại xe</Text>
-                    <FlatList
-                        showsHorizontalScrollIndicator={false}
-                        showsVerticalScrollIndicator={false}
-                        data={listcar}
-                        renderItem={({ item }) => {
-                            return (
-                                <View style={{ marginTop: 8 }}>
-
-                                    <CheckBoxList
-                                        onClick={() => {
-                                            if (item.max_share_seats >= this.props.chair) {
-                                                (listcarfilter.indexOf(item.vehicle_id) > -1) ? (listcarfilter.splice(listcarfilter.indexOf(item.vehicle_id), 1)) : listcarfilter.push(item.vehicle_id);
-                                                this.setState({ listcarfilter: listcarfilter })
-                                            }
-                                        }}
-                                        isChecked={listcarfilter.indexOf(item.vehicle_id) > -1}
-                                        rightText={item.vehicle_name + ' '}
-                                        style={item.max_share_seats >= this.props.chair ? null : { color: '#999' }}
-                                    />
-                                </View>
-                            )
-                        }
-                        }
-                    />
-
-                    <View style={{ flexDirection: 'row' }}>
-                        <TouchableOpacity
-                            style={{ padding: 8, backgroundColor: '#999999', borderRadius: 4, alignItems: 'center', marginTop: 10, flex: 1 }}
-                            onPress={() => {
+                        <CheckBoxList
+                            onClick={() => {
                                 this.setState({
-                                    listcarfilter: [],
+                                    shareCar: !shareCar
                                 })
-                            }}>
-                            <Text style={{ fontSize: 18, color: '#00363d' }}>BỎ LỌC</Text>
-                        </TouchableOpacity>
-                        <View style={{ margin: 8 }} />
-                        <TouchableOpacity
-                            style={{ padding: 8, backgroundColor: '#77a300', borderRadius: 4, alignItems: 'center', marginTop: 10, flex: 1 }}
-                            onPress={() => {
-                                var listFM = []
-                                if (this.state.shareCar) {
-                                    listFM.push(2)
-                                }
-                                if (this.state.car) {
-                                    listFM.push(1)
-                                }
-                                if (!this.state.car && !this.state.shareCar) {
-                                    listFM = [1, 2]
-                                }
+                            }}
+                            isChecked={shareCar}
+                            rightText={"Đi chung"}
 
+                        />
+
+                        <CheckBoxList
+                            onClick={() => {
                                 this.setState({
-                                    listFilterMethod: listFM,
-                                    showFilter: false
+                                    car: !car
                                 })
-                            }}>
-                            <Text style={{ fontSize: 18, color: '#fff' }}>ÁP DỤNG</Text>
-                        </TouchableOpacity>
+                            }}
+                            isChecked={car}
+                            rightText={"Đi riêng"}
+                        />
+                        <Text style={{ fontSize: 24, fontWeight: '700', }}>Loại xe</Text>
+                        <FlatList
+                            showsHorizontalScrollIndicator={false}
+                            showsVerticalScrollIndicator={false}
+                            data={listcar}
+                            renderItem={({ item }) => {
+                                return (
+                                    <View style={{ marginTop: 8 }}>
+
+                                        <CheckBoxList
+                                            onClick={() => {
+                                                if (item.max_share_seats >= this.props.chair) {
+                                                    (listcarfilter.indexOf(item.vehicle_id) > -1) ? (listcarfilter.splice(listcarfilter.indexOf(item.vehicle_id), 1)) : listcarfilter.push(item.vehicle_id);
+                                                    this.setState({ listcarfilter: listcarfilter })
+                                                }
+                                            }}
+                                            isChecked={listcarfilter.indexOf(item.vehicle_id) > -1}
+                                            rightText={item.vehicle_name + ' '}
+                                            style={item.max_share_seats >= this.props.chair ? null : { color: '#999' }}
+                                        />
+                                    </View>
+                                )
+                            }
+                            }
+                        />
+
+                        <View style={{ flexDirection: 'row' }}>
+                            <TouchableOpacity
+                                style={{ padding: 8, backgroundColor: '#999999', borderRadius: 4, alignItems: 'center', marginTop: 10, flex: 1 }}
+                                onPress={() => {
+                                    this.setState({
+                                        listcarfilter: [],
+                                    })
+                                }}>
+                                <Text style={{ fontSize: 18, color: '#00363d' }}>BỎ LỌC</Text>
+                            </TouchableOpacity>
+                            <View style={{ margin: 8 }} />
+                            <TouchableOpacity
+                                style={{ padding: 8, backgroundColor: '#77a300', borderRadius: 4, alignItems: 'center', marginTop: 10, flex: 1 }}
+                                onPress={() => {
+                                    var listFM = []
+                                    if (this.state.shareCar) {
+                                        listFM.push(2)
+                                    }
+                                    if (this.state.car) {
+                                        listFM.push(1)
+                                    }
+                                    if (!this.state.car && !this.state.shareCar) {
+                                        listFM = [1, 2]
+                                    }
+
+                                    this.setState({
+                                        listFilterMethod: listFM,
+                                        showFilter: false
+                                    })
+                                }}>
+                                <Text style={{ fontSize: 18, color: '#fff' }}>ÁP DỤNG</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </SafeAreaView>
             </Modal>
@@ -535,7 +537,8 @@ class ListCar extends Component {
 
         if (this.state.isLoading) {
             return (
-                <SafeAreaView style={{ flex: 1,}}>
+                <SafeAreaView style={{ flex: 1, }}>
+                    <HeaderText textCenter={'Danh sách xe'} onPressLeft={this.goBack} />
                     <ActivityIndicator
                         size='large'
                     />

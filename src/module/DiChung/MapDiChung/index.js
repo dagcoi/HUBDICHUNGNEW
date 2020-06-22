@@ -566,7 +566,8 @@ class MapDiChung extends Component {
                 visible={this.state.dialogTimeVisible}
                 // onOrientationChange={true}
                 onRequestClose={() => {
-                }}>
+                }}
+            >
                 <SafeAreaView style={{
                     flex: 1,
                     flexDirection: 'column',
@@ -727,8 +728,8 @@ class MapDiChung extends Component {
                 <HeaderText textCenter={'Đặt xe taxi'} onPressLeft={this.goBack} />
                 <ImageBackground style={{ flex: 1, resizeMode: "cover", justifyContent: "center" }} source={imageBackground} >
                     <View style={{ justifyContent: 'center', paddingHorizontal: 16 }}>
-                        <Text style={{ fontWeight: 'bold', fontSize: 21,marginTop : 8, color: '#efefef' }}>Thoải mái như xe nhà</Text>
-                        <Text style={{ fontWeight: 'bold', fontSize: 21,marginTop : 8, color: '#efefef' }}>Giá rẻ như xe khách</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 21, marginTop: 8, color: '#efefef' }}>Thoải mái như xe nhà</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 21, marginTop: 8, color: '#efefef' }}>Giá rẻ như xe khách</Text>
                     </View>
                     <View style={[{ flex: 1, }]} >
                         {this.renderPicktoDrop()}
@@ -904,7 +905,8 @@ class MapDiChung extends Component {
                         // onOrientationChange={true}
                         onRequestClose={() => {
                             console.log('a');
-                        }}>
+                        }}
+                    >
                         <SafeAreaView style={{
                             flex: 2,
                             flexDirection: 'column',

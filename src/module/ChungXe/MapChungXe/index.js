@@ -737,6 +737,7 @@ class MapChungXe extends Component {
             <SafeAreaView style={{ flex: 1, backgroundColor: '#eee' }}>
                 <HeaderText textCenter={'Thuê xe tự lái'} onPressLeft={this.goBack} />
                 {/* {this.renderPicktoDrop()} */}
+                <View style={{flex :1}}>
                 {this.formSwitch()}
                 {this.state.hourly ? this.formCarTour() : this.formBookingDoortoDoor()}
                 {/* {this.state.hourly ?
@@ -845,6 +846,7 @@ class MapChungXe extends Component {
 
 
                 {this.formModalListCity()}
+                </View>
             </SafeAreaView>
         );
     }

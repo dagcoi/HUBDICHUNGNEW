@@ -76,7 +76,7 @@ class SearchPlaceExpress extends Component {
         return (
             <SafeAreaView style={{ flex: 1, }}>
                 <HeaderText textCenter={'Nhập địa chỉ'} onPressLeft={this.goBack} />
-                <View style={{ backgroundColor: '#ffffff', padding: 4, marginTop: 16 }}>
+                <View style={{ flex: 1, backgroundColor: '#ffffff', padding: 4, marginTop: 16 }}>
                     <View style={{ flexDirection: 'row' }}>
                         <GooglePlacesAutocomplete
                             placeholder={placeholder}

@@ -397,185 +397,187 @@ class InfoCustommerXeChung extends Component {
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <HeaderText textCenter={'Thông tin khách hàng'} onPressLeft={this.goBack} />
-                <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-                    <Text style={styles.textBig}>Họ và tên</Text>
-
-                    <InputTextDiChung
-                        style={styles.textInput}
-                        placeholder='Nhập họ tên'
-                        value={this.state.full_name}
-                        onChangeText={(text) => this.setState({
-                            full_name: text,
-                        })}
-                        onPress={() => this.setState({
-                            full_name: ''
-                        })}
-                    />
-
-                    <Text style={styles.textBig}>Số điện thoại</Text>
-
-                    <InputTextDiChung
-                        style={styles.textInput}
-                        placeholder='Nhập số điện thoại'
-                        value={this.state.use_phone}
-                        onChangeText={(text) => this.mobileValidate(text)}
-                        keyboardType='numeric'
-                        onPress={() => this.setState({
-                            use_phone: ''
-                        })}
-                    />
-
-                    <Text style={styles.textBig}>Email</Text>
-
-                    <InputTextDiChung
-                        // ref={(input) => { this.email = input; }}
-                        style={styles.textInput}
-                        placeholder='Nhập Email'
-                        value={this.state.email}
-                        onChangeText={(text) => this._validateEmail(text)}
-                        onPress={() => this.setState({
-                            email: ''
-                        })}
-                    />
-
-                    <CheckBoxList
-                        onClick={() => {
-                            this.setState({
-                                is_checked: !this.state.is_checked
-                            })
-                        }}
-                        isChecked={this.state.is_checked}
-                        rightText={"Đặt xe cho người khác"}
-                    />
-
-                    {this.renderDatHo()}
-
-                    <View>
-                        <Text style={styles.textBig}>Ghi chú * <Text style={{ color: 'red', fontWeight: 'normal', fontSize: 14, }}>(chi tiết xe)</Text></Text>
+                <View style={{ flex: 1 }}>
+                    <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+                        <Text style={styles.textBig}>Họ và tên</Text>
 
                         <InputTextDiChung
                             style={styles.textInput}
-                            placeholder='Nhập thông tin xe của bạn. VD. Mercedes S500'
-                            value={this.state.comment}
-                            multiline={true}
+                            placeholder='Nhập họ tên'
+                            value={this.state.full_name}
                             onChangeText={(text) => this.setState({
-                                comment: text
+                                full_name: text,
                             })}
                             onPress={() => this.setState({
-                                comment: ''
+                                full_name: ''
                             })}
                         />
-                    </View>
 
+                        <Text style={styles.textBig}>Số điện thoại</Text>
 
-                    <Text style={styles.textBig}>Hình thức thanh toán</Text>
-                    <View style={{ marginTop: 8 }}>
-                        <RadioForm
-                            animation={true}
-                        >
-                            {radio_payment.map((obj, i) => (
-                                <RadioButton labelHorizontal={true} key={i} >
-                                    <RadioButtonInput
-                                        obj={obj}
-                                        index={i}
-                                        isSelected={this.state.value_payment === i}
-                                        onPress={() => {
-                                            console.log(obj.label)
-                                            this.setState({
-                                                value_payment: i,
-                                                selectRentCar: i,
-                                                payment_method_ID: obj.payment_method_ID,
-                                            })
-                                        }}
-                                        borderWidth={0.5}
-                                        buttonInnerColor={'#77a300'}
-                                        buttonOuterColor={'#77a300'}
-                                        buttonSize={10}
-                                        buttonOuterSize={16}
-                                        buttonStyle={7}
-                                        buttonWrapStyle={{ marginLeft: 10 }}
-                                    />
-                                    <RadioButtonLabel
-                                        obj={obj}
-                                        index={i}
-                                        key={i}
-                                        labelHorizontal={true}
-                                        onPress={() => {
-                                            console.log(obj.label)
-                                            this.setState({
-                                                value_payment: i,
-                                                payment_method_ID: obj.payment_method_ID,
-                                            })
-                                        }}
-                                        labelStyle={{ fontSize: 14, color: '#000' }}
-                                        labelWrapStyle={{}}
-                                    />
-                                </RadioButton>
-                            ))}
+                        <InputTextDiChung
+                            style={styles.textInput}
+                            placeholder='Nhập số điện thoại'
+                            value={this.state.use_phone}
+                            onChangeText={(text) => this.mobileValidate(text)}
+                            keyboardType='numeric'
+                            onPress={() => this.setState({
+                                use_phone: ''
+                            })}
+                        />
 
+                        <Text style={styles.textBig}>Email</Text>
 
-                        </RadioForm>
-                    </View>
+                        <InputTextDiChung
+                            // ref={(input) => { this.email = input; }}
+                            style={styles.textInput}
+                            placeholder='Nhập Email'
+                            value={this.state.email}
+                            onChangeText={(text) => this._validateEmail(text)}
+                            onPress={() => this.setState({
+                                email: ''
+                            })}
+                        />
 
-                    <View style={{ flexDirection: 'row', marginTop: 8, marginBottom: 8, height: 50 }}>
-                        <View style={{ flex: 1, }} >
+                        <CheckBoxList
+                            onClick={() => {
+                                this.setState({
+                                    is_checked: !this.state.is_checked
+                                })
+                            }}
+                            isChecked={this.state.is_checked}
+                            rightText={"Đặt xe cho người khác"}
+                        />
+
+                        {this.renderDatHo()}
+
+                        <View>
+                            <Text style={styles.textBig}>Ghi chú * <Text style={{ color: 'red', fontWeight: 'normal', fontSize: 14, }}>(chi tiết xe)</Text></Text>
+
                             <InputTextDiChung
-                                placeholder='Mã giảm giá'
-                                value={this.state.promotion_code}
+                                style={styles.textInput}
+                                placeholder='Nhập thông tin xe của bạn. VD. Mercedes S500'
+                                value={this.state.comment}
+                                multiline={true}
                                 onChangeText={(text) => this.setState({
-                                    promotion_code: text,
-                                    detailPromotion: '',
-                                    blDiscount: false
+                                    comment: text
                                 })}
                                 onPress={() => this.setState({
-                                    promotion_code: ''
+                                    comment: ''
                                 })}
                             />
                         </View>
 
-                        <TouchableOpacity
-                            onPress={() => {
+
+                        <Text style={styles.textBig}>Hình thức thanh toán</Text>
+                        <View style={{ marginTop: 8 }}>
+                            <RadioForm
+                                animation={true}
+                            >
+                                {radio_payment.map((obj, i) => (
+                                    <RadioButton labelHorizontal={true} key={i} >
+                                        <RadioButtonInput
+                                            obj={obj}
+                                            index={i}
+                                            isSelected={this.state.value_payment === i}
+                                            onPress={() => {
+                                                console.log(obj.label)
+                                                this.setState({
+                                                    value_payment: i,
+                                                    selectRentCar: i,
+                                                    payment_method_ID: obj.payment_method_ID,
+                                                })
+                                            }}
+                                            borderWidth={0.5}
+                                            buttonInnerColor={'#77a300'}
+                                            buttonOuterColor={'#77a300'}
+                                            buttonSize={10}
+                                            buttonOuterSize={16}
+                                            buttonStyle={7}
+                                            buttonWrapStyle={{ marginLeft: 10 }}
+                                        />
+                                        <RadioButtonLabel
+                                            obj={obj}
+                                            index={i}
+                                            key={i}
+                                            labelHorizontal={true}
+                                            onPress={() => {
+                                                console.log(obj.label)
+                                                this.setState({
+                                                    value_payment: i,
+                                                    payment_method_ID: obj.payment_method_ID,
+                                                })
+                                            }}
+                                            labelStyle={{ fontSize: 14, color: '#000' }}
+                                            labelWrapStyle={{}}
+                                        />
+                                    </RadioButton>
+                                ))}
+
+
+                            </RadioForm>
+                        </View>
+
+                        <View style={{ flexDirection: 'row', marginTop: 8, marginBottom: 8, height: 50 }}>
+                            <View style={{ flex: 1, }} >
+                                <InputTextDiChung
+                                    placeholder='Mã giảm giá'
+                                    value={this.state.promotion_code}
+                                    onChangeText={(text) => this.setState({
+                                        promotion_code: text,
+                                        detailPromotion: '',
+                                        blDiscount: false
+                                    })}
+                                    onPress={() => this.setState({
+                                        promotion_code: ''
+                                    })}
+                                />
+                            </View>
+
+                            <TouchableOpacity
+                                onPress={() => {
+                                    this.setState({
+                                        isLoading: true,
+                                    })
+                                    this.checkPromotionCode();
+                                }}
+                                style={{ padding: 8, justifyContent: 'center', backgroundColor: '#77a300', marginLeft: 8, borderRadius: 4, marginTop: 8 }}
+                            >
+                                <Text style={{ color: '#ffffff' }}>ÁP DỤNG</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        <View>{this.state.detailPromotion == '' ? null : <Text style={{ color: this.state.promotion_code == '' ? "#EF465E" : "#77a300" }}>{this.state.detailPromotion}</Text>}</View>
+
+                        <CheckBoxList
+                            onClick={() => {
                                 this.setState({
-                                    isLoading: true,
+                                    vat: !this.state.vat
                                 })
-                                this.checkPromotionCode();
                             }}
-                            style={{ padding: 8, justifyContent: 'center', backgroundColor: '#77a300', marginLeft: 8, borderRadius: 4, marginTop: 8 }}
-                        >
-                            <Text style={{ color: '#ffffff' }}>ÁP DỤNG</Text>
-                        </TouchableOpacity>
-                    </View>
+                            isChecked={this.state.vat}
+                            rightText={"VAT 10 %"}
+                        />
+                        {this.renderFormVAT()}
 
-                    <View>{this.state.detailPromotion == '' ? null : <Text style={{ color: this.state.promotion_code == '' ? "#EF465E" : "#77a300" }}>{this.state.detailPromotion}</Text>}</View>
+                        <Button
+                            value={'TIẾP TỤC'}
+                            onPress={() => {
+                                const { xhd, company_name, company_address, company_address_receive, company_mst, full_name, use_phone, email, full_name1, use_phone1, email1, comment, payment_method_ID } = this.state;
+                                this.props.addVATTaixe(xhd ? '1' : '0', company_name, company_address, company_mst, company_address_receive);
+                                this.props.addInfoPeople2Taixe(full_name1, use_phone1, email1);
+                                this.props.addInfoPeople1Taixe(full_name, use_phone, email);
+                                this.props.addCommentTaixe(comment);
+                                console.log(payment_method_ID);
+                                this.props.addPaymentMethodIDTaixe(payment_method_ID);
+                                this.checkInfoCustommerXeChung();
+                            }}
+                        />
 
-                    <CheckBoxList
-                        onClick={() => {
-                            this.setState({
-                                vat: !this.state.vat
-                            })
-                        }}
-                        isChecked={this.state.vat}
-                        rightText={"VAT 10 %"}
-                    />
-                    {this.renderFormVAT()}
+                        {this.renderAlert()}
 
-                    <Button
-                        value={'TIẾP TỤC'}
-                        onPress={() => {
-                            const { xhd, company_name, company_address, company_address_receive, company_mst, full_name, use_phone, email, full_name1, use_phone1, email1, comment, payment_method_ID } = this.state;
-                            this.props.addVATTaixe(xhd ? '1' : '0', company_name, company_address, company_mst, company_address_receive);
-                            this.props.addInfoPeople2Taixe(full_name1, use_phone1, email1);
-                            this.props.addInfoPeople1Taixe(full_name, use_phone, email);
-                            this.props.addCommentTaixe(comment);
-                            console.log(payment_method_ID);
-                            this.props.addPaymentMethodIDTaixe(payment_method_ID);
-                            this.checkInfoCustommerXeChung();
-                        }}
-                    />
-
-                    {this.renderAlert()}
-
-                </ScrollView>
+                    </ScrollView>
+                </View>
             </SafeAreaView>
         )
     }

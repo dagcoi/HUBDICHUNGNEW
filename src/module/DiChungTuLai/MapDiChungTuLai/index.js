@@ -426,7 +426,7 @@ class MapDiChungTuLai extends Component {
                         onOrientationChange={true}
                         onRequestClose={() => {
                             console.log('a');
-                        }}>
+                        }}> 
                         <SafeAreaView style={{
                             flex: 1,
                             flexDirection: 'column',

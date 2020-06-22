@@ -362,130 +362,133 @@ class ConfirmInformationHB extends Component {
         return (
             <SafeAreaView style={{ padding: 8 }}>
                 <HeaderText textCenter={'Xác nhận thông tin'} onPressLeft={this.goBack} />
-                <ScrollView showsVerticalScrollIndicator={false} style={{ paddingHorizontal: 8}}>
-                    <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                        <Image
-                            style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
-                            source={{ uri: this.props.vehicle_icon }}
-                        />
-                    </View>
-
-                    {this.renderDetailTrip()}
-                    {this.renderDetailOrder()}
-                    {this.renderDetailCustommer()}
-                    {this.renderDetailPeopleMove()}
-                    {this.renderCommnet()}
-
-                    <Text style={styles.textBigLeft1}>Thanh toán và khác</Text>
-
-                    <ImageTextDiChung
-                        source={require(imagePayment)}
-                        text={'trả sau'}
-                    />
-
-                    {this.renderVAT()}
-
-                    {this.renderMGG()}
-
-                    {this.renderTT()}
-
-
-                    <Button
-                        value={'Xác nhận đặt xe'}
-                        onPress={() => {
-                            this.state.callingApi ? null : this.createHourlyBookingNew();
-                            this.setState({
-                                addingTicket: true,
-                            })
-                        }}
-                    />
-
-                    <Dialog
-                        visible={this.state.addingTicket}
-                    // width={0.8}
-                    >
-                        <View>
-                            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                                <ActivityIndicator size='large' />
-                            </View>
-                        </View>
-                    </Dialog>
-                </ScrollView>
-                <Dialog
-                    visible={this.state.bookingSuccess}
-                    dialogTitle={<DialogTitle title="Đặt xe thành công" />}
-                    width={0.8}
-                >
-                    <View>
-                        <View style={{ flexDirection: 'column', padding: 8 }}>
-                            <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                                <Image
-                                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
-                                    source={{ uri: this.props.vehicle_icon }}
-                                />
-                            </View>
-                            <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất.</Text>
-                            <ButtonDialog
-                                text="Chi tiết"
-                                onPress={() => {
-                                    this.setState({
-                                        bookingSuccess: false,
-                                        modalDetailTrip: true,
-                                    })
-                                }}
+                <View style={{ flex: 1 }}>
+                    <ScrollView showsVerticalScrollIndicator={false} style={{ paddingHorizontal: 8 }}>
+                        <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                            <Image
+                                style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
+                                source={{ uri: this.props.vehicle_icon }}
                             />
                         </View>
-                    </View>
-                </Dialog >
 
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={this.state.modalDetailTrip}
-                    onOrientationChange={true}
-                    onRequestClose={() => {
-                        console.log('a');
-                    }}>
-                    <SafeAreaView style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        justifyContent: 'flex-end',
-                        padding: 8,
-                        backgroundColor: '#fff',
-                    }}>
-                        <View style={{ flex: 1, backgroundColor: '#fff', }}>
-                            <View style={{ height: 0, flexDirection: 'row', margin: 8 }}>
+                        {this.renderDetailTrip()}
+                        {this.renderDetailOrder()}
+                        {this.renderDetailCustommer()}
+                        {this.renderDetailPeopleMove()}
+                        {this.renderCommnet()}
+
+                        <Text style={styles.textBigLeft1}>Thanh toán và khác</Text>
+
+                        <ImageTextDiChung
+                            source={require(imagePayment)}
+                            text={'trả sau'}
+                        />
+
+                        {this.renderVAT()}
+
+                        {this.renderMGG()}
+
+                        {this.renderTT()}
+
+
+                        <Button
+                            value={'Xác nhận đặt xe'}
+                            onPress={() => {
+                                this.state.callingApi ? null : this.createHourlyBookingNew();
+                                this.setState({
+                                    addingTicket: true,
+                                })
+                            }}
+                        />
+
+                        <Dialog
+                            visible={this.state.addingTicket}
+                        // width={0.8}
+                        >
+                            <View>
+                                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                                    <ActivityIndicator size='large' />
+                                </View>
                             </View>
-                            <ScrollView>
-                                {this.renderDetailTrip()}
-                                {this.renderDetailOrder()}
-                                {this.renderDetailCustommer()}
-                                {this.renderDetailPeopleMove()}
-                                {this.renderCommnet()}
-                                {this.renderVAT()}
-                                {this.renderMGG()}
-                                {this.renderTT()}
-                                <Button
-                                    value={'Trang chủ'}
+                        </Dialog>
+                    </ScrollView>
+                    <Dialog
+                        visible={this.state.bookingSuccess}
+                        dialogTitle={<DialogTitle title="Đặt xe thành công" />}
+                        width={0.8}
+                    >
+                        <View>
+                            <View style={{ flexDirection: 'column', padding: 8 }}>
+                                <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                                    <Image
+                                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
+                                        source={{ uri: this.props.vehicle_icon }}
+                                    />
+                                </View>
+                                <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất.</Text>
+                                <ButtonDialog
+                                    text="Chi tiết"
                                     onPress={() => {
                                         this.setState({
                                             bookingSuccess: false,
-                                            modalDetailTrip: false,
+                                            modalDetailTrip: true,
                                         })
-                                        this.props.deleteData();
-                                        // this.props.navigation.push("Home");
-                                        const resetAction = StackActions.reset({
-                                            index: 0,
-                                            key: null,
-                                            actions: [NavigationActions.navigate({ routeName: 'Home' })],
-                                        });
-                                        this.props.navigation.dispatch(resetAction);
                                     }}
                                 />
-                            </ScrollView>
+                            </View>
                         </View>
-                    </SafeAreaView>
-                </Modal>
+                    </Dialog >
+
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={this.state.modalDetailTrip}
+                        onOrientationChange={true}
+                        onRequestClose={() => {
+                            console.log('a');
+                        }}
+                    >
+                        <SafeAreaView style={{
+                            flex: 1,
+                            flexDirection: 'column',
+                            justifyContent: 'flex-end',
+                            padding: 8,
+                            backgroundColor: '#fff',
+                        }}>
+                            <View style={{ flex: 1, backgroundColor: '#fff', }}>
+                                <View style={{ height: 0, flexDirection: 'row', margin: 8 }}>
+                                </View>
+                                <ScrollView>
+                                    {this.renderDetailTrip()}
+                                    {this.renderDetailOrder()}
+                                    {this.renderDetailCustommer()}
+                                    {this.renderDetailPeopleMove()}
+                                    {this.renderCommnet()}
+                                    {this.renderVAT()}
+                                    {this.renderMGG()}
+                                    {this.renderTT()}
+                                    <Button
+                                        value={'Trang chủ'}
+                                        onPress={() => {
+                                            this.setState({
+                                                bookingSuccess: false,
+                                                modalDetailTrip: false,
+                                            })
+                                            this.props.deleteData();
+                                            // this.props.navigation.push("Home");
+                                            const resetAction = StackActions.reset({
+                                                index: 0,
+                                                key: null,
+                                                actions: [NavigationActions.navigate({ routeName: 'Home' })],
+                                            });
+                                            this.props.navigation.dispatch(resetAction);
+                                        }}
+                                    />
+                                </ScrollView>
+                            </View>
+                        </SafeAreaView>
+                    </Modal>
+                </View>
             </SafeAreaView >
         )
     }

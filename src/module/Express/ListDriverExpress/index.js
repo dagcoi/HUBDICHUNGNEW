@@ -371,6 +371,7 @@ class ListDriverExpress extends Component {
         if (this.state.isLoading) {
             return (
                 <SafeAreaView style={{ flex: 1, padding: 20 }}>
+                    <HeaderText textCenter={'Dánh sách xe'} onPressLeft={this.goBack} />
                     <ActivityIndicator
                         size='large'
                     />

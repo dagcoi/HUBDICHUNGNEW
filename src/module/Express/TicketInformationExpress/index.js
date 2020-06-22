@@ -196,7 +196,7 @@ class TicketInformationExpress extends Component {
         )
     }
 
-    goBack=()=>{
+    goBack = () => {
         this.props.navigation.popToTop()
     }
 
@@ -213,52 +213,54 @@ class TicketInformationExpress extends Component {
             return (
                 <SafeAreaView style={{ flex: 1 }}>
                     <HeaderText textCenter={'Chi tiết mã vé'} onPressLeft={this.goBack} />
-                    <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-                        {item.forward.status == 'forwarded' ?
-                            <Text style={styles.textBigRight}>Mã vé của bạn: <Text style={{ fontWeight: 'bold', backgroundColor: '#77a300', color: '#fff', padding: 4 }}>{item.code}</Text></Text>
-                            : <Text style={styles.textBigRight}>Yêu cầu của bạn đã được hệ thồng ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>
-                        }
-
-                        <Text style={styles.textBigRight}>Trạng thái: <Text style={{ fontWeight: 'bold' }}>
-                            {item.forward.status == 'wait_to_confirm' ? 'Chờ xác nhận' :
-                                item.forward.status == 'cs_confirmed' ? 'CS xác nhận' :
-                                    item.forward.status == 'forwarded' ? 'Đặt xe thành công' :
-                                        item.forward.status == 'wait_for_driver' ? 'Tìm tài xế' :
-                                            item.forward.status == 'driver_accepted' ? 'Tài xế chấp nhận' :
-                                                item.forward.status == 'picked_up' ? 'Đã đón khách' :
-                                                    item.forward.status == 'completed' ? 'Hoàn thành chuyến đi' :
-                                                        item.forward.status == 'cancelled' ? 'Đã hủy vé' :
-                                                            'Tất cả'
+                    <View style={{ flex: 1 }}>
+                        <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+                            {item.forward.status == 'forwarded' ?
+                                <Text style={styles.textBigRight}>Mã vé của bạn: <Text style={{ fontWeight: 'bold', backgroundColor: '#77a300', color: '#fff', padding: 4 }}>{item.code}</Text></Text>
+                                : <Text style={styles.textBigRight}>Yêu cầu của bạn đã được hệ thồng ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>
                             }
-                        </Text></Text>
 
-                        <Text>Mọi thắc mắc vui lòng liên hệ: <Text
-                            style={{ color: '#77a300', fontWeight: 'bold', textDecorationLine: 'underline' }}
-                            onPress={() => Linking.openURL(`tel: 19006022`)}
-                        >
-                            19006022
+                            <Text style={styles.textBigRight}>Trạng thái: <Text style={{ fontWeight: 'bold' }}>
+                                {item.forward.status == 'wait_to_confirm' ? 'Chờ xác nhận' :
+                                    item.forward.status == 'cs_confirmed' ? 'CS xác nhận' :
+                                        item.forward.status == 'forwarded' ? 'Đặt xe thành công' :
+                                            item.forward.status == 'wait_for_driver' ? 'Tìm tài xế' :
+                                                item.forward.status == 'driver_accepted' ? 'Tài xế chấp nhận' :
+                                                    item.forward.status == 'picked_up' ? 'Đã đón khách' :
+                                                        item.forward.status == 'completed' ? 'Hoàn thành chuyến đi' :
+                                                            item.forward.status == 'cancelled' ? 'Đã hủy vé' :
+                                                                'Tất cả'
+                                }
+                            </Text></Text>
+
+                            <Text>Mọi thắc mắc vui lòng liên hệ: <Text
+                                style={{ color: '#77a300', fontWeight: 'bold', textDecorationLine: 'underline' }}
+                                onPress={() => Linking.openURL(`tel: 19006022`)}
+                            >
+                                19006022
                             </Text>
-                        </Text>
+                            </Text>
 
-                        {this.renderDetailTrip(item)}
-                        {this.renderDetailCustommer(item)}
-                        {this.renderDetailPeopleMove(item)}
-                        {this.renderOther(item)}
-                        {this.renderTT(item)}
-                        <Button
-                            value='Trang chủ'
-                            onPress={() => {
-                                // this.props.navigation.navigate('Home')
-                                const resetAction = StackActions.reset({
-                                    index: 0,
-                                    key: null,
-                                    actions: [NavigationActions.navigate({ routeName: 'Home' })],
-                                });
-                                this.props.navigation.dispatch(resetAction);
-                            }}
-                        />
-                        <View style={{ marginBottom: 8, }}></View>
-                    </ScrollView>
+                            {this.renderDetailTrip(item)}
+                            {this.renderDetailCustommer(item)}
+                            {this.renderDetailPeopleMove(item)}
+                            {this.renderOther(item)}
+                            {this.renderTT(item)}
+                            <Button
+                                value='Trang chủ'
+                                onPress={() => {
+                                    // this.props.navigation.navigate('Home')
+                                    const resetAction = StackActions.reset({
+                                        index: 0,
+                                        key: null,
+                                        actions: [NavigationActions.navigate({ routeName: 'Home' })],
+                                    });
+                                    this.props.navigation.dispatch(resetAction);
+                                }}
+                            />
+                            <View style={{ marginBottom: 8, }}></View>
+                        </ScrollView>
+                    </View>
                 </SafeAreaView>
             )
         }
