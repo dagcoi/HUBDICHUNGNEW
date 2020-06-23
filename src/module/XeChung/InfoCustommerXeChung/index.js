@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Alert, ScrollView, AsyncStorage, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, ScrollView, AsyncStorage, SafeAreaView, KeyboardAvoidingView } from 'react-native';
 import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBoxList from '../../../component/CheckBoxList'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
@@ -386,6 +386,7 @@ class InfoCustommerXeChung extends Component {
     }
 
     render() {
+        const { navigation } = this.props
         var pay_methods = JSON.parse(navigation.getParam('pay_methods'));
         var radio_payment = []
         if (pay_methods['3'] != null) {
@@ -395,9 +396,9 @@ class InfoCustommerXeChung extends Component {
             radio_payment.push({ label: 'Trả trước', value: 1, paymentMethodID: '8' })
         }
         return (
-            <SafeAreaView style={{ flex: 1 }}>
+            <KeyboardAvoidingView style={{ flex: 1 }}>
                 <HeaderText textCenter={'Thông tin khách hàng'} onPressLeft={this.goBack} />
-                <View style={{ flex: 1 }}>
+                <KeyboardAvoidingView style={{ flex: 1 }}>
                     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
                         <Text style={styles.textBig}>Họ và tên</Text>
 
@@ -547,7 +548,7 @@ class InfoCustommerXeChung extends Component {
                             </TouchableOpacity>
                         </View>
 
-                        <View>{this.state.detailPromotion == '' ? null : <Text style={{ color: this.state.promotion_code == '' ? "#EF465E" : "#77a300" }}>{this.state.detailPromotion}</Text>}</View>
+                        <View>{this.state.detailPromotion == '' ? null : <Text style={{ color: this.state.promotion_code == '' ? "#EF465F" : "#77a300" }}>{this.state.detailPromotion}</Text>}</View>
 
                         <CheckBoxList
                             onClick={() => {
@@ -577,8 +578,8 @@ class InfoCustommerXeChung extends Component {
                         {this.renderAlert()}
 
                     </ScrollView>
-                </View>
-            </SafeAreaView>
+                </KeyboardAvoidingView>
+            </KeyboardAvoidingView>
         )
     }
 }
@@ -587,7 +588,7 @@ class InfoCustommerXeChung extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#eeeeee',
+        backgroundColor: '#fff',
         padding: 8,
     },
 

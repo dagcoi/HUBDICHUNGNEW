@@ -180,10 +180,10 @@ class ListCarHourlyBooking extends Component {
                                         <Text style={styles.loaixe}>
                                             {item.partner_name.toUpperCase()}
                                         </Text>
-                                        <Text style={styles.giaTien}>{item.vehicle_name}</Text>
+                                        <Text style={styles.gioiHan}>{item.vehicle_name}</Text>
                                         <StarVote number={item.star_vote} />
-                                        <Text style={styles.giaTien}>giới hạn {item.km_limit_format}</Text>
-                                        <Text style={[styles.loaixe, { color: '#00363d' }]}>{item.price_format}</Text>
+                                        <Text style={styles.gioiHan}>giới hạn {item.km_limit_format}</Text>
+                                        <Text style={styles.giaTien}>{item.price_format}</Text>
                                     </View>
                                     <View style={styles.imageRight}>
                                         <Image
@@ -199,20 +199,20 @@ class ListCarHourlyBooking extends Component {
                                         <Image
                                             style={{ width: 16, height: 16, marginRight: 8, }}
                                             source={require('../../../image/note.png')} />
-                                        <Text style={{ flex: 1, }}>Phụ trội theo km: {item.extra_price_km} đ/km</Text>
+                                        <Text style={{ flex: 1, marginVertical: 2 }}>Phụ trội theo km: {item.extra_price_km} đ/km</Text>
                                     </View>
                                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                                         <Image
                                             style={{ width: 16, height: 16, marginRight: 8, }}
                                             source={require('../../../image/note.png')} />
-                                        <Text style={{ flex: 1, }}>Phụ trội theo giờ: {item.extra_price_hour} đ/giờ</Text>
+                                        <Text style={{ flex: 1, marginVertical: 2 }}>Phụ trội theo giờ: {item.extra_price_hour} đ/giờ</Text>
                                     </View>
-                                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
+                                    {/* <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                                         <Image
                                             style={{ width: 16, height: 16, marginRight: 8, }}
                                             source={require('../../../image/note.png')} />
-                                        <Text style={{ flex: 1, }}>Giá đã bao gồm tiền xăng và lái xe, chưa bao gồm phí cầu đường, bến bãi, đỗ xe.</Text>
-                                    </View>
+                                        <Text style={{ flex: 1,marginVertical:2 }}>Giá đã bao gồm tiền xăng và lái xe, chưa bao gồm phí cầu đường, bến bãi, đỗ xe.</Text>
+                                    </View> */}
                                 </View>
 
                                 <Button
@@ -242,11 +242,23 @@ class ListCarHourlyBooking extends Component {
         this.props.navigation.goBack()
     }
 
+    renderHeader() {
+        return (
+            <HeaderText
+                textCenter={'Danh sách xe'}
+                onPressLeft={this.goBack}
+                onPressRight2={this._increaseCount}
+                source2={this.state.sort ? require(imageMaxToMin) : require(imageMinToMax)}
+            />
+        )
+    }
+
     render() {
 
         if (this.state.isLoading) {
             return (
                 <SafeAreaView style={{ flex: 1, }}>
+                    {this.renderHeader()}
                     <ActivityIndicator
                         size='large'
                     />
@@ -256,7 +268,7 @@ class ListCarHourlyBooking extends Component {
         var obj = [...this.state.dataSource];
         return (
             <SafeAreaView style={{ flex: 1, }}>
-                <HeaderText textCenter={'Danh sách xe'} onPressLeft={this.goBack} />
+                {this.renderHeader()}
                 <View style={{ flex: 1 }}>
                     {this.renderListCar(obj)}
                 </View>
@@ -320,6 +332,12 @@ const styles = StyleSheet.create({
     giaTien: {
         fontSize: 18,
         color: '#00363e',
+        fontWeight: 'bold'
+    },
+    gioiHan: {
+        fontSize: 14,
+        color: '#00363e',
+        marginTop: 4
     },
     viewChitiet: {
         paddingTop: 8,

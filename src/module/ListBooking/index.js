@@ -114,7 +114,7 @@ class ListBooking extends Component {
                 visible={this.state.modalVisible}
                 animationType="slide"
                 onRequestClose={() => this.setState({ modalVisible: false })}
-                onOrientationChange={true}
+                // onOrientationChange={true}
                 transparent={true}>
                 <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000000AA', zIndex: 5 }}>
                     <View style={{ width: '80%', justifyContent: 'center', borderRadius: 8, minHeight: 100, backgroundColor: '#eee', padding: 8, zIndex: 6 }}>
@@ -203,7 +203,7 @@ class ListBooking extends Component {
                     <View style={styles.titleTicket}>
                         <Text style={{ flex: 1, textAlign: 'left', fontSize: 16, fontWeight: 'bold' }}>{item.code}</Text>
                         <View style={{ height: 32, borderRadius: 16, backgroundColor: item.rideMethod === 'private' ? '#ef465f' : '#77a300', paddingLeft: 10, paddingRight: 10, justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ color: '#fff' }}>{item.productType == 'TRANSFER_SERVICE' ? 'Thuê taxi' : item.productType == 'EXPRESS' ? 'Thuê vận chuyển' : item.productType == 'DRIVER_RENTAL' ? 'Thuê tài xế' : 'Khác'}</Text>
+                            <Text style={{ color: '#fff' }}>{item.productType == 'TRANSFER_SERVICE' ? 'Thuê taxi' : item.productType == 'EXPRESS' ? 'Thuê vận chuyển' : item.productType == 'DRIVER_RENTAL' ? 'Thuê tài xế' : item.productType == 'CAR_RENTAL' ? 'Thuê tự lái' : 'Khác'}</Text>
                         </View>
                     </View>
 
@@ -292,7 +292,7 @@ class ListBooking extends Component {
             )
         }
         return (
-            <View style={{ flex: 1, backgroundColor : '#dddddd' }}>
+            <View style={{ flex: 1, backgroundColor: '#dddddd' }}>
                 {this.state.listBooking.length == 0 ?
                     <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
                         <Text>{this.props.isLogin == '0' ? 'Đăng nhập để xem danh sách vé của bạn.' : 'Chưa có chuyến trong danh sách vé.'}</Text>
@@ -303,7 +303,7 @@ class ListBooking extends Component {
                         renderItem={({ item }) => {
                             return (
                                 <View>
-                                    {(item.productType == 'TRANSFER_SERVICE' || item.productType == 'EXPRESS' || item.productType == 'DRIVER_RENTAL') ? this.renderItem(item) : this.renderItem2(item)}
+                                    {(item.productType == 'TRANSFER_SERVICE' || item.productType == 'EXPRESS' || item.productType == 'DRIVER_RENTAL' || item.productType == 'CAR_RENTAL') ? this.renderItem(item) : this.renderItem2(item)}
                                 </View>
                             )
                         }
@@ -329,12 +329,12 @@ class ListBooking extends Component {
                 />
                 <NavigationEvents
                     onDidFocus={this._retrieveData}
-                    // onDidBlur = {this._retrieveData}
+                // onDidBlur = {this._retrieveData}
                 />
                 {/* {this.selectTime()} */}
                 <View style={{ flex: 1 }}>
                     {this.renderListBooking()}
-                </View>            
+                </View>
             </SafeAreaView>
         )
     }

@@ -12,7 +12,7 @@ function ButtonGray({
                 style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#e8e8e8' }}
                 onPress={onPress}
             >
-                <Text style={{ color: '#ef465e', fontSize: 20, fontWeight: 'bold', margin: 8, textDecorationLine: 'underline' }}>{value}</Text>
+                <Text style={{ color: '#ef465f', fontSize: 20, fontWeight: 'bold', margin: 8, textDecorationLine: 'underline' }}>{value}</Text>
             </TouchableOpacity>
         </View>
     )

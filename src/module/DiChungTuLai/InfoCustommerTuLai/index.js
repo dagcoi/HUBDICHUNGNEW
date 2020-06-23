@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Alert, Image, TextInput, ScrollView, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, Image, TextInput, ScrollView, SafeAreaView, AsyncStorage } from 'react-native';
 import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBox from 'react-native-check-box'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
@@ -58,18 +58,42 @@ class InfoCustommerTuLai extends Component {
     }
 
     componentDidMount() {
-        this.setState({
-            full_name: this.props.full_name,
-            full_name1: this.props.full_name1,
-            use_phone: this.props.use_phone,
-            use_phone1: this.props.use_phone1,
-            email: this.props.email,
-            email1: this.props.email1,
-            promotion_code: '',
-        })
-        this._validateEmail(this.props.email)
-        this.mobileValidate(this.props.use_phone)
-        this.mobileValidate1(this.props.use_phone1)
+        // this.setState({
+        //     full_name: this.props.full_name,
+        //     full_name1: this.props.full_name1,
+        //     use_phone: this.props.use_phone,
+        //     use_phone1: this.props.use_phone1,
+        //     email: this.props.email,
+        //     email1: this.props.email1,
+        //     promotion_code: '',
+        // })
+        // this._validateEmail(this.props.email)
+        // this.mobileValidate(this.props.use_phone)
+        // this.mobileValidate1(this.props.use_phone1)
+        this.getdata()
+    }
+
+    async getdata() {
+        try {
+            const dataLogin = await AsyncStorage.getItem('dataLogin')
+            if (dataLogin !== null) {
+                let json = JSON.parse(dataLogin)
+                this.setState({
+                    full_name: json.username,
+                    full_name1: this.props.full_name1,
+                    use_phone: json.phone ?? '',
+                    use_phone1: this.props.use_phone1,
+                    email: json.email ?? '',
+                    email1: this.props.email1,
+                    promotion_code: '',
+                })
+                this._validateEmail(json.email)
+                this.mobileValidate(json.phone)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+
     }
 
     mobileValidate1(text) {
@@ -653,7 +677,7 @@ class InfoCustommerTuLai extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#eeeeee',
+        backgroundColor: '#fff',
         padding: 8,
     },
 

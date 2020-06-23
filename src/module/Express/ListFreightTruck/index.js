@@ -24,39 +24,6 @@ class ListFreightTruck extends Component {
         }
     }
 
-    // static navigationOptions = ({ navigation }) => {
-    //     return {
-    //         headerTitle: () => <View style={{
-    //             flex: 1,
-    //             flexDirection: 'row',
-    //             justifyContent: 'center'
-    //         }}>
-    //             <Text style={{
-    //                 flex: 1,
-    //                 fontSize: 22,
-    //                 textAlign: 'left',
-    //                 justifyContent: 'center',
-    //             }}>
-    //                 Danh sách dịch vụ
-    //             </Text>
-
-    //             <View
-    //                 style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
-    //             >
-    //                 <TouchableOpacity
-    //                     onPress={navigation.getParam('increaseCount')}
-    //                     style={{ justifyContent: 'center', alignItems: 'center' }}
-    //                 >
-    //                     <Image
-    //                         style={{ width: 24, height: 24 }}
-    //                         source={navigation.getParam('image') ? require(imageMaxToMin) : require(imageMinToMax)}
-    //                     />
-    //                 </TouchableOpacity>
-    //             </View>
-    //         </View>,
-    //     };
-    // };
-
     componentDidMount() {
         this.getListCarNew()
     }
@@ -122,13 +89,8 @@ class ListFreightTruck extends Component {
         console.log(parame)
     }
 
-    componentWillMount() {
-        this.props.navigation.setParams({ 'increaseCount': this._increaseCount });
-    }
-
     _increaseCount = () => {
         this.setState({ sort: !this.state.sort });
-        this.props.navigation.setParams({ 'image': !this.state.sort })
     };
 
     setStateAsync(state) {
@@ -244,12 +206,23 @@ class ListFreightTruck extends Component {
         this.props.navigation.goBack()
     }
 
+    renderHeader() {
+        return (
+            <HeaderText
+                textCenter={'Danh sách xe'}
+                onPressLeft={this.goBack}
+                onPressRight2={this._increaseCount}
+                source2={this.state.sort ? require(imageMaxToMin) : require(imageMinToMax)}
+            />
+        )
+    }
+
     render() {
 
         if (this.state.isLoading) {
             return (
                 <SafeAreaView style={{ flex: 1, }}>
-                    <HeaderText textCenter={'Danh sách xe'} onPressLeft={this.goBack} />
+                    {this.renderHeader()}
                     <ActivityIndicator
                         size='large'
                     />
@@ -259,7 +232,7 @@ class ListFreightTruck extends Component {
         var obj = [...this.state.dataSource];
         return (
             <SafeAreaView style={{ flex: 1, }}>
-                <HeaderText textCenter={'Danh sách xe'} onPressLeft={this.goBack} />
+                {this.renderHeader()}
                 <View style={{ flex: 1 }}>
                     {this.renderItem(obj)}
                 </View>

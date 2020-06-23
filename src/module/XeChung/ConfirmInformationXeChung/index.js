@@ -244,8 +244,8 @@ class ConfirmInformationXeChung extends Component {
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <HeaderText textCenter={'Xác nhận thông tin'} onPressLeft={this.goBack} />
-                <View style={{ flex: 1 }}>
-                    <ScrollView showsVerticalScrollIndicator={false} style={{ paddingHorizontal: 8 }}>
+                <View style={{ flex: 1, padding: 8, }}>
+                    <ScrollView showsVerticalScrollIndicator={false} >
                         <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                             <Image
                                 style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}

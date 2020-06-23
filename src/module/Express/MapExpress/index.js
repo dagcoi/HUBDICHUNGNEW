@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, Alert, Modal, FlatList, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Alert, Modal, FlatList, SafeAreaView, ImageBackground } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 import Calendar from '../../../component/Calendar'
 import TimePicker from './TimePicker'
@@ -30,6 +30,7 @@ const imageParcel = '../../../image/parcel.png'
 const imageHourglass = '../../../image/hourglass.png'
 const imageCheck = '../../../image/done.png'
 const imageDown = '../../../image/arrowdown.png'
+const imageBackground = { uri: 'https://dichung.vn/static/images/e216031ab3feeb651026e80873156f50.png' }
 
 
 class MapExpress extends Component {
@@ -126,82 +127,6 @@ class MapExpress extends Component {
         console.log(date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec)
     }
 
-    renderPicktoDrop() {
-        if (this.props.drop_add == '' || this.props.pick_add == '') {
-            return (
-                <MapView style={styles.container}
-                    provider={PROVIDER_GOOGLE}
-                    initialRegion={{
-                        latitude: origin.latitude,
-                        longitude: origin.longitude,
-                        latitudeDelta: 2.0,
-                        longitudeDelta: 0.1,
-                    }}
-                ></MapView>
-            );
-        }
-        return (
-            <MapView style={styles.container}
-                ref={(ref) => { this.mapRef = ref }}
-                provider={PROVIDER_GOOGLE}
-                onMapReady={() => {
-                    this.mapRef.fitToSuppliedMarkers(['mk1', 'mk2'], {
-                        edgePadding:
-                        {
-                            top: 300,
-                            right: 50,
-                            bottom: 50,
-                            left: 50
-                        }
-                    })
-                    this.mapRef.fitToElements(true)
-                }}
-            >
-                <MapView.Marker
-                    coordinate={{
-                        latitude: this.props.lattitude_pick,
-                        longitude: this.props.lngtitude_pick,
-                    }}
-                    title={"Điểm nhận hàng"}
-                    description={this.props.pick_add}
-                    identifier={'mk1'}
-                />
-
-                <MapView.Marker
-                    coordinate={{
-                        latitude: this.props.lattitude_drop,
-                        longitude: this.props.lngtitude_drop,
-                    }}
-                    title={"Điểm trả hàng"}
-                    description={this.props.drop_add}
-                    identifier={'mk2'}
-                />
-
-                <MapViewDirections
-                    origin={{ latitude: this.props.lattitude_pick, longitude: this.props.lngtitude_pick }}
-                    destination={{ latitude: this.props.lattitude_drop, longitude: this.props.lngtitude_drop }}
-                    apikey={GOOGLE_MAPS_APIKEY}
-                    strokeWidth={5}
-                    strokeColor="#669df6"
-                    onReady={() => {
-                        this.mapRef.fitToSuppliedMarkers(['mk1', 'mk2'], {
-                            edgePadding:
-                            {
-                                top: 300,
-                                right: 50,
-                                bottom: 50,
-                                left: 50
-                            }
-                        })
-                        this.mapRef.fitToElements(true)
-                    }}
-                />
-
-            </MapView>
-
-        );
-    }
-
     setStateAsync(state) {
         return new Promise((resolve) => {
             this.setState(state, resolve)
@@ -255,20 +180,6 @@ class MapExpress extends Component {
             <Dialog
                 visible={this.state.alertInfo || this.state.alertTimeRent || this.state.alertTimeSent}
                 width={0.8}
-            // footer={
-            //     <DialogFooter>
-            //         <DialogButton
-            //             text="Đồng ý"
-            //             onPress={() => {
-            //                 this.setState({
-            //                     alertInfo: false,
-            //                     alertTimeRent: false,
-            //                     alertTimeSent: false,
-            //                 })
-            //             }}
-            //         />
-            //     </DialogFooter>
-            // }
             >
                 <View>
                     <View style={{ padding: 8 }}>
@@ -321,11 +232,12 @@ class MapExpress extends Component {
                                 placeholder: 'Điểm nhận hàng'
                             })
                             }
-                            style={{ fontSize: 14, height: 40, color: "#00363d" }}
+                            style={{ fontSize: 14, height: 40, color: "#00363d", marginLeft: 8 }}
                             pointerEvents="none"
                             value={this.props.pick_add}
                             placeholder='Điểm nhận hàng'
                             selection={{ start: 0, end: 0 }}
+                            placeholderTextColor={'#333333'}
                         />
                     </TouchableOpacity>
                 </View>
@@ -352,10 +264,11 @@ class MapExpress extends Component {
                                     placeholder: 'Điểm giao hàng'
                                 })
                                 }
-                                style={{ fontSize: 14, height: 40, color: "#00363d" }}
+                                style={{ fontSize: 14, height: 40, color: "#00363d", marginLeft: 8 }}
                                 pointerEvents="none"
                                 value={this.props.drop_add}
                                 placeholder='Điểm giao hàng'
+                                placeholderTextColor={'#333333'}
                                 selection={{ start: 0, end: 0 }}
                             />
                         </TouchableOpacity>
@@ -391,9 +304,10 @@ class MapExpress extends Component {
                             editable={false}
                             value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours} : ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
                             placeholder='Chọn giờ gửi hàng'
+                            placeholderTextColor={'#333333'}
                             onTouchStart={() => { this.setState({ dialogCalendarVisible: true }) }}
                             pointerEvents='none'
-                            style={{ fontSize: 14, height: 40, color: "#00363d", flex: 1 }}
+                            style={{ fontSize: 14, height: 40, color: "#00363d", flex: 1, marginLeft: 8 }}
                         />
 
                     </TouchableOpacity>
@@ -454,10 +368,11 @@ class MapExpress extends Component {
                                 placeholder: 'Điểm nhận hàng'
                             })
                             }
-                            style={{ fontSize: 14, height: 40, color: "#00363d" }}
+                            style={{ fontSize: 14, height: 40, color: "#00363d", marginLeft: 8 }}
                             pointerEvents="none"
                             value={this.props.pick_add}
                             placeholder='Điểm nhận hàng'
+                            placeholderTextColor={'#333333'}
                             selection={{ start: 0, end: 0 }}
                         />
                     </TouchableOpacity>
@@ -622,10 +537,13 @@ class MapExpress extends Component {
         const minDate = new Date();
 
         return (
-            <SafeAreaView style={{ flex: 1, backgroundColor: '#eee' }}>
+            <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
                 <HeaderText textCenter={'Thuê vận chuyển'} onPressLeft={this.goBack} />
-                <View style={{ flex: 1 }}>
-                    {/* {this.renderPicktoDrop()} */}
+                <ImageBackground style={{ flex: 1, resizeMode: "cover", }} source={imageBackground} >
+                    <View>
+                        <Text style={{ fontSize: 21, color: '#ffffff', marginHorizontal: 16, marginTop: 8, fontWeight: 'bold' }}>Vận chuyển hàng hóa</Text>
+                        <Text style={{ fontSize: 21, color: '#ffffff', marginHorizontal: 16, marginTop: 8, fontWeight: 'bold' }}>Vận chuyển nhanh 2h</Text>
+                    </View>
                     {this.renderSelect()}
                     {this.state.hourlyBooking ? this.renderFormExpressTheoGio() : this.renderFormExpressTheoTuyen()}
                     {/* {this.state.hourlyBooking ?
@@ -761,7 +679,7 @@ class MapExpress extends Component {
 
                         </SafeAreaView>
                     </Modal>
-                </View>
+                </ImageBackground>
             </SafeAreaView>
         );
     }

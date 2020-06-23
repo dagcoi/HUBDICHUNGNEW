@@ -360,16 +360,16 @@ class ConfirmInformationHB extends Component {
 
     render() {
         return (
-            <SafeAreaView style={{ padding: 8 }}>
+            <SafeAreaView style={{ flex: 1 }}>
                 <HeaderText textCenter={'Xác nhận thông tin'} onPressLeft={this.goBack} />
-                <View style={{ flex: 1 }}>
-                    <ScrollView showsVerticalScrollIndicator={false} style={{ paddingHorizontal: 8 }}>
-                        <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{ flex: 1, padding: 8, }}>
+                    <ScrollView showsVerticalScrollIndicator={false} >
+                        {/* <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                             <Image
                                 style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
                                 source={{ uri: this.props.vehicle_icon }}
                             />
-                        </View>
+                        </View> */}
 
                         {this.renderDetailTrip()}
                         {this.renderDetailOrder()}
@@ -443,7 +443,7 @@ class ConfirmInformationHB extends Component {
                         animationType="slide"
                         transparent={true}
                         visible={this.state.modalDetailTrip}
-                        onOrientationChange={true}
+                        // onOrientationChange={true}
                         onRequestClose={() => {
                             console.log('a');
                         }}
@@ -452,10 +452,9 @@ class ConfirmInformationHB extends Component {
                             flex: 1,
                             flexDirection: 'column',
                             justifyContent: 'flex-end',
-                            padding: 8,
                             backgroundColor: '#fff',
                         }}>
-                            <View style={{ flex: 1, backgroundColor: '#fff', }}>
+                            <View style={{ flex: 1, backgroundColor: '#fff', padding: 8, }}>
                                 <View style={{ height: 0, flexDirection: 'row', margin: 8 }}>
                                 </View>
                                 <ScrollView>

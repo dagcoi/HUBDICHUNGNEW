@@ -38,53 +38,6 @@ class ListVehicle extends Component {
         }
     }
 
-    // static navigationOptions = ({ navigation }) => {
-    //     return {
-    //         headerTitle: () => <View style={{
-    //             flex: 1,
-    //             flexDirection: 'row',
-    //             justifyContent: 'center'
-    //         }}>
-    //             <Text style={{
-    //                 flex: 1,
-    //                 fontSize: 22,
-    //                 textAlign: 'left',
-    //                 justifyContent: 'center'
-    //             }}>
-    //                 Danh sách xe
-    //             </Text>
-
-    //             <View
-    //                 style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
-    //             >
-    //                 <TouchableOpacity
-    //                     onPress={navigation.getParam('setShowFilter')}
-    //                     style={{ justifyContent: 'center', alignItems: 'center' }}
-    //                 >
-    //                     <Image
-    //                         style={{ width: 24, height: 24 }}
-    //                         source={require(imageTune)}
-    //                     />
-    //                 </TouchableOpacity>
-    //             </View>
-
-    //             <View
-    //                 style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
-    //             >
-    //                 <TouchableOpacity
-    //                     onPress={navigation.getParam('increaseCount')}
-    //                     style={{ justifyContent: 'center', alignItems: 'center' }}
-    //                 >
-    //                     <Image
-    //                         style={{ width: 24, height: 24 }}
-    //                         source={navigation.getParam('image') ? require(imageMaxToMin) : require(imageMinToMax)}
-    //                     />
-    //                 </TouchableOpacity>
-    //             </View>
-    //         </View>,
-    //     };
-    // };
-
     componentDidMount() {
         this.callListVehicle(this.state.carType);
         this.callListVehicleName(this.state.carType);
@@ -143,14 +96,9 @@ class ListVehicle extends Component {
         })
     }
 
-    componentWillMount() {
-        this.props.navigation.setParams({ 'increaseCount': this._increaseCount });
-        this.props.navigation.setParams({ 'setShowFilter': this.setShowFilter });
-    }
 
     _increaseCount = () => {
         this.setState({ sort: !this.state.sort });
-        this.props.navigation.setParams({ 'image': !this.state.sort })
     };
 
     setShowFilter = () => {
@@ -171,9 +119,9 @@ class ListVehicle extends Component {
                 <SafeAreaView style={{
                     flex: 1,
                     flexDirection: 'column',
-                    padding: 16,
                 }}>
                     <ScrollView
+                        style={{ padding: 16, }}
                         showsVerticalScrollIndicator={false}
 
                     >
@@ -244,7 +192,7 @@ class ListVehicle extends Component {
                         />
 
                     </ScrollView>
-                    <View style={{ flexDirection: 'row' }}>
+                    <View style={{ flexDirection: 'row', paddingHorizontal: 8 }}>
 
                         <TouchableOpacity
                             style={{ padding: 8, backgroundColor: '#e8e8e8', borderRadius: 4, alignItems: 'center', marginTop: 10, flex: 1 }}
@@ -311,8 +259,7 @@ class ListVehicle extends Component {
                         data={obj}
                         renderItem={({ item }) =>
                             <View>
-                                {/* {item.part.vhc_type_id != this.state.carType ? null : */}
-                                <View style={{ padding: 8, borderColor: '#e8e8e8', borderRadius: 4, borderWidth: 0.5, marginTop: 8 }}>
+                                <View style={{ padding: 8, borderColor: '#e8e8e8', borderRadius: 4, borderWidth: 0.5, marginTop: 8, marginHorizontal: 8 }}>
                                     <View style={{ flexDirection: 'row' }}>
                                         <View style={{ flex: 1, justifyContent: 'flex-start' }}>
                                             <View style={{ flexDirection: 'row' }}>
@@ -325,17 +272,6 @@ class ListVehicle extends Component {
 
                                             <StarVote number={item.vhc_part_star} />
 
-                                            {/* {this.state.carType == '1' ?
-                                                <View>
-                                                    <Text style={{ fontWeight: 'bold', fontSize: 14 }}>xe {item.vhc.vhc_seat_num} chỗ {item.vhc.vhc_tms_name}</Text>
-                                                    <Text>Hoặc tương đương</Text>
-                                                </View>
-                                                :
-                                                <View>
-                                                    <Text style={{ fontWeight: 'bold', fontSize: 14 }}>{item.vhc.vhc_tms_name}</Text>
-                                                </View>
-                                            } */}
-
                                             <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#00363d', marginTop: 8 }}>{item.vhc_part_defa_prie.format(0, 3, `.`)} đ/Ngày</Text>
                                         </View>
 
@@ -347,15 +283,6 @@ class ListVehicle extends Component {
                                         </View>
                                     </View>
 
-                                    {/* <TouchableOpacity
-                                        style={{ flexDirection: 'row', marginTop: 8, borderBottomColor: '#00363d', backgroundColor: '#77a300', borderWidth: 0.5, justifyContent: 'center', borderRadius: 4, alignItems: 'center' }}
-                                        onPress={() => {
-                                            // console.log(item.vhc_part_name)
-                                            this.props.navigation.navigate('InfoChungXe', { item: item })
-                                        }}
-                                    >
-                                        <Text style={{ fontSize: 18, padding: 8, color: '#ffffff', }}>CHỌN XE</Text>
-                                    </TouchableOpacity> */}
                                     <Button
                                         onPress={() => {
                                             this.props.navigation.navigate('InfoChungXe', { item: item })
@@ -377,10 +304,24 @@ class ListVehicle extends Component {
         this.props.navigation.goBack()
     }
 
+    renderHeader() {
+        return (
+            <HeaderText
+                textCenter={'Danh sách xe'}
+                onPressLeft={this.goBack}
+                onPressRight1={this.setShowFilter}
+                onPressRight2={this._increaseCount}
+                source1={require(imageTune)}
+                source2={this.state.sort ? require(imageMaxToMin) : require(imageMinToMax)}
+            />
+        )
+    }
+
     render() {
         if (this.state.isLoading) {
             return (
                 <SafeAreaView style={{ flex: 1 }}>
+                    {this.renderHeader()}
                     <ActivityIndicator
                         style={{ marginTop: 8 }}
                         size='large'
@@ -391,8 +332,8 @@ class ListVehicle extends Component {
         // var obj = [...this.state.listVehicle];
         return (
             <SafeAreaView style={{ flex: 1, }}>
-                <HeaderText textCenter={'Danh sách xe'} onPressLeft={this.goBack} />
-                <View style={{ flex: 1, height: 50, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
+                {this.renderHeader()}
+                <View style={{ height: 50, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                     <View style={styles.ViewTop}>
                         <TouchableOpacity
                             style={this.state.selectCar ? styles.TouchableOpacityTopSelected : styles.TouchableOpacityTop}

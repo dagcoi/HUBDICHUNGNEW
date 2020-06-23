@@ -9,6 +9,7 @@ import * as link from '../../../URL'
 import { Button } from '../../../component/Button'
 import CheckBoxList from '../../../component/CheckBoxList';
 import { HeaderText } from '../../../component/Header';
+import ListCar from '../../DiChung/ListCar';
 
 const imageMaxToMin = '../../../image/maxtomin.png'
 const imageMinToMax = '../../../image/mintomax.png'
@@ -82,14 +83,8 @@ class ListDriverExpress extends Component {
     //     };
     // };
 
-    componentWillMount() {
-        this.props.navigation.setParams({ 'increaseCount': this._increaseCount });
-        this.props.navigation.setParams({ 'setShowFilter': this.setShowFilter });
-    }
-
     _increaseCount = () => {
         this.setState({ sort: !this.state.sort });
-        this.props.navigation.setParams({ 'image': !this.state.sort })
     };
 
     setShowFilter = () => {
@@ -181,7 +176,7 @@ class ListDriverExpress extends Component {
     addListfilter(list) {
         var { listcar } = this.state;
         for (let i = 0; i < list.length; i++) {
-            if (listcar.id != list[i].vehicle_id) {
+            if (listcar.vehicle_id != list[i].vehicle_id) {
                 listcar.push({ 'vehicle_id': list[i].vehicle_id, 'vehicle_name': list[i].vehicle_name })
             }
         }
@@ -212,10 +207,10 @@ class ListDriverExpress extends Component {
                 <SafeAreaView style={{
                     flex: 1,
                     flexDirection: 'column',
-                    padding: 16,
                 }}>
-                    <Text style={{ fontSize: 16, fontWeight: '700', padding: 8 }}>Kích thước</Text>
+                    <Text style={{ fontSize: 16, fontWeight: '700', paddingHorizontal: 16, paddingTop: 16 }}>Kích thước</Text>
                     <FlatList
+                        style={{ paddingHorizontal: 16, }}
                         showsHorizontalScrollIndicator={false}
                         showsVerticalScrollIndicator={false}
                         data={listcar}
@@ -236,7 +231,7 @@ class ListDriverExpress extends Component {
                         }
                     />
 
-                    <View style={{ flexDirection: 'row' }}>
+                    <View style={{ flexDirection: 'row', marginBottom: 8, paddingHorizontal: 16 }}>
                         <TouchableOpacity
                             style={{ padding: 8, backgroundColor: '#999999', borderRadius: 4, alignItems: 'center', marginTop: 10, flex: 1 }}
                             onPress={() => {
@@ -274,7 +269,7 @@ class ListDriverExpress extends Component {
                         key={index}
                         style={styles.container}
                     >
-                        <View style={{ flexDirection: 'row' }}>
+                        <View style={{ flexDirection: 'row',justifyContent: 'center',alignItems:'center' }}>
                             <View style={styles.containerr}>
                                 <Text style={styles.loaixe}>
                                     {item.partner_name.toUpperCase()}
@@ -286,7 +281,7 @@ class ListDriverExpress extends Component {
 
                             <View style={styles.imageRight}>
                                 <Image
-                                    style={{ width: 150, height: 150, }}
+                                    style={{ width: 150, height: 100, }}
                                     source={{ uri: item.vehicle_icon, }}
                                     resizeMode="contain"
                                 />
@@ -366,12 +361,25 @@ class ListDriverExpress extends Component {
         this.props.navigation.goBack()
     }
 
+    renderHeader() {
+        return (
+            <HeaderText
+                textCenter={'Danh sách xe'}
+                onPressLeft={this.goBack}
+                onPressRight1={this.setShowFilter}
+                onPressRight2={this._increaseCount}
+                source1={require(imageTune)}
+                source2={this.state.sort ? require(imageMaxToMin) : require(imageMinToMax)}
+            />
+        )
+    }
+
     render() {
 
         if (this.state.isLoading) {
             return (
-                <SafeAreaView style={{ flex: 1, padding: 20 }}>
-                    <HeaderText textCenter={'Dánh sách xe'} onPressLeft={this.goBack} />
+                <SafeAreaView style={{ flex: 1, }}>
+                    {this.renderHeader()}
                     <ActivityIndicator
                         size='large'
                     />
@@ -385,7 +393,7 @@ class ListDriverExpress extends Component {
         // console.log(lf);
         return (
             <SafeAreaView style={{ flex: 1, }}>
-                <HeaderText textCenter={'Dánh sách xe'} onPressLeft={this.goBack} />
+                {this.renderHeader()}
                 {obj.length < 1 ?
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
                         <Image

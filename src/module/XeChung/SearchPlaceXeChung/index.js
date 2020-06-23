@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, TouchableOpacity, Image, SafeAreaView } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Image, SafeAreaView, Platform } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import Geocoder from 'react-native-geocoding';
 import { connect } from 'react-redux';
@@ -147,18 +147,21 @@ class SearchPlaceXeChung extends Component {
                             </View>
                             }
                             renderRightButton={() => <View style={{ padding: 8, justifyContent: 'center', alignItems: 'center' }}>
-                                <TouchableOpacity
-                                    onPress={
-                                        () => {
-                                            this._clearInput(this.GooglePlaceRef1)
-                                            this.setState(() => ({ blSelect: true }))
-                                        }
-                                        // () => this.refs.textInput.value = ''
-                                    }>
-                                    <Image
-                                        style={{ width: 20, height: 20, margin: 8 }}
-                                        source={require(imageCancel)} />
-                                </TouchableOpacity>
+                                {Platform.OS === 'android' ?
+                                    <TouchableOpacity
+                                        onPress={
+                                            () => {
+                                                this._clearInput(this.GooglePlaceRef1)
+                                                this.setState(() => ({ blSelect: true }))
+                                            }
+                                            // () => this.refs.textInput.value = ''
+                                        }>
+                                        <Image
+                                            style={{ width: 20, height: 20, margin: 8 }}
+                                            source={require(imageCancel)} />
+                                    </TouchableOpacity>
+                                    : null
+                                }
                             </View>}
                         />
 

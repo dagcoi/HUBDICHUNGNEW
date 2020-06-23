@@ -468,7 +468,7 @@ class SpecialRequirements extends Component {
                             animationType="slide"
                             transparent={true}
                             visible={this.state.dialogCalendarVisible}
-                            onOrientationChange={true}
+                            // onOrientationChange={true}
                             onRequestClose={() => {
                                 console.log('a');
                             }}>
@@ -524,7 +524,7 @@ class SpecialRequirements extends Component {
                             animationType="slide"
                             transparent={true}
                             visible={this.state.dialogTimeVisible}
-                            onOrientationChange={true}
+                            // onOrientationChange={true}
                             onRequestClose={() => {
                                 console.log('a');
                             }}>
@@ -611,7 +611,7 @@ class SpecialRequirements extends Component {
                             animationType="slide"
                             transparent={true}
                             visible={this.state.modalCarType}
-                            onOrientationChange={true}
+                            // onOrientationChange={true}
                             onRequestClose={() => {
                                 console.log('a');
                             }}>

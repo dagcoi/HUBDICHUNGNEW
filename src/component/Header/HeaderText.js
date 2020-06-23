@@ -4,9 +4,13 @@ import { View, Image, TouchableOpacity, Text, StyleSheet } from 'react-native';
 function HeaderText({
     onPressLeft,
     textCenter,
+    onPressRight1,
+    onPressRight2,
+    source1,
+    source2,
 }) {
     return (
-        <View style={{ height: 50, flexDirection: 'row', shadowOffset: { height: 2, width: 2 }, backgroundColor: '#fff', shadowColor: '#000', shadowOpacity: 0, elevation: 5, }}>
+        <View style={{ height: 50, flexDirection: 'row', shadowOffset: { height: 2, width: 2 }, backgroundColor: '#fff', shadowColor: '#000', shadowOpacity: 0, elevation: 5, alignItems: 'center' }}>
             <TouchableOpacity
                 onPress={onPressLeft}
 
@@ -18,16 +22,35 @@ function HeaderText({
                     />
                 </View>
             </TouchableOpacity>
+
             <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1, height: 50 }}>
-                <Text style = {{fontSize : 18, fontWeight : 'bold'}}>{textCenter}</Text>
+                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{textCenter}</Text>
             </View>
 
-            <View style={{ height: 50, width: 50, marginRight: 8, justifyContent: 'center', alignItems: 'center' }}>
-                {/* <Image
+            {source1 ? <TouchableOpacity
+                style={{ height: 30, width: 30, marginRight: 8, justifyContent: 'center', alignItems: 'center' }}
+                onPress={onPressRight1}
+            >
+                <Image
                     style={{ height: 22, width: 22 }}
-                    source={require('../../image/notification.png')}
-                /> */}
-            </View>
+                    source={source1}
+                />
+            </TouchableOpacity> : null}
+
+            {source2 ? <TouchableOpacity
+                style={{ height: 30, width: 30, marginRight: 8, justifyContent: 'center', alignItems: 'center' }}
+                onPress={onPressRight2}
+            >
+                <Image
+                    style={{ height: 22, width: 22 }}
+                    source={source2}
+                />
+            </TouchableOpacity> : null}
+
+            {source1 || source2 ? null : <TouchableOpacity
+                style={{ height: 50, width: 50, marginRight: 8, justifyContent: 'center', alignItems: 'center' }}
+            >
+            </TouchableOpacity>}
 
         </View>
     )

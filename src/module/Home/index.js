@@ -32,7 +32,7 @@ class Home extends Component {
             modalWebView: false,
             titleModal: null,
         }
-        this.handleBackPress = this.handleBackPress.bind(this);
+        // this.handleBackPress = this.handleBackPress.bind(this);
     }
 
     onSwipe(gestureName, gestureState) {
@@ -59,7 +59,7 @@ class Home extends Component {
         this.callApiPromotion();
         this.callApiAttractivePlaces();
         this.notificationClickAction()
-        BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+        // BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
         if (Platform.OS === "android") {
             Linking.getInitialURL().then(url => {
                 console.log('url is', url);
@@ -189,9 +189,9 @@ class Home extends Component {
         console.log('routeName' + routeName)
     };
 
-    componentWillUnmount() {
-        BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
-    }
+    // componentWillUnmount() {
+    //     BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+    // }
 
     _retrieveData = async () => {
         try {
@@ -212,24 +212,24 @@ class Home extends Component {
         }
     };
 
-    handleBackPress = () => {
-        var { modalWebView } = this.state
-        console.log(modalWebView)
-        if (modalWebView) {
-            this.setState({ modalWebView: false })
-            return true;
-        } else {
-            Alert.alert(
-                'Thoát',
-                'Bạn muốn thoát khỏi chương trình ứng dụng?',
-                [
-                    { text: 'Không', style: 'cancel' },
-                    { text: 'Thoát', onPress: () => { BackHandler.exitApp() } }
-                ]
-            );
-            return true;
-        }
-    }
+    // handleBackPress = () => {
+    //     var { modalWebView } = this.state
+    //     console.log(modalWebView)
+    //     if (modalWebView) {
+    //         this.setState({ modalWebView: false })
+    //         return true;
+    //     } else {
+    //         Alert.alert(
+    //             'Thoát',
+    //             'Bạn muốn thoát khỏi chương trình ứng dụng?',
+    //             [
+    //                 { text: 'Không', style: 'cancel' },
+    //                 { text: 'Thoát', onPress: () => { BackHandler.exitApp() } }
+    //             ]
+    //         );
+    //         return true;
+    //     }
+    // }
 
     async callApiPromotion() {
         const url = link.URL_REALASE + `wp-json/wp/v2/posts?_embed=1&per_page=5&tags=52`

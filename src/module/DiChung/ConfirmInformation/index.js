@@ -274,10 +274,9 @@ class ConfirmInformation extends Component {
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <HeaderText textCenter={'Xác nhận thông tin'} onPressLeft={this.goBack} />
-                <View style={{ flex: 1 }}>
+                <View style={{ flex: 1, padding: 8 }}>
                     <ScrollView
                         showsVerticalScrollIndicator={false}
-                        style={{ padding: 8 }}
                     >
                         <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                             <Image

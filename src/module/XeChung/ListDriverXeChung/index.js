@@ -29,64 +29,12 @@ class ListDriverXeChung extends Component {
         }
     }
 
-
-    static navigationOptions = ({ navigation }) => {
-        return {
-            headerTitle: () => <View style={{
-                flex: 1,
-                flexDirection: 'row',
-                justifyContent: 'center'
-            }}>
-                <Text style={{
-                    flex: 1,
-                    fontSize: 22,
-                    textAlign: 'left',
-                    justifyContent: 'center'
-                }}>Danh sách xe</Text>
-
-                <View
-                    style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
-                >
-                    <TouchableOpacity
-                        style={{ justifyContent: 'center', alignItems: 'center' }}
-                        onPress={navigation.getParam('setShowFilter')}
-                    >
-                        <Image
-                            style={{ width: 24, height: 24 }}
-                            source={require(imageTune)}
-                        />
-                    </TouchableOpacity>
-                </View>
-
-                <View
-                    style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
-                >
-                    <TouchableOpacity
-                        style={{ justifyContent: 'center', alignItems: 'center' }}
-                        onPress={navigation.getParam('increaseCount')}
-                    >
-                        <Image
-                            style={{ width: 24, height: 24 }}
-                            source={navigation.getParam('image') ? require(imageMaxToMin) : require(imageMinToMax)}
-                        />
-                    </TouchableOpacity>
-                </View>
-            </View>,
-        };
-    };
-
     componentDidMount() {
         this.getListDriverNew()
     }
 
-    componentWillMount() {
-        this.props.navigation.setParams({ 'increaseCount': this._increaseCount });
-        this.props.navigation.setParams({ 'setShowFilter': this.setShowFilter });
-    }
-
     _increaseCount = () => {
         this.setState({ sort: !this.state.sort });
-        this.props.navigation.setParams({ 'image': !this.state.sort })
     };
 
     setShowFilter = () => {
@@ -199,7 +147,6 @@ class ListDriverXeChung extends Component {
                 <SafeAreaView style={{
                     flex: 1,
                     flexDirection: 'column',
-                    padding: 16,
                 }}>
                     <Text style={{ fontSize: 24, fontWeight: '700', }}>Loại xe</Text>
                     <FlatList
@@ -267,7 +214,7 @@ class ListDriverXeChung extends Component {
         var obj = obj1;
         { this.state.sort ? obj.sort((a, b) => b.merged - a.merged) : obj.sort((a, b) => a.merged - b.merged) }
         return (
-            <View>
+            <View style={{ paddingHorizontal: 8 }}>
                 {obj.map((item, index) => (
                     <View>
                         <View

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, ActivityIndicator, Modal, FlatList, TouchableHighlight, ScrollView, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, ActivityIndicator, Modal, FlatList, TouchableHighlight, ScrollView, SafeAreaView, ImageBackground } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 import { ConfirmDialog } from 'react-native-simple-dialogs';
 import CalendarPicker from 'react-native-calendar-picker';
-import TimePicker from './TimePicker'
 import { addCityTime, addDepartTimeTuLai, addPeopleTuLai, swapAddressTuLai, addDurationTuLai } from '../../../core/Redux/action/Action'
 import { connect } from 'react-redux';
 import * as key from '../../../component/KeyGG'
@@ -14,14 +13,16 @@ import { ButtonFull, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 import PopUp from '../../../component/PopUp'
 import { HeaderText } from '../../../component/Header';
+import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung';
 
 const imageLocation = '../../../image/location.png'
-const imageDrop = '../../../image/drop.png'
+const imageDrop = '../../../image/location.png'
 const imageSwap = '../../../image/swap.png'
 const imageTime = '../../../image/time.png'
 const imageCancel = '../../../image/cancel.png'
 const imageHourglass = '../../../image/hourglass.png'
 const imageCheck = '../../../image/done.png'
+const imageBackground = { uri: 'https://dichung.vn/static/images/e216031ab3feeb651026e80873156f50.png' }
 
 const origin = { latitude: 21.2187149, longitude: 105.80417090000003 };
 // const destination = { latitude: 21.0019302, longitude: 105.85090579999996 };
@@ -85,6 +86,7 @@ class MapChungXe extends Component {
             showAlertTime: false,
             showAlertInfo: false,
             showAlertTimeDrop: false,
+            hourly: false,
         },
             this.mapRef = null;
     }
@@ -166,20 +168,6 @@ class MapChungXe extends Component {
         });
         console.log(date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec)
         return spesentDay;
-    }
-
-    renderMap() {
-        return (
-            <MapView style={[styles.container, { marginTop: 150 }]}
-                provider={PROVIDER_GOOGLE}
-                initialRegion={{
-                    latitude: origin.latitude,
-                    longitude: origin.longitude,
-                    latitudeDelta: 2.0,
-                    longitudeDelta: 0.1,
-                }}
-            ></MapView>
-        );
     }
 
     renderPicktoDrop() {
@@ -327,11 +315,11 @@ class MapChungXe extends Component {
         return (
             <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 1, justifyContent: 'center', alignItems: 'center', height: 40 }}>
                 <Image
-                    style={{ height: 30, width: 24, marginLeft: 8 }}
+                    style={{ height: 28, width: 24, marginLeft: 8 }}
                     source={require(imageLocation)}
                 />
                 <TouchableOpacity
-                    style={{ flex: 1, flexDirection: 'row', alignItems: 'center', }}
+                    style={{ flex: 1, flexDirection: 'row', alignItems: 'center', marginLeft: 8 }}
                     onPress={() => {
                         this.props.navigation.push("SerchPlaceTuLai", {
                             search: 'Pick',
@@ -350,6 +338,7 @@ class MapChungXe extends Component {
                         pointerEvents="none"
                         value={this.props.pick_add}
                         placeholder='Nhập điểm xuất phát'
+                        placeholderTextColor={'#333333'}
                         selection={{ start: 0, end: 0 }}
                     />
                 </TouchableOpacity>
@@ -377,9 +366,10 @@ class MapChungXe extends Component {
                     editable={false}
                     value={this.state.date ? this.state.time_pick : ""}
                     placeholder='Chọn giờ lấy xe'
+                    placeholderTextColor={'#333333'}
                     onTouchStart={() => { this.setState({ dialogCalendarVisible: true }) }}
                     pointerEvents='none'
-                    style={{ fontSize: 14, color: "#00363d", flex: 1 }}
+                    style={{ fontSize: 14, color: "#00363d", flex: 1, marginLeft: 8 }}
                 />
 
             </TouchableOpacity>
@@ -400,7 +390,7 @@ class MapChungXe extends Component {
                         }}
                     >
                         <Image
-                            style={{ height: 30, width: 24, marginLeft: 8 }}
+                            style={{ height: 28, width: 24, marginLeft: 8 }}
                             source={require(imageLocation)}
                         />
 
@@ -412,9 +402,10 @@ class MapChungXe extends Component {
                                 })
                             }
                             }
-                            style={{ fontSize: 14, color: "#00363d" }}
+                            style={{ fontSize: 14, color: "#00363d", marginLeft: 8 }}
                             pointerEvents='none'
                             value={this.state.city_name_dc}
+                            placeholderTextColor={'#333333'}
                             placeholder='Chọn thành phố'
                             selection={{ start: 0, end: 0 }}
                         />
@@ -427,7 +418,7 @@ class MapChungXe extends Component {
                 <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 1, justifyContent: 'center', alignItems: 'center', height: 40 }}>
                     <View style={{ flex: 1, flexDirection: 'row', borderColor: '#e8e8e8', borderRightWidth: 0.1, justifyContent: 'center', alignItems: 'center', }}>
                         <Image
-                            style={{ height: 30, width: 24, marginLeft: 8, alignItems: 'center', justifyContent: 'center' }}
+                            style={{ height: 28, width: 24, marginLeft: 8, alignItems: 'center', justifyContent: 'center' }}
                             source={require(imageDrop)}
                         />
                         <TouchableOpacity
@@ -446,10 +437,11 @@ class MapChungXe extends Component {
                                     placeholder: 'Nhập điểm đến'
                                 })
                                 }
-                                style={{ fontSize: 14, color: "#00363d" }}
+                                style={{ fontSize: 14, color: "#00363d", marginLeft: 8 }}
                                 pointerEvents="none"
                                 value={this.props.drop_add}
                                 placeholder='Nhập điểm đến'
+                                placeholderTextColor={'#333333'}
                                 selection={{ start: 0, end: 0 }}
                             />
                         </TouchableOpacity>
@@ -515,17 +507,18 @@ class MapChungXe extends Component {
                         source={require('../../../image/location.png')}
                     />
                     <TouchableOpacity
-                        style={{ flex: 1, flexDirection: 'row', alignItems: 'center', }}
+                        style={{ flex: 1, flexDirection: 'row', alignItems: 'center', marginLeft: 8 }}
                         onPress={() => {
                             this.setModalVisible(!this.state.modalListCity);
                         }}
                     >
                         <TextInput
-                            style={{ fontSize: 16, }}
+                            style={{ fontSize: 14, }}
                             pointerEvents="none"
                             onTouchStart={() => { this.setModalVisible(!this.state.modalListCity); }}
                             value={this.state.city}
                             placeholder='Chọn khu vực'
+                            placeholderTextColor={'#333333'}
                         />
                     </TouchableOpacity>
 
@@ -548,9 +541,10 @@ class MapChungXe extends Component {
                         <TextInput
                             value={this.state.date ? this.state.time_pick : ''}
                             placeholder='Thời gian nhận xe'
+                            placeholderTextColor={'#333333'}
                             onTouchStart={() => { this.setState({ dialogCalendarVisible: true, nhanxe: true }) }}
                             pointerEvents='none'
-                            style={{ fontSize: 16, flex: 1, color: '#000' }}
+                            style={{ fontSize: 14, flex: 1, color: '#000' }}
                             editable={false}
                         />
 
@@ -572,9 +566,10 @@ class MapChungXe extends Component {
                             editable={false}
                             value={this.state.date1 ? this.state.time_drop : ''}
                             placeholder='Thời gian trả xe'
+                            placeholderTextColor={'#333333'}
                             onTouchStart={() => { this.setState({ dialogCalendarVisible: true, nhanxe: false }) }}
                             pointerEvents='none'
-                            style={{ fontSize: 16, flex: 1, color: '#000' }}
+                            style={{ fontSize: 14, flex: 1, color: '#000' }}
                         />
                     </TouchableOpacity>
                 </View>
@@ -661,7 +656,7 @@ class MapChungXe extends Component {
                                                         rent_date: `${this.state.date.format('YYYY-MM-DD')}`,
                                                         // time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
                                                     })
-                                                    this.props.addDepartTimeTuLai(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
+                                                    this.props.addDepartTimeTuLai(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
                                                 }
                                             } else {
                                                 this.setState({
@@ -674,7 +669,7 @@ class MapChungXe extends Component {
                                                     rent_date: `${this.state.date.format('YYYY-MM-DD')}`,
                                                     // time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
                                                 })
-                                                this.props.addDepartTimeTuLai(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
+                                                this.props.addDepartTimeTuLai(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
                                             }
                                         } else {
                                             if (isDayAlight) {
@@ -737,10 +732,10 @@ class MapChungXe extends Component {
             <SafeAreaView style={{ flex: 1, backgroundColor: '#eee' }}>
                 <HeaderText textCenter={'Thuê xe tự lái'} onPressLeft={this.goBack} />
                 {/* {this.renderPicktoDrop()} */}
-                <View style={{flex :1}}>
-                {this.formSwitch()}
-                {this.state.hourly ? this.formCarTour() : this.formBookingDoortoDoor()}
-                {/* {this.state.hourly ?
+                <ImageBackground style={{ flex: 1, resizeMode: "cover", }} source={imageBackground} >
+                    {this.formSwitch()}
+                    {this.state.hourly ? this.formCarTour() : this.formBookingDoortoDoor()}
+                    {/* {this.state.hourly ?
                     <ButtonFull
                         onPress={() => { this.gotoListCarTour() }}
                         value={'Xem giá'}
@@ -749,104 +744,104 @@ class MapChungXe extends Component {
                         onPress={() => { this.nextScreen() }}
                         value={'Xem giá'}
                     />} */}
-                {this.renderAlertInfo()}
-                <Modal
-                    visible={this.state.dialogCalendarVisible}
-                    animationType="slide"
-                    transparent={true}
-                >
-                    <SafeAreaView style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        backgroundColor: '#fff',
-                    }}>
-                        <Text style={{ fontSize: 18, fontWeight: 'bold', margin: 8, textAlign: 'center' }}>{this.state.nhanxe ? 'Chọn ngày nhận xe' : 'Chọn ngày trả xe'}</Text>
-                        <CalendarPicker
-                            textStyle={{
-                                color: '#000000',
-                                fontSize: 14,
-                            }}
-                            weekdays={['Th 2', 'Th 3', 'Th 4', 'Th 5', 'Th 6', 'Th 7', 'CN',]}
-                            months={['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']}
-                            previousTitle="Trước"
-                            nextTitle="Sau"
-                            allowRangeSelection={false}
-                            minDate={minDate}
-                            startFromMonday={true}
-                            // todayBackgroundColor="#00363d"
-                            selectedDayColor="#77a300"
-                            selectedDayTextColor="#FFFFFF"
-                            dayShape='cicle'
-                            onDateChange={(date) => {
-                                if (this.state.nhanxe) {
-                                    this.setState({
-                                        date: date,
-                                        date2: date,
-                                        dialogTimeVisible: true,
-                                    })
-                                } else {
-                                    this.setState({
-                                        date1: date,
-                                        date2: date,
-                                        dialogTimeVisible: true,
-                                    })
-                                }
+                    {this.renderAlertInfo()}
+                    <Modal
+                        visible={this.state.dialogCalendarVisible}
+                        animationType="slide"
+                        transparent={true}
+                    >
+                        <SafeAreaView style={{
+                            flex: 1,
+                            flexDirection: 'column',
+                            backgroundColor: '#fff',
+                        }}>
+                            <Text style={{ fontSize: 18, fontWeight: 'bold', margin: 8, textAlign: 'center' }}>{this.state.nhanxe ? 'Chọn ngày nhận xe' : 'Chọn ngày trả xe'}</Text>
+                            <CalendarPicker
+                                textStyle={{
+                                    color: '#000000',
+                                    fontSize: 14,
+                                }}
+                                weekdays={['Th 2', 'Th 3', 'Th 4', 'Th 5', 'Th 6', 'Th 7', 'CN',]}
+                                months={['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']}
+                                previousTitle="Trước"
+                                nextTitle="Sau"
+                                allowRangeSelection={false}
+                                minDate={minDate}
+                                startFromMonday={true}
+                                // todayBackgroundColor="#00363d"
+                                selectedDayColor="#77a300"
+                                selectedDayTextColor="#FFFFFF"
+                                dayShape='cicle'
+                                onDateChange={(date) => {
+                                    if (this.state.nhanxe) {
+                                        this.setState({
+                                            date: date,
+                                            date2: date,
+                                            dialogTimeVisible: true,
+                                        })
+                                    } else {
+                                        this.setState({
+                                            date1: date,
+                                            date2: date,
+                                            dialogTimeVisible: true,
+                                        })
+                                    }
 
-                            }}
+                                }}
 
-                        />
-                        {this.formSelectTime()}
-                    </SafeAreaView>
-                </Modal>
+                            />
+                            {this.formSelectTime()}
+                        </SafeAreaView>
+                    </Modal>
 
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={this.state.modalListCity}
-                    // onOrientationChange={true}
-                    onRequestClose={() => {
-                        console.log('a');
-                    }}>
-                    <SafeAreaView style={{
-                        flex: 1,
-                        flexDirection: 'column',
-                        justifyContent: 'flex-end',
-                        backgroundColor: '#000000AA'
-                    }}>
-                        <View style={{ flex: 1, }}>
-                            <TouchableOpacity
-                                onPress={() => this.setModalVisible(!this.state.modalListCity)}
-                                style={{ flex: 1 }}
-                            ></TouchableOpacity>
-                        </View>
-                        <FlatList
-                            style={{ flex: 1, backgroundColor: '#ffffff' }}
-                            data={this.state.listCity}
-                            renderItem={({ item }) =>
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={this.state.modalListCity}
+                        // onOrientationChange={true}
+                        onRequestClose={() => {
+                            console.log('a');
+                        }}>
+                        <SafeAreaView style={{
+                            flex: 1,
+                            flexDirection: 'column',
+                            justifyContent: 'flex-end',
+                            backgroundColor: '#000000AA'
+                        }}>
+                            <View style={{ flex: 1, }}>
                                 <TouchableOpacity
-                                    style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}
-                                    onPress={() => this.setState({
-                                        city: item.city_name,
-                                        city_id: item.city_id,
-                                        city_name: item.city_name,
-                                        modalListCity: false,
-                                    })}
-                                >
-                                    <Text style={{ fontSize: 18, flex: 1, padding: 8, color: this.state.city_name == item.city_name ? '#77a300' : '#333333' }}>{item.city_name}</Text>
-                                    {item.city_name == this.state.city_name ? <Image
-                                        style={{ height: 24, width: 24, marginLeft: 8 }}
-                                        source={require(imageCheck)}
-                                    /> : null}
-                                </TouchableOpacity>}
-                            keyExtractor={item => item.city_id}
-                        />
+                                    onPress={() => this.setModalVisible(!this.state.modalListCity)}
+                                    style={{ flex: 1 }}
+                                ></TouchableOpacity>
+                            </View>
+                            <FlatList
+                                style={{ flex: 1, backgroundColor: '#ffffff' }}
+                                data={this.state.listCity}
+                                renderItem={({ item }) =>
+                                    <TouchableOpacity
+                                        style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}
+                                        onPress={() => this.setState({
+                                            city: item.city_name,
+                                            city_id: item.city_id,
+                                            city_name: item.city_name,
+                                            modalListCity: false,
+                                        })}
+                                    >
+                                        <Text style={{ fontSize: 18, flex: 1, padding: 8, color: this.state.city_name == item.city_name ? '#77a300' : '#333333' }}>{item.city_name}</Text>
+                                        {item.city_name == this.state.city_name ? <Image
+                                            style={{ height: 24, width: 24, marginLeft: 8 }}
+                                            source={require(imageCheck)}
+                                        /> : null}
+                                    </TouchableOpacity>}
+                                keyExtractor={item => item.city_id}
+                            />
 
-                    </SafeAreaView>
-                </Modal>
+                        </SafeAreaView>
+                    </Modal>
 
 
-                {this.formModalListCity()}
-                </View>
+                    {this.formModalListCity()}
+                </ImageBackground>
             </SafeAreaView>
         );
     }
@@ -955,7 +950,7 @@ const styles = StyleSheet.create({
         borderBottomEndRadius: 8,
         borderBottomStartRadius: 8,
         marginHorizontal: 8,
-        paddingLeft: 8,
+        paddingLeft: -2,
         paddingRight: 8,
         paddingTop: 4,
     },

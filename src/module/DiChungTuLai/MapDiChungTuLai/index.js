@@ -423,7 +423,7 @@ class MapDiChungTuLai extends Component {
                         animationType="slide"
                         transparent={true}
                         visible={this.state.dialogCalendarVisible}
-                        onOrientationChange={true}
+                        // onOrientationChange={true}
                         onRequestClose={() => {
                             console.log('a');
                         }}> 
@@ -478,7 +478,7 @@ class MapDiChungTuLai extends Component {
                         animationType="slide"
                         transparent={true}
                         visible={this.state.dialogTimeVisible}
-                        onOrientationChange={true}
+                        // onOrientationChange={true}
                         onRequestClose={() => {
                             console.log('a');
                         }}>
@@ -486,7 +486,6 @@ class MapDiChungTuLai extends Component {
                             flex: 1,
                             flexDirection: 'column',
                             justifyContent: 'flex-end',
-                            padding: 10,
                         }}>
                             <View style={{ flex: 2, }}>
                                 <TouchableOpacity
@@ -527,7 +526,7 @@ class MapDiChungTuLai extends Component {
                         animationType="slide"
                         transparent={true}
                         visible={this.state.modalSelectTime}
-                        onOrientationChange={true}
+                        // onOrientationChange={true}
                         onRequestClose={() => {
                             console.log('a');
                         }}>

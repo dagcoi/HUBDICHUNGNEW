@@ -506,7 +506,7 @@ class InfoCustommerExpress extends Component {
                             </TouchableOpacity>
                         </View>
 
-                        <View>{this.state.detailPromotion == '' ? null : <Text style={{ color: this.state.promotion ? "#77a300" : "#EF465E" }}>{this.state.detailPromotion}</Text>}</View>
+                        <View>{this.state.detailPromotion == '' ? null : <Text style={{ color: this.state.promotion ? "#77a300" : "#EF465F" }}>{this.state.detailPromotion}</Text>}</View>
 
                         <CheckBoxList
                             onClick={() => {
@@ -544,7 +544,7 @@ class InfoCustommerExpress extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#eeeeee',
+        backgroundColor: '#fff',
         padding: 8,
     },
 

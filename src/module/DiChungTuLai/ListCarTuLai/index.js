@@ -29,73 +29,19 @@ class ListCarTuLai extends Component {
         }
     }
 
-    static navigationOptions = ({ navigation }) => {
-        return {
-            headerTitle: () => <View style={{
-                flex: 1,
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center'
-            }}>
-                <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
-                    <Text style={{
-                        // flex: 1,
-                        fontSize: 22,
-                        textAlign: 'left',
-                        // justifyContent: 'center',
-                    }}>
-                        Danh sách xe
-                </Text>
-                </View>
-
-
-                <View
-                    style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
-                >
-                    <TouchableOpacity
-                        onPress={navigation.getParam('setShowFilter')}
-                        style={{ justifyContent: 'center', alignItems: 'center' }}
-                    >
-                        <Image
-                            style={{ width: 24, height: 24 }}
-                            source={require(imageTune)}
-                        />
-                    </TouchableOpacity>
-                </View>
-
-                <View
-                    style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
-                >
-                    <TouchableOpacity
-                        onPress={navigation.getParam('increaseCount')}
-                        style={{ justifyContent: 'center', alignItems: 'center' }}
-                    >
-                        <Image
-                            style={{ width: 24, height: 24 }}
-                            source={navigation.getParam('image') ? require(imageMaxToMin) : require(imageMinToMax)}
-                        />
-                    </TouchableOpacity>
-                </View>
-            </View>,
-        };
-    };
-
-    componentWillMount() {
-        this.props.navigation.setParams({ 'increaseCount': this._increaseCount });
-        this.props.navigation.setParams({ 'setShowFilter': this.setShowFilter });
-    }
-
     _increaseCount = () => {
         this.setState({ sort: !this.state.sort });
-        this.props.navigation.setParams({ 'image': !this.state.sort })
     };
 
     setShowFilter = () => {
         this.setState({ showFilter: true });
     };
 
+    componentDidMount() {
+        this.getListCarNew()
+    }
 
-    async componentDidMount() {
+    async listCarOld() {
         const url = link.URL_API + 'passenger/get_price_list?product_chunk_type=CAR_RENTAL';
         let formdata = new FormData();
         formdata.append("depart_time", this.props.depart_time);
@@ -133,6 +79,33 @@ class ListCarTuLai extends Component {
         }
     }
 
+    async getListCarNew() {
+        const url = link.URL_API_PORTAL + 'price/v1/prices?product_chunk_type=CAR_RENTAL&';
+        let parame = `${url}chair=${this.props.chair}&depart_time=${this.props.depart_time}&dimension_id=1&drop_address_component=${JSON.stringify(this.props.component_drop)}&drop_address=${this.props.drop_add}&pick_address_component=${JSON.stringify(this.props.component_pick)}&pick_address=${this.props.pick_add}&provider=dichungtaxi`
+        try {
+            const response = await fetch(parame, {
+                method: 'GET',
+            });
+            const responseJson = await response.json();
+            this.addListfilter(responseJson.data.data);
+            this.setStateAsync({
+                isLoading: false,
+                // listFilterType: ,
+                dataSource: responseJson.data.data,
+            });
+            console.log(responseJson)
+            console.log(parame)
+            return responseJson.data.data;
+        }
+        catch (error) {
+            this.setStateAsync({
+                isLoading: false
+            });
+            console.log(error);
+        }
+        console.log(parame)
+    }
+
     addListfilter(list) {
         var { listcar } = this.state;
         for (let i = 0; i < list.length; i++) {
@@ -167,10 +140,10 @@ class ListCarTuLai extends Component {
                 <SafeAreaView style={{
                     flex: 1,
                     flexDirection: 'column',
-                    padding: 16,
                 }}>
                     <Text style={{ fontSize: 16, fontWeight: '700', padding: 8 }}>Kích thước</Text>
                     <FlatList
+                        style={{ paddingHorizontal: 8 }}
                         showsHorizontalScrollIndicator={false}
                         showsVerticalScrollIndicator={false}
                         data={listcar}
@@ -192,7 +165,7 @@ class ListCarTuLai extends Component {
                         }
                     />
 
-                    <View style={{ flexDirection: 'row' }}>
+                    <View style={{ flexDirection: 'row', paddingHorizontal: 8 }}>
                         <TouchableOpacity
                             style={{ padding: 8, backgroundColor: '#999999', borderRadius: 4, alignItems: 'center', marginTop: 10, flex: 1 }}
                             onPress={() => {
@@ -311,12 +284,25 @@ class ListCarTuLai extends Component {
         this.props.navigation.goBack()
     }
 
+    renderHeader() {
+        return (
+            <HeaderText
+                textCenter={'Danh sách xe'}
+                onPressLeft={this.goBack}
+                onPressRight1={this.setShowFilter}
+                onPressRight2={this._increaseCount}
+                source1={require(imageTune)}
+                source2={this.state.sort ? require(imageMaxToMin) : require(imageMinToMax)}
+            />
+        )
+    }
+
     render() {
 
         if (this.state.isLoading) {
             return (
-                <SafeAreaView style={{ flex: 1, padding: 20 }}>
-                    <HeaderText textCenter={'Danh sách xe'} onPressLeft={this.goBack} />
+                <SafeAreaView style={{ flex: 1,}}>
+                    {this.renderHeader()}
                     <ActivityIndicator
                         size='large'
                     />
@@ -326,8 +312,8 @@ class ListCarTuLai extends Component {
         var obj = [...this.state.dataSource];
         return (
             <SafeAreaView style={{ flex: 1, }}>
-                <HeaderText textCenter={'Danh sách xe'} onPressLeft={this.goBack} />
-                <View style={{ flex: 1 }}>
+                {this.renderHeader()}
+                <View style={{ flex: 1, paddingHorizontal: 8 }}>
                     {this.renderItem(obj)}
                     {this.modalFilter(this.state.showFilter)}
                 </View>

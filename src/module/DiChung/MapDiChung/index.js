@@ -143,94 +143,6 @@ class MapDiChung extends Component {
         return date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec;
     }
 
-    renderPicktoDrop() {
-
-        // if (this.props.drop_add == '' || this.props.pick_add == '') {
-        //     return (
-        //         <MapView style={styles.container}
-        //             provider={PROVIDER_GOOGLE}
-        //             initialRegion={{
-        //                 latitude: this.props.pick_add == '' ? origin.latitude : parseFloat(this.props.lattitude_pick),
-        //                 longitude: this.props.pick_add == '' ? origin.longitude : parseFloat(this.props.lngtitude_pick),
-        //                 latitudeDelta: 2.0,
-        //                 longitudeDelta: 0.1,
-        //             }}
-        //         ></MapView>
-        //     );
-        // }
-        // return (
-        //     <MapView style={styles.container}
-        //         key={this.state.forceRefresh}
-        //         ref={(ref) => { this.mapRef = ref }}
-        //         provider={PROVIDER_GOOGLE}
-        //         // initialCamera={{
-        //         //     center: {
-        //         //         latitude: (this.props.lattitude_pick + this.props.lattitude_drop) / 2,
-        //         //         longitude: (this.props.lngtitude_pick + this.props.lngtitude_drop) / 2,
-        //         //     },
-        //         //     pitch: 1,
-        //         //     heading: 1,
-        //         //     zoom: 12,
-        //         //     altitude: 1,
-        //         // }}
-
-        //         onMapReady={() => {
-        //             this.mapRef.fitToSuppliedMarkers(['mk1', 'mk2'], {
-        //                 edgePadding:
-        //                 {
-        //                     top: 300,
-        //                     right: 100,
-        //                     bottom: 100,
-        //                     left: 100
-        //                 }
-        //             })
-        //             this.mapRef.fitToElements(true);
-        //         }}
-        //     >
-        //         <MapView.Marker
-        //             coordinate={{
-        //                 latitude: this.props.lattitude_pick,
-        //                 longitude: this.props.lngtitude_pick,
-        //             }}
-        //             title={"Điểm đón"}
-        //             description={this.props.pick_add}
-        //             identifier={'mk1'}
-        //         />
-
-        //         <MapView.Marker
-        //             coordinate={{
-        //                 latitude: this.props.lattitude_drop,
-        //                 longitude: this.props.lngtitude_drop,
-        //             }}
-        //             title={"Điểm trả"}
-        //             description={this.props.drop_add}
-        //             identifier={'mk2'}
-        //         />
-
-        //         <MapViewDirections
-        //             origin={{ latitude: this.props.lattitude_pick, longitude: this.props.lngtitude_pick }}
-        //             destination={{ latitude: this.props.lattitude_drop, longitude: this.props.lngtitude_drop }}
-        //             apikey={GOOGLE_MAPS_APIKEY}
-        //             strokeWidth={5}
-        //             strokeColor="#669df6"
-        //             resetOnChange={true}
-        //             onReady={result => {
-        //                 this.mapRef.fitToSuppliedMarkers(['mk1', 'mk2'], {
-        //                     edgePadding:
-        //                     {
-        //                         top: 300,
-        //                         right: 100,
-        //                         bottom: 100,
-        //                         left: 100
-        //                     }
-        //                 })
-        //                 this.mapRef.fitToElements(true);
-        //             }}
-        //         />
-        //     </MapView>
-        // );
-    }
-
     setStateAsync(state) {
         return new Promise((resolve) => {
             this.setState(state, resolve)
@@ -280,16 +192,6 @@ class MapDiChung extends Component {
             <Dialog
                 visible={this.state.showAlertTime}
                 width={0.8}
-            // footer={
-            //     <DialogFooter>
-            //         <DialogButton
-            //             text="Đồng ý"
-            //             onPress={() => {
-            //                 this.setState({ showAlertTime: false, })
-            //             }}
-            //         />
-            //     </DialogFooter>
-            // }
             >
                 <View>
                     <View style={{ padding: 8 }}>
@@ -311,26 +213,6 @@ class MapDiChung extends Component {
             <Dialog
                 visible={this.state.showAlertInfo}
                 width={0.8}
-            // footer={
-            //     // <DialogFooter>
-            //     //     <DialogButton
-            //     //         text="Đồng ý"
-            //     //         onPress={() => {
-            //     //             this.setState({ showAlertInfo: false, })
-            //     //         }}
-            //     //     />
-            //     // </DialogFooter>
-            //     <View>
-            //         <View style={{ padding: 8, justifyContent: 'center', alignItems: 'center' }}>
-            //             <ButtonDialog
-            //                 text={'Đồng ý'}
-            //                 onPress={() => {
-            //                     this.setState({ showAlertInfo: false, })
-            //                 }}
-            //             />
-            //         </View>
-            //     </View>
-            // }
             >
                 <View>
                     <View style={{ padding: 8, marginTop: 8, justifyContent: 'center', alignItems: 'center', }}>
@@ -365,35 +247,6 @@ class MapDiChung extends Component {
                 placeholder={'Nhập điểm xuất phát'}
                 value={this.props.pick_add}
             />
-            // <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 0, justifyContent: 'center', alignItems: 'center' }}>
-            //     <Image
-            //         style={{ height: 30, width: 24, marginLeft: 8 }}
-            //         source={require(imageLocation)}
-            //     />
-            //     <TouchableOpacity
-            //         style={{ flex: 1, height: 40, flexDirection: 'row', alignItems: 'center', }}
-            //         onPress={() => {
-            //             this.props.navigation.push("SearchPlace", {
-            //                 search: 'Pick',
-            //                 placeholder: 'Nhập điểm xuất phát',
-            //             });
-            //         }}
-            //     >
-            //         <TextInput
-            //             editable={false}
-            //             onTouchStart={() => this.props.navigation.push("SearchPlace", {
-            //                 search: 'Pick',
-            //                 placeholder: 'Nhập điểm xuất phát'
-            //             })
-            //             }
-            //             style={{ fontSize: 14, height: 40, color: "#00363d" }}
-            //             pointerEvents="none"
-            //             value={this.props.pick_add}
-            //             placeholder='Nhập điểm xuất phát'
-            //             selection={{ start: 0, end: 0 }}
-            //         />
-            //     </TouchableOpacity>
-            // </View>
         )
     }
 
@@ -483,7 +336,7 @@ class MapDiChung extends Component {
                             source={require(imageLocation)}
                         />
                         <TouchableOpacity
-                            style={{ flex: 1, height: 40, marginLeft: -4 }}
+                            style={{ flex: 1, height: 40, marginLeft: 4 }}
                             onPress={() => {
                                 this.props.navigation.push("SearchPlace", {
                                     search: 'Drop',
@@ -732,7 +585,6 @@ class MapDiChung extends Component {
                         <Text style={{ fontWeight: 'bold', fontSize: 21, marginTop: 8, color: '#efefef' }}>Giá rẻ như xe khách</Text>
                     </View>
                     <View style={[{ flex: 1, }]} >
-                        {this.renderPicktoDrop()}
                         {this.formSwitch()}
                         {this.state.selectTaxi ? this.renderTaxiAirport() : this.renderTour()}
                         {/* {this.state.selectTaxi ?

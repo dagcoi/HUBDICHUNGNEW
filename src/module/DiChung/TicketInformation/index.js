@@ -604,7 +604,7 @@ class TicketInformation extends Component {
                             <Modal
                                 visible={this.state.modalVisible}
                                 animationType="slide"
-                                onOrientationChange={true}
+                                // onOrientationChange={true}
                                 transparent={true}>
                                 <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                                     <ActivityIndicator

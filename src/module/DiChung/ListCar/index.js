@@ -46,59 +46,12 @@ class ListCar extends Component {
         }
     }
 
-    static navigationOptions = ({ navigation }) => {
-        return {
-            headerTitle: () => <View style={{
-                flex: 1,
-                flexDirection: 'row',
-                justifyContent: 'center'
-            }}>
-                <Text style={{
-                    flex: 1,
-                    fontSize: 22,
-                    textAlign: 'left',
-                    justifyContent: 'center'
-                }}>Danh sách xe</Text>
-
-                <View
-                    style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
-                >
-                    <TouchableOpacity
-                        style={{ justifyContent: 'center', alignItems: 'center' }}
-                        onPress={navigation.getParam('setShowFilter')}
-                    >
-                        <Image
-                            style={{ width: 24, height: 24 }}
-                            source={require(imageTune)}
-                        />
-                    </TouchableOpacity>
-                </View>
-
-                <View
-                    style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
-                >
-                    <TouchableOpacity
-                        style={{ justifyContent: 'center', alignItems: 'center' }}
-                        onPress={navigation.getParam('increaseCount')}
-                    >
-                        <Image
-                            style={{ width: 24, height: 24 }}
-                            source={navigation.getParam('image') ? require(imageMaxToMin) : require(imageMinToMax)}
-                        />
-                    </TouchableOpacity>
-                </View>
-            </View>,
-        };
-    };
-
-
-
     componentDidMount() {
         this.getListCarNew()
     }
 
     async getListCarNew() {
-        const url = link.URL_API_PORTAL + 'price/v1/prices?transfer_service=TRANSFER_SERVICE&';
+        const url = link.URL_API_PORTAL + 'price/v1/prices?product_chunk_type=TRANSFER_SERVICE&';
         let parame = `${url}chair=${this.props.chair}&depart_time=${this.props.depart_time}&dimension_id=1&drop_address_component=${JSON.stringify(this.props.component_drop)}&drop_address=${this.props.drop_add}&pick_address_component=${JSON.stringify(this.props.component_pick)}&pick_address=${this.props.pick_add}&provider=dichungtaxi`
         try {
             const response = await fetch(parame, {
@@ -127,60 +80,7 @@ class ListCar extends Component {
         console.log(parame)
     }
 
-    async getListCar() {
-        const url = link.URL_API + 'passenger/get_price_list?product_chunk_type=TRANSFER_SERVICE';
-        let formdata = new FormData();
-        formdata.append("depart_time", this.props.depart_time);
-        formdata.append("dimension_id", 1);
-        formdata.append("pick_address", JSON.stringify(this.props.pick_add));
-        formdata.append("pick_address_component", JSON.stringify(this.props.component_pick));
-        formdata.append("drop_address", JSON.stringify(this.props.drop_add));
-        formdata.append("drop_address_component", JSON.stringify(this.props.component_drop));
-        formdata.append("chair", this.props.chair);
-        // formdata.append("vehicle_id", 0)
-        try {
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Accept': "application/json",
-                    'Content-Type': "multipart/form-data",
-                },
-                body: formdata
-            });
-            const responseJson = await response.json();
-            this.addListfilter(responseJson.data);
-            this.setStateAsync({
-                isLoading: false,
-                // listFilterType: ,
-                listFilter: this.filterCar(responseJson.data),
-                dataSource: responseJson.data,
-                is_from_airport: responseJson.is_from_airport
-            });
-            this.props.addIsFromAirport(responseJson.is_from_airport ? 'true' : 'false');
-            console.log(responseJson.data)
-            console.log(formdata)
-            return responseJson.data;
-        }
-        catch (error) {
-            this.setStateAsync({
-                isLoading: false
-            });
-            console.log(error);
-        }
-        console.log(url)
-        console.log(formdata)
-    }
-
     addListfilter(list) {
-        // var { listcar } = this.state;
-        // for (let i = 0; i < list.length; i++) {
-        //     var item = { 'vehicle_id': list[i].vehicle_id, 'vehicle_name': list[i].vehicle_name }
-        //     if (listcar.indexOf(item < 0) && list[i].hide == 0) {
-        //         listcar.push(item)
-        //     }
-        // }
-        // console.log(listcar)
-
         this.setState({
             listcar: [{ "vehicle_id": 17, "vehicle_name": "4 chỗ xe nhỏ", 'max_share_seats': 3 },
             { "vehicle_id": 1, "vehicle_name": "4 chỗ cốp rộng", 'max_share_seats': 4 },
@@ -204,9 +104,8 @@ class ListCar extends Component {
                 <SafeAreaView style={{
                     flex: 1,
                     flexDirection: 'column',
-                    padding: 16,
                 }}>
-                    <View style={{ flex: 1 }}>
+                    <View style={{ flex: 1, padding: 16, }}>
                         <Text style={{ fontSize: 24, fontWeight: '700' }}>Hình thức đi</Text>
 
                         <CheckBoxList
@@ -309,14 +208,8 @@ class ListCar extends Component {
         return listFilter;
     }
 
-    componentWillMount() {
-        this.props.navigation.setParams({ 'increaseCount': this._increaseCount });
-        this.props.navigation.setParams({ 'setShowFilter': this.setShowFilter });
-    }
-
     _increaseCount = () => {
         this.setState({ sort: !this.state.sort });
-        this.props.navigation.setParams({ 'image': !this.state.sort })
     };
 
     setShowFilter = () => {
@@ -414,7 +307,7 @@ class ListCar extends Component {
                                             <View style={styles.containerr}>
                                                 {item.ride_method_id == '1' ?
                                                     <View style={{ flexDirection: 'row' }}>
-                                                        <Text style={{ color: '#ffffff', fontSize: 14, backgroundColor: '#ef465e', padding: 4, fontWeight: 'bold' }}>ĐI RIÊNG</Text>
+                                                        <Text style={{ color: '#ffffff', fontSize: 14, backgroundColor: '#ef465f', padding: 4, fontWeight: 'bold' }}>ĐI RIÊNG</Text>
                                                     </View> : <View style={{ flexDirection: 'row' }}>
                                                         <Text style={{ color: '#ffffff', fontSize: 14, backgroundColor: '#77a300', padding: 4, fontWeight: 'bold' }}>ĐI GHÉP</Text>
                                                     </View>}
@@ -533,12 +426,26 @@ class ListCar extends Component {
         this.props.navigation.goBack()
     }
 
+
+    renderHeader() {
+        return (
+            <HeaderText
+                textCenter={'Danh sách xe'}
+                onPressLeft={this.goBack}
+                onPressRight1={this.setShowFilter}
+                onPressRight2={this._increaseCount}
+                source1={require(imageTune)}
+                source2={this.state.sort ? require(imageMaxToMin) : require(imageMinToMax)}
+            />
+        )
+    }
+
     render() {
 
         if (this.state.isLoading) {
             return (
                 <SafeAreaView style={{ flex: 1, }}>
-                    <HeaderText textCenter={'Danh sách xe'} onPressLeft={this.goBack} />
+                    {this.renderHeader()}
                     <ActivityIndicator
                         size='large'
                     />
@@ -550,7 +457,7 @@ class ListCar extends Component {
         console.log(lf);
         return (
             <SafeAreaView style={{ flex: 1 }}>
-                <HeaderText textCenter={'Danh sách xe'} onPressLeft={this.goBack} />
+                {this.renderHeader()}
                 <View style={{ flex: 1, paddingHorizontal: 8, }}>
                     {this.renderItem(obj)}
                     {this.modalFilter(this.state.showFilter)}
@@ -612,7 +519,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
     },
     giaTien: {
-        fontSize: 22,
+        fontSize: 18,
         color: '#00363d',
     },
     viewChitiet: {

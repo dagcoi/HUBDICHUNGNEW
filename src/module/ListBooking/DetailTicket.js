@@ -115,7 +115,7 @@ class BookingDetail extends Component {
                 visible={this.state.modalVisible}
                 animationType="slide"
                 onRequestClose={() => this.setState({ modalVisible: false })}
-                onOrientationChange={true}
+                // onOrientationChange={true}
                 transparent={true}>
                 <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000000AA', zIndex: 5 }}>
                     <View style={{ width: '80%', justifyContent: 'center', borderRadius: 8, minHeight: 100, backgroundColor: '#eee', padding: 8, zIndex: 6 }}>

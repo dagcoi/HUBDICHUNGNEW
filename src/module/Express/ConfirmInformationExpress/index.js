@@ -251,7 +251,7 @@ class ConfirmInformationExpress extends Component {
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <HeaderText textCenter={'Thông tin khách hàng'} onPressLeft={this.goBack} />
-                <View style={{ flex: 1 }}>
+                <View style={{ flex: 1, padding: 8 }}>
                     <ScrollView showsVerticalScrollIndicator={false}>
                         <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                             <Image
@@ -391,7 +391,7 @@ class ConfirmInformationExpress extends Component {
                         <Dialog
                             visible={this.state.result}
                             width={0.8}
-                            dialogTitle={<DialogTitle title="Đặt xe thành công" />}
+                            dialogTitle={<DialogTitle title="Đặt vận chuyển thành công" />}
                         // footer={
                         //     <DialogFooter>
                         //         <DialogButton
@@ -415,7 +415,7 @@ class ConfirmInformationExpress extends Component {
                                         />
                                     </View>
                                     <Text>Mã vé của bạn là:<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
-                                    <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất.</Text>
+                                    <Text>Yêu cầu đặt vận chuyển của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất.</Text>
                                     <ButtonDialog
                                         text="Chi tiết mã vé"
                                         onPress={() => {
@@ -455,7 +455,7 @@ class ConfirmInformationExpress extends Component {
                             //     </DialogFooter>
                             // }
                             width={0.8}
-                            dialogTitle={<DialogTitle title="Đặt xe thành công" />}
+                            dialogTitle={<DialogTitle title="Đặt vận chuyển thành công" />}
                         >
                             <View>
                                 <View style={{ flexDirection: 'column', padding: 8 }}>
@@ -466,7 +466,7 @@ class ConfirmInformationExpress extends Component {
                                         />
                                     </View>
                                     {/* <Text>Mã vé của bạn là:<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text> */}
-                                    <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất.</Text>
+                                    <Text>Yêu cầu đặt vận chuyển của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất.</Text>
                                     <ButtonDialog
                                         text="Chi tiết mã vé"
                                         onPress={() => {
@@ -563,7 +563,7 @@ class ConfirmInformationExpress extends Component {
                 } else {
                     this.setState({ addingTicket: false })
                     Alert.alert(
-                        'Đặt xe thất bại!',
+                        'Đặt vận chuyển thất bại!',
                         responseJson.msg,
                         [
                             { text: 'Về trang chủ', onPress: () => { this.props.navigation.push("Home"); } },

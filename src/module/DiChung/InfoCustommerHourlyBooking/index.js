@@ -374,6 +374,7 @@ class InfoCustommerHourlyBooking extends Component {
                     "xhd": this.state.vat,
                     "promotion": this.state.promotion_code,
                     "blDiscount": this.state.blDiscount,
+                    "Payment": this.state.value_payment,
                     "detailPromotion": this.state.detailPromotion,
                 });
             }
@@ -696,7 +697,7 @@ class InfoCustommerHourlyBooking extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#eeeeee',
+        backgroundColor: '#fff',
         padding: 8,
     },
 

@@ -41,7 +41,15 @@ class ConfirmInformationTuLai extends Component {
             result: null,
             ticket: null,
             visibalAgain: false,
+            id_booking: null,
         }
+    }
+
+    componentDidMount(){
+        console.log(this.props.depart_time2);
+        var time = new Date(this.props.depart_time2 + '+07:00').getTime();
+        console.log(time);
+        this.setState({ depart_time2: time })
     }
 
     renderDetailTrip() {
@@ -172,7 +180,7 @@ class ConfirmInformationTuLai extends Component {
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <HeaderText textCenter={'Xác nhận thông tin'} onPressLeft={this.goBack} />
-                <View style={{ flex: 1 }}>
+                <View style={{ flex: 1, padding: 8 }}>
                     <ScrollView showsVerticalScrollIndicator={false}>
                         <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                             <Image
@@ -210,10 +218,10 @@ class ConfirmInformationTuLai extends Component {
                         <Button
                             value={'Xác nhận đặt xe'}
                             onPress={() => {
-                                this.state.callingApi ? null : this.addTicket()
-                                this.setState({
-                                    addingTicket: true,
-                                })
+                                this.state.callingApi ? null : this.addTicket2()
+                                // this.setState({
+                                //     addingTicket: true,
+                                // })
                             }}
                         />
 
@@ -264,7 +272,7 @@ class ConfirmInformationTuLai extends Component {
                         </Dialog>
 
                         <Dialog
-                            width={0.8}
+                            // width={0.8}
                             visible={this.state.addingTicket}
                         >
                             <View>
@@ -301,7 +309,7 @@ class ConfirmInformationTuLai extends Component {
                                             source={{ uri: this.props.vehicle_icon }}
                                         />
                                     </View>
-                                    <Text>Mã vé của bạn là:<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
+                                    {/* <Text>Mã vé của bạn là:<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text> */}
                                     <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất.</Text>
 
                                     <ButtonDialog
@@ -360,7 +368,7 @@ class ConfirmInformationTuLai extends Component {
                                         source={{ uri: this.props.vehicle_icon }}
                                     />
                                 </View>
-                                <Text>Mã vé của bạn là:<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text>
+                                {/* <Text>Mã vé của bạn là:<Text style={{ fontWeight: 'bold' }}> {this.state.ticket}</Text> </Text> */}
                                 <Text>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất.</Text>
 
                                 {/* <View style={{ flexDirection: 'row' }}> */}
@@ -384,6 +392,112 @@ class ConfirmInformationTuLai extends Component {
                 </View>
             </SafeAreaView>
         )
+    }
+
+    addTicket2() {
+        const url = link.URL_API_PORTAL + `booking/v1/bookings`
+        console.log(url)
+        const { navigation } = this.props;
+        const jsonStr = JSON.stringify({
+            "provider": {
+                "name": "dichungtaxi"
+            },
+            "startPoints": [
+                {
+                    "address": this.props.pick_add,
+                    "lat": this.props.lattitude_pick,
+                    "long": this.props.lngtitude_pick
+                }
+            ],
+            "endPoints": [
+                {
+                    "address": this.props.drop_add,
+                    "lat": this.props.lattitude_drop,
+                    "long": this.props.lngtitude_drop
+                }
+            ],
+            "bookingUser": {
+                "email": this.props.email,
+                "phone": this.props.use_phone,
+                "fullName": this.props.full_name,
+                "gender": ""
+            },
+            "bookingTime": this.state.depart_time2,
+            "slot": 1,
+            "dimension": "one_way",
+            "rideMethod": "private",
+            "productType": "CAR_RENTAL",
+            "vehicle": {
+                "id": this.props.vehice_id,
+                "name": this.props.vehicle_name,
+                "image": this.props.vehicle_icon
+            }
+            ,
+            "note": this.props.comment,
+            "beneficiary": {
+                "email": navigation.getParam('not_use') ? '' : this.props.email,
+                "phone": navigation.getParam('not_use') ? this.props.use_phone2 : this.props.use_phone,
+                "fullName": navigation.getParam('not_use') ? this.props.full_name2 : this.props.full_name,
+                "gender": ""
+            },
+            "bookingType": "",
+            "payment": {
+                "method": "cash"
+            },
+            "promotion": navigation.getParam('blDiscount') ? navigation.getParam('promotion') : "",
+            "invoice": navigation.getParam('xhd') ? {
+                "name": this.props.company_name,
+                "address": this.props.company_address,
+                "taxCode": this.props.company_mst,
+                "addressReceive": this.props.company_address_receive
+            } : '',
+            "extra": {
+                "ref_id": "",
+                "ref_user_id": "",
+                "ref_url": "",
+                "plane_number": this.props.plane_number,
+                "plane_type": this.props.is_airport == 'false' ? '' : navigation.getParam('plane_type') > 0 ? navigation.getParam('plane_type') : '',
+                "pm_id": this.props.pm_id,
+                "catch_in_house": navigation.getParam('broad_price') ? '1' : '0',
+                "chunk_id": this.props.chunk_id,
+                "dimension_id": this.props.dimension_id,
+                "vehicle_id": this.props.vehice_id,
+                "ride_method_id": this.props.ride_method_id,
+                "airport_id": this.props.airport_id,
+                "street_id": this.props.street_id,
+                "village_id": this.props.village_id,
+                "ignore_duplicate_warning": this.props.ignore_duplicate_warning,
+                "brand_partner_id": this.props.brand_partner_id,
+                "unmerged_select": this.props.unmerged,
+                "xhd": navigation.getParam('xhd') ? 1 : 0,
+                "city_id": this.props.city_id,
+                "use_range_time": this.props.use_range_time,
+                "referral_code": "",
+            }
+        })
+        console.log('jsonStr :.........' + jsonStr)
+        console.log('abc :.........' + this.props.token)
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'token': this.props.token
+            },
+            body: jsonStr
+        })
+            .then(res => res.json())
+            .then(resJson => {
+                console.log(JSON.stringify(resJson))
+                console.log('a')
+                this.setState({
+                    callingApi: false,
+                    addingTicket: false,
+                    is_night_booking: resJson.is_night_booking,
+                    visibleSearchDriver: resJson.is_night_booking,
+                    id_booking: resJson.data._id,
+                })
+            })
     }
 
     addTicket() {
@@ -496,6 +610,7 @@ class ConfirmInformationTuLai extends Component {
         this.props.navigation.navigate("TicketInformationTuLai", {
             'ticket_id': this.state.ticket,
             'phone_number': this.props.use_phone,
+            'id_booking': this.state.id_booking,
         })
     }
 
@@ -556,6 +671,7 @@ function mapStateToProps(state) {
         pick_add: state.rdTuLai.pick_add,
         merged: state.rdTuLai.merged,
         depart_time: state.rdTuLai.depart_time,
+        depart_time2: state.rdTuLai.depart_time2,
         vehicle_name: state.rdTuLai.vehicle_name,
         vat: state.rdTuLai.vat,
         full_name: state.rdTuLai.full_name,
@@ -602,6 +718,11 @@ function mapStateToProps(state) {
         xhd: state.rdTuLai.xhd,
         vehicle_icon: state.rdTuLai.vehicle_icon,
         discount_price: state.rdTuLai.discount_price,
+        lattitude_pick: state.rdTuLai.lattitude_pick,
+        lngtitude_pick: state.rdTuLai.lngtitude_pick,
+        lattitude_drop: state.rdTuLai.lattitude_drop,
+        lngtitude_drop: state.rdTuLai.lngtitude_drop,
+        token: state.thongtin.token
     }
 }
 

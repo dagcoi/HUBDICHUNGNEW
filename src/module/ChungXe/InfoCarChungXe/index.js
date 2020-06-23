@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Image, Text, TouchableOpacity, TextInput, StyleSheet, Modal, Keyboard, ActivityIndicator, FlatList, Alert, ScrollView, SafeAreaView } from 'react-native';
+import { View, Image, Text, TouchableOpacity, TextInput, StyleSheet, Modal, Keyboard, ActivityIndicator, FlatList, Alert, ScrollView, SafeAreaView, AsyncStorage } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import Geocoder from 'react-native-geocoding';
 import CheckBox from 'react-native-check-box'
@@ -64,6 +64,7 @@ class InfoCarChungXe extends Component {
     }
 
     componentDidMount() {
+        {this.getdata()}
         const date1 = new Date(this.props.rent_date);
         const date2 = new Date(this.props.retun_date)
         const Difference_In_Time = date2.getTime() - date1.getTime();
@@ -80,6 +81,26 @@ class InfoCarChungXe extends Component {
         })
         { this.getDetailVehiclePartner() }
     }
+
+    async getdata() {
+        try {
+            const dataLogin = await AsyncStorage.getItem('dataLogin')
+            if (dataLogin !== null) {
+                let json = JSON.parse(dataLogin)
+                this.setState({
+                    fullname: json.username,
+                    use_phone: json.phone ?? '',
+                    email: json.email ?? '',
+                })
+                this._validateEmail(json.email ?? '')
+                this.mobileValidate(json.phone ?? '')
+            }
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
+
 
     async getDetailVehiclePartner() {
         const item = this.props.navigation.getParam('item');
@@ -398,7 +419,7 @@ class InfoCarChungXe extends Component {
                 animationType="slide"
                 transparent={true}
                 visible={this.state.modalInfoVehicle}
-                onOrientationChange={true}
+                // onOrientationChange={true}
             >
                 <SafeAreaView style={{ flex: 1, backgroundColor: '#fff', padding: 8 }}>
 

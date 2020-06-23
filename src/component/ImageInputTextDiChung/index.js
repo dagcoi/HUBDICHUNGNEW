@@ -19,7 +19,7 @@ function ImageInputTextDiChung({
                 />
             </View>
             <TouchableOpacity
-                style={{ flex: 1, height: 40, flexDirection: 'row', alignItems: 'center', }}
+                style={{ flex: 1, height: 40, flexDirection: 'row', alignItems: 'center',marginLeft: 8 }}
                 onPress={onPress}
             >
                 <TextInput
