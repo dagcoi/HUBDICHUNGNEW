@@ -5,6 +5,7 @@ import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
 import { Button } from '../../../component/Button'
 import { HeaderText } from '../../../component/Header'
+import { StatusTicket } from '../../../component/Ticket';
 
 const imageLocation = '../../../image/location2.png'
 const imageCalendar = '../../../image/calendar.png'
@@ -240,7 +241,7 @@ class TicketInformationXeChung extends Component {
                                 : <Text style={styles.textBigRight}>Yêu cầu của bạn đã được hệ thồng ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>
                             }
 
-                            <Text style={styles.textBigRight}>Trạng thái: <Text style={{ fontWeight: 'bold' }}>
+                            {/* <Text style={styles.textBigRight}>Trạng thái: <Text style={{ fontWeight: 'bold' }}>
                                 {item.forward.status == 'wait_to_confirm' ? 'Chờ xác nhận' :
                                     item.forward.status == 'cs_confirmed' ? 'CS xác nhận' :
                                         item.forward.status == 'forwarded' ? 'Đặt xe thành công' :
@@ -251,7 +252,8 @@ class TicketInformationXeChung extends Component {
                                                             item.forward.status == 'cancelled' ? 'Đã hủy vé' :
                                                                 'Tất cả'
                                 }
-                            </Text></Text>
+                            </Text></Text> */}
+                            <StatusTicket item={item} />
 
                             <Text>Mọi thắc mắc vui lòng liên hệ: <Text
                                 style={{ color: '#77a300', fontWeight: 'bold', textDecorationLine: 'underline' }}

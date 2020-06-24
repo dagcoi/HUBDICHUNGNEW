@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Alert, Image, TextInput, ScrollView, SafeAreaView, AsyncStorage, KeyboardAvoidingView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, Image, TextInput, ScrollView, SafeAreaView, AsyncStorage, } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBox from 'react-native-check-box'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
@@ -457,10 +458,10 @@ class InfoCustommerTuLai extends Component {
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <HeaderText textCenter={'Thông tin khách hàng'} onPressLeft={this.goBack} />
-                <KeyboardAvoidingView style={styles.container}>
-                    <ScrollView
-                        showsVerticalScrollIndicator={false}
-                    >
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                >
+                    <KeyboardAwareScrollView style={styles.container}>
                         <Text style={styles.textBig}>Họ và tên</Text>
 
                         <InputTextDiChung
@@ -666,8 +667,8 @@ class InfoCustommerTuLai extends Component {
                         />
 
                         {this.renderAlert()}
-                    </ScrollView>
-                </KeyboardAvoidingView>
+                    </KeyboardAwareScrollView>
+                </ScrollView>
             </SafeAreaView>
         )
     }

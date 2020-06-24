@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Alert, ScrollView, AsyncStorage, SafeAreaView, KeyboardAvoidingView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, ScrollView, AsyncStorage, SafeAreaView, } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBoxList from '../../../component/CheckBoxList'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
@@ -366,8 +367,8 @@ class InfoCustommerExpress extends Component {
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <HeaderText textCenter={'Thông tin khách hàng'} onPressLeft={this.goBack} />
-                <KeyboardAvoidingView behavior='padding' style={styles.container}>
-                    <ScrollView showsVerticalScrollIndicator={false} >
+                <ScrollView showsVerticalScrollIndicator={false} >
+                    <KeyboardAwareScrollView behavior='padding' style={styles.container}>
                         <Text style={styles.textTitle}>THÔNG TIN NGƯỜI GỬI</Text>
 
                         <Text style={styles.textBig}>Họ và tên</Text>
@@ -533,8 +534,8 @@ class InfoCustommerExpress extends Component {
                         />
                         {this.renderAlert()}
 
-                    </ScrollView>
-                </KeyboardAvoidingView>
+                    </KeyboardAwareScrollView>
+                </ScrollView>
             </SafeAreaView>
         )
     }

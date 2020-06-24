@@ -11,6 +11,7 @@ import PopUp from '../../../component/PopUp'
 import OtpInputs from 'react-native-otp-inputs';
 import { handleAndroidBackButton, removeAndroidBackButtonHandler, exitAlert } from '../../../component/AndroidBackButton'
 import { HeaderText } from '../../../component/Header'
+import { StatusTicket } from '../../../component/Ticket';
 
 const imageLocation = '../../../image/location2.png'
 const imageCalendar = '../../../image/calendar.png'
@@ -452,18 +453,7 @@ class TicketInformation extends Component {
                                 : <Text style={styles.textBigRight}>Yêu cầu đặt xe của bạn đã được hệ thồng ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>
                             }
 
-                            <Text style={styles.textBigRight}>Trạng thái: <Text style={{ fontWeight: 'bold', color: item.status == 'cancelled' ? '#ef465f' : '#333333' }}>
-                                {item.forward.status == 'wait_to_confirm' ? 'Chờ xác nhận' :
-                                    item.forward.status == 'cs_confirmed' ? 'CS xác nhận' :
-                                        item.forward.status == 'forwarded' ? item.payment.method == 'cash' ? 'Đặt xe thành công' : `${item.payment.status}` :
-                                            item.forward.status == 'wait_for_driver' ? 'Tìm tài xế' :
-                                                item.forward.status == 'driver_accepted' ? 'Tài xế chấp nhận' :
-                                                    item.forward.status == 'picked_up' ? 'Đã đón khách' :
-                                                        item.forward.status == 'completed' ? 'Hoàn thành chuyến đi' :
-                                                            item.forward.status == 'cancelled' ? 'Đã hủy vé' :
-                                                                'Tất cả'
-                                }
-                            </Text></Text>
+                            <StatusTicket item={item} />
 
                             <Text>Mọi thắc mắc vui lòng liên hệ: <Text
                                 style={{ color: '#77a300', fontWeight: 'bold', textDecorationLine: 'underline' }}

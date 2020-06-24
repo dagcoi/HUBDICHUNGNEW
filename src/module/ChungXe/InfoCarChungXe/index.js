@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { View, Image, Text, TouchableOpacity, TextInput, StyleSheet, Modal, Keyboard, ActivityIndicator, FlatList, Alert, ScrollView, SafeAreaView, AsyncStorage, KeyboardAvoidingView } from 'react-native';
+import { View, Image, Text, TouchableOpacity, TextInput, StyleSheet, Modal, Keyboard, ActivityIndicator, FlatList, Alert, ScrollView, SafeAreaView, AsyncStorage, } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import Geocoder from 'react-native-geocoding';
 import CheckBox from 'react-native-check-box'
@@ -64,7 +65,7 @@ class InfoCarChungXe extends Component {
     }
 
     componentDidMount() {
-        {this.getdata()}
+        { this.getdata() }
         const date1 = new Date(this.props.rent_date);
         const date2 = new Date(this.props.retun_date)
         const Difference_In_Time = date2.getTime() - date1.getTime();
@@ -192,11 +193,11 @@ class InfoCarChungXe extends Component {
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <HeaderText textCenter={'Thông tin khách hàng'} onPressLeft={this.goBack} />
-                <KeyboardAvoidingView style={styles.container} behavior='padding'> 
-                    <ScrollView
-                        showsHorizontalScrollIndicator={false}
-                        showsVerticalScrollIndicator={false}
-                    >
+                <ScrollView
+                    showsHorizontalScrollIndicator={false}
+                    showsVerticalScrollIndicator={false}
+                >
+                    <KeyboardAwareScrollView contentContainerStyle={{ flex: 1, padding: 8 }} >
 
                         <Image
                             style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}
@@ -402,9 +403,8 @@ class InfoCarChungXe extends Component {
 
                         </View>
 
-
-                    </ScrollView>
-                </KeyboardAvoidingView>
+                    </KeyboardAwareScrollView>
+                </ScrollView>
             </SafeAreaView>
         )
     }
@@ -419,7 +419,7 @@ class InfoCarChungXe extends Component {
                 animationType="slide"
                 transparent={true}
                 visible={this.state.modalInfoVehicle}
-                // onOrientationChange={true}
+            // onOrientationChange={true}
             >
                 <SafeAreaView style={{ flex: 1, backgroundColor: '#fff', padding: 8 }}>
 

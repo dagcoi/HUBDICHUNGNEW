@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Alert, ScrollView, AsyncStorage, SafeAreaView, KeyboardAvoidingView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, ScrollView, AsyncStorage, SafeAreaView, } from 'react-native';
 import InputTextDiChung from '../../../component/InputTextDiChung'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import CheckBoxList from '../../../component/CheckBoxList'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import { connect } from 'react-redux';
@@ -398,8 +399,8 @@ class InfoCustommerXeChung extends Component {
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <HeaderText textCenter={'Thông tin khách hàng'} onPressLeft={this.goBack} />
-                <KeyboardAvoidingView behavior='padding' style={{ flex: 1 }}>
-                    <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+                <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+                    <KeyboardAwareScrollView behavior='padding' style={{ flex: 1 }}>
                         <Text style={styles.textBig}>Họ và tên</Text>
 
                         <InputTextDiChung
@@ -577,8 +578,8 @@ class InfoCustommerXeChung extends Component {
 
                         {this.renderAlert()}
 
-                    </ScrollView>
-                </KeyboardAvoidingView>
+                    </KeyboardAwareScrollView>
+                </ScrollView>
             </SafeAreaView>
         )
     }

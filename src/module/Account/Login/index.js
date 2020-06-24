@@ -133,7 +133,7 @@ class Login extends Component {
     }
 
     gotoProfileScreen(userName, passWord, dataLogin) {
-        this.props.navigation.navigate('Profile', { 'userName': userName, 'passWord': passWord, 'dataLogin': dataLogin })
+        this.props.navigation.replace('Profile', { 'userName': userName, 'passWord': passWord, 'dataLogin': dataLogin })
     }
 
     gotoHomeScreen = () =>{
@@ -149,13 +149,6 @@ class Login extends Component {
         await AsyncStorage.setItem('password', passWord)
         await AsyncStorage.setItem('token', dataLogin.token)
         await AsyncStorage.setItem('dataLogin', JSON.stringify(dataLogin))
-    }
-
-    removeDataLogin = async () => {
-        await AsyncStorage.removeItem('username')
-        await AsyncStorage.removeItem('password')
-        await AsyncStorage.removeItem('dataLogin')
-        await AsyncStorage.removeItem('token')
     }
 
     inputUsername() {

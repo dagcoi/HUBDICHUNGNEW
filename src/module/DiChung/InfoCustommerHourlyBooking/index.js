@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView, AsyncStorage, SafeAreaView, KeyboardAvoidingView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView, AsyncStorage, SafeAreaView, } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBox from 'react-native-check-box'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
@@ -506,7 +507,7 @@ class InfoCustommerHourlyBooking extends Component {
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <HeaderText textCenter={'Thông tin đặt xe'} onPressLeft={this.goBack} />
-                <KeyboardAvoidingView style={styles.container} behavior="padding" >
+                <KeyboardAwareScrollView contentContainerStyle={{ flex: 1, padding: 8 }} >
                     <ScrollView showsVerticalScrollIndicator={false}>
                         <Text style={styles.textBig}>Họ và tên</Text>
 
@@ -687,7 +688,7 @@ class InfoCustommerHourlyBooking extends Component {
                         />
                         {this.renderAlert()}
                     </ScrollView>
-                </KeyboardAvoidingView>
+                </KeyboardAwareScrollView>
             </SafeAreaView>
         )
     }

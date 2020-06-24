@@ -8,6 +8,7 @@ import * as link from '../../../URL'
 import { NavigationActions, StackActions } from 'react-navigation'
 import { connect } from 'react-redux'
 import { addUser, addToken } from '../../../core/Redux/action/Action'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 const logo = '../../../image/logo_dc_taxi.png'
 const people = '../../../image/person.png'
@@ -269,10 +270,10 @@ class Profile extends Component {
 
     accountInfo() {
         return (
-            <View style={{ flex: 1, }}>
-                <ScrollView
-                    showsVerticalScrollIndicator={false}
-                >
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+            >
+                <KeyboardAwareScrollView style={{ flex: 1, }}>
                     <View style={{ height: SCREEN_HEIGHT / 2, width: SCREEN_WIDTH, }}>
                         <View style={{ height: SCREEN_HEIGHT / 2, width: SCREEN_WIDTH, justifyContent: 'center', alignItems: 'center', zIndex: 5, position: 'relative' }}>
                             <Image
@@ -440,8 +441,8 @@ class Profile extends Component {
                         <View style={{ margin: 4 }} />
                         {this.showModalRePass()}
                     </View>
-                </ScrollView>
-            </View>
+                </KeyboardAwareScrollView>
+            </ScrollView>
         )
     }
 
@@ -516,7 +517,7 @@ class Profile extends Component {
         await AsyncStorage.removeItem('token')
     }
 
-    gotoHomeScreen = () =>{
+    gotoHomeScreen = () => {
         this.props.navigation.navigate('Home')
     }
 

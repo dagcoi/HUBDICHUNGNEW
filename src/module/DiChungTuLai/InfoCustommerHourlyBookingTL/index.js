@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Button, Alert, Image, TextInput, ScrollView, SafeAreaView, KeyboardAvoidingView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Button, Alert, Image, TextInput, ScrollView, SafeAreaView, } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBox from 'react-native-check-box'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
@@ -372,8 +373,8 @@ class InfoCustommerHourlyBookingTL extends Component {
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <HeaderText textCenter={'Thông tin khách hàng'} onPressLeft={this.goBack} />
-                <KeyboardAvoidingView style={styles.container} behavior='padding'>
-                    <ScrollView showsVerticalScrollIndicator={false} >
+                <ScrollView showsVerticalScrollIndicator={false} >
+                    <KeyboardAwareScrollView style={styles.container} behavior='padding'>
                         <Text style={styles.textBig}>Họ và tên</Text>
 
                         <InputTextDiChung
@@ -552,8 +553,8 @@ class InfoCustommerHourlyBookingTL extends Component {
                             <Text style={{ color: '#ffffff' }}>TIẾP TỤC</Text>
                         </TouchableOpacity>
 
-                    </ScrollView>
-                </KeyboardAvoidingView>
+                    </KeyboardAwareScrollView>
+                </ScrollView>
             </SafeAreaView>
         )
     }

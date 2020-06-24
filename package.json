@@ -27,6 +27,7 @@
     "react-native-geocoding": "^0.4.0",
     "react-native-gesture-handler": "^1.5.0",
     "react-native-google-places-autocomplete": "^1.4.2",
+    "react-native-keyboard-aware-scroll-view": "^0.9.1",
     "react-native-keyevent": "^0.2.6",
     "react-native-maps": "react-native-community/react-native-maps#d6f89bd",
     "react-native-maps-directions": "^1.7.3",

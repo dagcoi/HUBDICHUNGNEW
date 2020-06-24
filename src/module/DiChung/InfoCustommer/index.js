@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Alert, Image, TextInput, ScrollView, AsyncStorage, SafeAreaView,KeyboardAvoidingView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, Image, TextInput, ScrollView, AsyncStorage, SafeAreaView, } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBox from 'react-native-check-box'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
@@ -588,10 +589,10 @@ class InfoCustommer extends Component {
             radio_payment.push({ label: 'Trả trước', value: 1, paymentMethodID: '8' })
         }
         return (
-            <SafeAreaView style={{ flex: 1 }}>
+            <SafeAreaView style={{ flex: 1, flexDirection: 'column' }}>
                 <HeaderText textCenter={'Thông tin đặt xe'} onPressLeft={this.goBack} />
-                <KeyboardAvoidingView behavior='padding' style={styles.container}>
-                    <ScrollView showsVerticalScrollIndicator={false} >
+                <ScrollView>
+                    <KeyboardAwareScrollView contentContainerStyle={{ flex: 1, padding: 8 }} >
                         <Text style={styles.textBig}>Họ và tên</Text>
 
                         <InputTextDiChung
@@ -786,9 +787,8 @@ class InfoCustommer extends Component {
                             value={'TIẾP TỤC'}
                         />
                         {this.renderAlert()}
-
-                    </ScrollView>
-                </KeyboardAvoidingView>
+                    </KeyboardAwareScrollView>
+                </ScrollView>
             </SafeAreaView>
         )
     }
