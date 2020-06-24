@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView, AsyncStorage, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView, AsyncStorage, SafeAreaView, KeyboardAvoidingView } from 'react-native';
 import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBox from 'react-native-check-box'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
@@ -506,8 +506,8 @@ class InfoCustommerHourlyBooking extends Component {
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <HeaderText textCenter={'Thông tin đặt xe'} onPressLeft={this.goBack} />
-                <ScrollView showsVerticalScrollIndicator={false}>
-                    <View style={styles.container}>
+                <KeyboardAvoidingView style={styles.container} behavior="padding" >
+                    <ScrollView showsVerticalScrollIndicator={false}>
                         <Text style={styles.textBig}>Họ và tên</Text>
 
                         <InputTextDiChung
@@ -686,8 +686,8 @@ class InfoCustommerHourlyBooking extends Component {
                             value={'TIẾP TỤC'}
                         />
                         {this.renderAlert()}
-                    </View>
-                </ScrollView>
+                    </ScrollView>
+                </KeyboardAvoidingView>
             </SafeAreaView>
         )
     }

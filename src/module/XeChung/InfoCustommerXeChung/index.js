@@ -396,9 +396,9 @@ class InfoCustommerXeChung extends Component {
             radio_payment.push({ label: 'Trả trước', value: 1, paymentMethodID: '8' })
         }
         return (
-            <KeyboardAvoidingView style={{ flex: 1 }}>
+            <SafeAreaView style={{ flex: 1 }}>
                 <HeaderText textCenter={'Thông tin khách hàng'} onPressLeft={this.goBack} />
-                <KeyboardAvoidingView style={{ flex: 1 }}>
+                <KeyboardAvoidingView behavior='padding' style={{ flex: 1 }}>
                     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
                         <Text style={styles.textBig}>Họ và tên</Text>
 
@@ -579,7 +579,7 @@ class InfoCustommerXeChung extends Component {
 
                     </ScrollView>
                 </KeyboardAvoidingView>
-            </KeyboardAvoidingView>
+            </SafeAreaView>
         )
     }
 }

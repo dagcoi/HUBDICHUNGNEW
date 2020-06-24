@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Image, Text, TouchableOpacity, TextInput, StyleSheet, Modal, Keyboard, ActivityIndicator, FlatList, Alert, ScrollView, SafeAreaView, AsyncStorage } from 'react-native';
+import { View, Image, Text, TouchableOpacity, TextInput, StyleSheet, Modal, Keyboard, ActivityIndicator, FlatList, Alert, ScrollView, SafeAreaView, AsyncStorage, KeyboardAvoidingView } from 'react-native';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import Geocoder from 'react-native-geocoding';
 import CheckBox from 'react-native-check-box'
@@ -192,7 +192,7 @@ class InfoCarChungXe extends Component {
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <HeaderText textCenter={'Thông tin khách hàng'} onPressLeft={this.goBack} />
-                <View style={styles.container}>
+                <KeyboardAvoidingView style={styles.container} behavior='padding'> 
                     <ScrollView
                         showsHorizontalScrollIndicator={false}
                         showsVerticalScrollIndicator={false}
@@ -404,7 +404,7 @@ class InfoCarChungXe extends Component {
 
 
                     </ScrollView>
-                </View>
+                </KeyboardAvoidingView>
             </SafeAreaView>
         )
     }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView, AsyncStorage, SafeAreaView,KeyboardAvoidingView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView, AsyncStorage, SafeAreaView, KeyboardAvoidingView } from 'react-native';
 import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBox from 'react-native-check-box'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
@@ -418,7 +418,7 @@ class InfoCustommerHourlyRentDriver extends Component {
         return (
             <SafeAreaView style={{ flex: 1 }} >
                 <HeaderText textCenter={'Thông tin khách hàng'} onPressLeft={this.goBack} />
-                <KeyboardAvoidingView style={styles.container}>
+                <KeyboardAvoidingView behavior='padding' style={styles.container}>
                     <ScrollView showsVerticalScrollIndicator={false} >
                         <Text style={styles.textBig}>Họ và tên</Text>
 
