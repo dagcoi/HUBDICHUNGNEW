@@ -134,12 +134,12 @@ class ListFreightTruck extends Component {
                                     <View style={{ flexDirection: 'row' }}>
                                         <View style={styles.containerr}>
                                             <Text style={styles.tentuyen}>
-                                                {item.partner_name}
+                                                {item.partner_name.toUpperCase()}
                                             </Text>
-                                            <Text style={styles.giaTien}>{item.vehicle_name}</Text>
+                                            <Text style={styles.carType}>{item.vehicle_name}</Text>
                                             <StarVote number={item.star_vote} />
-                                            <Text style={styles.giaTien}>giới hạn {item.km_limit_format}</Text>
-                                            <Text style={styles.loaixe}>{item.price_format}</Text>
+                                            <Text style={styles.carType}>giới hạn {item.km_limit_format}</Text>
+                                            <Text style={styles.totalCost}>{item.price_format}</Text>
                                         </View>
                                         <View style={styles.imageRight}>
                                             <Image
@@ -282,17 +282,17 @@ const styles = StyleSheet.create({
     },
     tentuyen: {
         padding: 1,
-        fontSize: 14,
-        color: '#00363e',
-        fontStyle: 'italic',
+        fontSize: 18,
+        color: '#77a300',
+        fontWeight:'bold',
         backgroundColor: '#ffffff'
     },
-    loaixe: {
-        fontSize: 16,
-        color: '#77a300',
+    totalCost: {
+        fontSize: 18,
+        color: '#00363d',
         fontWeight: 'bold'
     },
-    giaTien: {
+    carType: {
         fontSize: 14,
         color: '#00363e',
     },

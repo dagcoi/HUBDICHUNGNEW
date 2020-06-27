@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, BackHandler, Alert, Image, Linking, Dimensions, ScrollView, SafeAreaView, AsyncStorage, Modal, ActivityIndicator } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, BackHandler, Alert, Image, Linking, Dimensions, ScrollView, SafeAreaView, AsyncStorage, Modal, ActivityIndicator, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import WebView from 'react-native-webview';
 import * as link from '../../URL'
@@ -72,14 +72,20 @@ class Home extends Component {
         this.pushNotification = setupPushNotification(this._handleNotificationOpen)
     }
 
+
     notificationClickAction = async () => {
         const enable = await firebase.messaging().hasPermission();
 
+        console.log('notification: .... ')
         if (enable) {
             const fmcToken = await firebase.messaging().getToken()
             console.log('fmcToken........', fmcToken);
 
+            
+
+
             this.notificationListener = firebase.notifications().onNotification(notification => {
+                console.log('..... đã đến đây')
                 const { title, body, data, click_action } = notification;
                 console.log(notification)
                 // xử lí khi nhận notifi hiện notifi ở mọi chế độ
@@ -115,13 +121,15 @@ class Home extends Component {
                         .setBody(body)
                         .setData(data)
                         .ios.setBadge(notification.ios.badge);
+                    console.log('đã vào đến Notification iOS')
 
                     firebase.notifications()
                         .displayNotification(localNotifi)
                         .catch((error) => console.log(error));
                 }
             })
-        } else {
+        }
+        else {
             try {
                 firebase.messaging().requestPermission();
             }
@@ -130,9 +138,48 @@ class Home extends Component {
             }
         }
 
+        this.notificationListenerIOS = firebase.messaging().onMessage(notification => {
+            console.log('... ddax ddeens ddaay')
+            if (Platform.OS === 'ios') {
+                console.log(notification)
+                const localNotifi = new firebase.notifications.Notification({
+                    sound: 'default',
+                    show_in_foreground: true,
+                })
+                    .setNotificationId(notification.data.notificationId)
+                    .setTitle(notification.data.title)
+                    .setSubtitle(notification.data.subtitle)
+                    .setBody(notification.data.body)
+                    .setData(notification.data.data)
+                    .ios.setBadge(9);
+                console.log('đã vào đến Notification iOS..')
+
+                firebase.notifications()
+                    .displayNotification(localNotifi)
+                    .catch((error) => console.log(error));
+
+                // this.showAlert(title, body);
+                // Alert.alert(
+                //     notification.title, notification.body,
+                //     [
+                //         {
+                //             text: 'OK', onPress: () => {
+                //                 if (notification && notification.data && notification.data._id && notification.data.screen) {
+                //                     this._handleNotificationOpen(notification.data.screen, notification.data.ticket_id ?? '', notification.data.code ?? '', notification.data.phone ?? '')
+                //                     console.log('click notifi background')
+                //                 }
+                //             }
+                //         },
+                //     ],
+                //     { cancelable: false },
+                // );
+            }
+        });
+
+
         this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
             const notification = notificationOpen.notification;
-            console.log('notificationOpenedListenernotificationOpenedListenernotificationOpenedListener : ', notification)
+            console.log('notificati  onOpenedListenernotificat ionOpenedListene rnotificationOp enedListener : ', notification)
             if (notification.data && notification.data._id && notification.data.screen) {
                 //todo
                 this._handleNotificationOpen(notification.data.screen, notification.data.ticket_id ?? '', notification.data.code ?? '', notification.data.phone ?? '')
@@ -470,6 +517,16 @@ class Home extends Component {
                 </View>
 
             </SafeAreaView>
+        );
+    }
+
+    showAlert = (title, body) => {
+        Alert.alert(
+            title, body,
+            [
+                { text: 'OK', onPress: () => console.log('OK Pressed') },
+            ],
+            { cancelable: false },
         );
     }
 }

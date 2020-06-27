@@ -241,7 +241,7 @@ class ConfirmInformationFreightTruck extends Component {
                 <Text style={styles.textBigLeft1}>Chi tiết đơn hàng</Text>
                 <ImageTextDiChung
                     source={require(imageIconCar)}
-                    text={'Thuê vận chuyển'}
+                    text={'Thuê vận chuyển theo giờ'}
                 />
                 <ImageTextDiChung
                     // source={require(imageIconCar)}

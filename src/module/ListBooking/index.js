@@ -229,7 +229,6 @@ class ListBooking extends Component {
                         <StarVote number={starVote} margin={4} />
                     </View>
                 </TouchableOpacity>
-
                 : null
         )
     }

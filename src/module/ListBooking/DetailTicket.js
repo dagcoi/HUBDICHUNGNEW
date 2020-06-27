@@ -8,6 +8,7 @@ import {
     ActivityIndicator,
     ScrollView,
     SafeAreaView,
+    RefreshControl,
 } from 'react-native'
 import WebView from 'react-native-webview';
 
@@ -56,11 +57,17 @@ class BookingDetail extends Component {
             modalTell: false,
             modalPayment: false,
             urlPayment: null,
+            refreshing: true,
         }
     }
 
     async componentDidMount() {
+        this._refreshData()
+    }
+
+    _refreshData = async () => {
         const { navigation } = this.props;
+        this.setState({refreshing : true})
         const ticket_id = navigation.getParam('ticket_id')
         const code = navigation.getParam('code')
         const phone = navigation.getParam('phone')
@@ -87,6 +94,7 @@ class BookingDetail extends Component {
         this.setState({
             bookingDetail: jsonRes.data,
             isLoading: false,
+            refreshing: false
         });
         console.log(jsonRes.data)
     }
@@ -104,6 +112,7 @@ class BookingDetail extends Component {
         this.setState({
             bookingDetail: jsonRes.data,
             isLoading: false,
+            refreshing: false,
         });
         console.log(jsonRes.data)
     }
@@ -225,7 +234,7 @@ class BookingDetail extends Component {
             <SafeAreaView style={{ flex: 1 }}>
                 <HeaderText textCenter={'Chi tiết vé'} onPressLeft={this.goBack} />
                 <View style={{ flex: 1 }}>
-                    <ScrollView style={{ height: SCREEN_HEIGHT }}>
+                    <ScrollView style={{ height: SCREEN_HEIGHT }} refreshControl={<RefreshControl onRefresh={this._refreshData} refreshing={this.state.refreshing} />}>
                         <Text style={{ flex: 1, fontSize: 14, fontWeight: 'bold', marginHorizontal: 16, marginTop: 8 }}>Mã vé: <Text style={{ backgroundColor: '#77a300', color: '#fff' }}>{this.state.bookingDetail.code}</Text></Text>
                         <View style={{ justifyContent: 'center' }}>
                             <View>
