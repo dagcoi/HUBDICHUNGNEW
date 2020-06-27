@@ -81,7 +81,7 @@ class Home extends Component {
             const fmcToken = await firebase.messaging().getToken()
             console.log('fmcToken........', fmcToken);
 
-            
+
 
 
             this.notificationListener = firebase.notifications().onNotification(notification => {
@@ -146,7 +146,8 @@ class Home extends Component {
                     sound: 'default',
                     show_in_foreground: true,
                 })
-                    .setNotificationId(notification.data.notificationId)
+                    // .setNotificationId
+                    // .setNotificationId("Notifications")
                     .setTitle(notification.data.title)
                     .setSubtitle(notification.data.subtitle)
                     .setBody(notification.data.body)
@@ -156,7 +157,10 @@ class Home extends Component {
 
                 firebase.notifications()
                     .displayNotification(localNotifi)
-                    .catch((error) => console.log(error));
+                    .catch((error) => {
+                        alert("Lỗi")
+                        console.log(error)
+                    });
 
                 // this.showAlert(title, body);
                 // Alert.alert(

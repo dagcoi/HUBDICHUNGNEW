@@ -142,7 +142,7 @@ class BookingDetail extends Component {
 
                         </View>
 
-                        <View style={{ flexDirection: 'row', height: 48, alignItems: 'center', justifyContent: 'center' }}>
+                        {/* <View style={{ flexDirection: 'row', height: 48, alignItems: 'center', justifyContent: 'center' }}>
                             <TouchableOpacity
                                 onPress={() => {
                                     this.setState({
@@ -152,7 +152,8 @@ class BookingDetail extends Component {
                                 style={{ backgroundColor: '#77a300', margin: 4, flex: 1, alignItems: 'center', justifyContent: 'center', padding: 4 }}>
                                 <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold', margin: 8 }}>Đóng</Text>
                             </TouchableOpacity>
-                        </View>
+                        </View> */}
+                        <Button onPress={() => {this.setState({modalVisible : false})}} value={'Đóng'} />
                     </View>
                 </SafeAreaView>
             </Modal>
@@ -237,7 +238,7 @@ class BookingDetail extends Component {
                     <ScrollView style={{ height: SCREEN_HEIGHT }} refreshControl={<RefreshControl onRefresh={this._refreshData} refreshing={this.state.refreshing} />}>
                         <Text style={{ flex: 1, fontSize: 14, fontWeight: 'bold', marginHorizontal: 16, marginTop: 8 }}>Mã vé: <Text style={{ backgroundColor: '#77a300', color: '#fff' }}>{this.state.bookingDetail.code}</Text></Text>
                         <View style={{ justifyContent: 'center' }}>
-                            <View>
+                            <View style={{marginVertical: 8}}>
                                 {this.state.bookingDetail.productType == 'CAR_RENTAL' ? <DetailTuLai item={this.state.bookingDetail} />
                                     : this.state.bookingDetail.productType == 'DRIVER_RENTAL' ? <DetailXeChung item={this.state.bookingDetail} />
                                         : this.state.bookingDetail.productType == 'EXPRESS' ? <DetailExpress item={this.state.bookingDetail} />
