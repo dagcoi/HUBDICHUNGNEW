@@ -92,8 +92,8 @@ export function TicketComment({ comment }) {
 
 export function StatusTicket({ item }) {
   return (
-    <View>
-      <Text style={{ fontWeight: 'bold' }}>Trạng thái: <Text style={{ fontWeight: 'bold', color: item.status == 'cancelled' ? '#ef465f' : '#333333' }}>
+    <View style={{ marginVertical: 8 }}>
+      <Text>Trạng thái: <Text style={{ fontWeight: 'bold', color: item.status == 'cancelled' ? '#ef465f' : '#333333' }}>
         {item.forward.status == 'wait_to_confirm' ? 'Chờ xác nhận' :
           item.forward.status == 'cs_confirmed' ? 'CS xác nhận' :
             item.forward.status == 'forwarded' ?

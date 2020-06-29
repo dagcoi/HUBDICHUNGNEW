@@ -236,9 +236,9 @@ class BookingDetail extends Component {
                 <HeaderText textCenter={'Chi tiết vé'} onPressLeft={this.goBack} />
                 <View style={{ flex: 1 }}>
                     <ScrollView style={{ height: SCREEN_HEIGHT }} refreshControl={<RefreshControl onRefresh={this._refreshData} refreshing={this.state.refreshing} />}>
-                        <Text style={{ flex: 1, fontSize: 14, fontWeight: 'bold', marginHorizontal: 16, marginTop: 8 }}>Mã vé: <Text style={{ backgroundColor: '#77a300', color: '#fff' }}>{this.state.bookingDetail.code}</Text></Text>
+                        <Text style={{ flex: 1, fontSize: 14, marginHorizontal: 16, marginTop: 8 }}>Mã vé: <Text style={{ color: '#000', fontWeight:'bold' }}>{this.state.bookingDetail.code}</Text></Text>
                         <View style={{ justifyContent: 'center' }}>
-                            <View style={{marginVertical: 8}}>
+                            <View style={{marginVertical: 0}}>
                                 {this.state.bookingDetail.productType == 'CAR_RENTAL' ? <DetailTuLai item={this.state.bookingDetail} />
                                     : this.state.bookingDetail.productType == 'DRIVER_RENTAL' ? <DetailXeChung item={this.state.bookingDetail} />
                                         : this.state.bookingDetail.productType == 'EXPRESS' ? <DetailExpress item={this.state.bookingDetail} />

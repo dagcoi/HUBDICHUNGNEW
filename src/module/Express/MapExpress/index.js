@@ -541,11 +541,16 @@ class MapExpress extends Component {
                 <HeaderText textCenter={'Thuê vận chuyển'} onPressLeft={this.goBack} />
                 <ImageBackground style={{ flex: 1, resizeMode: "cover", }} source={imageBackground} >
                     <View>
-                        <Text style={{ fontSize: 21, color: '#ffffff', marginHorizontal: 16, marginTop: 8, fontWeight: 'bold' }}>Vận chuyển hàng hóa</Text>
-                        <Text style={{ fontSize: 21, color: '#ffffff', marginHorizontal: 16, marginTop: 8, fontWeight: 'bold' }}>Vận chuyển nhanh 2h</Text>
+                        <Text style={{ fontSize: 21, color: '#ffffff', marginHorizontal: 16, marginTop: 8, fontWeight: 'bold' }}>Chuyển hàng siêu nhanh</Text>
+                        <Text style={{ fontSize: 21, color: '#ffffff', marginHorizontal: 16, marginTop: 8, fontWeight: 'bold' }}>Lấy tận nơi giao tận cửa</Text>
                     </View>
                     {this.renderSelect()}
                     {this.state.hourlyBooking ? this.renderFormExpressTheoGio() : this.renderFormExpressTheoTuyen()}
+                    <View style={{ justifyContent: 'center', paddingHorizontal: 16 }}>
+                        <Text style={{ fontWeight: 'bold', fontSize: 16, marginTop: 8, color: '#efefef' }}>Giao & nhận tận nhà</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 16, marginTop: 8, color: '#efefef' }}>Thời gian giao siêu tốc</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 16, marginTop: 8, color: '#efefef' }}>Đa dạng loại hàng hoá</Text>
+                    </View>
                     {/* {this.state.hourlyBooking ?
                     <ButtonFull
                         onPress={() => { this.nextScreenHourly() }}

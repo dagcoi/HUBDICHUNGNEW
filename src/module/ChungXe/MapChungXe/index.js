@@ -189,16 +189,6 @@ class MapChungXe extends Component {
             <MapView style={[styles.container, { marginTop: 150 }]}
                 ref={(ref) => { this.mapRef = ref }}
                 provider={PROVIDER_GOOGLE}
-                // initialCamera={{
-                //     center: {
-                //         latitude: (this.props.lattitude_pick + this.props.lattitude_drop) / 2,
-                //         longitude: (this.props.lngtitude_pick + this.props.lngtitude_drop) / 2,
-                //     },
-                //     pitch: 1,
-                //     heading: 1,
-                //     zoom: 12,
-                //     altitude: 1,
-                // }}
                 onMapReady={() => {
                     this.mapRef.fitToSuppliedMarkers(['mk1', 'mk2'], {
                         edgePadding:
@@ -733,8 +723,17 @@ class MapChungXe extends Component {
                 <HeaderText textCenter={'Thuê xe tự lái'} onPressLeft={this.goBack} />
                 {/* {this.renderPicktoDrop()} */}
                 <ImageBackground style={{ flex: 1, resizeMode: "cover", }} source={imageBackground} >
+                    <View style={{ justifyContent: 'center', paddingHorizontal: 16 }}>
+                        <Text style={{ fontWeight: 'bold', fontSize: 21, marginTop: 8, color: '#efefef' }}>Thuê xe tự lái</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 21, marginTop: 8, color: '#efefef' }}>Thoải mái hành trình</Text>
+                    </View>
                     {this.formSwitch()}
                     {this.state.hourly ? this.formCarTour() : this.formBookingDoortoDoor()}
+                    <View style={{ justifyContent: 'center', paddingHorizontal: 16 }}>
+                        <Text style={{ fontWeight: 'bold', fontSize: 16, marginTop: 8, color: '#efefef' }}>Nhiều lựa chọn, giá tốt nhất</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 16, marginTop: 8, color: '#efefef' }}>Dễ dàng tìm kiếm, so sánh</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 16, marginTop: 8, color: '#efefef' }}>Bảo hiểm an tâm</Text>
+                    </View>
                     {/* {this.state.hourly ?
                     <ButtonFull
                         onPress={() => { this.gotoListCarTour() }}

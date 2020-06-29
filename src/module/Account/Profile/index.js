@@ -274,20 +274,18 @@ class Profile extends Component {
                 showsVerticalScrollIndicator={false}
             >
                 <KeyboardAwareScrollView style={{ flex: 1, }}>
-                    <View style={{ height: SCREEN_HEIGHT / 2, width: SCREEN_WIDTH, }}>
-                        <View style={{ height: SCREEN_HEIGHT / 2, width: SCREEN_WIDTH, justifyContent: 'center', alignItems: 'center', zIndex: 5, position: 'relative' }}>
+                    <View style={{ height: SCREEN_WIDTH, width: SCREEN_WIDTH, }}>
+                        <View style={{ height: SCREEN_WIDTH, width: SCREEN_WIDTH, justifyContent: 'center', alignItems: 'center', zIndex: 5, position: 'relative', borderRadius: 1 }}>
                             <Image
-                                style={{ width: 120, height: 120, borderRadius: SCREEN_WIDTH / 4 }}
+                                style={{ width: SCREEN_WIDTH/3, height: SCREEN_WIDTH/3, borderRadius: SCREEN_WIDTH / 4 }}
                                 source={require(logo)}
                             />
                         </View>
-                        <View style={{ height: SCREEN_HEIGHT / 2, width: SCREEN_WIDTH, zIndex: 1, position: 'absolute' }}>
+                        <View style={{ height: SCREEN_WIDTH, width: SCREEN_WIDTH, zIndex: 1, position: 'absolute', }}>
                             <View style={{ flex: 1, justifyContent: 'center' }}>
                                 <Image
-                                    style={{ height: SCREEN_HEIGHT / 2, width: SCREEN_WIDTH, }}
+                                    style={{ height: SCREEN_WIDTH/2, width: SCREEN_WIDTH, resizeMode: 'stretch', }}
                                     source={require(home)}
-                                    resizeMethod={'scale'}
-                                    resizeMode={'center'}
                                 />
                             </View>
                             <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center', }}>

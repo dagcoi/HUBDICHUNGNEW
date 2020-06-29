@@ -442,6 +442,10 @@ class MapXeChung extends Component {
             <SafeAreaView style={{ flex: 1, backgroundColor: '#eee' }}>
                 <HeaderText textCenter={'Thuê tài xế'} onPressLeft={this.goBack} />
                 <ImageBackground style={{ flex: 1, resizeMode: "cover", }} source={imageBackground} >
+                    <View>
+                        <Text style={{ fontSize: 21, color: '#ffffff', marginHorizontal: 16, marginTop: 8, fontWeight: 'bold' }}>An toàn, siêu tiện lợi</Text>
+                        <Text style={{ fontSize: 21, color: '#ffffff', marginHorizontal: 16, marginTop: 8, fontWeight: 'bold' }}>Việc mất thời gian để chúng tôi lo</Text>
+                    </View>
 
                     <View style={[{ flexDirection: 'row', backgroundColor: '#fff', marginLeft: 8, marginRight: 8, marginTop: 8 }, styles.borderTop]}>
                         <TouchableOpacity
@@ -469,6 +473,13 @@ class MapXeChung extends Component {
                     <View style={{ justifyContent: 'center', alignItems: 'center', }}>
                         {this.state.hourlyBooking ? this.renderFormThueTaiTheoGio() : this.renderFormThueTai()}
                     </View>
+
+                    <View style={{ justifyContent: 'center', paddingHorizontal: 16 }}>
+                        <Text style={{ fontWeight: 'bold', fontSize: 16, marginTop: 8, color: '#efefef' }}>Chất lượng tài xế đạt chuẩn</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 16, marginTop: 8, color: '#efefef' }}>Cam kết giá tốt nhất</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 16, marginTop: 8, color: '#efefef' }}>Người đồng hành tin cậy</Text>
+                    </View>
+
                     {/* {this.state.hourlyBooking ?
                     <ButtonFull
                         onPress={() => {
