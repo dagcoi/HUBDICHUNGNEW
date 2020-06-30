@@ -47,10 +47,10 @@ const defaultState = {
     village_id: '',
     depart_time: '',
     depart_time2: '',
-    lattitude_pick: '',
-    lngtitude_pick: '',
-    lattitude_drop: '',
-    lngtitude_drop: '',
+    latitude_pick: '',
+    longitude_pick: '',
+    latitude_drop: '',
+    longitude_drop: '',
     is_from_airport: 'false',
     merged: 0,
     session_id: '2idd3e6t7q4p9athmubh2a2jr2',
@@ -66,8 +66,8 @@ const defaultState = {
     not_use: 1,
     swap_add: '',
     component_swap: '',
-    lattitude_swap: '',
-    lngtitude_swap: '',
+    latitude_swap: '',
+    longitude_swap: '',
     vehicle_icon: '',
     discount_price: 0,
     rent_date: '',
@@ -89,8 +89,8 @@ const ReducerTaiXe = (state = defaultState, action) => {
                 ...state,
                 pick_add: action.address,
                 component_pick: action.address_component,
-                lattitude_pick: action.lattitude_pick,
-                lngtitude_pick: action.lngtitude_pick,
+                latitude_pick: action.latitude_pick,
+                longitude_pick: action.longitude_pick,
             };
 
         case types.DROP_ADDRESS_TAIXE:
@@ -98,8 +98,8 @@ const ReducerTaiXe = (state = defaultState, action) => {
                 ...state,
                 drop_add: action.address,
                 component_drop: action.address_component,
-                lattitude_drop: action.lattitude_drop,
-                lngtitude_drop: action.lngtitude_drop,
+                latitude_drop: action.latitude_drop,
+                longitude_drop: action.longitude_drop,
             }
 
         case types.TRIP_INFOMATION_TAIXE:
@@ -190,12 +190,12 @@ const ReducerTaiXe = (state = defaultState, action) => {
                 ...state,
                 pick_add: action.pick_address,
                 component_pick: action.pick_address_component,
-                lattitude_pick: action.lattitude_pick,
-                lngtitude_pick: action.lngtitude_pick,
+                latitude_pick: action.latitude_pick,
+                longitude_pick: action.longitude_pick,
                 drop_add: action.drop_address,
                 component_drop: action.drop_address_component,
-                lattitude_drop: action.lattitude_drop,
-                lngtitude_drop: action.lngtitude_drop,
+                latitude_drop: action.latitude_drop,
+                longitude_drop: action.longitude_drop,
             }
 
         case types.ADD_CITY_TIME_TAIXE:

@@ -590,15 +590,15 @@ class ConfirmInformationExpress extends Component {
             "startPoints": [
                 {
                     "address": this.props.pick_add,
-                    "lat": this.props.lattitude_pick,
-                    "long": this.props.lngtitude_pick
+                    "lat": this.props.latitude_pick,
+                    "long": this.props.longitude_pick
                 }
             ],
             "endPoints": [
                 {
                     "address": this.props.drop_add,
-                    "lat": this.props.lattitude_drop,
-                    "long": this.props.lngtitude_drop
+                    "lat": this.props.latitude_drop,
+                    "long": this.props.longitude_drop
                 }
             ],
             "bookingUser": {
@@ -790,10 +790,10 @@ function mapStateToProps(state) {
         vehicle_icon: state.rdVanChuyen.vehicle_icon,
         discount_price: state.rdVanChuyen.discount_price,
         partner_name: state.rdVanChuyen.partner_name,
-        lattitude_pick: state.rdVanChuyen.lattitude_pick,
-        lngtitude_pick: state.rdVanChuyen.lngtitude_pick,
-        lattitude_drop: state.rdVanChuyen.lattitude_drop,
-        lngtitude_drop: state.rdVanChuyen.lngtitude_drop,
+        latitude_pick: state.rdVanChuyen.latitude_pick,
+        longitude_pick: state.rdVanChuyen.longitude_pick,
+        latitude_drop: state.rdVanChuyen.latitude_drop,
+        longitude_drop: state.rdVanChuyen.longitude_drop,
         token: state.thongtin.token
     }
 }

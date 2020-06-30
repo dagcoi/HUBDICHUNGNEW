@@ -142,8 +142,8 @@ class MapDiChungTuLai extends Component {
                 provider={PROVIDER_GOOGLE}
                 initialCamera={{
                     center: {
-                        latitude: (this.props.lattitude_pick + this.props.lattitude_drop) / 2,
-                        longitude: (this.props.lngtitude_pick + this.props.lngtitude_drop) / 2,
+                        latitude: (this.props.latitude_pick + this.props.latitude_drop) / 2,
+                        longitude: (this.props.longitude_pick + this.props.longitude_drop) / 2,
                     },
                     pitch: 1,
                     heading: 1,
@@ -153,8 +153,8 @@ class MapDiChungTuLai extends Component {
             >
                 <MapView.Marker
                     coordinate={{
-                        latitude: this.props.lattitude_pick,
-                        longitude: this.props.lngtitude_pick,
+                        latitude: this.props.latitude_pick,
+                        longitude: this.props.longitude_pick,
                     }}
                     title={"Điểm nhận"}
                     description={this.props.pick_add}
@@ -162,16 +162,16 @@ class MapDiChungTuLai extends Component {
 
                 <MapView.Marker
                     coordinate={{
-                        latitude: this.props.lattitude_drop,
-                        longitude: this.props.lngtitude_drop,
+                        latitude: this.props.latitude_drop,
+                        longitude: this.props.longitude_drop,
                     }}
                     title={"Điểm trả"}
                     description={this.props.drop_add}
                 />
 
                 <MapViewDirections
-                    origin={{ latitude: this.props.lattitude_pick, longitude: this.props.lngtitude_pick }}
-                    destination={{ latitude: this.props.lattitude_drop, longitude: this.props.lngtitude_drop }}
+                    origin={{ latitude: this.props.latitude_pick, longitude: this.props.longitude_pick }}
+                    destination={{ latitude: this.props.latitude_drop, longitude: this.props.longitude_drop }}
                     apikey={GOOGLE_MAPS_APIKEY}
                     strokeWidth={5}
                     strokeColor="#669df6"
@@ -314,7 +314,7 @@ class MapDiChungTuLai extends Component {
 
                     <TouchableOpacity
                         onPress={() => {
-                            this.props.swapAddressTuLai(this.props.drop_add, this.props.component_drop, this.props.lattitude_drop, this.props.lngtitude_drop, this.props.pick_add, this.props.component_pick, this.props.lattitude_pick, this.props.lngtitude_pick);
+                            this.props.swapAddressTuLai(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick);
                         }}
                     >
                         <Image
@@ -594,10 +594,10 @@ function mapStateToProps(state) {
         pick_add: state.rdTuLai.pick_add,
         component_drop: state.rdTuLai.component_drop,
         component_pick: state.rdTuLai.component_pick,
-        lattitude_pick: state.rdTuLai.lattitude_pick,
-        lngtitude_pick: state.rdTuLai.lngtitude_pick,
-        lattitude_drop: state.rdTuLai.lattitude_drop,
-        lngtitude_drop: state.rdTuLai.lngtitude_drop,
+        latitude_pick: state.rdTuLai.latitude_pick,
+        longitude_pick: state.rdTuLai.longitude_pick,
+        latitude_drop: state.rdTuLai.latitude_drop,
+        longitude_drop: state.rdTuLai.longitude_drop,
         chair: state.rdTuLai.chair,
     }
 }

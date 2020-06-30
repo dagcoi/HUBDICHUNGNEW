@@ -1,22 +1,22 @@
 import * as types from './ActionTypes'
 
-export const pickAddress = (pick_add, component_pick, lattitude_pick, lngtitude_pick) => {
+export const pickAddress = (pick_add, component_pick, latitude_pick, longitude_pick) => {
     return {
         type: types.PICK_ADDRESS,
         address: pick_add,
         address_component: component_pick,
-        lattitude_pick: lattitude_pick,
-        lngtitude_pick: lngtitude_pick,
+        latitude_pick: latitude_pick,
+        longitude_pick: longitude_pick,
     }
 }
 
-export const dropAddress = (drop_add, component_drop, lattitude_drop, lngtitude_drop) => {
+export const dropAddress = (drop_add, component_drop, latitude_drop, longitude_drop) => {
     return {
         type: types.DROP_ADDRESS,
         address: drop_add,
         address_component: component_drop,
-        lattitude_drop: lattitude_drop,
-        lngtitude_drop: lngtitude_drop,
+        latitude_drop: latitude_drop,
+        longitude_drop: longitude_drop,
     }
 }
 
@@ -122,18 +122,18 @@ export const addVAT = (xhd, company_name, company_address, company_mst, company_
     }
 }
 
-export const swapAddress = (pick_address, pick_address_component, lattitude_pick, lngtitude_pick, drop_address, drop_address_component, lattitude_drop, lngtitude_drop) => {
+export const swapAddress = (pick_address, pick_address_component, latitude_pick, longitude_pick, drop_address, drop_address_component, latitude_drop, longitude_drop) => {
     return {
         type: types.SWAP_ADDRESS,
         pick_address: pick_address,
         pick_address_component: pick_address_component,
-        lattitude_pick: lattitude_pick,
-        lngtitude_pick: lngtitude_pick,
+        latitude_pick: latitude_pick,
+        longitude_pick: longitude_pick,
 
         drop_address: drop_address,
         drop_address_component: drop_address_component,
-        lattitude_drop: lattitude_drop,
-        lngtitude_drop: lngtitude_drop,
+        latitude_drop: latitude_drop,
+        longitude_drop: longitude_drop,
     }
 }
 
@@ -193,23 +193,23 @@ export const addTripInfomationHourlyBooking = (partner_name, merged, depart_time
 }
 
 // Tai Xe
-export const pickAddressTaixe = (pick_add, component_pick, lattitude_pick, lngtitude_pick) => {
+export const pickAddressTaixe = (pick_add, component_pick, latitude_pick, longitude_pick) => {
     return {
         type: types.PICK_ADDRESS_TAIXE,
         address: pick_add,
         address_component: component_pick,
-        lattitude_pick: lattitude_pick,
-        lngtitude_pick: lngtitude_pick,
+        latitude_pick: latitude_pick,
+        longitude_pick: longitude_pick,
     }
 }
 
-export const dropAddressTaixe = (drop_add, component_drop, lattitude_drop, lngtitude_drop) => {
+export const dropAddressTaixe = (drop_add, component_drop, latitude_drop, longitude_drop) => {
     return {
         type: types.DROP_ADDRESS_TAIXE,
         address: drop_add,
         address_component: component_drop,
-        lattitude_drop: lattitude_drop,
-        lngtitude_drop: lngtitude_drop,
+        latitude_drop: latitude_drop,
+        longitude_drop: longitude_drop,
     }
 }
 
@@ -293,18 +293,18 @@ export const addVATTaixe = (xhd, company_name, company_address, company_mst, com
     }
 }
 
-export const swapAddressTaixe = (pick_address, pick_address_component, lattitude_pick, lngtitude_pick, drop_address, drop_address_component, lattitude_drop, lngtitude_drop) => {
+export const swapAddressTaixe = (pick_address, pick_address_component, latitude_pick, longitude_pick, drop_address, drop_address_component, latitude_drop, longitude_drop) => {
     return {
         type: types.SWAP_ADDRESS_TAIXE,
         pick_address: pick_address,
         pick_address_component: pick_address_component,
-        lattitude_pick: lattitude_pick,
-        lngtitude_pick: lngtitude_pick,
+        latitude_pick: latitude_pick,
+        longitude_pick: longitude_pick,
 
         drop_address: drop_address,
         drop_address_component: drop_address_component,
-        lattitude_drop: lattitude_drop,
-        lngtitude_drop: lngtitude_drop,
+        latitude_drop: latitude_drop,
+        longitude_drop: longitude_drop,
     }
 }
 
@@ -352,23 +352,23 @@ export const addTripInfomationHourlyBookingTaixe = (partner_name, merged, depart
 }
 
 // Van Chuyen
-export const pickAddressVanChuyen = (pick_add, component_pick, lattitude_pick, lngtitude_pick) => {
+export const pickAddressVanChuyen = (pick_add, component_pick, latitude_pick, longitude_pick) => {
     return {
         type: types.PICK_ADDRESS_VANCHUYEN,
         address: pick_add,
         address_component: component_pick,
-        lattitude_pick: lattitude_pick,
-        lngtitude_pick: lngtitude_pick,
+        latitude_pick: latitude_pick,
+        longitude_pick: longitude_pick,
     }
 }
 
-export const dropAddressVanChuyen = (drop_add, component_drop, lattitude_drop, lngtitude_drop) => {
+export const dropAddressVanChuyen = (drop_add, component_drop, latitude_drop, longitude_drop) => {
     return {
         type: types.DROP_ADDRESS_VANCHUYEN,
         address: drop_add,
         address_component: component_drop,
-        lattitude_drop: lattitude_drop,
-        lngtitude_drop: lngtitude_drop,
+        latitude_drop: latitude_drop,
+        longitude_drop: longitude_drop,
     }
 }
 
@@ -460,18 +460,18 @@ export const addVATVanChuyen = (xhd, company_name, company_address, company_mst,
     }
 }
 
-export const swapAddressVanChuyen = (pick_address, pick_address_component, lattitude_pick, lngtitude_pick, drop_address, drop_address_component, lattitude_drop, lngtitude_drop) => {
+export const swapAddressVanChuyen = (pick_address, pick_address_component, latitude_pick, longitude_pick, drop_address, drop_address_component, latitude_drop, longitude_drop) => {
     return {
         type: types.SWAP_ADDRESS_VANCHUYEN,
         pick_address: pick_address,
         pick_address_component: pick_address_component,
-        lattitude_pick: lattitude_pick,
-        lngtitude_pick: lngtitude_pick,
+        latitude_pick: latitude_pick,
+        longitude_pick: longitude_pick,
 
         drop_address: drop_address,
         drop_address_component: drop_address_component,
-        lattitude_drop: lattitude_drop,
-        lngtitude_drop: lngtitude_drop,
+        latitude_drop: latitude_drop,
+        longitude_drop: longitude_drop,
     }
 }
 
@@ -518,34 +518,34 @@ export const addTripInfomationHourlyBookingVanChuyen = (partner_name, merged, de
     }
 }
 
-export const addAddressYCDB = (pick_add, component_pick, lattitude_pick, lngtitude_pick) => {
+export const addAddressYCDB = (pick_add, component_pick, latitude_pick, longitude_pick) => {
     return {
         type: types.PICK_ADDRESS_YCDB,
         address: pick_add,
         address_component: component_pick,
-        lattitude_pick: lattitude_pick,
-        lngtitude_pick: lngtitude_pick,
+        latitude_pick: latitude_pick,
+        longitude_pick: longitude_pick,
     }
 }
 
 //Tự lái Đi Chung
-export const pickAddressTuLai = (pick_add, component_pick, lattitude_pick, lngtitude_pick) => {
+export const pickAddressTuLai = (pick_add, component_pick, latitude_pick, longitude_pick) => {
     return {
         type: types.PICK_ADDRESS_TULAI,
         address: pick_add,
         address_component: component_pick,
-        lattitude_pick: lattitude_pick,
-        lngtitude_pick: lngtitude_pick,
+        latitude_pick: latitude_pick,
+        longitude_pick: longitude_pick,
     }
 }
 
-export const dropAddressTuLai = (drop_add, component_drop, lattitude_drop, lngtitude_drop) => {
+export const dropAddressTuLai = (drop_add, component_drop, latitude_drop, longitude_drop) => {
     return {
         type: types.DROP_ADDRESS_TULAI,
         address: drop_add,
         address_component: component_drop,
-        lattitude_drop: lattitude_drop,
-        lngtitude_drop: lngtitude_drop,
+        latitude_drop: latitude_drop,
+        longitude_drop: longitude_drop,
     }
 }
 
@@ -629,18 +629,18 @@ export const addVATTuLai = (xhd, company_name, company_address, company_mst, com
     }
 }
 
-export const swapAddressTuLai = (pick_address, pick_address_component, lattitude_pick, lngtitude_pick, drop_address, drop_address_component, lattitude_drop, lngtitude_drop) => {
+export const swapAddressTuLai = (pick_address, pick_address_component, latitude_pick, longitude_pick, drop_address, drop_address_component, latitude_drop, longitude_drop) => {
     return {
         type: types.SWAP_ADDRESS_TULAI,
         pick_address: pick_address,
         pick_address_component: pick_address_component,
-        lattitude_pick: lattitude_pick,
-        lngtitude_pick: lngtitude_pick,
+        latitude_pick: latitude_pick,
+        longitude_pick: longitude_pick,
 
         drop_address: drop_address,
         drop_address_component: drop_address_component,
-        lattitude_drop: lattitude_drop,
-        lngtitude_drop: lngtitude_drop,
+        latitude_drop: latitude_drop,
+        longitude_drop: longitude_drop,
     }
 }
 

@@ -48,7 +48,7 @@ class ConfirmInformationRentDriver extends Component {
         var time = new Date(this.props.depart_time2 + '+07:00').getTime();
         console.log(time);
         this.setState({
-            pick_pos: this.props.lattitude_pick + ',' + this.props.lngtitude_pick,
+            pick_pos: this.props.latitude_pick + ',' + this.props.longitude_pick,
             depart_time2: time
         })
     }
@@ -129,8 +129,8 @@ class ConfirmInformationRentDriver extends Component {
             "startPoints": [
                 {
                     "address": this.props.pick_add,
-                    "lat": this.props.lattitude_pick,
-                    "long": this.props.lngtitude_pick
+                    "lat": this.props.latitude_pick,
+                    "long": this.props.longitude_pick
                 }
             ],
             "endPoints": [
@@ -583,8 +583,8 @@ function mapStateToProps(state) {
         vehicle_icon: state.rdTaixe.vehicle_icon,
         discount_price: state.rdTaixe.discount_price,
         duration: state.rdTaixe.duration,
-        lattitude_pick: state.rdTaixe.lattitude_pick,
-        lngtitude_pick: state.rdTaixe.lngtitude_pick,
+        latitude_pick: state.rdTaixe.latitude_pick,
+        longitude_pick: state.rdTaixe.longitude_pick,
         vehicle_id: state.rdTaixe.vehicle_id,
         city_id: state.rdTaixe.city_id,
         partner_id: state.rdTaixe.brand_partner_id,

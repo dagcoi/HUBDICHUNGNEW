@@ -67,7 +67,7 @@ class BookingDetail extends Component {
 
     _refreshData = async () => {
         const { navigation } = this.props;
-        this.setState({refreshing : true})
+        this.setState({ refreshing: true })
         const ticket_id = navigation.getParam('ticket_id')
         const code = navigation.getParam('code')
         const phone = navigation.getParam('phone')
@@ -132,28 +132,18 @@ class BookingDetail extends Component {
                             <Text style={{ fontSize: 20, }}>Hủy vé</Text>
                         </View>
                         <View style={{ padding: 8 }}>
-                            <Text>Vui lòng liên hệ: <Text
-                                style={{ color: '#77a300', textDecorationLine: 'underline' }}
-                                onPress={() => Linking.openURL(`tel: 19006022`)}
-                            >
-                                19006022
-                                        </Text> để được hỗ trợ</Text>
-
+                            <Text>Vui lòng liên hệ:
+                                <Text
+                                    style={{ color: '#77a300', textDecorationLine: 'underline' }}
+                                    onPress={() => Linking.openURL(`tel: 19006022`)}
+                                >
+                                    19006022
+                                </Text> để được hỗ trợ
+                            </Text>
 
                         </View>
 
-                        {/* <View style={{ flexDirection: 'row', height: 48, alignItems: 'center', justifyContent: 'center' }}>
-                            <TouchableOpacity
-                                onPress={() => {
-                                    this.setState({
-                                        modalVisible: false,
-                                    })
-                                }}
-                                style={{ backgroundColor: '#77a300', margin: 4, flex: 1, alignItems: 'center', justifyContent: 'center', padding: 4 }}>
-                                <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold', margin: 8 }}>Đóng</Text>
-                            </TouchableOpacity>
-                        </View> */}
-                        <Button onPress={() => {this.setState({modalVisible : false})}} value={'Đóng'} />
+                        <Button onPress={() => { this.setState({ modalVisible: false }) }} value={'Đóng'} />
                     </View>
                 </SafeAreaView>
             </Modal>
@@ -236,9 +226,9 @@ class BookingDetail extends Component {
                 <HeaderText textCenter={'Chi tiết vé'} onPressLeft={this.goBack} />
                 <View style={{ flex: 1 }}>
                     <ScrollView style={{ height: SCREEN_HEIGHT }} refreshControl={<RefreshControl onRefresh={this._refreshData} refreshing={this.state.refreshing} />}>
-                        <Text style={{ flex: 1, fontSize: 14, marginHorizontal: 16, marginTop: 8 }}>Mã vé: <Text style={{ color: '#000', fontWeight:'bold' }}>{this.state.bookingDetail.code}</Text></Text>
+                        <Text style={{ flex: 1, fontSize: 14, marginHorizontal: 16, marginTop: 8 }}>Mã vé: <Text style={{ color: '#000', fontWeight: 'bold' }}>{this.state.bookingDetail.code}</Text></Text>
                         <View style={{ justifyContent: 'center' }}>
-                            <View style={{marginVertical: 0}}>
+                            <View style={{ marginVertical: 0 }}>
                                 {this.state.bookingDetail.productType == 'CAR_RENTAL' ? <DetailTuLai item={this.state.bookingDetail} />
                                     : this.state.bookingDetail.productType == 'DRIVER_RENTAL' ? <DetailXeChung item={this.state.bookingDetail} />
                                         : this.state.bookingDetail.productType == 'EXPRESS' ? <DetailExpress item={this.state.bookingDetail} />

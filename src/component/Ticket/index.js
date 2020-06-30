@@ -109,7 +109,13 @@ export function StatusTicket({ item }) {
                     item.payment.status === 'wait_for_refund' ? 'Chờ hoàn tiền' :
                       item.payment.status === 'refunded' ? 'Đã hoàn tiền' :
                         item.payment.status === 'failed' ? 'Thất bại' :
-                          item.payment.status === 'paid' ? 'Đã thanh toán' :
+                          item.payment.status === 'paid' ? 'Đã thanh toán, ' +
+                            (item.provider.status == 'wait_for_driver' ? 'Tìm tài xế' :
+                              item.provider.status == 'driver_accepted' ? 'Tài xế chấp nhận' :
+                                item.provider.status == 'picked_up' ? 'Đã đón khách' :
+                                  item.provider.status == 'completed' ? 'Hoàn thành chuyến đi' :
+                                    item.provider.status == 'cancelled' ? 'Đã hủy vé' :
+                                      'Đặt xe thành công') :
                             item.payment.status === 'completed' ? 'Đã hoàn thành' : 'Khác') :
               'Khác'
 

@@ -14,6 +14,7 @@ import listHour from '../../../component/TimeSelect/listTime'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 import PopUp from '../../../component/PopUp'
 import { HeaderText } from '../../../component/Header'
+import ImageTextBold from '../../../component/ImageTextDiChung/ImageTextBold'
 
 const origin = { latitude: 21.2187149, longitude: 105.80417090000003 };
 // const destination = { latitude: 21.0019302, longitude: 105.85090579999996 };
@@ -24,6 +25,7 @@ const imageDrop = '../../../image/location.png'
 const imageSwap = '../../../image/swap.png'
 const imageTime = '../../../image/time.png'
 const imageHourglass = '../../../image/hourglass.png'
+const imageCheckWhite = '../../../image/checkw.png'
 const imageCheck = '../../../image/done.png'
 const imageBackground = { uri: 'https://dichung.vn/static/images/e216031ab3feeb651026e80873156f50.png' }
 
@@ -475,9 +477,9 @@ class MapXeChung extends Component {
                     </View>
 
                     <View style={{ justifyContent: 'center', paddingHorizontal: 16 }}>
-                        <Text style={{ fontWeight: 'bold', fontSize: 16, marginTop: 8, color: '#efefef' }}>Chất lượng tài xế đạt chuẩn</Text>
-                        <Text style={{ fontWeight: 'bold', fontSize: 16, marginTop: 8, color: '#efefef' }}>Cam kết giá tốt nhất</Text>
-                        <Text style={{ fontWeight: 'bold', fontSize: 16, marginTop: 8, color: '#efefef' }}>Người đồng hành tin cậy</Text>
+                        <ImageTextBold source={require(imageCheckWhite)} textBold ={"Chất lượng tài xế đạt chuẩn"} />
+                        <ImageTextBold source={require(imageCheckWhite)} textBold ={"Cam kết giá tốt nhất"} />
+                        <ImageTextBold source={require(imageCheckWhite)} textBold ={"Người đồng hành tin cậy"} />
                     </View>
 
                     {/* {this.state.hourlyBooking ?
@@ -661,10 +663,10 @@ function mapStateToProps(state) {
         pick_add: state.rdTaixe.pick_add,
         component_drop: state.rdTaixe.component_drop,
         component_pick: state.rdTaixe.component_pick,
-        lattitude_pick: state.rdTaixe.lattitude_pick,
-        lngtitude_pick: state.rdTaixe.lngtitude_pick,
-        lattitude_drop: state.rdTaixe.lattitude_drop,
-        lngtitude_drop: state.rdTaixe.lngtitude_drop,
+        latitude_pick: state.rdTaixe.latitude_pick,
+        longitude_pick: state.rdTaixe.longitude_pick,
+        latitude_drop: state.rdTaixe.latitude_drop,
+        longitude_drop: state.rdTaixe.longitude_drop,
         chair: state.rdTaixe.chair,
     }
 }

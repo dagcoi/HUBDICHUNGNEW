@@ -20,13 +20,18 @@ var radio_props = [
 ];
 
 var radio_payment_detail = [
-    // { label: 'ATM', value: 0, payment_method_ID: '8' },
-    // { label: 'Visa', value: 1, payment_method_ID: '8' },
+    { label: 'ATM', value: 0, payment_method_ID: '8' },
+    { label: 'VISA', value: 1, payment_method_ID: '8' },
     { label: 'VNPAY', value: 2, payment_method_ID: '8' },
-    // { label: 'Paypal', value: 3, payment_method_ID: '4' },
+    { label: 'PAYPAL', value: 3, payment_method_ID: '4' },
 ]
 
 const imageCancel = '../../../image/cancel.png'
+const imageCheck = '../../../image/checked.png'
+const imageATM = '../../../image/atm.png'
+const imageVisa = '../../../image/visa.png'
+const imageVNPay = '../../../image/vnpay.png'
+const imagePayPal = '../../../image/paypal.png'
 
 class InfoCustommer extends Component {
     constructor() {
@@ -35,7 +40,7 @@ class InfoCustommer extends Component {
             is_checked: false,
             plane_type: -1,
             value_payment: 0,
-            value_paymentDetail: 0,
+            value_paymentDetail: 'ATM',
             full_name: '',
             full_name1: '',
             use_phone: '',
@@ -103,63 +108,30 @@ class InfoCustommer extends Component {
             return null;
         } else {
             return (
-                <View style={{ paddingHorizontal: 8 }}>
-                    <RadioForm
-                        animation={true}
-                    >
-                        {radio_payment_detail.map((obj, i) => (
-                            // <View
-                            //     style={{ borderRadius: 4, borderWidth: 1, borderColor: this.state.value_paymentDetail === i ? '#77a300' : '#333333', justifyContent: 'center' }}
-                            //     onPress={
-                            //         this.setState({
-                            //             value_paymentDetail: i,
-                            //             payment_method_ID: obj.payment_method_ID,
-                            //         })
-                            //     }
-                            // >
-                            <RadioButton labelHorizontal={true} key={i} >
-                                <RadioButtonInput
-                                    obj={obj}
-                                    index={i}
-                                    isSelected={this.state.value_paymentDetail === i}
-                                    onPress={() => {
-                                        console.log(obj.label)
-                                        this.setState({
-                                            value_paymentDetail: i,
-                                            selectRentCar: i,
-                                            payment_method_ID: obj.payment_method_ID,
-                                        })
-                                    }}
-                                    borderWidth={1}
-                                    buttonInnerColor={'#77a300'}
-                                    buttonOuterColor={'#77a300'}
-                                    buttonSize={10}
-                                    buttonOuterSize={16}
-                                    buttonStyle={7}
-                                    buttonWrapStyle={{ marginLeft: 10 }}
-                                />
-                                <RadioButtonLabel
-                                    obj={obj}
-                                    index={i}
-                                    key={i}
-                                    labelHorizontal={true}
-                                    onPress={() => {
-                                        console.log(obj.label)
-                                        console.log(obj.payment_method_ID)
-                                        this.setState({
-                                            value_paymentDetail: i,
-                                            payment_method_ID: obj.payment_method_ID,
-                                        })
-                                    }}
-                                    labelStyle={{ fontSize: 14, color: '#000' }}
-                                    labelWrapStyle={{}}
-                                />
-                            </RadioButton>
-                            // </View>
-                        ))}
-                    </RadioForm>
-                    {/* <RadioGroup radioGroupList={radio_payment_detail} /> */}
+                <View>
+                    {radio_payment_detail.map((obj, i) => (
+                        <TouchableOpacity
+                            onPress={() => {
+                                this.setState({
+                                    value_paymentDetail: obj.label,
+                                    payment_method_ID: obj.payment_method_ID,
 
+                                })
+                            }}
+                            style={{ marginVertical: 2, height: 40, flexDirection: 'row', justifyContent: 'center', alignItems: "center", borderRadius: 4, borderWidth: 1, borderColor: obj.label === this.state.value_paymentDetail ? '#77a300' : '#999', padding: 8 }}
+                        >
+                            <Image
+                                style={{ width: 20, height: 20 }}
+                                source={
+                                    obj.label === 'ATM' ? require(imageATM) :
+                                        obj.label === 'VNPAY' ? require(imageVNPay) :
+                                            obj.label === 'VISA' ? require(imageVisa) : require(imagePayPal)
+                                }
+                            />
+                            <Text style={{ flex: 1, fontSize: 14, marginLeft: 8 }}>{obj.label}</Text>
+                            {obj.label === this.state.value_paymentDetail ? <Image style={{ width: 20, height: 20 }} source={require(imageCheck)} /> : null}
+                        </TouchableOpacity>
+                    ))}
                 </View>
             )
         }
@@ -589,10 +561,10 @@ class InfoCustommer extends Component {
             radio_payment.push({ label: 'Trả trước', value: 1, paymentMethodID: '8' })
         }
         return (
-            <SafeAreaView style={{ flex: 1, flexDirection: 'column' }}>
+            <SafeAreaView style={{ flex: 1, paddingBottom: 8, flexDirection: 'column' }}>
                 <HeaderText textCenter={'Thông tin đặt xe'} onPressLeft={this.goBack} />
                 <ScrollView>
-                    <KeyboardAwareScrollView contentContainerStyle={{ flex: 1, padding: 8 }} >
+                    <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1, padding: 8 }} enableOnAndroid={true} enableAutoAutomaticScroll={(Platform.OS === 'ios')} >
                         <Text style={styles.textBig}>Họ và tên</Text>
 
                         <InputTextDiChung

@@ -48,7 +48,7 @@ class ConfirmInformationHB extends Component {
         var time = new Date(this.props.depart_time2 + '+07:00').getTime();
         console.log(time);
         this.setState({
-            pick_pos: this.props.lattitude_pick + ',' + this.props.lngtitude_pick,
+            pick_pos: this.props.latitude_pick + ',' + this.props.longitude_pick,
             depart_time2: time
         })
     }
@@ -64,7 +64,7 @@ class ConfirmInformationHB extends Component {
         formData.append('brand_partner_id', this.props.partner_id)
         formData.append('duration', this.props.duration)
         formData.append('pick_address', this.props.pick_add)
-        formData.append('pick_pos', `${this.props.lattitude_pick},+${this.props.lngtitude_pick}`)
+        formData.append('pick_pos', `${this.props.latitude_pick},+${this.props.longitude_pick}`)
         formData.append('depart_time', this.props.depart_time)
         formData.append('comment', this.props.comment)
         if (navigation.getParam('blDiscount')) {
@@ -128,8 +128,8 @@ class ConfirmInformationHB extends Component {
             "startPoints": [
                 {
                     "address": this.props.pick_add,
-                    "lat": this.props.lattitude_pick,
-                    "long": this.props.lngtitude_pick
+                    "lat": this.props.latitude_pick,
+                    "long": this.props.longitude_pick
                 }
             ],
             "endPoints": [
@@ -546,8 +546,8 @@ function mapStateToProps(state) {
         vehicle_icon: state.info.vehicle_icon,
         discount_price: state.info.discount_price,
         duration: state.info.duration,
-        lattitude_pick: state.info.lattitude_pick,
-        lngtitude_pick: state.info.lngtitude_pick,
+        latitude_pick: state.info.latitude_pick,
+        longitude_pick: state.info.longitude_pick,
         vehicle_id: state.info.vehicle_id,
         city_id: state.info.city_id,
         partner_id: state.info.brand_partner_id,

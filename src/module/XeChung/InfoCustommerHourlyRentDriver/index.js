@@ -420,7 +420,7 @@ class InfoCustommerHourlyRentDriver extends Component {
             <SafeAreaView style={{ flex: 1 }} >
                 <HeaderText textCenter={'Thông tin khách hàng'} onPressLeft={this.goBack} />
                 <ScrollView showsVerticalScrollIndicator={false} >
-                    <KeyboardAwareScrollView behavior='padding' style={styles.container}>
+                    <KeyboardAwareScrollView style={{ flexGrow: 1, padding: 8 }} enableOnAndroid={true} enableAutoAutomaticScroll={(Platform.OS === 'ios')} >
                         <Text style={styles.textBig}>Họ và tên</Text>
 
                         <InputTextDiChung

@@ -2,8 +2,8 @@ import * as types from '../action/ActionTypes'
 const defaultState = {
     pick_add: '',
     component_pick: '',
-    lattitude_pick: '',
-    lngtitude_pick: '',
+    latitude_pick: '',
+    longitude_pick: '',
 }
 const ReducerYCDB = (state = defaultState, action) => {
     switch (action.type) {
@@ -13,8 +13,8 @@ const ReducerYCDB = (state = defaultState, action) => {
                 ...state,
                 pick_add: action.address,
                 component_pick: action.address_component,
-                lattitude_pick: action.lattitude_pick,
-                lngtitude_pick: action.lngtitude_pick,
+                latitude_pick: action.latitude_pick,
+                longitude_pick: action.longitude_pick,
             };
 
         default:

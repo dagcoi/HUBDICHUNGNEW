@@ -405,15 +405,15 @@ class ConfirmInformationTuLai extends Component {
             "startPoints": [
                 {
                     "address": this.props.pick_add,
-                    "lat": this.props.lattitude_pick,
-                    "long": this.props.lngtitude_pick
+                    "lat": this.props.latitude_pick,
+                    "long": this.props.longitude_pick
                 }
             ],
             "endPoints": [
                 {
                     "address": this.props.drop_add,
-                    "lat": this.props.lattitude_drop,
-                    "long": this.props.lngtitude_drop
+                    "lat": this.props.latitude_drop,
+                    "long": this.props.longitude_drop
                 }
             ],
             "bookingUser": {
@@ -718,10 +718,10 @@ function mapStateToProps(state) {
         xhd: state.rdTuLai.xhd,
         vehicle_icon: state.rdTuLai.vehicle_icon,
         discount_price: state.rdTuLai.discount_price,
-        lattitude_pick: state.rdTuLai.lattitude_pick,
-        lngtitude_pick: state.rdTuLai.lngtitude_pick,
-        lattitude_drop: state.rdTuLai.lattitude_drop,
-        lngtitude_drop: state.rdTuLai.lngtitude_drop,
+        latitude_pick: state.rdTuLai.latitude_pick,
+        longitude_pick: state.rdTuLai.longitude_pick,
+        latitude_drop: state.rdTuLai.latitude_drop,
+        longitude_drop: state.rdTuLai.longitude_drop,
         token: state.thongtin.token
     }
 }

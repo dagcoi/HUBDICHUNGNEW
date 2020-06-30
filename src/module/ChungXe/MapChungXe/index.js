@@ -14,6 +14,7 @@ import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from '
 import PopUp from '../../../component/PopUp'
 import { HeaderText } from '../../../component/Header';
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung';
+import ImageTextBold from '../../../component/ImageTextDiChung/ImageTextBold'
 
 const imageLocation = '../../../image/location.png'
 const imageDrop = '../../../image/location.png'
@@ -22,6 +23,7 @@ const imageTime = '../../../image/time.png'
 const imageCancel = '../../../image/cancel.png'
 const imageHourglass = '../../../image/hourglass.png'
 const imageCheck = '../../../image/done.png'
+const imageCheckWhite = '../../../image/checkw.png'
 const imageBackground = { uri: 'https://dichung.vn/static/images/e216031ab3feeb651026e80873156f50.png' }
 
 const origin = { latitude: 21.2187149, longitude: 105.80417090000003 };
@@ -177,8 +179,8 @@ class MapChungXe extends Component {
                 <MapView style={[styles.container, { marginTop: 150 }]}
                     provider={PROVIDER_GOOGLE}
                     initialRegion={{
-                        latitude: this.props.pick_add == '' ? origin.latitude : this.props.lattitude_pick,
-                        longitude: this.props.pick_add == '' ? origin.longitude : this.props.lngtitude_pick,
+                        latitude: this.props.pick_add == '' ? origin.latitude : this.props.latitude_pick,
+                        longitude: this.props.pick_add == '' ? origin.longitude : this.props.longitude_pick,
                         latitudeDelta: 2.0,
                         longitudeDelta: 0.1,
                     }}
@@ -204,8 +206,8 @@ class MapChungXe extends Component {
             >
                 <MapView.Marker
                     coordinate={{
-                        latitude: this.props.lattitude_pick,
-                        longitude: this.props.lngtitude_pick,
+                        latitude: this.props.latitude_pick,
+                        longitude: this.props.longitude_pick,
                     }}
                     title={"Điểm nhận"}
                     description={this.props.pick_add}
@@ -214,8 +216,8 @@ class MapChungXe extends Component {
 
                 <MapView.Marker
                     coordinate={{
-                        latitude: this.props.lattitude_drop,
-                        longitude: this.props.lngtitude_drop,
+                        latitude: this.props.latitude_drop,
+                        longitude: this.props.longitude_drop,
                     }}
                     title={"Điểm trả"}
                     description={this.props.drop_add}
@@ -223,8 +225,8 @@ class MapChungXe extends Component {
                 />
 
                 <MapViewDirections
-                    origin={{ latitude: this.props.lattitude_pick, longitude: this.props.lngtitude_pick }}
-                    destination={{ latitude: this.props.lattitude_drop, longitude: this.props.lngtitude_drop }}
+                    origin={{ latitude: this.props.latitude_pick, longitude: this.props.longitude_pick }}
+                    destination={{ latitude: this.props.latitude_drop, longitude: this.props.longitude_drop }}
                     apikey={GOOGLE_MAPS_APIKEY}
                     strokeWidth={5}
                     strokeColor="#669df6"
@@ -440,7 +442,7 @@ class MapChungXe extends Component {
                     <TouchableOpacity
                         style={{ borderLeftWidth: 1, borderColor: '#e8e8e8' }}
                         onPress={() => {
-                            this.props.swapAddressTuLai(this.props.drop_add, this.props.component_drop, this.props.lattitude_drop, this.props.lngtitude_drop, this.props.pick_add, this.props.component_pick, this.props.lattitude_pick, this.props.lngtitude_pick);
+                            this.props.swapAddressTuLai(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick);
                         }}
                     >
                         <Image
@@ -730,9 +732,9 @@ class MapChungXe extends Component {
                     {this.formSwitch()}
                     {this.state.hourly ? this.formCarTour() : this.formBookingDoortoDoor()}
                     <View style={{ justifyContent: 'center', paddingHorizontal: 16 }}>
-                        <Text style={{ fontWeight: 'bold', fontSize: 16, marginTop: 8, color: '#efefef' }}>Nhiều lựa chọn, giá tốt nhất</Text>
-                        <Text style={{ fontWeight: 'bold', fontSize: 16, marginTop: 8, color: '#efefef' }}>Dễ dàng tìm kiếm, so sánh</Text>
-                        <Text style={{ fontWeight: 'bold', fontSize: 16, marginTop: 8, color: '#efefef' }}>Bảo hiểm an tâm</Text>
+                        <ImageTextBold source={require(imageCheckWhite)} textBold={"Nhiều lựa chọn, giá tốt nhất"} />
+                        <ImageTextBold source={require(imageCheckWhite)} textBold={"Dễ dàng tìm kiếm, so sánh"} />
+                        <ImageTextBold source={require(imageCheckWhite)} textBold={"Bảo hiểm an tâm"} />
                     </View>
                     {/* {this.state.hourly ?
                     <ButtonFull
@@ -969,10 +971,10 @@ function mapStateToProps(state) {
         pick_add: state.rdTuLai.pick_add,
         component_drop: state.rdTuLai.component_drop,
         component_pick: state.rdTuLai.component_pick,
-        lattitude_pick: state.rdTuLai.lattitude_pick,
-        lngtitude_pick: state.rdTuLai.lngtitude_pick,
-        lattitude_drop: state.rdTuLai.lattitude_drop,
-        lngtitude_drop: state.rdTuLai.lngtitude_drop,
+        latitude_pick: state.rdTuLai.latitude_pick,
+        longitude_pick: state.rdTuLai.longitude_pick,
+        latitude_drop: state.rdTuLai.latitude_drop,
+        longitude_drop: state.rdTuLai.longitude_drop,
         chair: state.rdTuLai.chair,
     }
 }

@@ -44,7 +44,7 @@ class ConfirmInformationHourlyBookingTL extends Component {
 
     componentDidMount() {
         this.setState({
-            pick_pos: this.props.lattitude_pick + ',' + this.props.lngtitude_pick,
+            pick_pos: this.props.latitude_pick + ',' + this.props.longitude_pick,
         })
     }
 
@@ -59,7 +59,7 @@ class ConfirmInformationHourlyBookingTL extends Component {
         formData.append('brand_partner_id', this.props.partner_id)
         formData.append('duration', this.props.duration)
         formData.append('pick_address', this.props.pick_add)
-        formData.append('pick_pos', `${this.props.lattitude_pick},+${this.props.lngtitude_pick}`)
+        formData.append('pick_pos', `${this.props.latitude_pick},+${this.props.longitude_pick}`)
         formData.append('depart_time', this.props.depart_time)
         formData.append('comment', this.props.comment)
         if (navigation.getParam('blDiscount')) {
@@ -452,8 +452,8 @@ function mapStateToProps(state) {
         vehicle_icon: state.rdTuLai.vehicle_icon,
         discount_price: state.rdTuLai.discount_price,
         duration: state.rdTuLai.duration,
-        lattitude_pick: state.rdTuLai.lattitude_pick,
-        lngtitude_pick: state.rdTuLai.lngtitude_pick,
+        latitude_pick: state.rdTuLai.latitude_pick,
+        longitude_pick: state.rdTuLai.longitude_pick,
         vehicle_id: state.rdTuLai.vehicle_id,
         city_id: state.rdTuLai.city_id,
         partner_id: state.rdTuLai.brand_partner_id,

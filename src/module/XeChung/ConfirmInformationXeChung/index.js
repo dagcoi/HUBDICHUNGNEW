@@ -425,15 +425,15 @@ class ConfirmInformationXeChung extends Component {
             "startPoints": [
                 {
                     "address": this.props.pick_add,
-                    "lat": this.props.lattitude_pick,
-                    "long": this.props.lngtitude_pick
+                    "lat": this.props.latitude_pick,
+                    "long": this.props.longitude_pick
                 }
             ],
             "endPoints": [
                 {
                     "address": this.props.drop_add,
-                    "lat": this.props.lattitude_drop,
-                    "long": this.props.lngtitude_drop
+                    "lat": this.props.latitude_drop,
+                    "long": this.props.longitude_drop
                 }
             ],
             "bookingUser": {
@@ -708,10 +708,10 @@ function mapStateToProps(state) {
         xhd: state.rdTaixe.xhd,
         vehicle_icon: state.rdTaixe.vehicle_icon,
         discount_price: state.rdTaixe.discount_price,
-        lattitude_pick: state.rdTaixe.lattitude_pick,
-        lngtitude_pick: state.rdTaixe.lngtitude_pick,
-        lattitude_drop: state.rdTaixe.lattitude_drop,
-        lngtitude_drop: state.rdTaixe.lngtitude_drop,
+        latitude_pick: state.rdTaixe.latitude_pick,
+        longitude_pick: state.rdTaixe.longitude_pick,
+        latitude_drop: state.rdTaixe.latitude_drop,
+        longitude_drop: state.rdTaixe.longitude_drop,
         token: state.thongtin.token
     }
 }

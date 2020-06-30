@@ -273,7 +273,7 @@ class Profile extends Component {
             <ScrollView
                 showsVerticalScrollIndicator={false}
             >
-                <KeyboardAwareScrollView style={{ flex: 1, }}>
+                <KeyboardAwareScrollView style={{ flexGrow: 1, }} enableOnAndroid={true} enableAutoAutomaticScroll={(Platform.OS === 'ios')} >
                     <View style={{ height: SCREEN_WIDTH, width: SCREEN_WIDTH, }}>
                         <View style={{ height: SCREEN_WIDTH, width: SCREEN_WIDTH, justifyContent: 'center', alignItems: 'center', zIndex: 5, position: 'relative', borderRadius: 1 }}>
                             <Image

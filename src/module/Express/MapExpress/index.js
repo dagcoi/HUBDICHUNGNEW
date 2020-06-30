@@ -11,6 +11,7 @@ import * as key from '../../../component/KeyGG'
 import { ButtonFull, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 import PopUp from '../../../component/PopUp'
+import ImageTextBold from '../../../component/ImageTextDiChung/ImageTextBold'
 
 import MapViewDirections from 'react-native-maps-directions';
 import { TextInput } from 'react-native-gesture-handler';
@@ -29,6 +30,7 @@ const imageTime = '../../../image/time.png'
 const imageParcel = '../../../image/parcel.png'
 const imageHourglass = '../../../image/hourglass.png'
 const imageCheck = '../../../image/done.png'
+const imageCheckWhite = '../../../image/checkw.png'
 const imageDown = '../../../image/arrowdown.png'
 const imageBackground = { uri: 'https://dichung.vn/static/images/e216031ab3feeb651026e80873156f50.png' }
 
@@ -276,7 +278,7 @@ class MapExpress extends Component {
                     <TouchableOpacity
                         style={{ borderLeftWidth: 1, borderColor: '#e8e8e8' }}
                         onPress={() => {
-                            this.props.swapAddressVanChuyen(this.props.drop_add, this.props.component_drop, this.props.lattitude_drop, this.props.lngtitude_drop, this.props.pick_add, this.props.component_pick, this.props.lattitude_pick, this.props.lngtitude_pick);
+                            this.props.swapAddressVanChuyen(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick);
                         }}
                     >
                         <Image
@@ -547,9 +549,9 @@ class MapExpress extends Component {
                     {this.renderSelect()}
                     {this.state.hourlyBooking ? this.renderFormExpressTheoGio() : this.renderFormExpressTheoTuyen()}
                     <View style={{ justifyContent: 'center', paddingHorizontal: 16 }}>
-                        <Text style={{ fontWeight: 'bold', fontSize: 16, marginTop: 8, color: '#efefef' }}>Giao & nhận tận nhà</Text>
-                        <Text style={{ fontWeight: 'bold', fontSize: 16, marginTop: 8, color: '#efefef' }}>Thời gian giao siêu tốc</Text>
-                        <Text style={{ fontWeight: 'bold', fontSize: 16, marginTop: 8, color: '#efefef' }}>Đa dạng loại hàng hoá</Text>
+                        <ImageTextBold source={require(imageCheckWhite)} textBold={"Giao & nhận tận nhà"} />
+                        <ImageTextBold source={require(imageCheckWhite)} textBold={"Thời gian giao siêu tốc"} />
+                        <ImageTextBold source={require(imageCheckWhite)} textBold={"Đa dạng loại hàng hoá"} />
                     </View>
                     {/* {this.state.hourlyBooking ?
                     <ButtonFull
@@ -736,10 +738,10 @@ function mapStateToProps(state) {
         pick_add: state.rdVanChuyen.pick_add,
         component_drop: state.rdVanChuyen.component_drop,
         component_pick: state.rdVanChuyen.component_pick,
-        lattitude_pick: state.rdVanChuyen.lattitude_pick,
-        lngtitude_pick: state.rdVanChuyen.lngtitude_pick,
-        lattitude_drop: state.rdVanChuyen.lattitude_drop,
-        lngtitude_drop: state.rdVanChuyen.lngtitude_drop,
+        latitude_pick: state.rdVanChuyen.latitude_pick,
+        longitude_pick: state.rdVanChuyen.longitude_pick,
+        latitude_drop: state.rdVanChuyen.latitude_drop,
+        longitude_drop: state.rdVanChuyen.longitude_drop,
         chair: state.rdVanChuyen.chair,
     }
 }

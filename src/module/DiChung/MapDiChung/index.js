@@ -4,6 +4,7 @@ import CalendarPicker from 'react-native-calendar-picker';
 import { connect } from 'react-redux';
 import { addDepartTime, addPeople, swapAddress, addDuration } from '../../../core/Redux/action/Action'
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
+import ImageTextBold from '../../../component/ImageTextDiChung/ImageTextBold'
 import * as key from '../../../component/KeyGG'
 import listHour from '../../../component/TimeSelect/listTime'
 import Dialog, { } from 'react-native-popup-dialog';
@@ -15,6 +16,7 @@ import { SafeAreaView } from 'react-navigation';
 import { request } from 'react-native-permissions';
 
 const imageLocation = '../../../image/location.png'
+const imageCheckWhite = '../../../image/checkw.png'
 const imageSwap = '../../../image/swap.png'
 const imagePeople = '../../../image/people.png'
 const imageTime = '../../../image/time.png'
@@ -364,7 +366,7 @@ class MapDiChung extends Component {
                     <TouchableOpacity
                         style={{ borderLeftWidth: 1, borderColor: '#e8e8e8' }}
                         onPress={() => {
-                            this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.lattitude_drop, this.props.lngtitude_drop, this.props.pick_add, this.props.component_pick, this.props.lattitude_pick, this.props.lngtitude_pick);
+                            this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick);
                         }}
                     >
                         <Image
@@ -598,9 +600,9 @@ class MapDiChung extends Component {
                             />
                         } */}
                         <View style={{ justifyContent: 'center', paddingLeft: 16, marginTop: 16 }}>
-                            <Text style={{ fontWeight: 'bold', fontSize: 16, color: '#efefef', marginTop: 8 }}>An toàn, đúng giờ</Text>
-                            <Text style={{ fontWeight: 'bold', fontSize: 16, color: '#efefef', marginTop: 8 }}>Giá trọn gói không phí ẩn</Text>
-                            <Text style={{ fontWeight: 'bold', fontSize: 16, color: '#efefef', marginTop: 8 }}>Miễn phí thay đổi thông tin</Text>
+                            <ImageTextBold source={require(imageCheckWhite)} textBold={"An toàn, đúng giờ"} />
+                            <ImageTextBold source={require(imageCheckWhite)} textBold={"Giá trọn gói không phí ẩn"} />
+                            <ImageTextBold source={require(imageCheckWhite)} textBold={"Miễn phí thay đổi thông tin"} />
                         </View>
                     </View>
                     {this.renderAlertTime()}
@@ -842,10 +844,10 @@ function mapStateToProps(state) {
         pick_add: state.info.pick_add,
         component_drop: state.info.component_drop,
         component_pick: state.info.component_pick,
-        lattitude_pick: state.info.lattitude_pick,
-        lngtitude_pick: state.info.lngtitude_pick,
-        lattitude_drop: state.info.lattitude_drop,
-        lngtitude_drop: state.info.lngtitude_drop,
+        latitude_pick: state.info.latitude_pick,
+        longitude_pick: state.info.longitude_pick,
+        latitude_drop: state.info.latitude_drop,
+        longitude_drop: state.info.longitude_drop,
         chair: state.info.chair,
     }
 }

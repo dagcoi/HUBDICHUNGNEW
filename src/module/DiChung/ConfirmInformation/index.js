@@ -589,15 +589,15 @@ class ConfirmInformation extends Component {
             "startPoints": [
                 {
                     "address": this.props.pick_add,
-                    "lat": this.props.lattitude_pick,
-                    "long": this.props.lngtitude_pick
+                    "lat": this.props.latitude_pick,
+                    "long": this.props.longitude_pick
                 }
             ],
             "endPoints": [
                 {
                     "address": this.props.drop_add,
-                    "lat": this.props.lattitude_drop,
-                    "long": this.props.lngtitude_drop
+                    "lat": this.props.latitude_drop,
+                    "long": this.props.longitude_drop
                 }
             ],
             "bookingUser": {
@@ -971,10 +971,10 @@ function mapStateToProps(state) {
         discount_price: state.info.discount_price,
         people: state.info.people,
         is_airport: state.info.is_airport,
-        lattitude_pick: state.info.lattitude_pick,
-        lngtitude_pick: state.info.lngtitude_pick,
-        lattitude_drop: state.info.lattitude_drop,
-        lngtitude_drop: state.info.lngtitude_drop,
+        latitude_pick: state.info.latitude_pick,
+        longitude_pick: state.info.longitude_pick,
+        latitude_drop: state.info.latitude_drop,
+        longitude_drop: state.info.longitude_drop,
         token: state.thongtin.token
     }
 }

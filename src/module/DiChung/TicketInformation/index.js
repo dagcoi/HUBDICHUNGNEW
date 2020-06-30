@@ -9,7 +9,7 @@ import { Button, ButtonGray, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 import PopUp from '../../../component/PopUp'
 import OtpInputs from 'react-native-otp-inputs';
-import { handleAndroidBackButton, removeAndroidBackButtonHandler, exitAlert } from '../../../component/AndroidBackButton'
+// import { handleAndroidBackButton, removeAndroidBackButtonHandler, exitAlert } from '../../../component/AndroidBackButton'
 import { HeaderText } from '../../../component/Header'
 import { StatusTicket } from '../../../component/Ticket';
 
@@ -60,11 +60,11 @@ class TicketInformation extends Component {
 
     componentDidMount() {
         this.getTicketbyBookigId()
-        handleAndroidBackButton(exitAlert)
+        // handleAndroidBackButton(exitAlert)
     }
 
     componentWillUnmount() {
-        removeAndroidBackButtonHandler()
+        // removeAndroidBackButtonHandler()
     }
 
     _refreshData = () => {
@@ -450,7 +450,7 @@ class TicketInformation extends Component {
                 <SafeAreaView style={{ flex: 1 }}>
                     <HeaderText textCenter={'Chi tiết vé'} onPressLeft={this.goBack} />
                     <View style={styles.container}>
-                        <ScrollView showsVerticalScrollIndicator={false} refreshControl={this._refreshData} >
+                        <ScrollView showsVerticalScrollIndicator={false} >
 
                             {item.forward.status == 'forwarded' ?
                                 <Text style={styles.textBigRight}>Mã thuê xe của bạn: <Text style={{ fontWeight: 'bold', backgroundColor: '#77a300', color: '#fff', padding: 4 }}>{item.code}</Text></Text>

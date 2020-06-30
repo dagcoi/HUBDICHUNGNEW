@@ -461,7 +461,7 @@ class InfoCustommerTuLai extends Component {
                 <ScrollView
                     showsVerticalScrollIndicator={false}
                 >
-                    <KeyboardAwareScrollView style={styles.container}>
+                    <KeyboardAwareScrollView style={{flexGrow: 1, padding: 8}} enableOnAndroid={true} enableAutoAutomaticScroll={(Platform.OS === 'ios')} >
                         <Text style={styles.textBig}>Họ và tên</Text>
 
                         <InputTextDiChung

@@ -197,7 +197,7 @@ class InfoCarChungXe extends Component {
                     showsHorizontalScrollIndicator={false}
                     showsVerticalScrollIndicator={false}
                 >
-                    <KeyboardAwareScrollView contentContainerStyle={{ flex: 1, padding: 8 }} >
+                    <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1, padding: 8 }} enableOnAndroid={true} enableAutoAutomaticScroll={(Platform.OS === 'ios')} >
 
                         <Image
                             style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: 140, resizeMode: 'contain' }}

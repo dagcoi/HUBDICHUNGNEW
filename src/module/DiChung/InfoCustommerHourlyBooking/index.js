@@ -507,7 +507,7 @@ class InfoCustommerHourlyBooking extends Component {
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <HeaderText textCenter={'Thông tin đặt xe'} onPressLeft={this.goBack} />
-                <KeyboardAwareScrollView contentContainerStyle={{ flex: 1, padding: 8 }} >
+                <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1, padding: 8 }} enableOnAndroid={true} enableAutoAutomaticScroll={(Platform.OS === 'ios')} >
                     <ScrollView showsVerticalScrollIndicator={false}>
                         <Text style={styles.textBig}>Họ và tên</Text>
 

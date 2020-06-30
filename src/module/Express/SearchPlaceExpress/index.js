@@ -54,10 +54,10 @@ class SearchPlaceExpress extends Component {
         this.props.dropAddressVanChuyen(address, address_component, lat, lng);
         this.goBack();
     }
-    addlatlng(lattitude, lngtitude) {
+    addlatlng(latitude, longitude) {
         this.setState({
-            lat: lattitude,
-            lng: lngtitude,
+            lat: latitude,
+            lng: longitude,
         });
         console.log(`lat: ${this.state.lat} lng: ${this.state.lng}`);
     }

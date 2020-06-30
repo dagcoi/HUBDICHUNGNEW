@@ -261,10 +261,10 @@ class ConfirmInfoChungXe extends Component {
                 book_retun_date: dateRetun,
                 book_src_key: '',
                 cstm_deli_addr: navigation.getParam('selectRentCar') == 0 ? null : this.props.pick_add,
-                cstm_deli_addr_lat: navigation.getParam('selectRentCar') == 0 ? null : this.props.lattitude_pick,
-                cstm_deli_addr_lng: navigation.getParam('selectRentCar') == 0 ? null : this.props.lngtitude_pick,
-                // latitude: navigation.getParam('selectRentCar') == 0 ? this.props.lattitude_pick : null,
-                // longitude:navigation.getParam('selectRentCar') == 0 ? this.props.lngtitude_pick : null,
+                cstm_deli_addr_lat: navigation.getParam('selectRentCar') == 0 ? null : this.props.latitude_pick,
+                cstm_deli_addr_lng: navigation.getParam('selectRentCar') == 0 ? null : this.props.longitude_pick,
+                // latitude: navigation.getParam('selectRentCar') == 0 ? this.props.latitude_pick : null,
+                // longitude:navigation.getParam('selectRentCar') == 0 ? this.props.longitude_pick : null,
                 cstm_name: this.props.full_name,
                 cstm_emai: this.props.email,
                 cstm_pay_meth_id: '1',
@@ -349,8 +349,8 @@ function mapStateToProps(state) {
         time_drop: state.info.time_drop,
         pick_add: state.info.pick_add,
         component_pick: state.info.component_pick,
-        lattitude_pick: state.info.lattitude_pick,
-        lngtitude_pick: state.info.lngtitude_pick
+        latitude_pick: state.info.latitude_pick,
+        longitude_pick: state.info.longitude_pick
     }
 }
 
