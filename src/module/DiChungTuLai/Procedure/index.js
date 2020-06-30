@@ -15,19 +15,18 @@ class Procedure extends Component {
                 <HeaderText textCenter={'Thủ tục thuê xe'} onPressLeft={this.goBack} />
 
                 <View style={styles.container}>
-                    <Text style={styles.TextBig}>Thủ tục:</Text>
-                    <Text style={styles.TextNomal}>- CMND: Bản gốc</Text>
-                    <Text style={styles.TextNomal}>- Sổ hộ khẩu: Bản gốc hoặc KT3</Text>
-                    <Text style={styles.TextNomal}>- Bằng lái: B2 trở lên</Text>
-                    <Text style={styles.TextNomal}>- Đặt cọc: Xe máy + đăng ký xe chính chủ hoặc 20 triệu tiền mặt</Text>
-
+                    <View style={{paddingHorizontal: 8}}>
+                        <Text style={styles.TextNormal}>- CMND: Bản gốc</Text>
+                        <Text style={styles.TextNormal}>- Sổ hộ khẩu: Bản gốc hoặc KT3</Text>
+                        <Text style={styles.TextNormal}>- Bằng lái: B2 trở lên</Text>
+                        <Text style={styles.TextNormal}>- Đặt cọc: Xe máy + đăng ký xe chính chủ hoặc 20 triệu tiền mặt</Text>
+                    </View>
                     <ButtonFull
                         onPress={() => {
                             this.props.navigation.push("InfoCustommerTuLai")
                         }}
                         value={'TÔI ĐÃ HIỂU'}
                     />
-
                 </View>
             </SafeAreaView>
         )
@@ -45,8 +44,9 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
     },
-    TextNomal: {
+    TextNormal: {
         fontSize: 14,
+        marginVertical: 2
     },
     buttom: {
         backgroundColor: '#77a300',

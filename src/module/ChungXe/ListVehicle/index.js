@@ -262,13 +262,9 @@ class ListVehicle extends Component {
                                 <View style={{ padding: 8, borderColor: '#e8e8e8', borderRadius: 4, borderWidth: 0.5, marginTop: 8, marginHorizontal: 8 }}>
                                     <View style={{ flexDirection: 'row' }}>
                                         <View style={{ flex: 1, justifyContent: 'flex-start' }}>
-                                            <View style={{ flexDirection: 'row' }}>
-                                                <Text style={{ fontSize: 14, color: '#ffffff', backgroundColor: '#77a300', padding: 4, fontWeight: 'bold' }}>
-                                                    {item.part.vhc_type_id == 1 ? item.vhc_part_name_short : item.vhc_part_name}
-                                                </Text>
-                                            </View>
+                                            <Text style={{ fontSize: 18, color: '#77a300', fontWeight: 'bold' }}>XE TỰ LÁI</Text>
 
-                                            <Text style={{ fontSize: 14, marginTop: 8, marginBottom: 8 }}>{item.part.part_addr_shor}</Text>
+                                            <Text style={{ fontSize: 14, marginTop: 8, marginBottom: 8 }}>{item.part.vhc_type_id == 1 ? item.vhc_part_name_short : item.vhc_part_name}</Text>
 
                                             <StarVote number={item.vhc_part_star} />
 

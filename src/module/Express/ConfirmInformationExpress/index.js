@@ -608,7 +608,7 @@ class ConfirmInformationExpress extends Component {
                 "gender": ""
             },
             "bookingTime": this.state.depart_time2,
-            "slot": 1,
+            "slot": this.props.chair,
             "dimension": "one_way",
             "rideMethod": "private",
             "productType": "EXPRESS",
