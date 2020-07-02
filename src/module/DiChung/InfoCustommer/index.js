@@ -13,6 +13,7 @@ import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from '
 import PopUp from '../../../component/PopUp'
 import RadioGroup from 'react-native-custom-radio-group';
 import { HeaderText } from '../../../component/Header'
+import { RadioButtonCustom, RadioButtonNormal } from '../../../component/RadioButton'
 
 var radio_props = [
     { label: 'Nội địa', value: 1 },
@@ -76,10 +77,10 @@ class InfoCustommer extends Component {
 
     componentDidMount() {
         console.log('a')
-        this.getdata()
+        this.getData()
     }
 
-    async getdata() {
+    async getData() {
         try {
             const dataLogin = await AsyncStorage.getItem('dataLogin')
             if (dataLogin !== null) {
@@ -110,7 +111,8 @@ class InfoCustommer extends Component {
             return (
                 <View>
                     {radio_payment_detail.map((obj, i) => (
-                        <TouchableOpacity
+                        <RadioButtonCustom
+                            obj={obj}
                             onPress={() => {
                                 this.setState({
                                     value_paymentDetail: obj.label,
@@ -118,19 +120,8 @@ class InfoCustommer extends Component {
 
                                 })
                             }}
-                            style={{ marginVertical: 2, height: 40, flexDirection: 'row', justifyContent: 'center', alignItems: "center", borderRadius: 4, borderWidth: 1, borderColor: obj.label === this.state.value_paymentDetail ? '#77a300' : '#999', padding: 8 }}
-                        >
-                            <Image
-                                style={{ width: 20, height: 20 }}
-                                source={
-                                    obj.label === 'ATM' ? require(imageATM) :
-                                        obj.label === 'VNPAY' ? require(imageVNPay) :
-                                            obj.label === 'VISA' ? require(imageVisa) : require(imagePayPal)
-                                }
-                            />
-                            <Text style={{ flex: 1, fontSize: 14, marginLeft: 8 }}>{obj.label}</Text>
-                            {obj.label === this.state.value_paymentDetail ? <Image style={{ width: 20, height: 20 }} source={require(imageCheck)} /> : null}
-                        </TouchableOpacity>
+                            value_paymentDetail={this.state.value_paymentDetail}
+                        />
                     ))}
                 </View>
             )
@@ -285,42 +276,19 @@ class InfoCustommer extends Component {
                             animation={true}
                         >
                             {radio_props.map((obj, i) => (
-                                <RadioButton labelHorizontal={true} key={i} >
-                                    <RadioButtonInput
-                                        obj={obj}
-                                        index={i}
-                                        isSelected={this.state.plane_type === obj.value}
-                                        onPress={() => {
-                                            console.log(obj.label)
-                                            this.setState({
-                                                plane_type: obj.value,
-                                                selectRentCar: obj.value
-                                            })
-                                        }}
-                                        borderWidth={1}
-                                        buttonInnerColor={'#77a300'}
-                                        buttonOuterColor={'#77a300'}
-                                        buttonSize={10}
-                                        buttonOuterSize={16}
-                                        buttonStyle={7}
-                                        buttonWrapStyle={{ marginLeft: 10 }}
-                                    />
-                                    <RadioButtonLabel
-                                        obj={obj}
-                                        index={i}
-                                        key={i}
-                                        labelHorizontal={true}
-                                        onPress={() => {
-                                            console.log(obj.label)
-                                            this.setState({
-                                                plane_type: obj.value,
-                                            })
-                                        }}
-                                        labelStyle={{ fontSize: 14, color: '#000' }}
-                                        labelWrapStyle={{}}
-                                    />
-                                </RadioButton>
-                            ))}
+                                <RadioButtonNormal
+                                    obj={obj}
+                                    i={i}
+                                    listRadio={radio_props}
+                                    isSelected={this.state.plane_type}
+                                    onPressItem={() => {
+                                        // console.log(obj.label + this.state.plane_type)
+                                        this.setState({
+                                            plane_type: obj.value,
+                                            selectRentCar: obj.value
+                                        })
+                                    }}
+                                />))}
                         </RadioForm>
                     </View>
                 </View>
@@ -364,7 +332,7 @@ class InfoCustommer extends Component {
         )
     }
 
-    checkInfoCustommer() {
+    checkInfoCustomer() {
         if (this.state.full_name.trim().length < 2) {
             this.setState({ alertName: true })
             return;
@@ -629,46 +597,20 @@ class InfoCustommer extends Component {
                                 animation={true}
                             >
                                 {radio_payment.map((obj, i) => (
-                                    <RadioButton labelHorizontal={true} key={i} >
-                                        <RadioButtonInput
-                                            obj={obj}
-                                            index={i}
-                                            isSelected={this.state.value_payment === obj.value}
-                                            onPress={() => {
-                                                console.log(obj.label)
-                                                this.setState({
-                                                    value_payment: obj.value,
-                                                    selectRentCar: obj.value,
-                                                    payment_method_ID: obj.payment_method_ID,
-                                                })
-                                            }}
-                                            borderWidth={1}
-                                            buttonInnerColor={'#77a300'}
-                                            buttonOuterColor={'#77a300'}
-                                            buttonSize={10}
-                                            buttonOuterSize={16}
-                                            buttonStyle={7}
-                                            buttonWrapStyle={{ marginLeft: 10 }}
-                                        />
-                                        <RadioButtonLabel
-                                            obj={obj}
-                                            index={i}
-                                            key={i}
-                                            labelHorizontal={true}
-                                            onPress={() => {
-                                                console.log(obj.label)
-                                                this.setState({
-                                                    value_payment: obj.value,
-                                                    payment_method_ID: obj.payment_method_ID,
-                                                })
-                                            }}
-                                            labelStyle={{ fontSize: 14, color: '#000' }}
-                                            labelWrapStyle={{}}
-                                        />
-                                    </RadioButton>
+                                    <RadioButtonNormal
+                                        i={i}
+                                        obj={obj}
+                                        isSelected={this.state.value_payment}
+                                        onPressItem={() => {
+                                            console.log(obj.label)
+                                            this.setState({
+                                                value_payment: obj.value,
+                                                selectRentCar: obj.value,
+                                                payment_method_ID: obj.payment_method_ID,
+                                            })
+                                        }}
+                                    />
                                 ))}
-
-
                             </RadioForm>
                         </View>
 
@@ -754,7 +696,7 @@ class InfoCustommer extends Component {
                                 // add payment method id
                                 console.log(payment_method_ID)
                                 this.props.addPaymentMethodID(payment_method_ID);
-                                this.checkInfoCustommer();
+                                this.checkInfoCustomer();
                             }}
                             value={'TIẾP TỤC'}
                         />
@@ -773,24 +715,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         padding: 8,
     },
-
     textBig: {
         marginTop: 8,
         fontSize: 16,
         fontWeight: 'bold',
         color: '#333333'
     },
-
-    textNomal: {
-        marginTop: 8,
-        fontSize: 18,
-    },
-
-    textSmall: {
-        marginTop: 8,
-        fontSize: 14,
-    },
-
     textInput: {
         borderWidth: 0,
         padding: 8,
@@ -799,16 +729,6 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         flex: 1,
     },
-    borderView: {
-        marginTop: 8,
-        borderWidth: 1,
-        borderColor: '#e8e8e8',
-        borderRadius: 4,
-        flexDirection: 'row',
-        justifyContent: "center",
-        alignItems: "center",
-        flex: 1,
-    }
 });
 
 function mapStateToProps(state) {

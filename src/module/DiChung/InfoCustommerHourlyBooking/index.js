@@ -11,12 +11,13 @@ import { Button, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 import PopUp from '../../../component/PopUp'
 import { HeaderText } from '../../../component/Header'
+import { RadioButtonCustom, RadioButtonNormal } from '../../../component/RadioButton'
 
 var radio_payment_detail = [
     { label: 'ATM', value: 0, payment_method_ID: '8' },
-    { label: 'Visa', value: 1, payment_method_ID: '8' },
-    { label: 'Vnpay', value: 2, payment_method_ID: '8' },
-    { label: 'Paypal', value: 3, payment_method_ID: '4' },
+    { label: 'VISA', value: 1, payment_method_ID: '8' },
+    { label: 'VNPAY', value: 2, payment_method_ID: '8' },
+    { label: 'PAYPAL', value: 3, payment_method_ID: '4' },
 ]
 
 const imageCancel = '../../../image/cancel.png'
@@ -30,6 +31,7 @@ class InfoCustommerHourlyBooking extends Component {
         this.state = {
             is_checked: false,
             value_payment: 0,
+            value_paymentDetail: 'ATM',
             full_name: '',
             full_name1: '',
             use_phone: '',
@@ -100,44 +102,18 @@ class InfoCustommerHourlyBooking extends Component {
                         animation={true}
                     >
                         {radio_payment_detail.map((obj, i) => (
-                            <RadioButton labelHorizontal={true} key={i} >
-                                <RadioButtonInput
-                                    obj={obj}
-                                    index={i}
-                                    isSelected={this.state.value_paymentDetail === i}
-                                    onPress={() => {
-                                        console.log(obj.label)
-                                        this.setState({
-                                            value_paymentDetail: i,
-                                            selectRentCar: i,
-                                            payment_method_ID: obj.payment_method_ID,
-                                        })
-                                    }}
-                                    borderWidth={0.5}
-                                    buttonInnerColor={'#77a300'}
-                                    buttonOuterColor={'#77a300'}
-                                    buttonSize={10}
-                                    buttonOuterSize={16}
-                                    buttonStyle={7}
-                                    buttonWrapStyle={{ marginLeft: 10 }}
-                                />
-                                <RadioButtonLabel
-                                    obj={obj}
-                                    index={i}
-                                    key={i}
-                                    labelHorizontal={true}
-                                    onPress={() => {
-                                        console.log(obj.label)
-                                        console.log(obj.payment_method_ID)
-                                        this.setState({
-                                            value_paymentDetail: i,
-                                            payment_method_ID: obj.payment_method_ID,
-                                        })
-                                    }}
-                                    labelStyle={{ fontSize: 14, color: '#333333' }}
-                                    labelWrapStyle={{}}
-                                />
-                            </RadioButton>
+                            <RadioButtonCustom
+                                obj={obj}
+                                onPress={() => {
+                                    console.log(obj.label)
+                                    this.setState({
+                                        value_paymentDetail: obj.label,
+                                        selectRentCar: i,
+                                        payment_method_ID: obj.payment_method_ID,
+                                    })
+                                }}
+                                value_paymentDetail={this.state.value_paymentDetail}
+                            />
                         ))}
 
 
@@ -171,24 +147,6 @@ class InfoCustommerHourlyBooking extends Component {
                 visible={this.state.alertName || this.state.alertPhone || this.state.alertEmail || this.state.alertName2 || this.state.alertPhone2 || this.state.alertCompany || this.state.alertAirport}
                 width={0.8}
                 dialogTitle={<DialogTitle title='Thông tin chưa đủ' />}
-            // footer={
-            //     <DialogFooter>
-            //         <DialogButton
-            //             text="Đồng ý"
-            //             onPress={() => {
-            //                 this.setState({
-            //                     alertName: false,
-            //                     alertPhone: false,
-            //                     alertEmail: false,
-            //                     alertName2: false,
-            //                     alertPhone2: false,
-            //                     alertCompany: false,
-            //                     alertAirport: false,
-            //                 })
-            //             }}
-            //         />
-            //     </DialogFooter>
-            // }
             >
                 <View>
                     <View style={{ padding: 8, flexDirection: 'column' }}>
@@ -572,43 +530,58 @@ class InfoCustommerHourlyBooking extends Component {
                             animation={true}
                         >
                             {radio_payment.map((obj, i) => (
-                                <RadioButton labelHorizontal={true} key={i} >
-                                    <RadioButtonInput
-                                        obj={obj}
-                                        index={i}
-                                        isSelected={this.state.value_payment === i}
-                                        onPress={() => {
-                                            console.log(obj.label)
-                                            this.setState({
-                                                value_payment: i,
-                                                selectRentCar: i,
-                                                payment_method_ID: obj.payment_method_ID,
-                                            })
-                                        }}
-                                        borderWidth={0.5}
-                                        buttonInnerColor={'#77a300'}
-                                        buttonOuterColor={'#77a300'}
-                                        buttonSize={10}
-                                        buttonOuterSize={16}
-                                        buttonStyle={7}
-                                        buttonWrapStyle={{ marginTop: 8 }}
-                                    />
-                                    <RadioButtonLabel
-                                        obj={obj}
-                                        index={i}
-                                        key={i}
-                                        labelHorizontal={true}
-                                        onPress={() => {
-                                            console.log(obj.label)
-                                            this.setState({
-                                                value_payment: i,
-                                                payment_method_ID: obj.payment_method_ID,
-                                            })
-                                        }}
-                                        labelStyle={{ fontSize: 14, color: '#000' }}
-                                        labelWrapStyle={{ marginTop: 8 }}
-                                    />
-                                </RadioButton>
+                                // <RadioButton labelHorizontal={true} key={i} >
+                                //     <RadioButtonInput
+                                //         obj={obj}
+                                //         index={i}
+                                //         isSelected={this.state.value_payment === i}
+                                //         onPress={() => {
+                                //             console.log(obj.label)
+                                //             this.setState({
+                                //                 value_payment: i,
+                                //                 selectRentCar: i,
+                                //                 payment_method_ID: obj.payment_method_ID,
+                                //             })
+                                //         }}
+                                //         borderWidth={0.5}
+                                //         buttonInnerColor={'#77a300'}
+                                //         buttonOuterColor={'#77a300'}
+                                //         buttonSize={10}
+                                //         buttonOuterSize={16}
+                                //         buttonStyle={7}
+                                //         buttonWrapStyle={{ marginTop: 8 }}
+                                //     />
+                                //     <RadioButtonLabel
+                                //         obj={obj}
+                                //         index={i}
+                                //         key={i}
+                                //         labelHorizontal={true}
+                                //         onPress={() => {
+                                //             console.log(obj.label)
+                                //             this.setState({
+                                //                 value_payment: i,
+                                //                 payment_method_ID: obj.payment_method_ID,
+                                //             })
+                                //         }}
+                                //         labelStyle={{ fontSize: 14, color: '#000' }}
+                                //         labelWrapStyle={{ marginTop: 8 }}
+                                //     />
+                                // </RadioButton>
+
+                                <RadioButtonNormal
+                                    obj={obj}
+                                    i={i}
+                                    listRadio={radio_payment}
+                                    isSelected={this.state.value_payment}
+                                    onPress={() => {
+                                        console.log(obj.label)
+                                        this.setState({
+                                            value_payment: i,
+                                            selectRentCar: i,
+                                            payment_method_ID: obj.payment_method_ID,
+                                        })
+                                    }}
+                                />
                             ))}
 
 

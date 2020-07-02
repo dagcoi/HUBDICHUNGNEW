@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
 import {
-    Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, ActivityIndicator, FlatList, Dimensions, SafeAreaView
+    Text, View, TouchableOpacity, Image, ActivityIndicator, FlatList, SafeAreaView
 } from 'react-native';
 import { connect } from 'react-redux';
-import StarVote from '../../../component/StarVote'
 import { HeaderText } from '../../../component/Header'
 
 import { addTripInfomationHourlyBooking } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
-import { Button } from '../../../component/Button'
+import { ItemCarTaxiHourly } from '../../../component/ItemCar';
 
 const imageMaxToMin = '../../../image/maxtomin.png'
 const imageMinToMax = '../../../image/mintomax.png'
-const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window')
 
 class ListCarHourlyBooking extends Component {
 
@@ -143,11 +141,6 @@ class ListCarHourlyBooking extends Component {
     }
 
     renderListCar(obj) {
-        // const { navigation } = this.props;
-        // var listCarType = navigation.getParam('listCarType');
-        // var str = listCarType.replace(/\s+/g, '');
-        // var listType = str.split(",")
-        // var obj = obj1.filter(item => (listType.includes(item.vehicle_id)))
         { this.state.sort ? obj.sort((a, b) => b.price - a.price) : obj.sort((a, b) => a.price - b.price) }
         return (
             obj.length < 1 ?
@@ -174,66 +167,23 @@ class ListCarHourlyBooking extends Component {
                     data={obj}
                     renderItem={({ item }) => {
                         return (
-                            <View style={styles.container}>
-                                <View style={{ flexDirection: 'row', }}>
-                                    <View style={styles.containerr}>
-                                        <Text style={styles.loaixe}>
-                                            {item.partner_name.toUpperCase()}
-                                        </Text>
-                                        <Text style={styles.gioiHan}>{item.vehicle_name}</Text>
-                                        <StarVote number={item.star_vote} />
-                                        <Text style={styles.gioiHan}>giới hạn {item.km_limit_format}</Text>
-                                        <Text style={styles.giaTien}>{item.price_format}</Text>
-                                    </View>
-                                    <View style={styles.imageRight}>
-                                        <Image
-                                            style={{ width: 150, height: 90, }}
-                                            source={{ uri: item.vehicle_icon, }}
-                                            resizeMode="contain"
-                                        />
-                                    </View>
-                                </View>
-
-                                <View>
-                                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
-                                        <Image
-                                            style={{ width: 16, height: 16, marginRight: 8, }}
-                                            source={require('../../../image/note.png')} />
-                                        <Text style={{ flex: 1, marginVertical: 2 }}>Phụ trội theo km: {item.extra_price_km} đ/km</Text>
-                                    </View>
-                                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
-                                        <Image
-                                            style={{ width: 16, height: 16, marginRight: 8, }}
-                                            source={require('../../../image/note.png')} />
-                                        <Text style={{ flex: 1, marginVertical: 2 }}>Phụ trội theo giờ: {item.extra_price_hour} đ/giờ</Text>
-                                    </View>
-                                    {/* <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
-                                        <Image
-                                            style={{ width: 16, height: 16, marginRight: 8, }}
-                                            source={require('../../../image/note.png')} />
-                                        <Text style={{ flex: 1,marginVertical:2 }}>Giá đã bao gồm tiền xăng và lái xe, chưa bao gồm phí cầu đường, bến bãi, đỗ xe.</Text>
-                                    </View> */}
-                                </View>
-
-                                <Button
-                                    onPress={() => {
-                                        this.gotoInfocustommerHourlyBooking(item);
-                                    }}
-                                    value={'CHỌN XE'}
-                                />
-                            </View>
+                            <ItemCarTaxiHourly
+                                item={item}
+                                onPress={() => {
+                                    this.gotoInfoCustomerHourlyBooking(item);
+                                }}           
+                            />
                         )
                     }
                     }
                 />
-
         )
     }
     nextScreen() {
         this.props.navigation.push("InfoCustommerHourlyBooking")
     }
 
-    gotoInfocustommerHourlyBooking = (item) => {
+    gotoInfoCustomerHourlyBooking = (item) => {
         this.props.addTripInfomationHourlyBooking(item.partner_name, item.price, this.props.depart_time, item.extra_price_km_format, item.extra_price_hour_format, item.km_limit_format, item.vehicle_icon, item.vehicle_id, item.vehicle_name, item.city_id, item.partner_id)
         this.nextScreen();
     }
@@ -277,91 +227,6 @@ class ListCarHourlyBooking extends Component {
     }
 
 }
-
-const styles = StyleSheet.create({
-    textView: {
-        fontSize: 14,
-        color: '#123456',
-        marginTop: 8,
-    },
-    viewColumn: {
-        backgroundColor: '#ffffaa',
-        flex: 1,
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderColor: 'red',
-        borderRightWidth: 1,
-        borderLeftWidth: 1,
-    },
-    container: {
-        borderColor: '#e8e8e8',
-        borderWidth: 0.5,
-        borderRadius: 4,
-        padding: 8,
-        marginVertical: 4,
-        backgroundColor: '#ffffff',
-        marginHorizontal: 8,
-    },
-    text: {
-        color: '#4f603c'
-    },
-    containerr: {
-        flex: 1,
-        marginTop: 3,
-        backgroundColor: '#ffffff',
-        flexDirection: 'column',
-    },
-    imageRight: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    tentuyen: {
-        padding: 1,
-        fontSize: 16,
-        color: '#00363e',
-        fontStyle: 'italic',
-        backgroundColor: '#ffffff'
-    },
-    loaixe: {
-        fontSize: 18,
-        color: '#77a300',
-        fontWeight: 'bold'
-    },
-    giaTien: {
-        fontSize: 18,
-        color: '#00363e',
-        fontWeight: 'bold'
-    },
-    gioiHan: {
-        fontSize: 14,
-        color: '#00363e',
-        marginTop: 4
-    },
-    viewChitiet: {
-        paddingTop: 8,
-        paddingBottom: 8,
-        flexDirection: 'row'
-    },
-    chitiet: {
-        alignItems: 'center',
-        flex: 1,
-        flexDirection: 'row',
-    },
-    card: {
-        shadowOffset: { height: 2, width: 2 },
-        backgroundColor: '#fff',
-        shadowColor: '#000',
-        shadowOpacity: 0,
-        elevation: 5,
-        paddingHorizontal: 8,
-        paddingVertical: 8,
-        marginVertical: 8,
-        marginHorizontal: 8,
-        borderRadius: 8,
-    },
-})
 
 function mapStateToProps(state) {
     return {

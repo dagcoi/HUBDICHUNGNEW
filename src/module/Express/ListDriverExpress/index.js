@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, ActivityIndicator, Dimensions, FlatList, Modal, Linking, SafeAreaView } from 'react-native';
+import { Text, View, TouchableOpacity, Image, ScrollView, ActivityIndicator, FlatList, Modal, Linking, SafeAreaView } from 'react-native';
 import { connect } from 'react-redux';
-import StarVote from '../../../component/StarVote'
-
 import { addTripInfomationVanChuyen } from '../../../core/Redux/action/Action'
-import HTML from 'react-native-render-html';
 import * as link from '../../../URL'
-import { Button } from '../../../component/Button'
 import CheckBoxList from '../../../component/CheckBoxList';
 import { HeaderText } from '../../../component/Header';
-import ListCar from '../../DiChung/ListCar';
+import { ItemExpress } from '../../../component/ItemCar';
 
 const imageMaxToMin = '../../../image/maxtomin.png'
 const imageMinToMax = '../../../image/mintomax.png'
@@ -35,53 +31,6 @@ class ListDriverExpress extends Component {
             showFilter: false,
         }
     }
-
-    // static navigationOptions = ({ navigation }) => {
-    //     return {
-    //         headerTitle: () => <View style={{
-    //             flex: 1,
-    //             flexDirection: 'row',
-    //             justifyContent: 'center'
-    //         }}>
-    //             <Text style={{
-    //                 flex: 1,
-    //                 fontSize: 22,
-    //                 textAlign: 'left',
-    //                 justifyContent: 'center',
-    //             }}>
-    //                 Danh sách dịch vụ
-    //             </Text>
-
-    //             <View
-    //                 style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
-    //             >
-    //                 <TouchableOpacity
-    //                     style={{ justifyContent: 'center', alignItems: 'center' }}
-    //                     onPress={navigation.getParam('setShowFilter')}
-    //                 >
-    //                     <Image
-    //                         style={{ width: 24, height: 24 }}
-    //                         source={require(imageTune)}
-    //                     />
-    //                 </TouchableOpacity>
-    //             </View>
-
-    //             <View
-    //                 style={{ width: 36, height: 36, justifyContent: 'center', alignItems: 'center' }}
-    //             >
-    //                 <TouchableOpacity
-    //                     style={{ justifyContent: 'center', alignItems: 'center' }}
-    //                     onPress={navigation.getParam('increaseCount')}
-    //                 >
-    //                     <Image
-    //                         style={{ width: 24, height: 24 }}
-    //                         source={navigation.getParam('image') ? require(imageMaxToMin) : require(imageMinToMax)}
-    //                     />
-    //                 </TouchableOpacity>
-    //             </View>
-    //         </View>,
-    //     };
-    // };
 
     _increaseCount = () => {
         this.setState({ sort: !this.state.sort });
@@ -182,7 +131,7 @@ class ListDriverExpress extends Component {
         }
     }
 
-    gotoInfoCustommerExpress = (item) => {
+    gotoInfoCustomerExpress = (item) => {
         this.props.addTripInfomationVanChuyen(item.partner_name, item.merged, this.props.depart_time, item.chunk_id, item.vehicle_id, item.village_id, item.pm_id, item.partner_id, item.city_id, item.vehicle_name, item.toll_fee, item.dimension_id, item.vehicle_id, item.ride_method_id, item.chair, item.airport_id, item.street_id, item.vehicle_icon, item.pick_pos, item.drop_pos, item.use_range_time, item.unmerged);
         this.props.navigation.push("InfoCustommerExpress", {
             pay_methods: JSON.stringify(item.pay_methods)
@@ -265,92 +214,13 @@ class ListDriverExpress extends Component {
         return (
             <View>
                 {obj.map((item, index) => (
-                    <View
-                        key={index}
-                        style={styles.container}
-                    >
-                        <View style={{ flexDirection: 'row',justifyContent: 'center',alignItems:'center' }}>
-                            <View style={styles.containerr}>
-                                <Text style={styles.loaixe}>
-                                    {item.partner_name.toUpperCase()}
-                                </Text>
-                                <StarVote number={item.star_vote} />
-                                <Text style={styles.giaTien}>{(item.merged * this.props.chair).format(0, 3, '.')} đ</Text>
-                                <Text style={styles.tentuyen}>{item.vehicle_name}</Text>
-                            </View>
-
-                            <View style={styles.imageRight}>
-                                <Image
-                                    style={{ width: 150, height: 100, }}
-                                    source={{ uri: item.vehicle_icon, }}
-                                    resizeMode="contain"
-                                />
-                            </View>
-
-                        </View>
-
-                        <View style={{ marginLeft: 8, flexDirection: 'row', }}>
-                            {item.discount_text == '' ? null :
-                                <View style={{ flexDirection: 'row', flex: 1 }}>
-                                    <Image
-                                        style={{ width: 14, height: 14, marginRight: 8 }}
-                                        source={require('../../../image/check.png')} />
-                                    <HTML html={item.discount_text} imagesMaxWidth={Dimensions.get('window').width} />
-                                </View>}
-                        </View>
-
-                        <View style={{ marginLeft: 8, flexDirection: 'row', }}>
-                            <View style={{ flexDirection: 'row', flex: 1 }}>
-                                <Image
-                                    style={{ width: 14, height: 14, marginRight: 8 }}
-                                    source={require('../../../image/check.png')} />
-                                <Text>Bảo đảm cho hàng dễ vỡ</Text>
-                            </View>
-                        </View>
-
-                        <View style={{ marginLeft: 8, flexDirection: 'row', }}>
-                            <View style={{ flexDirection: 'row', flex: 1 }}>
-                                <Image
-                                    style={{ width: 14, height: 14, marginRight: 8 }}
-                                    source={require('../../../image/check.png')} />
-                                <Text>Thời gian chờ lấy hàng tối đa 15 phút</Text>
-                            </View>
-                        </View>
-
-                        {item.partner_luggage == '' ? null :
-                            <View style={{ flexDirection: 'column', flex: 1, paddingLeft: 8 }}>
-                                <View style={{ flexDirection: 'row', flex: 1 }}>
-                                    <Image
-                                        style={{ width: 14, height: 14, marginRight: 8 }}
-                                        source={require('../../../image/check.png')} />
-                                    <HTML html={item.partner_luggage} imagesMaxWidth={Dimensions.get('window').width} />
-                                </View>
-                            </View>}
-
-                        {item.discount_data.partner_note ?
-                            <View style={{ marginLeft: 8, flexDirection: 'row', }}>
-                                <HTML html={item.discount_data.partner_note} imagesMaxWidth={Dimensions.get('window').width} />
-                            </View>
-                            : null
-                        }
-
-
-                        {/* <TouchableOpacity
-                            style={{ height: 40, padding: 4, justifyContent: 'center', backgroundColor: '#77a300', alignItems: 'center', marginTop: 8 }}
-                            onPress={() => {
-                                this.gotoInfoCustommerExpress(item)
-                            }}
-                        >
-                            <Text style={{ color: '#FFFFFF', fontSize: 20, fontWeight: 'bold' }}>CHỌN</Text>
-                        </TouchableOpacity> */}
-
-                        <Button
-                            onPress={() => {
-                                this.gotoInfoCustommerExpress(item)
-                            }}
-                            value={'CHỌN'}
-                        />
-                    </View>
+                    <ItemExpress
+                        item={item}
+                        onPress={() => {
+                            this.gotoInfoCustomerExpress(item)
+                        }}
+                        chair={this.props.chair}
+                    />
                 ))
                 }
             </View>
@@ -387,10 +257,6 @@ class ListDriverExpress extends Component {
             )
         }
         var obj = [...this.state.dataSource];
-        // var obj = obj1.filter(obj => ([0].includes(obj.hide)));
-
-        // var lf = { ...this.state.listFilter }
-        // console.log(lf);
         return (
             <SafeAreaView style={{ flex: 1, }}>
                 {this.renderHeader()}
@@ -402,17 +268,6 @@ class ListDriverExpress extends Component {
                         />
                         <Text>Không tìm thấy đối tác phù hợp. Vui lòng gọi <Text style={{ color: '#77a300' }}
                             onPress={() => Linking.openURL(`tel: 19006022`)}>19006022</Text></Text>
-                        {/* <Text style={{ padding: 4, fontSize: 16 }}>HOẶC</Text>
-                        <TouchableOpacity
-                            style={{ backgroundColor: '#77a300', margin: 8, padding: 8 }}
-                            onPress={() => {
-                                this.props.navigation.push("SpecialRequirements", {
-                                    'screen': 'VanChuyen'
-                                })
-                            }}
-                        >
-                            <Text style={{ color: '#fff', fontWeight: 'bold' }}>ĐẶT XE THEO YÊU CẦU</Text>
-                        </TouchableOpacity> */}
                     </View> :
                     <ScrollView
                         showsVerticalScrollIndicator={false}
@@ -427,44 +282,6 @@ class ListDriverExpress extends Component {
     }
 
 }
-
-const styles = StyleSheet.create({
-    container: {
-        borderColor: '#e8e8e8',
-        borderWidth: 0.5,
-        borderRadius: 4,
-        padding: 8,
-        marginTop: 8,
-        backgroundColor: '#ffffff',
-    },
-    containerr: {
-        flex: 1,
-        padding: 8,
-        marginTop: 3,
-        backgroundColor: '#ffffff',
-        flexDirection: 'column',
-    },
-    imageRight: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    tentuyen: {
-        marginTop: 8,
-        padding: 1,
-        fontSize: 12,
-        color: '#333333',
-        fontStyle: 'italic',
-        backgroundColor: '#ffffff'
-    },
-    loaixe: {
-        fontSize: 14,
-    },
-    giaTien: {
-        fontSize: 16,
-        color: '#00363e',
-    },
-})
 
 function mapStateToProps(state) {
     return {

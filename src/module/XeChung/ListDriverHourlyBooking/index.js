@@ -7,6 +7,7 @@ import { addTripInfomationHourlyBookingTaixe } from '../../../core/Redux/action/
 import * as link from '../../../URL'
 import { Button } from '../../../component/Button'
 import { HeaderText } from '../../../component/Header'
+import { ItemDriverHourly } from '../../../component/ItemCar';
 
 const imageMaxToMin = '../../../image/maxtomin.png'
 const imageMinToMax = '../../../image/mintomax.png'
@@ -157,7 +158,7 @@ class ListDriverHourlyBooking extends Component {
                     <View>
                         {obj.map((item, index) => (
                             <View>
-                                <View
+                                {/* <View
                                     key={index}
                                     style={styles.container}
                                 >
@@ -192,31 +193,20 @@ class ListDriverHourlyBooking extends Component {
                                                 source={require('../../../image/note.png')} />
                                             <Text style={{ flex: 1, }}>Phụ trội theo giờ: {item.extra_price_hour} đ/giờ</Text>
                                         </View>
-                                        {/* <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
-                                            <Image
-                                                style={{ width: 16, height: 16, marginRight: 8, }}
-                                                source={require('../../../image/note.png')} />
-                                            <Text style={{ flex: 1, }}>Giá đã bao gồm tiền xăng và lái xe, chưa bao gồm phí cầu đường, bến bãi, đỗ xe.</Text>
-                                        </View> */}
                                     </View>
-                                    {/* <TouchableOpacity
-                                        style={{ height: 40, padding: 4, justifyContent: 'center', backgroundColor: '#77a300', alignItems: 'center', marginTop: 8 }}
-                                        onPress={() => {
-                                            this.gotoInfocustommerDriverHourlyBooking(item);
-                                        }
-                                        }
-                                    >
-                                        <Text style={{ color: '#FFFFFF', fontSize: 20, fontWeight: 'bold' }}>CHỌN XE</Text>
-                                    </TouchableOpacity> */}
-
                                     <Button
                                         onPress={() => {
-                                            this.gotoInfocustommerDriverHourlyBooking(item);
+                                            this.gotoInfoCustomerDriverHourlyBooking(item);
                                         }}
                                         value={'CHỌN XE'}
                                     />
-                                </View>
-
+                                </View> */}
+                                <ItemDriverHourly
+                                    item={item}
+                                    onPress={() => {
+                                        this.gotoInfoCustomerDriverHourlyBooking(item);
+                                    }}
+                                />
                             </View>
                         ))
                         }
@@ -228,7 +218,7 @@ class ListDriverHourlyBooking extends Component {
         this.props.navigation.push("InfoCustommerHourlyRentDriver")
     }
 
-    gotoInfocustommerDriverHourlyBooking = (item) => {
+    gotoInfoCustomerDriverHourlyBooking = (item) => {
         this.props.addTripInfomationHourlyBookingTaixe(item.partner_name, item.price, this.props.depart_time, item.extra_price_km_format, item.extra_price_hour_format, item.km_limit_format, item.vehicle_icon, item.vehicle_id, item.vehicle_name, item.city_id, item.partner_id)
         this.nextScreen();
     }

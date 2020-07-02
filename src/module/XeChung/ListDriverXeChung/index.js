@@ -9,6 +9,7 @@ import HTML from 'react-native-render-html';
 import * as link from '../../../URL'
 import { Button } from '../../../component/Button'
 import { HeaderText } from '../../../component/Header'
+import { ItemDriver } from '../../../component/ItemCar';
 
 const imageMaxToMin = '../../../image/maxtomin.png'
 const imageMinToMax = '../../../image/mintomax.png'
@@ -44,7 +45,7 @@ class ListDriverXeChung extends Component {
 
     async getListDriverNew() {
         const url = link.URL_API_PORTAL + 'price/v1/prices?product_chunk_type=DRIVER_RENTAL&';
-        let parame = `${url}chair=${this.props.chair}&depart_time=${this.props.depart_time}&dimension_id=1&drop_address_component=${JSON.stringify(this.props.component_drop)}&drop_address=${this.props.drop_add}&pick_address_component=${JSON.stringify(this.props.component_pick)}&pick_address=${this.props.pick_add}&provider=dichungtaxi`
+        let parame = `${url}chair=${this.props.chair}&depart_time=${this.props.depart_time}&dimension_id=1&drop_address_component=${JSON.stringify(this.props.component_drop)}&drop_address=${this.props.drop_add}&pick_address_component=${JSON.stringify(this.props.component_pick)}&pick_address=${this.props.pick_add}&provider=dichungtaxi&vehicle_id=0`
         try {
             const response = await fetch(parame, {
                 method: 'GET',
@@ -55,9 +56,11 @@ class ListDriverXeChung extends Component {
                 isLoading: false,
                 dataSource: responseJson.data.data,
             });
-            this.props.addIsFromAirport(responseJson.data.is_from_airport ? 'true' : 'false');
+            // this.props.addIsFromAirport(responseJson.data.is_from_airport ? 'true' : 'false');
             console.log(responseJson)
             console.log(parame)
+            console.log('a')
+            console.log(responseJson.data.data)
             return responseJson.data.data;
         }
         catch (error) {
@@ -120,7 +123,7 @@ class ListDriverXeChung extends Component {
         }
     }
 
-    alertItemName = (item) => {
+    gotoCustomerXeChung = (item) => {
         this.props.addTripInfomationTaixe(item.partner_name, item.merged, this.props.depart_time, item.chunk_id, item.vehicle_id, item.village_id, item.pm_id, item.partner_id, item.city_id, item.vehicle_name, item.toll_fee, item.dimension_id, item.vehicle_id, item.ride_method_id, item.chair, item.airport_id, item.street_id, item.vehicle_icon, item.pick_pos, item.drop_pos, item.use_range_time, item.unmerged);
         this.props.navigation.push("InfoCustommerXeChung", {
             pay_methods: JSON.stringify(item.pay_methods)
@@ -217,90 +220,14 @@ class ListDriverXeChung extends Component {
             <View style={{ paddingHorizontal: 8 }}>
                 {obj.map((item, index) => (
                     <View>
-                        <View
-                            key={index}
-                            style={styles.container}
-                        >
-                            <View style={{ flexDirection: 'row' }}>
-                                <View style={styles.containerr}>
-                                    <Text style={styles.loaixe}>
-                                        {item.partner_name.toUpperCase()}
-                                    </Text>
-                                    <Text style={styles.tentuyen}>{item.vehicle_name}</Text>
-                                    <StarVote number={item.star_vote} />
-                                    <Text style={styles.giaTien}>{item.merged_format}</Text>
-                                </View>
-
-                                <View style={styles.imageRight}>
-                                    <Image
-                                        style={{ width: 150, height: 90, }}
-                                        source={{ uri: item.vehicle_icon, }}
-                                        resizeMode="contain"
-                                    />
-                                </View>
-
-                            </View>
-
-                            <View style={{ marginLeft: 8, flexDirection: 'row', }}>
-                                {item.discount_text == '' ? null :
-                                    <View style={{ flexDirection: 'row', flex: 1 }}>
-                                        <Image
-                                            style={{ width: 14, height: 14, marginRight: 8 }}
-                                            source={require('../../../image/check.png')} />
-                                        <HTML html={item.discount_text} imagesMaxWidth={Dimensions.get('window').width} />
-                                    </View>}
-                            </View>
-
-                            <View style={{ marginLeft: 8, flexDirection: 'row', }}>
-                                <View style={{ flexDirection: 'row', flex: 1 }}>
-                                    <Image
-                                        style={{ width: 14, height: 14, marginRight: 8 }}
-                                        source={require('../../../image/check.png')} />
-                                    <Text>Tài xế được xác thực bởi Đi Chung</Text>
-                                </View>
-                            </View>
-
-                            <View style={{ marginLeft: 8, flexDirection: 'row', }}>
-                                <View style={{ flexDirection: 'row', flex: 1 }}>
-                                    <Image
-                                        style={{ width: 14, height: 14, marginRight: 8 }}
-                                        source={require('../../../image/check.png')} />
-                                    <Text>Thời gian chờ tối đa 15 phút</Text>
-                                </View>
-                            </View>
-                            <View style={{ marginLeft: 8, flexDirection: 'row', }}>
-                                <View style={{ flexDirection: 'row', flex: 1 }}>
-                                    <Image
-                                        style={{ width: 14, height: 14, marginRight: 8 }}
-                                        source={require('../../../image/check.png')} />
-                                    <Text>{item.partner_luggage}</Text>
-                                </View>
-                            </View>
-                            {item.discount_data.partner_note == null ? null :
-                                <View style={{ flexDirection: 'column', flex: 1, padding: 8 }}>
-                                    <HTML html={item.discount_data.partner_note.replace("</a>", "").replace("</p>", "").replace("<p>", "")} imagesMaxWidth={Dimensions.get('window').width} />
-                                </View>}
-
-                            {/* <TouchableOpacity
-                                style={{ height: 40, padding: 4, justifyContent: 'center', backgroundColor: '#77a300', alignItems: 'center', marginTop: 8 }}
-                                onPress={() => {
-                                    console.log(index)
-                                    console.log(item.discount_data.partner_note)
-                                    this.alertItemName(item)
-                                }}
-                            >
-                                <Text style={{ color: '#FFFFFF', fontSize: 20, fontWeight: 'bold' }}>CHỌN TÀI XẾ</Text>
-                            </TouchableOpacity> */}
-
-                            <Button
-                                onPress={() => {
-                                    this.alertItemName(item)
-                                }}
-                                value={'CHỌN TÀI XẾ'}
-                            />
-
-                        </View>
+                        <ItemDriver
+                            item={item}
+                            onPress={() => {
+                                this.gotoCustomerXeChung(item)
+                            }}
+                        />
                     </View>
+
                 ))
                 }
             </View>
@@ -413,6 +340,7 @@ function mapStateToProps(state) {
         component_pick: state.rdTaixe.component_pick,
         component_drop: state.rdTaixe.component_drop,
         depart_time: state.rdTaixe.depart_time,
+        chair: state.rdTaixe.chair,
     }
 }
 export default connect(mapStateToProps, { addTripInfomationTaixe: addTripInfomationTaixe, })(ListDriverXeChung);

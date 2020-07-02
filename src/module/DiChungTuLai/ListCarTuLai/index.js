@@ -8,6 +8,7 @@ import HTML from 'react-native-render-html';
 import * as link from '../../../URL'
 import { Button } from '../../../component/Button'
 import { HeaderText } from '../../../component/Header'
+import { ItemCarRental } from '../../../component/ItemCar';
 
 const imageMaxToMin = '../../../image/maxtomin.png'
 const imageMinToMax = '../../../image/mintomax.png'
@@ -116,7 +117,7 @@ class ListCarTuLai extends Component {
 
     }
 
-    gotoInfoCustommer = (item) => {
+    gotoInfoCustomer = (item) => {
         const { navigation } = this.props;
         this.props.addTripInfomationTuLai(item.partner_name, item.merged, this.props.depart_time, item.chunk_id, item.vehicle_id, item.village_id, item.pm_id, item.partner_id, item.city_id, item.vehicle_name, item.toll_fee, item.dimension_id, item.vehicle_id, item.ride_method_id, item.chair, item.airport_id, item.street_id, item.vehicle_icon, item.pick_pos, item.drop_pos, item.use_range_time, item.unmerged);
         this.props.navigation.push("Procedure")
@@ -210,69 +211,12 @@ class ListCarTuLai extends Component {
                 >
                     <View>
                         {obj.map((item, index) => (
-                            <View>
-                                {item.hide == 1 ? null :
-                                    <View
-                                        key={index}
-                                        style={styles.container}
-                                    >
-                                        <View style={{ flexDirection: 'row' }}>
-
-                                            <View style={styles.containerr}>
-                                                <Text style={styles.tentuyen}>
-                                                    {item.partner_name}
-                                                </Text>
-                                                <Text style={styles.loaixe}>{item.vehicle_name}</Text>
-                                                <StarVote number={item.star_vote} />
-                                                <Text style={styles.giaTien}>{item.merged_format}</Text>
-                                            </View>
-
-                                            <View style={styles.imageRight}>
-                                                <Image
-                                                    style={{ width: 150, height: 90, }}
-                                                    source={{ uri: item.vehicle_icon, }}
-                                                    resizeMode="contain"
-                                                />
-                                            </View>
-
-                                        </View>
-
-                                        <View style={{ marginLeft: 8, flexDirection: 'row', }}>
-                                            {item.discount_text == '' ? null :
-                                                <View style={{ flexDirection: 'row', flex: 1 }}>
-                                                    <Image
-                                                        style={{ width: 14, height: 14, marginRight: 8 }}
-                                                        source={require('../../../image/check.png')} />
-                                                    <HTML html={item.discount_text} imagesMaxWidth={Dimensions.get('window').width} />
-                                                </View>}
-                                        </View>
-                                        {item.discount_data.partner_note == null ? null :
-                                            <View style={{ flexDirection: 'column', flex: 1, padding: 8 }}>
-                                                <HTML html={item.discount_data.partner_note.replace("</a>", "").replace("</p>", "").replace("<p>", "")} imagesMaxWidth={Dimensions.get('window').width} />
-                                            </View>}
-                                        {/* 
-                                        <TouchableOpacity
-                                            style={{ height: 40, padding: 4, justifyContent: 'center', backgroundColor: '#77a300', alignItems: 'center', marginTop: 8 }}
-                                            onPress={() => {
-                                                // console.log(index)
-                                                // console.log(item.discount_data.partner_note)
-                                                this.gotoInfoCustommer(item)
-                                            }
-                                            }
-                                        >
-                                            <Text style={{ color: '#FFFFFF', fontSize: 20, fontWeight: 'bold' }}>CHỌN XE</Text>
-                                        </TouchableOpacity> */}
-
-                                        <Button
-                                            onPress={() => {
-                                                this.gotoInfoCustommer(item)
-                                            }}
-                                            value={'CHỌN XE'}
-                                        />
-
-                                    </View>
-                                }
-                            </View>
+                            <ItemCarRental
+                                item={item}
+                                onPress={() => {
+                                    this.gotoInfoCustomer(item)
+                                }}
+                            />
                         ))
                         }
                     </View>
@@ -301,7 +245,7 @@ class ListCarTuLai extends Component {
 
         if (this.state.isLoading) {
             return (
-                <SafeAreaView style={{ flex: 1,}}>
+                <SafeAreaView style={{ flex: 1, }}>
                     {this.renderHeader()}
                     <ActivityIndicator
                         size='large'

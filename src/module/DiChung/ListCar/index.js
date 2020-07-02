@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, Alert, Switch, ActivityIndicator, Dimensions, Modal, RefreshControl, FlatList, Linking, SafeAreaView } from 'react-native';
+import { Text, View, TouchableOpacity, Image, ScrollView, ActivityIndicator, Modal, FlatList, Linking, SafeAreaView } from 'react-native';
 import { connect } from 'react-redux';
 import CheckBoxList from '../../../component/CheckBoxList'
-import CheckBox from 'react-native-check-box'
-import StarVote from '../../../component/StarVote'
-import { Button } from '../../../component/Button'
 import { HeaderText } from '../../../component/Header'
 
 import { addTripInfomation, addIsFromAirport, addAirport } from '../../../core/Redux/action/Action'
-import HTML from 'react-native-render-html';
 import * as link from '../../../URL'
-
+import { ItemCarTaxi } from '../../../component/ItemCar';
 
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -216,7 +212,7 @@ class ListCar extends Component {
         this.setState({ showFilter: true });
     };
 
-    gotoInfoCustommer = (item) => {
+    gotoInfoCustomer = (item) => {
         const { navigation } = this.props;
         this.props.addAirport(item.airport_id == 0 ? 'false' : 'true')
         if (item.toll_fee == 'NA') {
@@ -224,10 +220,8 @@ class ListCar extends Component {
         } else {
             this.props.addTripInfomation(item.partner_name, item.merged, this.props.depart_time, item.chunk_id, item.vehicle_id, item.village_id, item.pm_id, item.partner_id, item.city_id, item.vehicle_name, item.toll_fee, item.dimension_id, item.vehicle_id, item.ride_method_id, item.chair, item.airport_id, item.street_id, item.vehicle_icon, item.pick_pos, item.drop_pos, item.use_range_time, item.unmerged);
         }
-        // this.props.addPayMethod(item.pay_methods)
 
         this.props.navigation.push("InfoCustommer", {
-            // 'isNightBooking': navigation.getParam('datdem')
             pay_methods: JSON.stringify(item.pay_methods)
         })
     }
@@ -289,130 +283,22 @@ class ListCar extends Component {
                 </View> :
                 <ScrollView
                     showsVerticalScrollIndicator={false}
-                // refreshControl={
-                //     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-                // }  
                 >
                     <View>
                         {obj.map((item, index) => (
                             <View>
                                 {(navigation.getParam('datdem') && item.ride_method_id != '1') ? null : item.hide == 1 ? null :
-
-                                    <View
-                                        key={index}
-                                        style={styles.container}
-                                    >
-                                        <View style={{ flexDirection: 'row' }}>
-
-                                            <View style={styles.containerr}>
-                                                {item.ride_method_id == '1' ?
-                                                    <View style={{ flexDirection: 'row' }}>
-                                                        <Text style={{ color: '#ffffff', fontSize: 14, backgroundColor: '#ef465f', padding: 4, fontWeight: 'bold' }}>ĐI RIÊNG</Text>
-                                                    </View> : <View style={{ flexDirection: 'row' }}>
-                                                        <Text style={{ color: '#ffffff', fontSize: 14, backgroundColor: '#77a300', padding: 4, fontWeight: 'bold' }}>ĐI GHÉP</Text>
-                                                    </View>}
-                                                <Text style={styles.tentuyen}>
-                                                    {item.partner_name.toUpperCase()}
-                                                </Text>
-                                                <Text style={styles.loaixe}>{item.vehicle_name}</Text>
-                                                <StarVote number={item.star_vote} />
-                                                <Text style={styles.giaTien}>{item.merged.format(0, 3, '.')} đ</Text>
-
-                                            </View>
-
-                                            <View style={styles.imageRight}>
-                                                <Image
-                                                    style={{ width: 150, height: 90, }}
-                                                    source={{ uri: item.vehicle_icon, }}
-                                                    resizeMode="contain"
-                                                />
-                                            </View>
-
-                                        </View>
-                                        {item.ride_method_id == '1' ?
-                                            item.toll_fee == 0 ?
-                                                <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-                                                    <Image
-                                                        style={{ width: 14, height: 14, marginRight: 8, marginLeft: 8 }}
-                                                        source={require('../../../image/check.png')} />
-                                                    <Text style={{ fontSize: 14 }}>Giá trọn gói</Text>
-                                                </View> : item.toll_fee == 'NA' ?
-                                                    <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-                                                        <Image
-                                                            style={{ width: 14, height: 14, marginRight: 8, marginLeft: 8 }}
-                                                            source={require('../../../image/check.png')} />
-                                                        <Text style={{ fontSize: 14 }}>Giá chưa bao gồm phí cầu đường</Text>
-                                                    </View> : <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-                                                        <Image
-                                                            style={{ width: 16, height: 16, marginRight: 8, marginLeft: 8 }}
-                                                            source={require('../../../image/notetollfee.png')} />
-                                                        <Text style={{ fontSize: 14 }}>Phí cầu đường: {parseInt(item.toll_fee).format(0, 3, '.')} đ</Text>
-                                                    </View>
-                                            :
-                                            <View>
-                                                <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-                                                    <Image
-                                                        style={{ width: 16, height: 16, marginRight: 8, marginLeft: 8 }}
-                                                        source={require('../../../image/people.png')} />
-                                                    <Text style={{ fontSize: 14 }}>Tối đa {item.max_share_seats} chỗ</Text>
-                                                </View>
-                                                <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-                                                    <Image
-                                                        style={{ width: 16, height: 16, marginRight: 8, marginLeft: 8 }}
-                                                        source={require('../../../image/vali.png')} />
-                                                    <Text style={{ fontSize: 14 }}>{item.partner_luggage}</Text>
-                                                </View>
-                                            </View>
-                                        }
-
-                                        {item.full_package_by_km ?
-                                            <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-                                                <Image
-                                                    style={{ width: 14, height: 14, marginRight: 8, marginLeft: 8 }}
-                                                    source={require('../../../image/check.png')} />
-                                                <Text style={{ fontSize: 14 }}>{item.full_package_by_km}</Text>
-                                            </View> : null}
-
-                                        <View style={{ marginLeft: 8, flexDirection: 'row', }}>
-                                            {item.discount_text == '' ? null :
-                                                <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center', }}>
-                                                    <Image
-                                                        style={{ width: 14, height: 14, marginRight: 8 }}
-                                                        source={require('../../../image/check.png')} />
-                                                    <HTML html={item.discount_text} imagesMaxWidth={Dimensions.get('window').width} />
-                                                </View>}
-                                        </View>
-                                        {item.discount_data.partner_note == null ? null :
-                                            <View style={{ flexDirection: 'column', flex: 1, padding: 8 }}>
-                                                <HTML html={item.discount_data.partner_note.replace("</a>", "").replace("</p>", "").replace("<p>", "")} imagesMaxWidth={Dimensions.get('window').width} />
-                                            </View>}
-
-                                        {/* <TouchableOpacity
-                                            style={{ height: 40, padding: 4, justifyContent: 'center', backgroundColor: '#77a300', alignItems: 'center', marginTop: 8 }}
-                                            onPress={() => {
-                                                console.log(index)
-                                                console.log(item.discount_data.partner_note)
-                                                this.gotoInfoCustommer(item)
-                                            }
-                                            }
-                                        >
-                                            <Text style={{ color: '#FFFFFF', fontSize: 20, fontWeight: 'bold' }}>CHỌN XE</Text>
-                                        </TouchableOpacity> */}
-
-                                        <Button
-                                            onPress={() => {
-                                                console.log('index ... ' + index)
-                                                console.log('partner_note' + item.discount_data.partner_note)
-                                                this.gotoInfoCustommer(item)
-                                            }}
-                                            value={'CHỌN XE'}
-                                        />
-
-                                    </View>
+                                    <ItemCarTaxi
+                                        item={item}
+                                        onPress={() => {
+                                            console.log('index ... ' + index)
+                                            console.log('partner_note' + item.discount_data.partner_note)
+                                            this.gotoInfoCustomer(item)
+                                        }}
+                                    />
                                 }
                             </View>
-                        ))
-                        }
+                        ))}
                     </View>
                 </ScrollView>
         )
@@ -441,7 +327,6 @@ class ListCar extends Component {
     }
 
     render() {
-
         if (this.state.isLoading) {
             return (
                 <SafeAreaView style={{ flex: 1, }}>
@@ -465,74 +350,7 @@ class ListCar extends Component {
             </SafeAreaView>
         );
     }
-
 }
-
-const styles = StyleSheet.create({
-    textView: {
-        fontSize: 18,
-        color: '#123456',
-        marginTop: 8,
-    },
-    viewColumn: {
-        backgroundColor: '#ffffaa',
-        flex: 1,
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderColor: 'red',
-        borderRightWidth: 1,
-        borderLeftWidth: 1,
-    },
-    container: {
-        borderColor: '#e8e8e8',
-        borderWidth: 0.5,
-        borderRadius: 4,
-        padding: 8,
-        marginTop: 8,
-        backgroundColor: '#ffffff',
-    },
-    text: {
-        color: '#4f603c'
-    },
-    containerr: {
-        flex: 1,
-        padding: 8,
-        marginTop: 3,
-        backgroundColor: '#ffffff',
-        flexDirection: 'column',
-    },
-    imageRight: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    tentuyen: {
-        marginTop: 8,
-        padding: 1,
-        fontSize: 20,
-        color: '#77a300',
-        fontWeight: 'bold',
-        backgroundColor: '#ffffff'
-    },
-    loaixe: {
-        fontSize: 14,
-    },
-    giaTien: {
-        fontSize: 18,
-        color: '#00363d',
-    },
-    viewChitiet: {
-        paddingTop: 8,
-        paddingBottom: 8,
-        flexDirection: 'row'
-    },
-    chitiet: {
-        alignItems: 'center',
-        flex: 1,
-        flexDirection: 'row',
-    },
-})
 
 function mapStateToProps(state) {
     return {

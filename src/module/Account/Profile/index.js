@@ -143,7 +143,7 @@ class Profile extends Component {
                 this.addDataLogin(resJson.data)
                 this.props.addUser(resJson.data.username, '123', 1)
                 this.props.addToken(resJson.data.token)
-            })
+            }).catch(error => {alert(error.message)})
     }
 
     apiGetProfile(id) {

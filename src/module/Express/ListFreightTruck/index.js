@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, ActivityIndicator, SafeAreaView } from 'react-native';
+import { Text, View, TouchableOpacity, Image, ScrollView, ActivityIndicator, SafeAreaView } from 'react-native';
 import { connect } from 'react-redux';
-import StarVote from '../../../component/StarVote'
 
 import { addTripInfomationHourlyBookingVanChuyen } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
-import { Button } from '../../../component/Button'
 import { HeaderText } from '../../../component/Header';
+import { ItemExpressHourly } from '../../../component/ItemCar';
 
 const imageMaxToMin = '../../../image/maxtomin.png'
 const imageMinToMax = '../../../image/mintomax.png'
@@ -109,16 +108,6 @@ class ListFreightTruck extends Component {
                         source={require('../../../image/sorry.png')}
                     />
                     <Text style={{ textAlign: 'center' }}>Khu vực bạn chọn hiện không có xe phù hợp. Vui lòng chọn khu vực khác!</Text>
-                    {/* <TouchableOpacity
-                        style={{ backgroundColor: '#77a300', margin: 8, padding: 8 }}
-                        onPress={() => {
-                            this.props.navigation.push("SpecialRequirements", {
-                                'screen': 'VanChuyen'
-                            })
-                        }}
-                    >
-                        <Text style={{ color: '#fff', fontWeight: 'bold' }}>ĐẶT XE THEO YÊU CẦU</Text>
-                    </TouchableOpacity> */}
                 </View> :
                 <ScrollView
                     showsVerticalScrollIndicator={false}
@@ -126,67 +115,12 @@ class ListFreightTruck extends Component {
                 >
                     <View>
                         {obj.map((item, index) => (
-                            <View>
-                                <View
-                                    key={index}
-                                    style={styles.container}
-                                >
-                                    <View style={{ flexDirection: 'row' }}>
-                                        <View style={styles.containerr}>
-                                            <Text style={styles.tentuyen}>
-                                                {item.partner_name.toUpperCase()}
-                                            </Text>
-                                            <Text style={styles.carType}>{item.vehicle_name}</Text>
-                                            <StarVote number={item.star_vote} />
-                                            <Text style={styles.carType}>giới hạn {item.km_limit_format}</Text>
-                                            <Text style={styles.totalCost}>{item.price_format}</Text>
-                                        </View>
-                                        <View style={styles.imageRight}>
-                                            <Image
-                                                style={{ width: 150, height: 90, }}
-                                                source={{ uri: item.vehicle_icon, }}
-                                                resizeMode="contain"
-                                            />
-                                        </View>
-                                    </View>
-                                    <View>
-                                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
-                                            <Image
-                                                style={{ width: 16, height: 16, marginRight: 8, }}
-                                                source={require('../../../image/note.png')} />
-                                            <Text style={{ flex: 1, }}>Phụ trội theo km: {item.extra_price_km} đ/km</Text>
-                                        </View>
-                                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
-                                            <Image
-                                                style={{ width: 16, height: 16, marginRight: 8, }}
-                                                source={require('../../../image/note.png')} />
-                                            <Text style={{ flex: 1, }}>Phụ trội theo giờ: {item.extra_price_hour} đ/giờ</Text>
-                                        </View>
-                                        {/* <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
-                                            <Image
-                                                style={{ width: 16, height: 16, marginRight: 8, }}
-                                                source={require('../../../image/note.png')} />
-                                            <Text style={{ flex: 1, }}>Giá đã bao gồm tiền xăng và lái xe, chưa bao gồm phí cầu đường, bến bãi, đỗ xe.</Text>
-                                        </View> */}
-                                    </View>
-                                    {/* <TouchableOpacity
-                                        style={{ height: 40, padding: 4, justifyContent: 'center', backgroundColor: '#77a300', alignItems: 'center', marginTop: 8 }}
-                                        onPress={() => {
-                                            this.gotoInfoCustommerHourlyFreightTruck(item);
-                                        }
-                                        }
-                                    >
-                                        <Text style={{ color: '#FFFFFF', fontSize: 20, fontWeight: 'bold' }}>CHỌN XE</Text>
-                                    </TouchableOpacity> */}
-                                    <Button
-                                        onPress={() => {
-                                            this.gotoInfoCustommerHourlyFreightTruck(item);
-                                        }}
-                                        value={'CHỌN XE'}
-                                    />
-                                </View>
-
-                            </View>
+                            <ItemExpressHourly
+                                item={item}
+                                onPress={() => {
+                                    this.gotoInfoCustomerHourlyFreightTruck(item);
+                                }}
+                            />
                         ))
                         }
                     </View>
@@ -197,7 +131,7 @@ class ListFreightTruck extends Component {
         this.props.navigation.push("InfoCustommerHourlyFreightTruck")
     }
 
-    gotoInfoCustommerHourlyFreightTruck = (item) => {
+    gotoInfoCustomerHourlyFreightTruck = (item) => {
         this.props.addTripInfomationHourlyBookingVanChuyen(item.partner_name, item.price, this.props.depart_time, item.extra_price_km_format, item.extra_price_hour_format, item.km_limit_format, item.vehicle_icon, item.vehicle_id, item.vehicle_name, item.city_id, item.partner_id)
         this.nextScreen();
     }
@@ -241,72 +175,6 @@ class ListFreightTruck extends Component {
     }
 
 }
-
-const styles = StyleSheet.create({
-    textView: {
-        fontSize: 14,
-        color: '#123456',
-        marginTop: 8,
-    },
-    viewColumn: {
-        backgroundColor: '#ffffaa',
-        flex: 1,
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderColor: 'red',
-        borderRightWidth: 1,
-        borderLeftWidth: 1,
-    },
-    container: {
-        borderColor: '#e8e8e8',
-        borderWidth: 0.5,
-        borderRadius: 4,
-        padding: 8,
-        marginTop: 8,
-        backgroundColor: '#ffffff',
-    },
-    text: {
-        color: '#4f603c'
-    },
-    containerr: {
-        flex: 1,
-        marginTop: 3,
-        backgroundColor: '#ffffff',
-        flexDirection: 'column',
-    },
-    imageRight: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    tentuyen: {
-        padding: 1,
-        fontSize: 18,
-        color: '#77a300',
-        fontWeight:'bold',
-        backgroundColor: '#ffffff'
-    },
-    totalCost: {
-        fontSize: 18,
-        color: '#00363d',
-        fontWeight: 'bold'
-    },
-    carType: {
-        fontSize: 14,
-        color: '#00363e',
-    },
-    viewChitiet: {
-        paddingTop: 8,
-        paddingBottom: 8,
-        flexDirection: 'row'
-    },
-    chitiet: {
-        alignItems: 'center',
-        flex: 1,
-        flexDirection: 'row',
-    },
-})
 
 function mapStateToProps(state) {
     return {

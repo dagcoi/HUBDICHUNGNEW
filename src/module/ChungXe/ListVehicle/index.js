@@ -5,6 +5,7 @@ import CheckBoxList from '../../../component/CheckBoxList';
 import { Button } from '../../../component/Button'
 import StarVote from '../../../component/StarVote'
 import { HeaderText } from '../../../component/Header';
+import { ItemCarChungXe } from '../../../component/ItemCar';
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
     return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
@@ -259,34 +260,12 @@ class ListVehicle extends Component {
                         data={obj}
                         renderItem={({ item }) =>
                             <View>
-                                <View style={{ padding: 8, borderColor: '#e8e8e8', borderRadius: 4, borderWidth: 0.5, marginTop: 8, marginHorizontal: 8 }}>
-                                    <View style={{ flexDirection: 'row' }}>
-                                        <View style={{ flex: 1, justifyContent: 'flex-start' }}>
-                                            <Text style={{ fontSize: 18, color: '#77a300', fontWeight: 'bold' }}>XE TỰ LÁI</Text>
-
-                                            <Text style={{ fontSize: 14, marginTop: 8, marginBottom: 8 }}>{item.part.vhc_type_id == 1 ? item.vhc_part_name_short : item.vhc_part_name}</Text>
-
-                                            <StarVote number={item.vhc_part_star} />
-
-                                            <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#00363d', marginTop: 8 }}>{item.vhc_part_defa_prie.format(0, 3, `.`)} đ/Ngày</Text>
-                                        </View>
-
-                                        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                                            <Image
-                                                style={{ width: 150, height: 90, resizeMode: 'stretch' }}
-                                                source={{ uri: item.vhc.vhc_imgs }}
-                                            />
-                                        </View>
-                                    </View>
-
-                                    <Button
-                                        onPress={() => {
-                                            this.props.navigation.navigate('InfoChungXe', { item: item })
-                                        }}
-                                        value={'CHỌN XE'}
-                                    />
-                                </View>
-                                {/* } */}
+                                <ItemCarChungXe
+                                    item={item}
+                                    onPress={() => {
+                                        this.props.navigation.navigate('InfoChungXe', { item: item })
+                                    }}
+                                />
                             </View>
                         }
                         keyExtractor={item => item.city_id}
