@@ -5,6 +5,7 @@ import { createStore, applyMiddleware, combineReducers, bindActionCreators } fro
 // import * as ModalAction from './module/RootModal/ModalAction';
 
 import Home from './module/Home'
+import Home1 from './module/Home1'
 import Splash from './module/Splash'
 // import Map from './module/Map'
 import MapDiChung from './module/DiChung/MapDiChung'
@@ -105,6 +106,12 @@ const RootStack = createStackNavigator({
     //     }
     // },
 
+    Home1: {
+        screen: Home1,
+        navigationOptions: {
+            header: null,
+        },
+    },
 
     Home: {
         screen: Home,
