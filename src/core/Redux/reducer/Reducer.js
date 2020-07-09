@@ -80,8 +80,9 @@ const defaultState = {
     extra_price_km_format: '',
     extra_price_hour_format: '',
     km_limit_format: '',
-    people : '',
-    is_airport : 'false',
+    people: '',
+    is_airport: 'false',
+    product_chunk_type: '',
 }
 const Reducer = (state = defaultState, action) => {
     switch (action.type) {
@@ -166,10 +167,10 @@ const Reducer = (state = defaultState, action) => {
                 is_from_airport: action.is_from_airport,
             }
 
-        case types.ADD_AIRPORT :
+        case types.ADD_AIRPORT:
             return {
                 ...state,
-                is_airport : action.is_airport,
+                is_airport: action.is_airport,
             }
         case types.ADD_INFO_FLIGHT:
             return {
@@ -260,10 +261,16 @@ const Reducer = (state = defaultState, action) => {
                 km_limit_format: action.km_limit_format,
                 vehicle_icon: action.vehicle_icon,
                 vehicle_id: action.vehicle_id,
-                vehicle_name : action.vehicle_name,
+                vehicle_name: action.vehicle_name,
                 city_id: action.city_id,
                 brand_partner_id: action.partner_id,
             }
+        case types.PRODUCT_CHUNK_TYPE:
+            return{
+                ...state,
+                product_chunk_type: action.product_chunk_type,
+            }
+        
         default:
             return state;
     }

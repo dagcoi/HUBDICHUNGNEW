@@ -205,7 +205,6 @@ class Home extends Component {
                 }
             });
 
-
     }
 
     _handleNotificationOpen = (screen, ticket_id, code, phone) => {

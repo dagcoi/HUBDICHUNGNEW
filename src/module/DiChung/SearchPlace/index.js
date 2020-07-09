@@ -117,6 +117,7 @@ class SearchPlace extends Component {
                                     borderTopColor: '#ffffff',
                                     backgroundColor: '#ffffff',
                                     width: '100%',
+                                    color: '#00363d'
                                 },
                                 description: {
                                     fontWeight: 'normal',

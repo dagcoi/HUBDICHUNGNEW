@@ -1,38 +1,40 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, Modal, FlatList, ImageBackground } from 'react-native';
-import CalendarPicker from 'react-native-calendar-picker';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Modal, FlatList, SafeAreaView, ImageBackground } from 'react-native';
+import Calendar from '../../../component/Calendar'
 import { connect } from 'react-redux';
 import { addDepartTime, addPeople, swapAddress, addDuration, addProductChunkType } from '../../../core/Redux/action/Action'
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
-import ImageTextBold from '../../../component/ImageTextDiChung/ImageTextBold'
-import listHour from '../../../component/TimeSelect/listTime'
+import { ButtonFull, ButtonDialog } from '../../../component/Button'
 import Dialog, { } from 'react-native-popup-dialog';
-import { HeaderText } from '../../../component/Header'
+import ImageTextBold from '../../../component/ImageTextDiChung/ImageTextBold'
 
 import { TextInput } from 'react-native-gesture-handler';
-import { ButtonFull, ButtonDialog } from '../../../component/Button'
-import { SafeAreaView } from 'react-navigation';
+import listHour from '../../../component/TimeSelect/listTime'
+import { HeaderText } from '../../../component/Header';
+
+// const destination = { latitude: 21.0019302, longitude: 105.85090579999996 };
 
 const imageLocation = '../../../image/location.png'
-const imageCheckWhite = '../../../image/checkw.png'
+const imageDrop = '../../../image/drop.png'
 const imageSwap = '../../../image/swap.png'
-const imagePeople = '../../../image/people.png'
 const imageTime = '../../../image/time.png'
+const imageParcel = '../../../image/parcel.png'
 const imageHourglass = '../../../image/hourglass.png'
-const imageCar = '../../../image/iconcar.png'
-const imageDown = '../../../image/arrowdown.png'
 const imageCheck = '../../../image/done.png'
+const imageCheckWhite = '../../../image/checkw.png'
+const imageDown = '../../../image/arrowdown.png'
 const imageBackground = { uri: 'https://dichung.vn/static/images/e216031ab3feeb651026e80873156f50.png' }
 
-class MapDiChung extends Component {
+
+class MapTruck extends Component {
 
     constructor() {
         super();
         this.state = {
-            selectTaxi: true,
             pic_address: '',
             diemdon: '',
             drop_address: '',
+            date: '',
             diemtra: '',
             people: '1',
             blTime: true,
@@ -49,15 +51,12 @@ class MapDiChung extends Component {
             dateTimeSelect: '',
             spesentTime: '',
             spesentDay: '',
-            time_pick: '',
             hoursAlive: 0,
             minutesAlive: 0,
             selectedStartDate: null,
-            modalSelectTime: false,
-            modalSelectCar: false,
-            selectCar: [],
+            hourlyBooking: false,
             duration: 6,
-            carType: '',
+            modalSelectTime: false,
             listTime: [
                 { 'id': 1, 'time': 2 },
                 { 'id': 2, 'time': 4 },
@@ -65,12 +64,6 @@ class MapDiChung extends Component {
                 { 'id': 4, 'time': 8 },
                 { 'id': 5, 'time': 10 },
                 { 'id': 6, 'time': 12 },
-            ],
-            listCar: [
-                { 'id': 1, 'carname': 'Tất cả loại xe', 'listCarType': '1,2,17,24' },
-                { 'id': 2, 'carname': 'Xe 4 chỗ cốp rộng', 'listCarType': '1' },
-                { 'id': 3, 'carname': 'Xe 7 chỗ', 'listCarType': '2' },
-                { 'id': 4, 'carname': 'Xe 16 chỗ', 'listCarType': '24' },
             ],
             listChair: [
                 { 'id': 1, 'chair': '1' },
@@ -91,30 +84,15 @@ class MapDiChung extends Component {
                 { 'id': 16, 'chair': '16' },
             ],
             scroll: 48,
-            forceRefresh: 1,
-            showAlertTime: false,
-            showAlertInfo: false,
+            alertTimeSent: false,
+            alertTimeRent: false,
+            alertInfo: false,
         }
         this.mapRef = null;
     }
 
-    setModalVisible(visible) {
-        this.setState({ modalListCity: visible });
-    }
-
     componentDidMount() {
         this.getDateTimeAlive()
-        this.setState({
-            isShowLocation: true,
-            forceRefresh: Math.floor(Math.random() * 100)
-        })
-    }
-
-    componentWillMount() {
-        this.setState({
-            isShowLocation: true,
-            forceRefresh: Math.floor(Math.random() * 100)
-        })
     }
 
     getDateTimeAlive() {
@@ -140,7 +118,6 @@ class MapDiChung extends Component {
             minutesAlive: min,
         });
         console.log(date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec)
-        return date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec;
     }
 
     setStateAsync(state) {
@@ -149,79 +126,69 @@ class MapDiChung extends Component {
         });
     }
 
-    checkNightBooking() {
-        const hours = this.state.selectedHours - this.state.hoursAlive;
-        const minutes = this.state.selectedMinutes - this.state.minutesAlive
-        if (hours > 3) {
-            console.log('datdem: false1')
-            this.props.navigation.push("ListCar", { datdem: false });
-        } else if (hours == 3 && minutes >= 0) {
-            console.log('datdem: false2')
-            this.props.navigation.push("ListCar", { datdem: false });
-        } else {
-            console.log('datdem: true')
-            this.props.navigation.push("ListCar", { datdem: true });
-        }
-    }
-
     nextScreen() {
-        this.getDateTimeAlive();
-        this.props.addProductChunkType('transfer_service')
-        if (this.props.pick_add != '' && this.props.drop_add != '' && this.state.depart_time != '') {
-            console.log(this.state.spesentDay)
-            console.log(this.state.date.format('DD-MM-YYYY'))
+        this.getDateTimeAlive.bind(this);
+        this.props.addProductChunkType('express')
+        if (this.props.pick_add != '' && this.props.drop_add != '' && this.state.depart_time != '' && this.state.city_name != '') {
             if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                 if (this.state.hoursAlive > this.state.selectedHours) {
-                    this.setState({ showAlertTime: true })
+                    this.setState({ alertTimeSent: true })
                 } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                    this.setState({ showAlertTime: true })
+                    this.setState({ alertTimeSent: true })
                 } else {
-                    this.checkNightBooking()
+                    this.props.navigation.push("ListCar");
                 }
             } else {
-                console.log('datdem: false')
-                this.props.navigation.push("ListCar", { datdem: false });
+                console.log('datdem : false')
+                this.props.navigation.push("ListCar");
             }
         }
         else {
-            this.setState({ showAlertInfo: true })
+            this.setState({ alertInfo: true })
         }
     }
 
-    renderAlertTime() {
-        return (
-            <Dialog
-                visible={this.state.showAlertTime}
-                width={0.8}
-            >
-                <View>
-                    <View style={{ padding: 8 }}>
-                        <Text style={{ fontSize: 16, fontWeight: '100' }}>Giờ đi phải lớn hơn giờ hiện tại</Text>
-                        <ButtonDialog
-                            text={'Đồng ý'}
-                            onPress={() => {
-                                this.setState({ showAlertTime: false, })
-                            }}
-                        />
-                    </View>
-                </View>
-            </Dialog>
-        )
+    nextScreenHourly() {
+        this.getDateTimeAlive.bind(this);
+        if (this.props.pick_add != '' && this.state.depart_time != '' && this.state.city_name != '') {
+            if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
+                if (this.state.hoursAlive > this.state.selectedHours) {
+                    this.setState({ alertTimeRent: true })
+                } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
+                    this.setState({ alertTimeRent: true })
+                } else {
+                    this.props.navigation.push("ListFreightTruck");
+                }
+            } else {
+                this.props.navigation.push("ListFreightTruck");
+            }
+
+        }
+        else {
+            this.setState({ alertInfo: true })
+        }
     }
 
     renderAlertInfo() {
         return (
             <Dialog
-                visible={this.state.showAlertInfo}
+                visible={this.state.alertInfo || this.state.alertTimeRent || this.state.alertTimeSent}
                 width={0.8}
             >
                 <View>
-                    <View style={{ padding: 8, marginTop: 8, justifyContent: 'center', alignItems: 'center', }}>
-                        <Text style={{ fontSize: 16, fontWeight: '100' }}>Vui lòng điền đầy đủ thông tin để xem giá.</Text>
+                    <View style={{ padding: 8 }}>
+                        {this.state.alertInfo ? <Text style={{ fontSize: 16, fontWeight: '100' }}>Vui lòng điền đầy đủ thông tin để xem giá.</Text> : null}
+                        {this.state.alertTimeSent ? <Text style={{ fontSize: 16, fontWeight: '100' }}>Giờ gửi hàng phải lớn hơn giờ hiện tại.</Text> : null}
+                        {this.state.alertTimeRent ? <Text style={{ fontSize: 16, fontWeight: '100' }}>Giờ thuê phải lớn hơn giờ hiện tại.</Text> : null}
+
                         <ButtonDialog
-                            text={'Đồng ý'}
+                            text="Đồng ý"
                             onPress={() => {
-                                this.setState({ showAlertInfo: false, })
+                                this.setState({
+                                    alertInfo: false,
+                                    alertTimeRent: false,
+                                    alertTimeSent: false,
+                                })
                             }}
                         />
                     </View>
@@ -235,90 +202,52 @@ class MapDiChung extends Component {
         this.props.addPeople(people);
     }
 
-    renderPickAddress() {
-        return (
-            <ImageInputTextDiChung
-                onPress={() => {
-                    this.props.navigation.push("SearchPlace", {
-                        search: 'Pick',
-                        placeholder: 'Nhập điểm xuất phát',
-                    });
-                }}
-                source={require(imageLocation)}
-                placeholder={'Nhập điểm xuất phát'}
-                value={this.props.pick_add}
-            />
-        )
-    }
-
-    renderHourglass() {
-        return (
-            <ImageInputTextDiChung
-                onPress={() => {
-                    this.setState({
-                        modalSelectTime: true
-                    })
-                }}
-                source={require(imageHourglass)}
-                placeholder={'Chọn số giờ'}
-                value={this.state.duration + ' giờ'}
-                imageRight={true}
-            />
-        )
-    }
-
-    renderCarType() {
-        return (
-            <ImageInputTextDiChung
-                onPress={() => {
-                    this.setState({
-                        modalSelectCar: true
-                    })
-                }}
-                source={require(imageCar)}
-                placeholder={'Chọn loại xe'}
-                value={this.state.carType}
-                imageRight={true}
-            />
-        )
-    }
-
-    renderTimePick() {
-        return (
-            <View style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
-            >
-                <ImageInputTextDiChung
-                    widthHeightImage={24}
-                    onPress={() => {
-                        this.setState({
-                            dialogCalendarVisible: true,
-                        })
-                    }}
-                    source={require(imageTime)}
-                    placeholder={'Chọn giờ đi'}
-                    value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours}: ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
-                />
-            </View>
-        )
-    }
-
-    renderTaxiAirport() {
+    renderFormExpressTheoTuyen() {
         return (
             <View style={styles.borderBot}>
-                {this.renderPickAddress()}
+                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                    <Image
+                        style={{ height: 30, width: 24, marginLeft: 8 }}
+                        source={require(imageLocation)}
+                    />
+                    <TouchableOpacity
+                        style={{ flex: 1, height: 40, flexDirection: 'row', alignItems: 'center', }}
+                        onPress={() => {
+                            this.props.navigation.push("SearchPlace", {
+                                search: 'Pick',
+                                placeholder: 'Điểm nhận hàng'
+                            });
+                        }}
+                    >
+                        <TextInput
+                            editable={false}
+                            onTouchStart={() => this.props.navigation.push("SearchPlace", {
+                                search: 'Pick',
+                                placeholder: 'Điểm nhận hàng'
+                            })
+                            }
+                            style={{ fontSize: 14, height: 40, color: "#00363d", marginLeft: 8 }}
+                            pointerEvents="none"
+                            value={this.props.pick_add}
+                            placeholder='Điểm nhận hàng'
+                            selection={{ start: 0, end: 0 }}
+                            placeholderTextColor={'#333333'}
+                        />
+                    </TouchableOpacity>
+                </View>
 
-                <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={{ flex: 1, flexDirection: 'row', borderColor: '#e8e8e8', borderRightWidth: 0.0, justifyContent: 'center', alignItems: 'center', }}>
+                <View style={styles.borderInput}>
+                    <View style={{ flex: 1, flexDirection: 'row', borderColor: '#e8e8e8', borderRightWidth: 0.1, justifyContent: 'center', alignItems: 'center', }}>
                         <Image
-                            style={{ height: 28, width: 28, marginLeft: 4, alignItems: 'center', justifyContent: 'center' }}
-                            source={require(imageLocation)}
+                            style={{ height: 30, width: 24, marginLeft: 8, alignItems: 'center', justifyContent: 'center' }}
+                            source={require(imageDrop)}
                         />
                         <TouchableOpacity
-                            style={{ flex: 1, height: 40, marginLeft: 4 }}
+                            style={{ flex: 1, height: 40 }}
                             onPress={() => {
                                 this.props.navigation.push("SearchPlace", {
                                     search: 'Drop',
-                                    placeholder: 'Nhập điểm đến'
+                                    placeholder: 'Điểm giao hàng'
                                 });
                             }}
                         >
@@ -326,19 +255,18 @@ class MapDiChung extends Component {
                                 editable={false}
                                 onTouchStart={() => this.props.navigation.push("SearchPlace", {
                                     search: 'Drop',
-                                    placeholder: 'Nhập điểm đến'
+                                    placeholder: 'Điểm giao hàng'
                                 })
                                 }
-                                style={{ fontSize: 14, height: 40, color: "#00363d" }}
+                                style={{ fontSize: 14, height: 40, color: "#00363d", marginLeft: 8 }}
                                 pointerEvents="none"
                                 value={this.props.drop_add}
-                                placeholder='Nhập điểm đến'
-                                selection={{ start: 0, end: 0 }}
+                                placeholder='Điểm giao hàng'
                                 placeholderTextColor={'#333333'}
+                                selection={{ start: 0, end: 0 }}
                             />
                         </TouchableOpacity>
                     </View>
-
                     <TouchableOpacity
                         style={{ borderLeftWidth: 1, borderColor: '#e8e8e8' }}
                         onPress={() => {
@@ -350,11 +278,34 @@ class MapDiChung extends Component {
                             source={require(imageSwap)}
                         />
                     </TouchableOpacity>
-
                 </View>
 
                 <View style={{ flexDirection: 'row', height: 40, }}>
-                    {this.renderTimePick()}
+                    <TouchableOpacity
+                        style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
+                        onPress={() => {
+                            this.setState({
+                                dialogCalendarVisible: true,
+                            })
+                        }}
+                    >
+                        <Image
+                            style={{ height: 24, width: 24, marginLeft: 8, }}
+                            source={require(imageTime)}
+                        />
+
+                        <TextInput
+                            editable={false}
+                            value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours} : ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
+                            placeholder='Chọn giờ gửi hàng'
+                            placeholderTextColor={'#333333'}
+                            onTouchStart={() => { this.setState({ dialogCalendarVisible: true }) }}
+                            pointerEvents='none'
+                            style={{ fontSize: 14, height: 40, color: "#00363d", flex: 1, marginLeft: 8 }}
+                        />
+
+                    </TouchableOpacity>
+
                     <View style={{ width: 1, backgroundColor: '#e8e8e8' }}></View>
                     <TouchableOpacity
                         style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", flexDirection: 'row', alignItems: 'center' }}
@@ -366,9 +317,9 @@ class MapDiChung extends Component {
                     >
                         <Image
                             style={{ height: 24, width: 24, margin: 8 }}
-                            source={require(imagePeople)}
+                            source={require(imageParcel)}
                         />
-                        <Text style={{ flex: 1 }}>{this.props.chair} người</Text>
+                        <Text style={{ flex: 1 }}>{this.props.chair} gói</Text>
                         <Image
                             style={{ height: 24, width: 24, margin: 8 }}
                             source={require(imageDown)}
@@ -380,11 +331,119 @@ class MapDiChung extends Component {
                     onPress={() => { this.nextScreen() }}
                     value={'Xem giá'}
                 />
+                <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
+                    <View style={{ flex: 1 }}></View>
+                </View>
+            </View>
+        )
+    }
 
+    renderFormExpressTheoGio() {
+        return (
+            <View style={styles.borderBot}>
+                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
+                    <Image
+                        style={{ height: 30, width: 24, marginLeft: 8 }}
+                        source={require(imageLocation)}
+                    />
+                    <TouchableOpacity
+                        style={{ flex: 1, height: 40, flexDirection: 'row', alignItems: 'center', }}
+                        onPress={() => {
+                            this.props.navigation.push("SearchPlace", {
+                                search: 'Pick',
+                                placeholder: 'Điểm nhận hàng'
+                            });
+                        }}
+                    >
+                        <TextInput
+                            editable={false}
+                            onTouchStart={() => this.props.navigation.push("SearchPlace", {
+                                search: 'Pick',
+                                placeholder: 'Điểm nhận hàng'
+                            })
+                            }
+                            style={{ fontSize: 14, height: 40, color: "#00363d", marginLeft: 8 }}
+                            pointerEvents="none"
+                            value={this.props.pick_add}
+                            placeholder='Điểm nhận hàng'
+                            placeholderTextColor={'#333333'}
+                            selection={{ start: 0, end: 0 }}
+                        />
+                    </TouchableOpacity>
+                </View>
+
+                <View style={{ height: 40, flexDirection: 'row', }}>
+                    <View style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', paddingLeft: 4 }}>
+                        <ImageInputTextDiChung
+                            widthHeightImage={24}
+                            onPress={() => {
+                                this.setState({
+                                    dialogCalendarVisible: true,
+                                })
+                            }}
+                            placeholder={'Chọn thời gian'}
+                            source={require(imageTime)}
+                            value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours} : ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
+                        />
+                    </View>
+                    <View style={{ width: 1, backgroundColor: '#e8e8e8' }}></View>
+                    <View style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', }}>
+                        <ImageInputTextDiChung
+                            onPress={() => {
+                                this.setState({
+                                    modalSelectTime: true,
+                                })
+                            }}
+                            placeholder={'Chọn giờ thuê'}
+                            source={require(imageHourglass)}
+                            value={this.state.duration + ' giờ'}
+                            imageRight={true}
+                        />
+                    </View>
+                </View>
+                {/* </View> */}
+
+                <ButtonFull
+                    onPress={() => { this.nextScreenHourly() }}
+                    value={'Xem giá'}
+                />
                 <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
                     <View style={{ flex: 1 }}></View>
                 </View>
 
+            </View>
+
+        )
+    }
+
+    getItemLayout = (data, index) => (
+        { length: 40, offset: 40 * index, index }
+    )
+
+    renderSelect() {
+        return (
+            <View style={[{ flexDirection: 'row', backgroundColor: '#fff', marginTop: 8, marginLeft: 8, marginRight: 8 }, styles.borderTop]}>
+                <TouchableOpacity
+                    style={{ backgroundColor: this.state.hourlyBooking ? '#aaa' : '#fff', flex: 1, height: 48, justifyContent: 'center', alignItems: 'center', borderTopLeftRadius: 8 }}
+                    onPress={() => {
+                        this.setState({
+                            hourlyBooking: false,
+                        })
+                    }}
+                >
+                    <Text style={{ color: this.state.hourlyBooking ? '#fff' : '#77a300', fontWeight: 'bold', fontSize: 16 }}>Vận chuyển hàng</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    style={{ backgroundColor: this.state.hourlyBooking ? '#fff' : '#aaa', flex: 1, height: 48, justifyContent: 'center', alignItems: 'center', borderTopRightRadius: 8 }}
+                    onPress={() => {
+                        this.setState({
+                            hourlyBooking: true,
+                        })
+                    }}
+                >
+                    <Text style={{ color: this.state.hourlyBooking ? '#77a300' : '#fff', fontWeight: 'bold', fontSize: 16 }}>Vận chuyển theo giờ</Text>
+                </TouchableOpacity>
             </View>
         )
     }
@@ -397,25 +456,23 @@ class MapDiChung extends Component {
                 visible={this.state.dialogTimeVisible}
                 // onOrientationChange={true}
                 onRequestClose={() => {
-                }}
-            >
+                    console.log('a');
+                }}>
                 <SafeAreaView style={{
                     flex: 1,
                     flexDirection: 'column',
                     justifyContent: 'flex-end',
-                    backgroundColor: '#000000AA',
-                    zIndex: 9,
+                    backgroundColor: '#000000AA'
                 }}>
                     <View style={{ flex: 1, }}>
                         <TouchableOpacity
-                            onPress={() => this.setState({ dialogTimeVisible: false, })}
+                            onPress={() => this.setState({ dialogTimeVisible: !this.state.dialogTimeVisible })}
                             style={{ flex: 1 }}
                         ></TouchableOpacity>
                     </View>
-
                     <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
                         <View style={{ height: 40, justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Chọn giờ đi</Text>
+                            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Chọn giờ gửi</Text>
                         </View>
                         <FlatList
                             style={{ flex: 1, backgroundColor: '#ffffff' }}
@@ -440,6 +497,7 @@ class MapDiChung extends Component {
                                                     depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
                                                 })
                                                 this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
+                                                // this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
                                             }
                                         } else {
                                             this.setState({
@@ -451,100 +509,18 @@ class MapDiChung extends Component {
                                                 depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
                                             })
                                             this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
+                                            // this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
                                         }
                                     }}
                                 >
-                                    <Text style={{ textAlign: 'center', fontSize: 16, flex: 1, padding: 8, backgroundColor: (item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes) ? '#77a300' : '#fff', color: (this.state.spesentDay == this.state.date.format('DD-MM-YYYY') && ((item.hour == this.state.hoursAlive && item.minute < this.state.minutesAlive) || item.hour < this.state.hoursAlive)) ? '#aaa' : item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes ? '#fff' : '#000000' }}>{item.hour < 10 ? '0' + item.hour : item.hour}: {item.minute == 0 ? '00' : item.minute}</Text>
+                                    <Text style={{ textAlign: 'center', fontSize: 18, flex: 1, padding: 8, backgroundColor: (item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes) ? '#77a300' : '#fff', color: (this.state.spesentDay == this.state.date.format('DD-MM-YYYY') && ((item.hour == this.state.hoursAlive && item.minute < this.state.minutesAlive) || item.hour < this.state.hoursAlive)) ? '#aaa' : item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes ? '#fff' : '#000000' }}>{item.hour < 10 ? '0' + item.hour : item.hour} : {item.minute == 0 ? '00' : item.minute}</Text>
                                 </TouchableOpacity>}
-                            scrollToIndex={this.state.scroll}
                             keyExtractor={item => item.id}
                         />
                     </View>
                 </SafeAreaView>
             </Modal>
         )
-    }
-
-    renderTour() {
-        return (
-            <View style={styles.borderBot}>
-                {this.renderPickAddress()}
-                <View style={{ height: 40, flexDirection: 'row', }}>
-                    {this.renderTimePick()}
-                </View>
-                <View style={{ height: 40, flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#e8e8e8', }}>
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-                        {this.renderHourglass()}
-                    </View>
-                    <View style={{ width: 1, backgroundColor: '#e8e8e8' }}></View>
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-                        {this.renderCarType()}
-                    </View>
-                </View>
-                <ButtonFull
-                    onPress={() => { this.gotoListCarHourlyBooking() }}
-                    value={'Xem giá'}
-                />
-                <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
-                    <View style={{ flex: 1 }}></View>
-                </View>
-            </View>
-        )
-    }
-
-    formSwitch() {
-        return (
-            <View style={[{ flexDirection: 'row', height: 48, backgroundColor: '#fff', marginHorizontal: 8, marginTop: 8 }, styles.borderTop]}>
-                <TouchableOpacity
-                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: this.state.selectTaxi ? '#fff' : '#aaa', borderTopStartRadius: 8 }}
-                    onPress={() => {
-                        this.setState({
-                            selectTaxi: true,
-                        })
-                    }}
-                >
-                    <Text style={{ fontSize: 16, fontWeight: 'bold', color: this.state.selectTaxi ? '#77a300' : '#fff' }}>Sân bay, Đường dài</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: this.state.selectTaxi ? '#aaa' : '#fff', borderTopEndRadius: 8 }}
-                    onPress={() => {
-                        this.setState({
-                            selectTaxi: false,
-                        })
-                    }}
-                >
-                    <Text style={{ fontSize: 16, fontWeight: 'bold', color: this.state.selectTaxi ? '#fff' : '#77a300' }}>Thuê xe tour</Text>
-                </TouchableOpacity>
-            </View>
-        )
-    }
-
-    getItemLayout = (data, index) => (
-        { length: 40, offset: 40 * index, index }
-    )
-
-    gotoListCarHourlyBooking() {
-        if (this.props.pick_add != '' && this.state.carType != '' && this.state.depart_time != '') {
-            if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
-                if (this.state.hoursAlive > this.state.selectedHours) {
-                    this.setState({ showAlertTime: true })
-                } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                    this.setState({ showAlertTime: true })
-                } else {
-                    //sang màn danh sách xe
-                    this.props.navigation.navigate("ListCarHourlyBooking", {
-                        'listCarType': this.state.selectCar,
-                    });
-                }
-            } else {
-                //sang màn danh sách xe
-                this.props.navigation.navigate("ListCarHourlyBooking", {
-                    'listCarType': this.state.selectCar,
-                });
-            }
-        } else {
-            this.setState({ showAlertInfo: true })
-        }
     }
 
     goBack = () => {
@@ -555,23 +531,19 @@ class MapDiChung extends Component {
         const minDate = new Date();
 
         return (
-            <SafeAreaView style={{ flex: 1 }}>
-                <HeaderText textCenter={'Đặt xe taxi'} onPressLeft={this.goBack} />
-                <ImageBackground style={{ flex: 1, resizeMode: "cover", justifyContent: "center" }} source={imageBackground} >
+            <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+                <HeaderText textCenter={'Thuê vận chuyển'} onPressLeft={this.goBack} />
+                <ImageBackground style={{ flex: 1, resizeMode: "cover", }} source={imageBackground} >
+                    <View>
+                        <Text style={{ fontSize: 21, color: '#ffffff', marginHorizontal: 16, marginTop: 8, fontWeight: 'bold' }}>Bao xe, ghép hàng, tiện chuyến giá đều tốt</Text>
+                    </View>
+                    {this.renderSelect()}
+                    {this.state.hourlyBooking ? this.renderFormExpressTheoGio() : this.renderFormExpressTheoTuyen()}
                     <View style={{ justifyContent: 'center', paddingHorizontal: 16 }}>
-                        <Text style={{ fontWeight: 'bold', fontSize: 21, marginTop: 8, color: '#efefef' }}>Thoải mái như xe nhà</Text>
-                        <Text style={{ fontWeight: 'bold', fontSize: 21, marginTop: 8, color: '#efefef' }}>Giá rẻ như xe khách</Text>
+                        <ImageTextBold source={require(imageCheckWhite)} textBold={"Đa dạng lựa chọn"} />
+                        <ImageTextBold source={require(imageCheckWhite)} textBold={"Bảo quản an toàn hàng hóa, tài sản"} />
+                        <ImageTextBold source={require(imageCheckWhite)} textBold={"ƯU ĐÃI 70% chiều về"} />
                     </View>
-                    <View style={[{ flex: 1, }]} >
-                        {this.formSwitch()}
-                        {this.state.selectTaxi ? this.renderTaxiAirport() : this.renderTour()}
-                        <View style={{ justifyContent: 'center', paddingLeft: 16, marginTop: 16 }}>
-                            <ImageTextBold source={require(imageCheckWhite)} textBold={"An toàn, đúng giờ"} />
-                            <ImageTextBold source={require(imageCheckWhite)} textBold={"Giá trọn gói không phí ẩn"} />
-                            <ImageTextBold source={require(imageCheckWhite)} textBold={"Miễn phí thay đổi thông tin"} />
-                        </View>
-                    </View>
-                    {this.renderAlertTime()}
                     {this.renderAlertInfo()}
                     <Modal
                         animationType="slide"
@@ -587,41 +559,19 @@ class MapDiChung extends Component {
                             justifyContent: 'flex-end',
                         }}>
                             <View style={{ flex: 1, backgroundColor: '#fff', alignItems: "center" }}>
-                                <View style={{ flexDirection: 'row', margin: 16 }}>
-                                    <Text style={{ fontSize: 18, fontWeight: 'bold', flex: 1, textAlign: 'center' }}>Chọn thời gian đi</Text>
-                                </View>
-                                <CalendarPicker
-                                    textStyle={{
-                                        color: '#000000',
-                                        fontSize: 14,
-                                    }}
-                                    weekdays={['Th 2', 'Th 3', 'Th 4', 'Th 5', 'Th 6', 'Th 7', 'CN',]}
-                                    months={['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']}
-                                    previousTitle="Trước"
-                                    nextTitle="Sau"
-                                    allowRangeSelection={false}
+                                <Text style={{ fontSize: 18, fontWeight: 'bold', margin: 16 }}>Chọn thời gian gửi</Text>
+                                <Calendar
                                     minDate={minDate}
-                                    startFromMonday={true}
-                                    // todayBackgroundColor="#00363d"
-                                    selectedDayColor="#77a300"
-                                    selectedDayTextColor="#FFFFFF"
-                                    dayShape='cicle'
 
                                     onDateChange={(date) => {
                                         this.setState({
                                             date: date,
                                             dialogTimeVisible: true,
-                                            // dialogCalendarVisible: false,
                                         })
                                     }}
-
                                 />
                             </View>
-                            {/* <View style={{ flex: 1 }}>
-                            {this.state.dialogTimeVisible ? this.renderTimePick1() : <View></View>}
-                        </View> */}
                             {this.modalTime()}
-
                         </SafeAreaView>
                     </Modal>
 
@@ -638,7 +588,6 @@ class MapDiChung extends Component {
                             flex: 1,
                             flexDirection: 'column',
                             justifyContent: 'flex-end',
-                            backgroundColor: '#000000AA'
                         }}>
                             <View style={{ flex: 1, }}>
                                 <TouchableOpacity
@@ -662,7 +611,7 @@ class MapDiChung extends Component {
                                             // this.props.addDuration(item.chair);
                                         }}
                                     >
-                                        <Text style={{ fontSize: 16, flex: 1, padding: 8, color: item.chair == this.props.chair ? '#77a300' : '#000000' }}>{item.chair} người</Text>
+                                        <Text style={{ fontSize: 18, flex: 1, padding: 8, color: item.chair == this.props.chair ? '#77a300' : '#000000' }}>{item.chair} gói</Text>
                                         {item.chair == this.props.chair ? <Image
                                             style={{ height: 24, width: 24, marginLeft: 8 }}
                                             source={require(imageCheck)}
@@ -672,6 +621,7 @@ class MapDiChung extends Component {
                             />
                         </SafeAreaView>
                     </Modal>
+
 
                     <Modal
                         animationType="slide"
@@ -706,8 +656,8 @@ class MapDiChung extends Component {
                                             this.props.addDuration(item.time);
                                         }}
                                     >
-                                        <Text style={{ fontSize: 16, flex: 1, padding: 8, color: item.time === this.state.duration ? '#77a300' : '#000000' }}>{item.time} giờ</Text>
-                                        {item.time === this.state.duration ? <Image
+                                        <Text style={{ fontSize: 18, flex: 1, padding: 8, color: item.time === this.state.duration ? '#77a300' : '#000000' }}>{item.time} giờ</Text>
+                                        {item.time == this.state.duration ? <Image
                                             style={{ height: 24, width: 24, marginLeft: 8 }}
                                             source={require(imageCheck)}
                                         /> : null}
@@ -717,54 +667,7 @@ class MapDiChung extends Component {
 
                         </SafeAreaView>
                     </Modal>
-
-                    <Modal
-                        animationType="slide"
-                        transparent={true}
-                        visible={this.state.modalSelectCar}
-                        // onOrientationChange={true}
-                        onRequestClose={() => {
-                            console.log('a');
-                        }}
-                    >
-                        <SafeAreaView style={{
-                            flex: 2,
-                            flexDirection: 'column',
-                            justifyContent: 'flex-end',
-                        }}>
-                            <View style={{ flex: 1, }}>
-                                <TouchableOpacity
-                                    onPress={() => this.setState({ modalSelectCar: false })}
-                                    style={{ flex: 1 }}
-                                ></TouchableOpacity>
-                            </View>
-                            <FlatList
-                                style={{ flex: 1, backgroundColor: '#ffffff' }}
-                                data={this.state.listCar}
-                                renderItem={({ item }) =>
-                                    <TouchableOpacity
-                                        style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}
-                                        onPress={() => this.setState({
-                                            carType: item.carname,
-                                            selectCar: item.listCarType,
-                                            modalSelectCar: false,
-                                        })}
-                                    >
-                                        <Text style={{ fontSize: 16, flex: 1, padding: 8, color: item.carname === this.state.carType ? '#77a300' : '#000000' }}>{item.carname}</Text>
-                                        {item.carname === this.state.carType ? <Image
-                                            style={{ height: 24, width: 24, marginLeft: 8 }}
-                                            source={require(imageCheck)}
-                                        /> : null}
-                                    </TouchableOpacity>}
-                                keyExtractor={item => item.carname}
-                            />
-
-                        </SafeAreaView>
-                    </Modal>
-
                 </ImageBackground>
-                {/* </View> */}
-
             </SafeAreaView>
         );
     }
@@ -772,7 +675,7 @@ class MapDiChung extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 180,
+        marginTop: 150,
         position: 'absolute',
         top: 2,
         left: 2,
@@ -788,15 +691,21 @@ const styles = StyleSheet.create({
         right: 0,
         bottom: 400,
     },
+    borderInput: {
+        flexDirection: 'row',
+        borderColor: '#e8e8e8',
+        borderTopWidth: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     borderBot: {
         backgroundColor: '#ffffff',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingLeft: 8,
-        paddingRight: 8,
-        marginHorizontal: 8,
         borderBottomEndRadius: 8,
-        borderBottomStartRadius: 8
+        borderBottomStartRadius: 8,
+        marginHorizontal: 8,
+        paddingHorizontal: 8,
     },
     borderTop: {
         borderTopEndRadius: 8,
@@ -819,4 +728,4 @@ function mapStateToProps(state) {
 }
 
 
-export default connect(mapStateToProps, { addDepartTime: addDepartTime, addPeople: addPeople, swapAddress: swapAddress, addDuration: addDuration, addProductChunkType: addProductChunkType })(MapDiChung)
+export default connect(mapStateToProps, { addDepartTime: addDepartTime, addPeople: addPeople, swapAddress: swapAddress, addDuration: addDuration, addProductChunkType: addProductChunkType })(MapTruck)

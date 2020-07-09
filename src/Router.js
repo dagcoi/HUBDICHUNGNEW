@@ -72,6 +72,11 @@ import ListBooking from './module/ListBooking'
 import DetailTicket from './module/ListBooking/DetailTicket.js'
 import Registration from './module/Account/Registration'
 
+import MapTravel from './module/ScreenAddress/Travel'
+import MapCombo from './module/ScreenAddress/Combo'
+import MapFood from './module/ScreenAddress/Food'
+import MapTruck from './module/ScreenAddress/Truck'
+
 import { createDrawerNavigator } from 'react-navigation-drawer'
 import CustomNavigator from './component/CustomNavigator'
 import { connect } from 'react-redux'
@@ -115,6 +120,35 @@ const RootStack = createStackNavigator({
 
     Home: {
         screen: Home,
+        navigationOptions: {
+            header: null,
+        },
+    },
+
+
+    MapTravel: {
+        screen: MapTravel,
+        navigationOptions: {
+            header: null,
+        },
+    },
+
+    MapFood: {
+        screen: MapFood,
+        navigationOptions: {
+            header: null,
+        },
+    },
+
+    MapCombo: {
+        screen: MapCombo,
+        navigationOptions: {
+            header: null,
+        },
+    },
+
+    MapTruck: {
+        screen: MapTruck,
         navigationOptions: {
             header: null,
         },

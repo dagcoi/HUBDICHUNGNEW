@@ -709,3 +709,10 @@ export const addModal = (ishow) => {
         ishow: ishow,
     }
 }
+
+export const addProductChunkType = (product_chunk_type) => {
+    return {
+        type : types.PRODUCT_CHUNK_TYPE,
+        product_chunk_type: product_chunk_type
+    }
+}

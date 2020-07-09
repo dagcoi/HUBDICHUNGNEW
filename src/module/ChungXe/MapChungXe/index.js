@@ -1,34 +1,25 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, ActivityIndicator, Modal, FlatList, TouchableHighlight, ScrollView, SafeAreaView, ImageBackground } from 'react-native';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
-import { ConfirmDialog } from 'react-native-simple-dialogs';
+import { View, Text, StyleSheet, TouchableOpacity, Image, ActivityIndicator, Modal, FlatList, SafeAreaView, ImageBackground } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
-import { addCityTime, addDepartTimeTuLai, addPeopleTuLai, swapAddressTuLai, addDurationTuLai } from '../../../core/Redux/action/Action'
+import { addCityTime, addDepartTime, swapAddress, addProductChunkType } from '../../../core/Redux/action/Action'
 import { connect } from 'react-redux';
 import * as key from '../../../component/KeyGG'
 import { TextInput } from 'react-native-gesture-handler';
-import MapViewDirections from 'react-native-maps-directions';
 import listHour from '../../../component/TimeSelect/listTime';
-import { ButtonFull, ButtonDialog } from '../../../component/Button'
-import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
+import { ButtonFull } from '../../../component/Button'
 import PopUp from '../../../component/PopUp'
 import { HeaderText } from '../../../component/Header';
-import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung';
 import ImageTextBold from '../../../component/ImageTextDiChung/ImageTextBold'
 
 const imageLocation = '../../../image/location.png'
 const imageDrop = '../../../image/location.png'
 const imageSwap = '../../../image/swap.png'
 const imageTime = '../../../image/time.png'
-const imageCancel = '../../../image/cancel.png'
-const imageHourglass = '../../../image/hourglass.png'
 const imageCheck = '../../../image/done.png'
 const imageCheckWhite = '../../../image/checkw.png'
 const imageBackground = { uri: 'https://dichung.vn/static/images/e216031ab3feeb651026e80873156f50.png' }
 
-const origin = { latitude: 21.2187149, longitude: 105.80417090000003 };
 // const destination = { latitude: 21.0019302, longitude: 105.85090579999996 };
-const GOOGLE_MAPS_APIKEY = key.KEY_GOOGLE;
 
 class MapChungXe extends Component {
 
@@ -172,81 +163,6 @@ class MapChungXe extends Component {
         return spesentDay;
     }
 
-    renderPicktoDrop() {
-
-        if (this.props.drop_add == '' || this.props.pick_add == '') {
-            return (
-                <MapView style={[styles.container, { marginTop: 150 }]}
-                    provider={PROVIDER_GOOGLE}
-                    initialRegion={{
-                        latitude: this.props.pick_add == '' ? origin.latitude : this.props.latitude_pick,
-                        longitude: this.props.pick_add == '' ? origin.longitude : this.props.longitude_pick,
-                        latitudeDelta: 2.0,
-                        longitudeDelta: 0.1,
-                    }}
-                ></MapView>
-            );
-        }
-        return (
-            <MapView style={[styles.container, { marginTop: 150 }]}
-                ref={(ref) => { this.mapRef = ref }}
-                provider={PROVIDER_GOOGLE}
-                onMapReady={() => {
-                    this.mapRef.fitToSuppliedMarkers(['mk1', 'mk2'], {
-                        edgePadding:
-                        {
-                            top: 500,
-                            right: 50,
-                            bottom: 50,
-                            left: 50
-                        }
-                    })
-                    this.mapRef.fitToElements(true)
-                }}
-            >
-                <MapView.Marker
-                    coordinate={{
-                        latitude: this.props.latitude_pick,
-                        longitude: this.props.longitude_pick,
-                    }}
-                    title={"Điểm nhận"}
-                    description={this.props.pick_add}
-                    identifier={'mk1'}
-                />
-
-                <MapView.Marker
-                    coordinate={{
-                        latitude: this.props.latitude_drop,
-                        longitude: this.props.longitude_drop,
-                    }}
-                    title={"Điểm trả"}
-                    description={this.props.drop_add}
-                    identifier={'mk2'}
-                />
-
-                <MapViewDirections
-                    origin={{ latitude: this.props.latitude_pick, longitude: this.props.longitude_pick }}
-                    destination={{ latitude: this.props.latitude_drop, longitude: this.props.longitude_drop }}
-                    apikey={GOOGLE_MAPS_APIKEY}
-                    strokeWidth={5}
-                    strokeColor="#669df6"
-                    onReady={() => {
-                        this.mapRef.fitToSuppliedMarkers(['mk1', 'mk2'], {
-                            edgePadding:
-                            {
-                                top: 500,
-                                right: 50,
-                                bottom: 50,
-                                left: 50
-                            }
-                        })
-                        this.mapRef.fitToElements(true)
-                    }}
-                />
-            </MapView>
-        );
-    }
-
     async setStateAsync(state) {
         return new Promise((resolve) => {
             this.setState(state, resolve)
@@ -259,7 +175,6 @@ class MapChungXe extends Component {
                 animationType="slide"
                 transparent={true}
                 visible={this.state.isShowModalCity}
-                // onOrientationChange={true}
                 onRequestClose={() => {
                     console.log('a');
                 }}>
@@ -313,7 +228,7 @@ class MapChungXe extends Component {
                 <TouchableOpacity
                     style={{ flex: 1, flexDirection: 'row', alignItems: 'center', marginLeft: 8 }}
                     onPress={() => {
-                        this.props.navigation.push("SerchPlaceTuLai", {
+                        this.props.navigation.push("SearchPlace", {
                             search: 'Pick',
                             placeholder: 'Nhập điểm xuất phát',
                         });
@@ -321,7 +236,7 @@ class MapChungXe extends Component {
                 >
                     <TextInput
                         editable={false}
-                        onTouchStart={() => this.props.navigation.push("SerchPlaceTuLai", {
+                        onTouchStart={() => this.props.navigation.push("SearchPlace", {
                             search: 'Pick',
                             placeholder: 'Nhập điểm xuất phát'
                         })
@@ -416,7 +331,7 @@ class MapChungXe extends Component {
                         <TouchableOpacity
                             style={{ flex: 1, }}
                             onPress={() => {
-                                this.props.navigation.push("SerchPlaceTuLai", {
+                                this.props.navigation.push("SearchPlace", {
                                     search: 'Drop',
                                     placeholder: 'Nhập điểm đến'
                                 });
@@ -424,7 +339,7 @@ class MapChungXe extends Component {
                         >
                             <TextInput
                                 editable={false}
-                                onTouchStart={() => this.props.navigation.push("SerchPlaceTuLai", {
+                                onTouchStart={() => this.props.navigation.push("SearchPlace", {
                                     search: 'Drop',
                                     placeholder: 'Nhập điểm đến'
                                 })
@@ -442,7 +357,7 @@ class MapChungXe extends Component {
                     <TouchableOpacity
                         style={{ borderLeftWidth: 1, borderColor: '#e8e8e8' }}
                         onPress={() => {
-                            this.props.swapAddressTuLai(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick);
+                            this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick);
                         }}
                     >
                         <Image
@@ -469,6 +384,7 @@ class MapChungXe extends Component {
 
     nextScreen() {
         this.getDateTimeAlive();
+        this.props.addProductChunkType('car_rental')
         if (this.props.pick_add != '' && this.props.drop_add != '' && this.state.time_pick != '' && this.state.city_name_dc != '') {
             // console.log(this.state.spesentDay)
             // console.log(this.state.date.format('DD-MM-YYYY'))
@@ -478,10 +394,10 @@ class MapChungXe extends Component {
                 } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
                     this.setState({ showAlertTime: true })
                 } else {
-                    this.props.navigation.push("ListCarTuLai");
+                    this.props.navigation.push("ListCar");
                 }
             } else {
-                this.props.navigation.push("ListCarTuLai");
+                this.props.navigation.push("ListCar");
             }
         }
         else {
@@ -648,7 +564,7 @@ class MapChungXe extends Component {
                                                         rent_date: `${this.state.date.format('YYYY-MM-DD')}`,
                                                         // time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
                                                     })
-                                                    this.props.addDepartTimeTuLai(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
+                                                    this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
                                                 }
                                             } else {
                                                 this.setState({
@@ -661,7 +577,7 @@ class MapChungXe extends Component {
                                                     rent_date: `${this.state.date.format('YYYY-MM-DD')}`,
                                                     // time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
                                                 })
-                                                this.props.addDepartTimeTuLai(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
+                                                this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
                                             }
                                         } else {
                                             if (isDayAlight) {
@@ -675,7 +591,7 @@ class MapChungXe extends Component {
                                                         time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date1.format('DD/MM/YYYY')}`,
                                                         return_date: `${this.state.date1.format('YYYY-MM-DD')}`,
                                                     })
-                                                    // this.props.addDepartTimeTuLai(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
+                                                    // this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
                                                 }
                                             } else {
                                                 this.setState({
@@ -687,7 +603,7 @@ class MapChungXe extends Component {
                                                     time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date1.format('DD/MM/YYYY')}`,
                                                     return_date: `${this.state.date1.format('YYYY-MM-DD')}`,
                                                 })
-                                                // this.props.addDepartTimeTuLai(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
+                                                // this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
                                             }
                                         }
                                     }}
@@ -719,11 +635,9 @@ class MapChungXe extends Component {
                 </SafeAreaView>
             )
         }
-        var obj = [...this.state.listCity];
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: '#eee' }}>
                 <HeaderText textCenter={'Thuê xe tự lái'} onPressLeft={this.goBack} />
-                {/* {this.renderPicktoDrop()} */}
                 <ImageBackground style={{ flex: 1, resizeMode: "cover", }} source={imageBackground} >
                     <View style={{ justifyContent: 'center', paddingHorizontal: 16 }}>
                         <Text style={{ fontWeight: 'bold', fontSize: 21, marginTop: 8, color: '#efefef' }}>Thuê xe tự lái</Text>
@@ -967,17 +881,17 @@ function mapStateToProps(state) {
         rent_date: state.info.rent_date,
         return_date: state.info.return_date,
 
-        drop_add: state.rdTuLai.drop_add,
-        pick_add: state.rdTuLai.pick_add,
-        component_drop: state.rdTuLai.component_drop,
-        component_pick: state.rdTuLai.component_pick,
-        latitude_pick: state.rdTuLai.latitude_pick,
-        longitude_pick: state.rdTuLai.longitude_pick,
-        latitude_drop: state.rdTuLai.latitude_drop,
-        longitude_drop: state.rdTuLai.longitude_drop,
-        chair: state.rdTuLai.chair,
+        drop_add: state.info.drop_add,
+        pick_add: state.info.pick_add,
+        component_drop: state.info.component_drop,
+        component_pick: state.info.component_pick,
+        latitude_pick: state.info.latitude_pick,
+        longitude_pick: state.info.longitude_pick,
+        latitude_drop: state.info.latitude_drop,
+        longitude_drop: state.info.longitude_drop,
+        chair: state.info.chair,
     }
 }
 
 
-export default connect(mapStateToProps, { addCityTime: addCityTime, addDepartTimeTuLai: addDepartTimeTuLai, swapAddressTuLai: swapAddressTuLai })(MapChungXe);
+export default connect(mapStateToProps, { addCityTime: addCityTime, addDepartTime: addDepartTime, swapAddress: swapAddress, addProductChunkType: addProductChunkType })(MapChungXe);

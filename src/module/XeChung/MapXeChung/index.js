@@ -1,28 +1,18 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, Alert, Modal, FlatList, SafeAreaView, ImageBackground } from 'react-native';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
+import { View, Text, StyleSheet, TouchableOpacity, Image, Modal, FlatList, SafeAreaView, ImageBackground } from 'react-native';
 import Calendar from '../../../component/Calendar'
-import TimePicker from './TimePicker'
 import { connect } from 'react-redux';
-import { addDepartTimeTaixe, addPeopleTaixe, swapAddressTaixe, addDurationTaiXe } from '../../../core/Redux/action/Action'
+import { addDepartTime, addPeople, swapAddress, addDuration, addProductChunkType } from '../../../core/Redux/action/Action'
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
 import { ButtonFull, ButtonDialog } from '../../../component/Button'
-import MapViewDirections from 'react-native-maps-directions';
-import { TextInput } from 'react-native-gesture-handler';
-import * as key from '../../../component/KeyGG'
 import listHour from '../../../component/TimeSelect/listTime'
-import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
-import PopUp from '../../../component/PopUp'
+import Dialog, {  } from 'react-native-popup-dialog';
 import { HeaderText } from '../../../component/Header'
 import ImageTextBold from '../../../component/ImageTextDiChung/ImageTextBold'
 
-const origin = { latitude: 21.2187149, longitude: 105.80417090000003 };
 // const destination = { latitude: 21.0019302, longitude: 105.85090579999996 };
-const GOOGLE_MAPS_APIKEY = key.KEY_GOOGLE;
 
 const imageLocation = '../../../image/location.png'
-const imageDrop = '../../../image/location.png'
-const imageSwap = '../../../image/swap.png'
 const imageTime = '../../../image/time.png'
 const imageHourglass = '../../../image/hourglass.png'
 const imageCheckWhite = '../../../image/checkw.png'
@@ -143,6 +133,7 @@ class MapXeChung extends Component {
 
     nextScreen() {
         this.getDateTimeAlive.bind(this);
+        this.props.addProductChunkType('driver_rental')
         if (this.props.pick_add != '' && this.props.drop_add != '' && this.state.depart_time != '' && this.state.city_name != '') {
             if (this.props.pick_add.search(this.state.city_name) < 0 || this.props.drop_add.search(this.state.city_name) < 0) {
                 this.setState({ alertCity: true })
@@ -155,12 +146,12 @@ class MapXeChung extends Component {
                     } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
                         this.setState({ alertTime: true })
                     } else {
-                        this.props.navigation.push("ListDriverXeChung", { datdem: false });
+                        this.props.navigation.push("ListCar", { datdem: false });
                     }
 
                 } else {
                     console.log('datdem : false')
-                    this.props.navigation.push("ListDriverXeChung", { datdem: false });
+                    this.props.navigation.push("ListCar", { datdem: false });
                 }
             }
         }
@@ -169,13 +160,14 @@ class MapXeChung extends Component {
         }
     }
 
-    addPeopleTaixe() {
+    addPeople() {
         const { people } = this.state;
-        this.props.addPeopleTaixe(people);
+        this.props.addPeople(people);
     }
 
     gotoListDriverHourlyBooking() {
         this.getDateTimeAlive.bind(this);
+        this.props.addProductChunkType('driver_rental')
         if (this.props.pick_add != '' && this.state.depart_time != '' && this.state.city_name != '') {
             if (this.props.pick_add.search(this.state.city_name) < 0) {
                 this.setState({ alertCity: true })
@@ -186,10 +178,10 @@ class MapXeChung extends Component {
                     } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
                         this.setState({ alertTime: true })
                     } else {
-                        this.props.navigation.push("ListDriverHourlyBooking");
+                        this.props.navigation.push("ListCar");
                     }
                 } else {
-                    this.props.navigation.push("ListDriverHourlyBooking");
+                    this.props.navigation.push("ListCar");
                 }
             }
         }
@@ -253,7 +245,7 @@ class MapXeChung extends Component {
 
                 <ImageInputTextDiChung
                     onPress={() => {
-                        this.props.navigation.push("SearchPlaceXeChung", {
+                        this.props.navigation.push("SearchPlace", {
                             search: 'Pick',
                             placeholder: 'Nhập điểm nhận xe'
                         });
@@ -312,7 +304,7 @@ class MapXeChung extends Component {
 
                 <ImageInputTextDiChung
                     onPress={() => {
-                        this.props.navigation.push("SearchPlaceXeChung", {
+                        this.props.navigation.push("SearchPlace", {
                             search: 'Pick',
                             placeholder: 'Nhập điểm nhận xe'
                         });
@@ -324,7 +316,7 @@ class MapXeChung extends Component {
 
                 <ImageInputTextDiChung
                     onPress={() => {
-                        this.props.navigation.push("SearchPlaceXeChung", {
+                        this.props.navigation.push("SearchPlace", {
                             search: 'Drop',
                             placeholder: 'Nhập điểm đích'
                         });
@@ -411,7 +403,7 @@ class MapXeChung extends Component {
                                                     dialogCalendarVisible: false,
                                                     depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
                                                 })
-                                                this.props.addDepartTimeTaixe(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
+                                                this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
                                             }
                                         } else {
                                             this.setState({
@@ -422,7 +414,7 @@ class MapXeChung extends Component {
                                                 dialogCalendarVisible: false,
                                                 depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
                                             })
-                                            this.props.addDepartTimeTaixe(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
+                                            this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
                                         }
                                     }}
                                 >
@@ -477,9 +469,9 @@ class MapXeChung extends Component {
                     </View>
 
                     <View style={{ justifyContent: 'center', paddingHorizontal: 16 }}>
-                        <ImageTextBold source={require(imageCheckWhite)} textBold ={"Chất lượng tài xế đạt chuẩn"} />
-                        <ImageTextBold source={require(imageCheckWhite)} textBold ={"Cam kết giá tốt nhất"} />
-                        <ImageTextBold source={require(imageCheckWhite)} textBold ={"Người đồng hành tin cậy"} />
+                        <ImageTextBold source={require(imageCheckWhite)} textBold={"Chất lượng tài xế đạt chuẩn"} />
+                        <ImageTextBold source={require(imageCheckWhite)} textBold={"Cam kết giá tốt nhất"} />
+                        <ImageTextBold source={require(imageCheckWhite)} textBold={"Người đồng hành tin cậy"} />
                     </View>
 
                     {/* {this.state.hourlyBooking ?
@@ -603,7 +595,7 @@ class MapXeChung extends Component {
                                                 duration: item.time,
                                                 modalListTime: false,
                                             })
-                                            this.props.addDurationTaiXe(item.time);
+                                            this.props.addDuration(item.time);
                                         }}
                                     >
                                         <Text style={{ fontSize: 18, flex: 1, padding: 8, color: item.time === this.state.duration ? '#77a300' : '#000000' }}>{item.time} giờ</Text>
@@ -659,16 +651,16 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
     return {
-        drop_add: state.rdTaixe.drop_add,
-        pick_add: state.rdTaixe.pick_add,
-        component_drop: state.rdTaixe.component_drop,
-        component_pick: state.rdTaixe.component_pick,
-        latitude_pick: state.rdTaixe.latitude_pick,
-        longitude_pick: state.rdTaixe.longitude_pick,
-        latitude_drop: state.rdTaixe.latitude_drop,
-        longitude_drop: state.rdTaixe.longitude_drop,
-        chair: state.rdTaixe.chair,
+        drop_add: state.info.drop_add,
+        pick_add: state.info.pick_add,
+        component_drop: state.info.component_drop,
+        component_pick: state.info.component_pick,
+        latitude_pick: state.info.latitude_pick,
+        longitude_pick: state.info.longitude_pick,
+        latitude_drop: state.info.latitude_drop,
+        longitude_drop: state.info.longitude_drop,
+        chair: state.info.chair,
     }
 }
 
-export default connect(mapStateToProps, { addDepartTimeTaixe: addDepartTimeTaixe, addPeopleTaixe: addPeopleTaixe, swapAddressTaixe: swapAddressTaixe, addDurationTaiXe: addDurationTaiXe })(MapXeChung)
+export default connect(mapStateToProps, { addDepartTime: addDepartTime, addPeople: addPeople, swapAddress: swapAddress, addDuration: addDuration, addProductChunkType: addProductChunkType })(MapXeChung)

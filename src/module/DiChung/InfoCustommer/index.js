@@ -520,14 +520,14 @@ class InfoCustommer extends Component {
 
     render() {
         const { navigation } = this.props;
-        var pay_methods = JSON.parse(navigation.getParam('pay_methods'));
+        // var pay_methods = JSON.parse(navigation.getParam('pay_methods'));
         var radio_payment = []
-        if (pay_methods['3'] != null) {
+        // if (pay_methods['3'] != null) {
             radio_payment.push({ label: 'Trả sau', value: 0, paymentMethodID: '3' })
-        }
-        if (pay_methods['8'] != null) {
+        // }
+        // if (pay_methods['8'] != null) {
             radio_payment.push({ label: 'Trả trước', value: 1, paymentMethodID: '8' })
-        }
+        // }
         return (
             <SafeAreaView style={{ flex: 1, paddingBottom: 8, flexDirection: 'column' }}>
                 <HeaderText textCenter={'Thông tin đặt xe'} onPressLeft={this.goBack} />

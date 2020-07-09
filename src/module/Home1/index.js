@@ -39,11 +39,11 @@ class Home1 extends Component {
                 { name: 'Thuê xe tự lái', image: 2 },
                 // { name: 'Đi chung xe', image: 3 },
                 { name: 'Thuê tài xế', image: 4 },
-                // { name: 'Thuê xe du lịch', image: 5 },
+                { name: 'Thuê xe du lịch', image: 5 },
                 // { name: 'Combo du lịch', image: 6 },
                 { name: 'Vận chuyển hàng hóa', image: 7 },
-                // { name: 'Thuê xe taxi tải', image: 8 },
-                // { name: 'Giao thực phẩm', image: 9 }
+                { name: 'Thuê xe taxi tải', image: 8 },
+                { name: 'Giao thực phẩm', image: 9 }
             ],
             dataNewPaper: [],
             isLoadingNewPaper: true,
@@ -158,8 +158,12 @@ class Home1 extends Component {
                                         item.image === 2 ? this.props.navigation.navigate('MapChungXe') :
                                             item.image === 3 ? this.props.navigation.navigate('MapDiChung') :
                                                 item.image === 4 ? this.props.navigation.navigate('MapXeChung') :
-                                                    item.image === 5 ? this.props.navigation.navigate('MapDiChung') :
-                                                        item.image === 7 ? this.props.navigation.navigate('MapExpress') : this.props.navigation.navigate('MapDiChung')
+                                                    item.image === 5 ? this.props.navigation.navigate('MapTravel') :
+                                                        item.image === 6 ? this.props.navigation.navigate('MapTravel') :
+                                                            item.image === 7 ? this.props.navigation.navigate('MapExpress') :
+                                                                item.image === 8 ? this.props.navigation.navigate('MapTruck') :
+                                                                    item.image === 9 ? this.props.navigation.navigate('MapFood') :
+                                                                        this.props.navigation.navigate('MapDiChung')
                                 }}
                             >
                                 <Image
