@@ -132,4 +132,6 @@ export const ADD_INFO_ADDRESS = 'ADD_INFO_ADDRESS'
 export const ADD_TOKEN = 'ADD_TOKEN'
 export const ADD_MODAL = 'ADD_MODAL'
 export const PRODUCT_CHUNK_TYPE = 'PRODUCT_CHUNK_TYPE'
+export const ADD_SEND = 'ADD_SEND'
+export const ADD_COST = 'ADD_COST'
 

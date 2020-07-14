@@ -28,7 +28,6 @@ const defaultState = {
     use_phone2: '',
     email2: '',
     payment: 0,
-    agent_additi: 0,
     vat: false,
     toll_fee: '',
     comment: '',

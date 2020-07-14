@@ -28,7 +28,6 @@ const defaultState = {
     use_phone2: '',
     email2: '',
     payment: 0,
-    agent_additi: 0,
     vat: false,
     toll_fee: '',
     comment: '',
@@ -83,6 +82,8 @@ const defaultState = {
     people: '',
     is_airport: 'false',
     product_chunk_type: '',
+    send: null,
+    cost: null,
 }
 const Reducer = (state = defaultState, action) => {
     switch (action.type) {
@@ -266,11 +267,23 @@ const Reducer = (state = defaultState, action) => {
                 brand_partner_id: action.partner_id,
             }
         case types.PRODUCT_CHUNK_TYPE:
-            return{
+            return {
                 ...state,
                 product_chunk_type: action.product_chunk_type,
             }
-        
+
+        case types.ADD_SEND:
+            return {
+                ...state,
+                send: action.send,
+            }
+        case types.ADD_COST:
+            return {
+                ...state,
+                cost: action.cost,
+                vehicle_icon: action.vehicle_icon,
+            }
+
         default:
             return state;
     }

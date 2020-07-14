@@ -43,7 +43,7 @@ class Home1 extends Component {
                 // { name: 'Combo du lịch', image: 6 },
                 { name: 'Vận chuyển hàng hóa', image: 7 },
                 { name: 'Thuê xe taxi tải', image: 8 },
-                { name: 'Giao thực phẩm', image: 9 }
+                // { name: 'Giao thực phẩm', image: 9 }
             ],
             dataNewPaper: [],
             isLoadingNewPaper: true,
@@ -58,7 +58,24 @@ class Home1 extends Component {
     componentDidMount() {
         this.callApiInteresting()
         this.callApiNewPaper()
+        this._retrieveData()
     }
+
+    _retrieveData = async () => {
+        try {
+            const dataLogin = await AsyncStorage.getItem('dataLogin')
+            if (dataLogin !== null) {
+                let json = JSON.parse(dataLogin)
+                this.props.addUser(json.username, '123', 1)
+                this.props.addToken(json.token)
+            } else {
+                this.props.addUser(json.username, 'json.avatar', 0)
+                this.props.addToken('')
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    };
 
     async callApiNewPaper() {
         const url = link.URL_REALASE + `wp-json/wp/v2/posts?_embed=1&per_page=5&tags=79`
@@ -71,8 +88,6 @@ class Home1 extends Component {
             },
         });
         const jsonRes = await res.json();
-        // console.log(jsonRes);
-        // console.log('qqq')
         return this.setState({
             dataNewPaper: jsonRes,
             isLoadingNewPaper: false
@@ -90,8 +105,6 @@ class Home1 extends Component {
             },
         });
         const jsonRes = await res.json();
-        console.log(jsonRes);
-        // console.log('qqq')
         return this.setState({
             dataInteresting: jsonRes,
             isLoadingInteresting: false
@@ -323,4 +336,12 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Home1;
+
+function mapStateToProps(state) {
+    return {
+        drop_add: state.info.drop_add,
+        pick_add: state.info.pick_add,
+    }
+}
+
+export default connect(mapStateToProps, { addUser: addUser, addToken: addToken })(Home1)

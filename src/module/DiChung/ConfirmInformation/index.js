@@ -43,10 +43,12 @@ class ConfirmInformation extends Component {
             visibalAgain: false,
             depart_time2: '',
             id_booking: null,
+            dataSend: null,
         }
     }
 
     componentDidMount() {
+        this.setDataSend()
         const { navigation } = this.props;
         console.log('token' + this.props.token)
         console.log('vehice_id' + this.props.vehice_id)
@@ -73,9 +75,59 @@ class ConfirmInformation extends Component {
             }
         }, 5000);
         console.log(this.props.depart_time2);
+    }
+
+    async setDataSend() {
         var time = new Date(this.props.depart_time2 + '+07:00').getTime();
-        console.log(time);
-        this.setState({ depart_time2: time })
+
+        const { navigation } = this.props;
+        const dataSend = JSON.parse(this.props.send)
+        dataSend.startPoints = [
+            {
+                "address": this.props.pick_add,
+                "lat": this.props.latitude_pick,
+                "long": this.props.longitude_pick
+            }
+        ]
+        dataSend.endPoints = [
+            {
+                "address": this.props.drop_add,
+                "lat": this.props.latitude_drop,
+                "long": this.props.longitude_drop
+            }
+        ]
+        dataSend.bookingUser = {
+            "email": this.props.email,
+            "phone": this.props.use_phone,
+            "fullName": this.props.full_name,
+            "gender": ""
+        }
+        dataSend.bookingTime = time
+        dataSend.slot = 1
+        dataSend.dimension = 'one_way'
+        dataSend.note = this.props.comment
+        dataSend.rideMethod = "private"
+        dataSend.beneficiary = {
+            "email": navigation.getParam('not_use') ? '' : this.props.email,
+            "phone": navigation.getParam('not_use') ? this.props.use_phone2 : this.props.use_phone,
+            "fullName": navigation.getParam('not_use') ? this.props.full_name2 : this.props.full_name,
+            "gender": ""
+        }
+        dataSend.payment = {
+            "method": navigation.getParam('Payment') == '0' ? "cash" : "online",
+            "provider": "vnpay",
+            "return": ""
+        }
+        dataSend.promotion = navigation.getParam('blDiscount') ? navigation.getParam('promotion') : ""
+        dataSend.invoice = navigation.getParam('xhd') ? {
+            "name": this.props.company_name,
+            "address": this.props.company_address,
+            "taxCode": this.props.company_mst,
+            "addressReceive": this.props.company_address_receive
+        } : ''
+
+        console.log('123' + JSON.stringify(dataSend))
+        this.setState({ dataSend: dataSend })
     }
 
     async reBiddingTicket() {
@@ -235,9 +287,11 @@ class ConfirmInformation extends Component {
             <View>
                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                     <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
-                    <Text style={styles.textBigRight1}>{((this.props.merged + (navigation.getParam('broad_price') ? 30000 : 0) - (navigation.getParam('blDiscount') ? this.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1) + (this.props.toll_fee == 'NA' ? 0 : + parseInt(this.props.toll_fee))).format(0, 3, '.')} đ</Text>
+                    <Text style={styles.textBigRight1}>{((this.props.cost + (navigation.getParam('broad_price') ? 30000 : 0) - (navigation.getParam('blDiscount') ? this.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1)).format(0, 3, '.')} đ</Text>
+                    {/* + (this.props.toll_fee == 'NA' ? 0 : + parseInt(this.props.toll_fee)) */}
+                    {/* <Text style={styles.textBigRight1}>{this.props.cost}</Text> */}
                 </View>
-                <Text style={{ marginBottom: 8, textAlign: 'right' }}>{this.props.toll_fee == "NA" ? "Giá chưa bao gồm phí cầu đường" : "Giá trọn gói không phí ẩn"}</Text>
+                {/* <Text style={{ marginBottom: 8, textAlign: 'right' }}>{this.props.toll_fee == "NA" ? "Giá chưa bao gồm phí cầu đường" : "Giá trọn gói không phí ẩn"}</Text> */}
             </View>
         )
     }
@@ -418,83 +472,86 @@ class ConfirmInformation extends Component {
         const url = link.URL_API_PORTAL + `booking/v1/bookings`
         console.log(url)
         const { navigation } = this.props;
-        const jsonStr = JSON.stringify({
-            "provider": {
-                "name": "dichungtaxi"
-            },
-            "startPoints": [
-                {
-                    "address": this.props.pick_add,
-                    "lat": this.props.latitude_pick,
-                    "long": this.props.longitude_pick
-                }
-            ],
-            "endPoints": [
-                {
-                    "address": this.props.drop_add,
-                    "lat": this.props.latitude_drop,
-                    "long": this.props.longitude_drop
-                }
-            ],
-            "bookingUser": {
-                "email": this.props.email,
-                "phone": this.props.use_phone,
-                "fullName": this.props.full_name,
-                "gender": ""
-            },
-            "bookingTime": this.state.depart_time2,
-            "slot": 1,
-            "dimension": "one_way",
-            "rideMethod": "private",
-            "productType": "TRANSFER_SERVICE",
-            "vehicle": {
-                "id": this.props.vehice_id,
-                "name": this.props.vehicle_name,
-                "image": this.props.vehicle_icon
-            }
-            ,
-            "note": this.props.comment,
-            "beneficiary": {
-                "email": navigation.getParam('not_use') ? '' : this.props.email,
-                "phone": navigation.getParam('not_use') ? this.props.use_phone2 : this.props.use_phone,
-                "fullName": navigation.getParam('not_use') ? this.props.full_name2 : this.props.full_name,
-                "gender": ""
-            },
-            "bookingType": "",
-            "payment": {
-                "method": navigation.getParam('Payment') == '0' ? "cash" : "online"
-            },
-            "promotion": navigation.getParam('blDiscount') ? navigation.getParam('promotion') : "",
-            "invoice": navigation.getParam('xhd') ? {
-                "name": this.props.company_name,
-                "address": this.props.company_address,
-                "taxCode": this.props.company_mst,
-                "addressReceive": this.props.company_address_receive
-            } : '',
-            "extra": {
-                "ref_id": "",
-                "ref_user_id": "",
-                "ref_url": "",
-                "plane_number": this.props.plane_number,
-                "plane_type": this.props.is_airport == 'false' ? '' : navigation.getParam('plane_type') > 0 ? navigation.getParam('plane_type') : '',
-                "pm_id": this.props.pm_id,
-                "catch_in_house": navigation.getParam('broad_price') ? '1' : '0',
-                "chunk_id": this.props.chunk_id,
-                "dimension_id": this.props.dimension_id,
-                "vehicle_id": this.props.vehice_id,
-                "ride_method_id": this.props.ride_method_id,
-                "airport_id": this.props.airport_id,
-                "street_id": this.props.street_id,
-                "village_id": this.props.village_id,
-                "ignore_duplicate_warning": this.props.ignore_duplicate_warning,
-                "brand_partner_id": this.props.brand_partner_id,
-                "unmerged_select": this.props.unmerged,
-                "xhd": navigation.getParam('xhd') ? 1 : 0,
-                "city_id": this.props.city_id,
-                "use_range_time": this.props.use_range_time,
-                "referral_code": "",
-            }
-        })
+        const jsonStr = JSON.stringify(
+            this.state.dataSend
+            //     {
+            //     "provider": {
+            //         "name": "dichungtaxi"
+            //     },
+            //     "startPoints": [
+            //         {
+            //             "address": this.props.pick_add,
+            //             "lat": this.props.latitude_pick,
+            //             "long": this.props.longitude_pick
+            //         }
+            //     ],
+            //     "endPoints": [
+            //         {
+            //             "address": this.props.drop_add,
+            //             "lat": this.props.latitude_drop,
+            //             "long": this.props.longitude_drop
+            //         }
+            //     ],
+            //     "bookingUser": {
+            //         "email": this.props.email,
+            //         "phone": this.props.use_phone,
+            //         "fullName": this.props.full_name,
+            //         "gender": ""
+            //     },
+            //     "bookingTime": this.state.depart_time2,
+            //     "slot": 1,
+            //     "dimension": "one_way",
+            //     "rideMethod": "private",
+            //     "productType": "TRANSFER_SERVICE",
+            //     "vehicle": {
+            //         "id": this.props.vehice_id,
+            //         "name": this.props.vehicle_name,
+            //         "image": this.props.vehicle_icon
+            //     }
+            //     ,
+            //     "note": this.props.comment,
+            //     "beneficiary": {
+            //         "email": navigation.getParam('not_use') ? '' : this.props.email,
+            //         "phone": navigation.getParam('not_use') ? this.props.use_phone2 : this.props.use_phone,
+            //         "fullName": navigation.getParam('not_use') ? this.props.full_name2 : this.props.full_name,
+            //         "gender": ""
+            //     },
+            //     "bookingType": "",
+            //     "payment": {
+            //         "method": navigation.getParam('Payment') == '0' ? "cash" : "online"
+            //     },
+            //     "promotion": navigation.getParam('blDiscount') ? navigation.getParam('promotion') : "",
+            //     "invoice": navigation.getParam('xhd') ? {
+            //         "name": this.props.company_name,
+            //         "address": this.props.company_address,
+            //         "taxCode": this.props.company_mst,
+            //         "addressReceive": this.props.company_address_receive
+            //     } : '',
+            //     "extra": {
+            //         "ref_id": "",
+            //         "ref_user_id": "",
+            //         "ref_url": "",
+            //         "plane_number": this.props.plane_number,
+            //         "plane_type": this.props.is_airport == 'false' ? '' : navigation.getParam('plane_type') > 0 ? navigation.getParam('plane_type') : '',
+            //         "pm_id": this.props.pm_id,
+            //         "catch_in_house": navigation.getParam('broad_price') ? '1' : '0',
+            //         "chunk_id": this.props.chunk_id,
+            //         "dimension_id": this.props.dimension_id,
+            //         "vehicle_id": this.props.vehice_id,
+            //         "ride_method_id": this.props.ride_method_id,
+            //         "airport_id": this.props.airport_id,
+            //         "street_id": this.props.street_id,
+            //         "village_id": this.props.village_id,
+            //         "ignore_duplicate_warning": this.props.ignore_duplicate_warning,
+            //         "brand_partner_id": this.props.brand_partner_id,
+            //         "unmerged_select": this.props.unmerged,
+            //         "xhd": navigation.getParam('xhd') ? 1 : 0,
+            //         "city_id": this.props.city_id,
+            //         "use_range_time": this.props.use_range_time,
+            //         "referral_code": "",
+            //     }
+            // }
+        )
         console.log('abc :.........' + jsonStr)
         console.log('abc :.........' + this.props.token)
         fetch(url, {
@@ -608,7 +665,9 @@ function mapStateToProps(state) {
         longitude_pick: state.info.longitude_pick,
         latitude_drop: state.info.latitude_drop,
         longitude_drop: state.info.longitude_drop,
-        token: state.thongtin.token
+        token: state.thongtin.token,
+        cost: state.info.cost,
+        send: state.info.send,
     }
 }
 

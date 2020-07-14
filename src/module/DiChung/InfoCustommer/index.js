@@ -523,13 +523,14 @@ class InfoCustommer extends Component {
         // var pay_methods = JSON.parse(navigation.getParam('pay_methods'));
         var radio_payment = []
         // if (pay_methods['3'] != null) {
-            radio_payment.push({ label: 'Trả sau', value: 0, paymentMethodID: '3' })
+        radio_payment.push({ label: 'Trả sau', value: 0, paymentMethodID: '3' })
         // }
         // if (pay_methods['8'] != null) {
-            radio_payment.push({ label: 'Trả trước', value: 1, paymentMethodID: '8' })
+        radio_payment.push({ label: 'Trả trước', value: 1, paymentMethodID: '8' })
         // }
         return (
             <SafeAreaView style={{ flex: 1, paddingBottom: 8, flexDirection: 'column' }}>
+                {/* <Text>{JSON.stringify(this.props.cost)}</Text> */}
                 <HeaderText textCenter={'Thông tin đặt xe'} onPressLeft={this.goBack} />
                 <ScrollView>
                     <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1, padding: 8 }} enableOnAndroid={true} enableAutoAutomaticScroll={(Platform.OS === 'ios')} >
@@ -749,6 +750,8 @@ function mapStateToProps(state) {
         brand_partner_id: state.info.brand_partner_id,
         comment: state.info.comment,
         is_airport: state.info.is_airport,
+        send: state.info.send,
+        cost: state.info.cost,
     }
 }
 

@@ -79,6 +79,7 @@ class SearchPlace extends Component {
                 <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
                     <View style={{ flexDirection: 'row' }}>
                         <GooglePlacesAutocomplete
+                            placeholderTextColor= {'#333'}
                             placeholder={placeholder}
                             minLength={2}
                             autoFocus={true}
@@ -117,7 +118,7 @@ class SearchPlace extends Component {
                                     borderTopColor: '#ffffff',
                                     backgroundColor: '#ffffff',
                                     width: '100%',
-                                    color: '#00363d'
+                                    color: '#333'
                                 },
                                 description: {
                                     fontWeight: 'normal',

@@ -162,7 +162,7 @@ function renderOther(item) {
             // text={item.pay_method_name}
             />
             {/* {item.board_price != '0' ? */}
-            {item.extra.catch_in_house != '0' ?
+            {item.extra.catch_in_house == '1' ?
                 <ImageTextDiChung
                     source={require(imageDone)}
                     text={'Đón bằng biển tên (+ 30.000 ₫)'}

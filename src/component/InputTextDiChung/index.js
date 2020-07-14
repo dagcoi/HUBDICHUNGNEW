@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         borderRadius: 4,
         flex: 1,
+        color: '#333'
     },
     borderView: {
         marginTop: 8,

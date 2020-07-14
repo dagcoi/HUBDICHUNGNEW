@@ -24,18 +24,18 @@ function ItemCarTaxi({ item, onPress }) {
 
                 <View style={styles.containerr}>
                     <Text style={styles.tentuyen}>
-                        {item.info.title}
+                        {item.info.title ?? ''}
                     </Text>
-                    <Text style={styles.loaixe}>{item.info.description}</Text>
-                    <StarVote number={item.info.rate} />
-                    <Text style={styles.giaTien}>{item.info.price}</Text>
+                    <Text style={styles.loaixe}>{item.info.description ?? ''}</Text>
+                    <StarVote number={item.info.rate ?? 0} />
+                    <Text style={styles.giaTien}>{item.info.price.format(0, 3, '.') ?? ''} đ</Text>
 
                 </View>
 
                 <View style={styles.imageRight}>
                     <Image
                         style={{ width: 150, height: 90, }}
-                        source={{ uri: item.info.image, }}
+                        source={{ uri: item.info.image ?? null, }}
                         resizeMode="contain"
                     />
                 </View>

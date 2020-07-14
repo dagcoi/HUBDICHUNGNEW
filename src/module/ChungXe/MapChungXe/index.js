@@ -220,36 +220,17 @@ class MapChungXe extends Component {
 
     renderPickAddress() {
         return (
-            <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 1, justifyContent: 'center', alignItems: 'center', height: 40 }}>
-                <Image
-                    style={{ height: 28, width: 24, marginLeft: 8 }}
-                    source={require(imageLocation)}
-                />
-                <TouchableOpacity
-                    style={{ flex: 1, flexDirection: 'row', alignItems: 'center', marginLeft: 8 }}
-                    onPress={() => {
-                        this.props.navigation.push("SearchPlace", {
-                            search: 'Pick',
-                            placeholder: 'Nhập điểm xuất phát',
-                        });
-                    }}
-                >
-                    <TextInput
-                        editable={false}
-                        onTouchStart={() => this.props.navigation.push("SearchPlace", {
-                            search: 'Pick',
-                            placeholder: 'Nhập điểm xuất phát'
-                        })
-                        }
-                        style={{ fontSize: 14, color: "#00363d" }}
-                        pointerEvents="none"
-                        value={this.props.pick_add}
-                        placeholder='Nhập điểm xuất phát'
-                        placeholderTextColor={'#333333'}
-                        selection={{ start: 0, end: 0 }}
-                    />
-                </TouchableOpacity>
-            </View>
+            <ImageInputTextDiChung
+                onPress={() => {
+                    this.props.navigation.push("SearchPlace", {
+                        search: 'Pick',
+                        placeholder: 'Nhập điểm xuất phát',
+                    });
+                }}
+                source={require(imageLocation)}
+                placeholder={'Nhập điểm xuất phát'}
+                value={this.props.pick_add}
+            />
         )
     }
 

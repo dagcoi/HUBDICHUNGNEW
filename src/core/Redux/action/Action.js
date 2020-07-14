@@ -716,3 +716,21 @@ export const addProductChunkType = (product_chunk_type) => {
         product_chunk_type: product_chunk_type
     }
 }
+
+export const addSend = (send) => {
+    return {
+        type : types.ADD_SEND,
+        send: send,
+    }
+}
+
+
+export const addCost = (cost, vehicle_icon) => {
+    return {
+        type : types.ADD_COST,
+        cost: cost,
+        vehicle_icon: vehicle_icon,
+    }
+}
+
+

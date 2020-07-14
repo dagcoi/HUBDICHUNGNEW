@@ -7,7 +7,7 @@ import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
 import ImageTextBold from '../../../component/ImageTextDiChung/ImageTextBold'
 import listHour from '../../../component/TimeSelect/listTime'
 import { HeaderText } from '../../../component/Header'
-import { FormSwitch, Warning, DropAddress } from '../Until'
+import { FormSwitch, Warning, DropAddress } from '../Util'
 import { ButtonFull } from '../../../component/Button'
 import { SafeAreaView } from 'react-navigation';
 

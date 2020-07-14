@@ -4,14 +4,10 @@ import { connect } from 'react-redux';
 import CheckBoxList from '../../../component/CheckBoxList'
 import { HeaderText } from '../../../component/Header'
 
-import { addTripInfomation, addIsFromAirport, addAirport } from '../../../core/Redux/action/Action'
+import { addTripInfomation, addIsFromAirport, addAirport, addSend, addCost } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
 import { ItemCarTaxi } from '../../../component/ItemCar';
 
-Number.prototype.format = function (n, x) {
-    var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
-    return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
-};
 const imageMaxToMin = '../../../image/maxtomin.png'
 const imageMinToMax = '../../../image/mintomax.png'
 const imageTune = '../../../image/tune.png'
@@ -39,6 +35,7 @@ class ListCar extends Component {
             ride_method_id_list: [1, 2],
             listcar: [],
             listcarfilter: [],
+            listProductType: []
         }
     }
 
@@ -58,7 +55,11 @@ class ListCar extends Component {
             console.log(listProvider);
             for (let index = 0; index < listProvider.length; index++) {
                 const element = listProvider[index];
-                this.getListCarNewV2(listProvider[index].name, index)
+                if (this.props.product_chunk_type === 'hourly_rental_taxi') {
+                    this.getListCarHourly(listProvider[index].name, index)
+                } else {
+                    this.getListCarNewV2(listProvider[index].name, index)
+                }
             };
             const countLoading = listProvider.length
             this.setState({ countLoading: countLoading })
@@ -74,7 +75,7 @@ class ListCar extends Component {
 
     async getListCarNewV2(provider, index) {
         const url = `${link.URL_API_PORTAL}price/v1/products?productType=${this.props.product_chunk_type}`;
-        let param = `${url}&bookingTime=${this.props.depart_time}&dimension=1&endPlace=${JSON.stringify(this.props.component_drop)}&startPlace=${JSON.stringify(this.props.component_pick)}&slot=${this.props.chair}&provider=${provider}`
+        let param = `${url}&bookingTime=${this.props.depart_time2}&dimension=1&endPlace=${JSON.stringify(this.props.component_drop)}&startPlace=${JSON.stringify(this.props.component_pick)}&slot=${this.props.chair}&provider=${provider}`
         console.log(param)
         try {
             const response = await fetch(param, {
@@ -86,8 +87,8 @@ class ListCar extends Component {
             const data = [...this.state.dataSource]
             if (listCar.length > 0) {
                 data.concat(responseJson.data)
+                console.log('qqqq' + data)
             }
-            console.log('qqqq' + data)
             this.setStateAsync({
                 isLoading: false,
                 dataSource: listCar ? this.state.dataSource.concat(responseJson.data) : this.state.dataSource,
@@ -106,35 +107,39 @@ class ListCar extends Component {
         console.log(param)
     }
 
-    // async getListCarNew() {
-    //     const url = link.URL_API_PORTAL + `price/v1/prices?product_chunk_type=${this.props.product_chunk_type}&`;
-    //     let param = `${url}chair=${this.props.chair}&depart_time=${this.props.depart_time}&dimension_id=1&drop_address_component=${JSON.stringify(this.props.component_drop)}&drop_address=${this.props.drop_add}&pick_address_component=${JSON.stringify(this.props.component_pick)}&pick_address=${this.props.pick_add}&provider=dichungtaxi`
-    //     try {
-    //         const response = await fetch(param, {
-    //             method: 'GET',
-    //         });
-    //         const responseJson = await response.json();
-    //         this.addListfilter(responseJson.data.data);
-    //         this.setStateAsync({
-    //             isLoading: false,
-    //             // listFilterType: ,
-    //             listFilter: this.filterCar(responseJson.data.data),
-    //             dataSource: responseJson.data.data,
-    //             is_from_airport: responseJson.data.is_from_airport
-    //         });
-    //         this.props.addIsFromAirport(responseJson.data.is_from_airport ? 'true' : 'false');
-    //         console.log(responseJson)
-    //         console.log(param)
-    //         return responseJson.data.data;
-    //     }
-    //     catch (error) {
-    //         this.setStateAsync({
-    //             isLoading: false
-    //         });
-    //         console.log(error);
-    //     }
-    //     console.log(param)
-    // }
+    async getListCarHourly(provider, index) {
+        const url = `${link.URL_API_PORTAL}price/v1/products?productType=${this.props.product_chunk_type}`;
+        let param = `${url}&bookingTime=${this.props.depart_time2}&dimension=1&startPlace=${JSON.stringify(this.props.component_pick)}&slot=${this.props.chair}&provider=${provider}&duration=${this.props.duration}`
+        console.log(param)
+        try {
+            const response = await fetch(param, {
+                method: 'GET',
+            });
+            const responseJson = await response.json();
+            console.log('ba chu a:  ' + index)
+            const listCar = responseJson.data
+            const data = [...this.state.dataSource]
+            if (listCar.length > 0) {
+                data.concat(responseJson.data)
+                console.log('qqqq' + data)
+            }
+            this.setStateAsync({
+                isLoading: false,
+                dataSource: listCar ? this.state.dataSource.concat(responseJson.data) : this.state.dataSource,
+                countLoading: this.state.countLoading - 1,
+            });
+            console.log(responseJson.data)
+            return responseJson.data;
+        }
+        catch (error) {
+            this.setStateAsync({
+                isLoading: false,
+                countLoading: this.state.countLoading - 1,
+            });
+            console.log('abc' + error);
+        }
+        console.log(param)
+    }
 
     addListfilter(list) {
         this.setState({
@@ -274,16 +279,9 @@ class ListCar extends Component {
 
     gotoInfoCustomer = (item) => {
         const { navigation } = this.props;
-        // this.props.addAirport(item.airport_id == 0 ? 'false' : 'true')
-        // if (item.toll_fee == 'NA') {
-        //     this.props.addTripInfomation(item.partner_name, item.merged, this.props.depart_time, item.chunk_id, item.vehicle_id, item.village_id, item.pm_id, item.partner_id, item.city_id, item.vehicle_name, item.toll_fee, item.dimension_id, item.vehicle_id, item.ride_method_id, item.chair, item.airport_id, item.street_id, item.vehicle_icon, item.pick_pos, item.drop_pos, item.use_range_time, item.unmerged);
-        // } else {
-        //     this.props.addTripInfomation(item.partner_name, item.merged, this.props.depart_time, item.chunk_id, item.vehicle_id, item.village_id, item.pm_id, item.partner_id, item.city_id, item.vehicle_name, item.toll_fee, item.dimension_id, item.vehicle_id, item.ride_method_id, item.chair, item.airport_id, item.street_id, item.vehicle_icon, item.pick_pos, item.drop_pos, item.use_range_time, item.unmerged);
-        // }
-
-        this.props.navigation.push("InfoCustommer"
-            // pay_methods: JSON.stringify(item.pay_methods)
-        )
+        this.props.addSend(JSON.stringify(item.send))
+        this.props.addCost(item.info.price, item.info.image)
+        this.props.navigation.push("InfoCustommer")
     }
     setStateAsync(state) {
         return new Promise((resolve) => {
@@ -292,32 +290,7 @@ class ListCar extends Component {
     }
 
     renderItem(obj1, countLoading) {
-        // const { navigation } = this.props;
-        // var obj2, obj3, obj4;
-        // var { listFilterMethod, listNightBooking, listcarfilter } = this.state;
-        // if ((listcarfilter.includes(1) || listcarfilter.includes(2))) {
-        //     if (listcarfilter.includes(33)) {
-
-        //     } else {
-        //         listcarfilter.push(33)
-        //     }
-        // } else {
-        //     if (listcarfilter.includes(33)) {
-        //         listcarfilter.splice(listcarfilter.indexOf(33), 1)
-        //     } else {
-        //     }
-        // }
-        // { listcarfilter.length == 0 ? obj2 = obj1 : obj2 = obj1.filter(ob => (listcarfilter.includes(ob.vehicle_id))) }
-        // obj3 = obj2.filter(obj => (obj.vehicle_seat_left >= this.props.chair && obj.max_share_seats > 0))
-        // obj4 = obj3.filter(obj => obj.hide == 0)
-        // var obj = obj4.filter(obj => (listFilterMethod.includes(obj.ride_method_id)));
-        // if (navigation.getParam('datdem')) {
-        //     obj = obj.filter(obj => (
-        //         listNightBooking.includes(obj.ride_method_id))
-
-        //     )
-        // }
-        console.log('dhs: '+obj1)
+        console.log('dhs: ' + obj1)
         { this.state.sort ? obj1.sort((a, b) => b.info.price - a.info.price) : obj1.sort((a, b) => a.info.price - b.info.price) }
 
         return (
@@ -351,6 +324,7 @@ class ListCar extends Component {
                                     item={item}
                                     onPress={() => {
                                         this.gotoInfoCustomer(item)
+                                        console.log(item)
                                     }}
                                 />
 
@@ -377,11 +351,9 @@ class ListCar extends Component {
     renderHeader() {
         return (
             <HeaderText
-                textCenter={'Danh sách xe'}
+                textCenter={'Danh sách xe...'}
                 onPressLeft={this.goBack}
-                // onPressRight1={this.setShowFilter}
                 onPressRight2={this._increaseCount}
-                // source1={require(imageTune)}
                 source2={this.state.sort ? require(imageMaxToMin) : require(imageMinToMax)}
             />
         )
@@ -418,10 +390,11 @@ function mapStateToProps(state) {
         pick_add: state.info.pick_add,
         component_pick: state.info.component_pick,
         component_drop: state.info.component_drop,
-        depart_time: state.info.depart_time,
+        depart_time2: state.info.depart_time2,
         chair: state.info.chair,
         is_from_airport: state.info.is_from_airport,
         product_chunk_type: state.info.product_chunk_type,
+        duration: state.info.duration,
     }
 }
-export default connect(mapStateToProps, { addTripInfomation: addTripInfomation, addIsFromAirport: addIsFromAirport, addAirport: addAirport })(ListCar);
+export default connect(mapStateToProps, { addTripInfomation: addTripInfomation, addIsFromAirport: addIsFromAirport, addAirport: addAirport, addSend: addSend, addCost: addCost })(ListCar);

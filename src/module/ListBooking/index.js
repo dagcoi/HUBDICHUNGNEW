@@ -3,14 +3,8 @@ import { View, TouchableOpacity, Text, FlatList, StyleSheet, ActivityIndicator, 
 import StarVote from '../../component/StarVote'
 import Header from '../../component/Header/HeaderImage'
 import ImageTextDiChung from '../../component/ImageTextDiChung'
-import DetailTaxi from './DetailTaxi'
-import DetailTuLai from './DetailTuLai'
-import DetailExpress from './DetailExpress'
-import DetailXeChung from './DetailXeChung'
-import DetailHourlyTaxi from './DetailHourlyTaxi'
+
 import * as link from '../../URL'
-import { Button, ButtonGray } from '../../component/Button'
-import OTPInputView from '@twotalltotems/react-native-otp-input'
 import { connect } from 'react-redux'
 import { NavigationEvents, SafeAreaView } from 'react-navigation';
 
@@ -66,7 +60,7 @@ class ListBooking extends Component {
             if (dataLogin !== null) {
                 let json = JSON.parse(dataLogin)
                 console.log(dataLogin)
-                console.log(json.token)
+                console.log('token : ...'+ json.token)
                 console.log(json._id)
                 this.setState({
                     token: json.token,
@@ -90,26 +84,8 @@ class ListBooking extends Component {
         }
     };
 
-    async getTicketInfoDC(_id) {
-        const url = link.URL_API_PORTAL + `booking/v1/user/bookings/${_id}`
-
-        const res = await fetch(url, {
-            headers: {
-                'token': this.state.token,
-            },
-            method: 'GET',
-        });
-        const jsonRes = await res.json();
-        this.setState({
-            bookingDetail: jsonRes.data,
-            isLoadingTicket: false,
-        });
-        // console.log(jsonRes.data)
-    }
-
     modalLoading() {
         return (
-
             <Modal
                 visible={this.state.modalVisible}
                 animationType="slide"

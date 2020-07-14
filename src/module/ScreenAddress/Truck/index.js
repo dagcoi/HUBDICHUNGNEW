@@ -65,28 +65,22 @@ class MapTruck extends Component {
                 { 'id': 5, 'time': 10 },
                 { 'id': 6, 'time': 12 },
             ],
-            listChair: [
-                { 'id': 1, 'chair': '1' },
-                { 'id': 2, 'chair': '2' },
-                { 'id': 3, 'chair': '3' },
-                { 'id': 4, 'chair': '4' },
-                { 'id': 5, 'chair': '5' },
-                { 'id': 6, 'chair': '6' },
-                { 'id': 7, 'chair': '7' },
-                { 'id': 8, 'chair': '8' },
-                { 'id': 9, 'chair': '9' },
-                { 'id': 10, 'chair': '10' },
-                { 'id': 11, 'chair': '11' },
-                { 'id': 12, 'chair': '12' },
-                { 'id': 13, 'chair': '13' },
-                { 'id': 14, 'chair': '14' },
-                { 'id': 15, 'chair': '15' },
-                { 'id': 16, 'chair': '16' },
-            ],
+            // listVehicle: [
+            //     { 'id': 1, 'chair': 'Tất cả loại xe' },
+            //     { 'id': 2, 'chair': 'Xe tải 0.5 tấn' },
+            //     { 'id': 3, 'chair': 'Xe tải 0.7 tấn' },
+            //     { 'id': 4, 'chair': 'Xe tải 1.25 tấn' },
+            //     { 'id': 5, 'chair': 'Xe tải 1.4 tấn' },
+            //     { 'id': 6, 'chair': 'Xe tải 1.9 tấn' },
+            //     { 'id': 7, 'chair': 'Xe tải 2.9 tấn' },
+            //     { 'id': 8, 'chair': 'Xe tải 3.5 tấn' },
+            //     { 'id': 9, 'chair': 'Xe tải 5 tấn' },
+            // ],
             scroll: 48,
             alertTimeSent: false,
             alertTimeRent: false,
             alertInfo: false,
+            vehicle_id: 0,
         }
         this.mapRef = null;
     }
@@ -128,7 +122,7 @@ class MapTruck extends Component {
 
     nextScreen() {
         this.getDateTimeAlive.bind(this);
-        this.props.addProductChunkType('express')
+        this.props.addProductChunkType('truck')
         if (this.props.pick_add != '' && this.props.drop_add != '' && this.state.depart_time != '' && this.state.city_name != '') {
             if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                 if (this.state.hoursAlive > this.state.selectedHours) {
@@ -140,7 +134,7 @@ class MapTruck extends Component {
                 }
             } else {
                 console.log('datdem : false')
-                this.props.navigation.push("ListCar");
+                this.props.navigation.push("ListCar",{vehicle_id : this.state.vehicle_id});
             }
         }
         else {
@@ -311,7 +305,7 @@ class MapTruck extends Component {
                         style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", flexDirection: 'row', alignItems: 'center' }}
                         onPress={() => {
                             this.setState({
-                                dialogSelectPeople: true,
+                                dialogSelectPeople: false,
                             })
                         }}
                     >
@@ -319,7 +313,7 @@ class MapTruck extends Component {
                             style={{ height: 24, width: 24, margin: 8 }}
                             source={require(imageParcel)}
                         />
-                        <Text style={{ flex: 1 }}>{this.props.chair} gói</Text>
+                        <Text style={{ flex: 1 }}>{this.props.chair}</Text>
                         <Image
                             style={{ height: 24, width: 24, margin: 8 }}
                             source={require(imageDown)}
@@ -431,7 +425,7 @@ class MapTruck extends Component {
                         })
                     }}
                 >
-                    <Text style={{ color: this.state.hourlyBooking ? '#fff' : '#77a300', fontWeight: 'bold', fontSize: 16 }}>Vận chuyển hàng</Text>
+                    <Text style={{ color: this.state.hourlyBooking ? '#fff' : '#77a300', fontWeight: 'bold', fontSize: 16 }}>Thuê theo chuyến</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -442,7 +436,7 @@ class MapTruck extends Component {
                         })
                     }}
                 >
-                    <Text style={{ color: this.state.hourlyBooking ? '#77a300' : '#fff', fontWeight: 'bold', fontSize: 16 }}>Vận chuyển theo giờ</Text>
+                    <Text style={{ color: this.state.hourlyBooking ? '#77a300' : '#fff', fontWeight: 'bold', fontSize: 16 }}>Thuê theo giờ</Text>
                 </TouchableOpacity>
             </View>
         )
@@ -532,7 +526,7 @@ class MapTruck extends Component {
 
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
-                <HeaderText textCenter={'Thuê vận chuyển'} onPressLeft={this.goBack} />
+                <HeaderText textCenter={'Thuê xe taxi tải'} onPressLeft={this.goBack} />
                 <ImageBackground style={{ flex: 1, resizeMode: "cover", }} source={imageBackground} >
                     <View>
                         <Text style={{ fontSize: 21, color: '#ffffff', marginHorizontal: 16, marginTop: 8, fontWeight: 'bold' }}>Bao xe, ghép hàng, tiện chuyến giá đều tốt</Text>
@@ -598,7 +592,7 @@ class MapTruck extends Component {
 
                             <FlatList
                                 style={{ flex: 1, backgroundColor: '#ffffff' }}
-                                data={this.state.listChair}
+                                data={this.state.listVehicle}
                                 renderItem={({ item }) =>
                                     <TouchableOpacity
                                         style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}
@@ -607,11 +601,11 @@ class MapTruck extends Component {
                                                 people: item.chair,
                                                 dialogSelectPeople: false,
                                             })
-                                            this.addPeople(item.chair)
+                                            // this.addPeople(item.chair)
                                             // this.props.addDuration(item.chair);
                                         }}
                                     >
-                                        <Text style={{ fontSize: 18, flex: 1, padding: 8, color: item.chair == this.props.chair ? '#77a300' : '#000000' }}>{item.chair} gói</Text>
+                                        <Text style={{ fontSize: 18, flex: 1, padding: 8, color: item.chair == this.props.chair ? '#77a300' : '#000000' }}>{item.chair}</Text>
                                         {item.chair == this.props.chair ? <Image
                                             style={{ height: 24, width: 24, marginLeft: 8 }}
                                             source={require(imageCheck)}

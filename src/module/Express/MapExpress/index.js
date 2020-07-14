@@ -7,7 +7,7 @@ import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
 import { ButtonFull, ButtonDialog } from '../../../component/Button'
 import Dialog, { } from 'react-native-popup-dialog';
 import ImageTextBold from '../../../component/ImageTextDiChung/ImageTextBold'
-
+import { DropAddress } from '../../ScreenAddress/Util/index'
 import { TextInput } from 'react-native-gesture-handler';
 import listHour from '../../../component/TimeSelect/listTime'
 import { HeaderText } from '../../../component/Header';
@@ -150,7 +150,7 @@ class MapExpress extends Component {
 
     nextScreenHourly() {
         this.getDateTimeAlive.bind(this);
-        if (this.props.pick_add != '' && this.state.depart_time != '' && this.state.city_name != '') {
+        if (this.props.pick_add_express != '' && this.state.depart_time != '' && this.state.city_name != '') {
             if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                 if (this.state.hoursAlive > this.state.selectedHours) {
                     this.setState({ alertTimeRent: true })
@@ -205,80 +205,31 @@ class MapExpress extends Component {
     renderFormExpressTheoTuyen() {
         return (
             <View style={styles.borderBot}>
-                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                    <Image
-                        style={{ height: 30, width: 24, marginLeft: 8 }}
-                        source={require(imageLocation)}
-                    />
-                    <TouchableOpacity
-                        style={{ flex: 1, height: 40, flexDirection: 'row', alignItems: 'center', }}
-                        onPress={() => {
-                            this.props.navigation.push("SearchPlace", {
-                                search: 'Pick',
-                                placeholder: 'Điểm nhận hàng'
-                            });
-                        }}
-                    >
-                        <TextInput
-                            editable={false}
-                            onTouchStart={() => this.props.navigation.push("SearchPlace", {
-                                search: 'Pick',
-                                placeholder: 'Điểm nhận hàng'
-                            })
-                            }
-                            style={{ fontSize: 14, height: 40, color: "#00363d", marginLeft: 8 }}
-                            pointerEvents="none"
-                            value={this.props.pick_add}
-                            placeholder='Điểm nhận hàng'
-                            selection={{ start: 0, end: 0 }}
-                            placeholderTextColor={'#333333'}
-                        />
-                    </TouchableOpacity>
-                </View>
+                <ImageInputTextDiChung
+                    onPress={() => {
+                        this.props.navigation.push("SearchPlace", {
+                            search: 'Pick',
+                            placeholder: 'Điểm nhận hàng'
+                        });
+                    }}
+                    source={require(imageLocation)}
+                    placeholder={'Điểm nhận hàng'}
+                    value={this.props.pick_add}
+                />
 
-                <View style={styles.borderInput}>
-                    <View style={{ flex: 1, flexDirection: 'row', borderColor: '#e8e8e8', borderRightWidth: 0.1, justifyContent: 'center', alignItems: 'center', }}>
-                        <Image
-                            style={{ height: 30, width: 24, marginLeft: 8, alignItems: 'center', justifyContent: 'center' }}
-                            source={require(imageDrop)}
-                        />
-                        <TouchableOpacity
-                            style={{ flex: 1, height: 40 }}
-                            onPress={() => {
-                                this.props.navigation.push("SearchPlace", {
-                                    search: 'Drop',
-                                    placeholder: 'Điểm giao hàng'
-                                });
-                            }}
-                        >
-                            <TextInput
-                                editable={false}
-                                onTouchStart={() => this.props.navigation.push("SearchPlace", {
-                                    search: 'Drop',
-                                    placeholder: 'Điểm giao hàng'
-                                })
-                                }
-                                style={{ fontSize: 14, height: 40, color: "#00363d", marginLeft: 8 }}
-                                pointerEvents="none"
-                                value={this.props.drop_add}
-                                placeholder='Điểm giao hàng'
-                                placeholderTextColor={'#333333'}
-                                selection={{ start: 0, end: 0 }}
-                            />
-                        </TouchableOpacity>
-                    </View>
-                    <TouchableOpacity
-                        style={{ borderLeftWidth: 1, borderColor: '#e8e8e8' }}
-                        onPress={() => {
-                            this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick);
-                        }}
-                    >
-                        <Image
-                            style={{ height: 24, width: 24, margin: 8 }}
-                            source={require(imageSwap)}
-                        />
-                    </TouchableOpacity>
-                </View>
+                <DropAddress
+                    onPressInput={() => {
+                        this.props.navigation.push("SearchPlace", {
+                            search: 'Drop',
+                            placeholder: 'Điểm giao hàng'
+                        });
+                    }}
+                    onPressSwap={() => {
+                        this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick);
+                    }}
+                    placeholder={'Điểm giao hàng'}
+                    value={this.props.drop_add}
+                />
 
                 <View style={{ flexDirection: 'row', height: 40, }}>
                     <TouchableOpacity
@@ -341,36 +292,17 @@ class MapExpress extends Component {
     renderFormExpressTheoGio() {
         return (
             <View style={styles.borderBot}>
-                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
-                    <Image
-                        style={{ height: 30, width: 24, marginLeft: 8 }}
-                        source={require(imageLocation)}
-                    />
-                    <TouchableOpacity
-                        style={{ flex: 1, height: 40, flexDirection: 'row', alignItems: 'center', }}
-                        onPress={() => {
-                            this.props.navigation.push("SearchPlace", {
-                                search: 'Pick',
-                                placeholder: 'Điểm nhận hàng'
-                            });
-                        }}
-                    >
-                        <TextInput
-                            editable={false}
-                            onTouchStart={() => this.props.navigation.push("SearchPlace", {
-                                search: 'Pick',
-                                placeholder: 'Điểm nhận hàng'
-                            })
-                            }
-                            style={{ fontSize: 14, height: 40, color: "#00363d", marginLeft: 8 }}
-                            pointerEvents="none"
-                            value={this.props.pick_add}
-                            placeholder='Điểm nhận hàng'
-                            placeholderTextColor={'#333333'}
-                            selection={{ start: 0, end: 0 }}
-                        />
-                    </TouchableOpacity>
-                </View>
+                <ImageInputTextDiChung
+                    onPress={() => {
+                        this.props.navigation.push("SearchPlaceExpress", {
+                            search: 'Pick',
+                            placeholder: 'Điểm nhận hàng'
+                        });
+                    }}
+                    source={require(imageLocation)}
+                    placeholder={'Điểm nhận hàng'}
+                    value={this.props.pick_add_express}
+                />
 
                 <View style={{ height: 40, flexDirection: 'row', }}>
                     <View style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', paddingLeft: 4 }}>
@@ -725,6 +657,7 @@ function mapStateToProps(state) {
         latitude_drop: state.info.latitude_drop,
         longitude_drop: state.info.longitude_drop,
         chair: state.info.chair,
+        pick_add_express: state.rdVanChuyen.pick_add,
     }
 }
 
