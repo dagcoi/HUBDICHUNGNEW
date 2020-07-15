@@ -78,6 +78,7 @@ class InfoCustommer extends Component {
     componentDidMount() {
         console.log('a')
         this.getData()
+        this.props.product_chunk_type == 'express' ? this.setState({ is_checked: true }) : this.setState({ is_checked: false })
     }
 
     async getData() {
@@ -573,19 +574,22 @@ class InfoCustommer extends Component {
                                 email: ''
                             })}
                         />
-
-                        <CheckBox
-                            style={{ marginTop: 8 }}
-                            onClick={() => {
-                                this.setState({
-                                    is_checked: !this.state.is_checked
-                                })
-                            }}
-                            isChecked={this.state.is_checked}
-                            rightText={"Đặt xe cho người khác"}
-                            rightTextStyle={{ fontSize: 16 }}
-                            checkBoxColor={'#77a300'}
-                        />
+                        {this.props.product_chunk_type == 'express' ?
+                            <Text style={styles.textTitle}>THÔNG TIN NGƯỜI GỬI</Text>
+                            :
+                            <CheckBox
+                                style={{ marginTop: 8 }}
+                                onClick={() => {
+                                    this.setState({
+                                        is_checked: !this.state.is_checked
+                                    })
+                                }}
+                                isChecked={this.state.is_checked}
+                                rightText={"Đặt xe cho người khác"}
+                                rightTextStyle={{ fontSize: 16 }}
+                                checkBoxColor={'#77a300'}
+                            />
+                        }
 
                         {this.renderDatHo()}
                         {this.formComment()}
@@ -730,6 +734,12 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         flex: 1,
     },
+    textTitle: {
+        marginTop: 8,
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#333333'
+    },
 });
 
 function mapStateToProps(state) {
@@ -752,6 +762,7 @@ function mapStateToProps(state) {
         is_airport: state.info.is_airport,
         send: state.info.send,
         cost: state.info.cost,
+        product_chunk_type: state.info.product_chunk_type,
     }
 }
 

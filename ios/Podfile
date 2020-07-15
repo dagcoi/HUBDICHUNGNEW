@@ -37,7 +37,11 @@ target 'HubApp' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
+  # React Native Maps dependencies
+  # rn_maps_path = '../node_modules/react-native-maps'
+  # pod 'react-native-google-maps', :path => rn_maps_path
   pod 'GoogleMaps'
+  # pod 'Google-Maps-iOS-Utils'
   
   # add the Firebase pod for Google Analytics
   pod 'Firebase/Analytics'
@@ -45,6 +49,8 @@ target 'HubApp' do
   pod 'Firebase/Messaging', '~> 6.13.0'
   # add pods for any other desired Firebase products
   # https://firebase.google.com/docs/ios/setup#available-pods
+
+  pod 'react-native-geolocation', :path => '../node_modules/@react-native-community/geolocation'
 
   target 'HubAppTests' do
     inherit! :search_paths

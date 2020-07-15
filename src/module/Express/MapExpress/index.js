@@ -15,8 +15,6 @@ import { HeaderText } from '../../../component/Header';
 // const destination = { latitude: 21.0019302, longitude: 105.85090579999996 };
 
 const imageLocation = '../../../image/location.png'
-const imageDrop = '../../../image/drop.png'
-const imageSwap = '../../../image/swap.png'
 const imageTime = '../../../image/time.png'
 const imageParcel = '../../../image/parcel.png'
 const imageHourglass = '../../../image/hourglass.png'
@@ -148,27 +146,6 @@ class MapExpress extends Component {
         }
     }
 
-    nextScreenHourly() {
-        this.getDateTimeAlive.bind(this);
-        if (this.props.pick_add_express != '' && this.state.depart_time != '' && this.state.city_name != '') {
-            if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
-                if (this.state.hoursAlive > this.state.selectedHours) {
-                    this.setState({ alertTimeRent: true })
-                } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                    this.setState({ alertTimeRent: true })
-                } else {
-                    this.props.navigation.push("ListFreightTruck");
-                }
-            } else {
-                this.props.navigation.push("ListFreightTruck");
-            }
-
-        }
-        else {
-            this.setState({ alertInfo: true })
-        }
-    }
-
     renderAlertInfo() {
         return (
             <Dialog
@@ -286,65 +263,6 @@ class MapExpress extends Component {
                     <View style={{ flex: 1 }}></View>
                 </View>
             </View>
-        )
-    }
-
-    renderFormExpressTheoGio() {
-        return (
-            <View style={styles.borderBot}>
-                <ImageInputTextDiChung
-                    onPress={() => {
-                        this.props.navigation.push("SearchPlaceExpress", {
-                            search: 'Pick',
-                            placeholder: 'Điểm nhận hàng'
-                        });
-                    }}
-                    source={require(imageLocation)}
-                    placeholder={'Điểm nhận hàng'}
-                    value={this.props.pick_add_express}
-                />
-
-                <View style={{ height: 40, flexDirection: 'row', }}>
-                    <View style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', paddingLeft: 4 }}>
-                        <ImageInputTextDiChung
-                            widthHeightImage={24}
-                            onPress={() => {
-                                this.setState({
-                                    dialogCalendarVisible: true,
-                                })
-                            }}
-                            placeholder={'Chọn thời gian'}
-                            source={require(imageTime)}
-                            value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours} : ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
-                        />
-                    </View>
-                    <View style={{ width: 1, backgroundColor: '#e8e8e8' }}></View>
-                    <View style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', }}>
-                        <ImageInputTextDiChung
-                            onPress={() => {
-                                this.setState({
-                                    modalSelectTime: true,
-                                })
-                            }}
-                            placeholder={'Chọn giờ thuê'}
-                            source={require(imageHourglass)}
-                            value={this.state.duration + ' giờ'}
-                            imageRight={true}
-                        />
-                    </View>
-                </View>
-                {/* </View> */}
-
-                <ButtonFull
-                    onPress={() => { this.nextScreenHourly() }}
-                    value={'Xem giá'}
-                />
-                <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
-                    <View style={{ flex: 1 }}></View>
-                </View>
-
-            </View>
-
         )
     }
 
@@ -470,8 +388,8 @@ class MapExpress extends Component {
                         <Text style={{ fontSize: 21, color: '#ffffff', marginHorizontal: 16, marginTop: 8, fontWeight: 'bold' }}>Chuyển hàng siêu nhanh</Text>
                         <Text style={{ fontSize: 21, color: '#ffffff', marginHorizontal: 16, marginTop: 8, fontWeight: 'bold' }}>Lấy tận nơi giao tận cửa</Text>
                     </View>
-                    {this.renderSelect()}
-                    {this.state.hourlyBooking ? this.renderFormExpressTheoGio() : this.renderFormExpressTheoTuyen()}
+                    {/* {this.renderSelect()} */}
+                    {this.renderFormExpressTheoTuyen()}
                     <View style={{ justifyContent: 'center', paddingHorizontal: 16 }}>
                         <ImageTextBold source={require(imageCheckWhite)} textBold={"Giao & nhận tận nhà"} />
                         <ImageTextBold source={require(imageCheckWhite)} textBold={"Thời gian giao siêu tốc"} />
@@ -555,51 +473,6 @@ class MapExpress extends Component {
                         </SafeAreaView>
                     </Modal>
 
-
-                    <Modal
-                        animationType="slide"
-                        transparent={true}
-                        visible={this.state.modalSelectTime}
-                        // onOrientationChange={true}
-                        onRequestClose={() => {
-                            console.log('a');
-                        }}>
-                        <SafeAreaView style={{
-                            flex: 1,
-                            flexDirection: 'column',
-                            justifyContent: 'flex-end',
-                        }}>
-                            <View style={{ flex: 1, }}>
-                                <TouchableOpacity
-                                    onPress={() => this.setState({ modalSelectTime: false })}
-                                    style={{ flex: 1 }}
-                                ></TouchableOpacity>
-                            </View>
-                            <FlatList
-                                style={{ flex: 1, backgroundColor: '#ffffff' }}
-                                data={this.state.listTime}
-                                renderItem={({ item }) =>
-                                    <TouchableOpacity
-                                        style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}
-                                        onPress={() => {
-                                            this.setState({
-                                                duration: item.time,
-                                                modalSelectTime: false,
-                                            })
-                                            this.props.addDuration(item.time);
-                                        }}
-                                    >
-                                        <Text style={{ fontSize: 18, flex: 1, padding: 8, color: item.time === this.state.duration ? '#77a300' : '#000000' }}>{item.time} giờ</Text>
-                                        {item.time == this.state.duration ? <Image
-                                            style={{ height: 24, width: 24, marginLeft: 8 }}
-                                            source={require(imageCheck)}
-                                        /> : null}
-                                    </TouchableOpacity>}
-                                keyExtractor={item => item.time}
-                            />
-
-                        </SafeAreaView>
-                    </Modal>
                 </ImageBackground>
             </SafeAreaView>
         );
@@ -637,7 +510,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderBottomEndRadius: 8,
         borderBottomStartRadius: 8,
-        marginHorizontal: 8,
+        borderTopStartRadius: 8,
+        borderTopEndRadius: 8,
+        margin: 8,
         paddingHorizontal: 8,
     },
     borderTop: {

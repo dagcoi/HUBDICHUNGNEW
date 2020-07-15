@@ -29,13 +29,13 @@ function ItemCarTaxi({ item, onPress }) {
                     <Text style={styles.loaixe}>{item.info.description ?? ''}</Text>
                     <StarVote number={item.info.rate ?? 0} />
                     <Text style={styles.giaTien}>{item.info.price.format(0, 3, '.') ?? ''} đ</Text>
-
+                    
                 </View>
 
                 <View style={styles.imageRight}>
                     <Image
                         style={{ width: 150, height: 90, }}
-                        source={{ uri: item.info.image ?? null, }}
+                        source={item.info.image&& item.info.image ? { uri: item.info.image }: null}
                         resizeMode="contain"
                     />
                 </View>

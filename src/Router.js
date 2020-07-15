@@ -76,6 +76,7 @@ import MapTravel from './module/ScreenAddress/Travel'
 import MapCombo from './module/ScreenAddress/Combo'
 import MapFood from './module/ScreenAddress/Food'
 import MapTruck from './module/ScreenAddress/Truck'
+import Map from './module/Map'
 
 import { createDrawerNavigator } from 'react-navigation-drawer'
 import CustomNavigator from './component/CustomNavigator'
@@ -109,6 +110,13 @@ const RootStack = createStackNavigator({
     //     navigationOptions : {
     //         header : null,
     //     }
+    // },
+
+    // Map: {
+    //     screen: Map,
+    //     navigationOptions: {
+    //         header: null,
+    //     },
     // },
 
     Home1: {
