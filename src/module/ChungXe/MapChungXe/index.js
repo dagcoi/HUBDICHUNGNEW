@@ -10,6 +10,7 @@ import { ButtonFull } from '../../../component/Button'
 import PopUp from '../../../component/PopUp'
 import { HeaderText } from '../../../component/Header';
 import ImageTextBold from '../../../component/ImageTextDiChung/ImageTextBold'
+import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
 
 const imageLocation = '../../../image/location.png'
 const imageDrop = '../../../image/location.png'

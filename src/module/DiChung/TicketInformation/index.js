@@ -57,7 +57,7 @@ class TicketInformation extends Component {
             modalTell: false,
             modalPayment: false,
             urlPayment: null,
-            listHourly: ['hourly_rent_taxi']
+            listHourly: ['hourly_rent_taxi', 'hourly_rent_driver', 'hourly_freight_truck', 'hourly_tourist_car']
         }
     }
 
@@ -455,11 +455,11 @@ class TicketInformation extends Component {
                     <View style={styles.container}>
                         <ScrollView showsVerticalScrollIndicator={false} >
 
-                            {/* {item.forward.status == 'forwarded' ?
+                            {item.forward.status == 'forwarded' ?
                                 <Text style={styles.textBigRight}>Mã thuê xe của bạn: <Text style={{ fontWeight: 'bold', backgroundColor: '#77a300', color: '#fff', padding: 4 }}>{item.code}</Text></Text>
                                 : <Text style={styles.textBigRight}>Yêu cầu đặt xe của bạn đã được hệ thồng ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>
                             }
-
+                            {/* 
                             <StatusTicket item={item} />
 
                             <Text>Mọi thắc mắc vui lòng liên hệ: <Text
@@ -663,6 +663,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         // color: '#00363d',
         flex: 1,
+        paddingHorizontal: 16
     },
     textBigLeft1: {
         fontSize: 18,

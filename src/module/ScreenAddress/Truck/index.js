@@ -144,6 +144,7 @@ class MapTruck extends Component {
 
     nextScreenHourly() {
         this.getDateTimeAlive.bind(this);
+        this.props.addProductChunkType('hourly_freight_truck')
         if (this.props.pick_add != '' && this.state.depart_time != '' && this.state.city_name != '') {
             if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                 if (this.state.hoursAlive > this.state.selectedHours) {
@@ -151,10 +152,10 @@ class MapTruck extends Component {
                 } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
                     this.setState({ alertTimeRent: true })
                 } else {
-                    this.props.navigation.push("ListFreightTruck");
+                    this.props.navigation.push("ListCar");
                 }
             } else {
-                this.props.navigation.push("ListFreightTruck");
+                this.props.navigation.push("ListCar");
             }
 
         }
@@ -301,7 +302,7 @@ class MapTruck extends Component {
                     </TouchableOpacity>
 
                     <View style={{ width: 1, backgroundColor: '#e8e8e8' }}></View>
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                         style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", flexDirection: 'row', alignItems: 'center' }}
                         onPress={() => {
                             this.setState({
@@ -318,7 +319,7 @@ class MapTruck extends Component {
                             style={{ height: 24, width: 24, margin: 8 }}
                             source={require(imageDown)}
                         />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
 
                 <ButtonFull

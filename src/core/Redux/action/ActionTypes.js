@@ -134,4 +134,5 @@ export const ADD_MODAL = 'ADD_MODAL'
 export const PRODUCT_CHUNK_TYPE = 'PRODUCT_CHUNK_TYPE'
 export const ADD_SEND = 'ADD_SEND'
 export const ADD_COST = 'ADD_COST'
+export const ADD_EXTRA = 'ADD_EXTRA'
 

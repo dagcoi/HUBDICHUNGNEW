@@ -44,7 +44,7 @@ class ConfirmInformation extends Component {
             depart_time2: '',
             id_booking: null,
             dataSend: null,
-            listHourly: ['hourly_rent_taxi']
+            listHourly: ['hourly_rent_taxi', 'hourly_rent_driver', 'hourly_freight_truck', 'hourly_tourist_car']
         }
     }
 
@@ -92,7 +92,7 @@ class ConfirmInformation extends Component {
         ]
         if (this.state.listHourly.indexOf(this.props.product_chunk_type) >= 0) {
             dataSend.duration = this.props.duration
-            dataSend.endPoints= [
+            dataSend.endPoints = [
                 {
                     "address": '',
                     "lat": '',
@@ -187,21 +187,28 @@ class ConfirmInformation extends Component {
                     source={require(imageLocation)}
                     text={this.props.pick_add}
                 />
-
-                <ImageTextDiChung
-                    source={require(imageLocation)}
-                    text={this.props.drop_add}
-                />
+                {this.state.listHourly.indexOf(this.props.product_chunk_type) < 0 ?
+                    <View>
+                        <ImageTextDiChung
+                            source={require(imageLocation)}
+                            text={this.props.drop_add}
+                        />
+                        <ImageTextDiChung
+                            source={require(imagePeople)}
+                            text={this.props.chair + ' người'}
+                        />
+                    </View> : <View>
+                        <ImageTextDiChung
+                            source={require(imageCalendar)}
+                            text={'Thời lượng: ' + this.props.duration + ' giờ'}
+                        />
+                    </View>}
 
                 <ImageTextDiChung
                     source={require(imageCalendar)}
                     text={this.props.depart_time}
                 />
 
-                <ImageTextDiChung
-                    source={require(imagePeople)}
-                    text={this.props.chair + ' người'}
-                />
             </View>
         )
     }
@@ -210,11 +217,21 @@ class ConfirmInformation extends Component {
         return (
             <View>
                 <Text style={styles.textBigLeft1}>Chi tiết đơn hàng</Text>
-
-                <ImageTextDiChung
-                    source={require(imageIconCar)}
-                    text={this.props.ride_method_id == '1' ? 'Đi riêng' : 'Đi chung'}
-                />
+                {this.state.listHourly.indexOf(this.props.product_chunk_type) < 0 ?
+                    <ImageTextDiChung
+                        source={require(imageIconCar)}
+                        text={this.props.ride_method_id == '1' ? 'Đi riêng' : 'Đi chung'}
+                    />
+                    : <View>
+                        <ImageTextDiChung
+                            source={require(imageIconCar)}
+                            text={'Thuê xe theo tour'}
+                        />
+                        <ImageTextDiChung textBold = {'Giới hạn: '} text={this.props.extra.kmLimit + ' km'} />
+                        <ImageTextDiChung textBold = {'Phụ trội theo km: '} text={this.props.extra.kmExtra.format(0, 3, '.') + ' đ/km'}/>
+                        <ImageTextDiChung textBold = {'Phụ trội theo giờ: '} text={this.props.extra.hourExtra.format(0, 3, '.') + ' đ/giờ'}/>
+                        
+                    </View>}
             </View>
         )
     }
@@ -605,6 +622,7 @@ function mapStateToProps(state) {
         send: state.info.send,
         product_chunk_type: state.info.product_chunk_type,
         duration: state.info.duration,
+        extra: state.info.extra,
     }
 }
 

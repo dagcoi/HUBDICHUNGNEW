@@ -733,4 +733,11 @@ export const addCost = (cost, vehicle_icon) => {
     }
 }
 
+export const addExtra = (extra) => {
+    return {
+        type : types.ADD_EXTRA,
+        extra: extra,
+    }
+}
+
 

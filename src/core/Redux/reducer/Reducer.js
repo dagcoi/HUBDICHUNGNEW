@@ -84,6 +84,7 @@ const defaultState = {
     product_chunk_type: '',
     send: null,
     cost: null,
+    extra: null,
 }
 const Reducer = (state = defaultState, action) => {
     switch (action.type) {
@@ -282,6 +283,11 @@ const Reducer = (state = defaultState, action) => {
                 ...state,
                 cost: action.cost,
                 vehicle_icon: action.vehicle_icon,
+            }
+        case types.ADD_EXTRA:
+            return {
+                ...state,
+                extra: action.extra,
             }
 
         default:

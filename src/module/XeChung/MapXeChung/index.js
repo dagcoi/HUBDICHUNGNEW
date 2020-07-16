@@ -167,7 +167,7 @@ class MapXeChung extends Component {
 
     gotoListDriverHourlyBooking() {
         this.getDateTimeAlive.bind(this);
-        this.props.addProductChunkType('driver_rental')
+        this.props.addProductChunkType('hourly_rent_driver')
         if (this.props.pick_add != '' && this.state.depart_time != '' && this.state.city_name != '') {
             if (this.props.pick_add.search(this.state.city_name) < 0) {
                 this.setState({ alertCity: true })

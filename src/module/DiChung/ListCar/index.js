@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import CheckBoxList from '../../../component/CheckBoxList'
 import { HeaderText } from '../../../component/Header'
 
-import { addTripInfomation, addIsFromAirport, addAirport, addSend, addCost } from '../../../core/Redux/action/Action'
+import { addTripInfomation, addIsFromAirport, addAirport, addSend, addCost, addExtra } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
 import { ItemCarTaxi, ItemCarTaxiHourly } from '../../../component/ItemCar';
 
@@ -36,7 +36,7 @@ class ListCar extends Component {
             listcar: [],
             listcarfilter: [],
             listProductType: [],
-            listHourly: ['hourly_rent_taxi']
+            listHourly: ['hourly_rent_taxi', 'hourly_rent_driver', 'hourly_freight_truck', 'hourly_tourist_car']
         }
     }
 
@@ -287,6 +287,9 @@ class ListCar extends Component {
     gotoInfoCustomer = (item) => {
         const { navigation } = this.props;
         this.props.addSend(JSON.stringify(item.send))
+        if (this.state.listHourly.indexOf(this.props.product_chunk_type) >= 0) {
+            this.props.addExtra(item.info.priceExtra)
+        }
         this.props.addCost(item.info.price, item.info.image)
         this.props.navigation.push("InfoCustommer")
     }
@@ -412,4 +415,4 @@ function mapStateToProps(state) {
         duration: state.info.duration,
     }
 }
-export default connect(mapStateToProps, { addTripInfomation: addTripInfomation, addIsFromAirport: addIsFromAirport, addAirport: addAirport, addSend: addSend, addCost: addCost })(ListCar);
+export default connect(mapStateToProps, { addTripInfomation: addTripInfomation, addIsFromAirport: addIsFromAirport, addAirport: addAirport, addSend: addSend, addCost: addCost, addExtra: addExtra })(ListCar);

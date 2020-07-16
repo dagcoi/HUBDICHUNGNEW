@@ -114,7 +114,7 @@ class MapTravel extends Component {
 
     nextScreen() {
         this.getDateTimeAlive();
-        this.props.addProductChunkType('TOURIST_CAR')
+        this.props.addProductChunkType('tourist_car')
         if (this.props.pick_add != '' && this.props.drop_add != '' && this.state.depart_time != '') {
             console.log(this.state.spesentDay)
             console.log(this.state.date.format('DD-MM-YYYY'))
@@ -125,8 +125,7 @@ class MapTravel extends Component {
                     this.setState({ showAlertTime: true })
                 }
             } else {
-                console.log('datdem: false')
-                this.props.navigation.push("ListCar", { datdem: false });
+                this.props.navigation.push("ListCar");
             }
         }
         else {
@@ -394,19 +393,20 @@ class MapTravel extends Component {
     )
 
     gotoListCarHourlyBooking() {
-        if (this.props.pick_add != '' && this.state.carType != '' && this.state.depart_time != '') {
+        this.props.addProductChunkType('hourly_tourist_car')
+        if (this.props.pick_add != '' && this.state.depart_time != '') {
             if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                 if (this.state.hoursAlive > this.state.selectedHours) {
                     this.setState({ showAlertTime: true })
                 } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
                     this.setState({ showAlertTime: true })
                 } else {
-                    this.props.navigation.navigate("ListCarHourlyBooking", {
+                    this.props.navigation.navigate("ListCar", {
                         'listCarType': this.state.selectCar,
                     });
                 }
             } else {
-                this.props.navigation.navigate("ListCarHourlyBooking", {
+                this.props.navigation.navigate("ListCar", {
                     'listCarType': this.state.selectCar,
                 });
             }
