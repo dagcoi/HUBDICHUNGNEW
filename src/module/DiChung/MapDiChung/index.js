@@ -524,6 +524,7 @@ class MapDiChung extends Component {
     )
 
     gotoListCarHourlyBooking() {
+        this.props.addProductChunkType('hourly_rent_taxi')
         if (this.props.pick_add != '' && this.state.carType != '' && this.state.depart_time != '') {
             if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                 if (this.state.hoursAlive > this.state.selectedHours) {
@@ -532,13 +533,13 @@ class MapDiChung extends Component {
                     this.setState({ showAlertTime: true })
                 } else {
                     //sang màn danh sách xe
-                    this.props.navigation.navigate("ListCarHourlyBooking", {
+                    this.props.navigation.navigate("ListCar", {
                         'listCarType': this.state.selectCar,
                     });
                 }
             } else {
                 //sang màn danh sách xe
-                this.props.navigation.navigate("ListCarHourlyBooking", {
+                this.props.navigation.navigate("ListCar", {
                     'listCarType': this.state.selectCar,
                 });
             }

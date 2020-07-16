@@ -6,7 +6,7 @@ import { HeaderText } from '../../../component/Header'
 
 import { addTripInfomation, addIsFromAirport, addAirport, addSend, addCost } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
-import { ItemCarTaxi } from '../../../component/ItemCar';
+import { ItemCarTaxi, ItemCarTaxiHourly } from '../../../component/ItemCar';
 
 const imageMaxToMin = '../../../image/maxtomin.png'
 const imageMinToMax = '../../../image/mintomax.png'
@@ -35,13 +35,19 @@ class ListCar extends Component {
             ride_method_id_list: [1, 2],
             listcar: [],
             listcarfilter: [],
-            listProductType: []
+            listProductType: [],
+            listHourly: ['hourly_rent_taxi']
         }
     }
 
     componentDidMount() {
-        this.getProvider()
+        if (this.state.listHourly.indexOf(this.props.product_chunk_type) >= 0) {
+            this.getListCarHourly('dichungtaxi')
+        } else {
+            this.getProvider()
+        }
     }
+
 
     async getProvider() {
         const url = `${link.URL_API_PORTAL}price/v1/providers?productType=${this.props.product_chunk_type}`
@@ -55,8 +61,9 @@ class ListCar extends Component {
             console.log(listProvider);
             for (let index = 0; index < listProvider.length; index++) {
                 const element = listProvider[index];
-                if (this.props.product_chunk_type === 'hourly_rental_taxi') {
-                    this.getListCarHourly(listProvider[index].name, index)
+                if (this.props.product_chunk_type === 'hourly_rent_taxi') {
+                    // this.getListCarHourly(listProvider[index].name, index)
+                    console.log('ass')
                 } else {
                     this.getListCarNewV2(listProvider[index].name, index)
                 }
@@ -75,7 +82,7 @@ class ListCar extends Component {
 
     async getListCarNewV2(provider, index) {
         const url = `${link.URL_API_PORTAL}price/v1/products?productType=${this.props.product_chunk_type}`;
-        let param = `${url}&bookingTime=${this.props.depart_time2}&dimension=1&endPlace=${JSON.stringify(this.props.component_drop)}&startPlace=${JSON.stringify(this.props.component_pick)}&slot=${this.props.chair}&provider=${provider}`
+        let param = `${url}&bookingTime=${this.props.depart_time2}&endPlace=${JSON.stringify(this.props.component_drop)}&startPlace=${JSON.stringify(this.props.component_pick)}&slot=${this.props.chair}&provider=${provider}`
         console.log(param)
         try {
             const response = await fetch(param, {
@@ -107,16 +114,16 @@ class ListCar extends Component {
         console.log(param)
     }
 
-    async getListCarHourly(provider, index) {
+    async getListCarHourly(provider) {
         const url = `${link.URL_API_PORTAL}price/v1/products?productType=${this.props.product_chunk_type}`;
-        let param = `${url}&bookingTime=${this.props.depart_time2}&dimension=1&startPlace=${JSON.stringify(this.props.component_pick)}&slot=${this.props.chair}&provider=${provider}&duration=${this.props.duration}`
+        let param = `${url}&bookingTime=${this.props.depart_time2}&startPlace=${JSON.stringify(this.props.component_pick)}&slot=${this.props.chair}&provider=${provider}&duration=${this.props.duration}`
         console.log(param)
         try {
             const response = await fetch(param, {
                 method: 'GET',
             });
             const responseJson = await response.json();
-            console.log('ba chu a:  ' + index)
+            console.log('ba chu aa:  ')
             const listCar = responseJson.data
             const data = [...this.state.dataSource]
             if (listCar.length > 0) {
@@ -126,7 +133,7 @@ class ListCar extends Component {
             this.setStateAsync({
                 isLoading: false,
                 dataSource: listCar ? this.state.dataSource.concat(responseJson.data) : this.state.dataSource,
-                countLoading: this.state.countLoading - 1,
+                countLoading: 0,
             });
             console.log(responseJson.data)
             return responseJson.data;
@@ -320,14 +327,22 @@ class ListCar extends Component {
                     <View>
                         {obj1.map((item, index) => (
                             <View>
-                                <ItemCarTaxi
-                                    item={item}
-                                    onPress={() => {
-                                        this.gotoInfoCustomer(item)
-                                        console.log(item)
-                                    }}
-                                />
-
+                                {this.state.listHourly.indexOf(this.props.product_chunk_type) >= 0 ?
+                                    <ItemCarTaxiHourly
+                                        item={item}
+                                        onPress={() => {
+                                            this.gotoInfoCustomer(item)
+                                            console.log(item)
+                                        }}
+                                    /> :
+                                    <ItemCarTaxi
+                                        item={item}
+                                        onPress={() => {
+                                            this.gotoInfoCustomer(item)
+                                            console.log(item)
+                                        }}
+                                    />
+                                }
                             </View>
                         ))}
                     </View>

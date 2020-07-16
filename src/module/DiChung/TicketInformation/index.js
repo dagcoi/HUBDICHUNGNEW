@@ -12,6 +12,8 @@ import OtpInputs from 'react-native-otp-inputs';
 // import { handleAndroidBackButton, removeAndroidBackButtonHandler, exitAlert } from '../../../component/AndroidBackButton'
 import { HeaderText } from '../../../component/Header'
 import { StatusTicket } from '../../../component/Ticket';
+import DetailTaxi from '../../ListBooking/DetailTaxi'
+import DetailHourlyTaxi from '../../ListBooking//DetailHourlyTaxi'
 
 const imageLocation = '../../../image/location2.png'
 const imageCalendar = '../../../image/calendar.png'
@@ -55,6 +57,7 @@ class TicketInformation extends Component {
             modalTell: false,
             modalPayment: false,
             urlPayment: null,
+            listHourly: ['hourly_rent_taxi']
         }
     }
 
@@ -452,7 +455,7 @@ class TicketInformation extends Component {
                     <View style={styles.container}>
                         <ScrollView showsVerticalScrollIndicator={false} >
 
-                            {item.forward.status == 'forwarded' ?
+                            {/* {item.forward.status == 'forwarded' ?
                                 <Text style={styles.textBigRight}>Mã thuê xe của bạn: <Text style={{ fontWeight: 'bold', backgroundColor: '#77a300', color: '#fff', padding: 4 }}>{item.code}</Text></Text>
                                 : <Text style={styles.textBigRight}>Yêu cầu đặt xe của bạn đã được hệ thồng ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>
                             }
@@ -474,32 +477,39 @@ class TicketInformation extends Component {
                             {this.renderComment(item)}
                             {this.renderOther(item)}
                             {this.renderTT(item)}
-                            {this.renderPaymentOnline(item)}
-                            {this.formWebView()}
+                             */}
 
-                            <Button
-                                value='ĐẶT CHUYẾN MỚI'
-                                onPress={() => {
-                                    const resetAction = StackActions.reset({
-                                        index: 0,
-                                        key: null,
-                                        actions: [NavigationActions.navigate({ routeName: 'Home' })],
-                                    });
-                                    this.props.navigation.dispatch(resetAction);
-                                }}
-                            />
-                            <View style={{ marginBottom: 8, }}></View>
-                            {(item.status == 'cancelled' || item.status == 'completed' || item.status == 'picked_up') ? null :
-                                <ButtonGray
-                                    value='HỦY VÉ'
+                            {this.state.listHourly.indexOf(this.props.product_chunk_type) >= 0 ?
+                                <DetailHourlyTaxi item={item} />
+                                : <DetailTaxi item={item} />}
+                            <View style={{ paddingHorizontal: 8 }}>
+                                {this.renderPaymentOnline(item)}
+
+                                <Button
+                                    value='ĐẶT CHUYẾN MỚI'
                                     onPress={() => {
-                                        this.setState({
-                                            modalTell: true,
-                                        })
-                                        // this.cancelBookingToken();
+                                        const resetAction = StackActions.reset({
+                                            index: 0,
+                                            key: null,
+                                            actions: [NavigationActions.navigate({ routeName: 'Home' })],
+                                        });
+                                        this.props.navigation.dispatch(resetAction);
                                     }}
                                 />
-                            }
+                                <View style={{ marginBottom: 8, }}></View>
+                                {(item.status == 'cancelled' || item.status == 'completed' || item.status == 'picked_up') ? null :
+                                    <ButtonGray
+                                        value='HỦY VÉ'
+                                        onPress={() => {
+                                            this.setState({
+                                                modalTell: true,
+                                            })
+                                            // this.cancelBookingToken();
+                                        }}
+                                    />
+                                }
+                            </View>
+                            {this.formWebView()}
 
                             <Modal
                                 visible={this.state.dialogOTP}
@@ -647,7 +657,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-        padding: 8,
     },
     textBigRight: {
         padding: 1,

@@ -119,19 +119,19 @@ const RootStack = createStackNavigator({
     //     },
     // },
 
-    Home1: {
+    Home: {
         screen: Home1,
         navigationOptions: {
             header: null,
         },
     },
 
-    Home: {
-        screen: Home,
-        navigationOptions: {
-            header: null,
-        },
-    },
+    // Home: {
+    //     screen: Home,
+    //     navigationOptions: {
+    //         header: null,
+    //     },
+    // },
 
 
     MapTravel: {

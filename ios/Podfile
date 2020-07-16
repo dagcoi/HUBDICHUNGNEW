@@ -50,7 +50,6 @@ target 'HubApp' do
   # add pods for any other desired Firebase products
   # https://firebase.google.com/docs/ios/setup#available-pods
 
-  pod 'react-native-geolocation', :path => '../node_modules/@react-native-community/geolocation'
 
   target 'HubAppTests' do
     inherit! :search_paths
