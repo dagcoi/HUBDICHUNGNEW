@@ -52,7 +52,7 @@ class PoliciesAndServices extends Component {
                 />
                 <WebView
                     source={{ uri: url }}
-                    style={{ marginTop: -60 }}
+                    style={{ marginTop: -80 }}
                     ref={(webView) => { this.webView.ref = webView; }}
                     onNavigationStateChange={(navState) => { this.webView.canGoBack = navState.canGoBack; }}
                     // onLoadEnd = {true}

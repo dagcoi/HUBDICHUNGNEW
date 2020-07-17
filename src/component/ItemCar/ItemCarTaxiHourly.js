@@ -66,7 +66,6 @@ const styles = StyleSheet.create({
         padding: 8,
         marginVertical: 4,
         backgroundColor: '#ffffff',
-        marginHorizontal: 8,
     },
     containerr: {
         flex: 1,

@@ -38,7 +38,7 @@ class FAQ extends Component {
                 <WebView
                     source={{ uri: url }}
                     onMessage={this.onMessage}
-                    style={{ marginTop: -60 }} />
+                    style={{ marginTop: -80 }} />
             </SafeAreaView>
         )
     }

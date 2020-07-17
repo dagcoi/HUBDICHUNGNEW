@@ -41,11 +41,11 @@ class ListCar extends Component {
     }
 
     componentDidMount() {
-        if (this.state.listHourly.indexOf(this.props.product_chunk_type) >= 0) {
-            this.getListCarHourly('dichungtaxi')
-        } else {
+        // if (this.state.listHourly.indexOf(this.props.product_chunk_type) >= 0) {
+        //     this.getListCarHourly('dichungtaxi')
+        // } else {
             this.getProvider()
-        }
+        // }
     }
 
 
@@ -61,8 +61,8 @@ class ListCar extends Component {
             console.log(listProvider);
             for (let index = 0; index < listProvider.length; index++) {
                 const element = listProvider[index];
-                if (this.props.product_chunk_type === 'hourly_rent_taxi') {
-                    // this.getListCarHourly(listProvider[index].name, index)
+                if (this.state.listHourly.indexOf(this.props.product_chunk_type) >= 0) {
+                    this.getListCarHourly(listProvider[index].name, index)
                     console.log('ass')
                 } else {
                     this.getListCarNewV2(listProvider[index].name, index)
@@ -114,16 +114,16 @@ class ListCar extends Component {
         console.log(param)
     }
 
-    async getListCarHourly(provider) {
+    async getListCarHourly(provider, index) {
         const url = `${link.URL_API_PORTAL}price/v1/products?productType=${this.props.product_chunk_type}`;
-        let param = `${url}&bookingTime=${this.props.depart_time2}&startPlace=${JSON.stringify(this.props.component_pick)}&slot=${this.props.chair}&provider=${provider}&duration=${this.props.duration}`
+        let param = `${url}&bookingTime=${this.props.depart_time2}&startPlace=${JSON.stringify(this.props.component_pick)}&provider=${provider}&duration=${this.props.duration}`
         console.log(param)
         try {
             const response = await fetch(param, {
                 method: 'GET',
             });
             const responseJson = await response.json();
-            console.log('ba chu aa:  ')
+            console.log('ba chu aa:  ' + index)
             const listCar = responseJson.data
             const data = [...this.state.dataSource]
             if (listCar.length > 0) {
@@ -133,7 +133,7 @@ class ListCar extends Component {
             this.setStateAsync({
                 isLoading: false,
                 dataSource: listCar ? this.state.dataSource.concat(responseJson.data) : this.state.dataSource,
-                countLoading: 0,
+                countLoading: this.state.countLoading - 1,
             });
             console.log(responseJson.data)
             return responseJson.data;
@@ -369,7 +369,7 @@ class ListCar extends Component {
     renderHeader() {
         return (
             <HeaderText
-                textCenter={'Danh sách xe...'}
+                textCenter={'Danh sách xe'}
                 onPressLeft={this.goBack}
                 onPressRight2={this._increaseCount}
                 source2={this.state.sort ? require(imageMaxToMin) : require(imageMinToMax)}

@@ -103,21 +103,12 @@ const ListBookingDetail = createStackNavigator({
 
 const RootStack = createStackNavigator({
 
-
-
-    // OTP : {
-    //     screen : OTP,
-    //     navigationOptions : {
-    //         header : null,
-    //     }
-    // },
-
-    // Map: {
-    //     screen: Map,
-    //     navigationOptions: {
-    //         header: null,
-    //     },
-    // },
+    Map: {
+        screen: Map,
+        navigationOptions: {
+            header: null,
+        },
+    },
 
     Home: {
         screen: Home1,

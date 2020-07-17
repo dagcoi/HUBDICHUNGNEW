@@ -85,7 +85,8 @@ class TicketInformation extends Component {
                         this.setState({
                             info: jsonRes.data,
                             is_loading: false,
-                            timeReload: jsonRes.data.forward.status == 'forwarded' ? 20000 : 2000
+                            timeReload: jsonRes.data.forward.status == 'forwarded' ? 20000 : 2000,
+                            bookingDetail: jsonRes.data,
                         })
                     }
                     )
@@ -113,6 +114,7 @@ class TicketInformation extends Component {
         this.setState({
             info: jsonRes.data,
             is_loading: false,
+            bookingDetail: jsonRes.data,
         });
         // console.log(JSON.stringify(jsonRes))
         return (jsonRes);
@@ -479,7 +481,7 @@ class TicketInformation extends Component {
                             {this.renderTT(item)}
                              */}
 
-                            {this.state.listHourly.indexOf(this.props.product_chunk_type) >= 0 ?
+                            {this.state.listHourly.indexOf(this.state.bookingDetail.productType.toLowerCase() ) >= 0 ?
                                 <DetailHourlyTaxi item={item} />
                                 : <DetailTaxi item={item} />}
                             <View style={{ paddingHorizontal: 8 }}>

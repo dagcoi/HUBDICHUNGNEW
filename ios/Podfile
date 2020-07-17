@@ -38,10 +38,11 @@ target 'HubApp' do
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
   # React Native Maps dependencies
-  # rn_maps_path = '../node_modules/react-native-maps'
-  # pod 'react-native-google-maps', :path => rn_maps_path
+  rn_maps_path = '../node_modules/react-native-maps'
+  pod 'react-native-maps', path: rn_maps_path
+  pod 'react-native-google-maps', path: rn_maps_path
   pod 'GoogleMaps'
-  # pod 'Google-Maps-iOS-Utils'
+  pod 'Google-Maps-iOS-Utils'
   
   # add the Firebase pod for Google Analytics
   pod 'Firebase/Analytics'
