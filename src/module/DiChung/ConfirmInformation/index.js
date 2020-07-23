@@ -99,6 +99,9 @@ class ConfirmInformation extends Component {
                     "long": ''
                 }
             ]
+            // dataSend.extra.kmExtra = this.props.extra.kmExtra
+            // dataSend.extra.hourExtra = this.props.extra.hourExtra
+            // dataSend.extra.kmLimit = this.props.extra.kmLimit
         } else {
             dataSend.endPoints = [
                 {
@@ -108,7 +111,8 @@ class ConfirmInformation extends Component {
                 }
             ]
             dataSend.dimension = 'one_way'
-            dataSend.rideMethod = "private"
+            // dataSend.extra.rideMethod = "private"
+            // dataSend.rideMethod = "private"
         }
         dataSend.slot = 1
         dataSend.bookingUser = {
@@ -217,21 +221,23 @@ class ConfirmInformation extends Component {
         return (
             <View>
                 <Text style={styles.textBigLeft1}>Chi tiết đơn hàng</Text>
+
                 {this.state.listHourly.indexOf(this.props.product_chunk_type) < 0 ?
                     <ImageTextDiChung
                         source={require(imageIconCar)}
-                        text={this.props.ride_method_id == '1' ? 'Đi riêng' : 'Đi chung'}
+                        text={this.props.label}
                     />
                     : <View>
                         <ImageTextDiChung
                             source={require(imageIconCar)}
                             text={'Thuê xe theo tour'}
                         />
-                        <ImageTextDiChung textBold = {'Giới hạn: '} text={this.props.extra.kmLimit + ' km'} />
-                        <ImageTextDiChung textBold = {'Phụ trội theo km: '} text={this.props.extra.kmExtra.format(0, 3, '.') + ' đ/km'}/>
-                        <ImageTextDiChung textBold = {'Phụ trội theo giờ: '} text={this.props.extra.hourExtra.format(0, 3, '.') + ' đ/giờ'}/>
-                        
+                        <ImageTextDiChung textBold={'Giới hạn: '} text={this.props.extra.kmLimit + ' km'} />
+                        <ImageTextDiChung textBold={'Phụ trội theo km: '} text={this.props.extra.kmExtra.format(0, 3, '.') + ' đ/km'} />
+                        <ImageTextDiChung textBold={'Phụ trội theo giờ: '} text={this.props.extra.hourExtra.format(0, 3, '.') + ' đ/giờ'} />
+
                     </View>}
+
             </View>
         )
     }
@@ -620,6 +626,7 @@ function mapStateToProps(state) {
         token: state.thongtin.token,
         cost: state.info.cost,
         send: state.info.send,
+        label: state.info.label,
         product_chunk_type: state.info.product_chunk_type,
         duration: state.info.duration,
         extra: state.info.extra,

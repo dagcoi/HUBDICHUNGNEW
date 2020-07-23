@@ -24,8 +24,9 @@ function ItemCarTaxi({ item, onPress }) {
 
                 <View style={styles.containerr}>
                     <Text style={styles.tentuyen}>
-                        {item.info.title ?? ''}
+                        {item.info.label ?? ''}
                     </Text>
+                    <Text style={styles.loaixe}>{item.info.title ?? ''}</Text>
                     <Text style={styles.loaixe}>{item.info.description ?? ''}</Text>
                     <StarVote number={item.info.rate ?? 0} />
                     <Text style={styles.giaTien}>{item.info.price.format(0, 3, '.') ?? ''} đ</Text>

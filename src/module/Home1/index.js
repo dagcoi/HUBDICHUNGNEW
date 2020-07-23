@@ -44,6 +44,7 @@ class Home1 extends Component {
                 { name: 'Vận chuyển hàng hóa', image: 7 },
                 { name: 'Thuê xe taxi tải', image: 8 },
                 // { name: 'Giao thực phẩm', image: 9 }
+                { name: 'Đặt xe đi luôn', image: 10 }
             ],
             dataNewPaper: [],
             isLoadingNewPaper: true,
@@ -176,7 +177,7 @@ class Home1 extends Component {
                                                             item.image === 7 ? this.props.navigation.navigate('MapExpress') :
                                                                 item.image === 8 ? this.props.navigation.navigate('MapTruck') :
                                                                     item.image === 9 ? this.props.navigation.navigate('MapFood') :
-                                                                        this.props.navigation.navigate('MapDiChung')
+                                                                        this.props.navigation.navigate('Map')
                                 }}
                             >
                                 <Image

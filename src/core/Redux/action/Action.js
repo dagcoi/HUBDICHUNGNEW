@@ -717,10 +717,11 @@ export const addProductChunkType = (product_chunk_type) => {
     }
 }
 
-export const addSend = (send) => {
+export const addSend = (send, label) => {
     return {
         type : types.ADD_SEND,
         send: send,
+        label: label,
     }
 }
 

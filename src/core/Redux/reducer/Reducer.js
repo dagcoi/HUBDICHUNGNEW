@@ -85,6 +85,7 @@ const defaultState = {
     send: null,
     cost: null,
     extra: null,
+    label: 'null',
 }
 const Reducer = (state = defaultState, action) => {
     switch (action.type) {
@@ -277,6 +278,7 @@ const Reducer = (state = defaultState, action) => {
             return {
                 ...state,
                 send: action.send,
+                label: action.label,
             }
         case types.ADD_COST:
             return {

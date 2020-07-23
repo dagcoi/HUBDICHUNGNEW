@@ -78,6 +78,9 @@ import MapFood from './module/ScreenAddress/Food'
 import MapTruck from './module/ScreenAddress/Truck'
 import Map from './module/Map'
 
+import ListCarTaxiNow from './module/TaxiNow/ListCarTaxiNow'
+import CustomerInfoTaxiNow from './module/TaxiNow/CustomerInfoTaxiNow'
+
 import { createDrawerNavigator } from 'react-navigation-drawer'
 import CustomNavigator from './component/CustomNavigator'
 import { connect } from 'react-redux'
@@ -103,6 +106,14 @@ const ListBookingDetail = createStackNavigator({
 
 const RootStack = createStackNavigator({
 
+
+    Home: {
+        screen: Home1,
+        navigationOptions: {
+            header: null,
+        },
+    },
+
     Map: {
         screen: Map,
         navigationOptions: {
@@ -110,8 +121,16 @@ const RootStack = createStackNavigator({
         },
     },
 
-    Home: {
-        screen: Home1,
+    ListCarTaxiNow: {
+        screen: ListCarTaxiNow,
+        navigationOptions: {
+            header: null,
+        },
+    },
+
+
+    CustomerInfoTaxiNow: {
+        screen: CustomerInfoTaxiNow,
         navigationOptions: {
             header: null,
         },

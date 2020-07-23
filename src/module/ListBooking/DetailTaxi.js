@@ -15,6 +15,11 @@ const imageDone = '../../image/done.png'
 const imagePayment = '../../image/payment.png'
 const imageComment = '../../image/comment.png'
 
+Number.prototype.format = function (n, x) {
+    var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
+    return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
+};
+
 function DetailTaxi({ item }) {
     return (
         <ScrollView style={{ paddingHorizontal: 16 }} showsHorizontalScrollIndicator={false}>
@@ -96,7 +101,7 @@ function renderDetailOrder(item) {
 
             <ImageTextDiChung
                 source={require(imageIconCar)}
-                text={item.rideMethod == 'private' ? 'Đi riêng' : 'Đi chung'}
+                text={item.extra.ride_method_id == '1' ? 'Đi riêng' : 'Đi chung'}
             // text={item.ride_method_id == '1' ? 'Đi riêng' : 'Đi chung'}
             />
         </View>

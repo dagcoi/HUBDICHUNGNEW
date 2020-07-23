@@ -14,6 +14,11 @@ const imagePayment = '../../image/payment.png'
 const imageComment = '../../image/comment.png'
 const imageHourglass = '../../image/hourglass.png'
 
+Number.prototype.format = function (n, x) {
+    var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
+    return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
+};
+
 function DetailHourlyTaxi({ item }) {
     const time = item.bookingTime
     const date = new Date(time).toLocaleDateString()
@@ -41,15 +46,15 @@ function DetailHourlyTaxi({ item }) {
                 textBold={item.productType == 'HOURLY_RENT_TAXI' ? 'Thuê taxi theo giờ' : item.productType == 'HOURLY_FREIGHT_TRUCK' ? 'Thuê vận chuyển theo giờ' : item.productType == 'HOURLY_RENT_DRIVER' ? 'Thuê tài xế theo giờ' : '...'}
             />
             <ImageTextDiChung
-                text={item.extra.km_limit_format}
+                text={item.extra.kmLimit ?? ''}
                 textBold={'Giới hạn: '}
             />
             <ImageTextDiChung
-                text={item.extra.extra_price_km}
+                text={item.extra.kmExtra.format(0, 3, '.')  +'đ/km'}
                 textBold={'Phụ trội theo km: '}
             />
             <ImageTextDiChung
-                text={item.extra.extra_price_hour + ' giờ'}
+                text={item.extra.hourExtra.format(0, 3, '.') +'đ/giờ'}
                 textBold={'Phụ trội theo giờ: '}
             />
             <Text style={styles.textBigLeft1}>Chi tiết khách hàng</Text>
@@ -91,12 +96,12 @@ function DetailHourlyTaxi({ item }) {
                 />
             }
 
-            {/* <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', marginBottom: 8 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', marginBottom: 8 }}>
                 <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
                 <Text style={styles.textBigRight1}>
-                    {((item.props.merged - (navigation.getParam('blDiscount') ? item.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1)).format(0, 3, '.')} đ
+                    {item.payment.totalCost.format(0, 3, '.')} đ
                 </Text>
-            </View> */}
+            </View>
         </View>
     )
 }

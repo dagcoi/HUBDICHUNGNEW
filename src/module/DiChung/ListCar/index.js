@@ -286,7 +286,7 @@ class ListCar extends Component {
 
     gotoInfoCustomer = (item) => {
         const { navigation } = this.props;
-        this.props.addSend(JSON.stringify(item.send))
+        this.props.addSend(JSON.stringify(item.send), item.info.label)
         if (this.state.listHourly.indexOf(this.props.product_chunk_type) >= 0) {
             this.props.addExtra(item.info.priceExtra)
         }

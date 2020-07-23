@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { HeaderText } from '../../../component/Header'
 
 import { pickAddress, dropAddress, addAddressYCDB } from '../../../core/Redux/action/Action'
+navigator.geolocation = require('@react-native-community/geolocation')
 
 const API_KEY = 'AIzaSyBDZSUAda65OflvYZmZ4G5XSGONZv3pkuY';
 Geocoder.init(API_KEY); // use a valid API key
@@ -82,6 +83,8 @@ class SearchPlace extends Component {
                             placeholderTextColor= {'#333'}
                             placeholder={placeholder}
                             minLength={2}
+                            currentLocation={false}
+                            currentLocationLabel="Current location"
                             autoFocus={true}
                             returnKeyType={'search'}
                             listViewDisplayed={this.state.showPlacesList}
@@ -128,8 +131,6 @@ class SearchPlace extends Component {
                                 }
                             }}
 
-                            currentLocation={false}
-                            currentLocationLabel="Current location"
                             nearbyPlacesAPI='GooglePlacesSearch'
                             GoogleReverseGeocodingQuery={{
                             }}
