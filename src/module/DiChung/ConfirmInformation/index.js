@@ -129,10 +129,16 @@ class ConfirmInformation extends Component {
             "fullName": navigation.getParam('not_use') ? this.props.full_name2 : this.props.full_name,
             "gender": ""
         }
-        dataSend.payment = {
-            "method": navigation.getParam('Payment') == '0' ? "cash" : "online",
-            "provider": "vnpay",
-            "return": ""
+        if (dataSend.payment) {
+            dataSend.payment.method = navigation.getParam('Payment') == '0' ? "cash" : "online"
+            dataSend.payment.provider = "vnpay"
+            dataSend.payment.return = ""
+        } else {
+            dataSend.payment = {
+                "method": navigation.getParam('Payment') == '0' ? "cash" : "online",
+                "provider": "vnpay",
+                "return": ""
+            }
         }
         dataSend.promotion = navigation.getParam('blDiscount') ? navigation.getParam('promotion') : ""
         dataSend.invoice = navigation.getParam('xhd') ? {

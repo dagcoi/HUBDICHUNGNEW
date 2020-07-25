@@ -60,7 +60,7 @@ class ListBooking extends Component {
             if (dataLogin !== null) {
                 let json = JSON.parse(dataLogin)
                 console.log(dataLogin)
-                console.log('token : ...'+ json.token)
+                console.log('token : ...' + json.token)
                 console.log(json._id)
                 this.setState({
                     token: json.token,
@@ -267,7 +267,7 @@ class ListBooking extends Component {
             )
         }
         return (
-            <View style={{ flex: 1, backgroundColor: '#dddddd' }}>
+            <View style={{ flex: 1, backgroundColor: '#fff' }}>
                 {this.state.listBooking.length == 0 ?
                     <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
                         <Text>{this.props.isLogin == '0' ? 'Đăng nhập để xem danh sách vé của bạn.' : 'Chưa có chuyến trong danh sách vé.'}</Text>
@@ -318,10 +318,14 @@ class ListBooking extends Component {
 
 const styles = StyleSheet.create({
     card: {
-        shadowOffset: { height: 1, width: 1 },
         backgroundColor: '#fff',
-        shadowColor: '#000',
-        shadowOpacity: 0,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
         elevation: 5,
         margin: 8,
         borderRadius: 8,

@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { View, Image, TouchableOpacity } from 'react-native';
+import { View, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
 function Header({
     onPressLeft,
     onPressCenter,
 }) {
     return (
-        <View style={{ height: 50, flexDirection: 'row', shadowOffset: { height: 1, width: 1 }, backgroundColor: '#fff', shadowColor: '#000', shadowOpacity: 0, elevation: 5, }}>
+        <View style={styles.container}>
             <TouchableOpacity
                 onPress={onPressLeft}
             >
@@ -40,4 +40,19 @@ function Header({
 
 }
 
+const styles = StyleSheet.create({
+    container: {
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        elevation: 5,
+        height: 50, 
+        flexDirection: 'row',
+        backgroundColor: '#fff',
+        marginBottom: 2,
+    }
+})
 export default Header;

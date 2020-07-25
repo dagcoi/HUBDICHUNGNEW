@@ -5,7 +5,7 @@ import WebView from 'react-native-webview';
 import * as link from '../../URL'
 import Header from '../../component/Header/HeaderImage'
 import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
-import { addUser, addToken } from '../../core/Redux/action/Action'
+import { addUser, addToken, addLocation } from '../../core/Redux/action/Action'
 import { setupPushNotification } from "../../service/pushNotificaion"
 import PushNotification from 'react-native-push-notification';
 import { notifications } from 'react-native-firebase';
@@ -14,6 +14,11 @@ import { FlatGrid } from 'react-native-super-grid';
 import Detail from './infoDetail'
 import SwiperFlatListCustom from './SwiperFlatList'
 import SwiperFlatList from 'react-native-swiper-flatlist';
+
+import Geocoder from 'react-native-geocoding';
+import * as key from '../../component/KeyGG'
+const GOOGLE_MAPS_API_KEY = key.KEY_GOOGLE;
+import Geolocation from '@react-native-community/geolocation';
 
 const imageCancel = '../../image/cancel.png'
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window')
@@ -57,10 +62,36 @@ class Home1 extends Component {
     }
 
     componentDidMount() {
+        this.getLocation()
         this.callApiInteresting()
         this.callApiNewPaper()
         this._retrieveData()
     }
+
+
+    getLocation = () => {
+        var data;
+        Geolocation.getCurrentPosition(
+            position => {
+                Geocoder.init(GOOGLE_MAPS_API_KEY);
+                Geocoder.from(position.coords.latitude, position.coords.longitude)
+                    .then(json => {
+                        var addressLocation = json.results[0].formatted_address;
+                        var addressLocationComponent = json.results[0];
+                        var lat = json.results[0].geometry.location.lat;
+                        var lng = json.results[0].geometry.location.lng;
+                        this.props.addLocation(addressLocation, addressLocationComponent, lat, lng)
+                        console.log('addressLocation: ' + addressLocation)
+                        console.log('addressLocationComponent: ' + JSON.stringify(addressLocationComponent))
+                        console.log('lat: ' + lat)
+                        console.log('lng: ' + lng)
+                    })
+                    .catch(error => console.warn(error));
+            },
+            error => { console.log(error) },
+            { enableHighAccuracy: true, timeout: 5000, maximumAge: 1000 }
+        );
+    };
 
     _retrieveData = async () => {
         try {
@@ -298,10 +329,14 @@ const styles = StyleSheet.create({
         height: 120,
         width: gridLayoutWidth,
         backgroundColor: '#fff',
-        shadowOffset: { height: 1, width: 1 },
-        shadowColor: '#000',
-        shadowOpacity: 0,
-        elevation: 5,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
 
     },
     itemName: {
@@ -345,4 +380,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { addUser: addUser, addToken: addToken })(Home1)
+export default connect(mapStateToProps, { addUser: addUser, addToken: addToken, addLocation: addLocation })(Home1)

@@ -23,9 +23,6 @@ class Map extends Component {
                 start: 0,
                 end: 1
             },
-            location: null,
-            addressLocation: null,
-            addressLocationComponent: null,
             listCar: [
                 {
                     latitude: 21.0151235,
@@ -72,11 +69,12 @@ class Map extends Component {
     }
 
     componentDidMount() {
-        this.findCoordinates()
+        // this.findCoordinates()
+        console.log(this.props.addressLocation)
     }
 
     renderPickToDrop() {
-        if (this.state.location == null) {
+        if (this.props.addressLocation == null) {
             return (
                 <MapView style={styles.container}
                     provider={PROVIDER_GOOGLE}
@@ -96,17 +94,17 @@ class Map extends Component {
                     }}
                     provider={PROVIDER_GOOGLE}
                     initialRegion={{
-                        latitude: parseFloat(this.state.location.coords.latitude), //this.state.location!=null && this.state.location.latitude ??
-                        longitude: parseFloat(this.state.location.coords.longitude), //this.state.location!=null && this.state.location.longitude ??
+                        latitude: parseFloat(this.props.latLocation), 
+                        longitude: parseFloat(this.props.lngLocation), 
                         latitudeDelta: 0,
-                        longitudeDelta: 0.0002,
+                        longitudeDelta: 0.001,
                     }}
                     region={this.state.region}
                 >
                     <MapView.Marker
                         coordinate={{
-                            latitude: parseFloat(this.state.location.coords.latitude),
-                            longitude: parseFloat(this.state.location.coords.longitude),
+                            latitude: parseFloat(this.props.latLocation), 
+                            longitude: parseFloat(this.props.lngLocation), 
                         }}
                         title={"Điểm nhận"}
                     />
@@ -125,41 +123,6 @@ class Map extends Component {
         }
     }
 
-    findCoordinates = () => {
-        var location = null;
-
-        Geolocation.getCurrentPosition(
-            position => {
-                location = position;
-                this.setState({ location: location });
-                console.log(location)
-                this.getAddressComponent(position)
-            },
-            error => Alert.alert(error.message),
-            { enableHighAccuracy: true, timeout: 5000, maximumAge: 1000 }
-        );
-
-
-        // this.props.navigation.navigate('SearchPlace')
-
-    };
-
-    getAddressComponent = (location) => {
-        Geocoder.init(GOOGLE_MAPS_API_KEY);
-        Geocoder.from(location.coords.latitude, location.coords.longitude)
-            .then(json => {
-                var addressLocation = json.results[0].formatted_address;
-                var addressLocationComponent = json.results[0];
-                // var addressComponent = json.results[0].address_components[0];
-                console.log('qqq')
-                console.log(addressLocation);
-                console.log(addressLocationComponent);
-                this.setState({ addressLocation, addressLocationComponent })
-            })
-            .catch(error => console.warn(error));
-
-    }
-
     render() {
         return (
             <View style={{ flex: 1 }}>
@@ -169,7 +132,7 @@ class Map extends Component {
                     <ImageInputTextDiChung
                         source={require(imageLocation)}
                         placeholder={'Nhập điểm xuất phát'}
-                        value={this.state.addressLocation}
+                        value={this.props.addressLocation}
                         noBorderTop
                     />
 
@@ -212,7 +175,15 @@ const styles = StyleSheet.create({
     formInput: {
         backgroundColor: '#fff',
         margin: 8,
-        borderRadius: 8
+        borderRadius: 8,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
     }
 });
 
@@ -223,6 +194,14 @@ function mapStateToProps(state) {
         component_drop: state.info.component_drop,
         latitude_drop: state.info.latitude_drop,
         longitude_drop: state.info.longitude_drop,
+        pick_add: state.info.pick_add,
+        component_pick: state.info.component_pick,
+        latitude_pick: state.info.latitude_pick,
+        longitude_pick: state.info.longitude_pick,
+        addressLocation: state.info.addressLocation,
+        addressLocationComponent: state.info.addressLocationComponent,
+        latLocation: state.info.latLocation,
+        lngLocation: state.info.lngLocation,
     }
 }
 

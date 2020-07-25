@@ -10,7 +10,7 @@ function HeaderText({
     source2,
 }) {
     return (
-        <View style={{ height: 50, flexDirection: 'row', shadowOffset: { height: 2, width: 2 }, backgroundColor: '#fff', shadowColor: '#000', shadowOpacity: 0, elevation: 5, alignItems: 'center' }}>
+        <View style={styles.container}>
             <TouchableOpacity
                 onPress={onPressLeft}
 
@@ -56,5 +56,22 @@ function HeaderText({
     )
 
 }
+
+
+const styles = StyleSheet.create({
+    container: {
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        elevation: 5,
+        height: 50, 
+        flexDirection: 'row',
+        backgroundColor: '#fff',
+        marginBottom: 2,
+    }
+})
 
 export default HeaderText;

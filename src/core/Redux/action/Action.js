@@ -712,14 +712,14 @@ export const addModal = (ishow) => {
 
 export const addProductChunkType = (product_chunk_type) => {
     return {
-        type : types.PRODUCT_CHUNK_TYPE,
+        type: types.PRODUCT_CHUNK_TYPE,
         product_chunk_type: product_chunk_type
     }
 }
 
 export const addSend = (send, label) => {
     return {
-        type : types.ADD_SEND,
+        type: types.ADD_SEND,
         send: send,
         label: label,
     }
@@ -728,7 +728,7 @@ export const addSend = (send, label) => {
 
 export const addCost = (cost, vehicle_icon) => {
     return {
-        type : types.ADD_COST,
+        type: types.ADD_COST,
         cost: cost,
         vehicle_icon: vehicle_icon,
     }
@@ -736,8 +736,19 @@ export const addCost = (cost, vehicle_icon) => {
 
 export const addExtra = (extra) => {
     return {
-        type : types.ADD_EXTRA,
+        type: types.ADD_EXTRA,
         extra: extra,
+    }
+}
+
+
+export const addLocation = (addressLocation, addressLocationComponent, latLocation, lngLocation) => {
+    return {
+        type: types.ADD_LOCATION,
+        addressLocation: addressLocation,
+        addressLocationComponent: addressLocationComponent,
+        latLocation: latLocation,
+        lngLocation: lngLocation
     }
 }
 

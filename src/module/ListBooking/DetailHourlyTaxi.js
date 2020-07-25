@@ -43,20 +43,24 @@ function DetailHourlyTaxi({ item }) {
             <Text style={styles.textBigLeft1}>Chi tiết đơn hàng</Text>
             <ImageTextDiChung
                 source={require(imageIconCar)}
-                textBold={item.productType == 'HOURLY_RENT_TAXI' ? 'Thuê taxi theo giờ' : item.productType == 'HOURLY_FREIGHT_TRUCK' ? 'Thuê vận chuyển theo giờ' : item.productType == 'HOURLY_RENT_DRIVER' ? 'Thuê tài xế theo giờ' : '...'}
+                textBold={item.productType == 'HOURLY_RENT_TAXI' ? 'Thuê taxi theo giờ' : item.productType == 'HOURLY_FREIGHT_TRUCK' ? 'Thuê vận chuyển theo giờ' : item.productType == 'HOURLY_RENT_DRIVER' ? 'Thuê tài xế theo giờ' : 'Thuê xe du lịch'}
             />
-            <ImageTextDiChung
-                text={item.extra.kmLimit ?? ''}
-                textBold={'Giới hạn: '}
-            />
-            <ImageTextDiChung
-                text={item.extra.kmExtra.format(0, 3, '.')  +'đ/km'}
-                textBold={'Phụ trội theo km: '}
-            />
-            <ImageTextDiChung
-                text={item.extra.hourExtra.format(0, 3, '.') +'đ/giờ'}
-                textBold={'Phụ trội theo giờ: '}
-            />
+            {item.payment.priceExtra ?
+                <ImageTextDiChung
+                    text={(item.payment.priceExtra.kmLimit ?? '') + ' km'}
+                    textBold={'Giới hạn: '}
+                />
+                : null}
+            {item.payment.priceExtra ?
+                <ImageTextDiChung
+                    text={item.payment.priceExtra.kmExtra.format(0, 3, '.') + ' đ/km'}
+                    textBold={'Phụ trội theo km: '}
+                /> : null}
+            {item.payment.priceExtra ?
+                <ImageTextDiChung
+                    text={item.payment.priceExtra.hourExtra.format(0, 3, '.') + ' đ/giờ'}
+                    textBold={'Phụ trội theo giờ: '}
+                /> : null}
             <Text style={styles.textBigLeft1}>Chi tiết khách hàng</Text>
             <ImageTextDiChung
                 source={require(imagePerson)}
