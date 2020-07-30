@@ -136,4 +136,5 @@ export const ADD_SEND = 'ADD_SEND'
 export const ADD_COST = 'ADD_COST'
 export const ADD_EXTRA = 'ADD_EXTRA'
 export const ADD_LOCATION = 'ADD_LOCATION'
+export const ADD_SEND_CARO = 'ADD_SEND_CARO'
 

@@ -181,7 +181,7 @@ class Home1 extends Component {
 
     render() {
         return (
-            <View style={{ flex: 1, backgroundColor: '#eee' }}>
+            <View style={{ flex: 1, backgroundColor: '#fff' }}>
                 <Header
                     onPressLeft={() => { this.props.navigation.openDrawer() }}
                     onPressCenter={this.gotoHomeScreen}

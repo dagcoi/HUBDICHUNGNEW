@@ -753,3 +753,12 @@ export const addLocation = (addressLocation, addressLocationComponent, latLocati
 }
 
 
+export const addSendCaro = (sendCaro, label) => {
+    return {
+        type: types.ADD_SEND_CARO,
+        sendCaro: sendCaro,
+        label: label,
+    }
+}
+
+

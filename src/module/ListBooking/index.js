@@ -278,7 +278,7 @@ class ListBooking extends Component {
                         renderItem={({ item }) => {
                             return (
                                 <View>
-                                    {(item.productType == 'TRANSFER_SERVICE' || item.productType == 'EXPRESS' || item.productType == 'DRIVER_RENTAL' || item.productType == 'CAR_RENTAL') ? this.renderItem(item) : this.renderItem2(item)}
+                                    {(item.productType == 'TRANSFER_SERVICE' || item.productType == 'EXPRESS' || item.productType == 'DRIVER_RENTAL' || item.productType == 'CAR_RENTAL'||item.productType == 'transfer_service') ? this.renderItem(item) : this.renderItem2(item)}
                                 </View>
                             )
                         }

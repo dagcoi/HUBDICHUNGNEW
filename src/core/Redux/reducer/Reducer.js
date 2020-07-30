@@ -90,6 +90,7 @@ const defaultState = {
     addressLocationComponent: null,
     latLocation: null,
     lngLocation: null,
+    sendCaro: null,
 }
 const Reducer = (state = defaultState, action) => {
     switch (action.type) {
@@ -303,6 +304,12 @@ const Reducer = (state = defaultState, action) => {
                 addressLocationComponent: action.addressLocationComponent,
                 latLocation: action.latLocation,
                 lngLocation: action.lngLocation,
+            }
+        case types.ADD_SEND_CARO:
+            return {
+                ...state,
+                sendCaro: action.sendCaro,
+                label: action.label,
             }
 
         default:

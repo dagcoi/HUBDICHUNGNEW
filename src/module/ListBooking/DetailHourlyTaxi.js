@@ -20,6 +20,7 @@ Number.prototype.format = function (n, x) {
 };
 
 function DetailHourlyTaxi({ item }) {
+    console.log(JSON.stringify(item))
     const time = item.bookingTime
     const date = new Date(time).toLocaleDateString()
     const hours = new Date(time).toLocaleTimeString()

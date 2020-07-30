@@ -9,11 +9,13 @@ import {
     ScrollView,
     SafeAreaView,
     RefreshControl,
+    Linking
 } from 'react-native'
 import WebView from 'react-native-webview';
 
 import React, { Component } from 'react'
 import DetailTaxi from './DetailTaxi'
+import DetailCaro from './DetailCaro'
 import DetailTuLai from './DetailTuLai'
 import DetailExpress from './DetailExpress'
 import DetailXeChung from './DetailXeChung'
@@ -233,7 +235,8 @@ class BookingDetail extends Component {
                                     : this.state.bookingDetail.productType == 'DRIVER_RENTAL' ? <DetailXeChung item={this.state.bookingDetail} />
                                         : this.state.bookingDetail.productType == 'EXPRESS' ? <DetailExpress item={this.state.bookingDetail} />
                                             : this.state.bookingDetail.productType == 'TRANSFER_SERVICE' ? <DetailTaxi item={this.state.bookingDetail} />
-                                                : <DetailHourlyTaxi item={this.state.bookingDetail} />}
+                                                : this.state.bookingDetail.productType == 'transfer_service' ? <DetailCaro item={this.state.bookingDetail} />
+                                                    : <DetailHourlyTaxi item={this.state.bookingDetail} />}
                             </View>
                             <View style={{ paddingHorizontal: 16 }}>
                                 {this.renderPaymentOnline(this.state.bookingDetail)}

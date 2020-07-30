@@ -1,13 +1,7 @@
-import * as React from 'react';
 import { createAppContainer } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
-import { createStore, applyMiddleware, combineReducers, bindActionCreators } from 'redux';
-// import * as ModalAction from './module/RootModal/ModalAction';
 
-import Home from './module/Home'
 import Home1 from './module/Home1'
-import Splash from './module/Splash'
-// import Map from './module/Map'
 import MapDiChung from './module/DiChung/MapDiChung'
 import InfoCustommer from './module/DiChung/InfoCustommer'
 import SearchPlace from './module/DiChung/SearchPlace'
@@ -19,44 +13,15 @@ import ListCarHourlyBooking from './module/DiChung/ListCarHourlyBooking'
 import InfoCustommerHourlyBooking from './module/DiChung/InfoCustommerHourlyBooking'
 import ConfirmInformationHB from './module/DiChung/ConfirmInformationHB'
 
-
 import MapChungXe from './module/ChungXe/MapChungXe'
 import ListVehicle from './module/ChungXe/ListVehicle'
 import InfoChungXe from './module/ChungXe/InfoCarChungXe'
 import ConfirmInfoChungXe from './module/ChungXe/ConfirmInfoChungXe'
 import ChungXeTicketInformation from './module/ChungXe/ChungXeTicketInformation'
 
-
 import MapXeChung from './module/XeChung/MapXeChung'
-import ListDriverXeChung from './module/XeChung/ListDriverXeChung'
-import InfoCustommerXeChung from './module/XeChung/InfoCustommerXeChung'
-import ConfirmInformationXeChung from './module/XeChung/ConfirmInformationXeChung'
-import TicketInformationXeChung from './module/XeChung/TicketInformationXeChung'
-import ListDriverHourlyBooking from './module/XeChung/ListDriverHourlyBooking'
-import InfoCustommerHourlyRentDriver from './module/XeChung/InfoCustommerHourlyRentDriver'
-import ConfirmInformationRentDriver from './module/XeChung/ConfirmInformationRentDriver'
-import SearchPlaceXeChung from './module/XeChung/SearchPlaceXeChung'
-
 import MapExpress from './module/Express/MapExpress'
-import ListDriverExpress from './module/Express/ListDriverExpress'
-import InfoCustommerExpress from './module/Express/InfoCustommerExpress'
-import ConfirmInformationExpress from './module/Express/ConfirmInformationExpress'
-import TicketInformationExpress from './module/Express/TicketInformationExpress'
-import ListFreightTruck from './module/Express/ListFreightTruck'
-import InfoCustommerHourlyFreightTruck from './module/Express/InfoCustommerHourlyFreightTruck'
-import ConfirmInformationFreightTruck from './module/Express/ConfirmInformationFreightTruck'
-import SearchPlaceExpress from './module/Express/SearchPlaceExpress'
-
 import MapDiChungTuLai from './module/DiChungTuLai/MapDiChungTuLai'
-import SerchPlaceTuLai from './module/DiChungTuLai/SerchPlaceTuLai'
-import ListCarTuLai from './module/DiChungTuLai/ListCarTuLai'
-import InfoCustommerTuLai from './module/DiChungTuLai/InfoCustommerTuLai'
-import ConfirmInformationTuLai from './module/DiChungTuLai/ConfirmInformationTuLai'
-import TicketInformationTuLai from './module/DiChungTuLai/TicketInformationTuLai'
-import ListCarHourlyBookingTL from './module/DiChungTuLai/ListCarHourlyBookingTL'
-import InfoCustommerHourlyBookingTL from './module/DiChungTuLai/InfoCustommerHourlyBookingTL'
-import ConfirmInformationHourlyBookingTL from './module/DiChungTuLai/ConfirmInformationHourlyBookingTL'
-import Procedure from './module/DiChungTuLai/Procedure'
 
 import SpecialRequirements from './module/SpecialRequirements/SpecialRequirements'
 
@@ -65,12 +30,10 @@ import News from './module/WebView/News'
 import FAQ from './module/WebView/FAQ'
 import PoliciesAndServices from './module/WebView/PoliciesAndServices'
 
-import SearchTicket from './module/SearchTicket'
 import Login from './module/Account/Login'
 import Profile from './module/Account/Profile'
 import ListBooking from './module/ListBooking'
 import DetailTicket from './module/ListBooking/DetailTicket.js'
-import Registration from './module/Account/Registration'
 
 import MapTravel from './module/ScreenAddress/Travel'
 import MapCombo from './module/ScreenAddress/Combo'
@@ -80,13 +43,11 @@ import Map from './module/Map'
 
 import ListCarTaxiNow from './module/TaxiNow/ListCarTaxiNow'
 import CustomerInfoTaxiNow from './module/TaxiNow/CustomerInfoTaxiNow'
+import MapStartTrip from './module/TaxiNow/MapStartTrip'
 
 import { createDrawerNavigator } from 'react-navigation-drawer'
 import CustomNavigator from './component/CustomNavigator'
 import { connect } from 'react-redux'
-
-// import OTP from './module/OTP'
-// import { createDrawerNavigator } from 'react-navigation-drawer'
 
 const ListBookingDetail = createStackNavigator({
     ListBooking: {
@@ -98,7 +59,6 @@ const ListBookingDetail = createStackNavigator({
     DetailTicket: {
         screen: DetailTicket,
         navigationOptions: {
-            // title: 'chi tiết mã vé'
             header: null,
         }
     }
@@ -128,6 +88,12 @@ const RootStack = createStackNavigator({
         },
     },
 
+    MapStartTrip: {
+        screen: MapStartTrip,
+        navigationOptions: {
+            header: null,
+        },
+    },
 
     CustomerInfoTaxiNow: {
         screen: CustomerInfoTaxiNow,
@@ -135,14 +101,6 @@ const RootStack = createStackNavigator({
             header: null,
         },
     },
-
-    // Home: {
-    //     screen: Home,
-    //     navigationOptions: {
-    //         header: null,
-    //     },
-    // },
-
 
     MapTravel: {
         screen: MapTravel,
@@ -175,16 +133,13 @@ const RootStack = createStackNavigator({
     MapDiChung: {
         screen: MapDiChung,
         navigationOptions: {
-            // title: 'Thuê xe taxi',
             header: null,
         },
-        path: '/thue-xe-taxi'
     },
 
     ConfirmInformation: {
         screen: ConfirmInformation,
         navigationOptions: {
-            // title: 'Xác nhận thông tin',
             header: null,
         }
     },
@@ -192,7 +147,6 @@ const RootStack = createStackNavigator({
     InfoCustommer: {
         screen: InfoCustommer,
         navigationOptions: {
-            // title: 'Thông tin đặt xe',
             header: null,
         }
     },
@@ -200,7 +154,6 @@ const RootStack = createStackNavigator({
     ListCar: {
         screen: ListCar,
         navigationOptions: {
-            // title: 'Chọn xe',
             header: null,
         }
     },
@@ -208,7 +161,6 @@ const RootStack = createStackNavigator({
     ListCarHourlyBooking: {
         screen: ListCarHourlyBooking,
         navigationOptions: {
-            // title: 'Chọn xe',
             header: null,
         }
     },
@@ -216,7 +168,6 @@ const RootStack = createStackNavigator({
     InfoCustommerHourlyBooking: {
         screen: InfoCustommerHourlyBooking,
         navigationOptions: {
-            // title: 'Thông tin đặt xe',
             header: null,
         }
     },
@@ -224,7 +175,6 @@ const RootStack = createStackNavigator({
     ConfirmInformationHB: {
         screen: ConfirmInformationHB,
         navigationOptions: {
-            // title: 'Xác nhận thông tin',
             header: null,
         }
     },
@@ -232,7 +182,6 @@ const RootStack = createStackNavigator({
     SearchPlace: {
         screen: SearchPlace,
         navigationOptions: {
-            // title: 'Nhập địa chỉ',
             header: null,
         }
     },
@@ -247,16 +196,13 @@ const RootStack = createStackNavigator({
     MapChungXe: {
         screen: MapChungXe,
         navigationOptions: {
-            // title: 'Thuê xe tự lái',
             header: null,
         },
-        path: 'https://dichung.vn/thue-xe-tu-lai'
     },
 
     ListVehicle: {
         screen: ListVehicle,
         navigationOptions: {
-            // title: 'Danh sách xe',
             header: null,
         },
     },
@@ -264,7 +210,6 @@ const RootStack = createStackNavigator({
     InfoChungXe: {
         screen: InfoChungXe,
         navigationOptions: {
-            // title: 'Thông tin',
             header: null,
         }
     },
@@ -272,7 +217,6 @@ const RootStack = createStackNavigator({
     ConfirmInfoChungXe: {
         screen: ConfirmInfoChungXe,
         navigationOptions: {
-            // title: 'Xác nhận thông tin',
             header: null,
         }
     },
@@ -294,149 +238,20 @@ const RootStack = createStackNavigator({
     MapXeChung: {
         screen: MapXeChung,
         navigationOptions: {
-            // title: 'Thuê tài xế',
             header: null,
         },
-        path: 'https://dichung.vn/thue-lai-xe'
-    },
-
-    ListDriverXeChung: {
-        screen: ListDriverXeChung,
-        navigationOptions: {
-            // title: 'Danh sách lái xe',
-            header: null,
-        }
-    },
-
-    InfoCustommerXeChung: {
-        screen: InfoCustommerXeChung,
-        navigationOptions: {
-            // title: 'Thông tin khách hàng',
-            header: null,
-        }
-    },
-
-    ConfirmInformationXeChung: {
-        screen: ConfirmInformationXeChung,
-        navigationOptions: {
-            // title: 'Xác nhận thông tin'
-            header: null,
-        }
-    },
-    TicketInformationXeChung: {
-        screen: TicketInformationXeChung,
-        navigationOptions: {
-            header: null,
-        }
-    },
-
-    ListDriverHourlyBooking: {
-        screen: ListDriverHourlyBooking,
-        navigationOptions: {
-            // title: 'Danh sách lái xe'
-            header: null,
-        }
-    },
-
-    InfoCustommerHourlyRentDriver: {
-        screen: InfoCustommerHourlyRentDriver,
-        navigationOptions: {
-            // title: 'Thông tin khách hàng'
-            header: null,
-        }
-    },
-
-    ConfirmInformationRentDriver: {
-        screen: ConfirmInformationRentDriver,
-        navigationOptions: {
-            // title: 'Xác nhận thông tin'
-            header: null,
-        }
     },
 
     MapExpress: {
         screen: MapExpress,
         navigationOptions: {
-            // title: 'Vận chuyển hàng hóa',
             header: null,
         },
-        path: 'https://dichung.vn/thue-van-chuyen'
-    },
-
-    ListDriverExpress: {
-        screen: ListDriverExpress,
-        navigationOptions: {
-            // title: 'Danh sách dịch vụ',
-            header: null,
-        }
-    },
-
-    InfoCustommerExpress: {
-        screen: InfoCustommerExpress,
-        navigationOptions: {
-            // title: 'Thông tin khách hàng',
-            header: null,
-        }
-    },
-
-    ConfirmInformationExpress: {
-        screen: ConfirmInformationExpress,
-        navigationOptions: {
-            // title: 'Xác nhận thông tin'
-            header: null,
-        }
-    },
-    TicketInformationExpress: {
-        screen: TicketInformationExpress,
-        navigationOptions: {
-            header: null,
-        }
-    },
-
-    ListFreightTruck: {
-        screen: ListFreightTruck,
-        navigationOptions: {
-            // title: 'Danh sách dịch vụ',
-            header: null,
-        }
-    },
-
-    InfoCustommerHourlyFreightTruck: {
-        screen: InfoCustommerHourlyFreightTruck,
-        navigationOptions: {
-            // title: 'Thông tin khách hàng',
-            header: null,
-        }
-    },
-
-    ConfirmInformationFreightTruck: {
-        screen: ConfirmInformationFreightTruck,
-        navigationOptions: {
-            // title: 'Xác nhận thông tin'
-            header: null,
-        }
-    },
-
-    SearchPlaceXeChung: {
-        screen: SearchPlaceXeChung,
-        navigationOptions: {
-            // title: 'Nhập địa chỉ'
-            header: null,
-        }
-    },
-
-    SearchPlaceExpress: {
-        screen: SearchPlaceExpress,
-        navigationOptions: {
-            // title: 'Nhập địa chỉ'
-            header: null,
-        }
     },
 
     SpecialRequirements: {
         screen: SpecialRequirements,
         navigationOptions: {
-            // title: 'Yêu cầu đặc biệt',
             header: null,
         },
     },
@@ -444,90 +259,9 @@ const RootStack = createStackNavigator({
     MapDiChungTuLai: {
         screen: MapDiChungTuLai,
         navigationOptions: {
-            // title: 'Tự lái Đi Chung'
             header: null,
         },
-        path: 'https://dichung.vn/tu-lai-di-chung'
     },
-
-    SerchPlaceTuLai: {
-        screen: SerchPlaceTuLai,
-        navigationOptions: {
-            // title: 'Nhập địa chỉ',
-            header: null,
-        }
-    },
-
-    ListCarTuLai: {
-        screen: ListCarTuLai,
-        navigationOptions: {
-            // title: 'Tự lái Đi Chung',
-            header: null,
-        }
-    },
-
-    InfoCustommerTuLai: {
-        screen: InfoCustommerTuLai,
-        navigationOptions: {
-            // title: 'Nhập thông tin'
-            header: null,
-        }
-    },
-
-    ConfirmInformationTuLai: {
-        screen: ConfirmInformationTuLai,
-        navigationOptions: {
-            // title: 'Xác nhận đặt xe'
-            header: null,
-        }
-    },
-
-    TicketInformationTuLai: {
-        screen: TicketInformationTuLai,
-        navigationOptions: {
-            header: null,
-        }
-    },
-
-    ListCarHourlyBookingTL: {
-        screen: ListCarHourlyBookingTL,
-        navigationOptions: {
-            // title: 'Danh sách xe',
-            header: null,
-        }
-    },
-
-    Procedure: {
-        screen: Procedure,
-        navigationOptions: {
-            // title: 'Thủ tục thuê xe'
-            header: null,
-        }
-    },
-
-    InfoCustommerHourlyBookingTL: {
-        screen: InfoCustommerHourlyBookingTL,
-        navigationOptions: {
-            // title: 'Nhập thông tin'
-            header: null,
-        }
-    },
-
-    ConfirmInformationHourlyBookingTL: {
-        screen: ConfirmInformationHourlyBookingTL,
-        navigationOptions: {
-            // title: 'Xác nhận đặt xe'
-            header: null,
-        }
-    },
-
-    // Registration : {
-    //     screen : Registration,
-    //     navigationOptions : {
-    //         title : 'Đăng kí',
-    //     }
-    // },
-
 })
 
 const Profiles = createStackNavigator({
@@ -554,14 +288,6 @@ const DrawerNavi = createDrawerNavigator({
             alignItems: 'center'
         }
     },
-
-    // SearchTicket: {
-    //     screen: SearchTicket,
-    //     navigationOptions: {
-    //         title: 'Tra cứu mã vé',
-    //         alignItems: 'center'
-    //     }
-    // },
 
     AboutUs: {
         screen: AboutUs,
@@ -593,26 +319,16 @@ const DrawerNavi = createDrawerNavigator({
     },
     ListBooking: {
         screen: ListBookingDetail,
-        // navigationOptions: {
-        //     title: 'Danh sách vé',
-        //     alignItems: 'center'
-        // }
-        navigationOptions: ({ navigation }) => {
-            // if (this.props.isLogin == '0') {
-            //     return {
-            //         drawerLabel: () => null,
-            //     }
-            // } else {
+        navigationOptions: () => {
             return {
                 drawerLabel: () => 'Danh sách vé',
             }
-            // }
         }
     },
 
     Profiles: {
         screen: Profiles,
-        navigationOptions: ({ navigation }) => {
+        navigationOptions: () => {
             return {
                 drawerLabel: () => null,
             }
@@ -630,23 +346,6 @@ const DrawerNavi = createDrawerNavigator({
     contentComponent: CustomNavigator,
 })
 
-const MainStack = createStackNavigator({
-
-    Home: {
-        screen: DrawerNavi,
-        navigationOptions: {
-            header: null,
-        }
-    },
-
-    Profiles: {
-        screen: Profiles,
-        navigationOptions: {
-            title: 'Thông tin',
-            alignItems: 'center'
-        }
-    },
-})
 
 function mapStateToProps(state) {
     return {

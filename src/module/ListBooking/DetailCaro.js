@@ -20,25 +20,11 @@ Number.prototype.format = function (n, x) {
     return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
 };
 
-function DetailTaxi({ item }) {
+function DetailCaro({ item }) {
     console.log(JSON.stringify(item))
     return (
         <ScrollView style={{ paddingHorizontal: 16 }} showsHorizontalScrollIndicator={false}>
-            {/* <Text style={styles.textBigRight}>Trạng thái: <Text style={{ fontWeight: 'bold', color : item.status == 'cancelled' ? '#ef465f' : '#333333' }}>
-                {item.forward.status == 'wait_to_confirm' ? 'Chờ xác nhận' :
-                    item.forward.status == 'cs_confirmed' ? 'CS xác nhận' :
-                        item.forward.status == 'forwarded' ? 'Đặt xe thành công' :
-                            item.forward.status == 'wait_for_driver' ? 'Tìm tài xế' :
-                                item.forward.status == 'driver_accepted' ? 'Tài xế chấp nhận' :
-                                    item.forward.status == 'picked_up' ? 'Đã đón khách' :
-                                        item.forward.status == 'completed' ? 'Hoàn thành chuyến đi' :
-                                            item.forward.status == 'cancelled' ? 'Đã hủy vé' :
-                                                'Tất cả'
-                }
-            </Text></Text> */}
-
             <StatusTicket item={item} />
-
             <Text>Mọi thắc mắc vui lòng liên hệ:
                 <Text
                     style={{ color: '#77a300', fontWeight: 'bold', textDecorationLine: 'underline' }}
@@ -48,12 +34,8 @@ function DetailTaxi({ item }) {
                 </Text>
             </Text>
             {renderDetailTrip(item)}
-            {renderDetailOrder(item)}
-            {renderDetailCustommer(item)}
-            {renderDetailPeopleMove(item)}
+            {renderDetailCustomer(item)}
             {renderComment(item)}
-            {renderOther(item)}
-            {renderTT(item)}
         </ScrollView>
     )
 }
@@ -66,70 +48,37 @@ function renderDetailTrip(item) {
     return (
         <View>
             <Text style={styles.textBigLeft1}>Chi tiết dịch vụ taxi</Text>
-
             <ImageTextDiChung
                 source={require(imageLocation)}
                 text={item.startPoints[0].address}
-            // text={item.pick_address_api}
             />
-
             <ImageTextDiChung
                 source={require(imageLocation)}
                 text={item.endPoints[0].address}
-            // text={item.drop_address_api}
             />
-
             <ImageTextDiChung
                 source={require(imageCalendar)}
-                // text={item.in_time + ' ' + item.in_date}    
                 text={strtime}
-
-            />
-
-            <ImageTextDiChung
-                source={require(imagePeople)}
-                // text={item.chair_count + ' xe'}
-                text={item.slot + ' xe'}
             />
         </View>
     )
 }
 
-function renderDetailOrder(item) {
-    return (
-        <View>
-            <Text style={styles.textBigLeft1}>Chi tiết đơn hàng</Text>
-
-            <ImageTextDiChung
-                source={require(imageIconCar)}
-                text={item.extra.ride_method_id == '1' ? 'Đi riêng' : 'Đi chung'}
-            // text={item.ride_method_id == '1' ? 'Đi riêng' : 'Đi chung'}
-            />
-        </View>
-    )
-}
-
-function renderDetailCustommer(item) {
+function renderDetailCustomer(item) {
     return (
         <View>
             <Text style={styles.textBigLeft1}>Chi tiết khách hàng</Text>
-
             <ImageTextDiChung
                 source={require(imagePerson)}
                 text={item.bookingUser.fullName}
-            // text={item.fullname}
             />
-
             <ImageTextDiChung
                 source={require(imageIconPhone)}
                 text={item.bookingUser.phone}
-            // text={item.other_phone}
             />
-
             <ImageTextDiChung
                 source={require(imageEmail)}
                 text={item.bookingUser.email}
-            // text={item.email}
             />
         </View>
     )
@@ -140,67 +89,14 @@ function renderDetailPeopleMove(item) {
     return (
         <View>
             <Text style={styles.textBigLeft1}>Chi tiết người đi</Text>
-
             <ImageTextDiChung
                 source={require(imagePerson)}
                 text={item.beneficiary.fullName}
-            // text={item.use_name}
             />
-
             <ImageTextDiChung
                 source={require(imageIconPhone)}
                 text={item.beneficiary.phone}
-            // text={item.use_phone}
             />
-
-        </View>
-    )
-
-}
-
-function renderOther(item) {
-    return (
-        <View style={{ marginBottom: 8 }}>
-            <Text style={styles.textBigLeft1}>Thanh toán và khác</Text>
-            <ImageTextDiChung
-                source={require(imagePayment)}
-                text={item.payment.method == 'cash' ? 'Trả sau' : 'Trả trước'}
-            // text={item.pay_method_name}
-            />
-            {/* {item.board_price != '0' ? */}
-            {item.extra.catch_in_house == '1' ?
-                <ImageTextDiChung
-                    source={require(imageDone)}
-                    text={'Đón bằng biển tên (+ 30.000 ₫)'}
-                /> : null}
-            {/* {item.xhd == 1 ? */}
-            {item.extra.xhd == 1 ?
-                <ImageTextDiChung
-                    source={require(imageDone)}
-                    text={'+10 %'}
-                /> : null}
-            {item.promotion !== '' ?
-                <ImageTextDiChung
-                    source={require(imageDone)}
-                    text={'Mã giảm giá: ' + item.promotion}
-                /> : null}
-        </View>
-    )
-}
-
-function renderTT(item) {
-    return (
-        <View>
-            <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', }}>
-                <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
-                {(item.forward.status == 'forwarded'&& item.forward.result) ?
-                    <Text style={styles.textBigRight1}>
-                        {/* {parseInt(item.total_cost).format(0, 3, '.')} đ */}
-                        {parseInt(item.forward.result.total_cost).format(0, 3, '.')} đ
-            </Text>
-                    : null}
-            </View>
-            {/* <Text style={{ marginBottom: 8, textAlign: 'right' }}>{item.toll_fee == 'NA' ? "Giá chưa bao giờ phí cầu đường" : "Giá trọn gói không phí ẩn"}</Text> */}
         </View>
     )
 }
@@ -213,7 +109,6 @@ function renderComment(item) {
         />
     )
 }
-
 
 const styles = StyleSheet.create({
     container: {
@@ -239,7 +134,6 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         marginBottom: 4,
     },
-
     circle: {
         height: 20,
         width: 20,
@@ -249,7 +143,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-
     checkedCircle: {
         width: 14,
         height: 14,
@@ -266,4 +159,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default DetailTaxi;
+export default DetailCaro;

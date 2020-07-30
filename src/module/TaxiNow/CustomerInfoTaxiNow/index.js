@@ -10,6 +10,7 @@ import { Button, ButtonDialog } from '../../../component/Button'
 import { HeaderText } from '../../../component/Header'
 import { RadioButtonCustom, RadioButtonNormal } from '../../../component/RadioButton'
 import Toast from 'react-native-simple-toast';
+import * as link from '../../../URL'
 
 var radio_props = [
     { label: 'Nội địa', value: 1 },
@@ -41,11 +42,13 @@ class CustomerInfoTaxiNow extends Component {
             company_mst: '',
             company_address_receive: '',
             comment: '',
+            sendCaro: null,
         }
     }
 
     componentDidMount() {
         this.getData()
+        this.setState({ sendCaro: this.props.sendCaro })
     }
 
     async getData() {
@@ -164,7 +167,7 @@ class CustomerInfoTaxiNow extends Component {
         }
     }
 
-    
+
 
     checkInfoCustomer() {
         if (this.state.full_name.trim().length < 2) {
@@ -198,15 +201,67 @@ class CustomerInfoTaxiNow extends Component {
                 Toast.show('Vui lòng nhập thông tin hóa đơn')
                 return;
             } else {
-                this.gotoConfirm()
+                this.createBooking()
             }
         } else {
-            this.gotoConfirm()
+            this.createBooking()
         }
     }
 
-    gotoConfirm() {
+    createBooking() {
+        var date = new Date();
+
         Toast.show('thông tin ok')
+        // console.log(JSON.stringify(this.state.sendCaro))
+        const sendCaro = this.props.sendCaro
+        sendCaro.startPoints = [
+            {
+                "address": this.props.addressLocation,
+                "lat": this.props.latLocation,
+                "long": this.props.lngLocation
+            }
+        ];
+        sendCaro.endPoints = [
+            {
+                "address": this.props.drop_add,
+                "lat": this.props.latitude_drop,
+                "long": this.props.longitude_drop
+            }
+        ]
+        sendCaro.bookingTime = date.toISOString();
+        sendCaro.bookingUser = {
+            "email": this.state.email,
+            "phone": this.state.use_phone,
+            "fullName": this.state.full_name,
+            "gender": ""
+        };
+        sendCaro.note = this.state.comment
+        sendCaro.payment = {
+            "method": "cash",
+            "provider": "vnpay",
+            "return": ""
+        }
+
+        // console.log('qqq' +JSON.stringify(sendCaro))
+        const url = link.URL_API_PORTAL + `booking/v1/bookings`
+        console.log(url)
+        const jsonStr = JSON.stringify(sendCaro)
+        console.log('abc :.........' + JSON.stringify(this.props.token))
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'token': this.props.token
+            },
+            body: jsonStr
+        })
+            .then(res => res.json())
+            .then(resJson => {
+                console.log(JSON.stringify(resJson))
+                console.log('a' + resJson)
+                this.props.navigation.navigate('MapStartTrip', {'id': resJson.data._id })
+            })
     }
 
     setStateAsync(state) {
@@ -371,7 +426,7 @@ class CustomerInfoTaxiNow extends Component {
                             onPress={() => {
                                 this.checkInfoCustomer()
                             }}
-                            value={'TIẾP TỤC'}
+                            value={'XÁC NHẬN ĐẶT CHUYẾN'}
                         />
                     </KeyboardAwareScrollView>
                 </ScrollView>
@@ -417,9 +472,12 @@ function mapStateToProps(state) {
         full_name1: state.info.full_name2,
         use_phone1: state.info.use_phone2,
         email1: state.info.email2,
+        addressLocation: state.info.addressLocation,
+        latLocation: state.info.latLocation,
+        lngLocation: state.info.lngLocation,
         drop_add: state.info.drop_add,
-        pick_add: state.info.pick_add,
-        is_from_airport: state.info.is_from_airport,
+        latitude_drop: state.info.latitude_drop,
+        longitude_drop: state.info.longitude_drop,
         chunk_id: state.info.chunk_id,
         ride_method_id: state.info.ride_method_id,
         depart_time: state.info.depart_time,
@@ -427,9 +485,9 @@ function mapStateToProps(state) {
         brand_partner_id: state.info.brand_partner_id,
         comment: state.info.comment,
         is_airport: state.info.is_airport,
-        send: state.info.send,
-        cost: state.info.cost,
         product_chunk_type: state.info.product_chunk_type,
+        sendCaro: state.info.sendCaro,
+        token: state.thongtin.token,
     }
 }
 

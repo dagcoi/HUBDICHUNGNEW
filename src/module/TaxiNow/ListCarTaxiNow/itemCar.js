@@ -18,21 +18,22 @@ function ItemCarTaxiNow({ item, onPress }) {
 
                 <View style={styles.formLeft}>
                     <Text style={styles.label}>
-                        {item.partner_name ?? ''}
+                        {item.info.label ?? ''}
                     </Text>
-                    <Image
-                        style={{ width: 90, height: 45, }}
-                        source={item.partner_icon && item.partner_icon ? { uri: item.partner_icon } : null}
-                        resizeMode="contain"
-                    />
-                    <Text style={styles.title}>{item.service_name ?? ''}</Text>
-                    <Text style={styles.price}>{item.need_pay.format(0, 3, '.') ?? ''} {item.unit}</Text>
+                    <Text style={{ marginTop: 8 }}>
+                        {item.info.title ?? ''}
+                    </Text>
+                    <Text style={{ marginTop: 8 }}>
+                        {item.info.description ?? ''}
+                    </Text>
+
+                    <Text style={styles.price}>{item.info.price.format(0, 3, '.') ?? ''} đ</Text>
                 </View>
 
                 <View style={styles.imageRight}>
                     <Image
                         style={{ width: 150, height: 90, }}
-                        source={item.service_icon && item.service_icon ? { uri: item.service_icon } : null}
+                        source={item.info.image && item.info.image ? { uri: item.info.image } : null}
                         resizeMode="contain"
                     />
                 </View>
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
     },
     formLeft: {
         flex: 1,
-        padding: 8,
+        padding: 4,
         marginTop: 3,
         backgroundColor: '#ffffff',
         flexDirection: 'column',
@@ -85,6 +86,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
     },
     price: {
+        marginTop: 8,
         fontSize: 18,
         color: '#00363d',
     },

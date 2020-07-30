@@ -26,37 +26,35 @@ function HeaderText({
             <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1, height: 50 }}>
                 <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{textCenter}</Text>
             </View>
+            <View style={{justifyContent:'center', alignItems: 'center', height: 50, minWidth: 50}}>
+                {source1 ? <TouchableOpacity
+                    style={{ height: 30, width: 30, marginRight: 8, justifyContent: 'center', alignItems: 'center' }}
+                    onPress={onPressRight1}
+                >
+                    <Image
+                        style={{ height: 22, width: 22 }}
+                        source={source1}
+                    />
+                </TouchableOpacity> : null}
 
-            {source1 ? <TouchableOpacity
-                style={{ height: 30, width: 30, marginRight: 8, justifyContent: 'center', alignItems: 'center' }}
-                onPress={onPressRight1}
-            >
-                <Image
-                    style={{ height: 22, width: 22 }}
-                    source={source1}
-                />
-            </TouchableOpacity> : null}
+                {source2 ? <TouchableOpacity
+                    style={{ height: 30, width: 30, marginRight: 8, justifyContent: 'center', alignItems: 'center' }}
+                    onPress={onPressRight2}
+                >
+                    <Image
+                        style={{ height: 22, width: 22 }}
+                        source={source2}
+                    />
+                </TouchableOpacity> : null}
 
-            {source2 ? <TouchableOpacity
-                style={{ height: 30, width: 30, marginRight: 8, justifyContent: 'center', alignItems: 'center' }}
-                onPress={onPressRight2}
-            >
-                <Image
-                    style={{ height: 22, width: 22 }}
-                    source={source2}
-                />
-            </TouchableOpacity> : null}
-
-            {source1 || source2 ? null : <TouchableOpacity
-                style={{ height: 50, width: 50, marginRight: 8, justifyContent: 'center', alignItems: 'center' }}
-            >
-            </TouchableOpacity>}
-
+                {source1 || source2 ? null : <TouchableOpacity
+                    style={{ height: 50, width: 50, marginRight: 8, justifyContent: 'center', alignItems: 'center' }}
+                >
+                </TouchableOpacity>}
+            </View>
         </View>
     )
-
 }
-
 
 const styles = StyleSheet.create({
     container: {
@@ -67,7 +65,7 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         elevation: 5,
-        height: 50, 
+        height: 50,
         flexDirection: 'row',
         backgroundColor: '#fff',
         marginBottom: 2,

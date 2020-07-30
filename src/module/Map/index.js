@@ -8,6 +8,8 @@ import Geocoder from 'react-native-geocoding';
 import ImageInputTextDiChung from '../../component/ImageInputTextDiChung';
 import { connect } from 'react-redux';
 import { ButtonFull } from '../../component/Button';
+import * as link from '../../URL'
+import Toast from 'react-native-simple-toast';
 
 const origin = { latitude: 20.97820166666667, longitude: 105.79656666666666 };
 const GOOGLE_MAPS_API_KEY = key.KEY_GOOGLE;
@@ -23,54 +25,62 @@ class Map extends Component {
                 start: 0,
                 end: 1
             },
-            listCar: [
-                {
-                    latitude: 21.0151235,
-                    longitude: 105.8559721,
-                    name: 'Marker 1'
-                },
-                {
-                    latitude: 21.0152985,
-                    longitude: 105.8169721,
-                    name: 'Marker 2'
-                },
-                {
-                    latitude: 21.0153888,
-                    longitude: 105.8189721,
-                    name: 'Marker 3'
-                },
-                {
-                    latitude: 21.0154985,
-                    longitude: 105.8109600,
-                    name: 'Marker 4'
-                },
-                {
-                    latitude: 21.0155985,
-                    longitude: 105.8229821,
-                    name: 'Marker 5'
-                },
-                {
-                    latitude: 21.0156985,
-                    longitude: 105.8349921,
-                    name: 'Marker 6'
-                },
-                {
-                    latitude: 21.0157785,
-                    longitude: 105.8089721,
-                    name: 'Marker 7'
-                },
-                {
-                    latitude: 21.0158685,
-                    longitude: 105.8009721,
-                    name: 'Marker 8'
-                },
-            ]
+            listCar: [],
         };
     }
 
     componentDidMount() {
         // this.findCoordinates()
-        console.log(this.props.addressLocation)
+        this.getCarAround(this.props.addressLocationComponent)
+    }
+
+    async getCarAround(address) {
+        var url = link.URL_API_PORTAL + `price/v1/near-products?startPlace=${JSON.stringify(address)}&provider=caro`
+        console.log(url)
+        console.log(this.props.token)
+        try {
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'token': this.props.token,
+                }
+            });
+            const responseJson = await response.json();
+            const listCar = responseJson.data;
+            console.log('abc : .......' + listCar);
+            this.setState({ listCar: listCar })
+            return true
+        }
+        catch (error) {
+            console.log('abc' + error);
+        }
+    }
+
+    gotoListCarTaxiNow = () => {
+        if (this.props.component_drop && this.props.addressLocationComponent) {
+            this.props.navigation.navigate('ListCarTaxiNow')
+            // this.props.navigation.navigate('MapStartTrip')
+        } else {
+            Toast.show('Vui lòng điền đầy đủ thông tin!')
+        }
+    }
+
+    renderListCar(listCar) {
+        console.log('qqq' + listCar)
+        if (listCar) {
+            return (
+                listCar.map((obj, i) => (
+                    <Marker
+                        image={require(imageMarker)}
+                        title={obj.license_plate}
+                        coordinate={{
+                            latitude: obj.latitude,
+                            longitude: obj.longitude,
+                        }}
+                    />
+                ))
+            )
+        }
     }
 
     renderPickToDrop() {
@@ -79,14 +89,15 @@ class Map extends Component {
                 <MapView style={styles.container}
                     provider={PROVIDER_GOOGLE}
                     initialRegion={{
-                        latitude: origin.latitude, //this.state.location!=null && this.state.location.latitude ??
-                        longitude: origin.longitude, //this.state.location!=null && this.state.location.longitude ??
+                        latitude: origin.latitude,
+                        longitude: origin.longitude,
                         latitudeDelta: 2.0,
                         longitudeDelta: 0.1,
                     }}
                 ></MapView>
             )
         } else {
+            console.log('listCar: ' + JSON.stringify(this.state.listCar))
             return (
                 <MapView style={styles.container}
                     ref={ref => {
@@ -94,30 +105,51 @@ class Map extends Component {
                     }}
                     provider={PROVIDER_GOOGLE}
                     initialRegion={{
-                        latitude: parseFloat(this.props.latLocation), 
-                        longitude: parseFloat(this.props.lngLocation), 
+                        latitude: parseFloat(this.props.latLocation),
+                        longitude: parseFloat(this.props.lngLocation),
                         latitudeDelta: 0,
-                        longitudeDelta: 0.001,
+                        longitudeDelta: 0.05,
                     }}
                     region={this.state.region}
                 >
                     <MapView.Marker
                         coordinate={{
-                            latitude: parseFloat(this.props.latLocation), 
-                            longitude: parseFloat(this.props.lngLocation), 
+                            latitude: parseFloat(this.props.latLocation),
+                            longitude: parseFloat(this.props.lngLocation),
                         }}
-                        title={"Điểm nhận"}
+                        title={"Điểm đón"}
+                        identifier={'mk1'}
                     />
-                    {this.state.listCar.map((obj, i) => (
-                        <Marker
-                            image={require(imageMarker)}
-                            title={obj.name}
-                            coordinate={{
-                                latitude: obj.latitude,
-                                longitude: obj.longitude,
-                            }}
-                        />
-                    ))}
+
+                    <MapView.Marker
+                        coordinate={{
+                            latitude: parseFloat(this.props.latitude_drop),
+                            longitude: parseFloat(this.props.longitude_drop),
+                        }}
+                        title={"Điểm trả"}
+                        identifier={'mk2'}
+                    />
+
+                    <MapViewDirections
+                        origin={{ latitude: this.props.latLocation, longitude: this.props.lngLocation }}
+                        destination={{ latitude: this.props.latitude_drop, longitude: this.props.longitude_drop }}
+                        apikey={GOOGLE_MAPS_API_KEY}
+                        strokeWidth={4}
+                        strokeColor="#669df6"
+                        onReady={result => {
+                            this.mapRef.fitToSuppliedMarkers(['mk1', 'mk2'], {
+                                edgePadding:
+                                {
+                                    top: 300,
+                                    right: 100,
+                                    bottom: 100,
+                                    left: 100
+                                }
+                            })
+                            this.mapRef.fitToElements(true);
+                        }}
+                    />
+                    {this.renderListCar(this.state.listCar)}
                 </MapView>
             )
         }
@@ -147,7 +179,7 @@ class Map extends Component {
                         placeholder={'Nhập điểm đến'}
                         value={this.props.drop_add}
                     />
-                    <ButtonFull value={'Tiếp tục'} onPress={() => { this.props.navigation.navigate('ListCarTaxiNow') }} />
+                    <ButtonFull value={'Tiếp tục'} onPress={this.gotoListCarTaxiNow} />
                 </View>
             </View>
         )
@@ -202,6 +234,7 @@ function mapStateToProps(state) {
         addressLocationComponent: state.info.addressLocationComponent,
         latLocation: state.info.latLocation,
         lngLocation: state.info.lngLocation,
+        token: state.thongtin.token,
     }
 }
 
