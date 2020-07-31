@@ -762,3 +762,12 @@ export const addSendCaro = (sendCaro, label) => {
 }
 
 
+export const addCaroDuration = (durationCaro, distanceCaro) => {
+    return {
+        type: types.ADD_CARO_DURATION,
+        durationCaro: durationCaro,
+        distanceCaro: distanceCaro,
+    }
+}
+
+

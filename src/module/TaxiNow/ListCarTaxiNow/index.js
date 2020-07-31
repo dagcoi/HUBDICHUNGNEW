@@ -28,7 +28,8 @@ class ListCar extends Component {
     }
 
     async getProvider() {
-        const url = `${link.URL_API_PORTAL}price/v1/products?bookingTime=&startPlace=${JSON.stringify(this.props.addressLocationComponent)}&endPlace=${JSON.stringify(this.props.component_drop)}&productType=transfer_service&provider=caro`
+        const url = `${link.URL_API_PORTAL}price/v1/products?bookingTime=&startPlace=${JSON.stringify(this.props.addressLocationComponent)}&endPlace=${JSON.stringify(this.props.component_drop)}&productType=transfer_service&provider=caro&estimateDistance=${this.props.distanceCaro}&estimateTime=${this.props.durationCaro}`
+        // const url = `${link.URL_API_PORTAL}price/v1/products?bookingTime=&startPlace=${JSON.stringify(this.props.addressLocationComponent)}&endPlace=${JSON.stringify(this.props.component_drop)}&productType=transfer_service&provider=caro`
         console.log(url)
         try {
             const response = await fetch(url, {
@@ -148,7 +149,8 @@ function mapStateToProps(state) {
         chair: state.info.chair,
         is_from_airport: state.info.is_from_airport,
         product_chunk_type: state.info.product_chunk_type,
-        duration: state.info.duration,
+        durationCaro: state.info.durationCaro,
+        distanceCaro: state.info.distanceCaro,
     }
 }
 export default connect(mapStateToProps,{addSendCaro: addSendCaro})(ListCar);

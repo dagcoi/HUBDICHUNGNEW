@@ -461,6 +461,14 @@ class Login extends Component {
                             <Text style={styles.textLine}>Bạn chưa có tài khoản? Đăng ký.</Text>
                         </TouchableOpacity>
 
+                        <TouchableOpacity style={{ marginTop: 16 }}
+                            onPress={() => {
+                                this.props.navigation.navigate('Login2')
+                            }}
+                        >
+                            <Text style={styles.textLine}>Đăng nhập OTP.</Text>
+                        </TouchableOpacity>
+
                     </View> :
                     <View style={{ width: SCREEN_WIDTH * 19 / 20, justifyContent: 'center', borderRadius: 8, minHeight: 100, padding: 8, }}>
 

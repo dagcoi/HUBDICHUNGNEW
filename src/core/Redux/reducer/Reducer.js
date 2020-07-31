@@ -91,6 +91,8 @@ const defaultState = {
     latLocation: null,
     lngLocation: null,
     sendCaro: null,
+    durationCaro: null,
+    distanceCaro: null,
 }
 const Reducer = (state = defaultState, action) => {
     switch (action.type) {
@@ -310,6 +312,12 @@ const Reducer = (state = defaultState, action) => {
                 ...state,
                 sendCaro: action.sendCaro,
                 label: action.label,
+            }
+        case types.ADD_CARO_DURATION:
+            return {
+                ...state,
+                durationCaro: action.durationCaro,
+                distanceCaro: action.distanceCaro,
             }
 
         default:

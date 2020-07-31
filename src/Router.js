@@ -31,6 +31,7 @@ import FAQ from './module/WebView/FAQ'
 import PoliciesAndServices from './module/WebView/PoliciesAndServices'
 
 import Login from './module/Account/Login'
+import Login2 from './module/Account/Login/LoginAuth'
 import Profile from './module/Account/Profile'
 import ListBooking from './module/ListBooking'
 import DetailTicket from './module/ListBooking/DetailTicket.js'
@@ -267,6 +268,13 @@ const RootStack = createStackNavigator({
 const Profiles = createStackNavigator({
     Login: {
         screen: Login,
+        navigationOptions: {
+            header: null,
+        }
+    },
+
+    Login2: {
+        screen: Login2,
         navigationOptions: {
             header: null,
         }

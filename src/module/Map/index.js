@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { ButtonFull } from '../../component/Button';
 import * as link from '../../URL'
 import Toast from 'react-native-simple-toast';
+import { addCaroDuration } from '../../core/Redux/action/Action'
 
 const origin = { latitude: 20.97820166666667, longitude: 105.79656666666666 };
 const GOOGLE_MAPS_API_KEY = key.KEY_GOOGLE;
@@ -36,8 +37,8 @@ class Map extends Component {
 
     async getCarAround(address) {
         var url = link.URL_API_PORTAL + `price/v1/near-products?startPlace=${JSON.stringify(address)}&provider=caro`
-        console.log(url)
-        console.log(this.props.token)
+        // console.log(url)
+        // console.log(this.props.token)
         try {
             const response = await fetch(url, {
                 method: 'GET',
@@ -47,7 +48,7 @@ class Map extends Component {
             });
             const responseJson = await response.json();
             const listCar = responseJson.data;
-            console.log('abc : .......' + listCar);
+            // console.log('abc : .......' + listCar);
             this.setState({ listCar: listCar })
             return true
         }
@@ -66,7 +67,7 @@ class Map extends Component {
     }
 
     renderListCar(listCar) {
-        console.log('qqq' + listCar)
+        // console.log('qqq' + listCar)
         if (listCar) {
             return (
                 listCar.map((obj, i) => (
@@ -96,12 +97,12 @@ class Map extends Component {
                     }}
                 ></MapView>
             )
-        } else {
-            console.log('listCar: ' + JSON.stringify(this.state.listCar))
+        } else if (!this.props.drop_add) {
+            // console.log('1' + this.props.drop_add.length)
             return (
                 <MapView style={styles.container}
                     ref={ref => {
-                        this.map = ref;
+                        this.mapRef = ref;
                     }}
                     provider={PROVIDER_GOOGLE}
                     initialRegion={{
@@ -110,7 +111,31 @@ class Map extends Component {
                         latitudeDelta: 0,
                         longitudeDelta: 0.05,
                     }}
-                    region={this.state.region}
+                >
+                    <MapView.Marker
+                        coordinate={{
+                            latitude: parseFloat(this.props.latLocation),
+                            longitude: parseFloat(this.props.lngLocation),
+                        }}
+                        title={"Điểm đón"}
+                        identifier={'mk1'}
+                    />
+                </MapView>
+            )
+        } else {
+            // console.log('2' + this.props.drop_add.length)
+            return (
+                <MapView style={styles.container}
+                    ref={ref => {
+                        this.mapRef = ref;
+                    }}
+                    provider={PROVIDER_GOOGLE}
+                    initialRegion={{
+                        latitude: parseFloat(this.props.latLocation),
+                        longitude: parseFloat(this.props.lngLocation),
+                        latitudeDelta: 0,
+                        longitudeDelta: 0.05,
+                    }}
                 >
                     <MapView.Marker
                         coordinate={{
@@ -136,6 +161,9 @@ class Map extends Component {
                         apikey={GOOGLE_MAPS_API_KEY}
                         strokeWidth={4}
                         strokeColor="#669df6"
+                        language={'vn'}
+                        timePrecision={'now'}
+                        splitWaypoints={true}
                         onReady={result => {
                             this.mapRef.fitToSuppliedMarkers(['mk1', 'mk2'], {
                                 edgePadding:
@@ -146,6 +174,9 @@ class Map extends Component {
                                     left: 100
                                 }
                             })
+                            this.props.addCaroDuration(result.duration, result.distance)
+                            console.log('thời gian: ' + result.duration)
+                            console.log('Quãng đường: ' + result.distance)
                             this.mapRef.fitToElements(true);
                         }}
                     />
@@ -238,4 +269,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps)(Map);
+export default connect(mapStateToProps, { addCaroDuration: addCaroDuration })(Map);
