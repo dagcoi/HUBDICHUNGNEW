@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Image, StyleSheet, Text, ScrollView, Linking } from 'react-native'
+import { View, Image, StyleSheet, Text, ScrollView, Linking, ActivityIndicator } from 'react-native'
 import ImageTextDiChung from '../../component/ImageTextDiChung'
 import { StatusTicket } from '../../component/Ticket'
 
@@ -36,7 +36,40 @@ function DetailCaro({ item }) {
             {renderDetailTrip(item)}
             {renderDetailCustomer(item)}
             {renderComment(item)}
+            {item.forward.result ?renderDriverInformation(item) : null}
         </ScrollView>
+    )
+}
+
+function renderDriverInformation(item) {
+    console.log(JSON.stringify(item))
+    if (item.forward.result.status == 'WAITING') {
+        return (
+            <View style={{ height: 70, justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
+                <Text style={styles.textBigLeft1}>đang tìm tài xế...</Text>
+                <ActivityIndicator
+                    style={{ paddingHorizontal: 18 }}
+                    size='small'
+                />
+            </View>
+        )
+    }
+    return (
+        <View>
+            <Text style={styles.textBigLeft1}>Thông tin tài xế</Text>
+            <ImageTextDiChung
+                textBold={'Họ tên: '}
+                text={item.driver.username}
+            />
+            <ImageTextDiChung
+                textBold={'Số điện thoại: '}
+                text={item.driver.phone}
+            />
+            <ImageTextDiChung
+                textBold={'Xe: '}
+                text={item.driver.vehicle.name}
+            />
+        </View>
     )
 }
 
@@ -79,23 +112,6 @@ function renderDetailCustomer(item) {
             <ImageTextDiChung
                 source={require(imageEmail)}
                 text={item.bookingUser.email}
-            />
-        </View>
-    )
-}
-
-function renderDetailPeopleMove(item) {
-
-    return (
-        <View>
-            <Text style={styles.textBigLeft1}>Chi tiết người đi</Text>
-            <ImageTextDiChung
-                source={require(imagePerson)}
-                text={item.beneficiary.fullName}
-            />
-            <ImageTextDiChung
-                source={require(imageIconPhone)}
-                text={item.beneficiary.phone}
             />
         </View>
     )

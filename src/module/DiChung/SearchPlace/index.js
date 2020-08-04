@@ -5,7 +5,7 @@ import Geocoder from 'react-native-geocoding';
 import { connect } from 'react-redux';
 import { HeaderText } from '../../../component/Header'
 
-import { pickAddress, dropAddress, addAddressYCDB } from '../../../core/Redux/action/Action'
+import { pickAddress, dropAddress, addAddressYCDB, addLocation } from '../../../core/Redux/action/Action'
 navigator.geolocation = require('@react-native-community/geolocation')
 
 const API_KEY = 'AIzaSyBDZSUAda65OflvYZmZ4G5XSGONZv3pkuY';
@@ -37,8 +37,10 @@ class SearchPlace extends Component {
         console.log(this.state.address);
         if (address11 == 'Pick') {
             this._addPick();
-        } else {
+        } else if(address11== 'Drop') {
             this._addDrop();
+        }else {
+            this._addLocation();
         }
 
     }
@@ -55,6 +57,13 @@ class SearchPlace extends Component {
         this.props.dropAddress(address, address_component, lat, lng);
         this.goBack();
     }
+
+    _addLocation() {
+        const { address, address_component, lat, lng } = this.state;
+        this.props.addLocation(address, address_component, lat, lng);
+        this.goBack();
+    }
+    
     addlatlng(latitude, longitude) {
         this.setState({
             lat: latitude,
@@ -105,7 +114,7 @@ class SearchPlace extends Component {
                                     .catch(error => console.warn(error));
                             }}
 
-                            getDefaultValue={() => address11 == 'Pick' ? this.props.pick_add : this.props.drop_add}
+                            getDefaultValue={() => address11 == 'Pick' ? this.props.pick_add : address11=='Drop'? this.props.drop_add : this.props.addressLocation}
 
                             query={{
                                 key: API_KEY,
@@ -193,7 +202,8 @@ function mapStateToProps(state) {
     return {
         drop_add: state.info.drop_add,
         pick_add: state.info.pick_add,
+        addressLocation: state.info.addressLocation, 
     }
 }
 
-export default connect(mapStateToProps, { dropAddress: dropAddress, pickAddress: pickAddress, addAddressYCDB: addAddressYCDB })(SearchPlace)
+export default connect(mapStateToProps, { dropAddress: dropAddress, pickAddress: pickAddress, addAddressYCDB: addAddressYCDB, addLocation: addLocation })(SearchPlace)

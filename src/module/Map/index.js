@@ -11,6 +11,8 @@ import { ButtonFull } from '../../component/Button';
 import * as link from '../../URL'
 import Toast from 'react-native-simple-toast';
 import { addCaroDuration } from '../../core/Redux/action/Action'
+import BottomSheet from 'reanimated-bottom-sheet'
+import { HeaderText } from '../../component/Header'
 
 const origin = { latitude: 20.97820166666667, longitude: 105.79656666666666 };
 const GOOGLE_MAPS_API_KEY = key.KEY_GOOGLE;
@@ -186,32 +188,64 @@ class Map extends Component {
         }
     }
 
+    formInputAddress = () => {
+        return (
+            <View style={styles.formInput}>
+                <ImageInputTextDiChung
+                    onPress={() => {
+                        this.props.navigation.push("SearchPlace", {
+                            search: 'Location',
+                            placeholder: 'Nhập điểm xuất phát',
+                        });
+                    }}
+                    source={require(imageLocation)}
+                    placeholder={'Nhập điểm xuất phát'}
+                    value={this.props.addressLocation}
+                    noBorderTop
+                />
+
+                <ImageInputTextDiChung
+                    onPress={() => {
+                        this.props.navigation.push("SearchPlace", {
+                            search: 'Drop',
+                            placeholder: 'Nhập điểm đến',
+                        });
+                    }}
+                    source={require(imageLocation)}
+                    placeholder={'Nhập điểm đến'}
+                    value={this.props.drop_add}
+                />
+                <ButtonFull value={'Tiếp tục'} onPress={this.gotoListCarTaxiNow} />
+            </View>
+        )
+    }
+
+    renderHeaderFilter = () => {
+        return (
+            <View style={{ height: 50, alignItems: 'center', flexDirection: 'row', paddingHorizontal: 8, backgroundColor: '#fff', borderTopRightRadius: 30, borderTopLeftRadius: 30, }}>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Nhập địa chỉ</Text>
+                </View>
+            </View>
+        )
+    }
+
+    goBack = () => {
+        this.props.navigation.goBack()
+    }
     render() {
         return (
             <View style={{ flex: 1 }}>
                 {this.renderPickToDrop()}
+                <HeaderText textCenter={'Nhập địa chỉ'} onPressLeft={this.goBack} />
+                <BottomSheet
+                    snapPoints={[200, 50]}
+                    renderContent={this.formInputAddress}
+                    renderHeader={this.renderHeaderFilter}
+                    enabledContentGestureInteraction={true}
+                    enabledBottomInitialAnimation={true}
+                />
 
-                <View style={styles.formInput}>
-                    <ImageInputTextDiChung
-                        source={require(imageLocation)}
-                        placeholder={'Nhập điểm xuất phát'}
-                        value={this.props.addressLocation}
-                        noBorderTop
-                    />
-
-                    <ImageInputTextDiChung
-                        onPress={() => {
-                            this.props.navigation.push("SearchPlace", {
-                                search: 'Drop',
-                                placeholder: 'Nhập điểm đến',
-                            });
-                        }}
-                        source={require(imageLocation)}
-                        placeholder={'Nhập điểm đến'}
-                        value={this.props.drop_add}
-                    />
-                    <ButtonFull value={'Tiếp tục'} onPress={this.gotoListCarTaxiNow} />
-                </View>
             </View>
         )
     }
@@ -236,9 +270,10 @@ const styles = StyleSheet.create({
         bottom: 400,
     },
     formInput: {
+        height: 150,
         backgroundColor: '#fff',
-        margin: 8,
-        borderRadius: 8,
+        // margin: 8,
+        paddingHorizontal: 16,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,

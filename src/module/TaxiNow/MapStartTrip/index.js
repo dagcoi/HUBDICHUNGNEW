@@ -20,6 +20,7 @@ class Map extends Component {
         super(props);
 
         this.state = {
+            infoTrip: null,
             indexMarker: {
                 start: 0,
                 end: 1
@@ -45,22 +46,26 @@ class Map extends Component {
         // this.findCoordinates()
         this.setState({ showFillDriver: true, showDriverInformation: false })
         Toast.show(navigation.getParam('id'))
-        // this.getTicketByBookingId()
+        this.getTicketByBookingId(navigation.getParam('id'))
     }
 
-    getTicketByBookingId() {
+    componentWillUnmount() {
+        clearInterval(this._interval);
+    }
+
+
+    getTicketByBookingId(id) {
         this._interval = setInterval(() => {
-            const { navigation } = this.props;
-            const url = link.URL_API_PORTAL + `booking/v1/bookings/${navigation.getParam('id')}`
+            const url = link.URL_API_PORTAL + `booking/v1/bookings/${id}`
+            console.log(url)
             if (this.state.loadData) {
                 return fetch(url)
                     .then((res) => res.json())
                     .then((jsonRes) => {
                         console.log(this.state.count + JSON.stringify(jsonRes))
                         this.setState({
-                            info: jsonRes.data,
+                            infoTrip: jsonRes.data,
                             is_loading: false,
-                            timeReload: jsonRes.data.forward.status == 'forwarded' ? 30000 : 10000,
                             bookingDetail: jsonRes.data,
                             count: this.state.count + 1
                         })
@@ -165,40 +170,68 @@ class Map extends Component {
     }
 
     formDriverInformation = () => {
-        return (
-            <View style={{ backgroundColor: '#fff', }}>
 
-                <View style={{ paddingHorizontal: 8, height: 600 }}>
-                    <TextSpaceBetween
-                        textBold={'Họ tên: '}
-                        text={this.state.driverInformation.name}
-                    />
-                    <TextSpaceBetween
-                        textBold={'Số điện thoại: '}
-                        text={this.state.driverInformation.phone}
-                    />
-                    <TextSpaceBetween
-                        textBold={'Email: '}
-                        text={this.state.driverInformation.email}
-                    />
-                    <TextSpaceBetween
-                        textBold={'Số chuyến: '}
-                        text={this.state.driverInformation.count + ' chuyến'}
-                    />
-                    <TextSpaceBetween
-                        textBold={'Đánh giá: '}
-                        text={this.state.driverInformation.star}
-                    />
-                    <TouchableOpacity
-                        style={{ padding: 8, height: 50, justifyContent: 'center', alignItems: 'center' }}
-                        onPress={() => Linking.openURL(`tel: ${this.state.driverInformation.phone}`)}
-                    >
-                        <Text style={{ color: '#77a300', textDecorationLine: 'underline' }}>Liên hệ với lái xe</Text>
-                    </TouchableOpacity>
+        if (this.state.infoTrip.forward) {
+            // console.log('tripppppp999 : .......' + JSON.stringify(this.state.infoTrip))
+            { this.state.infoTrip.forward && this.state.infoTrip.forward.result && this.state.infoTrip.forward.result.status ? console.log(this.state.infoTrip.forward.result.status) : console.log('a') }
+            return (
+                <View style={{ backgroundColor: '#fff', }}>
+
+                    <View style={{ paddingHorizontal: 8, height: 600 }}>
+                        <TextSpaceBetween
+                            textBold={'Họ tên: '}
+                            text={this.state.infoTrip.forward.result.driver_info.name}
+                        />
+                        <TextSpaceBetween
+                            textBold={'Số điện thoại: '}
+                            text={this.state.infoTrip.forward.result.driver_info.phone}
+                        />
+                        <TextSpaceBetween
+                            textBold={'Xe: '}
+                            text={this.state.infoTrip.forward.result.driver_info.vehicle_model}
+                        />
+                        {/* <TextSpaceBetween
+                            textBold={'Số chuyến: '}
+                            text={this.state.infoTrip.forward.result + ' chuyến'}
+                        />
+                        <TextSpaceBetween
+                            textBold={'Đánh giá: '}
+                            text={this.state.infoTrip.forward.result}
+                        /> */}
+                        {this.state.infoTrip.forward && this.state.infoTrip.forward.result && this.state.infoTrip.forward.result.status ?
+                            <TextSpaceBetween
+                                textBold={'Trạng thái chuyến đi: '}
+                                text={
+                                    this.state.infoTrip.forward.result.status == 'WAITING' ? 'Đang tìm tài xế' :
+                                        this.state.infoTrip.forward.result.status == 'DRIVER_COMMING' ? 'Tài xế đang đến đón' :
+                                            this.state.infoTrip.forward.result.status == 'FAILED' ? 'Không tìm thấy tài xế' :
+                                                this.state.infoTrip.forward.result.status == 'DRIVER_WAITING' ? ' Tài xế đã đến vị trí đón' :
+                                                    this.state.infoTrip.forward.result.status == 'DRIVER_CANCEL' ? 'Tài xế hủy chuyến ' :
+                                                        this.state.infoTrip.forward.result.status == 'MOVING' ? 'Khách đã lên xe, chuyến đi bắt đầu' :
+                                                            this.state.infoTrip.forward.result.status == 'DROP' ? 'Khách xuống xe ' :
+                                                                this.state.infoTrip.forward.result.status == 'PAYMENT' ? 'Nhận thanh toán từ khách hàng' :
+                                                                    this.state.infoTrip.forward.result.status == 'FINISHED' ? 'Hoàn thành chuyến đi' : ''}
+                            /> :
+                            null
+                        }
+                        <TouchableOpacity
+                            style={{ padding: 8, height: 50, justifyContent: 'center', alignItems: 'center' }}
+                            onPress={() => Linking.openURL(`tel: ${this.state.driverInformation.phone}`)}
+                        >
+                            <Text style={{ color: '#77a300', textDecorationLine: 'underline' }}>Liên hệ với lái xe</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={{ padding: 8, height: 50, justifyContent: 'center', alignItems: 'center' }}
+                            onPress={() => { this.setState({ showFillDriver: true }) }}
+                        >
+                            <Text>Tìm tài xế</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-
-            </View>
-        )
+            )
+        }
+        return null;
     }
 
     bottomInformation() {

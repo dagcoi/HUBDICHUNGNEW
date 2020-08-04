@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, BackHandler, Alert, Image, Linking, Dimensions, ScrollView, SafeAreaView, AsyncStorage, Modal, ActivityIndicator, Platform } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, BackHandler, Alert, Image, Linking, Dimensions, ScrollView, SafeAreaView, AsyncStorage, Modal, ActivityIndicator, Platform, PermissionsAndroid, DeviceEventEmitter } from 'react-native';
 import { connect } from 'react-redux';
 import WebView from 'react-native-webview';
 import * as link from '../../URL'
@@ -62,36 +62,62 @@ class Home1 extends Component {
     }
 
     componentDidMount() {
-        this.getLocation()
+        this.getLocationPlatform()
         this.callApiInteresting()
         this.callApiNewPaper()
         this._retrieveData()
     }
 
 
-    getLocation = () => {
-        var data;
-        Geolocation.getCurrentPosition(
-            position => {
-                Geocoder.init(GOOGLE_MAPS_API_KEY);
-                Geocoder.from(position.coords.latitude, position.coords.longitude)
-                    .then(json => {
-                        var addressLocation = json.results[0].formatted_address;
-                        var addressLocationComponent = json.results[0];
-                        var lat = json.results[0].geometry.location.lat;
-                        var lng = json.results[0].geometry.location.lng;
-                        this.props.addLocation(addressLocation, addressLocationComponent, lat, lng)
-                        console.log('addressLocation: ' + addressLocation)
-                        console.log('addressLocationComponent: ' + JSON.stringify(addressLocationComponent))
-                        console.log('lat: ' + lat)
-                        console.log('lng: ' + lng)
-                    })
-                    .catch(error => console.warn(error));
-            },
-            error => { console.log(error) },
-            { enableHighAccuracy: true, timeout: 5000, maximumAge: 1000 }
-        );
+    getLocationPlatform = async () => {
+        console.log('abc')
+        if (Platform.OS === 'android') {
+            try {
+                const granted = await PermissionsAndroid.request(
+                    PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+                    {
+                        title: "Yêu cầu quyền truy cập vị trí",
+                        message:
+                            "Cho phép Đi Chung truy cập vị trí của thiết bị?",
+                        buttonNeutral: "Nhắc tôi sau",
+                        buttonNegative: "Không",
+                        buttonPositive: "Đồng ý"
+                    }
+                );
+                if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                    this.getLocation()
+                } else {
+                    console.log("Permission Location denied");
+                }
+            } catch (err) {
+                console.warn(err);
+            }
+        } else {
+            this.getLocation()
+        }
     };
+
+    getLocation() {
+        console.log('getLocation')
+        Geolocation.getCurrentPosition(info => {
+            console.log('info' + JSON.stringify(info))
+            Geocoder.init(GOOGLE_MAPS_API_KEY);
+            Geocoder.from(info.coords.latitude, info.coords.longitude)
+                .then(json => {
+                    var addressLocation = json.results[0].formatted_address;
+                    var addressLocationComponent = json.results[0];
+                    var lat = json.results[0].geometry.location.lat;
+                    var lng = json.results[0].geometry.location.lng;
+                    this.props.addLocation(addressLocation, addressLocationComponent, lat, lng)
+                    console.log('addressLocation: ' + addressLocation)
+                    console.log('addressLocationComponent: ' + JSON.stringify(addressLocationComponent))
+                    console.log('lat: ' + lat)
+                    console.log('lng: ' + lng)
+                })
+                .catch(error => console.warn(error));
+        });
+        console.log('getLocation')
+    }
 
     _retrieveData = async () => {
         try {
