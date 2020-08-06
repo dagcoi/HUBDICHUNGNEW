@@ -15,7 +15,7 @@
 #import <React/RCTRootView.h>
 #import "RNFirebaseNotifications.h"
 #import "RNFirebaseMessaging.h"
-
+@import Firebase;
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, Button, Text, TextInput, Image } from 'react-native';
-
+import { View, Text, TextInput, Image } from 'react-native';
+import * as link from '../../../URL'
+import { ButtonFull } from '../../../component/Button'
 import firebase from 'react-native-firebase';
 
 const successImageUri = 'https://cdn.pixabay.com/photo/2015/06/09/16/12/icon-803718_1280.png';
@@ -9,6 +10,7 @@ export default class PhoneAuthTest extends Component {
     constructor(props) {
         super(props);
         this.unsubscribe = null;
+        this.getIdToken = null;
         this.state = {
             user: null,
             message: '',
@@ -18,10 +20,18 @@ export default class PhoneAuthTest extends Component {
         };
     }
 
-    componentDidMount() {
-        this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+
+    async componentDidMount() {
+        this.unsubscribe = await firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 this.setState({ user: user.toJSON() });
+                console.log(user); // this is shown. Firebase user and provider data
+                console.log(user.uid); // Shown
+                // this.cpn()
+                user.getIdToken().then((idToken) => {  // <------ Check this line
+                    console.log(idToken); // It shows the Firebase token now
+                    this.apiLogin(idToken)
+                })
             } else {
                 // User has been signed out, reset the state
                 this.setState({
@@ -35,8 +45,37 @@ export default class PhoneAuthTest extends Component {
         });
     }
 
+    apiLogin = (token) => {
+        let url = link.URL_API_PORTAL + 'user/v1/users/login/phone'
+        // console.log(url)
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ "IDToken": token })
+        })
+            .then(res => res.json())
+            .then(resJson => {
+                if (resJson.data) {
+                    // this.addDataLogin(userName, passWord, resJson.data)
+                    this.gotoProfileScreen(JSON.stringify(resJson.data))
+                    console.log('resJson.data' + resJson.data)
+                }
+                else {
+                    this.setState({
+                        messageLogin: resJson.error.message
+                    })
+                }
+            }).catch((error) => { console.log(error) });
+    }
+    gotoProfileScreen(dataLogin) {
+        this.props.navigation.replace('Profile', { 'dataLogin': dataLogin })
+    }
+
     componentWillUnmount() {
         if (this.unsubscribe) this.unsubscribe();
+        if (this.getIdToken) this.getIdToken();
     }
 
     signIn = () => {
@@ -44,53 +83,38 @@ export default class PhoneAuthTest extends Component {
         this.setState({ message: 'Sending code ...' });
 
         firebase.auth().signInWithPhoneNumber(phoneNumber)
-            .then(confirmResult => this.setState({ confirmResult, message: 'Code has been sent!' }))
+            .then(confirmResult => {
+                this.setState({ confirmResult, message: 'Code has been sent!' })
+                console.log('confirmResult:   ' + confirmResult)
+            })
             .catch(error => this.setState({ message: `Sign In With Phone Number Error: ${error.message}` }));
     };
 
-    confirmCode = () => {
+    confirmCode = async () => {
         const { codeInput, confirmResult } = this.state;
+        var credential = firebase.auth.PhoneAuthProvider.credential(confirmResult.verificationId, codeInput);
+        firebase.auth().signInWithCredential(credential).then(
+            this.unsubscribe
+        );
 
-        if (confirmResult && codeInput.length) {
-            confirmResult.confirm(codeInput)
-                .then((user) => {
-                    this.setState({ message: 'Code Confirmed!' });
-                })
-                .catch(error => this.setState({ message: `Code Confirm Error: ${error.message}` }));
-        }
     };
-
-    signOut = () => {
-        firebase.auth().signOut();
-    }
 
     renderPhoneNumberInput() {
         const { phoneNumber } = this.state;
 
         return (
-            <View style={{ padding: 25 }}>
-                <Text>Enter phone number:</Text>
-                <TextInput
-                    autoFocus
-                    style={{ height: 40, marginTop: 15, marginBottom: 15, borderBottomWidth: 1, borderColor: '#555' }}
-                    onChangeText={value => this.setState({ phoneNumber: value })}
-                    placeholder={'Phone number ... '}
-                    value={phoneNumber}
-                />
-                <Button title="Sign In" color="green" onPress={this.signIn} />
-            </View>
-        );
-    }
-
-    renderMessage() {
-        const { message } = this.state;
-
-        if (!message.length) return null;
-
-        return (
-            <View>
-                <Text style={{ padding: 5, backgroundColor: '#000', color: '#fff' }}>{message}</Text>
-                <TextInput>{message}</TextInput>
+            <View style={{ flex: 1, padding: 25, justifyContent: 'center', alignItems: 'center', backgroundColor: '#00363d' }}>
+                <Text style={{ textAlign: 'center', color: '#fff', fontSize: 22, fontWeight: 'bold' }}>Chào mừng đến với Đi Chung</Text>
+                <View style={{ flexDirection: 'row', height: 50, marginVertical: 20, paddingHorizontal: 8 }}>
+                    <TextInput
+                        autoFocus
+                        style={{ flex: 1, textAlign: 'left', paddingHorizontal: 16, borderColor: '#77a300', backgroundColor: '#fff', borderRadius: 8 }}
+                        onChangeText={value => this.setState({ phoneNumber: value })}
+                        placeholder={'Số điện thoại'}
+                        value={phoneNumber}
+                    />
+                </View>
+                <ButtonFull value="Xác nhận" onPress={this.signIn} />
             </View>
         );
     }
@@ -99,16 +123,18 @@ export default class PhoneAuthTest extends Component {
         const { codeInput } = this.state;
 
         return (
-            <View style={{ marginTop: 25, padding: 25 }}>
-                <Text>Enter verification code below:</Text>
-                <TextInput
-                    autoFocus
-                    style={{ height: 40, marginTop: 15, marginBottom: 15 }}
-                    onChangeText={value => this.setState({ codeInput: value })}
-                    placeholder={'Code ... '}
-                    value={codeInput}
-                />
-                <Button title="Confirm Code" color="#841584" onPress={this.confirmCode} />
+            <View style={{ flex: 1, padding: 25, justifyContent: 'center', alignItems: 'center', backgroundColor: '#00363d' }}>
+                <Text style={{ textAlign: 'center', color: '#fff', fontWeight: 'bold' }}>Số điện thoại:<Text style={{fontWeight: 'bold'}}>{this.state.phoneNumber}</Text></Text>
+                <View style={{ flexDirection: 'row', height: 50, marginVertical: 20, paddingHorizontal: 8 }}>
+                    <TextInput
+                        autoFocus
+                        style={{ flex: 1, textAlign: 'left', paddingHorizontal: 16, borderColor: '#77a300', backgroundColor: '#fff', borderRadius: 8 }}
+                        onChangeText={value => this.setState({ codeInput: value })}
+                        placeholder={'Nhập OTP ... '}
+                        value={codeInput}
+                    />
+                </View>
+                <ButtonFull value="Xác nhận" onPress={this.confirmCode} />
             </View>
         );
     }
@@ -120,26 +146,8 @@ export default class PhoneAuthTest extends Component {
 
                 {!user && !confirmResult && this.renderPhoneNumberInput()}
 
-                {this.renderMessage()}
-
                 {!user && confirmResult && this.renderVerificationCodeInput()}
 
-                {user && (
-                    <View
-                        style={{
-                            padding: 15,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            backgroundColor: '#77dd77',
-                            flex: 1,
-                        }}
-                    >
-                        <Image source={{ uri: successImageUri }} style={{ width: 100, height: 100, marginBottom: 25 }} />
-                        <Text style={{ fontSize: 25 }}>Signed In!</Text>
-                        <Text>{JSON.stringify(user)}</Text>
-                        <Button title="Sign Out" color="red" onPress={this.signOut} />
-                    </View>
-                )}
             </View>
         );
     }

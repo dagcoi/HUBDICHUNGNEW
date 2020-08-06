@@ -9,6 +9,7 @@ import { NavigationActions, StackActions } from 'react-navigation'
 import { connect } from 'react-redux'
 import { addUser, addToken } from '../../../core/Redux/action/Action'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import firebase from 'react-native-firebase';
 
 const logo = '../../../image/logo_dc_taxi.png'
 const people = '../../../image/person.png'
@@ -64,11 +65,6 @@ class Profile extends Component {
             this.apiGetProfile(json._id)
         } else {
             this._retrieveData()
-        }
-        if (navigation.getParam('passWord')) {
-            this.setState({
-                passWord: navigation.getParam('passWord')
-            })
         }
     }
 
@@ -143,7 +139,7 @@ class Profile extends Component {
                 this.addDataLogin(resJson.data)
                 this.props.addUser(resJson.data.username, '123', 1)
                 this.props.addToken(resJson.data.token)
-            }).catch(error => {alert(error.message)})
+            }).catch(error => { alert(error.message) })
     }
 
     apiGetProfile(id) {
@@ -277,14 +273,14 @@ class Profile extends Component {
                     <View style={{ height: SCREEN_WIDTH, width: SCREEN_WIDTH, }}>
                         <View style={{ height: SCREEN_WIDTH, width: SCREEN_WIDTH, justifyContent: 'center', alignItems: 'center', zIndex: 5, position: 'relative', borderRadius: 1 }}>
                             <Image
-                                style={{ width: SCREEN_WIDTH/3, height: SCREEN_WIDTH/3, borderRadius: SCREEN_WIDTH / 4 }}
+                                style={{ width: SCREEN_WIDTH / 3, height: SCREEN_WIDTH / 3, borderRadius: SCREEN_WIDTH / 4 }}
                                 source={require(logo)}
                             />
                         </View>
                         <View style={{ height: SCREEN_WIDTH, width: SCREEN_WIDTH, zIndex: 1, position: 'absolute', }}>
                             <View style={{ flex: 1, justifyContent: 'center' }}>
                                 <Image
-                                    style={{ height: SCREEN_WIDTH/2, width: SCREEN_WIDTH, resizeMode: 'stretch', }}
+                                    style={{ height: SCREEN_WIDTH / 2, width: SCREEN_WIDTH, resizeMode: 'stretch', }}
                                     source={require(home)}
                                 />
                             </View>
@@ -425,6 +421,7 @@ class Profile extends Component {
                                     { this.removeDataLogin() }
                                     this.props.addUser('', '', 0)
                                     this.props.addToken('')
+                                    firebase.auth().signOut();
                                     const resetAction = StackActions.reset({
                                         index: 0,
                                         actions: [
