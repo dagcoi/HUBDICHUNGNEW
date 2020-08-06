@@ -1,4 +1,4 @@
-package com.hubapp;
+package vn.dichung.hubapp;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
