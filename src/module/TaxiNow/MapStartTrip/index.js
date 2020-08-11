@@ -26,8 +26,7 @@ class Map extends Component {
                 end: 1
             },
             showFillDriver: true,
-            showDriverInformation: false,
-            timeReload: 15000,
+            timeReload: 10000,
             count: 0,
             loadData: true,
             driverInformation: {
@@ -44,8 +43,8 @@ class Map extends Component {
     componentDidMount() {
         const { navigation } = this.props;
         // this.findCoordinates()
-        this.setState({ showFillDriver: true, showDriverInformation: false })
-        Toast.show(navigation.getParam('id'))
+        this.setState({ showFillDriver: true, })
+        // Toast.show(navigation.getParam('id'))
         this.getTicketByBookingId(navigation.getParam('id'))
     }
 
@@ -67,7 +66,8 @@ class Map extends Component {
                             infoTrip: jsonRes.data,
                             is_loading: false,
                             bookingDetail: jsonRes.data,
-                            count: this.state.count + 1
+                            count: this.state.count + 1,
+                            showFillDriver: (jsonRes.data.provider.status == '' || jsonRes.data.provider.status == 'WAITING' ? true : false)
                         })
                     }
                     )
@@ -139,11 +139,6 @@ class Map extends Component {
                     <View style={{ width: SCREEN_WIDTH * 4 / 5, height: 100, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff' }}>
                         <ActivityIndicator />
                         <Text>Đang tìm tài xế...</Text>
-                        <TouchableOpacity
-                            onPress={() => { this.setState({ showDriverInformation: true, showFillDriver: false }) }}
-                        >
-                            <Text>Thông tin tài xế</Text>
-                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
@@ -173,60 +168,32 @@ class Map extends Component {
 
         if (this.state.infoTrip.forward) {
             // console.log('tripppppp999 : .......' + JSON.stringify(this.state.infoTrip))
-            { this.state.infoTrip.forward && this.state.infoTrip.forward.result && this.state.infoTrip.forward.result.status ? console.log(this.state.infoTrip.forward.result.status) : console.log('a') }
+            { this.state.infoTrip.provider && this.state.infoTrip.provider.status ? console.log(this.state.infoTrip.provider.status) : console.log('a') }
             return (
                 <View style={{ backgroundColor: '#fff', }}>
 
                     <View style={{ paddingHorizontal: 8, height: 600 }}>
                         <TextSpaceBetween
                             textBold={'Họ tên: '}
-                            text={this.state.infoTrip.forward.result.driver_info.name}
+                            text={this.state.infoTrip.driver.username}
                         />
                         <TextSpaceBetween
                             textBold={'Số điện thoại: '}
-                            text={this.state.infoTrip.forward.result.driver_info.phone}
-                        />
-                        <TextSpaceBetween
-                            textBold={'Xe: '}
-                            text={this.state.infoTrip.forward.result.driver_info.vehicle_model}
+                            text={this.state.infoTrip.driver.phone}
+                            onPress
                         />
                         {/* <TextSpaceBetween
-                            textBold={'Số chuyến: '}
-                            text={this.state.infoTrip.forward.result + ' chuyến'}
-                        />
-                        <TextSpaceBetween
-                            textBold={'Đánh giá: '}
-                            text={this.state.infoTrip.forward.result}
+                            textBold={'gọi: '}
+                            text={this.state.count}
                         /> */}
                         {this.state.infoTrip.forward && this.state.infoTrip.forward.result && this.state.infoTrip.forward.result.status ?
                             <TextSpaceBetween
                                 textBold={'Trạng thái chuyến đi: '}
                                 text={
-                                    this.state.infoTrip.forward.result.status == 'WAITING' ? 'Đang tìm tài xế' :
-                                        this.state.infoTrip.forward.result.status == 'DRIVER_COMMING' ? 'Tài xế đang đến đón' :
-                                            this.state.infoTrip.forward.result.status == 'FAILED' ? 'Không tìm thấy tài xế' :
-                                                this.state.infoTrip.forward.result.status == 'DRIVER_WAITING' ? ' Tài xế đã đến vị trí đón' :
-                                                    this.state.infoTrip.forward.result.status == 'DRIVER_CANCEL' ? 'Tài xế hủy chuyến ' :
-                                                        this.state.infoTrip.forward.result.status == 'MOVING' ? 'Khách đã lên xe, chuyến đi bắt đầu' :
-                                                            this.state.infoTrip.forward.result.status == 'DROP' ? 'Khách xuống xe ' :
-                                                                this.state.infoTrip.forward.result.status == 'PAYMENT' ? 'Nhận thanh toán từ khách hàng' :
-                                                                    this.state.infoTrip.forward.result.status == 'FINISHED' ? 'Hoàn thành chuyến đi' : ''}
+                                    this.state.infoTrip.provider.statusLabel ?? 'Đang tìm tài xế'}
                             /> :
                             null
                         }
-                        <TouchableOpacity
-                            style={{ padding: 8, height: 50, justifyContent: 'center', alignItems: 'center' }}
-                            onPress={() => Linking.openURL(`tel: ${this.state.driverInformation.phone}`)}
-                        >
-                            <Text style={{ color: '#77a300', textDecorationLine: 'underline' }}>Liên hệ với lái xe</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            style={{ padding: 8, height: 50, justifyContent: 'center', alignItems: 'center' }}
-                            onPress={() => { this.setState({ showFillDriver: true }) }}
-                        >
-                            <Text>Tìm tài xế</Text>
-                        </TouchableOpacity>
                     </View>
                 </View>
             )
@@ -237,7 +204,7 @@ class Map extends Component {
     bottomInformation() {
         return (
             < BottomSheet
-                snapPoints={[height3, height1, height2,]}
+                snapPoints={[height2, height1, height3]}
                 renderContent={this.state.showFillDriver ? this.formFillDriver : this.formDriverInformation}
                 renderHeader={this.state.showFillDriver ? this.renderHeaderFilter : this.renderHeader}
                 enabledContentGestureInteraction={false}

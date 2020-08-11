@@ -41,6 +41,7 @@ import MapCombo from './module/ScreenAddress/Combo'
 import MapFood from './module/ScreenAddress/Food'
 import MapTruck from './module/ScreenAddress/Truck'
 import Map from './module/Map'
+import VeXeRe from './module/VeXeRe'
 
 import ListCarTaxiNow from './module/TaxiNow/ListCarTaxiNow'
 import CustomerInfoTaxiNow from './module/TaxiNow/CustomerInfoTaxiNow'
@@ -126,6 +127,13 @@ const RootStack = createStackNavigator({
 
     MapTruck: {
         screen: MapTruck,
+        navigationOptions: {
+            header: null,
+        },
+    },
+
+    VeXeRe: {
+        screen: VeXeRe,
         navigationOptions: {
             header: null,
         },

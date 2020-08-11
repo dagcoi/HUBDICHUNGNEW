@@ -8,8 +8,7 @@ import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures'
 import { addUser, addToken, addLocation } from '../../core/Redux/action/Action'
 import { setupPushNotification } from "../../service/pushNotificaion"
 import PushNotification from 'react-native-push-notification';
-import { notifications } from 'react-native-firebase';
-import firebase, { messaging } from 'react-native-firebase'
+import firebase from 'react-native-firebase'
 import { FlatGrid } from 'react-native-super-grid';
 import Detail from './infoDetail'
 import SwiperFlatListCustom from './SwiperFlatList'
@@ -48,8 +47,9 @@ class Home1 extends Component {
                 // { name: 'Combo du lịch', image: 6 },
                 { name: 'Vận chuyển hàng hóa', image: 7 },
                 { name: 'Thuê xe taxi tải', image: 8 },
-                // { name: 'Giao thực phẩm', image: 9 }
-                { name: 'Đặt xe đi luôn', image: 10 }
+                // { name: 'Giao thực phẩm', image: 9 },
+                { name: 'Đặt xe đi luôn', image: 10 },
+                { name: 'VEXERE', image: 11 }
             ],
             dataNewPaper: [],
             isLoadingNewPaper: true,
@@ -66,8 +66,130 @@ class Home1 extends Component {
         this.callApiInteresting()
         this.callApiNewPaper()
         this._retrieveData()
+        this._notificationClickAction();
     }
 
+    _notificationListener = async () => {
+        firebase.notifications().onNotification(notification => {
+            console.log('..... đã đến đây')
+            const { title, body, data, click_action } = notification;
+            console.log(notification)
+            // xử lí khi nhận notifi hiện notifi ở mọi chế độ
+            const channelId = new firebase.notifications.Android.Channel("Default", "Default", firebase.notifications.Android.Importance.Max);
+            firebase.notifications().android.createChannel(channelId);
+
+            // Vibration.vibrate(PATTERN)
+            if (Platform.OS === 'android') {
+
+                const localNotifi = new firebase.notifications.Notification({
+                    sound: 'default',
+                    show_in_foreground: true,
+                })
+                    .setNotificationId(notification.notificationId)
+                    .setTitle(title)
+                    .setSubtitle(notification.subtitle)
+                    .setBody(body)
+                    .setData(data)
+                    .android.setClickAction(click_action)
+                    .android.setChannelId('Default')
+                    .android.setSmallIcon('ic_stat_ic_notification')
+                    // .android.setClickAction(navigateBookingDetail)
+                    .android.setColor('#77a300')
+                    .android.setPriority(firebase.notifications.Android.Priority.Max)
+                firebase.notifications()
+                    .displayNotification(localNotifi)
+                    .catch((error) => console.error(error));
+            } else if (Platform.OS === 'ios') {
+                const localNotifi = new firebase.notifications.Notification()
+                    .setNotificationId(notification.notificationId)
+                    .setTitle(title)
+                    .setSubtitle(notification.subtitle)
+                    .setBody(body)
+                    .setData(data)
+                    .ios.setBadge(notification.ios.badge);
+                console.log('đã vào đến Notification iOS')
+
+                firebase.notifications()
+                    .displayNotification(localNotifi)
+                    .catch((error) => console.log(error));
+            }
+        })
+    }
+
+    _notificationListenerIOS = async () => {
+        firebase.messaging().onMessage(notification => {
+            console.log('... ddax ddeens ddaay')
+            if (Platform.OS === 'ios') {
+                console.log(notification)
+                const localNotifi = new firebase.notifications.Notification({
+                    sound: 'default',
+                    show_in_foreground: true,
+                })
+                    // .setNotificationId
+                    // .setNotificationId("Notifications")
+                    .setTitle(notification.data.title)
+                    .setSubtitle(notification.data.subtitle)
+                    .setBody(notification.data.body)
+                    .setData(notification.data.data)
+                    .ios.setBadge(9);
+                console.log('đã vào đến Notification iOS..')
+
+                firebase.notifications()
+                    .displayNotification(localNotifi)
+                    .catch((error) => {
+                        alert("Lỗi")
+                        console.log(error)
+                    });
+            }
+        })
+    }
+
+    _notificationClickAction = async () => {
+        const enable = await firebase.messaging().hasPermission();
+
+        console.log('notification: .... ')
+        if (enable) {
+            const fmcToken = await firebase.messaging().getToken()
+            console.log('fmcToken........', fmcToken);
+            this._notificationListener()
+        }
+        else {
+            try {
+                firebase.messaging().requestPermission();
+            }
+            catch (e) {
+                alert('use rejected the permissions');
+            }
+        }
+
+        this._notificationListenerIOS();
+
+
+        this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
+            const notification = notificationOpen.notification;
+            console.log('notificati  onOpenedListenernotificat ionOpenedListene rnotificationOp enedListener : ', notification)
+            if (notification.data && notification.data._id && notification.data.screen) {
+                //todo
+                this._handleNotificationOpen(notification.data.screen, notification.data.ticket_id ?? '', notification.data.code ?? '', notification.data.phone ?? '')
+            }
+            // notification.android.setChannelId(notification.notificationId)
+        })
+
+        // App close -> action open app
+        firebase.notifications().getInitialNotification()
+            .then((notificationOpen) => {
+                if (notificationOpen) {
+                    const notification = notificationOpen.notification;
+                    if (notification && notification.data && notification.data._id && notification.data.screen) {
+                        //todo            
+                        this._handleNotificationOpen(notification.data.screen, notification.data.ticket_id ?? '', notification.data.code ?? '', notification.data.phone ?? '')
+                        console.log('click notifi background')
+                    }
+                    // notification.android.setChannelId(notification.notificationId)
+                }
+            });
+
+    }
 
     getLocationPlatform = async () => {
         console.log('abc')
@@ -122,6 +244,7 @@ class Home1 extends Component {
     _retrieveData = async () => {
         try {
             const dataLogin = await AsyncStorage.getItem('dataLogin')
+            console.log('aaa')
             if (dataLogin !== null) {
                 let json = JSON.parse(dataLogin)
                 this.props.addUser(json.username, '123', 1)
@@ -130,6 +253,7 @@ class Home1 extends Component {
                 this.props.addUser(json.username, 'json.avatar', 0)
                 this.props.addToken('')
             }
+            console.log('aaa')
         } catch (error) {
             console.log(error)
         }
@@ -234,7 +358,8 @@ class Home1 extends Component {
                                                             item.image === 7 ? this.props.navigation.navigate('MapExpress') :
                                                                 item.image === 8 ? this.props.navigation.navigate('MapTruck') :
                                                                     item.image === 9 ? this.props.navigation.navigate('MapFood') :
-                                                                        this.props.navigation.navigate('Map')
+                                                                        item.image === 10 ? this.props.navigation.navigate('Map') :
+                                                                            this.props.navigation.navigate('VeXeRe')
                                 }}
                             >
                                 <Image

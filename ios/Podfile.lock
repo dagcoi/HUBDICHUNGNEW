@@ -383,6 +383,8 @@ PODS:
     - React
   - RNGestureHandler (1.5.0):
     - React
+  - RNInAppBrowser (3.4.0):
+    - React
   - RNKeyEvent (0.2.1):
     - React
   - RNPermissions (2.0.9):
@@ -434,6 +436,7 @@ DEPENDENCIES:
   - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
   - RNFirebase (from `../node_modules/react-native-firebase/ios`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNInAppBrowser (from `../node_modules/react-native-inappbrowser-reborn`)
   - RNKeyEvent (from `../node_modules/react-native-keyevent/ios`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -531,6 +534,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-firebase/ios"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNInAppBrowser:
+    :path: "../node_modules/react-native-inappbrowser-reborn"
   RNKeyEvent:
     :path: "../node_modules/react-native-keyevent/ios"
   RNPermissions:
@@ -596,6 +601,7 @@ SPEC CHECKSUMS:
   RNCPushNotificationIOS: 375feee5b89ad4aeee8a971f63fe4848902380b7
   RNFirebase: 37daa9a346d070f9f6ee1f3b4aaf4c8e3b1d5d1c
   RNGestureHandler: a4ddde1ffc6e590c8127b8b7eabfdade45475c74
+  RNInAppBrowser: 6097fbc6b09051b40a6a9ec22caf7af40b115ec0
   RNKeyEvent: 3cf540edbfe0a22293bd3f131b995a007f5a725f
   RNPermissions: 6db7e0a4d94c9c02390d11020b1d3d187aaf77e5
   RNReanimated: b2ab0b693dddd2339bd2f300e770f6302d2e960c

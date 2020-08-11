@@ -151,7 +151,7 @@ class CustomerInfoTaxiNow extends Component {
 
     mobileValidate(text) {
         var test = text.trim();
-        const reg = /^[0]?[3789]\d{8}$/;
+        const reg = /^(\+84)?(0)?[3789]\d{8}$/;
         if (reg.test(test) === false) {
             this.setState({
                 mobile_validate: false,
@@ -211,7 +211,7 @@ class CustomerInfoTaxiNow extends Component {
     createBooking() {
         var date = new Date();
 
-        Toast.show('thông tin ok')
+        // Toast.show('thông tin ok')
         // console.log(JSON.stringify(this.state.sendCaro))
         const sendCaro = this.props.sendCaro
         sendCaro.startPoints = [

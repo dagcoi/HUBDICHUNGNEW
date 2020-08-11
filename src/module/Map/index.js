@@ -60,6 +60,7 @@ class Map extends Component {
     }
 
     gotoListCarTaxiNow = () => {
+        console.log(this.props.component_drop + '...' + this.props.addressLocationComponent)
         if (this.props.component_drop && this.props.addressLocationComponent) {
             this.props.navigation.navigate('ListCarTaxiNow')
             // this.props.navigation.navigate('MapStartTrip')
@@ -215,7 +216,7 @@ class Map extends Component {
                     placeholder={'Nhập điểm đến'}
                     value={this.props.drop_add}
                 />
-                <ButtonFull value={'Tiếp tục'} onPress={this.gotoListCarTaxiNow} />
+                <ButtonFull value={'Tiếp tục'} onPress={() => this.gotoListCarTaxiNow()} />
             </View>
         )
     }
@@ -239,11 +240,12 @@ class Map extends Component {
                 {this.renderPickToDrop()}
                 <HeaderText textCenter={'Nhập địa chỉ'} onPressLeft={this.goBack} />
                 <BottomSheet
-                    snapPoints={[200, 50]}
+                    snapPoints={[200]}
                     renderContent={this.formInputAddress}
                     renderHeader={this.renderHeaderFilter}
                     enabledContentGestureInteraction={true}
                     enabledBottomInitialAnimation={true}
+                    enabledContentTapInteraction={false}
                 />
 
             </View>

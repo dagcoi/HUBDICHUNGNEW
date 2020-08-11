@@ -235,7 +235,7 @@ class InfoCustommer extends Component {
 
     mobileValidate(text) {
         var test = text.trim();
-        const reg = /^[0]?[3789]\d{8}$/;
+        const reg = /^(\+84)?(0)?[3789]\d{8}$/;
         if (reg.test(test) === false) {
             this.setState({
                 mobile_validate: false,

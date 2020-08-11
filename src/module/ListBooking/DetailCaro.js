@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { View, Image, StyleSheet, Text, ScrollView, Linking, ActivityIndicator } from 'react-native'
+import { View, Image, StyleSheet, Text, ScrollView, Linking, ActivityIndicator,TouchableOpacity } from 'react-native'
 import ImageTextDiChung from '../../component/ImageTextDiChung'
 import { StatusTicket } from '../../component/Ticket'
-
+import Toast from 'react-native-simple-toast';
 
 const imageLocation = '../../image/location2.png'
 const imageCalendar = '../../image/calendar.png'
@@ -36,39 +36,43 @@ function DetailCaro({ item }) {
             {renderDetailTrip(item)}
             {renderDetailCustomer(item)}
             {renderComment(item)}
-            {item.forward.result ?renderDriverInformation(item) : null}
+            {item.forward.result ? renderDriverInformation(item) : null}
         </ScrollView>
     )
 }
 
 function renderDriverInformation(item) {
     console.log(JSON.stringify(item))
-    if (item.forward.result.status == 'WAITING') {
-        return (
-            <View style={{ height: 70, justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
-                <Text style={styles.textBigLeft1}>đang tìm tài xế...</Text>
-                <ActivityIndicator
-                    style={{ paddingHorizontal: 18 }}
-                    size='small'
-                />
-            </View>
-        )
-    }
+
     return (
         <View>
-            <Text style={styles.textBigLeft1}>Thông tin tài xế</Text>
-            <ImageTextDiChung
-                textBold={'Họ tên: '}
-                text={item.driver.username}
-            />
-            <ImageTextDiChung
-                textBold={'Số điện thoại: '}
-                text={item.driver.phone}
-            />
-            <ImageTextDiChung
-                textBold={'Xe: '}
-                text={item.driver.vehicle.name}
-            />
+            {item.provider.status == 'WAITING' ? null :
+                <View>
+                    <Text style={styles.textBigLeft1}>Thông tin tài xế</Text>
+                    <ImageTextDiChung
+                        textBold={'Họ tên: '}
+                        text={item.driver.username}
+                    />
+                    <ImageTextDiChung
+                        textBold={'Số điện thoại: '}
+                        text={item.driver.phone}
+                    />
+                    {/* <TouchableOpacity
+                        onPress={() => {
+                            Toast.show('abc')
+                        }}
+                    >
+                        <Text>ABC</Text>
+                    </TouchableOpacity> */}
+                </View>
+            }
+            <View style={{ height: 70, justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
+                <Text style={styles.textBigLeft1}>{item.provider.statusLabel}</Text>
+                {item.provider.status == 'WAITING' ? <ActivityIndicator
+                    style={{ paddingHorizontal: 18 }}
+                    size='small'
+                /> : null}
+            </View>
         </View>
     )
 }

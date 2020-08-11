@@ -240,7 +240,7 @@ class BookingDetail extends Component {
                             </View>
                             <View style={{ paddingHorizontal: 16 }}>
                                 {this.renderPaymentOnline(this.state.bookingDetail)}
-                                {(this.state.bookingDetail.status == 'cancelled' || this.state.bookingDetail.status == 'completed' || this.state.bookingDetail.status == 'picked_up') ? null :
+                                {(this.state.bookingDetail.status == 'cancelled' || this.state.bookingDetail.status == 'completed' || this.state.bookingDetail.status == 'picked_up'|| this.state.bookingDetail.productType == 'transfer_service') ? null :
                                     <View style={{ paddingBottom: 8 }}>
                                         <ButtonGray
                                             value='HỦY VÉ'
