@@ -3,6 +3,8 @@ import { View, Text, TextInput, Image } from 'react-native';
 import * as link from '../../../URL'
 import { ButtonFull } from '../../../component/Button'
 import firebase from 'react-native-firebase';
+import CountDown from 'react-native-countdown-component';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const successImageUri = 'https://cdn.pixabay.com/photo/2015/06/09/16/12/icon-803718_1280.png';
 
@@ -17,6 +19,9 @@ export default class PhoneAuthTest extends Component {
             codeInput: '',
             phoneNumber: '+84',
             confirmResult: null,
+            countdown: 10,
+            timesup: true,
+            timing: false,
         };
     }
 
@@ -43,6 +48,37 @@ export default class PhoneAuthTest extends Component {
                 });
             }
         });
+
+    }
+
+    startTimer = () => {
+        this.clockCall = setInterval(() => {
+            this.decrementClock();
+        }, 1000);
+        this.setState({
+            timing: true,
+            timer: 120,
+        })
+        this.signIn()
+    }
+
+
+    componentWillUnmount() {
+        clearInterval(this.clockCall);
+    }
+
+    decrementClock = () => {
+        this.setState((prevstate) => ({
+            timer: prevstate.timer - 1
+        }), () => {
+            if (this.state.timer === 0) {
+                clearInterval(this.clockCall)
+                this.setState({
+                    timesup: true,
+                    timing: false,
+                })
+            }
+        })
     }
 
     apiLogin = (token) => {
@@ -99,12 +135,17 @@ export default class PhoneAuthTest extends Component {
 
     };
 
+    goBack = () => {
+        this.props.navigation.goBack()
+    }
+
     renderPhoneNumberInput() {
         const { phoneNumber } = this.state;
 
         return (
             <View style={{ flex: 1, padding: 25, justifyContent: 'center', alignItems: 'center', backgroundColor: '#00363d' }}>
                 <Text style={{ textAlign: 'center', color: '#fff', fontSize: 22, fontWeight: 'bold' }}>Chào mừng đến với Đi Chung</Text>
+                <Text style={{ textAlign: 'center', color: '#fff', fontSize: 16, fontWeight: 'bold', marginTop: 16 }}>Đăng nhập bằng OTP</Text>
                 <View style={{ flexDirection: 'row', height: 50, marginVertical: 20, paddingHorizontal: 8 }}>
                     <TextInput
                         autoFocus
@@ -114,7 +155,14 @@ export default class PhoneAuthTest extends Component {
                         value={phoneNumber}
                     />
                 </View>
-                <ButtonFull value="Xác nhận" onPress={this.signIn} />
+                <ButtonFull value="Gửi" onPress={this.startTimer.bind(this)} />
+
+                <TouchableOpacity
+                    onPress={this.goBack}
+                    style={{margin: 16}}
+                >
+                    <Text style={{color: '#77a300', textDecorationLine: 'underline'}}>Đăng nhập bằng mật khẩu</Text>
+                </TouchableOpacity>
             </View>
         );
     }
@@ -124,7 +172,7 @@ export default class PhoneAuthTest extends Component {
 
         return (
             <View style={{ flex: 1, padding: 25, justifyContent: 'center', alignItems: 'center', backgroundColor: '#00363d' }}>
-                <Text style={{ textAlign: 'center', color: '#fff', fontWeight: 'bold' }}>Số điện thoại:<Text style={{fontWeight: 'bold'}}>{this.state.phoneNumber}</Text></Text>
+                <Text style={{ textAlign: 'center', color: '#fff', fontWeight: 'bold' }}>Số điện thoại:<Text style={{ fontWeight: 'bold' }}>{this.state.phoneNumber}</Text></Text>
                 <View style={{ flexDirection: 'row', height: 50, marginVertical: 20, paddingHorizontal: 8 }}>
                     <TextInput
                         autoFocus
@@ -134,7 +182,17 @@ export default class PhoneAuthTest extends Component {
                         value={codeInput}
                     />
                 </View>
+                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={{ color: '#fff' }}>Bạn chưa nhận được mã xác thực?</Text>
+                    <TouchableOpacity
+                        onPress={this.state.timing ? null : this.startTimer.bind()}
+                    >
+                        {this.state.timing ? <Text style={{ color: '#fff' }}>Gửi lại sau: {Math.floor(this.state.timer / 60)}:{this.state.timer % 60}</Text> :
+                            <Text style={{ color: '#77a300', textDecorationLine: 'underline' }}>Gửi lại</Text>}
+                    </TouchableOpacity>
+                </View>
                 <ButtonFull value="Xác nhận" onPress={this.confirmCode} />
+                {/* <ButtonFull value={this.state.timing ? `Gửi lại sau: ${this.state.timer / 60}` : "Gửi lại"} onPress={this.state.timing ? null : this.startTimer.bind()} /> */}
             </View>
         );
     }
