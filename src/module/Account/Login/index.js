@@ -466,7 +466,7 @@ class Login extends Component {
                                 this.props.navigation.navigate('Login2')
                             }}
                         >
-                            <Text style={styles.textLine}>Đăng nhập OTP.</Text>
+                            <Text style={styles.textLine}>Đăng nhập số điện thoại.</Text>
                         </TouchableOpacity>
 
                     </View> :

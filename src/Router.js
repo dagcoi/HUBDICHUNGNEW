@@ -68,7 +68,6 @@ const ListBookingDetail = createStackNavigator({
 
 const RootStack = createStackNavigator({
 
-
     Home: {
         screen: Home1,
         navigationOptions: {

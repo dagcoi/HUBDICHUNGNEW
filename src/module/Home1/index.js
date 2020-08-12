@@ -49,7 +49,7 @@ class Home1 extends Component {
                 { name: 'Thuê xe taxi tải', image: 8 },
                 // { name: 'Giao thực phẩm', image: 9 },
                 { name: 'Đặt xe đi luôn', image: 10 },
-                { name: 'VEXERE', image: 11 }
+                // { name: 'VEXERE', image: 11 }
             ],
             dataNewPaper: [],
             isLoadingNewPaper: true,
@@ -349,17 +349,18 @@ class Home1 extends Component {
                             <TouchableOpacity
                                 style={styles.itemContainer}
                                 onPress={() => {
-                                    item.image === 1 ? this.props.navigation.navigate('MapDiChung') :
-                                        item.image === 2 ? this.props.navigation.navigate('MapChungXe') :
-                                            item.image === 3 ? this.props.navigation.navigate('MapDiChung') :
-                                                item.image === 4 ? this.props.navigation.navigate('MapXeChung') :
-                                                    item.image === 5 ? this.props.navigation.navigate('MapTravel') :
-                                                        item.image === 6 ? this.props.navigation.navigate('MapTravel') :
-                                                            item.image === 7 ? this.props.navigation.navigate('MapExpress') :
-                                                                item.image === 8 ? this.props.navigation.navigate('MapTruck') :
-                                                                    item.image === 9 ? this.props.navigation.navigate('MapFood') :
-                                                                        item.image === 10 ? this.props.navigation.navigate('Map') :
-                                                                            this.props.navigation.navigate('VeXeRe')
+                                    this.props.isLogin == 0 ? this.props.navigation.navigate('Login') :
+                                        item.image === 1 ? this.props.navigation.navigate('MapDiChung') :
+                                            item.image === 2 ? this.props.navigation.navigate('MapChungXe') :
+                                                item.image === 3 ? this.props.navigation.navigate('MapDiChung') :
+                                                    item.image === 4 ? this.props.navigation.navigate('MapXeChung') :
+                                                        item.image === 5 ? this.props.navigation.navigate('MapTravel') :
+                                                            item.image === 6 ? this.props.navigation.navigate('MapTravel') :
+                                                                item.image === 7 ? this.props.navigation.navigate('MapExpress') :
+                                                                    item.image === 8 ? this.props.navigation.navigate('MapTruck') :
+                                                                        item.image === 9 ? this.props.navigation.navigate('MapFood') :
+                                                                            item.image === 10 ? this.props.navigation.navigate('Map') :
+                                                                                this.props.navigation.navigate('VeXeRe')
                                 }}
                             >
                                 <Image
@@ -528,6 +529,7 @@ function mapStateToProps(state) {
     return {
         drop_add: state.info.drop_add,
         pick_add: state.info.pick_add,
+        isLogin: state.thongtin.isLogin,
     }
 }
 

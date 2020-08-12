@@ -53,7 +53,7 @@ class TicketInformation extends Component {
             dialogCancelSuccess: false,
             showMessage: false,
             loadData: true,
-            timeReload: 2000,
+            timeReload: 5000,
             modalTell: false,
             modalPayment: false,
             urlPayment: null,
@@ -62,7 +62,7 @@ class TicketInformation extends Component {
     }
 
     componentDidMount() {
-        this.getTicketbyBookigId()
+        this.getTicketByBookingId()
         // handleAndroidBackButton(exitAlert)
     }
 
@@ -71,10 +71,10 @@ class TicketInformation extends Component {
     }
 
     _refreshData = () => {
-        getTicketbyBookigId()
+        getTicketByBookingId()
     }
 
-    getTicketbyBookigId() {
+    getTicketByBookingId() {
         this._interval = setInterval(() => {
             const { navigation } = this.props;
             const url = link.URL_API_PORTAL + `booking/v1/bookings/${navigation.getParam('id_booking')}`
@@ -85,7 +85,6 @@ class TicketInformation extends Component {
                         this.setState({
                             info: jsonRes.data,
                             is_loading: false,
-                            timeReload: jsonRes.data.forward.status == 'forwarded' ? 20000 : 2000,
                             bookingDetail: jsonRes.data,
                         })
                     }

@@ -78,6 +78,10 @@ class ConfirmInformation extends Component {
         console.log(this.props.depart_time2);
     }
 
+    componentWillUnmount(){
+        
+    }
+
     async setDataSend() {
         var time = new Date(this.props.depart_time2 + '+07:00').getTime();
 
