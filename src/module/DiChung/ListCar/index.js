@@ -36,7 +36,7 @@ class ListCar extends Component {
             listcar: [],
             listcarfilter: [],
             listProductType: [],
-            listHourly: ['hourly_rent_taxi', 'hourly_rent_driver', 'hourly_freight_truck', 'hourly_tourist_car']
+            listHourly: ['hourly_rent_taxi', 'hourly_rent_driver', 'hourly_freight_truck', 'hourly_tourist_car', 'hourly_car_rental']
         }
     }
 
@@ -44,7 +44,7 @@ class ListCar extends Component {
         // if (this.state.listHourly.indexOf(this.props.product_chunk_type) >= 0) {
         //     this.getListCarHourly('dichungtaxi')
         // } else {
-            this.getProvider()
+        this.getProvider()
         // }
     }
 
@@ -115,8 +115,9 @@ class ListCar extends Component {
     }
 
     async getListCarHourly(provider, index) {
+        const { navigation } = this.props;
         const url = `${link.URL_API_PORTAL}price/v1/products?productType=${this.props.product_chunk_type}`;
-        let param = `${url}&bookingTime=${this.props.depart_time2}&startPlace=${JSON.stringify(this.props.component_pick)}&provider=${provider}&duration=${this.props.duration}`
+        let param = `${url}&bookingTime=${this.props.depart_time2}&startPlace=${JSON.stringify(this.props.component_pick)}&provider=${provider}&duration=${this.props.duration}&slot=${navigation.getParam('listCarType') ?? 0}${navigation.getParam('vehicleType') ? '&vehicleType=' + navigation.getParam('vehicleType') + '&returnTime=' + this.props.retun_date : ''}`
         console.log(param)
         try {
             const response = await fetch(param, {
@@ -413,6 +414,7 @@ function mapStateToProps(state) {
         is_from_airport: state.info.is_from_airport,
         product_chunk_type: state.info.product_chunk_type,
         duration: state.info.duration,
+        retun_date: state.info.retun_date,
     }
 }
 export default connect(mapStateToProps, { addTripInfomation: addTripInfomation, addIsFromAirport: addIsFromAirport, addAirport: addAirport, addSend: addSend, addCost: addCost, addExtra: addExtra })(ListCar);

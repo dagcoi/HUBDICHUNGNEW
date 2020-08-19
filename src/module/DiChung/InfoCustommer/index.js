@@ -20,6 +20,11 @@ var radio_props = [
     { label: 'Quốc tế', value: 2 }
 ];
 
+var radio_pick_car = [
+    { label: 'Nhận xe tại nhà riêng(có tính phí)', value: 1 },
+    { label: 'Nhận xe tại đại lý ', value: 2 }
+];
+
 var radio_payment_detail = [
     { label: 'ATM', value: 0, payment_method_ID: '8' },
     { label: 'VISA', value: 1, payment_method_ID: '8' },
@@ -40,6 +45,7 @@ class InfoCustommer extends Component {
         this.state = {
             is_checked: false,
             plane_type: -1,
+            pick_type: -1,
             value_payment: 0,
             value_paymentDetail: 'ATM',
             full_name: '',
@@ -252,10 +258,11 @@ class InfoCustommer extends Component {
     }
 
     renderSanBay() {
-        if (this.props.is_airport == 'false') {
-            return null;
-        } else {
-            return (
+        console.log('this.props.send' + this.props.send)
+        const send = JSON.parse(this.props.send)
+        // if () {//
+        return (
+            send.extra && send.extra.airport_id && send.extra.airport_id != 0 ?
                 <View>
                     <Text style={styles.textBig}>Mã chuyến bay</Text>
 
@@ -293,8 +300,8 @@ class InfoCustommer extends Component {
                         </RadioForm>
                     </View>
                 </View>
-            )
-        }
+                : null
+        )
     }
 
     renderAlert() {
@@ -309,10 +316,10 @@ class InfoCustommer extends Component {
                         {this.state.alertName ? <Text>Vui lòng nhập tên</Text> : null}
                         {this.state.alertPhone ? <Text>Vui lòng nhập số điện thoại</Text> : null}
                         {this.state.alertEmail ? <Text>Vui lòng nhập Email</Text> : null}
-                        {this.state.alertName2 ? <Text>Vui lòng nhập tên người đi</Text> : null}
-                        {this.state.alertPhone2 ? <Text>Vui lòng nhập số điện thoại người đi</Text> : null}
+                        {this.state.alertName2 ? <Text>{this.props.product_chunk_type === 'express' ? 'Vui lòng nhập tên người nhận' : 'Vui lòng nhập tên người đi'}</Text> : null}
+                        {this.state.alertPhone2 ? <Text>{this.props.product_chunk_type === 'express' ? 'Vui lòng nhập số điện thoại người nhận' : 'Vui lòng nhập số điện thoại người đi'}</Text> : null}
                         {this.state.alertCompany ? <Text>Vui lòng nhập đầy đủ thông tin nhận hóa đơn</Text> : null}
-                        {this.state.alertAirport ? <Text>Vui lòng nhập mã chuyến bay</Text> : null}
+                        {this.state.alertAirport ? <Text>Vui lòng nhập đủ thông tin chuyến bay</Text> : null}
                         <ButtonDialog
                             text="Đồng ý"
                             onPress={() => {
@@ -363,7 +370,8 @@ class InfoCustommer extends Component {
     }
 
     checkAirport() {
-        if (this.props.is_from_airport != 'false' && this.state.plane_number.trim().length < 3) {
+        const send = JSON.parse(this.props.send)
+        if (send.extra && send.extra.airport_id && (this.state.plane_number.trim().length < 3 || this.state.plane_type < 0)) {
             // Alert.alert(`Vui lòng nhập mã chuyến bay`)
             this.setState({ alertAirport: true })
             return;
@@ -527,7 +535,7 @@ class InfoCustommer extends Component {
         radio_payment.push({ label: 'Trả sau', value: 0, paymentMethodID: '3' })
         // }
         // if (pay_methods['8'] != null) {
-        radio_payment.push({ label: 'Trả trước', value: 1, paymentMethodID: '8' })
+        // radio_payment.push({ label: 'Trả trước', value: 1, paymentMethodID: '8' })
         // }
         return (
             <SafeAreaView style={{ flex: 1, paddingBottom: 8, flexDirection: 'column' }}>
@@ -575,7 +583,7 @@ class InfoCustommer extends Component {
                             })}
                         />
                         {this.props.product_chunk_type == 'express' ?
-                            <Text style={styles.textTitle}>THÔNG TIN NGƯỜI GỬI</Text>
+                            <Text style={styles.textTitle}>THÔNG TIN NGƯỜI NHẬN</Text>
                             :
                             <CheckBox
                                 style={{ marginTop: 8 }}
@@ -595,6 +603,29 @@ class InfoCustommer extends Component {
                         {this.formComment()}
 
                         {this.renderSanBay()}
+                        {this.props.product_chunk_type === 'hourly_car_rental' ?
+                            <View style={{ marginTop: 8 }}>
+                                <Text style={styles.textBig} >Hình thức nhận xe</Text>
+                                <RadioForm
+                                    animation={true}
+                                >
+                                    {radio_pick_car.map((obj, i) => (
+                                        <RadioButtonNormal
+                                            obj={obj}
+                                            i={i}
+                                            listRadio={radio_pick_car}
+                                            isSelected={this.state.pick_type}
+                                            onPressItem={() => {
+                                                this.setState({
+                                                    pick_type: obj.value,
+                                                    selectRentCar: obj.value
+                                                })
+                                            }}
+                                        />))}
+                                </RadioForm>
+                            </View>
+                            : null
+                        }
 
                         <Text style={styles.textBig}>Hình thức thanh toán</Text>
                         <View style={{ marginTop: 8 }}>

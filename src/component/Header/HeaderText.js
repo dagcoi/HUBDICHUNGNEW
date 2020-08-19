@@ -26,7 +26,7 @@ function HeaderText({
             <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1, height: 50 }}>
                 <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{textCenter}</Text>
             </View>
-            <View style={{justifyContent:'center', alignItems: 'center', height: 50, minWidth: 50}}>
+            <View style={{justifyContent:'center', alignItems: 'center', height: 50, minWidth: 50, flexDirection: 'row'}}>
                 {source1 ? <TouchableOpacity
                     style={{ height: 30, width: 30, marginRight: 8, justifyContent: 'center', alignItems: 'center' }}
                     onPress={onPressRight1}

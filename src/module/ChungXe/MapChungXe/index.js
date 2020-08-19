@@ -11,6 +11,7 @@ import PopUp from '../../../component/PopUp'
 import { HeaderText } from '../../../component/Header';
 import ImageTextBold from '../../../component/ImageTextDiChung/ImageTextBold'
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
+import { getDateTimeAlive } from '../../../until'
 
 const imageLocation = '../../../image/location.png'
 const imageDrop = '../../../image/location.png'
@@ -33,8 +34,7 @@ class MapChungXe extends Component {
             selectedHours1: 21,
             selectedMinutes: 0,
             selectedMinutes1: 45,
-            listCity: [],
-            isLoading: true,
+            isLoading: false,
             modalListCity: false,
             dialogTimeVisible: false,
             dialogCalendarVisible: false,
@@ -52,35 +52,28 @@ class MapChungXe extends Component {
             hoursAlive: 0,
             minutesAlive: 0,
             city_name_dc: "",
-            listCityDC: [
-                {
-                    "city_name": "Hà Nội",
-                    "city_id": 1,
-                    "hide": "0"
-                },
-                {
-                    "city_name": "Hồ Chí Minh",
-                    "city_id": 2,
-                    "hide": "0"
-                },
-                {
-                    "city_name": "Đà Nẵng",
-                    "city_id": 3,
-                    "hide": "1"
-                },
-                {
-                    "city_name": "Hải Phòng",
-                    "city_id": 4,
-                    "hide": "1"
-                }
-            ],
             isShowModalCity: false,
-            scrollNhan: 48,
-            scrollTra: 48,
+            scrollNhan: 24,
+            scrollTra: 72,
             showAlertTime: false,
             showAlertInfo: false,
             showAlertTimeDrop: false,
-            hourly: false,
+            hourly: true,
+            dialogCarType: false,
+            carType: '',
+            carName: '',
+            listCarType: [
+                {
+                    "id": 1,
+                    "name": "Xe máy",
+                    "type": "motorbike"
+                },
+                {
+                    "id": 2,
+                    "name": "Ô tô",
+                    "type": "car"
+                }
+            ]
         },
             this.mapRef = null;
     }
@@ -90,32 +83,13 @@ class MapChungXe extends Component {
     }
 
     componentDidMount() {
-        this.getListCity()
-        this.getDateTimeAlive();
+        this.getTimeAlive();
 
     }
 
     getItemLayout = (data, index) => (
         { length: 40, offset: 40 * index, index }
     )
-
-    async getListCity() {
-        try {
-            const res = await fetch(`https://api.chungxe.vn/partners/cities`);
-            const jsonRes = await res.json();
-            this.setStateAsync({
-                listCity: jsonRes.data,
-                isLoading: false
-            });
-            console.log(jsonRes.data)
-            return jsonRes.data;
-        }
-        catch (error) {
-            this.setStateAsync({
-                isLoading: false
-            });
-        }
-    }
 
     renderAlertInfo() {
         return (
@@ -136,87 +110,21 @@ class MapChungXe extends Component {
         )
     }
 
-    getDateTimeAlive() {
+    getTimeAlive() {
         var that = this;
-        var date = new Date().getDate(); //Current Date
-        if (date < 10) {
-            date = '0' + date
-        }
-        var month = new Date().getMonth() + 1; //Current Month
-        if (month < 10) {
-            month = '0' + month
-        }
-        var year = new Date().getFullYear(); //Current Year
-        var hours = new Date().getHours(); //Current Hours
-        var min = new Date().getMinutes(); //Current Minutes
-        var sec = new Date().getSeconds(); //Current Seconds
-        var spesentDay = date + '-' + month + '-' + year;
-
+        var time = getDateTimeAlive()
         that.setState({
-            //Setting the value of the date time
-            spesentTime:
-                date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec,
-            spesentDay: date + '-' + month + '-' + year,
-            hoursAlive: hours,
-            minutesAlive: min,
-        });
-        console.log(date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec)
-        return spesentDay;
+            spesentTime: time.spesentTime,
+            spesentDay: time.spesentDay,
+            hoursAlive: time.hoursAlive,
+            minutesAlive: time.minutesAlive,
+        })
     }
 
     async setStateAsync(state) {
         return new Promise((resolve) => {
             this.setState(state, resolve)
         });
-    }
-
-    formModalListCity() {
-        return (
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={this.state.isShowModalCity}
-                onRequestClose={() => {
-                    console.log('a');
-                }}>
-                <SafeAreaView style={{
-                    flex: 1,
-                    flexDirection: 'column',
-                    justifyContent: 'flex-end',
-                    backgroundColor: '#000000AA'
-                }}>
-                    <View style={{ flex: 2, }}>
-                        <TouchableOpacity
-                            onPress={() => this.setState({ isShowModalCity: false })}
-                            style={{ flex: 1 }}
-                        ></TouchableOpacity>
-                    </View>
-
-                    <FlatList
-                        style={{ flex: 1, backgroundColor: '#ffffff' }}
-                        data={this.state.listCityDC}
-                        renderItem={({ item }) =>
-                            <TouchableOpacity
-                                style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}
-                                onPress={() => {
-                                    item.hide == 1 ? console.log(item.city_name) :
-                                        this.setState({
-                                            city_name_dc: item.city_name,
-                                            isShowModalCity: false,
-                                        })
-                                }}
-                            >
-                                <Text style={item.hide == 1 ? { fontSize: 18, flex: 1, padding: 8, color: '#888' } : { fontSize: 18, flex: 1, padding: 8, color: item.city_name == this.state.city_name_dc ? '#77a300' : '#000' }}>{item.city_name}</Text>
-                                {item.city_name == this.state.city_name_dc ? <Image
-                                    style={{ height: 24, width: 24, marginLeft: 8 }}
-                                    source={require(imageCheck)}
-                                /> : null}
-                            </TouchableOpacity>}
-                        keyExtractor={item => item.city_id}
-                    />
-                </SafeAreaView>
-            </Modal>
-        )
     }
 
     renderPickAddress() {
@@ -232,6 +140,54 @@ class MapChungXe extends Component {
                 placeholder={'Nhập điểm xuất phát'}
                 value={this.props.pick_add}
             />
+        )
+    }
+
+    formModalCarType() {
+        return (
+            <Modal animationType="slide"
+                transparent={true}
+                visible={this.state.dialogCarType}
+                onRequestClose={() => {
+                }}>
+                <SafeAreaView style={{
+                    flex: 1,
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
+                    backgroundColor: '#000000AA'
+                }}>
+                    <View style={{ flex: 2, }}>
+                        <TouchableOpacity
+                            onPress={() => this.setState({ dialogCarType: false })}
+                            style={{ flex: 1 }}
+                        ></TouchableOpacity>
+                    </View>
+
+                    <FlatList
+                        style={{ flex: 1, backgroundColor: '#ffffff' }}
+                        data={this.state.listCarType}
+                        renderItem={({ item }) =>
+                            <TouchableOpacity
+                                style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}
+                                onPress={() => {
+                                    item.hide == 1 ? console.log(item.city_name) :
+                                        this.setState({
+                                            carType: item.type,
+                                            carName: item.name,
+                                            dialogCarType: false,
+                                        })
+                                }}
+                            >
+                                <Text style={item.hide == 1 ? { fontSize: 18, flex: 1, padding: 8, color: '#888' } : { fontSize: 18, flex: 1, padding: 8, color: item.city_name == this.state.city_name_dc ? '#77a300' : '#000' }}>{item.name}</Text>
+                                {item.name == this.state.carName ? <Image
+                                    style={{ height: 24, width: 24, marginLeft: 8 }}
+                                    source={require(imageCheck)}
+                                /> : null}
+                            </TouchableOpacity>}
+                        keyExtractor={item => item.city_id}
+                    />
+                </SafeAreaView>
+            </Modal>
         )
     }
 
@@ -269,39 +225,6 @@ class MapChungXe extends Component {
     formBookingDoortoDoor() {
         return (
             <View style={styles.borderBot}>
-                <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 0.0, justifyContent: 'center', alignItems: 'center', height: 40 }}>
-                    <TouchableOpacity
-                        style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}
-                        onPress={() => {
-                            this.setState({
-                                isShowModalCity: true,
-                            })
-                        }}
-                    >
-                        <Image
-                            style={{ height: 28, width: 24, marginLeft: 8 }}
-                            source={require(imageLocation)}
-                        />
-
-                        <TextInput
-                            editable={false}
-                            onTouchStart={() => {
-                                this.setState({
-                                    isShowModalCity: true,
-                                })
-                            }
-                            }
-                            style={{ fontSize: 14, color: "#00363d", marginLeft: 8 }}
-                            pointerEvents='none'
-                            value={this.state.city_name_dc}
-                            placeholderTextColor={'#333333'}
-                            placeholder='Chọn thành phố'
-                            selection={{ start: 0, end: 0 }}
-                        />
-
-                    </TouchableOpacity>
-                </View>
-
                 {this.renderPickAddress()}
 
                 <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 1, justifyContent: 'center', alignItems: 'center', height: 40 }}>
@@ -365,9 +288,9 @@ class MapChungXe extends Component {
     }
 
     nextScreen() {
-        this.getDateTimeAlive();
+        this.getTimeAlive();
         this.props.addProductChunkType('car_rental')
-        if (this.props.pick_add != '' && this.props.drop_add != '' && this.state.time_pick != '' && this.state.city_name_dc != '') {
+        if (this.props.pick_add != '' && this.props.drop_add != '' && this.state.time_pick != '') {
             // console.log(this.state.spesentDay)
             // console.log(this.state.date.format('DD-MM-YYYY'))
             if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
@@ -390,30 +313,7 @@ class MapChungXe extends Component {
     formCarTour() {
         return (
             <View style={styles.borderBot}>
-
-                <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 0.0, justifyContent: 'center', alignItems: 'center', height: 40 }}>
-                    <Image
-                        style={{ height: 30, width: 24, marginLeft: 8 }}
-                        source={require('../../../image/location.png')}
-                    />
-                    <TouchableOpacity
-                        style={{ flex: 1, flexDirection: 'row', alignItems: 'center', marginLeft: 8 }}
-                        onPress={() => {
-                            this.setModalVisible(!this.state.modalListCity);
-                        }}
-                    >
-                        <TextInput
-                            style={{ fontSize: 14, }}
-                            pointerEvents="none"
-                            onTouchStart={() => { this.setModalVisible(!this.state.modalListCity); }}
-                            value={this.state.city}
-                            placeholder='Chọn khu vực'
-                            placeholderTextColor={'#333333'}
-                        />
-                    </TouchableOpacity>
-
-                </View>
-
+                {this.renderPickAddress()}
                 <View style={{ flexDirection: 'row', height: 40, }}>
                     <TouchableOpacity
                         style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
@@ -463,9 +363,38 @@ class MapChungXe extends Component {
                         />
                     </TouchableOpacity>
                 </View>
-                <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
+                {/* <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
                     <View style={{ flex: 1 }}></View>
-                </View>
+                </View> */}
+                <TouchableOpacity
+                    style={{ borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
+                    onPress={() => {
+                        this.setState({
+                            dialogCarType: true,
+                        })
+                    }}
+                >
+                    <Image
+                        style={{ height: 24, width: 24, margin: 8 }}
+                        source={require('../../../image/arrowdown.png')}
+                    />
+
+                    <TextInput
+                        value={this.state.carName}
+                        placeholder='Chọn loại xe'
+                        placeholderTextColor={'#333333'}
+                        onTouchStart={() => { this.setState({ dialogCarType: true }) }}
+                        pointerEvents='none'
+                        style={{ fontSize: 14, flex: 1, color: '#000' }}
+                        editable={false}
+                    />
+
+                    <Image
+                        style={{ height: 24, width: 24, margin: 8 }}
+                        source={require('../../../image/arrowdown.png')}
+                    />
+
+                </TouchableOpacity>
                 <ButtonFull
                     onPress={() => { this.gotoListCarTour() }}
                     value={'Xem giá'}
@@ -478,20 +407,20 @@ class MapChungXe extends Component {
         return (
             <View style={[{ backgroundColor: '#fff', height: 48, flexDirection: 'row', marginTop: 8, marginLeft: 8, marginRight: 8 }, styles.borderTop]}>
                 <TouchableOpacity
-                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: this.state.hourly ? '#aaaaaa' : '#fff', borderTopLeftRadius: 8 }}
-                    onPress={() => this.setState({
-                        hourly: false
-                    })}
-                >
-                    <Text style={{ color: this.state.hourly ? '#fff' : '#77a300', fontWeight: 'bold', fontSize: 16 }}>Theo tuyến</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: this.state.hourly ? '#fff' : '#aaa', borderTopRightRadius: 8 }}
+                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: this.state.hourly ? '#fff' : '#aaa', borderTopLeftRadius: 8 }}
                     onPress={() => this.setState({
                         hourly: true
                     })}
                 >
                     <Text style={{ color: this.state.hourly ? '#77a300' : '#fff', fontWeight: 'bold', fontSize: 16 }}>Theo ngày</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: this.state.hourly ? '#aaaaaa' : '#fff', borderTopRightRadius: 8 }}
+                    onPress={() => this.setState({
+                        hourly: false
+                    })}
+                >
+                    <Text style={{ color: this.state.hourly ? '#fff' : '#77a300', fontWeight: 'bold', fontSize: 16 }}>Theo tuyến</Text>
                 </TouchableOpacity>
             </View>
         )
@@ -736,8 +665,7 @@ class MapChungXe extends Component {
                         </SafeAreaView>
                     </Modal>
 
-
-                    {this.formModalListCity()}
+                    {this.formModalCarType()}
                 </ImageBackground>
             </SafeAreaView>
         );
@@ -776,11 +704,11 @@ class MapChungXe extends Component {
     }
 
     gotoListCarTour() {
-        const spesentDay = this.getDateTimeAlive();
+        const spesentDay = this.getTimeAlive();
         console.log('a')
         console.log(spesentDay)
         console.log('a')
-        if (this.state.city == '') {
+        if (this.props.pick_add == '') {
             this.setState({ showAlertInfo: true })
             return;
         } else if (this.state.rent_date == '' || this.state.return_date == '') {
@@ -808,15 +736,16 @@ class MapChungXe extends Component {
         const return_date1 = new Date(this.state.return_date);
         const rent_date = new Date(rent_date1.getFullYear(), rent_date1.getMonth(), rent_date1.getDate(), this.state.selectedHours, this.state.selectedMinutes);
         const return_date = new Date(return_date1.getFullYear(), return_date1.getMonth(), return_date1.getDate(), this.state.selectedHours1, this.state.selectedMinutes1);
-        const rd = rent_date.toString();
-        const rd1 = return_date.toString();
+        const rd = rent_date.toISOString();
+        const rd1 = return_date.toISOString();
         console.log(rd);
         console.log(rd1);
-        console.log(this.state.rent_date);
-        console.log(this.state.return_date);
-        this.props.addCityTime(this.state.city_id, rent_date.toString(), return_date.toString(), this.state.city_name, this.state.time_pick, this.state.time_drop);
-        this.props.navigation.push("ListVehicle", {
-            city_id: this.state.city_id,
+        // console.log(this.state.rent_date);
+        // console.log(this.state.return_date);
+        this.props.addProductChunkType('hourly_car_rental')
+        this.props.addCityTime(this.state.city_id, rd, rd1, this.state.city_name, this.state.time_pick, this.state.time_drop);
+        this.props.navigation.push("ListCar", {
+            vehicleType: this.state.carType,
             rent_date: this.state.rent_date,
             return_date: this.state.return_date,
         });

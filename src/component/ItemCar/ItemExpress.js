@@ -3,6 +3,7 @@ import StarVote from '../StarVote'
 import { Button } from '../Button'
 import HTML from 'react-native-render-html';
 import React, { Component } from 'react'
+import styles from './style'
 
 const imageCheck = '../../image/check.png'
 
@@ -12,8 +13,8 @@ function ItemExpress({ item, onPress, chair }) {
             style={styles.container}
         >
             <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                <View style={styles.containerr}>
-                    <Text style={styles.loaixe}>
+                <View style={styles.containerLeft}>
+                    <Text style={styles.textLabel}>
                         {item.partner_name.toUpperCase()}
                     </Text>
                     <StarVote number={item.star_vote} />
@@ -80,43 +81,5 @@ function ItemExpress({ item, onPress, chair }) {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        borderColor: '#e8e8e8',
-        borderWidth: 0.5,
-        borderRadius: 4,
-        padding: 8,
-        marginTop: 8,
-        backgroundColor: '#ffffff',
-    },
-    containerr: {
-        flex: 1,
-        padding: 8,
-        marginTop: 3,
-        backgroundColor: '#ffffff',
-        flexDirection: 'column',
-    },
-    imageRight: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    tentuyen: {
-        marginTop: 8,
-        padding: 1,
-        fontSize: 12,
-        color: '#333333',
-        fontStyle: 'italic',
-        backgroundColor: '#ffffff'
-    },
-    loaixe: {
-        fontSize: 14,
-    },
-    giaTien: {
-        fontSize: 16,
-        color: '#00363e',
-    },
-})
 
 export default ItemExpress;

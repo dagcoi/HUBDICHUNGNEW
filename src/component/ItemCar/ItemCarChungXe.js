@@ -2,10 +2,11 @@ import { View, Image, StyleSheet, Text, Dimensions } from 'react-native'
 import StarVote from '../StarVote'
 import { Button } from '../Button'
 import React, { Component } from 'react'
+import styles from './style'
 
 function ItemCarChungXe({ item, onPress }) {
     return (
-        <View style={{ padding: 8, borderColor: '#e8e8e8', borderRadius: 4, borderWidth: 0.5, marginTop: 8, marginHorizontal: 8 }}>
+        <View style={{ padding: 8, borderColor: '#e8e8e8', borderRadius: 8, borderWidth: 0.5, marginTop: 8, marginHorizontal: 8, }}>
             <View style={{ flexDirection: 'row' }}>
                 <View style={{ flex: 1, justifyContent: 'flex-start' }}>
                     <Text style={{ fontSize: 18, color: '#77a300', fontWeight: 'bold' }}>XE TỰ LÁI</Text>

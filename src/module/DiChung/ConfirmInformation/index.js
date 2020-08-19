@@ -44,7 +44,11 @@ class ConfirmInformation extends Component {
             depart_time2: '',
             id_booking: null,
             dataSend: null,
-            listHourly: ['hourly_rent_taxi', 'hourly_rent_driver', 'hourly_freight_truck', 'hourly_tourist_car']
+            listHourly: ['hourly_rent_taxi', 'hourly_rent_driver', 'hourly_freight_truck', 'hourly_tourist_car', 'hourly_car_rental'],
+            infoCarCX: null,
+            countSaturday: 0,
+            countSunday: 0,
+            countDay: 0,
         }
     }
 
@@ -76,10 +80,25 @@ class ConfirmInformation extends Component {
             }
         }, 5000);
         console.log(this.props.depart_time2);
+        this.getDetail()
+        this.countWeekend(this.props.rent_date, this.props.retun_date)
     }
 
-    componentWillUnmount(){
-        
+    async getDetail() {
+        const send = JSON.parse(this.props.send)
+        var url = this.props.product_chunk_type === 'hourly_car_rental' ? url = `https://dev.portal.dichung.vn/api/price/v1/products/chungxe/${send.vehicle.id}` : ``
+        if (url != '') {
+            return fetch(url)
+                .then((res) => res.json())
+                .then((jsonRes) => {
+                    this.setState({ infoCarCX: jsonRes.data })
+                })
+        }
+        return null;
+    }
+
+    componentWillUnmount() {
+
     }
 
     async setDataSend() {
@@ -143,6 +162,17 @@ class ConfirmInformation extends Component {
                 "provider": "vnpay",
                 "return": ""
             }
+        }
+        dataSend.partner_domain = "hub.dichung.vn"
+        if (this.props.product_chunk_type === 'hourly_car_rental') {
+            dataSend.extra = {
+                "bookDeliveryFrom": "agent",
+                "returnTime": this.props.retun_date,
+            }
+        }
+        if (navigation.getParam('plane_type') > -1) {
+            dataSend.extra.plane_type = navigation.getParam('plane_type')
+            dataSend.extra.plane_number = this.props.plane_number
         }
         dataSend.promotion = navigation.getParam('blDiscount') ? navigation.getParam('promotion') : ""
         dataSend.invoice = navigation.getParam('xhd') ? {
@@ -209,18 +239,21 @@ class ConfirmInformation extends Component {
                         />
                         <ImageTextDiChung
                             source={require(imagePeople)}
-                            text={this.props.chair + ' người'}
+                            text={this.props.chair + (this.props.product_chunk_type === 'express' ? ' gói hàng' : ' người')}
                         />
                     </View> : <View>
-                        <ImageTextDiChung
-                            source={require(imageCalendar)}
-                            text={'Thời lượng: ' + this.props.duration + ' giờ'}
-                        />
+                        {this.props.product_chunk_type === 'hourly_car_rental' ?
+                            null
+                            :
+                            <ImageTextDiChung
+                                source={require(imageCalendar)}
+                                text={'Thời lượng: ' + this.props.duration + ' giờ'}
+                            />}
                     </View>}
 
                 <ImageTextDiChung
                     source={require(imageCalendar)}
-                    text={this.props.depart_time}
+                    text={this.props.depart_time + (this.props.product_chunk_type === 'hourly_car_rental' ? ' - ' + this.props.time_drop : '')}
                 />
 
             </View>
@@ -240,11 +273,12 @@ class ConfirmInformation extends Component {
                     : <View>
                         <ImageTextDiChung
                             source={require(imageIconCar)}
-                            text={'Thuê xe theo tour'}
+                            // text={'Thuê xe theo tour'}
+                            text={this.props.label}
                         />
-                        <ImageTextDiChung textBold={'Giới hạn: '} text={this.props.extra.kmLimit + ' km'} />
-                        <ImageTextDiChung textBold={'Phụ trội theo km: '} text={this.props.extra.kmExtra.format(0, 3, '.') + ' đ/km'} />
-                        <ImageTextDiChung textBold={'Phụ trội theo giờ: '} text={this.props.extra.hourExtra.format(0, 3, '.') + ' đ/giờ'} />
+                        {this.props.extra && this.props.extra.kmLimit ? <ImageTextDiChung textBold={'Giới hạn: '} text={this.props.extra.kmLimit + ' km'} /> : null}
+                        {this.props.extra && this.props.extra.kmExtra ? <ImageTextDiChung textBold={'Phụ trội theo km: '} text={this.props.extra.kmExtra.format(0, 3, '.') + ' đ/km'} /> : null}
+                        {this.props.extra && this.props.extra.hourExtra ? <ImageTextDiChung textBold={'Phụ trội theo giờ: '} text={this.props.extra.hourExtra.format(0, 3, '.') + ' đ/giờ'} /> : null}
 
                     </View>}
 
@@ -328,15 +362,36 @@ class ConfirmInformation extends Component {
 
     renderTT() {
         const { navigation } = this.props;
+
+        const send = JSON.parse(this.props.send);
+        console.log('abc:...' + this.state.countDay)
+        console.log(this.state.infoCarCX)
+        const checkPriceWeekend = (this.state.infoCarCX && this.state.infoCarCX.info && this.state.infoCarCX.info.priceExtra && this.state.infoCarCX.info.priceExtra.weekendExtra && (this.state.infoCarCX.info.priceExtra.weekendExtra.saturday || this.state.infoCarCX.info.priceExtra.weekendExtra.sunday))
+        const sumPriceExtra = checkPriceWeekend ? (this.state.countSaturday * this.state.infoCarCX.info.priceExtra.weekendExtra.saturday ?? 0) + (this.state.countSunday * this.state.infoCarCX.info.priceExtra.weekendExtra.sunday ?? 0) : 0
+        const sumPrice = (this.props.cost * (this.props.product_chunk_type === 'hourly_car_rental' ? this.state.countDay : 1) + (navigation.getParam('broad_price') ? 30000 : 0) - (navigation.getParam('blDiscount') ? this.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1)
         return (
             <View>
+                {this.props.product_chunk_type === 'hourly_car_rental' ?
+                    <View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
+                            <Text style={styles.textBigLeft1}>Đơn giá: </Text>
+                            <Text style={styles.textBigRight1}>{this.props.cost.format(0, 3, '.')} đ</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
+                            <Text style={styles.textBigLeft1}>Thời gian thuê: </Text>
+                            <Text style={styles.textBigRight1}>{this.state.countDay} ngày</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
+                            <Text style={styles.textBigLeft1}>Cuối tuần: </Text>
+                            {checkPriceWeekend ? <Text style={styles.textBigRight1}>{sumPriceExtra.format(0, 3, '.')} đ</Text> : <Text style={styles.textBigRight1}>0 đ</Text>}
+                        </View>
+                    </View> : null}
                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                     <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
-                    <Text style={styles.textBigRight1}>{((this.props.cost + (navigation.getParam('broad_price') ? 30000 : 0) - (navigation.getParam('blDiscount') ? this.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1)).format(0, 3, '.')} đ</Text>
-                    {/* + (this.props.toll_fee == 'NA' ? 0 : + parseInt(this.props.toll_fee)) */}
-                    {/* <Text style={styles.textBigRight1}>{this.props.cost}</Text> */}
+                    {send && send.payment && send.payment.tollFee ? <Text style={styles.textBigRight1}>{send.payment.tollFee === 'NA' ? (sumPriceExtra + sumPrice).format(0, 3, '.') : (sumPriceExtra + sumPrice + parseInt(send.payment.tollFee)).format(0, 3, '.') + ' đ '}</Text> :
+                        <Text style={styles.textBigRight1}>{(sumPriceExtra + sumPrice).format(0, 3, '.')} đ</Text>}
                 </View>
-                {/* <Text style={{ marginBottom: 8, textAlign: 'right' }}>{this.props.toll_fee == "NA" ? "Giá chưa bao gồm phí cầu đường" : "Giá trọn gói không phí ẩn"}</Text> */}
+                {send && send.payment && send.payment.tollFee && <Text style={{ textAlign: 'right' }}>{send.payment.tollFee === '0' ? 'Giá trọn gói không phí ẩn' : send.payment.tollFee === 'NA' ? 'chưa có phí cầu đường' : 'đã bao gồm phí cầu đường : ' + parseInt(send.payment.tollFee).format(0, 3, '.') + ' đ '}</Text>}
             </View>
         )
     }
@@ -364,12 +419,38 @@ class ConfirmInformation extends Component {
         )
     }
 
+    async countWeekend(date1, date2) {
+        var d1 = new Date(date1),
+            d2 = new Date(date2),
+            result = {
+                saturday: 0,
+                sunday: 0,
+            },
+            countDay = 0;
+        while (d1 <= d2) {
+            var day = d1.getDay();
+            countDay++
+            if (day === 6) {
+                result.saturday++
+            }
+            if (day === 0) {
+                result.sunday++
+            }
+            d1.setDate(d1.getDate() + 1);
+        }
+        console.log(result.saturday)
+        console.log(result.sunday)
+        this.setState({ countSaturday: result.saturday, countSunday: result.sunday, countDay: countDay })
+        // return result.saturday+ result.sunday;
+    }
+
     goBack = () => {
         this.props.navigation.goBack()
     }
 
     render() {
         const { navigation } = this.props;
+        console.log(this.state.infoCarCX)
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <HeaderText textCenter={'Xác nhận thông tin'} onPressLeft={this.goBack} />
@@ -640,6 +721,9 @@ function mapStateToProps(state) {
         product_chunk_type: state.info.product_chunk_type,
         duration: state.info.duration,
         extra: state.info.extra,
+        retun_date: state.info.retun_date,
+        rent_date: state.info.rent_date,
+        time_drop: state.info.time_drop,
     }
 }
 

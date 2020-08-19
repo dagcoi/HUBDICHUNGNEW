@@ -7,6 +7,7 @@ import ImageTextDiChung from '../../component/ImageTextDiChung'
 import * as link from '../../URL'
 import { connect } from 'react-redux'
 import { NavigationEvents, SafeAreaView } from 'react-navigation';
+import { ButtonFull } from '../../component/Button'
 
 const imagePick = '../../image/location2.png'
 const imageDrop = '../../image/location2.png'
@@ -126,7 +127,7 @@ class ListBooking extends Component {
     }
 
     getListBooking = (token) => {
-        let url = link.URL_API_PORTAL + `booking/v1/user/bookings`
+        let url = link.URL_API_PORTAL + `booking/v1/user/bookings?limit=20&offset=0`
         // console.log(url)
         fetch(url, {
             headers: {
@@ -144,19 +145,6 @@ class ListBooking extends Component {
                     isLoading: false,
                 })
             }).finally(() => this.setState({ isLoading: false }));
-    }
-
-    selectTime() {
-        return (
-            <View style={{ height: 64, flexDirection: 'row' }}>
-                <View style={[styles.card, { flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
-                    <Text>time 1</Text>
-                </View>
-                <View style={[styles.card, { flex: 1, justifyContent: 'center', alignItems: 'center' }]}>
-                    <Text>time 2</Text>
-                </View>
-            </View>
-        )
     }
 
     formatDate(string) {
@@ -228,7 +216,7 @@ class ListBooking extends Component {
                             {item.code}
                         </Text>
                         <View style={{ height: 32, borderRadius: 16, backgroundColor: '#77a300', paddingLeft: 10, paddingRight: 10, justifyContent: 'center', alignItems: 'flex-end' }}>
-                            <Text style={{ color: '#fff' }}>{item.productType == 'HOURLY_RENT_TAXI' ? 'Thuê taxi theo giờ' : item.productType == 'HOURLY_FREIGHT_TRUCK' ? 'Thuê vận chuyển theo giờ' : item.productType == 'HOURLY_RENT_DRIVER' ? 'Thuê tài xế theo giờ' : 'Khác'}</Text>
+                            <Text style={{ color: '#fff' }}>{item.productType == 'HOURLY_RENT_TAXI' ? 'Thuê taxi theo giờ' : item.productType == 'HOURLY_FREIGHT_TRUCK' ? 'Thuê vận chuyển theo giờ' : item.productType == 'HOURLY_RENT_DRIVER' ? 'Thuê tài xế theo giờ' : item.productType === 'hourly_car_rental' ? 'Thuê xe tự lái' : 'Khác'}</Text>
                         </View>
                     </View>
 
@@ -270,7 +258,9 @@ class ListBooking extends Component {
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
                 {this.state.listBooking.length == 0 ?
                     <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-                        <Text>{this.props.isLogin == '0' ? 'Đăng nhập để xem danh sách vé của bạn.' : 'Chưa có chuyến trong danh sách vé.'}</Text>
+                        {this.state.isLoading ? null :
+                            <Text>{this.props.isLogin == '0' ? 'Đăng nhập để xem danh sách vé của bạn.' : 'Chưa có chuyến trong danh sách vé.'}</Text>
+                        }
                     </View> :
                     <FlatList
                         showsVerticalScrollIndicator={false}
@@ -278,7 +268,7 @@ class ListBooking extends Component {
                         renderItem={({ item }) => {
                             return (
                                 <View>
-                                    {(item.productType == 'TRANSFER_SERVICE' || item.productType == 'EXPRESS' || item.productType == 'DRIVER_RENTAL' || item.productType == 'CAR_RENTAL'||item.productType == 'transfer_service') ? this.renderItem(item) : this.renderItem2(item)}
+                                    {(item.productType == 'TRANSFER_SERVICE' || item.productType == 'EXPRESS' || item.productType == 'DRIVER_RENTAL' || item.productType == 'CAR_RENTAL' || item.productType == 'transfer_service') ? this.renderItem(item) : this.renderItem2(item)}
                                 </View>
                             )
                         }
@@ -306,7 +296,6 @@ class ListBooking extends Component {
                     onDidFocus={this._retrieveData}
                 // onDidBlur = {this._retrieveData}
                 />
-                {/* {this.selectTime()} */}
                 <View style={{ flex: 1 }}>
                     {this.renderListBooking()}
                 </View>

@@ -67,7 +67,7 @@ class MapDiChung extends Component {
                 { 'id': 6, 'time': 12 },
             ],
             listCar: [
-                { 'id': 1, 'carname': 'Tất cả loại xe', 'listCarType': '1,2,17,24' },
+                { 'id': 1, 'carname': 'Tất cả loại xe', 'listCarType': '0' },
                 { 'id': 2, 'carname': 'Xe 4 chỗ cốp rộng', 'listCarType': '1' },
                 { 'id': 3, 'carname': 'Xe 7 chỗ', 'listCarType': '2' },
                 { 'id': 4, 'carname': 'Xe 16 chỗ', 'listCarType': '24' },

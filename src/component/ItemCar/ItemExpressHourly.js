@@ -2,6 +2,7 @@ import { View, Image, StyleSheet, Text, } from 'react-native'
 import StarVote from '../StarVote'
 import { Button } from '../Button'
 import React, { Component } from 'react'
+import styles from './style'
 
 const imageNote = '../../image/note.png'
 function ItemExpressHourly({ item, onPress }) {
@@ -49,43 +50,5 @@ function ItemExpressHourly({ item, onPress }) {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        borderColor: '#e8e8e8',
-        borderWidth: 0.5,
-        borderRadius: 4,
-        padding: 8,
-        marginTop: 8,
-        backgroundColor: '#ffffff',
-    },
-    containerLeft: {
-        flex: 1,
-        marginTop: 3,
-        backgroundColor: '#ffffff',
-        flexDirection: 'column',
-    },
-    imageRight: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    tentuyen: {
-        padding: 1,
-        fontSize: 18,
-        color: '#77a300',
-        fontWeight:'bold',
-        backgroundColor: '#ffffff'
-    },
-    totalCost: {
-        fontSize: 18,
-        color: '#00363d',
-        fontWeight: 'bold'
-    },
-    carType: {
-        fontSize: 14,
-        color: '#00363e',
-    },
-})
 
 export default ItemExpressHourly;

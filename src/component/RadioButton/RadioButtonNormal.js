@@ -16,7 +16,7 @@ function RadioButtonNormal({ onPressItem, isSelected, obj, i }) {
                 buttonSize={10}
                 buttonOuterSize={16}
                 buttonStyle={7}
-                buttonWrapStyle={{ marginLeft: 10 }}
+                buttonWrapStyle={{ marginLeft: 10, marginTop: 2 }}
             />
             <RadioButtonLabel
                 obj={obj}

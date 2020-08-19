@@ -3,6 +3,7 @@ import StarVote from '../StarVote'
 import { Button } from '../Button'
 import HTML from 'react-native-render-html';
 import React, { Component } from 'react'
+import styles from './style'
 
 const imageCheck = '../../image/check.png'
 
@@ -13,7 +14,7 @@ function ItemDriver({ item, onPress }) {
         >
             <View style={{ flexDirection: 'row' }}>
                 <View style={styles.containerr}>
-                    <Text style={styles.loaixe}>
+                    <Text style={styles.textLabel}>
                         {item.partner_name.toUpperCase()}
                     </Text>
                     <Text style={styles.tentuyen}>{item.vehicle_name}</Text>
@@ -81,45 +82,5 @@ function ItemDriver({ item, onPress }) {
         </View>
     )
 }
-
-
-const styles = StyleSheet.create({
-    container: {
-        borderColor: '#e8e8e8',
-        borderWidth: 0.5,
-        borderRadius: 4,
-        padding: 8,
-        marginTop: 8,
-        backgroundColor: '#ffffff',
-    },
-    containerr: {
-        flex: 1,
-        padding: 8,
-        marginTop: 3,
-        backgroundColor: '#ffffff',
-        flexDirection: 'column',
-    },
-    imageRight: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    tentuyen: {
-        marginTop: 8,
-        padding: 1,
-        fontSize: 14,
-        color: '#00363e',
-        fontStyle: 'italic',
-        backgroundColor: '#ffffff'
-    },
-    loaixe: {
-        fontSize: 16,
-    },
-    giaTien: {
-        fontSize: 16,
-        color: '#00363e',
-    },
-})
-
 
 export default ItemDriver;

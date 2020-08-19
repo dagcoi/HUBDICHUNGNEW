@@ -24,18 +24,6 @@ function DetailTaxi({ item }) {
     console.log(JSON.stringify(item))
     return (
         <ScrollView style={{ paddingHorizontal: 16 }} showsHorizontalScrollIndicator={false}>
-            {/* <Text style={styles.textBigRight}>Trạng thái: <Text style={{ fontWeight: 'bold', color : item.status == 'cancelled' ? '#ef465f' : '#333333' }}>
-                {item.forward.status == 'wait_to_confirm' ? 'Chờ xác nhận' :
-                    item.forward.status == 'cs_confirmed' ? 'CS xác nhận' :
-                        item.forward.status == 'forwarded' ? 'Đặt xe thành công' :
-                            item.forward.status == 'wait_for_driver' ? 'Tìm tài xế' :
-                                item.forward.status == 'driver_accepted' ? 'Tài xế chấp nhận' :
-                                    item.forward.status == 'picked_up' ? 'Đã đón khách' :
-                                        item.forward.status == 'completed' ? 'Hoàn thành chuyến đi' :
-                                            item.forward.status == 'cancelled' ? 'Đã hủy vé' :
-                                                'Tất cả'
-                }
-            </Text></Text> */}
 
             <StatusTicket item={item} />
 

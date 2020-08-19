@@ -6,6 +6,8 @@ import { Button } from '../../../component/Button'
 import StarVote from '../../../component/StarVote'
 import { HeaderText } from '../../../component/Header';
 import { ItemCarChungXe } from '../../../component/ItemCar';
+import * as link from '../../../URL'
+
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
     return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
@@ -40,10 +42,70 @@ class ListVehicle extends Component {
     }
 
     componentDidMount() {
-        this.callListVehicle(this.state.carType);
-        this.callListVehicleName(this.state.carType);
+        // this.callListVehicle(this.state.carType);
+        // this.callListVehicleName(this.state.carType);
         this.callTransmission(this.state.carType);
         this.callVehicleSeat(this.state.carType);
+        this.getProvider()
+    }
+
+    async getProvider() {
+        const url = `${link.URL_API_PORTAL}price/v1/providers?productType=hourly_car_rental`
+        console.log(url)
+        try {
+            const response = await fetch(url, {
+                method: 'GET',
+            });
+            const responseJson = await response.json();
+            const listProvider = responseJson.data;
+            console.log(listProvider);
+            for (let index = 0; index < listProvider.length; index++) {
+                this.getListCarNewV2(listProvider[index].name, index)
+            };
+            const countLoading = listProvider.length
+            this.setState({ countLoading: countLoading })
+            return true
+        }
+        catch (error) {
+            this.setStateAsync({
+                isLoading: false
+            });
+            console.log('abc' + error);
+        }
+    }
+
+    async getListCarNewV2(provider, index) {
+        const url = `${link.URL_API_PORTAL}price/v1/products?productType=${this.props.product_chunk_type}`;
+        let param = `${url}&bookingTime=${this.props.depart_time2}&endPlace=&startPlace=${JSON.stringify(this.props.component_pick)}&slot=${this.props.chair}&provider=${provider}`
+        console.log(param)
+        try {
+            const response = await fetch(param, {
+                method: 'GET',
+            });
+            const responseJson = await response.json();
+            console.log('ba chu a:  ' + index)
+            const listCar = responseJson.data
+            const data = [...this.state.dataSource]
+            if (listCar.length > 0) {
+                data.concat(responseJson.data)
+                console.log('qqqq' + data)
+            }
+            this.setStateAsync({
+                isLoading: false,
+                dataSource: listCar ? this.state.dataSource.concat(responseJson.data) : this.state.dataSource,
+                countLoading: this.state.countLoading - 1,
+            });
+            console.log(responseJson.data)
+            return responseJson.data;
+        }
+        catch (error) {
+            this.setStateAsync({
+                isLoading: false,
+                countLoading: this.state.countLoading - 1,
+            });
+            console.log('abc' + error);
+        }
+        console.log(param)
     }
 
     async callListVehicle(carType) {
@@ -322,10 +384,10 @@ class ListVehicle extends Component {
                                         carType: 1,
                                         isLoading: true,
                                     });
-                                    this.callListVehicle(1); //Đang HardCode
-                                    this.callListVehicleName(1);
-                                    this.callTransmission(1);
-                                    this.callVehicleSeat(1)
+                                    // this.callListVehicle(1); //Đang HardCode
+                                    // this.callListVehicleName(1);
+                                    // this.callTransmission(1);
+                                    // this.callVehicleSeat(1)
                                 }
                             }}
                         >
@@ -346,10 +408,10 @@ class ListVehicle extends Component {
                                         isLoading: true,
                                         carType: 2,
                                     });
-                                    this.callListVehicle(2); //Đang HardCode
-                                    this.callListVehicleName(2);
-                                    this.callTransmission(2);
-                                    this.callVehicleSeat(2)
+                                    // this.callListVehicle(2); //Đang HardCode
+                                    // this.callListVehicleName(2);
+                                    // this.callTransmission(2);
+                                    // this.callVehicleSeat(2)
                                 }
                             }}
                         >

@@ -2,6 +2,7 @@ import { View, Image, StyleSheet, Text, } from 'react-native'
 import StarVote from '../StarVote'
 import { Button } from '../Button'
 import React, { Component } from 'react'
+import styles from './style'
 
 function ItemDriverHourly({ item, onPress }) {
     return (
@@ -16,7 +17,7 @@ function ItemDriverHourly({ item, onPress }) {
                     <StarVote number={item.star_vote} />
                     <Text style={styles.giaTien}>{item.vehicle_name}</Text>
                     <Text style={styles.giaTien}>giới hạn {item.km_limit_format}</Text>
-                    <Text style={styles.loaixe}>{item.price_format}</Text>
+                    <Text style={styles.textLabel}>{item.price_format}</Text>
                 </View>
                 <View style={styles.imageRight}>
                     <Image
@@ -48,43 +49,5 @@ function ItemDriverHourly({ item, onPress }) {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        borderColor: '#e8e8e8',
-        borderWidth: 0.5,
-        borderRadius: 4,
-        padding: 8,
-        marginTop: 8,
-        backgroundColor: '#ffffff',
-    },
-    containerr: {
-        flex: 1,
-        marginTop: 3,
-        backgroundColor: '#ffffff',
-        flexDirection: 'column',
-    },
-    imageRight: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    tentuyen: {
-        padding: 1,
-        fontSize: 14,
-        color: '#333333',
-        fontStyle: 'italic',
-        backgroundColor: '#ffffff'
-    },
-    loaixe: {
-        fontSize: 16,
-        color: '#77a300',
-        fontWeight: 'bold'
-    },
-    giaTien: {
-        fontSize: 16,
-        color: '#00363e',
-    },
-})
 
 export default ItemDriverHourly;

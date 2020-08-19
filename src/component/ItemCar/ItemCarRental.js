@@ -3,6 +3,7 @@ import StarVote from '../StarVote'
 import { Button } from '../Button'
 import HTML from 'react-native-render-html';
 import React, { Component } from 'react'
+import styles from './style'
 
 function ItemCarRental({ item, onPress }) {
     return (
@@ -17,7 +18,7 @@ function ItemCarRental({ item, onPress }) {
                             <Text style={styles.tentuyen}>
                                 {item.partner_name}
                             </Text>
-                            <Text style={styles.loaixe}>{item.vehicle_name}</Text>
+                            <Text style={styles.textLabel}>{item.vehicle_name}</Text>
                             <StarVote number={item.star_vote} />
                             <Text style={styles.giaTien}>{item.merged_format}</Text>
                         </View>
@@ -57,44 +58,5 @@ function ItemCarRental({ item, onPress }) {
         </View>
     )
 }
-
-
-const styles = StyleSheet.create({
-    container: {
-        borderColor: '#e8e8e8',
-        borderWidth: 0.5,
-        borderRadius: 4,
-        padding: 8,
-        marginTop: 8,
-        backgroundColor: '#ffffff',
-    },
-    containerr: {
-        flex: 1,
-        padding: 8,
-        marginTop: 3,
-        backgroundColor: '#ffffff',
-        flexDirection: 'column',
-    },
-    imageRight: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    tentuyen: {
-        marginTop: 8,
-        padding: 1,
-        fontSize: 16,
-        color: '#00363e',
-        fontStyle: 'italic',
-        backgroundColor: '#ffffff'
-    },
-    loaixe: {
-        fontSize: 18,
-    },
-    giaTien: {
-        fontSize: 20,
-        color: '#00363e',
-    },
-})
 
 export default ItemCarRental;
