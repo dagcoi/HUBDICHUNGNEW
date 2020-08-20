@@ -6,6 +6,7 @@ import { NavigationActions, StackActions } from 'react-navigation';
 import { Button } from '../../../component/Button'
 import { HeaderText } from '../../../component/Header'
 import { StatusTicket } from '../../../component/Ticket';
+import { formatDate } from '../../until'
 
 const imageLocation = '../../../image/location2.png'
 const imageCalendar = '../../../image/calendar.png'
@@ -86,10 +87,11 @@ class TicketInformationXeChung extends Component {
     }
 
     renderDetailTrip(item) {
-        const time = item.bookingTime
-        const date = new Date(time).toLocaleDateString()
-        const hours = new Date(time).toLocaleTimeString()
-        const strtime = hours + " " + date
+        // const time = item.bookingTime
+        // const date = new Date(time).toLocaleDateString()
+        // const hours = new Date(time).toLocaleTimeString()
+        // const strtime = hours + " " + date
+        const strtime = formatDate(item.bookingTime)
         return (
             <View>
                 <Text style={styles.textBigLeft1}>Chi tiết dịch vụ</Text>

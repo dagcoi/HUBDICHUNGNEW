@@ -167,7 +167,7 @@ class ListBooking extends Component {
                     <View style={styles.titleTicket}>
                         <Text style={{ flex: 1, textAlign: 'left', fontSize: 16, fontWeight: 'bold' }}>{item.code}</Text>
                         <View style={{ height: 32, borderRadius: 16, backgroundColor: item.rideMethod === 'private' ? '#ef465f' : '#77a300', paddingLeft: 10, paddingRight: 10, justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ color: '#fff' }}>{item.productType == 'TRANSFER_SERVICE' ? 'Thuê taxi' : item.productType == 'EXPRESS' ? 'Thuê vận chuyển' : item.productType == 'DRIVER_RENTAL' ? 'Thuê tài xế' : item.productType == 'CAR_RENTAL' ? 'Thuê tự lái' : 'Khác'}</Text>
+                            <Text style={{ color: '#fff' }}>{item.productType == 'TRANSFER_SERVICE' ? 'Thuê taxi' : item.productType == 'EXPRESS' ? 'Thuê vận chuyển' : item.productType == 'TRUCK' ? 'Thuê xe tải' : item.productType == 'DRIVER_RENTAL' ? 'Thuê tài xế' : item.productType == 'CAR_RENTAL' ? 'Thuê tự lái' : 'Khác'}</Text>
                         </View>
                     </View>
 
@@ -184,10 +184,6 @@ class ListBooking extends Component {
                             source={require(imageTime)}
                             textBold={this.formatDate(item.bookingTime)}
                         />
-                        {/* <ImageTextDiChung
-                        source={require(imageMoney)}
-                        textBold={`${parseInt(item.totalCost).format(0, 3, '.')}` + ' đ'}
-                    /> */}
                     </View>
                     <View style={{ padding: 8, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                         <StarVote number={starVote} margin={4} />
@@ -216,7 +212,7 @@ class ListBooking extends Component {
                             {item.code}
                         </Text>
                         <View style={{ height: 32, borderRadius: 16, backgroundColor: '#77a300', paddingLeft: 10, paddingRight: 10, justifyContent: 'center', alignItems: 'flex-end' }}>
-                            <Text style={{ color: '#fff' }}>{item.productType == 'HOURLY_RENT_TAXI' ? 'Thuê taxi theo giờ' : item.productType == 'HOURLY_FREIGHT_TRUCK' ? 'Thuê vận chuyển theo giờ' : item.productType == 'HOURLY_RENT_DRIVER' ? 'Thuê tài xế theo giờ' : item.productType === 'hourly_car_rental' ? 'Thuê xe tự lái' : 'Khác'}</Text>
+                            <Text style={{ color: '#fff' }}>{item.productType == 'HOURLY_RENT_TAXI' ? 'Thuê taxi theo giờ' : item.productType == 'HOURLY_FREIGHT_TRUCK' ? 'Thuê vận chuyển theo giờ' : item.productType == 'HOURLY_RENT_DRIVER' ? 'Thuê tài xế theo giờ' : item.productType === 'hourly_car_rental' ? 'Thuê xe tự lái1' : 'Khác'}</Text>
                         </View>
                     </View>
 
@@ -241,7 +237,51 @@ class ListBooking extends Component {
                         <StarVote number={starVote} margin={4} />
                     </View>
                 </TouchableOpacity>
-            // : null
+        )
+    }
+
+    renderItemChungXe(item) {
+        let starVote = 0;
+        return (
+            item.forward.error ? null
+                :
+                <TouchableOpacity
+                    style={styles.card}
+                    onPress={() => {
+                        this.props.navigation.push('DetailTicket', {
+                            'ticket_id': item._id,
+                        })
+                    }}
+                >
+                    <View style={styles.titleTicket}>
+                        <Text style={{ flex: 1, textAlign: 'left', fontSize: 16, fontWeight: 'bold' }}>
+                            {item.code}
+                        </Text>
+                        <View style={{ height: 32, borderRadius: 16, backgroundColor: '#77a300', paddingLeft: 10, paddingRight: 10, justifyContent: 'center', alignItems: 'flex-end' }}>
+                            <Text style={{ color: '#fff' }}>{'Thuê xe tự lái'}</Text>
+                        </View>
+                    </View>
+
+                    <View style={styles.contentTicket}>
+                        <ImageTextDiChung
+                            source={require(imagePick)}
+                            text={item.startPoints[0].address}
+                        />
+
+                        <ImageTextDiChung
+                            source={require(imageTime)}
+                            textBold={this.formatDate(item.bookingTime)}
+                        />
+
+                        <ImageTextDiChung
+                            source={require(imageTime)}
+                            textBold={this.formatDate(item.extra.returnTime)}
+                        />
+                    </View>
+                    <View style={{ padding: 8, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                        <StarVote number={starVote} margin={4} />
+                    </View>
+                </TouchableOpacity>
         )
     }
 
@@ -256,27 +296,28 @@ class ListBooking extends Component {
         }
         return (
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
-                {this.state.listBooking.length == 0 ?
+                {/* {this.state.listBooking.length() < 0 ?
                     <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
                         {this.state.isLoading ? null :
                             <Text>{this.props.isLogin == '0' ? 'Đăng nhập để xem danh sách vé của bạn.' : 'Chưa có chuyến trong danh sách vé.'}</Text>
                         }
-                    </View> :
-                    <FlatList
-                        showsVerticalScrollIndicator={false}
-                        data={this.state.listBooking}
-                        renderItem={({ item }) => {
-                            return (
-                                <View>
-                                    {(item.productType == 'TRANSFER_SERVICE' || item.productType == 'EXPRESS' || item.productType == 'DRIVER_RENTAL' || item.productType == 'CAR_RENTAL' || item.productType == 'transfer_service') ? this.renderItem(item) : this.renderItem2(item)}
-                                </View>
-                            )
-                        }
-                        }
-                        keyExtractor={item => item.code}
-                        refreshing={this.state.refreshing}
-                        onRefresh={this._retrieveData}
-                    />}
+                    </View> : */}
+                <FlatList
+                    showsVerticalScrollIndicator={false}
+                    data={this.state.listBooking}
+                    renderItem={({ item }) => {
+                        return (
+                            <View>
+                                {(item.productType == 'TRANSFER_SERVICE' || item.productType == 'EXPRESS' || item.productType == 'DRIVER_RENTAL' || item.productType == 'CAR_RENTAL' || item.productType == 'TRUCK' || item.productType == 'transfer_service') ? this.renderItem(item) : item.productType === 'hourly_car_rental' ? this.renderItemChungXe(item) : this.renderItem2(item)}
+                            </View>
+                        )
+                    }
+                    }
+                    keyExtractor={item => item.code}
+                    refreshing={this.state.refreshing}
+                    onRefresh={this._retrieveData}
+                />
+                {/* } */}
             </View>
         )
     }

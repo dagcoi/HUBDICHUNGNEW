@@ -250,12 +250,12 @@ class Home extends Component {
                 let json = JSON.parse(dataLogin)
                 console.log(json.username)
                 this.props.addUser(json.username, '123', 1)
-                this.props.addToken(json.token)
+                // this.props.addToken(json.token)
                 console.log(json.token)
                 console.log(dataLogin)
             } else {
                 this.props.addUser(json.username, 'json.avatar', 0)
-                this.props.addToken('')
+                // this.props.addToken('')
             }
         } catch (error) {
             console.log(error)

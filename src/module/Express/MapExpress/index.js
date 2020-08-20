@@ -224,7 +224,8 @@ class MapExpress extends Component {
 
                         <TextInput
                             editable={false}
-                            value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours} : ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
+                            // value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours} : ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
+                            value={this.state.depart_time}
                             placeholder='Chọn giờ gửi hàng'
                             placeholderTextColor={'#333333'}
                             onTouchStart={() => { this.setState({ dialogCalendarVisible: true }) }}

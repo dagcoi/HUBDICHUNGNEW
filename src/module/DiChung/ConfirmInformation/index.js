@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert, Image, ActivityIndicator, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert, Image, ActivityIndicator, SafeAreaView, AsyncStorage } from 'react-native';
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import CountDown from 'react-native-countdown-component';
@@ -60,25 +60,6 @@ class ConfirmInformation extends Component {
         console.log('vehicle_name' + this.props.vehicle_name)
         console.log('vehicle_icon' + this.props.vehicle_icon)
         console.log('payment:...........' + navigation.getParam('Payment'))
-        this._interval = setInterval(() => {
-            const url = link.URL_API + `agent/check_night_booking_partner_received?ticket_id=${this.state.ticket}`
-            if (this.state.visibleSearchDriver) {
-                // console.log(url);
-                return fetch(url)
-                    .then((res) => res.json())
-                    .then((jsonRes) => {
-                        // console.log(JSON.stringify(jsonRes))
-                        // console.log(jsonRes.data.result)
-                        this.setState({
-                            result: jsonRes.data.result,
-                            visibleSearchDriver: !jsonRes.data.result,
-                        })
-                    }
-                    )
-            } else {
-                return null;
-            }
-        }, 5000);
         console.log(this.props.depart_time2);
         this.getDetail()
         this.countWeekend(this.props.rent_date, this.props.retun_date)
@@ -385,13 +366,23 @@ class ConfirmInformation extends Component {
                             <Text style={styles.textBigLeft1}>Cuối tuần: </Text>
                             {checkPriceWeekend ? <Text style={styles.textBigRight1}>{sumPriceExtra.format(0, 3, '.')} đ</Text> : <Text style={styles.textBigRight1}>0 đ</Text>}
                         </View>
-                    </View> : null}
+                    </View> : null
+                }
+
+                {send && send.payment && send.payment.tollFee && send.payment.tollFee != 'NA' && send.payment.tollFee != '0' ?
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
+                        <Text style={styles.textBigLeft1}>Phí cầu đường</Text>
+                        <Text style={styles.textBigRight1}>{parseInt(send.payment.tollFee).format(0, 3, '.') + ' đ '}</Text>
+                    </View>
+                    : null
+                }
+                
                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                     <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
                     {send && send.payment && send.payment.tollFee ? <Text style={styles.textBigRight1}>{send.payment.tollFee === 'NA' ? (sumPriceExtra + sumPrice).format(0, 3, '.') : (sumPriceExtra + sumPrice + parseInt(send.payment.tollFee)).format(0, 3, '.') + ' đ '}</Text> :
                         <Text style={styles.textBigRight1}>{(sumPriceExtra + sumPrice).format(0, 3, '.')} đ</Text>}
                 </View>
-                {send && send.payment && send.payment.tollFee && <Text style={{ textAlign: 'right' }}>{send.payment.tollFee === '0' ? 'Giá trọn gói không phí ẩn' : send.payment.tollFee === 'NA' ? 'chưa có phí cầu đường' : 'đã bao gồm phí cầu đường : ' + parseInt(send.payment.tollFee).format(0, 3, '.') + ' đ '}</Text>}
+                {send && send.payment && send.payment.tollFee && <Text style={{ textAlign: 'right' }}>{send.payment.tollFee === '0' ? 'Giá trọn gói không phí ẩn' : send.payment.tollFee === 'NA' ? 'chưa có phí cầu đường' : 'Đã bao gồm phí cầu đường'}</Text>}
             </View>
         )
     }

@@ -51,7 +51,14 @@ function getDateTimeAlive() {
     return result;
 }
 
+function formatDate(string) {
+    var date = new Date(string);
+    var strDate = (date.getHours() < 10 ? '0' : '') + date.getHours() + ':' + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes() + ' ' + date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+    return strDate;
+}
+
 export {
     countWeekend,
-    getDateTimeAlive
+    getDateTimeAlive,
+    formatDate
 }

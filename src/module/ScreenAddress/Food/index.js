@@ -219,7 +219,8 @@ class MapFood extends Component {
                     }}
                     source={require(imageTime)}
                     placeholder={'Chọn giờ đi'}
-                    value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours}: ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
+                    value={this.state.depart_time}
+                // value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours}: ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
                 />
             </View>
         )

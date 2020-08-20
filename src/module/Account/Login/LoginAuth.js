@@ -30,11 +30,11 @@ export default class PhoneAuthTest extends Component {
         this.unsubscribe = await firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 this.setState({ user: user.toJSON() });
-                console.log(user); // this is shown. Firebase user and provider data
-                console.log(user.uid); // Shown
+                console.log('1...'+user); // this is shown. Firebase user and provider data
+                console.log('2...'+user.uid); // Shown
                 // this.cpn()
                 user.getIdToken().then((idToken) => {  // <------ Check this line
-                    console.log(idToken); // It shows the Firebase token now
+                    console.log('3...'+idToken); // It shows the Firebase token now
                     this.apiLogin(idToken)
                 })
             } else {
@@ -81,9 +81,12 @@ export default class PhoneAuthTest extends Component {
         })
     }
 
+    addDataLogin = async (dataLogin) => {
+        await AsyncStorage.setItem('dataLogin', JSON.stringify(dataLogin))
+    }
+
     apiLogin = (token) => {
         let url = link.URL_API_PORTAL + 'user/v1/users/login/phone'
-        // console.log(url)
         fetch(url, {
             method: 'POST',
             headers: {
@@ -94,16 +97,16 @@ export default class PhoneAuthTest extends Component {
             .then(res => res.json())
             .then(resJson => {
                 if (resJson.data) {
-                    // this.addDataLogin(userName, passWord, resJson.data)
+                    this.addDataLogin(resJson.data)
                     this.gotoProfileScreen(JSON.stringify(resJson.data))
-                    console.log('resJson.data' + resJson.data)
+                    console.log('4...resJson.data' + resJson.data)
                 }
                 else {
                     this.setState({
                         messageLogin: resJson.error.message
                     })
                 }
-            }).catch((error) => { console.log(error) });
+            }).catch((error) => { console.log('5...'+error) });
     }
     gotoProfileScreen(dataLogin) {
         this.props.navigation.replace('Profile', { 'dataLogin': dataLogin })
@@ -121,7 +124,7 @@ export default class PhoneAuthTest extends Component {
         firebase.auth().signInWithPhoneNumber(phoneNumber)
             .then(confirmResult => {
                 this.setState({ confirmResult, message: 'Code has been sent!' })
-                console.log('confirmResult:   ' + confirmResult)
+                console.log('6....confirmResult:   ' + confirmResult)
             })
             .catch(error => this.setState({ message: `Sign In With Phone Number Error: ${error.message}` }));
     };

@@ -6,6 +6,7 @@ import WebView from 'react-native-webview';
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
 import { Button, ButtonGray, ButtonDialog } from '../../../component/Button'
+import { formatDate } from '../../../until'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 import PopUp from '../../../component/PopUp'
 import OtpInputs from 'react-native-otp-inputs';
@@ -14,6 +15,7 @@ import { HeaderText } from '../../../component/Header'
 import { StatusTicket } from '../../../component/Ticket';
 import DetailTaxi from '../../ListBooking/DetailTaxi'
 import DetailHourlyTaxi from '../../ListBooking//DetailHourlyTaxi'
+import DetailChungXe from '../../ListBooking//DetailChungXe'
 
 const imageLocation = '../../../image/location2.png'
 const imageCalendar = '../../../image/calendar.png'
@@ -57,7 +59,7 @@ class TicketInformation extends Component {
             modalTell: false,
             modalPayment: false,
             urlPayment: null,
-            listHourly: ['hourly_rent_taxi', 'hourly_rent_driver', 'hourly_freight_truck', 'hourly_tourist_car']
+            listHourly: ['hourly_rent_taxi', 'hourly_rent_driver', 'hourly_freight_truck', 'hourly_tourist_car', 'hourly_car_rental']
         }
     }
 
@@ -120,10 +122,11 @@ class TicketInformation extends Component {
     }
 
     renderDetailTrip(item) {
-        const time = item.bookingTime
-        const date = new Date(time).toLocaleDateString()
-        const hours = new Date(time).toLocaleTimeString()
-        const strtime = hours + " " + date
+        // const time = item.bookingTime
+        // const date = new Date(time).toLocaleDateString()
+        // const hours = new Date(time).toLocaleTimeString()
+        // const strtime = hours + " " + date
+        const strtime = formatDate(item.bookingTime)
         return (
             <View>
                 <Text style={styles.textBigLeft1}>Chi tiết chuyến đi</Text>
@@ -163,7 +166,7 @@ class TicketInformation extends Component {
                 <ImageTextDiChung
                     source={require(imageIconCar)}
                     // text={item.ride_method_id == '1' ? 'Đi riêng': 'Đi chung'}
-                    text={item.rideMethod == 'private' ? 'Đi riêng' : 'Đi chung'}
+                    text={item.label}
                 />
             </View>
         )
@@ -480,9 +483,9 @@ class TicketInformation extends Component {
                             {this.renderTT(item)}
                              */}
 
-                            {this.state.listHourly.indexOf(this.state.bookingDetail.productType.toLowerCase() ) >= 0 ?
-                                <DetailHourlyTaxi item={item} />
-                                : <DetailTaxi item={item} />}
+                            {this.state.listHourly.indexOf(this.state.bookingDetail.productType.toLowerCase()) >= 0 ? <DetailHourlyTaxi item={item} />
+                                : this.state.bookingDetail.productType === 'hourly_car_rental' ? <DetailChungXe item={item} />
+                                    : <DetailTaxi item={item} />}
                             <View style={{ paddingHorizontal: 8 }}>
                                 {this.renderPaymentOnline(item)}
 

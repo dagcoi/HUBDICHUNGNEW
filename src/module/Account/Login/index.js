@@ -51,7 +51,7 @@ class Login extends Component {
     }
 
 
-    apiAddUser(userName, passWord) {
+    async apiAddUser(userName, passWord) {
         url = link.URL_API_PORTAL + `user/v1/users`
         fetch(url, {
             method: 'POST',
@@ -136,7 +136,7 @@ class Login extends Component {
         this.props.navigation.replace('Profile', { 'userName': userName, 'passWord': passWord, 'dataLogin': dataLogin })
     }
 
-    gotoHomeScreen = () =>{
+    gotoHomeScreen = () => {
         this.props.navigation.navigate('Home')
     }
 

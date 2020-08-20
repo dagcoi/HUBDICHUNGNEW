@@ -134,7 +134,7 @@ class MapTruck extends Component {
                 }
             } else {
                 console.log('datdem : false')
-                this.props.navigation.push("ListCar",{vehicle_id : this.state.vehicle_id});
+                this.props.navigation.push("ListCar", { vehicle_id: this.state.vehicle_id });
             }
         }
         else {
@@ -291,7 +291,8 @@ class MapTruck extends Component {
 
                         <TextInput
                             editable={false}
-                            value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours} : ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
+                            value={this.state.depart_time}
+                            // value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours} : ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
                             placeholder='Chọn giờ gửi hàng'
                             placeholderTextColor={'#333333'}
                             onTouchStart={() => { this.setState({ dialogCalendarVisible: true }) }}
@@ -378,7 +379,8 @@ class MapTruck extends Component {
                             }}
                             placeholder={'Chọn thời gian'}
                             source={require(imageTime)}
-                            value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours} : ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
+                            value={this.state.depart_time}
+                        // value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours} : ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
                         />
                     </View>
                     <View style={{ width: 1, backgroundColor: '#e8e8e8' }}></View>

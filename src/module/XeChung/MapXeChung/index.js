@@ -6,7 +6,7 @@ import { addDepartTime, addPeople, swapAddress, addDuration, addProductChunkType
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
 import { ButtonFull, ButtonDialog } from '../../../component/Button'
 import listHour from '../../../component/TimeSelect/listTime'
-import Dialog, {  } from 'react-native-popup-dialog';
+import Dialog, { } from 'react-native-popup-dialog';
 import { HeaderText } from '../../../component/Header'
 import ImageTextBold from '../../../component/ImageTextDiChung/ImageTextBold'
 
@@ -264,7 +264,8 @@ class MapXeChung extends Component {
                     }}
                     placeholder={'Chọn thời gian'}
                     source={require(imageTime)}
-                    value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours} : ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
+                    value={this.state.depart_time}
+                // value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours} : ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
                 />
 
                 <ImageInputTextDiChung
@@ -335,7 +336,8 @@ class MapXeChung extends Component {
                     }}
                     placeholder={'Chọn thời gian'}
                     source={require(imageTime)}
-                    value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours} : ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
+                    value={this.state.depart_time}
+                    // value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours} : ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
                 />
                 <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
                     <View style={{ flex: 1 }}></View>

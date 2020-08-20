@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, Image, StyleSheet, Text, ScrollView, Linking } from 'react-native'
 import ImageTextDiChung from '../../component/ImageTextDiChung'
 import { StatusTicket } from '../../component/Ticket'
+import { formatDate } from '../../until'
 
 
 const imageLocation = '../../image/location2.png'
@@ -47,10 +48,11 @@ function DetailTaxi({ item }) {
 }
 
 function renderDetailTrip(item) {
-    const time = item.bookingTime
-    const date = new Date(time).toLocaleDateString()
-    const hours = new Date(time).toLocaleTimeString()
-    const strtime = hours + " " + date
+    // const time = item.bookingTime
+    // const date = new Date(time).toLocaleDateString()
+    // const hours = new Date(time).toLocaleTimeString()
+    // const strtime = hours + " " + date
+    const strtime = formatDate(item.bookingTime)
     return (
         <View>
             <Text style={styles.textBigLeft1}>Chi tiết dịch vụ taxi</Text>
@@ -90,7 +92,7 @@ function renderDetailOrder(item) {
 
             <ImageTextDiChung
                 source={require(imageIconCar)}
-                text={item.extra.ride_method_id == '1' ? 'Đi riêng' : 'Đi chung'}
+                text={item.label}
             // text={item.ride_method_id == '1' ? 'Đi riêng' : 'Đi chung'}
             />
         </View>
@@ -105,19 +107,16 @@ function renderDetailCustommer(item) {
             <ImageTextDiChung
                 source={require(imagePerson)}
                 text={item.bookingUser.fullName}
-            // text={item.fullname}
             />
 
             <ImageTextDiChung
                 source={require(imageIconPhone)}
                 text={item.bookingUser.phone}
-            // text={item.other_phone}
             />
 
             <ImageTextDiChung
                 source={require(imageEmail)}
                 text={item.bookingUser.email}
-            // text={item.email}
             />
         </View>
     )
@@ -132,13 +131,11 @@ function renderDetailPeopleMove(item) {
             <ImageTextDiChung
                 source={require(imagePerson)}
                 text={item.beneficiary.fullName}
-            // text={item.use_name}
             />
 
             <ImageTextDiChung
                 source={require(imageIconPhone)}
                 text={item.beneficiary.phone}
-            // text={item.use_phone}
             />
 
         </View>
@@ -153,15 +150,12 @@ function renderOther(item) {
             <ImageTextDiChung
                 source={require(imagePayment)}
                 text={item.payment.method == 'cash' ? 'Trả sau' : 'Trả trước'}
-            // text={item.pay_method_name}
             />
-            {/* {item.board_price != '0' ? */}
             {item.extra.catch_in_house == '1' ?
                 <ImageTextDiChung
                     source={require(imageDone)}
                     text={'Đón bằng biển tên (+ 30.000 ₫)'}
                 /> : null}
-            {/* {item.xhd == 1 ? */}
             {item.extra.xhd == 1 ?
                 <ImageTextDiChung
                     source={require(imageDone)}
@@ -179,15 +173,12 @@ function renderOther(item) {
 function renderTT(item) {
     return (
         <View>
-            <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', }}>
-                <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
-                {(item.forward.status == 'forwarded'&& item.forward.result) ?
-                    <Text style={styles.textBigRight1}>
-                        {/* {parseInt(item.total_cost).format(0, 3, '.')} đ */}
-                        {parseInt(item.forward.result.total_cost).format(0, 3, '.')} đ
-            </Text>
-                    : null}
-            </View>
+            {(item.forward.status == 'forwarded' && item.forward.result) ?
+                <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', }}>
+                    <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
+                    <Text style={styles.textBigRight1}>{parseInt(item.payment.totalCost).format(0, 3, '.')} đ</Text>
+                </View>
+                : null}
             {/* <Text style={{ marginBottom: 8, textAlign: 'right' }}>{item.toll_fee == 'NA' ? "Giá chưa bao giờ phí cầu đường" : "Giá trọn gói không phí ẩn"}</Text> */}
         </View>
     )
@@ -212,7 +203,6 @@ const styles = StyleSheet.create({
     textBigRight: {
         padding: 1,
         fontSize: 15,
-        // color: '#00363d',
         flex: 1,
     },
     textBigLeft1: {

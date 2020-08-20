@@ -6,6 +6,7 @@ import * as link from '../../../URL'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
 import { Button, ButtonGray, ButtonDialog } from '../../../component/Button'
+import { formatDate } from '../../until'
 import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
 import PopUp from '../../../component/PopUp'
 import { HeaderText } from '../../../component/Header';
@@ -79,10 +80,11 @@ class TicketInformationTuLai extends Component {
     }
 
     renderDetailTrip(item) {
-        const time = item.bookingTime
-        const date = new Date(time).toLocaleDateString()
-        const hours = new Date(time).toLocaleTimeString()
-        const strtime = hours + " " + date
+        // const time = item.bookingTime
+        // const date = new Date(time).toLocaleDateString()
+        // const hours = new Date(time).toLocaleTimeString()
+        // const strtime = hours + " " + date
+        const strtime = formatDate(item.bookingTime)
         return (
             <View>
                 <Text style={styles.textBigLeft1}>Chi tiết chuyến đi</Text>

@@ -60,8 +60,12 @@ class Profile extends Component {
     componentDidMount() {
         const { navigation } = this.props;
         if (navigation.getParam('dataLogin')) {
+
             let dataLogin = navigation.getParam('dataLogin')
             let json = JSON.parse(dataLogin)
+            this.addDataLogin(json)
+            console.log('...' + dataLogin)
+            this.props.addToken(json.token)
             this.apiGetProfile(json._id)
         } else {
             this._retrieveData()
@@ -95,6 +99,7 @@ class Profile extends Component {
                 let json = JSON.parse(dataLogin)
                 // console.log(dataLogin)
                 // console.log(json.token)
+                this.props.addToken(json.token)
                 this.setState({ infoCustommer: json, idCustommer: json._id })
                 this.apiGetProfile(json._id)
             } else {
@@ -159,9 +164,7 @@ class Profile extends Component {
                     isLoading: false,
                     idCustommer: id,
                 })
-                this.addDataLogin(resJson.data)
                 this.props.addUser(resJson.data.username, '123', 1)
-                this.props.addToken(resJson.data.token)
             })
     }
 
@@ -272,10 +275,15 @@ class Profile extends Component {
                 <KeyboardAwareScrollView style={{ flexGrow: 1, }} enableOnAndroid={true} enableAutoAutomaticScroll={(Platform.OS === 'ios')} >
                     <View style={{ height: SCREEN_WIDTH, width: SCREEN_WIDTH, }}>
                         <View style={{ height: SCREEN_WIDTH, width: SCREEN_WIDTH, justifyContent: 'center', alignItems: 'center', zIndex: 5, position: 'relative', borderRadius: 1 }}>
-                            <Image
-                                style={{ width: SCREEN_WIDTH / 3, height: SCREEN_WIDTH / 3, borderRadius: SCREEN_WIDTH / 4 }}
-                                source={require(logo)}
-                            />
+                            {(this.state.dataProfile && this.state.dataProfile.avatar) ?
+                                <Image
+                                    style={{ width: SCREEN_WIDTH / 3, height: SCREEN_WIDTH / 3, borderRadius: SCREEN_WIDTH / 4 }}
+                                    source={{ uri: this.state.dataProfile.avatar }}
+                                /> :
+                                <Image
+                                    style={{ width: SCREEN_WIDTH / 3, height: SCREEN_WIDTH / 3, borderRadius: SCREEN_WIDTH / 4 }}
+                                    source={require(logo)} />
+                            }
                         </View>
                         <View style={{ height: SCREEN_WIDTH, width: SCREEN_WIDTH, zIndex: 1, position: 'absolute', }}>
                             <View style={{ flex: 1, justifyContent: 'center' }}>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import ImageTextDiChung from '../../component/ImageTextDiChung'
+import { formatDate } from '../../until'
 
 const imageLocation = '../../image/location2.png'
 const imageCalendar = '../../image/calendar.png'
@@ -20,11 +21,13 @@ Number.prototype.format = function (n, x) {
 };
 
 function DetailHourlyTaxi({ item }) {
-    console.log(JSON.stringify(item))
-    const time = item.bookingTime
-    const date = new Date(time).toLocaleDateString()
-    const hours = new Date(time).toLocaleTimeString()
-    const strtime = hours + " " + date
+    // console.log(JSON.stringify(item))
+    // const time = item.bookingTime
+    // const date = new Date(time).toLocaleDateString()
+    // const hours = new Date(time).toLocaleTimeString()
+    // const strtime = hours + " " + date
+    const strtime = formatDate(item.bookingTime)
+
     return (
         <View style={{ paddingHorizontal: 16 }}>
             <Text style={styles.textBigLeft1}>Chi tiết chuyến đi</Text>

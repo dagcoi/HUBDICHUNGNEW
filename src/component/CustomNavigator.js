@@ -31,10 +31,19 @@ class CustomNavigator extends Component {
                         <Text style={{ color: '#77a300', fontSize: 16, marginLeft: 16, flex: 1, fontWeight: 'bold' }}>Đăng nhập</Text>
                         :
                         <View style={{ alignItems: 'center', flexDirection: 'row', }}>
-                            <Image
+                            {/* <Image
                                 source={require(imageAvatar)}
                                 style={{ height: 40, width: 40, borderRadius: 40, borderWidth: 1, borderColor: '#e8e8e8' }}
-                            />
+                            /> */}
+                            {(this.state.dataProfile && this.state.dataProfile.avatar) ?
+                                <Image
+                                    style={{ height: 40, width: 40, borderRadius: 40, borderWidth: 1, borderColor: '#e8e8e8' }}
+                                    source={{ uri: this.state.dataProfile.avatar }}
+                                /> :
+                                <Image
+                                    style={{ height: 40, width: 40, borderRadius: 40, borderWidth: 1, borderColor: '#e8e8e8' }}
+                                    source={require(imageAvatar)} />
+                            }
                             <Text style={{ color: '#77a300', fontSize: 16, marginLeft: 16, flex: 1, fontWeight: 'bold' }}>{this.props.name}</Text>
                         </View>
                     }

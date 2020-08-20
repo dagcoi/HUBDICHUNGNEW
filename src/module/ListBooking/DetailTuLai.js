@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, ScrollView, } from 'react-native';
 import ImageTextDiChung from '../../component/ImageTextDiChung'
+import { formatDate } from '../../until'
 
 const imageLocation = '../../image/location2.png'
 const imageCalendar = '../../image/calendar.png'
@@ -35,10 +36,11 @@ function DetailTuLai({ item }) {
 }
 
 function renderDetailTrip(item) {
-    const time = item.bookingTime
-    const date = new Date(time).toLocaleDateString()
-    const hours = new Date(time).toLocaleTimeString()
-    const strtime = hours + " " + date
+    // const time = item.bookingTime
+    // const date = new Date(time).toLocaleDateString()
+    // const hours = new Date(time).toLocaleTimeString()
+    // const strtime = hours + " " + date
+    const strtime = formatDate(item.bookingTime)
     return (
         <View>
             <Text style={styles.textBigLeft1}>Chi tiết chuyến đi</Text>

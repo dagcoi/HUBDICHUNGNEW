@@ -9,7 +9,8 @@ import {
     ScrollView,
     SafeAreaView,
     RefreshControl,
-    Linking
+    Linking,
+    AsyncStorage
 } from 'react-native'
 import WebView from 'react-native-webview';
 
@@ -20,6 +21,7 @@ import DetailTuLai from './DetailTuLai'
 import DetailExpress from './DetailExpress'
 import DetailXeChung from './DetailXeChung'
 import DetailHourlyTaxi from './DetailHourlyTaxi'
+import DetailChungXe from './DetailChungXe'
 import { HeaderText } from '../../component/Header'
 import * as link from '../../URL'
 import { Button, ButtonGray } from '../../component/Button'
@@ -40,8 +42,7 @@ class BookingDetail extends Component {
             listBooking: [],
             selectLeft: true,
             isLoading: true,
-            bookingDetail: {},
-            isLoadingTicket: true,
+            bookingDetail: null,
             modalTicket: false,
             modalTicketHourly: false,
             ticket: '',
@@ -64,10 +65,27 @@ class BookingDetail extends Component {
     }
 
     async componentDidMount() {
-        this._refreshData()
+        this._retrieveData()
     }
+    _retrieveData = async () => {
+        try {
+            const dataLogin = await AsyncStorage.getItem('dataLogin')
+            if (dataLogin !== null) {
+                let json = JSON.parse(dataLogin)
+                const token =  json.token
+                this._refreshData(token)
+            } else {
+                console.log('lỗi token')
+            }
+        } catch (error) {
+            console.log(error)
+            this.setState({
+                isLoading: false,
+            })
+        }
+    };
 
-    _refreshData = async () => {
+    _refreshData = async (token) => {
         const { navigation } = this.props;
         this.setState({ refreshing: true })
         const ticket_id = navigation.getParam('ticket_id')
@@ -77,18 +95,19 @@ class BookingDetail extends Component {
         console.log('code' + code)
         console.log('phone' + phone)
         if (ticket_id) {
-            this.getTicketInfoDC(ticket_id)
+            this.getTicketInfoDC(ticket_id, token)
+            
         } else {
-            this.getTicketByCode(code, phone)
+            this.getTicketByCode(code, phone, token)
         }
     }
 
-    async getTicketInfoDC(_id) {
+    async getTicketInfoDC(_id, token) {
         const url = link.URL_API_PORTAL + `booking/v1/user/bookings/${_id}`
         console.log('ticket_id' + url)
         const res = await fetch(url, {
             headers: {
-                'token': this.state.token,
+                'token': token,
             },
             method: 'GET',
         });
@@ -101,12 +120,12 @@ class BookingDetail extends Component {
         console.log(jsonRes.data)
     }
 
-    async getTicketByCode(code, phone) {
+    async getTicketByCode(code, phone, token) {
         const url = link.URL_API_PORTAL + `booking/v1/bookings/code?code=${code}&phone=${phone}`
         console.log(url)
         const res = await fetch(url, {
             headers: {
-                'token': this.state.token,
+                'token': token,
             },
             method: 'GET',
         });
@@ -233,14 +252,15 @@ class BookingDetail extends Component {
                             <View style={{ marginVertical: 0 }}>
                                 {this.state.bookingDetail.productType == 'CAR_RENTAL' ? <DetailTuLai item={this.state.bookingDetail} />
                                     : this.state.bookingDetail.productType == 'DRIVER_RENTAL' ? <DetailXeChung item={this.state.bookingDetail} />
-                                        : this.state.bookingDetail.productType == 'EXPRESS' ? <DetailExpress item={this.state.bookingDetail} />
-                                            : this.state.bookingDetail.productType == 'TRANSFER_SERVICE' ? <DetailTaxi item={this.state.bookingDetail} />
-                                                : this.state.bookingDetail.productType == 'transfer_service' ? <DetailCaro item={this.state.bookingDetail} />
-                                                    : <DetailHourlyTaxi item={this.state.bookingDetail} />}
+                                        : this.state.bookingDetail.productType == 'hourly_car_rental' ? <DetailChungXe item={this.state.bookingDetail} />
+                                            : this.state.bookingDetail.productType == 'EXPRESS' ? <DetailExpress item={this.state.bookingDetail} />
+                                                : this.state.bookingDetail.productType == 'TRANSFER_SERVICE' ? <DetailTaxi item={this.state.bookingDetail} />
+                                                    : this.state.bookingDetail.productType == 'transfer_service' ? <DetailCaro item={this.state.bookingDetail} />
+                                                        : <DetailHourlyTaxi item={this.state.bookingDetail} />}
                             </View>
                             <View style={{ paddingHorizontal: 16 }}>
                                 {this.renderPaymentOnline(this.state.bookingDetail)}
-                                {(this.state.bookingDetail.status == 'cancelled' || this.state.bookingDetail.status == 'completed' || this.state.bookingDetail.status == 'picked_up'|| this.state.bookingDetail.productType == 'transfer_service') ? null :
+                                {(this.state.bookingDetail.status == 'cancelled' || this.state.bookingDetail.status == 'completed' || this.state.bookingDetail.status == 'picked_up' || this.state.bookingDetail.productType == 'transfer_service') ? null :
                                     <View style={{ paddingBottom: 8 }}>
                                         <ButtonGray
                                             value='HỦY VÉ'

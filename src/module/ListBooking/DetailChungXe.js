@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, ScrollView, } from 'react-native';
+import { View, Image, StyleSheet, Text, ScrollView, Linking } from 'react-native'
 import ImageTextDiChung from '../../component/ImageTextDiChung'
 import { StatusTicket } from '../../component/Ticket'
 import { formatDate } from '../../until'
+
+
 const imageLocation = '../../image/location2.png'
 const imageCalendar = '../../image/calendar.png'
 const imagePeople = '../../image/people.png'
@@ -19,12 +21,11 @@ Number.prototype.format = function (n, x) {
     return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
 };
 
-function DetailXeChung({ item }) {
+function DetailChungXe({ item }) {
+    console.log(JSON.stringify(item))
     return (
-        <ScrollView
-            style={{ paddingHorizontal: 16 }}
-            showsVerticalScrollIndicator={false}
-        >
+        <ScrollView style={{ paddingHorizontal: 16 }} showsHorizontalScrollIndicator={false}>
+
             <StatusTicket item={item} />
 
             <Text>Mọi thắc mắc vui lòng liên hệ:
@@ -35,26 +36,31 @@ function DetailXeChung({ item }) {
                     19006022
                 </Text>
             </Text>
-
             {renderDetailTrip(item)}
             {renderDetailOrder(item)}
             {renderDetailCustommer(item)}
             {renderDetailPeopleMove(item)}
+            {renderComment(item)}
             {renderOther(item)}
             {renderTT(item)}
-
         </ScrollView>
     )
 }
 
 function renderDetailTrip(item) {
     // const time = item.bookingTime
+    // const time1 = item.extra.returnTime
     // const date = new Date(time).toLocaleDateString()
     // const hours = new Date(time).toLocaleTimeString()
+    // const strtime = hours + " " + date
+    // const date1 = new Date(time1).toLocaleDateString()
+    // const hours1 = new Date(time1).toLocaleTimeString()
+    // const strtime1 = hours1 + " " + date1
     const strtime = formatDate(item.bookingTime)
+    const strtime1 = formatDate(item.extra.returnTime)
     return (
         <View>
-            <Text style={styles.textBigLeft1}>Chi tiết dịch vụ thuê tài xế</Text>
+            <Text style={styles.textBigLeft1}>Chi tiết dịch vụ thuê xe tự lái</Text>
 
             <ImageTextDiChung
                 source={require(imageLocation)}
@@ -62,13 +68,14 @@ function renderDetailTrip(item) {
             />
 
             <ImageTextDiChung
-                source={require(imageLocation)}
-                text={item.endPoints[0].address}
+                source={require(imageCalendar)}
+                text={strtime + '->' + strtime1}
+
             />
 
             <ImageTextDiChung
-                source={require(imageCalendar)}
-                text={strtime}
+                source={require(imagePeople)}
+                text={item.slot + ' xe'}
             />
         </View>
     )
@@ -77,9 +84,12 @@ function renderDetailTrip(item) {
 function renderDetailOrder(item) {
     return (
         <View>
+            <Text style={styles.textBigLeft1}>Chi tiết đơn hàng</Text>
+
             <ImageTextDiChung
                 source={require(imageIconCar)}
-                text={'Loại dịch vụ: Thuê tài xế'}
+                text={item.label}
+            // text={item.ride_method_id == '1' ? 'Đi riêng' : 'Đi chung'}
             />
         </View>
     )
@@ -104,11 +114,6 @@ function renderDetailCustommer(item) {
                 source={require(imageEmail)}
                 text={item.bookingUser.email}
             />
-
-            <ImageTextDiChung
-                source={require(imageComment)}
-                text={item.note}
-            />
         </View>
     )
 }
@@ -128,12 +133,11 @@ function renderDetailPeopleMove(item) {
                 source={require(imageIconPhone)}
                 text={item.beneficiary.phone}
             />
+
         </View>
     )
 
 }
-
-
 
 function renderOther(item) {
     return (
@@ -143,6 +147,11 @@ function renderOther(item) {
                 source={require(imagePayment)}
                 text={item.payment.method == 'cash' ? 'Trả sau' : 'Trả trước'}
             />
+            {item.extra.catch_in_house == '1' ?
+                <ImageTextDiChung
+                    source={require(imageDone)}
+                    text={'Đón bằng biển tên (+ 30.000 ₫)'}
+                /> : null}
             {item.extra.xhd == 1 ?
                 <ImageTextDiChung
                     source={require(imageDone)}
@@ -159,17 +168,24 @@ function renderOther(item) {
 
 function renderTT(item) {
     return (
-        <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', marginBottom: 8 }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', }}>
-                <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
-                {item.forward.status == 'forwarded' ?
-                    <Text style={styles.textBigRight1}>
-                        {/* {parseInt(item.total_cost).format(0, 3, '.')} đ */}
-                        {parseInt(item.forward.result.total_cost).format(0, 3, '.')} đ
-            </Text>
-                    : null}
-            </View>
+        <View>
+            {(item.forward.status == 'forwarded') ?
+                <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', }}>
+                    <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
+                    <Text style={styles.textBigRight1}>{parseInt(item.payment.totalCost).format(0, 3, '.')} đ</Text>
+                </View>
+                : null}
+            {/* <Text style={{ marginBottom: 8, textAlign: 'right' }}>{item.toll_fee == 'NA' ? "Giá chưa bao giờ phí cầu đường" : "Giá trọn gói không phí ẩn"}</Text> */}
         </View>
+    )
+}
+
+function renderComment(item) {
+    return (
+        <ImageTextDiChung
+            source={require(imageComment)}
+            text={item.note}
+        />
     )
 }
 
@@ -182,15 +198,13 @@ const styles = StyleSheet.create({
     },
     textBigRight: {
         padding: 1,
-        fontSize: 14,
-        color: '#333333',
+        fontSize: 15,
         flex: 1,
     },
     textBigLeft1: {
-        fontSize: 16,
+        fontSize: 18,
         marginTop: 8,
         fontWeight: 'bold',
-
     },
     buttonContainer: {
         flexDirection: 'row',
@@ -198,7 +212,6 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         marginBottom: 4,
     },
-
     circle: {
         height: 20,
         width: 20,
@@ -208,7 +221,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-
     checkedCircle: {
         width: 14,
         height: 14,
@@ -217,7 +229,7 @@ const styles = StyleSheet.create({
     },
     textBigRight1: {
         padding: 1,
-        fontSize: 16,
+        fontSize: 18,
         color: '#77a300',
         flex: 1,
         textAlign: "right",
@@ -225,4 +237,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default DetailXeChung;
+export default DetailChungXe;

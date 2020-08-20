@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { View, Image, StyleSheet, Text, ScrollView, Linking, ActivityIndicator,TouchableOpacity } from 'react-native'
+import { View, Image, StyleSheet, Text, ScrollView, Linking, ActivityIndicator, TouchableOpacity } from 'react-native'
 import ImageTextDiChung from '../../component/ImageTextDiChung'
 import { StatusTicket } from '../../component/Ticket'
 import Toast from 'react-native-simple-toast';
+import { formatDate } from '../../until'
 
 const imageLocation = '../../image/location2.png'
 const imageCalendar = '../../image/calendar.png'
@@ -57,13 +58,6 @@ function renderDriverInformation(item) {
                         textBold={'Số điện thoại: '}
                         text={item.driver.phone}
                     />
-                    {/* <TouchableOpacity
-                        onPress={() => {
-                            Toast.show('abc')
-                        }}
-                    >
-                        <Text>ABC</Text>
-                    </TouchableOpacity> */}
                 </View>
             }
             <View style={{ height: 70, justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
@@ -78,10 +72,11 @@ function renderDriverInformation(item) {
 }
 
 function renderDetailTrip(item) {
-    const time = item.bookingTime
-    const date = new Date(time).toLocaleDateString()
-    const hours = new Date(time).toLocaleTimeString()
-    const strtime = hours + " " + date
+    // const time = item.bookingTime
+    // const date = new Date(time).toLocaleDateString()
+    // const hours = new Date(time).toLocaleTimeString()
+    // const strtime = hours + " " + date
+    const strtime = formatDate(item.bookingTime)
     return (
         <View>
             <Text style={styles.textBigLeft1}>Chi tiết dịch vụ taxi</Text>
@@ -139,35 +134,18 @@ const styles = StyleSheet.create({
     textBigRight: {
         padding: 1,
         fontSize: 15,
-        // color: '#00363d',
         flex: 1,
     },
     textBigLeft1: {
         fontSize: 18,
         marginTop: 8,
         fontWeight: 'bold',
-
     },
     buttonContainer: {
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
         marginBottom: 4,
-    },
-    circle: {
-        height: 20,
-        width: 20,
-        borderRadius: 10,
-        borderWidth: 0.5,
-        borderColor: '#e8e8e8',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    checkedCircle: {
-        width: 14,
-        height: 14,
-        borderRadius: 7,
-        backgroundColor: '#77a300',
     },
     textBigRight1: {
         padding: 1,

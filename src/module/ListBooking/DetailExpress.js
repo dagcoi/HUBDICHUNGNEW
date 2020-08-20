@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet, ScrollView, } from 'react-native';
 import ImageTextDiChung from '../../component/ImageTextDiChung'
 import { StatusTicket } from '../../component/Ticket'
+import { formatDate } from '../../until'
 
 const imageLocation = '../../image/location2.png'
 const imageCalendar = '../../image/calendar.png'
@@ -27,20 +28,7 @@ function DetailExpress({ item }) {
             style={{ paddingHorizontal: 16 }}
             showsVerticalScrollIndicator={false}
         >
-            {/* <Text style={styles.textBigRight}>Trạng thái: <Text style={{ fontWeight: 'bold', color: item.status == 'cancelled' ? '#ef465f' : '#333333' }}>
-                {item.forward.status == 'wait_to_confirm' ? 'Chờ xác nhận' :
-                    item.forward.status == 'cs_confirmed' ? 'CS xác nhận' :
-                        item.forward.status == 'forwarded' ? 'Đặt xe thành công' :
-                            item.forward.status == 'wait_for_driver' ? 'Tìm tài xế' :
-                                item.forward.status == 'driver_accepted' ? 'Tài xế chấp nhận' :
-                                    item.forward.status == 'picked_up' ? 'Đã đón khách' :
-                                        item.forward.status == 'completed' ? 'Hoàn thành chuyến đi' :
-                                            item.forward.status == 'cancelled' ? 'Đã hủy vé' :
-                                                'Tất cả'
-                }
-            </Text></Text> */}
-
-            <StatusTicket item={item}/>
+            <StatusTicket item={item} />
 
             <Text>Mọi thắc mắc vui lòng liên hệ:
                 <Text
@@ -59,10 +47,11 @@ function DetailExpress({ item }) {
     )
 }
 function renderDetailTrip(item) {
-    const time = item.bookingTime
-    const date = new Date(time).toLocaleDateString()
-    const hours = new Date(time).toLocaleTimeString()
-    const strtime = hours + " " + date
+    // const time = item.bookingTime
+    // const date = new Date(time).toLocaleDateString()
+    // const hours = new Date(time).toLocaleTimeString()
+    // const strtime = hours + " " + date
+    const strtime = formatDate(item.bookingTime)
     return (
         <View>
             <Text style={styles.textBigLeft1}>Chi tiết dịch vụ vận chuyển</Text>
@@ -152,7 +141,6 @@ function renderOther(item) {
             <ImageTextDiChung
                 source={require(imagePayment)}
                 text={'Người gửi thanh toán'}
-            // text={item.payment.method == 'cash' ? 'Trả sau' : 'Trả trước'}
             />
             {item.extra.xhd == 1 ?
                 <ImageTextDiChung
@@ -192,14 +180,13 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         padding: 8,
     },
-
     textBigRight1: {
         padding: 1,
         fontSize: 16,
         color: '#77a300',
         flex: 1,
         textAlign: "right",
-        marginTop : 8,
+        marginTop: 8,
     },
     textBigLeft1: {
         fontSize: 16,
