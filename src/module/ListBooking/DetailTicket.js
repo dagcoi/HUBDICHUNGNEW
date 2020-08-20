@@ -72,7 +72,7 @@ class BookingDetail extends Component {
             const dataLogin = await AsyncStorage.getItem('dataLogin')
             if (dataLogin !== null) {
                 let json = JSON.parse(dataLogin)
-                const token =  json.token
+                const token = json.token
                 this._refreshData(token)
             } else {
                 console.log('lỗi token')
@@ -96,7 +96,7 @@ class BookingDetail extends Component {
         console.log('phone' + phone)
         if (ticket_id) {
             this.getTicketInfoDC(ticket_id, token)
-            
+
         } else {
             this.getTicketByCode(code, phone, token)
         }
@@ -255,8 +255,9 @@ class BookingDetail extends Component {
                                         : this.state.bookingDetail.productType == 'hourly_car_rental' ? <DetailChungXe item={this.state.bookingDetail} />
                                             : this.state.bookingDetail.productType == 'EXPRESS' ? <DetailExpress item={this.state.bookingDetail} />
                                                 : this.state.bookingDetail.productType == 'TRANSFER_SERVICE' ? <DetailTaxi item={this.state.bookingDetail} />
-                                                    : this.state.bookingDetail.productType == 'transfer_service' ? <DetailCaro item={this.state.bookingDetail} />
-                                                        : <DetailHourlyTaxi item={this.state.bookingDetail} />}
+                                                    : this.state.bookingDetail.productType == 'TRUCK' ? <DetailTaxi item={this.state.bookingDetail} />
+                                                        : this.state.bookingDetail.productType == 'transfer_service' ? <DetailCaro item={this.state.bookingDetail} />
+                                                            : <DetailHourlyTaxi item={this.state.bookingDetail} />}
                             </View>
                             <View style={{ paddingHorizontal: 16 }}>
                                 {this.renderPaymentOnline(this.state.bookingDetail)}

@@ -13,9 +13,12 @@ import OtpInputs from 'react-native-otp-inputs';
 // import { handleAndroidBackButton, removeAndroidBackButtonHandler, exitAlert } from '../../../component/AndroidBackButton'
 import { HeaderText } from '../../../component/Header'
 import { StatusTicket } from '../../../component/Ticket';
-import DetailTaxi from '../../ListBooking/DetailTaxi'
-import DetailHourlyTaxi from '../../ListBooking//DetailHourlyTaxi'
 import DetailChungXe from '../../ListBooking//DetailChungXe'
+import DetailExpress from '../../ListBooking/DetailExpress'
+import DetailHourlyTaxi from '../../ListBooking//DetailHourlyTaxi'
+import DetailTaxi from '../../ListBooking/DetailTaxi'
+import DetailTuLai from '../../ListBooking/DetailTuLai'
+import DetailXeChung from '../../ListBooking/DetailXeChung'
 
 const imageLocation = '../../../image/location2.png'
 const imageCalendar = '../../../image/calendar.png'
@@ -483,9 +486,16 @@ class TicketInformation extends Component {
                             {this.renderTT(item)}
                              */}
 
-                            {this.state.listHourly.indexOf(this.state.bookingDetail.productType.toLowerCase()) >= 0 ? <DetailHourlyTaxi item={item} />
+                            {/* {this.state.listHourly.indexOf(this.state.bookingDetail.productType.toLowerCase()) >= 0 ? <DetailHourlyTaxi item={item} />
                                 : this.state.bookingDetail.productType === 'hourly_car_rental' ? <DetailChungXe item={item} />
-                                    : <DetailTaxi item={item} />}
+                                    : <DetailTaxi item={item} />} */}
+                            {this.state.bookingDetail.productType == 'CAR_RENTAL' ? <DetailTuLai item={this.state.bookingDetail} />
+                                : this.state.bookingDetail.productType == 'DRIVER_RENTAL' ? <DetailXeChung item={this.state.bookingDetail} />
+                                    : this.state.bookingDetail.productType == 'hourly_car_rental' ? <DetailChungXe item={this.state.bookingDetail} />
+                                        : this.state.bookingDetail.productType == 'EXPRESS' ? <DetailExpress item={this.state.bookingDetail} />
+                                            : this.state.bookingDetail.productType == 'TRANSFER_SERVICE' ? <DetailTaxi item={this.state.bookingDetail} />
+                                                : this.state.bookingDetail.productType == 'TRUCK' ? <DetailTaxi item={this.state.bookingDetail} />
+                                                    : <DetailHourlyTaxi item={this.state.bookingDetail} />}
                             <View style={{ paddingHorizontal: 8 }}>
                                 {this.renderPaymentOnline(item)}
 

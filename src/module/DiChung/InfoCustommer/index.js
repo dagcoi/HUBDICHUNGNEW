@@ -83,6 +83,7 @@ class InfoCustommer extends Component {
 
     componentDidMount() {
         console.log('a')
+        console.log(this.props.component_drop)
         this.getData()
         this.props.product_chunk_type == 'express' ? this.setState({ is_checked: true }) : this.setState({ is_checked: false })
     }
@@ -652,7 +653,7 @@ class InfoCustommer extends Component {
 
                         {this.renderPostpaid()}
 
-                        <Text style={styles.textBig}>Mã giảm giá</Text>
+                        {/* <Text style={styles.textBig}>Mã giảm giá</Text>
 
                         <View style={{ flexDirection: 'row', marginTop: 8, marginBottom: 8, height: 50 }}>
                             <View style={{ marginTop: 8, borderWidth: 1, borderColor: '#e8e8e8', borderRadius: 4, flexDirection: 'row', justifyContent: "center", alignItems: "center", flex: 1, }} >
@@ -690,7 +691,7 @@ class InfoCustommer extends Component {
                             >
                                 <Text style={{ color: '#ffffff' }}>ÁP DỤNG</Text>
                             </TouchableOpacity>
-                        </View>
+                        </View> */}
 
                         <View>{this.state.detailPromotion == '' ? null : <Text style={{ color: this.state.promotion ? "#77a300" : "#fa0000" }}>{this.state.detailPromotion}</Text>}</View>
 
@@ -794,6 +795,7 @@ function mapStateToProps(state) {
         send: state.info.send,
         cost: state.info.cost,
         product_chunk_type: state.info.product_chunk_type,
+        component_drop: state.info.component_drop,
     }
 }
 
