@@ -82,7 +82,7 @@ class ListCar extends Component {
 
     async getListCarNewV2(provider, index) {
         const url = `${link.URL_API_PORTAL}price/v1/products?productType=${this.props.product_chunk_type}`;
-        let param = `${url}&bookingTime=${this.props.depart_time2}&endPlace=${JSON.stringify(this.props.component_drop)}&startPlace=${JSON.stringify(this.props.component_pick)}&slot=${this.props.chair}&provider=${provider}`
+        let param = `${url}&bookingTime=${this.props.depart_time2}&endPlace=${JSON.stringify(this.props.component_drop)}&startPlace=${JSON.stringify(this.props.component_pick)}&sort=price&slot=${this.props.chair}&provider=${provider}`
         console.log(param)
         try {
             const response = await fetch(param, {
