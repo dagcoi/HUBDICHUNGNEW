@@ -167,7 +167,7 @@ class ListBooking extends Component {
                     <View style={styles.titleTicket}>
                         <Text style={{ flex: 1, textAlign: 'left', fontSize: 16, fontWeight: 'bold' }}>{item.code}</Text>
                         <View style={{ height: 32, borderRadius: 16, backgroundColor: item.rideMethod === 'private' ? '#ef465f' : '#77a300', paddingLeft: 10, paddingRight: 10, justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ color: '#fff' }}>{item.productType == 'TRANSFER_SERVICE' ? 'Thuê taxi' : item.productType == 'EXPRESS' ? 'Thuê vận chuyển' : item.productType == 'TRUCK' ? 'Thuê xe tải' : item.productType == 'DRIVER_RENTAL' ? 'Thuê tài xế' : item.productType == 'CAR_RENTAL' ? 'Thuê tự lái' : 'Thuê xe taxi(đi ngay)'}</Text>
+                            <Text style={{ color: '#fff' }}>{item.productType == 'TRANSFER_SERVICE' ? 'Thuê taxi' : item.productType== 'TOURIST_CAR'? 'thuê xe du lịch' : item.productType == 'EXPRESS' ? 'Thuê vận chuyển' : item.productType == 'TRUCK' ? 'Thuê xe tải' : item.productType == 'DRIVER_RENTAL' ? 'Thuê tài xế' : item.productType == 'CAR_RENTAL' ? 'Thuê tự lái' : 'Thuê xe taxi(đi ngay)'}</Text>
                         </View>
                     </View>
 
@@ -308,7 +308,7 @@ class ListBooking extends Component {
                     renderItem={({ item }) => {
                         return (
                             <View>
-                                {(item.productType == 'TRANSFER_SERVICE' || item.productType == 'EXPRESS' || item.productType == 'DRIVER_RENTAL' || item.productType == 'CAR_RENTAL' || item.productType == 'TRUCK' || item.productType == 'transfer_service') ? this.renderItem(item) : item.productType === 'hourly_car_rental' ? this.renderItemChungXe(item) : this.renderItem2(item)}
+                                {(item.productType == 'TRANSFER_SERVICE' || item.productType == 'EXPRESS' || item.productType == 'TOURIST_CAR' || item.productType == 'DRIVER_RENTAL' || item.productType == 'CAR_RENTAL' || item.productType == 'TRUCK' || item.productType == 'transfer_service') ? this.renderItem(item) : item.productType === 'hourly_car_rental' ? this.renderItemChungXe(item) : this.renderItem2(item)}
                             </View>
                         )
                     }

@@ -48,14 +48,11 @@ function DetailTaxi({ item }) {
 }
 
 function renderDetailTrip(item) {
-    // const time = item.bookingTime
-    // const date = new Date(time).toLocaleDateString()
-    // const hours = new Date(time).toLocaleTimeString()
-    // const strtime = hours + " " + date
+    var product_type = (item.productType == 'TRANSFER_SERVICE' ? 'thuê xe taxi' : item.productType == 'EXPRESS' ? 'vận chuyển':  item.productType == 'TOURIST_CAR' ?'thuê xe du lịch': item.productType == 'DRIVER_RENTAL' ? 'thuê tài xế' : item.productType == 'CAR_RENTAL' ? 'thuê tự lái' : item.productType == 'TRUCK' ? 'thuê xe tải' : item.productType == 'transfer_service'? 'taxi(đi luôn)' : 'khác')
     const strtime = formatDate(item.bookingTime)
     return (
         <View>
-            <Text style={styles.textBigLeft1}>Chi tiết dịch vụ taxi</Text>
+            <Text style={styles.textBigLeft1}>Chi tiết dịch vụ {product_type}</Text>
 
             <ImageTextDiChung
                 source={require(imageLocation)}
