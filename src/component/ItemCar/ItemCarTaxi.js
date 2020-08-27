@@ -1,4 +1,4 @@
-import { View, Image, StyleSheet, Text, Dimensions } from 'react-native'
+import { View, Image, StyleSheet, Text, Dimensions, TouchableOpacity } from 'react-native'
 import StarVote from '../StarVote'
 import { Button } from '../Button'
 import HTML from 'react-native-render-html';
@@ -14,11 +14,12 @@ const imageCheck = '../../image/check.png'
 const imageTollFee = '../../image/notetollfee.png'
 const imagePeople = '../../image/people.png'
 const imageVali = '../../image/vali.png'
-function ItemCarTaxi({ item, onPress }) {
+function ItemCarTaxi({ item, onPress, isSelect }) {
     return (
 
-        <View
-            style={styles.container}
+        <TouchableOpacity
+            style={[styles.container, { borderColor: isSelect ? '#77a300' : '#888', borderWidth: isSelect ? 2 : 0.5 }]}
+            onPress={onPress}
         >
             <View style={{ flexDirection: 'row' }}>
 
@@ -29,9 +30,9 @@ function ItemCarTaxi({ item, onPress }) {
                         </Text>
                     </View>
                     <Text style={[styles.textLabel]}>{item.info.title ?? ''}</Text>
-                    <StarVote number={item.info.rate ?? 0} />
-                    <Text style={styles.totalCost}>{( parseInt(item.info.price)).format(0, 3, '.') ?? ''} đ</Text> 
-                    <HTML html={item.info.description} imagesMaxWidth={Dimensions.get('window').width / 2 - 32} />
+                    {/* <StarVote number={item.info.rate ?? 0} /> */}
+                    <Text style={styles.totalCost}>{(parseInt(item.info.price)).format(0, 3, '.') ?? ''} đ</Text>
+                    {/* <HTML html={item.info.description} imagesMaxWidth={Dimensions.get('window').width / 2 - 32} /> */}
                 </View>
 
                 {/* chunk_type === 'express' ? parseInt(slot) : 1) * */}
@@ -43,12 +44,12 @@ function ItemCarTaxi({ item, onPress }) {
                     />
                 </View>
             </View>
-            <Button
+            {/* <Button
                 onPress={onPress}
                 value={'CHỌN'}
-            />
+            /> */}
 
-        </View>
+        </TouchableOpacity>
 
     )
 }

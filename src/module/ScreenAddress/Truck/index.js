@@ -9,7 +9,7 @@ import Dialog, { } from 'react-native-popup-dialog';
 import ImageTextBold from '../../../component/ImageTextDiChung/ImageTextBold'
 
 import { TextInput } from 'react-native-gesture-handler';
-import listHour from '../../../component/TimeSelect/listTime'
+import { listHour, listChair, listTime } from '../../../component/TimeSelect/listTime'
 import { HeaderText } from '../../../component/Header';
 
 // const destination = { latitude: 21.0019302, longitude: 105.85090579999996 };
@@ -34,7 +34,7 @@ class MapTruck extends Component {
             pic_address: '',
             diemdon: '',
             drop_address: '',
-            date: '',
+            date: null,
             diemtra: '',
             people: '1',
             blTime: true,
@@ -57,25 +57,6 @@ class MapTruck extends Component {
             hourlyBooking: false,
             duration: 6,
             modalSelectTime: false,
-            listTime: [
-                { 'id': 1, 'time': 2 },
-                { 'id': 2, 'time': 4 },
-                { 'id': 3, 'time': 6 },
-                { 'id': 4, 'time': 8 },
-                { 'id': 5, 'time': 10 },
-                { 'id': 6, 'time': 12 },
-            ],
-            // listVehicle: [
-            //     { 'id': 1, 'chair': 'Tất cả loại xe' },
-            //     { 'id': 2, 'chair': 'Xe tải 0.5 tấn' },
-            //     { 'id': 3, 'chair': 'Xe tải 0.7 tấn' },
-            //     { 'id': 4, 'chair': 'Xe tải 1.25 tấn' },
-            //     { 'id': 5, 'chair': 'Xe tải 1.4 tấn' },
-            //     { 'id': 6, 'chair': 'Xe tải 1.9 tấn' },
-            //     { 'id': 7, 'chair': 'Xe tải 2.9 tấn' },
-            //     { 'id': 8, 'chair': 'Xe tải 3.5 tấn' },
-            //     { 'id': 9, 'chair': 'Xe tải 5 tấn' },
-            // ],
             scroll: 48,
             alertTimeSent: false,
             alertTimeRent: false,
@@ -123,18 +104,22 @@ class MapTruck extends Component {
     nextScreen() {
         this.getDateTimeAlive.bind(this);
         this.props.addProductChunkType('truck')
-        if (this.props.pick_add != '' && this.props.drop_add != '' && this.state.depart_time != '' && this.state.city_name != '') {
-            if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
-                if (this.state.hoursAlive > this.state.selectedHours) {
-                    this.setState({ alertTimeSent: true })
-                } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                    this.setState({ alertTimeSent: true })
+        if (this.props.pick_add != '' && this.props.drop_add != '' && this.props.depart_time != '') {
+            if (this.state.date) {
+                if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
+                    if (this.state.hoursAlive > this.state.selectedHours) {
+                        this.setState({ alertTimeSent: true })
+                    } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
+                        this.setState({ alertTimeSent: true })
+                    } else {
+                        this.props.navigation.push("ListCar");
+                    }
                 } else {
-                    this.props.navigation.push("ListCar");
+                    console.log('datdem : false')
+                    this.props.navigation.push("ListCar", { vehicle_id: this.state.vehicle_id });
                 }
             } else {
-                console.log('datdem : false')
-                this.props.navigation.push("ListCar", { vehicle_id: this.state.vehicle_id });
+                this.props.navigation.push("ListCar");
             }
         }
         else {
@@ -145,19 +130,22 @@ class MapTruck extends Component {
     nextScreenHourly() {
         this.getDateTimeAlive.bind(this);
         this.props.addProductChunkType('hourly_freight_truck')
-        if (this.props.pick_add != '' && this.state.depart_time != '' && this.state.city_name != '') {
-            if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
-                if (this.state.hoursAlive > this.state.selectedHours) {
-                    this.setState({ alertTimeRent: true })
-                } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                    this.setState({ alertTimeRent: true })
+        if (this.props.pick_add != '' && this.props.depart_time != '') {
+            if (this.state.date) {
+                if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
+                    if (this.state.hoursAlive > this.state.selectedHours) {
+                        this.setState({ alertTimeRent: true })
+                    } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
+                        this.setState({ alertTimeRent: true })
+                    } else {
+                        this.props.navigation.push("ListCar");
+                    }
                 } else {
                     this.props.navigation.push("ListCar");
                 }
-            } else {
+            }else {
                 this.props.navigation.push("ListCar");
             }
-
         }
         else {
             this.setState({ alertInfo: true })
@@ -197,7 +185,7 @@ class MapTruck extends Component {
         this.props.addPeople(people);
     }
 
-    renderFormExpressTheoTuyen() {
+    renderFormDoorExpress() {
         return (
             <View style={styles.borderBot}>
                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
@@ -334,7 +322,7 @@ class MapTruck extends Component {
         )
     }
 
-    renderFormExpressTheoGio() {
+    renderFormHourlyExpress() {
         return (
             <View style={styles.borderBot}>
                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
@@ -535,7 +523,7 @@ class MapTruck extends Component {
                         <Text style={{ fontSize: 21, color: '#ffffff', marginHorizontal: 16, marginTop: 8, fontWeight: 'bold' }}>Bao xe, ghép hàng, tiện chuyến giá đều tốt</Text>
                     </View>
                     {this.renderSelect()}
-                    {this.state.hourlyBooking ? this.renderFormExpressTheoGio() : this.renderFormExpressTheoTuyen()}
+                    {this.state.hourlyBooking ? this.renderFormHourlyExpress() : this.renderFormDoorExpress()}
                     <View style={{ justifyContent: 'center', paddingHorizontal: 16 }}>
                         <ImageTextBold source={require(imageCheckWhite)} textBold={"Đa dạng lựa chọn"} />
                         <ImageTextBold source={require(imageCheckWhite)} textBold={"Bảo quản an toàn hàng hóa, tài sản"} />
@@ -641,7 +629,7 @@ class MapTruck extends Component {
                             </View>
                             <FlatList
                                 style={{ flex: 1, backgroundColor: '#ffffff' }}
-                                data={this.state.listTime}
+                                data={listTime}
                                 renderItem={({ item }) =>
                                     <TouchableOpacity
                                         style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}

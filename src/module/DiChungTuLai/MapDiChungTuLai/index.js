@@ -194,12 +194,15 @@ class MapDiChungTuLai extends Component {
         this.getDateTimeAlive();
         if (this.props.pick_add != '' && this.props.drop_add != '' && this.state.depart_time != '') {
             console.log(this.state.spesentDay)
-            console.log(this.state.date.format('DD-MM-YYYY'))
-            if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
-                if (this.state.hoursAlive > this.state.selectedHours) {
-                    Alert.alert('Giờ đi phải lớn hơn giờ hiện tại')
-                } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                    Alert.alert('Giờ đi phải lớn hơn giờ hiện tại')
+            if (this.state.data) {
+                if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
+                    if (this.state.hoursAlive > this.state.selectedHours) {
+                        Alert.alert('Giờ đi phải lớn hơn giờ hiện tại')
+                    } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
+                        Alert.alert('Giờ đi phải lớn hơn giờ hiện tại')
+                    } else {
+                        this.gotoListCar()
+                    }
                 } else {
                     this.gotoListCar()
                 }
@@ -372,17 +375,21 @@ class MapDiChungTuLai extends Component {
 
     gotoListCarTour() {
         if (this.props.pick_add != '' && this.state.depart_time != '') {
-            if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
-                if (this.state.hoursAlive > this.state.selectedHours) {
-                    Alert.alert('Giờ đi phải lớn hơn giờ hiện tại')
-                } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                    Alert.alert('Giờ đi phải lớn hơn giờ hiện tại')
+            if (this.state.data) {
+                if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
+                    if (this.state.hoursAlive > this.state.selectedHours) {
+                        Alert.alert('Giờ đi phải lớn hơn giờ hiện tại')
+                    } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
+                        Alert.alert('Giờ đi phải lớn hơn giờ hiện tại')
+                    } else {
+                        //sang màn danh sách xe
+                        this.props.navigation.navigate("ListCarHourlyBookingTL");
+                    }
                 } else {
                     //sang màn danh sách xe
                     this.props.navigation.navigate("ListCarHourlyBookingTL");
                 }
             } else {
-                //sang màn danh sách xe
                 this.props.navigation.navigate("ListCarHourlyBookingTL");
             }
         } else {
@@ -426,7 +433,7 @@ class MapDiChungTuLai extends Component {
                         // onOrientationChange={true}
                         onRequestClose={() => {
                             console.log('a');
-                        }}> 
+                        }}>
                         <SafeAreaView style={{
                             flex: 1,
                             flexDirection: 'column',

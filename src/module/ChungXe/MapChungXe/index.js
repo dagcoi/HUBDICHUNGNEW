@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ActivityIndicator, Modal, FlatList, SafeAreaView, ImageBackground } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
-import { addCityTime, addDepartTime, swapAddress, addProductChunkType } from '../../../core/Redux/action/Action'
+import { addCityTime, addDepartTime, swapAddress, addProductChunkType, addReturnTime, addVehicleType } from '../../../core/Redux/action/Action'
 import { connect } from 'react-redux';
 import * as key from '../../../component/KeyGG'
 import { TextInput } from 'react-native-gesture-handler';
-import listHour from '../../../component/TimeSelect/listTime';
+import { listHour } from '../../../component/TimeSelect/listTime'
 import { ButtonFull } from '../../../component/Button'
 import PopUp from '../../../component/PopUp'
 import { HeaderText } from '../../../component/Header';
 import ImageTextBold from '../../../component/ImageTextDiChung/ImageTextBold'
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
 import { getDateTimeAlive } from '../../../until'
+import FormChungxeTuyen from './FormChungxeTuyen';
+import FormChungxe from './FormChungxe';
 
 const imageLocation = '../../../image/location.png'
 const imageDrop = '../../../image/location.png'
@@ -127,21 +129,46 @@ class MapChungXe extends Component {
         });
     }
 
-    renderPickAddress() {
-        return (
-            <ImageInputTextDiChung
-                onPress={() => {
-                    this.props.navigation.push("SearchPlace", {
-                        search: 'Pick',
-                        placeholder: 'Nhập điểm xuất phát',
-                    });
-                }}
-                source={require(imageLocation)}
-                placeholder={'Nhập điểm xuất phát'}
-                value={this.props.pick_add}
-            />
-        )
+    onPressPickAddress = () => {
+        this.props.navigation.push("SearchPlace", {
+            search: 'Pick',
+            placeholder: 'Nhập điểm xuất phát',
+        });
     }
+
+    onPressDropAddress = () => {
+        this.props.navigation.push("SearchPlace", {
+            search: 'Drop',
+            placeholder: 'Nhập điểm trả',
+        });
+    }
+
+    onPressSelectTime = () => {
+        this.setState({
+            dialogCalendarVisible: true, nhanxe: true,
+        })
+    }
+    onPressSelectTimeRent = () => {
+        this.setState({
+            dialogCalendarVisible: true, nhanxe: true
+        })
+    }
+    onPressSelectTimeReturn = () => {
+        this.setState({
+            dialogCalendarVisible: true, nhanxe: false
+        })
+    }
+
+    onPressVehicle = () => {
+        this.setState({
+            dialogCarType: true,
+        })
+    }
+
+    onPressSwap = () => {
+        this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick);
+    }
+
 
     formModalCarType() {
         return (
@@ -170,12 +197,12 @@ class MapChungXe extends Component {
                             <TouchableOpacity
                                 style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}
                                 onPress={() => {
-                                    item.hide == 1 ? console.log(item.city_name) :
-                                        this.setState({
-                                            carType: item.type,
-                                            carName: item.name,
-                                            dialogCarType: false,
-                                        })
+                                    this.setState({
+                                        carType: item.type,
+                                        carName: item.name,
+                                        dialogCarType: false,
+                                    })
+                                    this.props.addVehicleType(item.type, item.name)
                                 }}
                             >
                                 <Text style={item.hide == 1 ? { fontSize: 18, flex: 1, padding: 8, color: '#888' } : { fontSize: 18, flex: 1, padding: 8, color: item.city_name == this.state.city_name_dc ? '#77a300' : '#000' }}>{item.name}</Text>
@@ -187,7 +214,7 @@ class MapChungXe extends Component {
                         keyExtractor={item => item.city_id}
                     />
                 </SafeAreaView>
-            </Modal>
+            </Modal >
         )
     }
 
@@ -225,60 +252,12 @@ class MapChungXe extends Component {
     formBookingDoortoDoor() {
         return (
             <View style={styles.borderBot}>
-                {this.renderPickAddress()}
-
-                <View style={{ flexDirection: 'row', borderColor: '#e8e8e8', borderTopWidth: 1, justifyContent: 'center', alignItems: 'center', height: 40 }}>
-                    <View style={{ flex: 1, flexDirection: 'row', borderColor: '#e8e8e8', borderRightWidth: 0.1, justifyContent: 'center', alignItems: 'center', }}>
-                        <Image
-                            style={{ height: 28, width: 24, marginLeft: 8, alignItems: 'center', justifyContent: 'center' }}
-                            source={require(imageDrop)}
-                        />
-                        <TouchableOpacity
-                            style={{ flex: 1, }}
-                            onPress={() => {
-                                this.props.navigation.push("SearchPlace", {
-                                    search: 'Drop',
-                                    placeholder: 'Nhập điểm đến'
-                                });
-                            }}
-                        >
-                            <TextInput
-                                editable={false}
-                                onTouchStart={() => this.props.navigation.push("SearchPlace", {
-                                    search: 'Drop',
-                                    placeholder: 'Nhập điểm đến'
-                                })
-                                }
-                                style={{ fontSize: 14, color: "#00363d", marginLeft: 8 }}
-                                pointerEvents="none"
-                                value={this.props.drop_add}
-                                placeholder='Nhập điểm đến'
-                                placeholderTextColor={'#333333'}
-                                selection={{ start: 0, end: 0 }}
-                            />
-                        </TouchableOpacity>
-                    </View>
-
-                    <TouchableOpacity
-                        style={{ borderLeftWidth: 1, borderColor: '#e8e8e8' }}
-                        onPress={() => {
-                            this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick);
-                        }}
-                    >
-                        <Image
-                            style={{ height: 24, width: 24, margin: 8 }}
-                            source={require(imageSwap)}
-                        />
-                    </TouchableOpacity>
-
-                </View>
-
-                <View style={{ flexDirection: 'row', }}>
-                    {this.renderTimePick()}
-                </View>
-                <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
-                    <View style={{ flex: 1 }}></View>
-                </View>
+                <FormChungxeTuyen
+                    onPressPickAddress={this.onPressPickAddress}
+                    onPressDropAddress={this.onPressDropAddress}
+                    onPressSwap={this.onPressSwap}
+                    onPressSelectTime={this.onPressSelectTime}
+                />
                 <ButtonFull
                     onPress={() => { this.nextScreen() }}
                     value={'Xem giá'}
@@ -291,17 +270,20 @@ class MapChungXe extends Component {
         this.getTimeAlive();
         this.props.addProductChunkType('car_rental')
         if (this.props.pick_add != '' && this.props.drop_add != '' && this.state.time_pick != '') {
-            // console.log(this.state.spesentDay)
-            // console.log(this.state.date.format('DD-MM-YYYY'))
-            if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
-                if (this.state.hoursAlive > this.state.selectedHours) {
-                    this.setState({ showAlertTime: true })
-                } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                    this.setState({ showAlertTime: true })
+            console.log(this.state.spesentDay)
+            if (this.state.date) {
+                if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
+                    if (this.state.hoursAlive > this.state.selectedHours) {
+                        this.setState({ showAlertTime: true })
+                    } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
+                        this.setState({ showAlertTime: true })
+                    } else {
+                        this.props.navigation.push("ListCar");
+                    }
                 } else {
                     this.props.navigation.push("ListCar");
                 }
-            } else {
+            } else{
                 this.props.navigation.push("ListCar");
             }
         }
@@ -313,88 +295,12 @@ class MapChungXe extends Component {
     formCarTour() {
         return (
             <View style={styles.borderBot}>
-                {this.renderPickAddress()}
-                <View style={{ flexDirection: 'row', height: 40, }}>
-                    <TouchableOpacity
-                        style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
-                        onPress={() => {
-                            this.setState({
-                                dialogCalendarVisible: true, nhanxe: true
-                            })
-                        }}
-                    >
-                        <Image
-                            style={{ height: 24, width: 24, margin: 8 }}
-                            source={require('../../../image/time.png')}
-                        />
-
-                        <TextInput
-                            value={this.state.date ? this.state.time_pick : ''}
-                            placeholder='Thời gian nhận xe'
-                            placeholderTextColor={'#333333'}
-                            onTouchStart={() => { this.setState({ dialogCalendarVisible: true, nhanxe: true }) }}
-                            pointerEvents='none'
-                            style={{ fontSize: 14, flex: 1, color: '#000' }}
-                            editable={false}
-                        />
-
-                    </TouchableOpacity>
-                    <View style={{ width: 1, backgroundColor: '#e8e8e8' }}></View>
-                    <TouchableOpacity
-                        style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", flexDirection: 'row', alignItems: 'center' }}
-                        onPress={() => {
-                            this.setState({
-                                dialogCalendarVisible: true, nhanxe: false
-                            })
-                        }}
-                    >
-                        <Image
-                            style={{ height: 24, width: 24, margin: 8 }}
-                            source={require('../../../image/time.png')}
-                        />
-                        <TextInput
-                            editable={false}
-                            value={this.state.date1 ? this.state.time_drop : ''}
-                            placeholder='Thời gian trả xe'
-                            placeholderTextColor={'#333333'}
-                            onTouchStart={() => { this.setState({ dialogCalendarVisible: true, nhanxe: false }) }}
-                            pointerEvents='none'
-                            style={{ fontSize: 14, flex: 1, color: '#000' }}
-                        />
-                    </TouchableOpacity>
-                </View>
-                {/* <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
-                    <View style={{ flex: 1 }}></View>
-                </View> */}
-                <TouchableOpacity
-                    style={{ borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
-                    onPress={() => {
-                        this.setState({
-                            dialogCarType: true,
-                        })
-                    }}
-                >
-                    <Image
-                        style={{ height: 24, width: 24, margin: 8 }}
-                        source={require('../../../image/arrowdown.png')}
-                    />
-
-                    <TextInput
-                        value={this.state.carName}
-                        placeholder='Chọn loại xe'
-                        placeholderTextColor={'#333333'}
-                        onTouchStart={() => { this.setState({ dialogCarType: true }) }}
-                        pointerEvents='none'
-                        style={{ fontSize: 14, flex: 1, color: '#000' }}
-                        editable={false}
-                    />
-
-                    <Image
-                        style={{ height: 24, width: 24, margin: 8 }}
-                        source={require('../../../image/arrowdown.png')}
-                    />
-
-                </TouchableOpacity>
+                <FormChungxe
+                    onPressPickAddress={this.onPressPickAddress}
+                    onPressSelectTimeRent={this.onPressSelectTimeRent}
+                    onPressSelectTimeReturn={this.onPressSelectTimeReturn}
+                    onPressVehicle={this.onPressVehicle}
+                />
                 <ButtonFull
                     onPress={() => { this.gotoListCarTour() }}
                     value={'Xem giá'}
@@ -502,7 +408,7 @@ class MapChungXe extends Component {
                                                         time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date1.format('DD/MM/YYYY')}`,
                                                         return_date: `${this.state.date1.format('YYYY-MM-DD')}`,
                                                     })
-                                                    // this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
+                                                    this.props.addReturnTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date1.format('DD/MM/YYYY')}`, `${this.state.date1.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
                                                 }
                                             } else {
                                                 this.setState({
@@ -514,7 +420,7 @@ class MapChungXe extends Component {
                                                     time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date1.format('DD/MM/YYYY')}`,
                                                     return_date: `${this.state.date1.format('YYYY-MM-DD')}`,
                                                 })
-                                                // this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
+                                                this.props.addReturnTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date1.format('DD/MM/YYYY')}`, `${this.state.date1.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
                                             }
                                         }
                                     }}
@@ -711,21 +617,21 @@ class MapChungXe extends Component {
         if (this.props.pick_add == '') {
             this.setState({ showAlertInfo: true })
             return;
-        } else if (this.state.rent_date == '' || this.state.return_date == '') {
-            this.setState({ showAlertInfo: true })
-            return;
+            // } else if (this.state.rent_date == '' || this.state.return_date == '') {
+            //     this.setState({ showAlertInfo: true })
+            //     return;
         } else if (this.selectedDate()) {
             this.setState({ showAlertTimeDrop: true })
             return;
-        } else if (spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
-            // console.log(spesentDay)
-            if (this.state.hoursAlive > this.state.selectedHours) {
-                this.setState({ showAlertTime: true })
-            } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                this.setState({ showAlertTime: true })
-            } else {
-                this.addData()
-            }
+            // } else if (spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
+            //     // console.log(spesentDay)
+            //     if (this.state.hoursAlive > this.state.selectedHours) {
+            //         this.setState({ showAlertTime: true })
+            //     } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
+            //         this.setState({ showAlertTime: true })
+            //     } else {
+            //         this.addData()
+            //     }
         } else {
             this.addData()
         }
@@ -733,19 +639,19 @@ class MapChungXe extends Component {
 
     addData() {
         const rent_date1 = new Date(`${this.state.rent_date}`);
-        const return_date1 = new Date(this.state.return_date);
-        const rent_date = new Date(rent_date1.getFullYear(), rent_date1.getMonth(), rent_date1.getDate(), this.state.selectedHours, this.state.selectedMinutes);
-        const return_date = new Date(return_date1.getFullYear(), return_date1.getMonth(), return_date1.getDate(), this.state.selectedHours1, this.state.selectedMinutes1);
-        const rd = rent_date.toISOString();
-        const rd1 = return_date.toISOString();
-        console.log(rd);
-        console.log(rd1);
+        // const return_date1 = new Date(this.state.return_date);
+        // const rent_date = new Date(rent_date1.getFullYear(), rent_date1.getMonth(), rent_date1.getDate(), this.state.selectedHours, this.state.selectedMinutes);
+        // const return_date = new Date(return_date1.getFullYear(), return_date1.getMonth(), return_date1.getDate(), this.state.selectedHours1, this.state.selectedMinutes1);
+        // const rd = rent_date.toISOString();
+        // const rd1 = return_date.toISOString();
+        // console.log(rd);
+        // console.log(rd1);
         // console.log(this.state.rent_date);
         // console.log(this.state.return_date);
         this.props.addProductChunkType('hourly_car_rental')
-        this.props.addCityTime(this.state.city_id, rd, rd1, this.state.city_name, this.state.time_pick, this.state.time_drop);
+        // this.props.addCityTime(this.state.city_id, rd, rd1, this.state.city_name, this.state.time_pick, this.state.time_drop);
         this.props.navigation.push("ListCar", {
-            vehicleType: this.state.carType,
+            vehicleType: this.props.carType,
             rent_date: this.state.rent_date,
             return_date: this.state.return_date,
         });
@@ -805,4 +711,4 @@ function mapStateToProps(state) {
 }
 
 
-export default connect(mapStateToProps, { addCityTime: addCityTime, addDepartTime: addDepartTime, swapAddress: swapAddress, addProductChunkType: addProductChunkType })(MapChungXe);
+export default connect(mapStateToProps, { addCityTime: addCityTime, addDepartTime: addDepartTime, swapAddress: swapAddress, addProductChunkType: addProductChunkType, addReturnTime: addReturnTime, addVehicleType: addVehicleType })(MapChungXe);

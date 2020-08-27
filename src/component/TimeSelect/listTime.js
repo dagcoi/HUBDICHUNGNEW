@@ -97,4 +97,32 @@ const listHour = [
     { 'id': 96, 'hour': 23, 'minute': 45 },
 ]
 
-export default listHour;
+const listChair = [
+    { 'id': 1, 'chair': '1' },
+    { 'id': 2, 'chair': '2' },
+    { 'id': 3, 'chair': '3' },
+    { 'id': 4, 'chair': '4' },
+    { 'id': 5, 'chair': '5' },
+    { 'id': 6, 'chair': '6' },
+    { 'id': 7, 'chair': '7' },
+    { 'id': 8, 'chair': '8' },
+    { 'id': 9, 'chair': '9' },
+    { 'id': 10, 'chair': '10' },
+    { 'id': 11, 'chair': '11' },
+    { 'id': 12, 'chair': '12' },
+    { 'id': 13, 'chair': '13' },
+    { 'id': 14, 'chair': '14' },
+    { 'id': 15, 'chair': '15' },
+    { 'id': 16, 'chair': '16' },
+]
+
+const listTime= [
+    { 'id': 1, 'time': 2 },
+    { 'id': 2, 'time': 4 },
+    { 'id': 3, 'time': 6 },
+    { 'id': 4, 'time': 8 },
+    { 'id': 5, 'time': 10 },
+    { 'id': 6, 'time': 12 },
+]
+
+export { listHour, listChair, listTime }

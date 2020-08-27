@@ -138,4 +138,7 @@ export const ADD_EXTRA = 'ADD_EXTRA'
 export const ADD_LOCATION = 'ADD_LOCATION'
 export const ADD_SEND_CARO = 'ADD_SEND_CARO'
 export const ADD_CARO_DURATION = 'ADD_CARO_DURATION'
+export const ADD_CAR_TYPE = 'ADD_CAR_TYPE'
+export const ADD_RETURN_TIME = 'ADD_RETURN_TIME'
+export const ADD_VEHICLE_TYPE = 'ADD_VEHICLE_TYPE'
 

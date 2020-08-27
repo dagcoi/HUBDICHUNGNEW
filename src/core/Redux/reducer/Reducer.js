@@ -93,6 +93,12 @@ const defaultState = {
     sendCaro: null,
     durationCaro: null,
     distanceCaro: null,
+    carName: null,
+    carType: null,
+    returnTime: null,
+    returnTime2: null,
+    vehicleType: null,
+    vehicleName: '',
 }
 const Reducer = (state = defaultState, action) => {
     switch (action.type) {
@@ -318,6 +324,25 @@ const Reducer = (state = defaultState, action) => {
                 ...state,
                 durationCaro: action.durationCaro,
                 distanceCaro: action.distanceCaro,
+            }
+
+        case types.ADD_CAR_TYPE:
+            return {
+                ...state,
+                carName: action.carName,
+                carType: action.carType,
+            }
+        case types.ADD_RETURN_TIME:
+            return {
+                ...state,
+                returnTime: action.returnTime,
+                returnTime2: action.returnTime2,
+            }
+        case types.ADD_VEHICLE_TYPE:
+            return {
+                ...state,
+                vehicleName: action.vehicleName,
+                vehicleType: action.vehicleType,
             }
 
         default:

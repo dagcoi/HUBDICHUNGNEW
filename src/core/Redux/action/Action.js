@@ -770,4 +770,31 @@ export const addCaroDuration = (durationCaro, distanceCaro) => {
     }
 }
 
+export const addCarType = (carName,carType) => {
+    return {
+        type: types.ADD_CAR_TYPE,
+        carName: carName,
+        carType: carType,
+    }
+}
+
+export const addReturnTime = (returnTime, returnTime2) => {
+    return {
+        type: types.ADD_RETURN_TIME,
+        returnTime: returnTime,
+        returnTime2: returnTime2,
+    }
+}
+
+export const addVehicleType = (vehicleType, vehicleName) => {
+    return {
+        type: types.ADD_VEHICLE_TYPE,
+        vehicleType: vehicleType,
+        vehicleName: vehicleName,
+    }
+}
+
+
+
+
 

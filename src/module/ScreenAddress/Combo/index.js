@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { addDepartTime, swapAddress, addDuration } from '../../../core/Redux/action/Action'
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
 import ImageTextBold from '../../../component/ImageTextDiChung/ImageTextBold'
-import listHour from '../../../component/TimeSelect/listTime'
+import { listHour, listTime } from '../../../component/TimeSelect/listTime'
 import { HeaderText } from '../../../component/Header'
 import { FormSwitch, Warning, DropAddress } from '../Util'
 import { ButtonFull } from '../../../component/Button'
@@ -42,38 +42,11 @@ class MapCombo extends Component {
             duration: 24,
             day: 1,
             carType: '',
-            listTime: [
-                { 'id': 1, 'time': 24 },
-                { 'id': 2, 'time': 48 },
-                { 'id': 3, 'time': 72 },
-                { 'id': 4, 'time': 96 },
-                { 'id': 5, 'time': 120 },
-                { 'id': 6, 'time': 144 },
-                { 'id': 7, 'time': 168 },
-            ],
             listCar: [
                 { 'id': 1, 'carname': 'Tất cả loại xe', 'listCarType': '1,2,17,24' },
                 { 'id': 2, 'carname': 'Xe 4 chỗ cốp rộng', 'listCarType': '1' },
                 { 'id': 3, 'carname': 'Xe 7 chỗ', 'listCarType': '2' },
                 { 'id': 4, 'carname': 'Xe 16 chỗ', 'listCarType': '24' },
-            ],
-            listChair: [
-                { 'id': 1, 'chair': '1' },
-                { 'id': 2, 'chair': '2' },
-                { 'id': 3, 'chair': '3' },
-                { 'id': 4, 'chair': '4' },
-                { 'id': 5, 'chair': '5' },
-                { 'id': 6, 'chair': '6' },
-                { 'id': 7, 'chair': '7' },
-                { 'id': 8, 'chair': '8' },
-                { 'id': 9, 'chair': '9' },
-                { 'id': 10, 'chair': '10' },
-                { 'id': 11, 'chair': '11' },
-                { 'id': 12, 'chair': '12' },
-                { 'id': 13, 'chair': '13' },
-                { 'id': 14, 'chair': '14' },
-                { 'id': 15, 'chair': '15' },
-                { 'id': 16, 'chair': '16' },
             ],
             scroll: 48,
             showAlertTime: false,
@@ -117,6 +90,7 @@ class MapCombo extends Component {
         if (this.props.pick_add != '' && this.props.drop_add != '' && this.state.depart_time != '') {
             console.log(this.state.spesentDay)
             console.log(this.state.date.format('DD-MM-YYYY'))
+            if(this.state.date){
             if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                 if (this.state.hoursAlive > this.state.selectedHours) {
                     this.setState({ showAlertTime: true })
@@ -125,7 +99,9 @@ class MapCombo extends Component {
                 }
             } else {
                 console.log('datdem: false')
-                this.props.navigation.push("ListCar", { datdem: false });
+                this.props.navigation.push("ListCar");
+            }} else{
+                this.props.navigation.push("ListCar");
             }
         }
         else {
@@ -243,7 +219,7 @@ class MapCombo extends Component {
         )
     }
 
-    renderTaxiAirport() {
+    renderTravel() {
         return (
             <View style={styles.borderBot}>
                 {this.renderPickAddress()}
@@ -426,9 +402,9 @@ class MapCombo extends Component {
                     </View>
                     <View style={[{ flex: 1, }]} >
                         {this.formSwitch()}
-                        {this.state.selectTaxi ? this.renderTaxiAirport() : this.renderTour()}
+                        {this.state.selectTaxi ? this.renderTravel() : this.renderTour()}
                         <View style={{ justifyContent: 'center', paddingLeft: 16, marginTop: 16 }}>
-                            <ImageTextBold source={require(imageCheckWhite)} textBold={"Đa dạng lựa chọn"} />
+                            <ImageTextBold source={require(imageCheckWhite)} textBold={"Chưa dùng."} />
                             <ImageTextBold source={require(imageCheckWhite)} textBold={"Tiết kiệm thời gian"} />
                             <ImageTextBold source={require(imageCheckWhite)} textBold={"Cam kết giá tốt"} />
                         </View>
@@ -503,7 +479,7 @@ class MapCombo extends Component {
                             </View>
                             <FlatList
                                 style={{ flex: 1, backgroundColor: '#ffffff' }}
-                                data={this.state.listTime}
+                                data={listTime}
                                 renderItem={({ item }) =>
                                     <TouchableOpacity
                                         style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}

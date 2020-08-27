@@ -9,14 +9,14 @@ import Dialog, { } from 'react-native-popup-dialog';
 import ImageTextBold from '../../../component/ImageTextDiChung/ImageTextBold'
 import { DropAddress } from '../../ScreenAddress/Util/index'
 import { TextInput } from 'react-native-gesture-handler';
-import listHour from '../../../component/TimeSelect/listTime'
+import { listChair, listHour, listTime } from '../../../component/TimeSelect/listTime'
 import { HeaderText } from '../../../component/Header';
+import FormExpress from './FormExpress';
 
 // const destination = { latitude: 21.0019302, longitude: 105.85090579999996 };
 
 const imageLocation = '../../../image/location.png'
 const imageTime = '../../../image/time.png'
-const imageParcel = '../../../image/parcel.png'
 const imageHourglass = '../../../image/hourglass.png'
 const imageCheck = '../../../image/done.png'
 const imageCheckWhite = '../../../image/checkw.png'
@@ -55,32 +55,6 @@ class MapExpress extends Component {
             hourlyBooking: false,
             duration: 6,
             modalSelectTime: false,
-            listTime: [
-                { 'id': 1, 'time': 2 },
-                { 'id': 2, 'time': 4 },
-                { 'id': 3, 'time': 6 },
-                { 'id': 4, 'time': 8 },
-                { 'id': 5, 'time': 10 },
-                { 'id': 6, 'time': 12 },
-            ],
-            listChair: [
-                { 'id': 1, 'chair': '1' },
-                { 'id': 2, 'chair': '2' },
-                { 'id': 3, 'chair': '3' },
-                { 'id': 4, 'chair': '4' },
-                { 'id': 5, 'chair': '5' },
-                { 'id': 6, 'chair': '6' },
-                { 'id': 7, 'chair': '7' },
-                { 'id': 8, 'chair': '8' },
-                { 'id': 9, 'chair': '9' },
-                { 'id': 10, 'chair': '10' },
-                { 'id': 11, 'chair': '11' },
-                { 'id': 12, 'chair': '12' },
-                { 'id': 13, 'chair': '13' },
-                { 'id': 14, 'chair': '14' },
-                { 'id': 15, 'chair': '15' },
-                { 'id': 16, 'chair': '16' },
-            ],
             scroll: 48,
             alertTimeSent: false,
             alertTimeRent: false,
@@ -128,16 +102,20 @@ class MapExpress extends Component {
         this.getDateTimeAlive.bind(this);
         this.props.addProductChunkType('express')
         if (this.props.pick_add != '' && this.props.drop_add != '' && this.state.depart_time != '' && this.state.city_name != '') {
-            if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
-                if (this.state.hoursAlive > this.state.selectedHours) {
-                    this.setState({ alertTimeSent: true })
-                } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                    this.setState({ alertTimeSent: true })
+            if (this.state.date) {
+                if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
+                    if (this.state.hoursAlive > this.state.selectedHours) {
+                        this.setState({ alertTimeSent: true })
+                    } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
+                        this.setState({ alertTimeSent: true })
+                    } else {
+                        this.props.navigation.push("ListCar");
+                    }
                 } else {
+                    console.log('datdem : false')
                     this.props.navigation.push("ListCar");
                 }
             } else {
-                console.log('datdem : false')
                 this.props.navigation.push("ListCar");
             }
         }
@@ -178,91 +156,46 @@ class MapExpress extends Component {
         // const { people } = this.state;
         this.props.addPeople(people);
     }
+    pressPickAddress = () => {
+        this.props.navigation.push("SearchPlace", {
+            search: 'Pick',
+            placeholder: 'Điểm lấy hàng'
+        });
+    }
+    pressDropAddress = () => {
+        this.props.navigation.push("SearchPlace", {
+            search: 'Drop',
+            placeholder: 'Nhập điểm trả hàng',
+        });
+    }
+    pressSwap = () => {
+        this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick);
+    }
+    pressSelectTime = () => {
+        this.setState({
+            dialogCalendarVisible: true,
+        })
+    }
+    pressSelectSlot = () => {
+        this.setState({
+            dialogSelectPeople: true,
+        })
+    }
 
     renderFormExpressTheoTuyen() {
         return (
             <View style={styles.borderBot}>
-                <ImageInputTextDiChung
-                    onPress={() => {
-                        this.props.navigation.push("SearchPlace", {
-                            search: 'Pick',
-                            placeholder: 'Điểm nhận hàng'
-                        });
-                    }}
-                    source={require(imageLocation)}
-                    placeholder={'Điểm nhận hàng'}
-                    value={this.props.pick_add}
+                <FormExpress
+                    onPressPickAddress={this.pressPickAddress}
+                    onPressDropAddress={this.pressDropAddress}
+                    onPressSwap={this.pressSwap}
+                    onPressSelectTime={this.pressSelectTime}
+                    onPressSelectSlot={this.pressSelectSlot}
                 />
-
-                <DropAddress
-                    onPressInput={() => {
-                        this.props.navigation.push("SearchPlace", {
-                            search: 'Drop',
-                            placeholder: 'Điểm giao hàng'
-                        });
-                    }}
-                    onPressSwap={() => {
-                        this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick);
-                    }}
-                    placeholder={'Điểm giao hàng'}
-                    value={this.props.drop_add}
-                />
-
-                <View style={{ flexDirection: 'row', height: 40, }}>
-                    <TouchableOpacity
-                        style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
-                        onPress={() => {
-                            this.setState({
-                                dialogCalendarVisible: true,
-                            })
-                        }}
-                    >
-                        <Image
-                            style={{ height: 24, width: 24, marginLeft: 8, }}
-                            source={require(imageTime)}
-                        />
-
-                        <TextInput
-                            editable={false}
-                            // value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours} : ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
-                            value={this.state.depart_time}
-                            placeholder='Chọn giờ gửi hàng'
-                            placeholderTextColor={'#333333'}
-                            onTouchStart={() => { this.setState({ dialogCalendarVisible: true }) }}
-                            pointerEvents='none'
-                            style={{ fontSize: 14, height: 40, color: "#00363d", flex: 1, marginLeft: 8 }}
-                        />
-
-                    </TouchableOpacity>
-
-                    <View style={{ width: 1, backgroundColor: '#e8e8e8' }}></View>
-                    <TouchableOpacity
-                        style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", flexDirection: 'row', alignItems: 'center' }}
-                        onPress={() => {
-                            this.setState({
-                                dialogSelectPeople: true,
-                            })
-                        }}
-                    >
-                        <Image
-                            style={{ height: 24, width: 24, margin: 8 }}
-                            source={require(imageParcel)}
-                        />
-                        <Text style={{ flex: 1 }}>{this.props.chair} gói</Text>
-                        <Image
-                            style={{ height: 24, width: 24, margin: 8 }}
-                            source={require(imageDown)}
-                        />
-                    </TouchableOpacity>
-                </View>
-
                 <ButtonFull
                     onPress={() => { this.nextScreen() }}
                     value={'Xem giá'}
                 />
-                <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
-                    <View style={{ flex: 1 }}></View>
-                </View>
             </View>
         )
     }
@@ -305,7 +238,6 @@ class MapExpress extends Component {
                 animationType="slide"
                 transparent={true}
                 visible={this.state.dialogTimeVisible}
-                // onOrientationChange={true}
                 onRequestClose={() => {
                     console.log('a');
                 }}>
@@ -389,7 +321,6 @@ class MapExpress extends Component {
                         <Text style={{ fontSize: 21, color: '#ffffff', marginHorizontal: 16, marginTop: 8, fontWeight: 'bold' }}>Chuyển hàng siêu nhanh</Text>
                         <Text style={{ fontSize: 21, color: '#ffffff', marginHorizontal: 16, marginTop: 8, fontWeight: 'bold' }}>Lấy tận nơi giao tận cửa</Text>
                     </View>
-                    {/* {this.renderSelect()} */}
                     {this.renderFormExpressTheoTuyen()}
                     <View style={{ justifyContent: 'center', paddingHorizontal: 16 }}>
                         <ImageTextBold source={require(imageCheckWhite)} textBold={"Giao & nhận tận nhà"} />
@@ -450,7 +381,7 @@ class MapExpress extends Component {
 
                             <FlatList
                                 style={{ flex: 1, backgroundColor: '#ffffff' }}
-                                data={this.state.listChair}
+                                data={listChair}
                                 renderItem={({ item }) =>
                                     <TouchableOpacity
                                         style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}

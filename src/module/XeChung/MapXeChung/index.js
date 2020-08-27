@@ -5,10 +5,12 @@ import { connect } from 'react-redux';
 import { addDepartTime, addPeople, swapAddress, addDuration, addProductChunkType } from '../../../core/Redux/action/Action'
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
 import { ButtonFull, ButtonDialog } from '../../../component/Button'
-import listHour from '../../../component/TimeSelect/listTime'
+import { listHour, listChair, listTime } from '../../../component/TimeSelect/listTime'
 import Dialog, { } from 'react-native-popup-dialog';
 import { HeaderText } from '../../../component/Header'
 import ImageTextBold from '../../../component/ImageTextDiChung/ImageTextBold'
+import FormXeChung from './FormXeChung';
+import FormHourlyXeChung from './FormHourlyXeChung';
 
 // const destination = { latitude: 21.0019302, longitude: 105.85090579999996 };
 
@@ -72,14 +74,6 @@ class MapXeChung extends Component {
                     "hide": "1"
                 }
             ],
-            listTime: [
-                { 'id': 1, 'time': 2 },
-                { 'id': 2, 'time': 4 },
-                { 'id': 3, 'time': 6 },
-                { 'id': 4, 'time': 8 },
-                { 'id': 5, 'time': 10 },
-                { 'id': 6, 'time': 12 },
-            ],
             hourlyBooking: false,
             alertCity: false,
             alertTime: false,
@@ -93,6 +87,7 @@ class MapXeChung extends Component {
     }
 
     componentDidMount() {
+        this.setState({ depart_time: this.props.depart_time })
         this.getDateTimeAlive()
     }
 
@@ -134,12 +129,9 @@ class MapXeChung extends Component {
     nextScreen() {
         this.getDateTimeAlive.bind(this);
         this.props.addProductChunkType('driver_rental')
-        if (this.props.pick_add != '' && this.props.drop_add != '' && this.state.depart_time != '' && this.state.city_name != '') {
-            if (this.props.pick_add.search(this.state.city_name) < 0 || this.props.drop_add.search(this.state.city_name) < 0) {
-                this.setState({ alertCity: true })
-            } else {
-                console.log(this.state.spesentDay)
-                console.log(this.state.date.format('DD-MM-YYYY'))
+        if (this.props.pick_add != '' && this.props.drop_add != '' && this.state.depart_time != '') {
+            console.log(this.state.spesentDay)
+            if (this.state.data) {
                 if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                     if (this.state.hoursAlive > this.state.selectedHours) {
                         this.setState({ alertTime: true })
@@ -150,9 +142,10 @@ class MapXeChung extends Component {
                     }
 
                 } else {
-                    console.log('datdem : false')
                     this.props.navigation.push("ListCar", { datdem: false });
                 }
+            } else {
+                this.props.navigation.push("ListCar", { datdem: false });
             }
         }
         else {
@@ -168,21 +161,17 @@ class MapXeChung extends Component {
     gotoListDriverHourlyBooking() {
         this.getDateTimeAlive.bind(this);
         this.props.addProductChunkType('hourly_rent_driver')
-        if (this.props.pick_add != '' && this.state.depart_time != '' && this.state.city_name != '') {
-            if (this.props.pick_add.search(this.state.city_name) < 0) {
-                this.setState({ alertCity: true })
-            } else {
-                if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
-                    if (this.state.hoursAlive > this.state.selectedHours) {
-                        this.setState({ alertTime: true })
-                    } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                        this.setState({ alertTime: true })
-                    } else {
-                        this.props.navigation.push("ListCar");
-                    }
+        if (this.props.pick_add != '' && this.state.depart_time != '') {
+            if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
+                if (this.state.hoursAlive > this.state.selectedHours) {
+                    this.setState({ alertTime: true })
+                } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
+                    this.setState({ alertTime: true })
                 } else {
                     this.props.navigation.push("ListCar");
                 }
+            } else {
+                this.props.navigation.push("ListCar");
             }
         }
         else {
@@ -195,21 +184,6 @@ class MapXeChung extends Component {
             <Dialog
                 visible={this.state.alertCity || this.state.alertInfo || this.state.alertTime}
                 width={0.8}
-            // dialogTitle={<DialogTitle title='Thông tin chưa đủ' />}
-            // footer={
-            //     <DialogFooter>
-            //         <DialogButton
-            //             text="Đồng ý"
-            //             onPress={() => {
-            //                 this.setState({
-            //                     alertCity: false,
-            //                     alertInfo: false,
-            //                     alertTime: false,
-            //                 })
-            //             }}
-            //         />
-            //     </DialogFooter>
-            // }
             >
                 <View>
                     <View style={{ padding: 8, flexDirection: 'column' }}>
@@ -236,52 +210,11 @@ class MapXeChung extends Component {
     renderFormThueTaiTheoGio() {
         return (
             <View style={styles.borderBot}>
-                <ImageInputTextDiChung
-                    onPress={() => { this.setState({ modalCity: true }) }}
-                    placeholder={'Chọn thành phố'}
-                    source={require(imageLocation)}
-                    value={this.state.city_name}
+                <FormHourlyXeChung
+                    onPressPickAddress={this.onPressPickAddress}
+                    onPressHourglass={this.onPressHourglass}
+                    onPressSelectTime={this.onPressSelectTime}
                 />
-
-                <ImageInputTextDiChung
-                    onPress={() => {
-                        this.props.navigation.push("SearchPlace", {
-                            search: 'Pick',
-                            placeholder: 'Nhập điểm nhận xe'
-                        });
-                    }}
-                    placeholder={'Nhập điểm nhận xe'}
-                    source={require(imageLocation)}
-                    value={this.props.pick_add}
-                />
-
-                <ImageInputTextDiChung
-                    widthHeightImage={24}
-                    onPress={() => {
-                        this.setState({
-                            dialogCalendarVisible: true,
-                        })
-                    }}
-                    placeholder={'Chọn thời gian'}
-                    source={require(imageTime)}
-                    value={this.state.depart_time}
-                // value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours} : ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
-                />
-
-                <ImageInputTextDiChung
-                    onPress={() => {
-                        this.setState({
-                            modalListTime: true,
-                        })
-                    }}
-                    placeholder={'Chọn giờ thuê'}
-                    source={require(imageHourglass)}
-                    value={this.state.duration + ' giờ'}
-                    imageRight={true}
-                />
-                <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
-                    <View style={{ flex: 1 }}></View>
-                </View>
                 <ButtonFull
                     onPress={() => {
                         this.gotoListDriverHourlyBooking();
@@ -292,56 +225,45 @@ class MapXeChung extends Component {
         )
     }
 
+    onPressHourglass = () => {
+        this.setState({
+            modalListTime: true,
+        })
+    }
+
+    onPressPickAddress = () => {
+        this.props.navigation.push("SearchPlace", {
+            search: 'Pick',
+            placeholder: 'Nhập điểm nhận xe'
+        });
+    }
+
+    onPressDropAddress = () => {
+        this.props.navigation.push("SearchPlace", {
+            search: 'Drop',
+            placeholder: 'Nhập điểm đích'
+        });
+    }
+
+    onPressSwap = () => {
+        this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick);
+    }
+
+    onPressSelectTime = () => {
+        this.setState({
+            dialogCalendarVisible: true,
+        })
+    }
+
     renderFormThueTai() {
         return (
             <View style={styles.borderBot}>
-
-                <ImageInputTextDiChung
-                    onPress={() => { this.setState({ modalCity: true }) }}
-                    placeholder={'Chọn tỉnh thành'}
-                    source={require(imageLocation)}
-                    value={this.state.city_name}
+                <FormXeChung
+                    onPressPickAddress={this.onPressPickAddress}
+                    onPressDropAddress={this.onPressDropAddress}
+                    onPressSelectTime={this.onPressSelectTime}
+                    onPressSwap={this.onPressSwap}
                 />
-
-                <ImageInputTextDiChung
-                    onPress={() => {
-                        this.props.navigation.push("SearchPlace", {
-                            search: 'Pick',
-                            placeholder: 'Nhập điểm nhận xe'
-                        });
-                    }}
-                    placeholder={'Nhập điểm nhận xe'}
-                    source={require(imageLocation)}
-                    value={this.props.pick_add}
-                />
-
-                <ImageInputTextDiChung
-                    onPress={() => {
-                        this.props.navigation.push("SearchPlace", {
-                            search: 'Drop',
-                            placeholder: 'Nhập điểm đích'
-                        });
-                    }}
-                    placeholder={'Nhập điểm đích'}
-                    source={require(imageLocation)}
-                    value={this.props.drop_add}
-                />
-
-                <ImageInputTextDiChung
-                    widthHeightImage={24}
-                    onPress={() => {
-                        this.setState({
-                            dialogCalendarVisible: true,
-                        })
-                    }}
-                    placeholder={'Chọn thời gian'}
-                    source={require(imageTime)}
-                    value={this.state.depart_time}
-                    // value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours} : ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
-                />
-                <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
-                    <View style={{ flex: 1 }}></View>
-                </View>
                 <ButtonFull
                     onPress={() => {
                         this.nextScreen()
@@ -476,20 +398,6 @@ class MapXeChung extends Component {
                         <ImageTextBold source={require(imageCheckWhite)} textBold={"Người đồng hành tin cậy"} />
                     </View>
 
-                    {/* {this.state.hourlyBooking ?
-                    <ButtonFull
-                        onPress={() => {
-                            this.gotoListDriverHourlyBooking();
-                        }}
-                        value={'Xem giá'}
-                    /> :
-                    <ButtonFull
-                        onPress={() => {
-                            this.nextScreen()
-                        }}
-                        value={'Xem giá'}
-                    />
-                } */}
                     {this.renderAlert()}
 
                     <Modal
@@ -588,7 +496,7 @@ class MapXeChung extends Component {
 
                             <FlatList
                                 style={{ flex: 1, backgroundColor: '#ffffff' }}
-                                data={this.state.listTime}
+                                data={listTime}
                                 renderItem={({ item }) =>
                                     <TouchableOpacity
                                         style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}
@@ -662,6 +570,7 @@ function mapStateToProps(state) {
         latitude_drop: state.info.latitude_drop,
         longitude_drop: state.info.longitude_drop,
         chair: state.info.chair,
+        depart_time: state.info.depart_time,
     }
 }
 

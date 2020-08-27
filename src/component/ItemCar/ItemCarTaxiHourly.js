@@ -1,4 +1,4 @@
-import { View, Image, StyleSheet, Text, Dimensions } from 'react-native'
+import { View, Image, StyleSheet, Text, Dimensions,TouchableOpacity } from 'react-native'
 import StarVote from '../StarVote'
 import { Button } from '../Button'
 import React, { Component } from 'react'
@@ -13,9 +13,12 @@ Number.prototype.format = function (n, x) {
 };
 const regex = /<br>/gi
 
-function ItemCarTaxiBooking({ item, onPress, slot, chunk_type }) {
+function ItemCarTaxiBooking({ item, onPress, slot, chunk_type, isSelect }) {
     return (
-        <View style={styles.container}>
+        <TouchableOpacity
+            style={[styles.container, { borderColor: isSelect ? '#77a300' : '#888', borderWidth: isSelect ? 2 : 0.5 }]}
+            onPress={onPress}
+        >
             <View style={{ flexDirection: 'row', }}>
                 <View style={styles.containerLeft}>
                     {item.info.label === '' ? null : <View style={styles.label}>
@@ -37,7 +40,7 @@ function ItemCarTaxiBooking({ item, onPress, slot, chunk_type }) {
                 </View>
             </View>
 
-            <View>
+            {/* <View>
                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                     <Image
                         style={{ width: 16, height: 16, marginRight: 8, }}
@@ -58,13 +61,13 @@ function ItemCarTaxiBooking({ item, onPress, slot, chunk_type }) {
                     <Text style={{ flex: 1, marginVertical: 4 }}>{`Phụ trội theo giờ: ${item.info.priceExtra.hourExtra.format(0, 3, '.') ?? ''} đ/giờ (tối đa: ${item.info.priceExtra.hourLimit} giờ)`}</Text>
                 </View>
                 }
-            </View>
+            </View> */}
 
-            <Button
+            {/* <Button
                 onPress={onPress}
                 value={'CHỌN XE'}
-            />
-        </View>
+            /> */}
+        </TouchableOpacity>
     )
 }
 

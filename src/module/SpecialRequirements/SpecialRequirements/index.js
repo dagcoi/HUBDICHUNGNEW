@@ -1,18 +1,15 @@
 import React, { Component } from 'react'
-import { View, TextInput, TouchableOpacity, Modal, Text, Image, FlatList, ScrollView, StyleSheet, Alert, ActivityIndicator, SafeAreaView } from 'react-native'
+import { View, TextInput, TouchableOpacity, Modal, Text, FlatList, ScrollView, StyleSheet, ActivityIndicator, SafeAreaView } from 'react-native'
 import InputTextDiChung from '../../../component/InputTextDiChung'
-import TimePicker from '../../../component/TimePicker'
 import * as link from '../../../URL'
 import CalendarPicker from 'react-native-calendar-picker';
 import { connect } from 'react-redux'
-import { ConfirmDialog } from 'react-native-simple-dialogs';
 import { deleteData, deleteDataTaixe, deleteDataVanChuyen, } from '../../../core/Redux/action/Action'
 import { NavigationActions, StackActions } from 'react-navigation';
-import listHour from '../../../component/TimeSelect/listTime'
+import { listHour } from '../../../component/TimeSelect/listTime'
 import { Button, ButtonDialog } from '../../../component/Button'
-import Dialog, { DialogFooter, DialogContent, DialogTitle, DialogButton } from 'react-native-popup-dialog';
+import Dialog, { } from 'react-native-popup-dialog';
 
-const imageCancel = '../../../image/cancel.png'
 
 class SpecialRequirements extends Component {
 

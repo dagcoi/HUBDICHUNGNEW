@@ -3,10 +3,13 @@ import { Text, View, TouchableOpacity, Image, ScrollView, ActivityIndicator, Mod
 import { connect } from 'react-redux';
 import CheckBoxList from '../../../component/CheckBoxList'
 import { HeaderText } from '../../../component/Header'
+import { Button } from '../../../component/Button'
 
 import { addTripInfomation, addIsFromAirport, addAirport, addSend, addCost, addExtra } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
 import { ItemCarTaxi, ItemCarTaxiHourly } from '../../../component/ItemCar';
+import TextSpaceBetween from '../../../component/ImageTextDiChung/TextSpaceBetween';
+import FormTaxi from '../MapDiChung/FormTaxi';
 
 const imageMaxToMin = '../../../image/maxtomin.png'
 const imageMinToMax = '../../../image/mintomax.png'
@@ -31,6 +34,9 @@ class ListCar extends Component {
                 rideMethod: [],
                 type: [],
             },
+            item: null,
+            selectItem: -1,
+            showDetail: false,
             // buyItems: [1,17,2,33,24],
             ride_method_id_list: [1, 2],
             listcar: [],
@@ -41,13 +47,12 @@ class ListCar extends Component {
     }
 
     componentDidMount() {
-        // if (this.state.listHourly.indexOf(this.props.product_chunk_type) >= 0) {
-        //     this.getListCarHourly('dichungtaxi')
-        // } else {
         this.getProvider()
-        // }
     }
 
+    componentWillUnmount() {
+        this.getProvider()
+    }
 
     async getProvider() {
         const url = `${link.URL_API_PORTAL}price/v1/providers?productType=${this.props.product_chunk_type}`
@@ -116,8 +121,11 @@ class ListCar extends Component {
 
     async getListCarHourly(provider, index) {
         const { navigation } = this.props;
+        console.log('this.props.returnTime2: ' + this.props.returnTime2)
+        console.log(navigation.getParam('vehicleType'))
         const url = `${link.URL_API_PORTAL}price/v1/products?productType=${this.props.product_chunk_type}`;
-        let param = `${url}&bookingTime=${this.props.depart_time2}&startPlace=${JSON.stringify(this.props.component_pick)}&provider=${provider}&duration=${this.props.duration}&slot=${navigation.getParam('listCarType') ?? 0}${navigation.getParam('vehicleType') ? '&vehicleType=' + navigation.getParam('vehicleType') + '&returnTime=' + this.props.retun_date : ''}`
+        let param = `${url}&bookingTime=${this.props.depart_time2}&startPlace=${JSON.stringify(this.props.component_pick)}&provider=${provider}&duration=${this.props.duration}&slot=${navigation.getParam('listCarType') ?? 0}&sort=price`
+        this.props.product_chunk_type === 'hourly_car_rental' ? param = param + '&vehicleType=' + this.props.vehicleType + '&returnTime=' + this.props.returnTime2 : ''
         console.log(param)
         try {
             const response = await fetch(param, {
@@ -300,6 +308,40 @@ class ListCar extends Component {
         });
     }
 
+    modalDetail(isShow) {
+        return (
+            <Modal visible={isShow} animationType='slide' transparent={true} >
+                <View style={{
+                    flex: 1,
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
+                    backgroundColor: '#000000AA',
+                    zIndex: 9,
+                }}>
+                    <TouchableOpacity style={{ flex: 1 }} onPress={() => this.setState({ showDetail: false })} ></TouchableOpacity>
+                    {this.state.item ?
+                        <View style={{ flex: 1, backgroundColor: '#fff' }} >
+                            <TextSpaceBetween textBold={'Hình thức: '} text={this.state.item.label} />
+                            <TextSpaceBetween textBold={'Hình thức: '} text={this.state.item.label} />
+                            <TextSpaceBetween textBold={'Hình thức: '} text={this.state.item.label} />
+                            <TextSpaceBetween textBold={'Hình thức: '} text={this.state.item.label} />
+                        </View>
+                        : <View style={{ flex: 1 }}></View>}
+                    <View style={{ backgroundColor: '#fff', padding: 16 }}>
+                        <Button
+                            style={{ marginBottom: 10 }}
+                            onPress={() => {
+                                this.gotoInfoCustomer(this.state.item)
+                                this.setState({ showDetail: false })
+                            }}
+                            value={'CHỌN'}
+                        />
+                    </View>
+                </View>
+            </Modal>
+        )
+    }
+
     renderItem(obj1, countLoading) {
         console.log('dhs: ' + obj1)
         { this.state.sort ? obj1.sort((a, b) => b.info.price - a.info.price) : obj1.sort((a, b) => a.info.price - b.info.price) }
@@ -325,37 +367,52 @@ class ListCar extends Component {
                         <Text style={{ color: '#fff', fontWeight: 'bold' }}>ĐẶT XE THEO YÊU CẦU</Text>
                     </TouchableOpacity>
                 </View> :
-                <ScrollView
-                    showsVerticalScrollIndicator={false}
-                >
-                    <View>
+                <View style={{ flex: 1 }}>
+                    <ScrollView
+                        showsVerticalScrollIndicator={false}
+                    >
                         {obj1.map((item, index) => (
                             <View>
                                 {this.state.listHourly.indexOf(this.props.product_chunk_type) >= 0 ?
                                     <ItemCarTaxiHourly
                                         item={item}
-                                        onPress={() => {
-                                            this.gotoInfoCustomer(item)
-                                            console.log(item)
-                                        }}
+                                        onPress={() => this.pressItem(index, item)}
+                                        isSelect={index == this.state.selectItem}
                                     /> :
                                     <ItemCarTaxi
                                         item={item}
-                                        onPress={() => {
-                                            this.gotoInfoCustomer(item)
-                                            console.log(item)
-                                        }}
+                                        onPress={() => this.pressItem(index, item)}
+                                        isSelect={index == this.state.selectItem}
                                     />
                                 }
                             </View>
                         ))}
-                    </View>
-                    {countLoading != 0 ? <ActivityIndicator
-                        size='large'
-                    /> : null
-                    }
-                </ScrollView>
+                        {countLoading != 0 ? <ActivityIndicator
+                            size='large'
+                            style={{ marginTop: 20 }}
+                        /> : null
+                        }
+                    </ScrollView>
+                    {this.modalDetail(this.state.showDetail)}
+
+                    {this.state.selectItem >= 0 ?
+                        <Button
+                            style={{ marginBottom: 10 }}
+                            onPress={() => { this.gotoInfoCustomer(this.state.item) }}
+                            value={'CHỌN'}
+                        /> : null}
+
+                </View>
         )
+    }
+
+    pressItem = (index, item) => {
+        if (index != this.state.selectItem) {
+            this.setState({ item: item, selectItem: index })
+        } else {
+            console.log(item)
+            this.setState({ showDetail: true })
+        }
     }
 
     setModalVisible(visible) {
@@ -378,26 +435,63 @@ class ListCar extends Component {
         )
     }
 
+    pressPickAddress = () => {
+        this.props.navigation.push("SearchPlace", {
+            search: 'Pick',
+            placeholder: 'Nhập điểm xuất phát',
+        });
+    }
+    pressDropAddress = () => {
+        this.props.navigation.push("SearchPlace", {
+            search: 'Drop',
+            placeholder: 'Nhập điểm đến',
+        });
+    }
+    pressSwap = () => {
+
+    }
+    pressSelectTime = () => {
+        this.setState({
+            dialogCalendarVisible: true,
+        })
+    }
+    pressSelectSlot = () => {
+
+    }
+    pressSelectCarType = () => {
+
+    }
+
+    formAddress() {
+        return (
+            <View style={{ margin: 8, borderRadius: 10, borderWidth: 0.5, borderColor: '#e8e8e8' }}>
+                <FormTaxi
+                    onPressPickAddress={this.pressPickAddress}
+                    onPressDropAddress={this.pressDropAddress}
+                    onPressSwapAddress={this.pressSwap}
+                    onPressSelectTime={this.pressSelectTime}
+                    onPressSelectSlot={this.pressSelectSlot}
+                />
+            </View>
+        )
+    }
+
     render() {
-        if (this.state.isLoading) {
-            return (
-                <SafeAreaView style={{ flex: 1 }}>
-                    {this.renderHeader()}
-                    <ActivityIndicator
-                        size='large'
-                    />
-                </SafeAreaView>
-            )
-        }
         var obj = [...this.state.dataSource];
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 {/* <Text>{this.state.countLoading}</Text> */}
                 {this.renderHeader()}
-                <View style={{ flex: 1, paddingHorizontal: 8, }}>
-                    {this.renderItem(obj, this.state.countLoading)}
-                    {this.modalFilter(this.state.showFilter)}
-                </View>
+                {this.formAddress()}
+                {this.state.isLoading ? <ActivityIndicator
+                    size='large'
+                /> :
+                    <View style={{ flex: 1, paddingHorizontal: 8, }}>
+                        {this.renderItem(obj, this.state.countLoading)}
+                        {this.modalFilter(this.state.showFilter)}
+                        {/* {this.modalDetail(this.state.showDetail)} */}
+                    </View>
+                }
             </SafeAreaView>
         );
     }
@@ -415,6 +509,9 @@ function mapStateToProps(state) {
         product_chunk_type: state.info.product_chunk_type,
         duration: state.info.duration,
         retun_date: state.info.retun_date,
+        returnTime2: state.info.returnTime2,
+        returnTime: state.info.returnTime,
+        vehicleType: state.info.vehicleType
     }
 }
 export default connect(mapStateToProps, { addTripInfomation: addTripInfomation, addIsFromAirport: addIsFromAirport, addAirport: addAirport, addSend: addSend, addCost: addCost, addExtra: addExtra })(ListCar);

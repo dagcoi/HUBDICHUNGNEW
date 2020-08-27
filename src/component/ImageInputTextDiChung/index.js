@@ -9,7 +9,8 @@ function ImageInputTextDiChung({
     placeholder,
     imageRight,
     widthHeightImage,
-    noBorderTop
+    noBorderTop,
+    onPressSwap
 }) {
     return (
         <View style={[{ flexDirection: 'row', borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', }, noBorderTop ? { borderTopWidth: 0 } : { borderTopWidth: 1 }]}>
@@ -38,6 +39,16 @@ function ImageInputTextDiChung({
                 style={{ height: 28, width: 28, marginLeft: 8, resizeMode: 'contain' }}
                 source={require('../../image/arrowdown.png')}
             /> : null}
+            {onPressSwap ?
+                <TouchableOpacity
+                    onPress={onPressSwap}
+                    style={{borderLeftWidth: 1, borderColor: '#e8e8e8', padding: 6}}
+                >
+                    <Image
+                        style={{ height: 28, width: 28, marginLeft: 8, resizeMode: 'contain' }}
+                        source={require('../../image/swap.png')}
+                    />
+                </TouchableOpacity> : null}
         </View>
     )
 }

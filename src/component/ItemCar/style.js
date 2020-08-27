@@ -26,7 +26,7 @@ export default StyleSheet.create({
         fontSize: 12,
         color: '#fff',
         fontWeight: 'bold',
-        backgroundColor: '#eb6752',
+        backgroundColor: '#00363d',
         paddingHorizontal: 12,
         paddingVertical: 4,
         maxWidth

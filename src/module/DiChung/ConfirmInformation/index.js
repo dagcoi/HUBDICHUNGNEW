@@ -62,7 +62,7 @@ class ConfirmInformation extends Component {
         console.log('payment:...........' + navigation.getParam('Payment'))
         console.log(this.props.depart_time2);
         this.getDetail()
-        this.countWeekend(this.props.rent_date, this.props.retun_date)
+        this.countWeekend(this.props.rent_date, this.props.returnTime2)
     }
 
     async getDetail() {
@@ -148,7 +148,7 @@ class ConfirmInformation extends Component {
         if (this.props.product_chunk_type === 'hourly_car_rental') {
             dataSend.extra = {
                 "bookDeliveryFrom": "agent",
-                "returnTime": this.props.retun_date,
+                "returnTime": this.props.returnTime2,
             }
         }
         if (navigation.getParam('plane_type') > -1) {
@@ -712,7 +712,7 @@ function mapStateToProps(state) {
         product_chunk_type: state.info.product_chunk_type,
         duration: state.info.duration,
         extra: state.info.extra,
-        retun_date: state.info.retun_date,
+        returnTime2: state.info.returnTime2,
         rent_date: state.info.rent_date,
         time_drop: state.info.time_drop,
     }
