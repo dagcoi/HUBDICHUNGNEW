@@ -50,6 +50,7 @@ class ConfirmInformation extends Component {
             countSunday: 0,
             countDay: 0,
         }
+        this.getDetail = this.getDetail.bind(this);
     }
 
     componentDidMount() {
@@ -62,7 +63,7 @@ class ConfirmInformation extends Component {
         console.log('payment:...........' + navigation.getParam('Payment'))
         console.log(this.props.depart_time2);
         this.getDetail()
-        this.countWeekend(this.props.rent_date, this.props.returnTime2)
+        this.countWeekend(this.props.depart_time2, this.props.returnTime2)
     }
 
     async getDetail() {
@@ -234,7 +235,7 @@ class ConfirmInformation extends Component {
 
                 <ImageTextDiChung
                     source={require(imageCalendar)}
-                    text={this.props.depart_time + (this.props.product_chunk_type === 'hourly_car_rental' ? ' - ' + this.props.time_drop : '')}
+                    text={this.props.depart_time + (this.props.product_chunk_type === 'hourly_car_rental' ? ' - ' + this.props.returnTime : '')}
                 />
 
             </View>
@@ -376,7 +377,7 @@ class ConfirmInformation extends Component {
                     </View>
                     : null
                 }
-                
+
                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                     <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
                     {send && send.payment && send.payment.tollFee ? <Text style={styles.textBigRight1}>{send.payment.tollFee === 'NA' ? (sumPriceExtra + sumPrice).format(0, 3, '.') : (sumPriceExtra + sumPrice + parseInt(send.payment.tollFee)).format(0, 3, '.') + ' đ '}</Text> :
@@ -715,6 +716,7 @@ function mapStateToProps(state) {
         returnTime2: state.info.returnTime2,
         rent_date: state.info.rent_date,
         time_drop: state.info.time_drop,
+        returnTime: state.info.returnTime,
     }
 }
 

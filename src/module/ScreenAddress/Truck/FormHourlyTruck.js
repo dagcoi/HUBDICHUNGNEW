@@ -81,10 +81,6 @@ class FormHourlyTruck extends Component {
                         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
                             {this.renderHourglass()}
                         </View>
-                        <View style={{ width: 1, backgroundColor: '#e8e8e8' }}></View>
-                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-                            {this.renderCarType()}
-                        </View>
                     </View>
                 </View>
             </View>

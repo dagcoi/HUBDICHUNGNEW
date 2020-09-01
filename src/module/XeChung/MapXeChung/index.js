@@ -162,11 +162,15 @@ class MapXeChung extends Component {
         this.getDateTimeAlive.bind(this);
         this.props.addProductChunkType('hourly_rent_driver')
         if (this.props.pick_add != '' && this.state.depart_time != '') {
-            if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
-                if (this.state.hoursAlive > this.state.selectedHours) {
-                    this.setState({ alertTime: true })
-                } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                    this.setState({ alertTime: true })
+            if (this.state.date) {
+                if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
+                    if (this.state.hoursAlive > this.state.selectedHours) {
+                        this.setState({ alertTime: true })
+                    } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
+                        this.setState({ alertTime: true })
+                    } else {
+                        this.props.navigation.push("ListCar");
+                    }
                 } else {
                     this.props.navigation.push("ListCar");
                 }

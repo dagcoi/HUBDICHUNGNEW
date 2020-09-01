@@ -97,8 +97,10 @@ const defaultState = {
     carType: null,
     returnTime: null,
     returnTime2: null,
-    vehicleType: null,
+    vehicleType: 0,
     vehicleName: '',
+    modalCarType: false,
+    modalVehicleType: false,
 }
 const Reducer = (state = defaultState, action) => {
     switch (action.type) {
@@ -343,6 +345,16 @@ const Reducer = (state = defaultState, action) => {
                 ...state,
                 vehicleName: action.vehicleName,
                 vehicleType: action.vehicleType,
+            }
+        case types.SET_MODAL_CAR_TYPE:
+            return {
+                ...state,
+                modalCarType: action.modalCarType
+            }
+        case types.SET_MODAL_VEHICLE_TYPE:
+            return {
+                ...state,
+                modalVehicleType: action.modalVehicleType
             }
 
         default:

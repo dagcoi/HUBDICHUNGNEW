@@ -4,16 +4,32 @@ import { connect } from 'react-redux';
 import CheckBoxList from '../../../component/CheckBoxList'
 import { HeaderText } from '../../../component/Header'
 import { Button } from '../../../component/Button'
-
-import { addTripInfomation, addIsFromAirport, addAirport, addSend, addCost, addExtra } from '../../../core/Redux/action/Action'
+import CalendarPicker from 'react-native-calendar-picker';
+import { listHour, listChair, listTime } from '../../../component/TimeSelect/listTime'
+import { getDateTimeAlive } from '../../../until'
+import { addTripInfomation, addSend, addCost, addExtra, addDepartTime, addPeople, swapAddress, addDuration, addProductChunkType, addCarType, setModalCarType, setModalVehicleType } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
 import { ItemCarTaxi, ItemCarTaxiHourly } from '../../../component/ItemCar';
 import TextSpaceBetween from '../../../component/ImageTextDiChung/TextSpaceBetween';
 import FormTaxi from '../MapDiChung/FormTaxi';
+import FormHourlyTaxi from '../MapDiChung/FormHourlyTaxi';
+import FormChungxeTuyen from '../../ChungXe/MapChungXe/FormChungxeTuyen';
+import FormChungxe from '../../ChungXe/MapChungXe/FormChungxe';
+import FormExpress from '../../Express/MapExpress/FormExpress';
+import FormHourlyTruck from '../../ScreenAddress/Truck/FormHourlyTruck';
+import FormTruckDoor from '../../ScreenAddress/Truck/FormTruckDoor';
+import FormHourlyXeChung from '../../XeChung/MapXeChung/FormHourlyXeChung';
+import FormXeChung from '../../XeChung/MapXeChung/FormXeChung';
+import FormHourlyTravel from '../../ScreenAddress/Travel/FormHourlyTravel';
+import FormTravel from '../../ScreenAddress/Travel/FormTravel';
+import ModalCarType from '../../ScreenAddress/Util/Modal/ModalCarType';
+import ModalVehicleType from '../../ScreenAddress/Util/Modal/ModalVehicleType';
+// import FormHourlyTaxi from '../MapDiChung/FormHourlyTaxi';
 
 const imageMaxToMin = '../../../image/maxtomin.png'
 const imageMinToMax = '../../../image/mintomax.png'
 const imageTune = '../../../image/tune.png'
+const imageCheck = '../../../image/done.png'
 
 class ListCar extends Component {
 
@@ -25,11 +41,7 @@ class ListCar extends Component {
             sort: false,
             shareCar: false,
             car: false,
-            listFilterType: [1, 24, 2, 17, 33, 48, 49],
-            listFilterMethod: [1, 2],
-            listNightBooking: [1],
             countLoading: 99,
-            showFilter: false,
             listFilter: {
                 rideMethod: [],
                 type: [],
@@ -37,12 +49,18 @@ class ListCar extends Component {
             item: null,
             selectItem: -1,
             showDetail: false,
+            timeAlive: getDateTimeAlive(),
+            date: null,
+            dialogCalendarVisible: false,
+            dialogTimeVisible: false,
             // buyItems: [1,17,2,33,24],
             ride_method_id_list: [1, 2],
             listcar: [],
             listcarfilter: [],
             listProductType: [],
-            listHourly: ['hourly_rent_taxi', 'hourly_rent_driver', 'hourly_freight_truck', 'hourly_tourist_car', 'hourly_car_rental']
+            listHourly: ['hourly_rent_taxi', 'hourly_rent_driver', 'hourly_freight_truck', 'hourly_tourist_car', 'hourly_car_rental'],
+            dialogSelectPeople: false,
+            modalSelectTime: false,
         }
     }
 
@@ -50,11 +68,8 @@ class ListCar extends Component {
         this.getProvider()
     }
 
-    componentWillUnmount() {
-        this.getProvider()
-    }
-
     async getProvider() {
+        this.setState({ dataSource: [] })
         const url = `${link.URL_API_PORTAL}price/v1/providers?productType=${this.props.product_chunk_type}`
         console.log(url)
         try {
@@ -82,6 +97,12 @@ class ListCar extends Component {
                 isLoading: false
             });
             console.log('abc' + error);
+        }
+    }
+
+    componentWillUpdate(nextProps, nextState) {
+        if (this.props.pick_add != nextProps.pick_add || this.props.drop_add != nextProps.drop_add || this.props.product_chunk_type != nextProps.product_chunk_type || this.props.duration != nextProps.duration || this.props.chair != nextProps.chair || this.props.depart_time2 != nextProps.depart_time2 || this.props.vehicleType != nextProps.vehicleType || this.props.returnTime2 != nextProps.returnTime2 || this.props.carType != nextProps.carType) {
+            this.getProvider()
         }
     }
 
@@ -121,10 +142,10 @@ class ListCar extends Component {
 
     async getListCarHourly(provider, index) {
         const { navigation } = this.props;
-        console.log('this.props.returnTime2: ' + this.props.returnTime2)
-        console.log(navigation.getParam('vehicleType'))
+        // console.log('this.props.returnTime2: ' + this.props.returnTime2)
+        // console.log(navigation.getParam('vehicleType'))
         const url = `${link.URL_API_PORTAL}price/v1/products?productType=${this.props.product_chunk_type}`;
-        let param = `${url}&bookingTime=${this.props.depart_time2}&startPlace=${JSON.stringify(this.props.component_pick)}&provider=${provider}&duration=${this.props.duration}&slot=${navigation.getParam('listCarType') ?? 0}&sort=price`
+        let param = `${url}&bookingTime=${this.props.depart_time2}&startPlace=${JSON.stringify(this.props.component_pick)}&provider=${provider}&duration=${this.props.duration}&slot=${this.props.carType}&sort=price`
         this.props.product_chunk_type === 'hourly_car_rental' ? param = param + '&vehicleType=' + this.props.vehicleType + '&returnTime=' + this.props.returnTime2 : ''
         console.log(param)
         try {
@@ -167,111 +188,6 @@ class ListCar extends Component {
     }
 
 
-    modalFilter(showFilter) {
-        var listcar = [...this.state.listcar]
-        var listcarfilter = [...this.state.listcarfilter]
-        var { shareCar, car } = this.state;
-        console.log(listcar);
-        console.log(listcarfilter);
-        return (
-            <Modal
-                visible={showFilter}
-                animationType='slide'
-            >
-                <SafeAreaView style={{
-                    flex: 1,
-                    flexDirection: 'column',
-                }}>
-                    <View style={{ flex: 1, padding: 16, }}>
-                        <Text style={{ fontSize: 24, fontWeight: '700' }}>Hình thức đi</Text>
-
-                        <CheckBoxList
-                            onClick={() => {
-                                this.setState({
-                                    shareCar: !shareCar
-                                })
-                            }}
-                            isChecked={shareCar}
-                            rightText={"Đi chung"}
-
-                        />
-
-                        <CheckBoxList
-                            onClick={() => {
-                                this.setState({
-                                    car: !car
-                                })
-                            }}
-                            isChecked={car}
-                            rightText={"Đi riêng"}
-                        />
-                        <Text style={{ fontSize: 24, fontWeight: '700', }}>Loại xe</Text>
-                        <FlatList
-                            showsHorizontalScrollIndicator={false}
-                            showsVerticalScrollIndicator={false}
-                            data={listcar}
-                            renderItem={({ item }) => {
-                                return (
-                                    <View style={{ marginTop: 8 }}>
-
-                                        <CheckBoxList
-                                            onClick={() => {
-                                                if (item.max_share_seats >= this.props.chair) {
-                                                    (listcarfilter.indexOf(item.vehicle_id) > -1) ? (listcarfilter.splice(listcarfilter.indexOf(item.vehicle_id), 1)) : listcarfilter.push(item.vehicle_id);
-                                                    this.setState({ listcarfilter: listcarfilter })
-                                                }
-                                            }}
-                                            isChecked={listcarfilter.indexOf(item.vehicle_id) > -1}
-                                            rightText={item.vehicle_name + ' '}
-                                            style={item.max_share_seats >= this.props.chair ? null : { color: '#999' }}
-                                        />
-                                    </View>
-                                )
-                            }
-                            }
-                        />
-
-                        <View style={{ flexDirection: 'row' }}>
-                            <TouchableOpacity
-                                style={{ padding: 8, backgroundColor: '#999999', borderRadius: 4, alignItems: 'center', marginTop: 10, flex: 1 }}
-                                onPress={() => {
-                                    this.setState({
-                                        listcarfilter: [],
-                                    })
-                                }}>
-                                <Text style={{ fontSize: 18, color: '#00363d' }}>BỎ LỌC</Text>
-                            </TouchableOpacity>
-                            <View style={{ margin: 8 }} />
-                            <TouchableOpacity
-                                style={{ padding: 8, backgroundColor: '#77a300', borderRadius: 4, alignItems: 'center', marginTop: 10, flex: 1 }}
-                                onPress={() => {
-                                    var listFM = []
-                                    if (this.state.shareCar) {
-                                        listFM.push(2)
-                                    }
-                                    if (this.state.car) {
-                                        listFM.push(1)
-                                    }
-                                    if (!this.state.car && !this.state.shareCar) {
-                                        listFM = [1, 2]
-                                    }
-
-                                    this.setState({
-                                        listFilterMethod: listFM,
-                                        showFilter: false
-                                    })
-                                }}>
-                                <Text style={{ fontSize: 18, color: '#fff' }}>ÁP DỤNG</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </SafeAreaView>
-            </Modal>
-        )
-    }
-
-
-
     filterCar(list) {
         var listFilter = { rideMethod: [], type: [] }
         list.forEach(element => {
@@ -289,9 +205,6 @@ class ListCar extends Component {
         this.setState({ sort: !this.state.sort });
     };
 
-    setShowFilter = () => {
-        this.setState({ showFilter: true });
-    };
 
     gotoInfoCustomer = (item) => {
         const { navigation } = this.props;
@@ -321,10 +234,21 @@ class ListCar extends Component {
                     <TouchableOpacity style={{ flex: 1 }} onPress={() => this.setState({ showDetail: false })} ></TouchableOpacity>
                     {this.state.item ?
                         <View style={{ flex: 1, backgroundColor: '#fff' }} >
-                            <TextSpaceBetween textBold={'Hình thức: '} text={this.state.item.label} />
-                            <TextSpaceBetween textBold={'Hình thức: '} text={this.state.item.label} />
-                            <TextSpaceBetween textBold={'Hình thức: '} text={this.state.item.label} />
-                            <TextSpaceBetween textBold={'Hình thức: '} text={this.state.item.label} />
+                            <View style={{ height: 200, justifyContent: 'center', alignItems: 'center' }}>
+                                <Image
+                                    style={{ width: 200, height: 120, }}
+                                    source={this.state.item.info.image && this.state.item.info.image ? { uri: this.state.item.info.image } : null}
+                                    resizeMode="contain"
+                                />
+                            </View>
+                            <TextSpaceBetween textBold={'Hình thức: '} text={this.state.item.info.label} />
+                            <TextSpaceBetween textBold={'Ghi chú: '} text={this.state.item.info.description.replaceAll('<br>', ', ')} />
+                            <TextSpaceBetween textBold={'Loại xe: '} text={this.state.item.info.title} />
+                            {this.state.item.info.priceExtra ? <View>
+                                <TextSpaceBetween textBold={'Phụ trội theo giờ: '} text={this.state.item.info.priceExtra.hourExtra} />
+                                <TextSpaceBetween textBold={'phụ trội theo km: '} text={this.state.item.info.priceExtra.kmExtra} />
+
+                            </View> : null}
                         </View>
                         : <View style={{ flex: 1 }}></View>}
                     <View style={{ backgroundColor: '#fff', padding: 16 }}>
@@ -343,7 +267,6 @@ class ListCar extends Component {
     }
 
     renderItem(obj1, countLoading) {
-        console.log('dhs: ' + obj1)
         { this.state.sort ? obj1.sort((a, b) => b.info.price - a.info.price) : obj1.sort((a, b) => a.info.price - b.info.price) }
 
         return (
@@ -387,7 +310,7 @@ class ListCar extends Component {
                                 }
                             </View>
                         ))}
-                        {countLoading != 0 ? <ActivityIndicator
+                        {this.state.countLoading > 0 ? <ActivityIndicator
                             size='large'
                             style={{ marginTop: 20 }}
                         /> : null
@@ -413,10 +336,6 @@ class ListCar extends Component {
             console.log(item)
             this.setState({ showDetail: true })
         }
-    }
-
-    setModalVisible(visible) {
-        this.setState({ showFilter: visible });
     }
 
     goBack = () => {
@@ -448,6 +367,7 @@ class ListCar extends Component {
         });
     }
     pressSwap = () => {
+        this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick);
 
     }
     pressSelectTime = () => {
@@ -455,28 +375,340 @@ class ListCar extends Component {
             dialogCalendarVisible: true,
         })
     }
-    pressSelectSlot = () => {
 
+    pressVehicleType = () => {
+        this.props.setModalVehicleType(true)
     }
-    pressSelectCarType = () => {
 
+    pressCarType = () => {
+        this.props.setModalCarType(true)
+    }
+
+    pressHourglass = () => {
+        this.setState({
+            modalSelectTime: true
+        })
+    }
+
+    pressSelectSlot = () => {
+        this.setState({
+            dialogSelectPeople: true,
+        })
     }
 
     formAddress() {
+        switch (this.props.product_chunk_type) {
+            case 'transfer_service':
+                return (
+                    <View style={{ margin: 8, borderRadius: 10, borderWidth: 0.5, borderColor: '#e8e8e8' }}>
+                        <FormTaxi
+                            onPressPickAddress={this.pressPickAddress}
+                            onPressDropAddress={this.pressDropAddress}
+                            onPressSwap={this.pressSwap}
+                            onPressSelectTime={this.pressSelectTime}
+                            onPressSelectSlot={this.pressSelectSlot}
+                        />
+                    </View>
+                )
+            case 'hourly_rent_taxi':
+                return (
+                    <View style={{ margin: 8, borderRadius: 10, borderWidth: 0.5, borderColor: '#e8e8e8' }}>
+                        <FormHourlyTaxi
+                            onPressPickAddress={this.pressPickAddress}
+                            onPressSelectTime={this.pressSelectTime}
+                            onPressCarType={this.pressCarType}
+                            onPressHourglass={this.pressHourglass}
+                        />
+                    </View>
+                )
+            case 'car_rental':
+                return (
+                    <View style={{ margin: 8, borderRadius: 10, borderWidth: 0.5, borderColor: '#e8e8e8' }}>
+                        <FormChungxeTuyen
+                            onPressPickAddress={this.pressPickAddress}
+                            onPressDropAddress={this.pressDropAddress}
+                            onPressSwap={this.pressSwap}
+                            onPressSelectTime={this.pressSelectTime}
+                            onPressSelectSlot={this.pressSelectSlot}
+                        />
+                    </View>
+                )
+            case 'hourly_car_rental':
+                return (
+                    <View style={{ margin: 8, borderRadius: 10, borderWidth: 0.5, borderColor: '#e8e8e8' }}>
+                        <FormChungxe
+                            onPressPickAddress={this.pressPickAddress}
+                            onPressDropAddress={this.pressDropAddress}
+                            onPressSwap={this.pressSwap}
+                            onPressSelectTime={this.pressSelectTime}
+                            onPressSelectSlot={this.pressSelectSlot}
+                            onPressVehicle={this.pressVehicleType}
+                        />
+                    </View>
+                )
+            case 'express':
+                return (
+                    <View style={{ margin: 8, borderRadius: 10, borderWidth: 0.5, borderColor: '#e8e8e8' }}>
+                        <FormExpress
+                            onPressPickAddress={this.pressPickAddress}
+                            onPressDropAddress={this.pressDropAddress}
+                            onPressSwap={this.pressSwap}
+                            onPressSelectTime={this.pressSelectTime}
+                            onPressSelectSlot={this.pressSelectSlot}
+                        />
+                    </View>
+                )
+            case 'driver_rental':
+                return (
+                    <View style={{ margin: 8, borderRadius: 10, borderWidth: 0.5, borderColor: '#e8e8e8' }}>
+                        <FormXeChung
+                            onPressPickAddress={this.pressPickAddress}
+                            onPressDropAddress={this.pressDropAddress}
+                            onPressSwap={this.pressSwap}
+                            onPressSelectTime={this.pressSelectTime}
+                            onPressSelectSlot={this.pressSelectSlot}
+                        />
+                    </View>
+                )
+            case 'hourly_rent_driver':
+                return (
+                    <View style={{ margin: 8, borderRadius: 10, borderWidth: 0.5, borderColor: '#e8e8e8' }}>
+                        <FormHourlyXeChung
+                            onPressPickAddress={this.pressPickAddress}
+                            onPressDropAddress={this.pressDropAddress}
+                            onPressSwap={this.pressSwap}
+                            onPressSelectTime={this.pressSelectTime}
+                            onPressSelectSlot={this.pressSelectSlot}
+                        />
+                    </View>
+                )
+            case 'hourly_freight_truck':
+                return (
+                    <View style={{ margin: 8, borderRadius: 10, borderWidth: 0.5, borderColor: '#e8e8e8' }}>
+                        <FormHourlyTruck
+                            onPressPickAddress={this.pressPickAddress}
+                            onPressDropAddress={this.pressDropAddress}
+                            onPressSwap={this.pressSwap}
+                            onPressSelectTime={this.pressSelectTime}
+                            onPressSelectSlot={this.pressSelectSlot}
+                        />
+                    </View>
+                )
+            case 'truck':
+                return (
+                    <View style={{ margin: 8, borderRadius: 10, borderWidth: 0.5, borderColor: '#e8e8e8' }}>
+                        <FormTruckDoor
+                            onPressPickAddress={this.pressPickAddress}
+                            onPressDropAddress={this.pressDropAddress}
+                            onPressSwap={this.pressSwap}
+                            onPressSelectTime={this.pressSelectTime}
+                            onPressSelectSlot={this.pressSelectSlot}
+                        />
+                    </View>
+                )
+            case 'hourly_tourist_car':
+                return (
+                    <View style={{ margin: 8, borderRadius: 10, borderWidth: 0.5, borderColor: '#e8e8e8' }}>
+                        <FormHourlyTravel
+                            onPressPickAddress={this.pressPickAddress}
+                            onPressDropAddress={this.pressDropAddress}
+                            onPressSwap={this.pressSwap}
+                            onPressSelectTime={this.pressSelectTime}
+                            onPressSelectSlot={this.pressSelectSlot}
+                        />
+                    </View>
+                )
+            case 'tourist_car':
+                return (
+                    <View style={{ margin: 8, borderRadius: 10, borderWidth: 0.5, borderColor: '#e8e8e8' }}>
+                        <FormTravel
+                            onPressPickAddress={this.pressPickAddress}
+                            onPressDropAddress={this.pressDropAddress}
+                            onPressSwap={this.pressSwap}
+                            onPressSelectTime={this.pressSelectTime}
+                            onPressSelectSlot={this.pressSelectSlot}
+                        />
+                    </View>
+                )
+            default: null
+        }
+    }
+
+    modalSlot() {
         return (
-            <View style={{ margin: 8, borderRadius: 10, borderWidth: 0.5, borderColor: '#e8e8e8' }}>
-                <FormTaxi
-                    onPressPickAddress={this.pressPickAddress}
-                    onPressDropAddress={this.pressDropAddress}
-                    onPressSwapAddress={this.pressSwap}
-                    onPressSelectTime={this.pressSelectTime}
-                    onPressSelectSlot={this.pressSelectSlot}
-                />
-            </View>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={this.state.dialogSelectPeople}
+                // onOrientationChange={true}
+                onRequestClose={() => {
+                    console.log('a');
+                }}>
+                <SafeAreaView style={{
+                    flex: 1,
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
+                    backgroundColor: '#000000AA'
+                }}>
+                    <View style={{ flex: 1, }}>
+                        <TouchableOpacity
+                            onPress={() => this.setState({ dialogSelectPeople: !this.state.dialogSelectPeople })}
+                            style={{ flex: 1 }}
+                        ></TouchableOpacity>
+                    </View>
+
+                    <FlatList
+                        style={{ flex: 1, backgroundColor: '#ffffff' }}
+                        data={listChair}
+                        renderItem={({ item }) =>
+                            <TouchableOpacity
+                                style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}
+                                onPress={() => {
+                                    this.setState({
+                                        people: item.chair,
+                                        dialogSelectPeople: false,
+                                    })
+                                    this.props.addPeople(item.chair)
+                                }}
+                            >
+                                <Text style={{ fontSize: 16, flex: 1, padding: 8, color: item.chair == this.props.chair ? '#77a300' : '#000000' }}>{item.chair} người</Text>
+                                {item.chair == this.props.chair ? <Image
+                                    style={{ height: 24, width: 24, marginLeft: 8 }}
+                                    source={require(imageCheck)}
+                                /> : null}
+                            </TouchableOpacity>}
+                        keyExtractor={item => item.chair}
+                    />
+                </SafeAreaView>
+            </Modal>
         )
     }
 
+    modalTime() {
+        return (
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={this.state.dialogTimeVisible}
+                onRequestClose={() => {
+                }}
+            >
+                <SafeAreaView style={{
+                    flex: 1,
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
+                    backgroundColor: '#000000AA',
+                    zIndex: 9,
+                }}>
+                    <View style={{ flex: 1, }}>
+                        <TouchableOpacity
+                            onPress={() => this.setState({ dialogTimeVisible: false, })}
+                            style={{ flex: 1 }}
+                        ></TouchableOpacity>
+                    </View>
+
+                    <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
+                        <View style={{ height: 40, justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Chọn giờ đi</Text>
+                        </View>
+                        <FlatList
+                            style={{ flex: 1, backgroundColor: '#ffffff' }}
+                            data={listHour}
+                            initialScrollIndex={this.state.scroll - 1}
+                            getItemLayout={this.getItemLayout}
+                            renderItem={({ item }) =>
+                                <TouchableOpacity
+                                    style={{ flexDirection: 'row', height: 40 }}
+                                    onPress={() => {
+                                        var isDayAlight = this.state.timeAlive.spesentDay == this.state.date.format('DD-MM-YYYY');
+                                        var timeClicker = ((item.hour == this.state.timeAlive.hoursAlive && item.minute > this.state.timeAlive.minutesAlive) || item.hour > this.state.timeAlive.hoursAlive);
+
+                                        if (isDayAlight) {
+                                            if (timeClicker) {
+                                                this.setState({
+                                                    dialogTimeVisible: false,
+                                                    dialogCalendarVisible: false,
+                                                    depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                })
+                                                this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
+                                            }
+                                        } else {
+                                            this.setState({
+                                                dialogTimeVisible: false,
+                                                dialogCalendarVisible: false,
+                                                depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                            })
+                                            this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
+                                        }
+                                    }}
+                                >
+                                    <Text style={{ textAlign: 'center', fontSize: 16, flex: 1, padding: 8, backgroundColor: (item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes) ? '#77a300' : '#fff', color: (this.state.spesentDay == this.state.date.format('DD-MM-YYYY') && ((item.hour == this.state.hoursAlive && item.minute < this.state.minutesAlive) || item.hour < this.state.hoursAlive)) ? '#aaa' : item.hour == this.state.selectedHours && item.minute == this.state.selectedMinutes ? '#fff' : '#000000' }}>{item.hour < 10 ? '0' + item.hour : item.hour}: {item.minute == 0 ? '00' : item.minute}</Text>
+                                </TouchableOpacity>}
+                            scrollToIndex={this.state.scroll}
+                            keyExtractor={item => item.id}
+                        />
+                    </View>
+                </SafeAreaView>
+            </Modal>
+        )
+    }
+
+    modalHourlyTime() {
+        return (
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={this.state.modalSelectTime}
+                // onOrientationChange={true}
+                onRequestClose={() => {
+                    console.log('a');
+                }}>
+                <SafeAreaView style={{
+                    flex: 1,
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
+                }}>
+                    <View style={{ flex: 1, }}>
+                        <TouchableOpacity
+                            onPress={() => this.setState({ modalSelectTime: false })}
+                            style={{ flex: 1 }}
+                        ></TouchableOpacity>
+                    </View>
+                    <FlatList
+                        style={{ flex: 1, backgroundColor: '#ffffff' }}
+                        data={listTime}
+                        renderItem={({ item }) =>
+                            <TouchableOpacity
+                                style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}
+                                onPress={() => {
+                                    this.setState({
+                                        modalSelectTime: false,
+                                    })
+                                    this.props.addDuration(item.time);
+                                }}
+                            >
+                                <Text style={{ fontSize: 16, flex: 1, padding: 8, color: item.time === this.state.duration ? '#77a300' : '#000000' }}>{item.time} giờ</Text>
+                                {item.time === this.state.duration ? <Image
+                                    style={{ height: 24, width: 24, marginLeft: 8 }}
+                                    source={require(imageCheck)}
+                                /> : null}
+                            </TouchableOpacity>}
+                        keyExtractor={item => item.time}
+                    />
+
+                </SafeAreaView>
+            </Modal>
+        )
+    }
+
+    reloadData = () => {
+        this.setState({ dataSource: [], isLoading: true })
+        this.getProvider()
+    }
+
     render() {
+        const minDate = new Date();
+
         var obj = [...this.state.dataSource];
         return (
             <SafeAreaView style={{ flex: 1 }}>
@@ -488,10 +720,59 @@ class ListCar extends Component {
                 /> :
                     <View style={{ flex: 1, paddingHorizontal: 8, }}>
                         {this.renderItem(obj, this.state.countLoading)}
-                        {this.modalFilter(this.state.showFilter)}
                         {/* {this.modalDetail(this.state.showDetail)} */}
                     </View>
                 }
+                {this.modalSlot()}
+                {this.modalHourlyTime()}
+                <ModalCarType />
+                <ModalVehicleType />
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={this.state.dialogCalendarVisible}
+                    // onOrientationChange={true}
+                    onRequestClose={() => {
+                        console.log('a');
+                    }}>
+                    <SafeAreaView style={{
+                        flex: 1,
+                        flexDirection: 'column',
+                        justifyContent: 'flex-end',
+                    }}>
+                        <View style={{ flex: 1, backgroundColor: '#fff', alignItems: "center" }}>
+                            <View style={{ flexDirection: 'row', margin: 16 }}>
+                                <Text style={{ fontSize: 18, fontWeight: 'bold', flex: 1, textAlign: 'center' }}>Chọn thời gian đi</Text>
+                            </View>
+                            <CalendarPicker
+                                textStyle={{
+                                    color: '#000000',
+                                    fontSize: 14,
+                                }}
+                                weekdays={['Th 2', 'Th 3', 'Th 4', 'Th 5', 'Th 6', 'Th 7', 'CN',]}
+                                months={['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']}
+                                previousTitle="Trước"
+                                nextTitle="Sau"
+                                allowRangeSelection={false}
+                                minDate={minDate}
+                                startFromMonday={true}
+                                // todayBackgroundColor="#00363d"
+                                selectedDayColor="#77a300"
+                                selectedDayTextColor="#FFFFFF"
+                                dayShape='cicle'
+                                onDateChange={(date) => {
+                                    console.log('date: ....' + date)
+                                    this.setState({
+                                        date: date,
+                                        dialogTimeVisible: true,
+                                        // dialogCalendarVisible: false,
+                                    })
+                                }}
+                            />
+                        </View>
+                        {this.modalTime()}
+                    </SafeAreaView>
+                </Modal>
             </SafeAreaView>
         );
     }
@@ -505,13 +786,23 @@ function mapStateToProps(state) {
         component_drop: state.info.component_drop,
         depart_time2: state.info.depart_time2,
         chair: state.info.chair,
-        is_from_airport: state.info.is_from_airport,
         product_chunk_type: state.info.product_chunk_type,
         duration: state.info.duration,
-        retun_date: state.info.retun_date,
         returnTime2: state.info.returnTime2,
         returnTime: state.info.returnTime,
-        vehicleType: state.info.vehicleType
+        vehicleType: state.info.vehicleType,
+        carType: state.info.carType
     }
 }
-export default connect(mapStateToProps, { addTripInfomation: addTripInfomation, addIsFromAirport: addIsFromAirport, addAirport: addAirport, addSend: addSend, addCost: addCost, addExtra: addExtra })(ListCar);
+export default connect(mapStateToProps, {
+    addTripInfomation: addTripInfomation,
+    addSend: addSend,
+    addCost: addCost,
+    addExtra: addExtra,
+    addDepartTime: addDepartTime,
+    swapAddress: swapAddress,
+    addPeople: addPeople,
+    addDuration: addDuration,
+    setModalCarType: setModalCarType,
+    setModalVehicleType: setModalVehicleType
+})(ListCar);

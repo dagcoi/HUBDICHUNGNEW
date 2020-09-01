@@ -11,6 +11,8 @@ import ImageTextBold from '../../../component/ImageTextDiChung/ImageTextBold'
 import { TextInput } from 'react-native-gesture-handler';
 import { listHour, listChair, listTime } from '../../../component/TimeSelect/listTime'
 import { HeaderText } from '../../../component/Header';
+import FormTruckDoor from './FormTruckDoor';
+import FormHourlyTruck from './FormHourlyTruck';
 
 // const destination = { latitude: 21.0019302, longitude: 105.85090579999996 };
 
@@ -143,7 +145,7 @@ class MapTruck extends Component {
                 } else {
                     this.props.navigation.push("ListCar");
                 }
-            }else {
+            } else {
                 this.props.navigation.push("ListCar");
             }
         }
@@ -185,139 +187,53 @@ class MapTruck extends Component {
         this.props.addPeople(people);
     }
 
+
+    onPressPickAddress = () => {
+        this.props.navigation.push("SearchPlace", {
+            search: 'Pick',
+            placeholder: 'Nhập điểm nhận hàng',
+        });
+    }
+
+    onPressDropAddress = () => {
+        this.props.navigation.push("SearchPlace", {
+            search: 'Drop',
+            placeholder: 'Nhập điểm trả hàng'
+        });
+    }
+
+    onPressSwap = () => {
+        this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick);
+    }
+
+    onPressSelectTime = () => {
+        this.setState({
+            dialogCalendarVisible: true,
+        })
+    }
+    onPressHourglass = () => {
+        this.setState({
+            modalSelectTime: true
+        })
+    }
+
+
+
     renderFormDoorExpress() {
         return (
             <View style={styles.borderBot}>
-                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                    <Image
-                        style={{ height: 30, width: 24, marginLeft: 8 }}
-                        source={require(imageLocation)}
-                    />
-                    <TouchableOpacity
-                        style={{ flex: 1, height: 40, flexDirection: 'row', alignItems: 'center', }}
-                        onPress={() => {
-                            this.props.navigation.push("SearchPlace", {
-                                search: 'Pick',
-                                placeholder: 'Điểm nhận hàng'
-                            });
-                        }}
-                    >
-                        <TextInput
-                            editable={false}
-                            onTouchStart={() => this.props.navigation.push("SearchPlace", {
-                                search: 'Pick',
-                                placeholder: 'Điểm nhận hàng'
-                            })
-                            }
-                            style={{ fontSize: 14, height: 40, color: "#00363d", marginLeft: 8 }}
-                            pointerEvents="none"
-                            value={this.props.pick_add}
-                            placeholder='Điểm nhận hàng'
-                            selection={{ start: 0, end: 0 }}
-                            placeholderTextColor={'#333333'}
-                        />
-                    </TouchableOpacity>
-                </View>
-
-                <View style={styles.borderInput}>
-                    <View style={{ flex: 1, flexDirection: 'row', borderColor: '#e8e8e8', borderRightWidth: 0.1, justifyContent: 'center', alignItems: 'center', }}>
-                        <Image
-                            style={{ height: 30, width: 24, marginLeft: 8, alignItems: 'center', justifyContent: 'center' }}
-                            source={require(imageDrop)}
-                        />
-                        <TouchableOpacity
-                            style={{ flex: 1, height: 40 }}
-                            onPress={() => {
-                                this.props.navigation.push("SearchPlace", {
-                                    search: 'Drop',
-                                    placeholder: 'Điểm giao hàng'
-                                });
-                            }}
-                        >
-                            <TextInput
-                                editable={false}
-                                onTouchStart={() => this.props.navigation.push("SearchPlace", {
-                                    search: 'Drop',
-                                    placeholder: 'Điểm giao hàng'
-                                })
-                                }
-                                style={{ fontSize: 14, height: 40, color: "#00363d", marginLeft: 8 }}
-                                pointerEvents="none"
-                                value={this.props.drop_add}
-                                placeholder='Điểm giao hàng'
-                                placeholderTextColor={'#333333'}
-                                selection={{ start: 0, end: 0 }}
-                            />
-                        </TouchableOpacity>
-                    </View>
-                    <TouchableOpacity
-                        style={{ borderLeftWidth: 1, borderColor: '#e8e8e8' }}
-                        onPress={() => {
-                            this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick);
-                        }}
-                    >
-                        <Image
-                            style={{ height: 24, width: 24, margin: 8 }}
-                            source={require(imageSwap)}
-                        />
-                    </TouchableOpacity>
-                </View>
-
-                <View style={{ flexDirection: 'row', height: 40, }}>
-                    <TouchableOpacity
-                        style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
-                        onPress={() => {
-                            this.setState({
-                                dialogCalendarVisible: true,
-                            })
-                        }}
-                    >
-                        <Image
-                            style={{ height: 24, width: 24, marginLeft: 8, }}
-                            source={require(imageTime)}
-                        />
-
-                        <TextInput
-                            editable={false}
-                            value={this.state.depart_time}
-                            // value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours} : ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
-                            placeholder='Chọn giờ gửi hàng'
-                            placeholderTextColor={'#333333'}
-                            onTouchStart={() => { this.setState({ dialogCalendarVisible: true }) }}
-                            pointerEvents='none'
-                            style={{ fontSize: 14, height: 40, color: "#00363d", flex: 1, marginLeft: 8 }}
-                        />
-
-                    </TouchableOpacity>
-
-                    <View style={{ width: 1, backgroundColor: '#e8e8e8' }}></View>
-                    {/* <TouchableOpacity
-                        style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", flexDirection: 'row', alignItems: 'center' }}
-                        onPress={() => {
-                            this.setState({
-                                dialogSelectPeople: false,
-                            })
-                        }}
-                    >
-                        <Image
-                            style={{ height: 24, width: 24, margin: 8 }}
-                            source={require(imageParcel)}
-                        />
-                        <Text style={{ flex: 1 }}>{this.props.chair}</Text>
-                        <Image
-                            style={{ height: 24, width: 24, margin: 8 }}
-                            source={require(imageDown)}
-                        />
-                    </TouchableOpacity> */}
-                </View>
+                <FormTruckDoor
+                    onPressPickAddress={this.onPressPickAddress}
+                    onPressDropAddress={this.onPressDropAddress}
+                    onPressSwap={this.onPressSwap}
+                    onPressSelectTime={this.onPressSelectTime}
+                />
 
                 <ButtonFull
                     onPress={() => { this.nextScreen() }}
                     value={'Xem giá'}
                 />
-                <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
-                    <View style={{ flex: 1 }}></View>
-                </View>
+
             </View>
         )
     }
@@ -325,7 +241,7 @@ class MapTruck extends Component {
     renderFormHourlyExpress() {
         return (
             <View style={styles.borderBot}>
-                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
+                {/* <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                     <Image
                         style={{ height: 30, width: 24, marginLeft: 8 }}
                         source={require(imageLocation)}
@@ -386,7 +302,13 @@ class MapTruck extends Component {
                         />
                     </View>
                 </View>
-                {/* </View> */}
+                 */}
+
+                <FormHourlyTruck 
+                    onPressPickAddress={this.onPressPickAddress}
+                    onPressSelectTime={this.onPressSelectTime}
+                    onPressHourglass={this.onPressHourglass}
+                />
 
                 <ButtonFull
                     onPress={() => { this.nextScreenHourly() }}

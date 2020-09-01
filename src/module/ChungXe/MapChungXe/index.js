@@ -269,7 +269,7 @@ class MapChungXe extends Component {
     nextScreen() {
         this.getTimeAlive();
         this.props.addProductChunkType('car_rental')
-        if (this.props.pick_add != '' && this.props.drop_add != '' && this.state.time_pick != '') {
+        if (this.props.pick_add != '' && this.props.drop_add != '') {
             console.log(this.state.spesentDay)
             if (this.state.date) {
                 if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {

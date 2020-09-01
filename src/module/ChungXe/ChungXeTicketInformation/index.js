@@ -25,7 +25,7 @@ class ChungXeTicketInformation extends Component {
         this.state = {
             codeSuccess: 0,
             addingTicket: false,
-            data: {},
+            // data: {},
             isLoading: true,
         }
     }
@@ -103,19 +103,20 @@ class ChungXeTicketInformation extends Component {
 
     renderBookingDetail(data) {
         return (
-            <View>
-                <Text style={styles.textBold}>Chi tiết Mã vé</Text>
+            null
+            // <View>
+            //     <Text style={styles.textBold}>Chi tiết Mã vé</Text>
 
-                <ImageTextDiChung
-                    source={require(imageLocation)}
-                    text={data.city_name}
-                />
+            //     <ImageTextDiChung
+            //         source={require(imageLocation)}
+            //         text={data.city_name}
+            //     />
 
-                <ImageTextDiChung
-                    source={require(imageCalendar)}
-                    text={this.formatDate(data.book_rent_date) + ' - ' + this.formatDate(data.book_retun_date)}
-                />
-            </View>
+            //     <ImageTextDiChung
+            //         source={require(imageCalendar)}
+            //         text={this.formatDate(data.book_rent_date) + ' - ' + this.formatDate(data.book_retun_date)}
+            //     />
+            // </View>
         )
     }
 

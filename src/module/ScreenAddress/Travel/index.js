@@ -10,6 +10,8 @@ import { HeaderText } from '../../../component/Header'
 import { FormSwitch, Warning, DropAddress } from '../Util'
 import { ButtonFull } from '../../../component/Button'
 import { SafeAreaView } from 'react-navigation';
+import FormTravel from './FormTravel';
+import FormHourlyTravel from './FormHourlyTravel';
 
 const imageLocation = '../../../image/location.png'
 const imageCheckWhite = '../../../image/checkw.png'
@@ -91,16 +93,17 @@ class MapTravel extends Component {
         this.props.addProductChunkType('tourist_car')
         if (this.props.pick_add != '' && this.props.drop_add != '' && this.props.depart_time != '') {
             console.log(this.state.spesentDay)
-            if(this.state.date){
-            if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
-                if (this.state.hoursAlive > this.state.selectedHours) {
-                    this.setState({ showAlertTime: true })
-                } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                    this.setState({ showAlertTime: true })
+            if (this.state.date) {
+                if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
+                    if (this.state.hoursAlive > this.state.selectedHours) {
+                        this.setState({ showAlertTime: true })
+                    } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
+                        this.setState({ showAlertTime: true })
+                    }
+                } else {
+                    this.props.navigation.push("ListCar");
                 }
             } else {
-                this.props.navigation.push("ListCar");
-            }} else {
                 this.props.navigation.push("ListCar")
             }
         }
@@ -206,6 +209,36 @@ class MapTravel extends Component {
         )
     }
 
+    onPressPickAddress = () => {
+        this.props.navigation.push("SearchPlace", {
+            search: 'Pick',
+            placeholder: 'Nhập điểm xuất phát',
+        });
+    }
+
+    onPressDropAddress = () => {
+        this.props.navigation.push("SearchPlace", {
+            search: 'Drop',
+            placeholder: 'Nhập điểm đến'
+        });
+    }
+
+    onPressSwap = () => {
+        this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick);
+    }
+
+    onPressSelectTime = () => {
+        this.setState({
+            dialogCalendarVisible: true,
+        })
+    }
+    onPressHourglass=() => {
+        this.setState({
+            modalSelectTime: true
+        })
+    }
+
+
     dropAddress() {
         return (
             <DropAddress
@@ -227,12 +260,12 @@ class MapTravel extends Component {
     renderTaxiAirport() {
         return (
             <View style={styles.borderBot}>
-                {this.renderPickAddress()}
-                {this.dropAddress()}
-
-                <View style={{ flexDirection: 'row', height: 40, }}>
-                    {this.renderTimePick()}
-                </View>
+                <FormTravel
+                    onPressPickAddress={this.onPressPickAddress}
+                    onPressDropAddress={this.onPressDropAddress}
+                    onPressSwap={this.onPressSwap}
+                    onPressSelectTime={this.onPressSelectTime}
+                />
 
                 <ButtonFull
                     onPress={() => { this.nextScreen() }}
@@ -325,7 +358,7 @@ class MapTravel extends Component {
     renderTour() {
         return (
             <View style={styles.borderBot}>
-                {this.renderPickAddress()}
+                {/* {this.renderPickAddress()}
                 <View style={{ height: 40, flexDirection: 'row', }}>
                     {this.renderTimePick()}
                 </View>
@@ -333,7 +366,12 @@ class MapTravel extends Component {
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
                         {this.renderHourglass()}
                     </View>
-                </View>
+                </View> */}
+                <FormHourlyTravel 
+                    onPressPickAddress={this.onPressPickAddress}
+                    onPressSelectTime={this.onPressSelectTime}
+                    onPressHourglass={this.onPressHourglass}
+                />
                 <ButtonFull
                     onPress={() => { this.gotoListCarHourlyBooking() }}
                     value={'Xem giá'}
@@ -372,12 +410,17 @@ class MapTravel extends Component {
     gotoListCarHourlyBooking() {
         this.props.addProductChunkType('hourly_tourist_car')
         if (this.props.pick_add != '' && this.props.depart_time != '') {
-            if(this.state.data){
-            if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
-                if (this.state.hoursAlive > this.state.selectedHours) {
-                    this.setState({ showAlertTime: true })
-                } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                    this.setState({ showAlertTime: true })
+            if (this.state.data) {
+                if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
+                    if (this.state.hoursAlive > this.state.selectedHours) {
+                        this.setState({ showAlertTime: true })
+                    } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
+                        this.setState({ showAlertTime: true })
+                    } else {
+                        this.props.navigation.navigate("ListCar", {
+                            'listCarType': this.state.selectCar,
+                        });
+                    }
                 } else {
                     this.props.navigation.navigate("ListCar", {
                         'listCarType': this.state.selectCar,
@@ -388,11 +431,6 @@ class MapTravel extends Component {
                     'listCarType': this.state.selectCar,
                 });
             }
-        }else{
-            this.props.navigation.navigate("ListCar", {
-                'listCarType': this.state.selectCar,
-            });
-        }
         } else {
             this.setState({ showAlertInfo: true })
         }

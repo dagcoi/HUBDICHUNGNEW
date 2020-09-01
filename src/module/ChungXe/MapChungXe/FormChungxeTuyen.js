@@ -62,21 +62,6 @@ class FormChungXeTuyen extends Component {
 
                     <View style={{ flexDirection: 'row', height: 40, }}>
                         {this.renderTimePick()}
-                        <View style={{ width: 1, backgroundColor: '#e8e8e8' }}></View>
-                        <TouchableOpacity
-                            style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", flexDirection: 'row', alignItems: 'center' }}
-                            onPress={this.props.onPressSelectSlot}
-                        >
-                            <Image
-                                style={{ height: 24, width: 24, margin: 8 }}
-                                source={require(imagePeople)}
-                            />
-                            <Text style={{ flex: 1 }}>{this.props.chair} người</Text>
-                            <Image
-                                style={{ height: 24, width: 24, margin: 8 }}
-                                source={require(imageDown)}
-                            />
-                        </TouchableOpacity>
                     </View>
 
                 </View>

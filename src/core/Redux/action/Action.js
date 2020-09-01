@@ -794,6 +794,21 @@ export const addVehicleType = (vehicleType, vehicleName) => {
     }
 }
 
+export const setModalCarType = (modalCarType) => {
+    return {
+        type: types.SET_MODAL_CAR_TYPE,
+        modalCarType: modalCarType,
+    }
+}
+
+
+export const setModalVehicleType = (modalVehicleType) => {
+    return {
+        type: types.SET_MODAL_VEHICLE_TYPE,
+        modalVehicleType: modalVehicleType,
+    }
+}
+
 
 
 

@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Image, Text,TouchableOpacity, Linking } from 'react-native';
+import { View, StyleSheet, Image, Text, TouchableOpacity, Linking } from 'react-native';
 
 function TextSpaceBetween({
     text,
+    listText,
     textBold,
     style,
     onPress,
@@ -11,13 +12,13 @@ function TextSpaceBetween({
         <View style={style ?? styles.container}>
             <Text style={styles.textBigLeftBold}>{textBold}</Text>
             <View style={{ flex: 1 }}></View>
-            {onPress ? 
-            <TouchableOpacity
-                onPress={() => Linking.openURL(`tel: ${text}`)}
-            >
-                <Text style={[styles.textBigRight, {color: '#77a300', textDecorationLine: 'underline'}]}>{text}</Text>
-            </TouchableOpacity> : <Text style={styles.textBigRight}>{text}</Text>}
-            
+            {onPress ?
+                <TouchableOpacity
+                    onPress={() => Linking.openURL(`tel: ${text}`)}
+                >
+                    <Text style={[styles.textBigRight, { color: '#77a300', textDecorationLine: 'underline' }]}>{text}</Text>
+                </TouchableOpacity> : <Text style={styles.textBigRight}>{text}</Text>
+            }
         </View>
     )
 }
