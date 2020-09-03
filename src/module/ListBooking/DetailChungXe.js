@@ -64,7 +64,7 @@ function renderDetailTrip(item) {
 
             <ImageTextDiChung
                 source={require(imageLocation)}
-                text={item.startPoints[0].address}
+                text={item.startPoint.address}
             />
 
             <ImageTextDiChung

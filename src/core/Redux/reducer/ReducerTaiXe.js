@@ -101,7 +101,7 @@ const ReducerTaiXe = (state = defaultState, action) => {
                 longitude_drop: action.longitude_drop,
             }
 
-        case types.TRIP_INFOMATION_TAIXE:
+        case types.TRIP_INFORMATION_TAIXE:
             return {
                 ...state,
                 partner_name: action.partner_name,
@@ -240,7 +240,7 @@ const ReducerTaiXe = (state = defaultState, action) => {
                 ...state,
                 duration: action.duration,
             }
-        case types.ADD_TRIP_INFOMATION_HOURLY_BOOKING_TAIXE:
+        case types.ADD_TRIP_INFORMATION_HOURLY_BOOKING_TAIXE:
             return {
                 ...state,
                 partner_name: action.partner_name,

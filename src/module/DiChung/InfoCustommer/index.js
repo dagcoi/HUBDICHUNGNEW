@@ -261,7 +261,6 @@ class InfoCustommer extends Component {
     renderSanBay() {
         console.log('this.props.send' + this.props.send)
         const send = JSON.parse(this.props.send)
-        // if () {//
         return (
             send.extra && send.extra.airport_id && send.extra.airport_id != 0 ?
                 <View>
@@ -300,6 +299,19 @@ class InfoCustommer extends Component {
                                 />))}
                         </RadioForm>
                     </View>
+
+                    <CheckBox
+                        style={{ marginTop: 8 }}
+                        onClick={() => {
+                            this.setState({
+                                boardPrice: !this.state.boardPrice
+                            })
+                        }}
+                        isChecked={this.state.boardPrice}
+                        rightText={"Đón biển tên(+30.000 đ)"}
+                        rightTextStyle={{ fontSize: 16 }}
+                        checkBoxColor={'#77a300'}
+                    />
                 </View>
                 : null
         )
@@ -366,7 +378,7 @@ class InfoCustommer extends Component {
             } else {
                 this.checkAirport();
             }
-            this.checkAirport();
+            // this.checkAirport();
         }
     }
 
@@ -653,46 +665,6 @@ class InfoCustommer extends Component {
 
                         {this.renderPostpaid()}
 
-                        {/* <Text style={styles.textBig}>Mã giảm giá</Text>
-
-                        <View style={{ flexDirection: 'row', marginTop: 8, marginBottom: 8, height: 50 }}>
-                            <View style={{ marginTop: 8, borderWidth: 1, borderColor: '#e8e8e8', borderRadius: 4, flexDirection: 'row', justifyContent: "center", alignItems: "center", flex: 1, }} >
-                                <TextInput
-                                    style={[styles.textInput]}
-                                    value={this.state.promotion_code}
-                                    onChangeText={(text) => this.setState({
-                                        promotion_code: text,
-                                        blDiscount: false,
-                                    })}
-                                    placeholder={'Mã giảm giá'}
-                                />
-                                <TouchableOpacity
-                                    onPress={() => this.setState({
-                                        promotion_code: '',
-                                        blDiscount: false,
-                                    }
-                                    )}
-                                >
-                                    <Image
-                                        style={{ width: 20, height: 20, margin: 8 }}
-                                        source={this.state.promotion_code.length == 0 ? null : require(imageCancel)}
-                                    />
-                                </TouchableOpacity>
-                            </View>
-
-                            <TouchableOpacity
-                                onPress={() => {
-                                    this.setState({
-                                        isLoading: true,
-                                    })
-                                    this.checkPromotionCode();
-                                }}
-                                style={{ padding: 8, justifyContent: 'center', backgroundColor: '#77a300', marginLeft: 8, borderRadius: 4, marginTop: 8 }}
-                            >
-                                <Text style={{ color: '#ffffff' }}>ÁP DỤNG</Text>
-                            </TouchableOpacity>
-                        </View> */}
-
                         <View>{this.state.detailPromotion == '' ? null : <Text style={{ color: this.state.promotion ? "#77a300" : "#fa0000" }}>{this.state.detailPromotion}</Text>}</View>
 
                         <CheckBox
@@ -708,20 +680,6 @@ class InfoCustommer extends Component {
                             checkBoxColor={'#77a300'}
                         />
                         {this.renderFormVAT()}
-                        {this.props.is_airport == 'false' ? null :
-                            <CheckBox
-                                style={{ marginTop: 8 }}
-                                onClick={() => {
-                                    this.setState({
-                                        boardPrice: !this.state.boardPrice
-                                    })
-                                }}
-                                isChecked={this.state.boardPrice}
-                                rightText={"Đón biển tên: +30.000 đ"}
-                                rightTextStyle={{ fontSize: 16 }}
-                                checkBoxColor={'#77a300'}
-                            />
-                        }
 
                         <Button
                             onPress={() => {

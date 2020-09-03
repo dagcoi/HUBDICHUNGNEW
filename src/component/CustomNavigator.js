@@ -16,6 +16,7 @@ class CustomNavigator extends Component {
     }
 
     render() {
+        console.log(this.props.link_avatar)
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <TouchableOpacity
@@ -35,10 +36,10 @@ class CustomNavigator extends Component {
                                 source={require(imageAvatar)}
                                 style={{ height: 40, width: 40, borderRadius: 40, borderWidth: 1, borderColor: '#e8e8e8' }}
                             /> */}
-                            {(this.state.dataProfile && this.state.dataProfile.avatar) ?
+                            {this.props.link_avatar ?
                                 <Image
                                     style={{ height: 40, width: 40, borderRadius: 40, borderWidth: 1, borderColor: '#e8e8e8' }}
-                                    source={{ uri: this.state.dataProfile.avatar }}
+                                    source={{ uri: this.props.link_avatar }}
                                 /> :
                                 <Image
                                     style={{ height: 40, width: 40, borderRadius: 40, borderWidth: 1, borderColor: '#e8e8e8' }}

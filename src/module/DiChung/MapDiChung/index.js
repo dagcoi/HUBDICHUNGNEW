@@ -67,7 +67,7 @@ class MapDiChung extends Component {
         })
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.setState({
             isShowLocation: true,
             forceRefresh: Math.floor(Math.random() * 100)

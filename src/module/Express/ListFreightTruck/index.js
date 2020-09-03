@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, Image, ScrollView, ActivityIndicator, SafeAreaView } from 'react-native';
 import { connect } from 'react-redux';
 
-import { addTripInfomationHourlyBookingVanChuyen } from '../../../core/Redux/action/Action'
+import { addTripInformationHourlyBookingVanChuyen } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
 import { HeaderText } from '../../../component/Header';
 import { ItemExpressHourly } from '../../../component/ItemCar';
@@ -132,7 +132,7 @@ class ListFreightTruck extends Component {
     }
 
     gotoInfoCustomerHourlyFreightTruck = (item) => {
-        this.props.addTripInfomationHourlyBookingVanChuyen(item.partner_name, item.price, this.props.depart_time, item.extra_price_km_format, item.extra_price_hour_format, item.km_limit_format, item.vehicle_icon, item.vehicle_id, item.vehicle_name, item.city_id, item.partner_id)
+        this.props.addTripInformationHourlyBookingVanChuyen(item.partner_name, item.price, this.props.depart_time, item.extra_price_km_format, item.extra_price_hour_format, item.km_limit_format, item.vehicle_icon, item.vehicle_id, item.vehicle_name, item.city_id, item.partner_id)
         this.nextScreen();
     }
 
@@ -184,4 +184,4 @@ function mapStateToProps(state) {
         duration: state.rdVanChuyen.duration,
     }
 }
-export default connect(mapStateToProps, { addTripInfomationHourlyBookingVanChuyen: addTripInfomationHourlyBookingVanChuyen })(ListFreightTruck);
+export default connect(mapStateToProps, { addTripInformationHourlyBookingVanChuyen: addTripInformationHourlyBookingVanChuyen })(ListFreightTruck);

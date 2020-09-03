@@ -137,13 +137,13 @@ class TicketInformation extends Component {
                 <ImageTextDiChung
                     source={require(imageLocation)}
                     // text={item.pick_address_api}
-                    text={item.startPoints[0].address}
+                    text={item.startPoint.address}
                 />
 
                 <ImageTextDiChung
                     source={require(imageLocation)}
                     // text={item.drop_address_api}
-                    text={item.endPoints[0].address}
+                    text={item.endPoint.address}
                 />
 
                 <ImageTextDiChung

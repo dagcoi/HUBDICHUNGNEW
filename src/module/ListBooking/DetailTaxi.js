@@ -48,7 +48,7 @@ function DetailTaxi({ item }) {
 }
 
 function renderDetailTrip(item) {
-    var product_type = (item.productType == 'TRANSFER_SERVICE' ? 'thuê xe taxi' : item.productType == 'EXPRESS' ? 'vận chuyển':  item.productType == 'TOURIST_CAR' ?'thuê xe du lịch': item.productType == 'DRIVER_RENTAL' ? 'thuê tài xế' : item.productType == 'CAR_RENTAL' ? 'thuê tự lái' : item.productType == 'TRUCK' ? 'thuê xe tải' : item.productType == 'transfer_service'? 'taxi(đi luôn)' : 'khác')
+    var product_type = (item.productType == 'TRANSFER_SERVICE' ? 'thuê xe taxi' : item.productType == 'EXPRESS' ? 'vận chuyển' : item.productType == 'TOURIST_CAR' ? 'thuê xe du lịch' : item.productType == 'DRIVER_RENTAL' ? 'thuê tài xế' : item.productType == 'CAR_RENTAL' ? 'thuê tự lái' : item.productType == 'TRUCK' ? 'thuê xe tải' : item.productType == 'transfer_service' ? 'taxi(đi luôn)' : 'khác')
     const strtime = formatDate(item.bookingTime)
     return (
         <View>
@@ -56,26 +56,22 @@ function renderDetailTrip(item) {
 
             <ImageTextDiChung
                 source={require(imageLocation)}
-                text={item.startPoints[0].address}
-            // text={item.pick_address_api}
+                text={item.startPoint.address}
             />
 
             <ImageTextDiChung
                 source={require(imageLocation)}
-                text={item.endPoints[0].address}
-            // text={item.drop_address_api}
+                text={item.endPoint.address}
             />
 
             <ImageTextDiChung
                 source={require(imageCalendar)}
-                // text={item.in_time + ' ' + item.in_date}    
                 text={strtime}
 
             />
 
             <ImageTextDiChung
                 source={require(imagePeople)}
-                // text={item.chair_count + ' xe'}
                 text={item.slot + ' xe'}
             />
         </View>
@@ -90,7 +86,6 @@ function renderDetailOrder(item) {
             <ImageTextDiChung
                 source={require(imageIconCar)}
                 text={item.label}
-            // text={item.ride_method_id == '1' ? 'Đi riêng' : 'Đi chung'}
             />
         </View>
     )
@@ -158,7 +153,7 @@ function renderOther(item) {
                     source={require(imageDone)}
                     text={'+10 %'}
                 /> : null}
-            {item.promotion !== '' ?
+            {item.promocode ?
                 <ImageTextDiChung
                     source={require(imageDone)}
                     text={'Mã giảm giá: ' + item.promotion}

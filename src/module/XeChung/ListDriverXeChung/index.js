@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import CheckBoxList from '../../../component/CheckBoxList'
 import StarVote from '../../../component/StarVote'
 
-import { addTripInfomationTaixe } from '../../../core/Redux/action/Action'
+import { addTripInformationTaixe } from '../../../core/Redux/action/Action'
 import HTML from 'react-native-render-html';
 import * as link from '../../../URL'
 import { Button } from '../../../component/Button'
@@ -124,7 +124,7 @@ class ListDriverXeChung extends Component {
     }
 
     gotoCustomerXeChung = (item) => {
-        this.props.addTripInfomationTaixe(item.partner_name, item.merged, this.props.depart_time, item.chunk_id, item.vehicle_id, item.village_id, item.pm_id, item.partner_id, item.city_id, item.vehicle_name, item.toll_fee, item.dimension_id, item.vehicle_id, item.ride_method_id, item.chair, item.airport_id, item.street_id, item.vehicle_icon, item.pick_pos, item.drop_pos, item.use_range_time, item.unmerged);
+        this.props.addTripInformationTaixe(item.partner_name, item.merged, this.props.depart_time, item.chunk_id, item.vehicle_id, item.village_id, item.pm_id, item.partner_id, item.city_id, item.vehicle_name, item.toll_fee, item.dimension_id, item.vehicle_id, item.ride_method_id, item.chair, item.airport_id, item.street_id, item.vehicle_icon, item.pick_pos, item.drop_pos, item.use_range_time, item.unmerged);
         this.props.navigation.push("InfoCustommerXeChung", {
             pay_methods: JSON.stringify(item.pay_methods)
         })
@@ -343,4 +343,4 @@ function mapStateToProps(state) {
         chair: state.rdTaixe.chair,
     }
 }
-export default connect(mapStateToProps, { addTripInfomationTaixe: addTripInfomationTaixe, })(ListDriverXeChung);
+export default connect(mapStateToProps, { addTripInformationTaixe: addTripInformationTaixe, })(ListDriverXeChung);

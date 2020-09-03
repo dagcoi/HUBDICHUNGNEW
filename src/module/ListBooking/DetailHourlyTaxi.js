@@ -33,7 +33,7 @@ function DetailHourlyTaxi({ item }) {
             <Text style={styles.textBigLeft1}>Chi tiết chuyến đi</Text>
             <ImageTextDiChung
                 source={require(imageLocation)}
-                text={item.startPoints[0].address}
+                text={item.startPoint.address}
             />
             <ImageTextDiChung
                 source={require(imageCalendar)}

@@ -82,11 +82,11 @@ function renderDetailTrip(item) {
             <Text style={styles.textBigLeft1}>Chi tiết dịch vụ taxi</Text>
             <ImageTextDiChung
                 source={require(imageLocation)}
-                text={item.startPoints[0].address}
+                text={item.startPoint.address}
             />
             <ImageTextDiChung
                 source={require(imageLocation)}
-                text={item.endPoints[0].address}
+                text={item.endPoint.address}
             />
             <ImageTextDiChung
                 source={require(imageCalendar)}

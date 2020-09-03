@@ -1,14 +1,11 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert, Image, ActivityIndicator, SafeAreaView, AsyncStorage } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, ActivityIndicator, SafeAreaView } from 'react-native';
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import CountDown from 'react-native-countdown-component';
 import * as link from '../../../URL'
 import { deleteData } from '../../../core/Redux/action/Action'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
-import { NavigationActions, StackActions } from 'react-navigation';
 import { Button, ButtonDialog } from '../../../component/Button'
-import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
-import PopUp from '../../../component/PopUp'
+import Dialog, { DialogTitle } from 'react-native-popup-dialog';
 import { HeaderText } from '../../../component/Header'
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -25,9 +22,7 @@ const imageEmail = '../../../image/email.png'
 const imageIconPlan = '../../../image/iconplan.png'
 const imageDone = '../../../image/done.png'
 const imagePayment = '../../../image/payment.png'
-const imageSorry = '../../../image/sorry.png'
 const imageComment = '../../../image/comment.png'
-const gifNightBooking = '../../../image/nightbooking.gif'
 
 class ConfirmInformation extends Component {
 
@@ -49,26 +44,30 @@ class ConfirmInformation extends Component {
             countSaturday: 0,
             countSunday: 0,
             countDay: 0,
+            detailPrice: null,
+            loadingPrice: true,
         }
         this.getDetail = this.getDetail.bind(this);
     }
 
     componentDidMount() {
+        const send = JSON.parse(this.props.send)
+        this.getURL(send)
         this.setDataSend()
         const { navigation } = this.props;
         console.log('token' + this.props.token)
-        console.log('vehice_id' + this.props.vehice_id)
+        // console.log('vehice_id' + this.props.vehice_id)
         console.log('vehicle_name' + this.props.vehicle_name)
         console.log('vehicle_icon' + this.props.vehicle_icon)
         console.log('payment:...........' + navigation.getParam('Payment'))
         console.log(this.props.depart_time2);
-        this.getDetail()
+        // this.getDetail()
         this.countWeekend(this.props.depart_time2, this.props.returnTime2)
     }
 
     async getDetail() {
         const send = JSON.parse(this.props.send)
-        var url = this.props.product_chunk_type === 'hourly_car_rental' ? url = `https://dev.portal.dichung.vn/api/price/v1/products/chungxe/${send.vehicle.id}` : ``
+        var url = this.props.product_chunk_type === 'hourly_car_rental' ? url = link.URL_API_PORTAL + `price/v1/products/chungxe/${send.vehicle.id}` : ``
         if (url != '') {
             return fetch(url)
                 .then((res) => res.json())
@@ -77,6 +76,46 @@ class ConfirmInformation extends Component {
                 })
         }
         return null;
+    }
+
+    async getURL(send) {
+        console.log('11111111111111111111')
+        const { navigation } = this.props;
+        var time = new Date(this.props.depart_time2 + '+07:00')
+        var url = link.URL_API_PORTAL + `price/v1/products/price?provider=${send.provider.name}&price=${this.props.cost}&productType=${this.props.product_chunk_type}&bookingTime=${time}`
+        const providerName = send.provider.name
+        console.log(providerName)
+        switch (providerName) {
+            case 'dichungtaxi':
+                url = url + `&invoice=${(navigation.getParam('xhd') ? 1 : 0)}&catch_in_house=${(navigation.getParam('broad_price') ? 1 : 0)}&tollFee=${send.payment.tollFee ?? 0}`
+                this.getPrice(url)
+                break;
+
+            case 'chungxe':
+                var returnTime = new Date(this.props.returnTime2 + '+07:00')
+                url = url + `&returnTime=${returnTime}&productId=${send.vehicle.id}`
+                this.getPrice(url)
+                break;
+
+            case 'dichung':
+                url = url + `&invoice=${navigation.getParam('xhd') ? 1 : 0}&catch_in_house=${navigation.getParam('broad_price') ? 1 : 0}`
+                this.getPrice(url)
+                break;
+        }
+
+        console.log('url: .....' + url)
+
+
+
+    }
+
+    async getPrice(url) {
+        return fetch(url)
+            .then((res) => res.json())
+            .then((jsonRes) => {
+                this.setState({ detailPrice: jsonRes.data, loadingPrice: false })
+                console.log(jsonRes.data)
+            })
     }
 
     componentWillUnmount() {
@@ -88,36 +127,29 @@ class ConfirmInformation extends Component {
 
         const { navigation } = this.props;
         const dataSend = JSON.parse(this.props.send)
-        dataSend.startPoints = [
-            {
-                "address": this.props.pick_add,
-                "lat": this.props.latitude_pick,
-                "long": this.props.longitude_pick
-            }
-        ]
+        dataSend.startPoint =
+        {
+            "address": this.props.pick_add,
+            "lat": this.props.latitude_pick,
+            "long": this.props.longitude_pick
+        }
         if (this.state.listHourly.indexOf(this.props.product_chunk_type) >= 0) {
             dataSend.duration = this.props.duration
-            dataSend.endPoints = [
-                {
-                    "address": '',
-                    "lat": '',
-                    "long": ''
-                }
-            ]
-            // dataSend.extra.kmExtra = this.props.extra.kmExtra
-            // dataSend.extra.hourExtra = this.props.extra.hourExtra
-            // dataSend.extra.kmLimit = this.props.extra.kmLimit
+            dataSend.endPoint =
+            {
+                "address": '',
+                "lat": '',
+                "long": ''
+            }
         } else {
-            dataSend.endPoints = [
-                {
-                    "address": this.props.drop_add,
-                    "lat": this.props.latitude_drop,
-                    "long": this.props.longitude_drop
-                }
-            ]
+            dataSend.endPoint =
+            {
+                "address": this.props.drop_add,
+                "lat": this.props.latitude_drop,
+                "long": this.props.longitude_drop
+            }
+
             dataSend.dimension = 'one_way'
-            // dataSend.extra.rideMethod = "private"
-            // dataSend.rideMethod = "private"
         }
         dataSend.slot = 1
         dataSend.bookingUser = {
@@ -155,8 +187,9 @@ class ConfirmInformation extends Component {
         if (navigation.getParam('plane_type') > -1) {
             dataSend.extra.plane_type = navigation.getParam('plane_type')
             dataSend.extra.plane_number = this.props.plane_number
+            dataSend.extra.catch_in_house = navigation.getParam('broad_price') ? 1 : 0
         }
-        dataSend.promotion = navigation.getParam('blDiscount') ? navigation.getParam('promotion') : ""
+        dataSend.promocode = navigation.getParam('blDiscount') ? navigation.getParam('promotion') : null
         dataSend.invoice = navigation.getParam('xhd') ? {
             "name": this.props.company_name,
             "address": this.props.company_address,
@@ -166,42 +199,6 @@ class ConfirmInformation extends Component {
 
         console.log('123' + JSON.stringify(dataSend))
         this.setState({ dataSend: dataSend })
-    }
-
-    async reBiddingTicket() {
-        const url = link.URL_API + `home/auto_process_ticket?id=${this.state.ticket}&reprocess_night_booking=1`
-        console.log(url);
-        const res = await fetch(url);
-        const jsonRes = await res.json();
-        if (jsonRes.code == 'success') {
-            this.setState({
-                visibalAgain: false,
-                visibleSearchDriver: true,
-                is_night_booking: true,
-            });
-        }
-    }
-
-    async quitNightBooKing() {
-        const url = link.URL_API + 'home/quit_night_booking'
-        const formData = new FormData();
-        formData.append('ticket_id', this.state.ticket)
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Accept': "application/json",
-                'Content-Type': "multipart/form-data",
-            },
-            body: formData
-        })
-            .then((res) => res.json())
-            .then((jsonRes) => {
-                if (jsonRes.code = 'success') {
-                    console.log('Đã Hủy Bidding thành công!')
-                } else {
-                    console.log('Hủy Bidding lỗi!')
-                }
-            })
     }
 
     renderDetailTrip() {
@@ -334,10 +331,14 @@ class ConfirmInformation extends Component {
             return null;
         } else {
             return (
-                <ImageTextDiChung
-                    source={require(imageDone)}
-                    text={'+ 10%'}
-                />
+                // <ImageTextDiChung
+                //     source={require(imageDone)}
+                //     text={'+ 10%'}
+                // />
+                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
+                    <Text style={styles.textBigLeft}>VAT 10%: </Text>
+                    <Text style={styles.textBigRight}>{(this.state.detailPrice.invoiceFee ?? 0).format(0, 3, '.') + ' đ '}</Text>
+                </View>
             )
         }
     }
@@ -347,43 +348,61 @@ class ConfirmInformation extends Component {
 
         const send = JSON.parse(this.props.send);
         console.log('abc:...' + this.state.countDay)
-        console.log(this.state.infoCarCX)
-        const checkPriceWeekend = (this.state.infoCarCX && this.state.infoCarCX.info && this.state.infoCarCX.info.priceExtra && this.state.infoCarCX.info.priceExtra.weekendExtra && (this.state.infoCarCX.info.priceExtra.weekendExtra.saturday || this.state.infoCarCX.info.priceExtra.weekendExtra.sunday))
-        const sumPriceExtra = checkPriceWeekend ? (this.state.countSaturday * this.state.infoCarCX.info.priceExtra.weekendExtra.saturday ?? 0) + (this.state.countSunday * this.state.infoCarCX.info.priceExtra.weekendExtra.sunday ?? 0) : 0
-        const sumPrice = (this.props.cost * (this.props.product_chunk_type === 'hourly_car_rental' ? this.state.countDay : 1) + (navigation.getParam('broad_price') ? 30000 : 0) - (navigation.getParam('blDiscount') ? this.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1)
+        if (this.state.loadingPrice) {
+            return null;
+        }
+        // console.log(this.state.infoCarCX)
+        // const checkPriceWeekend = (this.state.infoCarCX && this.state.infoCarCX.info && this.state.infoCarCX.info.priceExtra && this.state.infoCarCX.info.priceExtra.weekendExtra && (this.state.infoCarCX.info.priceExtra.weekendExtra.saturday || this.state.infoCarCX.info.priceExtra.weekendExtra.sunday))
+        // const sumPriceExtra = checkPriceWeekend ? (this.state.countSaturday * this.state.infoCarCX.info.priceExtra.weekendExtra.saturday ?? 0) + (this.state.countSunday * this.state.infoCarCX.info.priceExtra.weekendExtra.sunday ?? 0) : 0
+        // const sumPrice = (this.props.cost * (this.props.product_chunk_type === 'hourly_car_rental' ? this.state.countDay : 1) + (navigation.getParam('broad_price') ? 30000 : 0) - (navigation.getParam('blDiscount') ? this.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1)
         return (
             <View>
                 {this.props.product_chunk_type === 'hourly_car_rental' ?
                     <View>
                         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
-                            <Text style={styles.textBigLeft1}>Đơn giá: </Text>
-                            <Text style={styles.textBigRight1}>{this.props.cost.format(0, 3, '.')} đ</Text>
+                            <Text style={styles.textBigLeft}>Cuối tuần: </Text>
+                            <Text style={styles.textBigRight}>{((this.state.detailPrice.saturdayPrice ?? 0) + (this.state.detailPrice.sundayPrice ?? 0)).format(0, 3, '.')} đ</Text>
                         </View>
                         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
-                            <Text style={styles.textBigLeft1}>Thời gian thuê: </Text>
-                            <Text style={styles.textBigRight1}>{this.state.countDay} ngày</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
-                            <Text style={styles.textBigLeft1}>Cuối tuần: </Text>
-                            {checkPriceWeekend ? <Text style={styles.textBigRight1}>{sumPriceExtra.format(0, 3, '.')} đ</Text> : <Text style={styles.textBigRight1}>0 đ</Text>}
+                            <Text style={styles.textBigLeft}>Thời gian thuê: </Text>
+                            <Text style={styles.textBigRight}>{this.state.detailPrice.rentDayNumber ?? 0} ngày</Text>
                         </View>
                     </View> : null
                 }
 
+                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
+                    <Text style={styles.textBigLeft}>Đơn giá: </Text>
+                    <Text style={styles.textBigRight}>{parseInt(this.props.cost).format(0, 3, '.') + ' đ '}</Text>
+                </View>
+
                 {send && send.payment && send.payment.tollFee && send.payment.tollFee != 'NA' && send.payment.tollFee != '0' ?
                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
-                        <Text style={styles.textBigLeft1}>Phí cầu đường</Text>
-                        <Text style={styles.textBigRight1}>{parseInt(send.payment.tollFee).format(0, 3, '.') + ' đ '}</Text>
+                        <Text style={styles.textBigLeft}>Phí cầu đường</Text>
+                        <Text style={styles.textBigRight}>{parseInt(send.payment.tollFee).format(0, 3, '.') + ' đ '}</Text>
                     </View>
                     : null
                 }
+                {this.renderVAT()}
+                {this.state.detailPrice && this.state.detailPrice.catchInHousePrice &&
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
+                        <Text style={styles.textBigLeft}>Đón biển tên: </Text>
+                        <Text style={styles.textBigRight}>{this.state.detailPrice.catchInHousePrice.format(0, 3, '.') + ' đ '}</Text>
+                    </View>
+                }
+                {this.state.detailPrice &&
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
+                        <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
+                        <Text style={styles.textBigRight1}>{(this.state.detailPrice.totalPrice ?? 0).format(0, 3, '.') + ' đ '}</Text>
+                    </View>
+                }
 
-                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
+
+                {/* <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                     <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
                     {send && send.payment && send.payment.tollFee ? <Text style={styles.textBigRight1}>{send.payment.tollFee === 'NA' ? (sumPriceExtra + sumPrice).format(0, 3, '.') : (sumPriceExtra + sumPrice + parseInt(send.payment.tollFee)).format(0, 3, '.') + ' đ '}</Text> :
                         <Text style={styles.textBigRight1}>{(sumPriceExtra + sumPrice).format(0, 3, '.')} đ</Text>}
                 </View>
-                {send && send.payment && send.payment.tollFee && <Text style={{ textAlign: 'right' }}>{send.payment.tollFee === '0' ? 'Giá trọn gói không phí ẩn' : send.payment.tollFee === 'NA' ? 'chưa có phí cầu đường' : 'Đã bao gồm phí cầu đường'}</Text>}
+                {send && send.payment && send.payment.tollFee && <Text style={{ textAlign: 'right' }}>{send.payment.tollFee === '0' ? 'Giá trọn gói không phí ẩn' : send.payment.tollFee === 'NA' ? 'chưa có phí cầu đường' : 'Đã bao gồm phí cầu đường'}</Text>} */}
             </View>
         )
     }
@@ -443,6 +462,7 @@ class ConfirmInformation extends Component {
     render() {
         const { navigation } = this.props;
         console.log(this.state.infoCarCX)
+        console.log('broad_price' + navigation.getParam('broad_price'))
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <HeaderText textCenter={'Xác nhận thông tin'} onPressLeft={this.goBack} />
@@ -471,14 +491,8 @@ class ConfirmInformation extends Component {
                             text={navigation.getParam('Payment') == '0' ? 'Trả sau' : 'Trả trước'}
                         />
 
-                        {this.renderVAT()}
+                        {/* {this.renderVAT()} */}
 
-                        {!navigation.getParam('broad_price') ? null :
-                            <ImageTextDiChung
-                                source={require(imageDone)}
-                                text={'Đón biển tên: +30.000 đ'}
-                            />
-                        }
 
                         {this.renderMGG()}
                         {this.renderTT()}
@@ -486,59 +500,11 @@ class ConfirmInformation extends Component {
                         <Button
                             value={'Xác nhận đặt xe'}
                             onPress={() => {
+                                this.state.loadingPrice ? null :
                                 this.state.callingApi ? null : this.addTicket()
                                 this.setState({
                                     addingTicket: true,
                                 })
-                            }}
-                        />
-
-                        <Dialog
-                            visible={this.state.visibleSearchDriver}
-                            width={0.8}
-                            dialogTitle={<DialogTitle title="Đang tìm tài xế" />}
-                        >
-                            <View>
-                                <View style={{ justifyContent: 'center', alignItems: 'center', padding: 8 }}>
-                                    <Image
-                                        source={require(gifNightBooking)}
-                                        style={{ width: 185, height: 110 }}
-                                    />
-                                    <Text style={{ fontSize: 16 }}>Quý khách vui lòng đợi trong giây lát...</Text>
-                                    <CountDown
-                                        until={180}
-                                        onFinish={() => {
-                                            this.quitNightBooKing();
-                                            this.setState({
-                                                visibleSearchDriver: false,
-                                                result: false,
-                                                visibalAgain: true,
-                                            })
-                                        }}
-                                        digitStyle={{ backgroundColor: '#FFF' }}
-                                        digitTxtStyle={{ color: '#00363d' }}
-                                        timeToShow={['M', 'S']}
-                                        timeLabels={{ m: null, s: null }}
-                                        size={20}
-                                    />
-                                </View>
-                            </View>
-
-                        </Dialog>
-
-                        <PopUp
-                            showModal={this.state.visibalAgain}
-                            textTitle={'Tìm kiếm thất bại'}
-                            source={require(imageSorry)}
-                            textMessage={'Hiện tại không có tài xế nào nhận yêu cầu của bạn. Xin vui lòng thử lại hoặc chọn giờ đi khác.'}
-                            textButtonLeft={'Thử lại'}
-                            textButtonRight={'Chọn hãng khác'}
-                            onPressLeft={() => {
-                                this.reBiddingTicket();
-                            }}
-                            onPressRight={() => {
-                                this.setState({ visibalAgain: false })
-                                this.props.navigation.push("MapDiChung")
                             }}
                         />
 
@@ -589,12 +555,9 @@ class ConfirmInformation extends Component {
     addTicket() {
         const url = link.URL_API_PORTAL + `booking/v1/bookings`
         console.log(url)
-        const { navigation } = this.props;
         const jsonStr = JSON.stringify(
             this.state.dataSend
         )
-        console.log('abc :.........' + jsonStr)
-        console.log('abc :.........' + this.props.token)
         fetch(url, {
             method: 'POST',
             headers: {
@@ -635,54 +598,45 @@ class ConfirmInformation extends Component {
 const styles = StyleSheet.create({
     textBigRight1: {
         padding: 1,
-        fontSize: 18,
+        fontSize: 21,
         color: '#77a300',
         flex: 1,
         textAlign: "right",
         marginTop: 8,
     },
     textBigLeft1: {
-        fontSize: 16,
+        fontSize: 21,
         marginTop: 8,
         fontWeight: 'bold',
+    },
+    textBigRight: {
+        padding: 1,
+        fontSize: 16,
+        color: '#77a300',
+        flex: 1,
+        textAlign: "right",
+        marginTop: 8,
+    },
+    textBigLeft: {
+        fontSize: 14,
+        marginTop: 8,
+        fontWeight: '700',
     },
 })
 function mapStateToProps(state) {
     return {
         drop_add: state.info.drop_add,
         pick_add: state.info.pick_add,
-        merged: state.info.merged,
         depart_time: state.info.depart_time,
         depart_time2: state.info.depart_time2,
         vehicle_name: state.info.vehicle_name,
-        vat: state.info.vat,
         full_name: state.info.full_name,
         use_phone: state.info.use_phone,
-        thanhtoan: state.info.thanhtoan,
-        toll_fee: state.info.toll_fee,
-        chunk_id: state.info.chunk_id,
         vehice_id: state.info.vehice_id,
-        village_id: state.info.village_id,
-        pm_id: state.info.pm_id,
-        partner_id: state.info.partner_id,
-        city_id: state.info.city_id,
         comment: state.info.comment,
-        promotion_code: state.info.promotion_code,
-        dimension_id: state.info.dimension_id,
-        ride_method_id: state.info.ride_method_id,
         chair: state.info.chair,
-        airport_id: state.info.airport_id,
-        street_id: state.info.street_id,
-        brand_partner_id: state.info.brand_partner_id,
-        is_from_airport: state.info.is_from_airport,
         full_name2: state.info.full_name2,
         use_phone2: state.info.use_phone2,
-        session_id: state.info.session_id,
-        transport_partner_id: state.info.transport_partner_id,
-        pick_pos: state.info.pick_pos,
-        drop_pos: state.info.drop_pos,
-        use_range_time: state.info.use_range_time,
-        unmerged: state.info.unmerged,
         email: state.info.email,
         plane_number: state.info.plane_number,
         company_name: state.info.company_name,
@@ -690,18 +644,10 @@ function mapStateToProps(state) {
         company_mst: state.info.company_mst,
         company_address_receive: state.info.company_address_receive,
         plane_type: state.info.plane_type,
-        catch_in_house: state.info.catch_in_house,
-        vehicle_id: state.info.vehicle_id,
         source: state.info.source,
-        ticket_session: state.info.ticket_session,
-        not_use: state.info.not_use,
-        ignore_duplicate_warning: state.info.ignore_duplicate_warning,
-        pay_method_id: state.info.pay_method_id,
-        xhd: state.info.xhd,
         vehicle_icon: state.info.vehicle_icon,
         discount_price: state.info.discount_price,
         people: state.info.people,
-        is_airport: state.info.is_airport,
         latitude_pick: state.info.latitude_pick,
         longitude_pick: state.info.longitude_pick,
         latitude_drop: state.info.latitude_drop,

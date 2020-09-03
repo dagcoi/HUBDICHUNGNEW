@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, Image, ScrollView, ActivityIndicator, FlatList, Modal, Linking, SafeAreaView } from 'react-native';
 import { connect } from 'react-redux';
-import { addTripInfomationVanChuyen } from '../../../core/Redux/action/Action'
+import { addTripInformationVanChuyen } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
 import CheckBoxList from '../../../component/CheckBoxList';
 import { HeaderText } from '../../../component/Header';
@@ -132,7 +132,7 @@ class ListDriverExpress extends Component {
     }
 
     gotoInfoCustomerExpress = (item) => {
-        this.props.addTripInfomationVanChuyen(item.partner_name, item.merged, this.props.depart_time, item.chunk_id, item.vehicle_id, item.village_id, item.pm_id, item.partner_id, item.city_id, item.vehicle_name, item.toll_fee, item.dimension_id, item.vehicle_id, item.ride_method_id, item.chair, item.airport_id, item.street_id, item.vehicle_icon, item.pick_pos, item.drop_pos, item.use_range_time, item.unmerged);
+        this.props.addTripInformationVanChuyen(item.partner_name, item.merged, this.props.depart_time, item.chunk_id, item.vehicle_id, item.village_id, item.pm_id, item.partner_id, item.city_id, item.vehicle_name, item.toll_fee, item.dimension_id, item.vehicle_id, item.ride_method_id, item.chair, item.airport_id, item.street_id, item.vehicle_icon, item.pick_pos, item.drop_pos, item.use_range_time, item.unmerged);
         this.props.navigation.push("InfoCustommerExpress", {
             pay_methods: JSON.stringify(item.pay_methods)
         })
@@ -293,4 +293,4 @@ function mapStateToProps(state) {
         chair: state.rdVanChuyen.chair,
     }
 }
-export default connect(mapStateToProps, { addTripInfomationVanChuyen: addTripInfomationVanChuyen, })(ListDriverExpress);
+export default connect(mapStateToProps, { addTripInformationVanChuyen: addTripInformationVanChuyen, })(ListDriverExpress);

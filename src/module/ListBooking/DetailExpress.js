@@ -96,7 +96,7 @@ function renderDetailCustommer(item) {
 
             <ImageTextDiChung
                 source={require(imageLocation)}
-                text={item.startPoints[0].address}
+                text={item.startPoint.address}
             />
 
             <ImageTextDiChung
@@ -125,7 +125,7 @@ function renderDetailPeopleMove(item) {
 
             <ImageTextDiChung
                 source={require(imageLocation)}
-                text={item.endPoints[0].address}
+                text={item.endPoint.address}
             />
         </View>
     )

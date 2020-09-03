@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, ActivityIn
 import { connect } from 'react-redux';
 import StarVote from '../../../component/StarVote'
 
-import { addTripInfomationHourlyBookingTaixe } from '../../../core/Redux/action/Action'
+import { addTripInformationHourlyBookingTaixe } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
 import { Button } from '../../../component/Button'
 import { HeaderText } from '../../../component/Header'
@@ -219,7 +219,7 @@ class ListDriverHourlyBooking extends Component {
     }
 
     gotoInfoCustomerDriverHourlyBooking = (item) => {
-        this.props.addTripInfomationHourlyBookingTaixe(item.partner_name, item.price, this.props.depart_time, item.extra_price_km_format, item.extra_price_hour_format, item.km_limit_format, item.vehicle_icon, item.vehicle_id, item.vehicle_name, item.city_id, item.partner_id)
+        this.props.addTripInformationHourlyBookingTaixe(item.partner_name, item.price, this.props.depart_time, item.extra_price_km_format, item.extra_price_hour_format, item.km_limit_format, item.vehicle_icon, item.vehicle_id, item.vehicle_name, item.city_id, item.partner_id)
         this.nextScreen();
     }
 
@@ -326,4 +326,4 @@ function mapStateToProps(state) {
         duration: state.rdTaixe.duration,
     }
 }
-export default connect(mapStateToProps, { addTripInfomationHourlyBookingTaixe: addTripInfomationHourlyBookingTaixe })(ListDriverHourlyBooking);
+export default connect(mapStateToProps, { addTripInformationHourlyBookingTaixe: addTripInformationHourlyBookingTaixe })(ListDriverHourlyBooking);

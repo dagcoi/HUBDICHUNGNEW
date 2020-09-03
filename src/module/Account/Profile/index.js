@@ -142,7 +142,7 @@ class Profile extends Component {
                     editable: false,
                 })
                 this.addDataLogin(resJson.data)
-                this.props.addUser(resJson.data.username, '123', 1)
+                this.props.addUser(resJson.data.username, resJson.data.avatar, 1)
                 this.props.addToken(resJson.data.token)
             }).catch(error => { alert(error.message) })
     }
@@ -164,7 +164,7 @@ class Profile extends Component {
                     isLoading: false,
                     idCustommer: id,
                 })
-                this.props.addUser(resJson.data.username, '123', 1)
+                this.props.addUser(resJson.data.username, resJson.data.avatar, 1)
             })
     }
 

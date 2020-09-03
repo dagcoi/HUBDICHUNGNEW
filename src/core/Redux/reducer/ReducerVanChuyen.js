@@ -102,7 +102,7 @@ const ReducerVanChuyen = (state = defaultState, action) => {
                 longitude_drop: action.longitude_drop,
             }
 
-        case types.TRIP_INFOMATION_VANCHUYEN:
+        case types.TRIP_INFORMATION_VANCHUYEN:
             return {
                 ...state,
                 partner_name: action.partner_name,
@@ -241,7 +241,7 @@ const ReducerVanChuyen = (state = defaultState, action) => {
                 ...state,
                 duration: action.duration,
             }
-        case types.ADD_TRIP_INFOMATION_HOURLY_BOOKING_VANCHUYEN:
+        case types.ADD_TRIP_INFORMATION_HOURLY_BOOKING_VANCHUYEN:
             return {
                 ...state,
                 partner_name: action.partner_name,

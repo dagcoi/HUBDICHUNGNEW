@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import StarVote from '../../../component/StarVote'
 import { HeaderText } from '../../../component/Header'
 
-import { addTripInfomationHourlyBookingTuLai } from '../../../core/Redux/action/Action'
+import { addTripInformationHourlyBookingTuLai } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
 import { Button } from '../../../component/Button'
 const imageMaxToMin = '../../../image/maxtomin.png'
@@ -213,7 +213,7 @@ class ListCarHourlyBookingTL extends Component {
     }
 
     gotoInfocustommerHourlyBookingTL = (item) => {
-        this.props.addTripInfomationHourlyBookingTuLai(item.partner_name, item.price, this.props.depart_time, item.extra_price_km_format, item.extra_price_hour_format, item.km_limit_format, item.vehicle_icon, item.vehicle_id, item.vehicle_name, item.city_id, item.partner_id)
+        this.props.addTripInformationHourlyBookingTuLai(item.partner_name, item.price, this.props.depart_time, item.extra_price_km_format, item.extra_price_hour_format, item.km_limit_format, item.vehicle_icon, item.vehicle_id, item.vehicle_name, item.city_id, item.partner_id)
         this.nextScreen();
     }
 
@@ -319,4 +319,4 @@ function mapStateToProps(state) {
         duration: state.rdTuLai.duration,
     }
 }
-export default connect(mapStateToProps, { addTripInfomationHourlyBookingTuLai: addTripInfomationHourlyBookingTuLai })(ListCarHourlyBookingTL);
+export default connect(mapStateToProps, { addTripInformationHourlyBookingTuLai: addTripInformationHourlyBookingTuLai })(ListCarHourlyBookingTL);

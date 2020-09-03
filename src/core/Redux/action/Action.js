@@ -49,9 +49,9 @@ export const addAirport = (is_airport) => {
     }
 }
 
-export const addTripInfomation = (partner_name, merged, depart_time, chunk_id, vehice_id, village_id, pm_id, partner_id, city_id, vehicle_name, toll_fee, dimension_id, vehicle_id, ride_method_id, chair, airport_id, street_id, vehicle_icon, pick_pos, drop_pos, use_range_time, unmerged) => {
+export const addTripInformation = (partner_name, merged, depart_time, chunk_id, vehice_id, village_id, pm_id, partner_id, city_id, vehicle_name, toll_fee, dimension_id, vehicle_id, ride_method_id, chair, airport_id, street_id, vehicle_icon, pick_pos, drop_pos, use_range_time, unmerged) => {
     return {
-        type: types.TRIP_INFOMATION,
+        type: types.TRIP_INFORMATION,
         partner_name: partner_name,
         merged: merged,
         depart_time: depart_time,
@@ -175,9 +175,9 @@ export const addDuration = (duration) => {
     }
 }
 
-export const addTripInfomationHourlyBooking = (partner_name, merged, depart_time, extra_price_km_format, extra_price_hour_format, km_limit_format, vehicle_icon, vehicle_id, vehicle_name, city_id, partner_id) => {
+export const addTripInformationHourlyBooking = (partner_name, merged, depart_time, extra_price_km_format, extra_price_hour_format, km_limit_format, vehicle_icon, vehicle_id, vehicle_name, city_id, partner_id) => {
     return {
-        type: types.ADD_TRIP_INFOMATION_HOURLY_BOOKING,
+        type: types.ADD_TRIP_INFORMATION_HOURLY_BOOKING,
         partner_name: partner_name,
         merged: merged,
         depart_time: depart_time,
@@ -228,9 +228,9 @@ export const addPeopleTaixe = (chair) => {
     }
 }
 
-export const addTripInfomationTaixe = (partner_name, merged, depart_time, chunk_id, vehice_id, village_id, pm_id, partner_id, city_id, vehicle_name, toll_fee, dimension_id, vehicle_id, ride_method_id, chair, airport_id, street_id, vehicle_icon, pick_pos, drop_pos, use_range_time, unmerged) => {
+export const addTripInformationTaixe = (partner_name, merged, depart_time, chunk_id, vehice_id, village_id, pm_id, partner_id, city_id, vehicle_name, toll_fee, dimension_id, vehicle_id, ride_method_id, chair, airport_id, street_id, vehicle_icon, pick_pos, drop_pos, use_range_time, unmerged) => {
     return {
-        type: types.TRIP_INFOMATION_TAIXE,
+        type: types.TRIP_INFORMATION_TAIXE,
         partner_name: partner_name,
         merged: merged,
         depart_time: depart_time,
@@ -334,9 +334,9 @@ export const addDurationTaiXe = (duration) => {
     }
 }
 
-export const addTripInfomationHourlyBookingTaixe = (partner_name, merged, depart_time, extra_price_km_format, extra_price_hour_format, km_limit_format, vehicle_icon, vehicle_id, vehicle_name, city_id, partner_id) => {
+export const addTripInformationHourlyBookingTaixe = (partner_name, merged, depart_time, extra_price_km_format, extra_price_hour_format, km_limit_format, vehicle_icon, vehicle_id, vehicle_name, city_id, partner_id) => {
     return {
-        type: types.ADD_TRIP_INFOMATION_HOURLY_BOOKING_TAIXE,
+        type: types.ADD_TRIP_INFORMATION_HOURLY_BOOKING_TAIXE,
         partner_name: partner_name,
         merged: merged,
         depart_time: depart_time,
@@ -387,9 +387,9 @@ export const addPeopleVanChuyen = (chair) => {
     }
 }
 
-export const addTripInfomationVanChuyen = (partner_name, merged, depart_time, chunk_id, vehice_id, village_id, pm_id, partner_id, city_id, vehicle_name, toll_fee, dimension_id, vehicle_id, ride_method_id, chair, airport_id, street_id, vehicle_icon, pick_pos, drop_pos, use_range_time, unmerged) => {
+export const addTripInformationVanChuyen = (partner_name, merged, depart_time, chunk_id, vehice_id, village_id, pm_id, partner_id, city_id, vehicle_name, toll_fee, dimension_id, vehicle_id, ride_method_id, chair, airport_id, street_id, vehicle_icon, pick_pos, drop_pos, use_range_time, unmerged) => {
     return {
-        type: types.TRIP_INFOMATION_VANCHUYEN,
+        type: types.TRIP_INFORMATION_VANCHUYEN,
         partner_name: partner_name,
         merged: merged,
         depart_time: depart_time,
@@ -501,9 +501,9 @@ export const addDurationVanChuyen = (duration) => {
     }
 }
 
-export const addTripInfomationHourlyBookingVanChuyen = (partner_name, merged, depart_time, extra_price_km_format, extra_price_hour_format, km_limit_format, vehicle_icon, vehicle_id, vehicle_name, city_id, partner_id) => {
+export const addTripInformationHourlyBookingVanChuyen = (partner_name, merged, depart_time, extra_price_km_format, extra_price_hour_format, km_limit_format, vehicle_icon, vehicle_id, vehicle_name, city_id, partner_id) => {
     return {
-        type: types.ADD_TRIP_INFOMATION_HOURLY_BOOKING_VANCHUYEN,
+        type: types.ADD_TRIP_INFORMATION_HOURLY_BOOKING_VANCHUYEN,
         partner_name: partner_name,
         merged: merged,
         depart_time: depart_time,
@@ -564,9 +564,9 @@ export const addPeopleTuLai = (chair) => {
     }
 }
 
-export const addTripInfomationTuLai = (partner_name, merged, depart_time, chunk_id, vehice_id, village_id, pm_id, partner_id, city_id, vehicle_name, toll_fee, dimension_id, vehicle_id, ride_method_id, chair, airport_id, street_id, vehicle_icon, pick_pos, drop_pos, use_range_time, unmerged) => {
+export const addTripInformationTuLai = (partner_name, merged, depart_time, chunk_id, vehice_id, village_id, pm_id, partner_id, city_id, vehicle_name, toll_fee, dimension_id, vehicle_id, ride_method_id, chair, airport_id, street_id, vehicle_icon, pick_pos, drop_pos, use_range_time, unmerged) => {
     return {
-        type: types.TRIP_INFOMATION_TULAI,
+        type: types.TRIP_INFORMATION_TULAI,
         partner_name: partner_name,
         merged: merged,
         depart_time: depart_time,
@@ -670,9 +670,9 @@ export const addDurationTuLai = (duration) => {
     }
 }
 
-export const addTripInfomationHourlyBookingTuLai = (partner_name, merged, depart_time, extra_price_km_format, extra_price_hour_format, km_limit_format, vehicle_icon, vehicle_id, vehicle_name, city_id, partner_id) => {
+export const addTripInformationHourlyBookingTuLai = (partner_name, merged, depart_time, extra_price_km_format, extra_price_hour_format, km_limit_format, vehicle_icon, vehicle_id, vehicle_name, city_id, partner_id) => {
     return {
-        type: types.ADD_TRIP_INFOMATION_HOURLY_BOOKING_TULAI,
+        type: types.ADD_TRIP_INFORMATION_HOURLY_BOOKING_TULAI,
         partner_name: partner_name,
         merged: merged,
         depart_time: depart_time,
@@ -806,6 +806,13 @@ export const setModalVehicleType = (modalVehicleType) => {
     return {
         type: types.SET_MODAL_VEHICLE_TYPE,
         modalVehicleType: modalVehicleType,
+    }
+}
+
+export const setProvider = (provider) => {
+    return {
+        type: types.SET_PROVIDER,
+        provider: provider,
     }
 }
 

@@ -247,7 +247,7 @@ class Home1 extends Component {
             console.log('aaa')
             if (dataLogin !== null) {
                 let json = JSON.parse(dataLogin)
-                this.props.addUser(json.username, '123', 1)
+                this.props.addUser(json.username, json.avatar, 1)
                 this.props.addToken(json.token)
             } else {
                 this.props.addUser(json.username, 'json.avatar', 0)

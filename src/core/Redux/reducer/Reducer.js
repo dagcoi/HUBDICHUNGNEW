@@ -101,6 +101,7 @@ const defaultState = {
     vehicleName: '',
     modalCarType: false,
     modalVehicleType: false,
+    provider: null,
 }
 const Reducer = (state = defaultState, action) => {
     switch (action.type) {
@@ -123,7 +124,7 @@ const Reducer = (state = defaultState, action) => {
                 longitude_drop: action.longitude_drop,
             }
 
-        case types.TRIP_INFOMATION:
+        case types.TRIP_INFORMATION:
             return {
                 ...state,
                 partner_name: action.partner_name,
@@ -268,7 +269,7 @@ const Reducer = (state = defaultState, action) => {
                 ...state,
                 duration: action.duration,
             }
-        case types.ADD_TRIP_INFOMATION_HOURLY_BOOKING:
+        case types.ADD_TRIP_INFORMATION_HOURLY_BOOKING:
             return {
                 ...state,
                 partner_name: action.partner_name,
@@ -355,6 +356,11 @@ const Reducer = (state = defaultState, action) => {
             return {
                 ...state,
                 modalVehicleType: action.modalVehicleType
+            }
+        case types.SET_PROVIDER:
+            return {
+                ...state,
+                provider: action.provider
             }
 
         default:

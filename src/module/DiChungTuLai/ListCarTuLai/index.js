@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity, Image, StyleSheet, ScrollView, ActivityIn
 import { connect } from 'react-redux';
 import StarVote from '../../../component/StarVote'
 import CheckBoxList from '../../../component/CheckBoxList'
-import { addTripInfomationTuLai } from '../../../core/Redux/action/Action'
+import { addTripInformationTuLai } from '../../../core/Redux/action/Action'
 import HTML from 'react-native-render-html';
 import * as link from '../../../URL'
 import { Button } from '../../../component/Button'
@@ -119,7 +119,7 @@ class ListCarTuLai extends Component {
 
     gotoInfoCustomer = (item) => {
         const { navigation } = this.props;
-        this.props.addTripInfomationTuLai(item.partner_name, item.merged, this.props.depart_time, item.chunk_id, item.vehicle_id, item.village_id, item.pm_id, item.partner_id, item.city_id, item.vehicle_name, item.toll_fee, item.dimension_id, item.vehicle_id, item.ride_method_id, item.chair, item.airport_id, item.street_id, item.vehicle_icon, item.pick_pos, item.drop_pos, item.use_range_time, item.unmerged);
+        this.props.addTripInformationTuLai(item.partner_name, item.merged, this.props.depart_time, item.chunk_id, item.vehicle_id, item.village_id, item.pm_id, item.partner_id, item.city_id, item.vehicle_name, item.toll_fee, item.dimension_id, item.vehicle_id, item.ride_method_id, item.chair, item.airport_id, item.street_id, item.vehicle_icon, item.pick_pos, item.drop_pos, item.use_range_time, item.unmerged);
         this.props.navigation.push("Procedure")
     }
     setStateAsync(state) {
@@ -343,4 +343,4 @@ function mapStateToProps(state) {
         chair: state.rdTuLai.chair,
     }
 }
-export default connect(mapStateToProps, { addTripInfomationTuLai: addTripInfomationTuLai })(ListCarTuLai);
+export default connect(mapStateToProps, { addTripInformationTuLai: addTripInformationTuLai })(ListCarTuLai);

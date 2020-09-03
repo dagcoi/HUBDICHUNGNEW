@@ -7,7 +7,7 @@ import { Button } from '../../../component/Button'
 import CalendarPicker from 'react-native-calendar-picker';
 import { listHour, listChair, listTime } from '../../../component/TimeSelect/listTime'
 import { getDateTimeAlive } from '../../../until'
-import { addTripInfomation, addSend, addCost, addExtra, addDepartTime, addPeople, swapAddress, addDuration, addProductChunkType, addCarType, setModalCarType, setModalVehicleType } from '../../../core/Redux/action/Action'
+import { addSend, addCost, addExtra, addDepartTime, addPeople, swapAddress, addDuration, addProductChunkType, addCarType, setModalCarType, setModalVehicleType } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
 import { ItemCarTaxi, ItemCarTaxiHourly } from '../../../component/ItemCar';
 import TextSpaceBetween from '../../../component/ImageTextDiChung/TextSpaceBetween';
@@ -38,6 +38,8 @@ class ListCar extends Component {
         this.state = {
             isLoading: true,
             dataSource: [],
+            listDC: [],
+            listDCT: [],
             sort: false,
             shareCar: false,
             car: false,
@@ -61,6 +63,7 @@ class ListCar extends Component {
             listHourly: ['hourly_rent_taxi', 'hourly_rent_driver', 'hourly_freight_truck', 'hourly_tourist_car', 'hourly_car_rental'],
             dialogSelectPeople: false,
             modalSelectTime: false,
+            selectDCT: true,
         }
     }
 
@@ -69,7 +72,7 @@ class ListCar extends Component {
     }
 
     async getProvider() {
-        this.setState({ dataSource: [] })
+        this.setState({ dataSource: [], listDC: [], listDCT: [], isLoading: true })
         const url = `${link.URL_API_PORTAL}price/v1/providers?productType=${this.props.product_chunk_type}`
         console.log(url)
         try {
@@ -127,6 +130,15 @@ class ListCar extends Component {
                 dataSource: listCar ? this.state.dataSource.concat(responseJson.data) : this.state.dataSource,
                 countLoading: this.state.countLoading - 1,
             });
+            if (provider === 'dichungtaxi') {
+                this.setStateAsync({
+                    listDCT: responseJson.data
+                })
+            } else {
+                this.setStateAsync({
+                    listDC: responseJson.data
+                })
+            }
             console.log(responseJson.data)
             return responseJson.data;
         }
@@ -146,7 +158,7 @@ class ListCar extends Component {
         // console.log(navigation.getParam('vehicleType'))
         const url = `${link.URL_API_PORTAL}price/v1/products?productType=${this.props.product_chunk_type}`;
         let param = `${url}&bookingTime=${this.props.depart_time2}&startPlace=${JSON.stringify(this.props.component_pick)}&provider=${provider}&duration=${this.props.duration}&slot=${this.props.carType}&sort=price`
-        this.props.product_chunk_type === 'hourly_car_rental' ? param = param + '&vehicleType=' + this.props.vehicleType + '&returnTime=' + this.props.returnTime2 : ''
+        this.props.product_chunk_type === 'hourly_car_rental' ? param = param + '&vehicleType=' + this.props.vehicleType + '&returnTime=' + this.props.returnTime2 + '&limit=100' : ''
         console.log(param)
         try {
             const response = await fetch(param, {
@@ -300,12 +312,12 @@ class ListCar extends Component {
                                     <ItemCarTaxiHourly
                                         item={item}
                                         onPress={() => this.pressItem(index, item)}
-                                        isSelect={index == this.state.selectItem}
+                                        isSelect={index == this.state.selectItem && item == this.state.item}
                                     /> :
                                     <ItemCarTaxi
                                         item={item}
                                         onPress={() => this.pressItem(index, item)}
-                                        isSelect={index == this.state.selectItem}
+                                        isSelect={index == this.state.selectItem && item == this.state.item}
                                     />
                                 }
                             </View>
@@ -329,8 +341,96 @@ class ListCar extends Component {
         )
     }
 
+    renderSwitch() {
+        return (
+            <View style={{ flexDirection: 'row', height: 40, backgroundColor: '#fff', paddingHorizontal: 16 }}>
+                <TouchableOpacity
+                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderColor: '#77a300', borderBottomWidth: this.state.selectDCT ? 2 : 0 }}
+                    onPress={() => {
+                        this.setState({
+                            selectDCT: true,
+                        })
+                    }}
+                >
+                    <Text style={{ fontSize: 16, fontWeight: 'bold', color: this.state.selectDCT ? '#77a300' : '#333' }}>Đối tác đảm bảo</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderColor: '#77a300', borderBottomWidth: this.state.selectDCT ? 0 : 2 }}
+                    onPress={() => {
+                        this.setState({
+                            selectDCT: false,
+                        })
+                    }}
+                >
+                    <Text style={{ fontSize: 16, fontWeight: 'bold', color: this.state.selectDCT ? '#333' : '#77a300' }}>Đối tác thường</Text>
+                </TouchableOpacity>
+            </View>
+        )
+    }
+
+    renderItemTaxi(obj1, countLoading) {
+        { this.state.sort ? obj1.sort((a, b) => b.info.price - a.info.price) : obj1.sort((a, b) => a.info.price - b.info.price) }
+        var objDC = [...this.state.listDC];
+        var objDCT = [...this.state.listDCT];
+        return (
+            obj1.length < 1 && countLoading == 0 ?
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
+                    <Image
+                        style={{ width: 80, height: 80 }}
+                        source={require('../../../image/sorry.png')}
+                    />
+                    <Text style={{ textAlign: 'center' }}>Không tìm thấy tài xế phù hợp. Vui lòng gọi <Text style={{ color: '#77a300' }}
+                        onPress={() => Linking.openURL(`tel: 19006022`)}>19006022</Text></Text>
+                    <Text style={{ padding: 4, fontSize: 18 }}>HOẶC</Text>
+                    <TouchableOpacity
+                        style={{ backgroundColor: '#77a300', margin: 8, padding: 8 }}
+                        onPress={() => {
+                            this.props.navigation.push("SpecialRequirements", {
+                                'screen': 'DiChung'
+                            })
+                        }}
+                    >
+                        <Text style={{ color: '#fff', fontWeight: 'bold' }}>ĐẶT XE THEO YÊU CẦU</Text>
+                    </TouchableOpacity>
+                </View> :
+                <View style={{ flex: 1 }}>
+                    <ScrollView
+                        showsVerticalScrollIndicator={false}
+                    >
+                        {this.state.selectDCT ? objDCT.map((item, index) => (
+                            <ItemCarTaxi
+                                item={item}
+                                onPress={() => this.pressItem(index, item)}
+                                isSelect={index == this.state.selectItem && item == this.state.item}
+                                />
+                        )) : objDC.map((item, index) => (
+                            <ItemCarTaxi
+                                item={item}
+                                onPress={() => this.pressItem(index, item)}
+                                isSelect={index == this.state.selectItem && item == this.state.item}
+                                />
+                        ))}
+                        {this.state.countLoading > 0 ? <ActivityIndicator
+                            size='large'
+                            style={{ marginTop: 20 }}
+                        /> : null
+                        }
+                    </ScrollView>
+                    {this.modalDetail(this.state.showDetail)}
+
+                    {this.state.selectItem >= 0 ?
+                        <Button
+                            style={{ marginBottom: 10 }}
+                            onPress={() => { this.gotoInfoCustomer(this.state.item) }}
+                            value={'CHỌN'}
+                        /> : null}
+
+                </View>
+        )
+    }
+
     pressItem = (index, item) => {
-        if (index != this.state.selectItem) {
+        if (index != this.state.selectItem || item != this.state.item) {
             this.setState({ item: item, selectItem: index })
         } else {
             console.log(item)
@@ -438,10 +538,7 @@ class ListCar extends Component {
                     <View style={{ margin: 8, borderRadius: 10, borderWidth: 0.5, borderColor: '#e8e8e8' }}>
                         <FormChungxe
                             onPressPickAddress={this.pressPickAddress}
-                            onPressDropAddress={this.pressDropAddress}
-                            onPressSwap={this.pressSwap}
                             onPressSelectTime={this.pressSelectTime}
-                            onPressSelectSlot={this.pressSelectSlot}
                             onPressVehicle={this.pressVehicleType}
                         />
                     </View>
@@ -466,7 +563,6 @@ class ListCar extends Component {
                             onPressDropAddress={this.pressDropAddress}
                             onPressSwap={this.pressSwap}
                             onPressSelectTime={this.pressSelectTime}
-                            onPressSelectSlot={this.pressSelectSlot}
                         />
                     </View>
                 )
@@ -475,8 +571,6 @@ class ListCar extends Component {
                     <View style={{ margin: 8, borderRadius: 10, borderWidth: 0.5, borderColor: '#e8e8e8' }}>
                         <FormHourlyXeChung
                             onPressPickAddress={this.pressPickAddress}
-                            onPressDropAddress={this.pressDropAddress}
-                            onPressSwap={this.pressSwap}
                             onPressSelectTime={this.pressSelectTime}
                             onPressSelectSlot={this.pressSelectSlot}
                         />
@@ -715,11 +809,14 @@ class ListCar extends Component {
                 {/* <Text>{this.state.countLoading}</Text> */}
                 {this.renderHeader()}
                 {this.formAddress()}
+                {this.props.product_chunk_type === 'transfer_service' ? this.renderSwitch() : null}
                 {this.state.isLoading ? <ActivityIndicator
                     size='large'
                 /> :
                     <View style={{ flex: 1, paddingHorizontal: 8, }}>
-                        {this.renderItem(obj, this.state.countLoading)}
+                        {this.props.product_chunk_type === 'transfer_service' ?
+                            this.renderItemTaxi(obj, this.state.countLoading) :
+                            this.renderItem(obj, this.state.countLoading)}
                         {/* {this.modalDetail(this.state.showDetail)} */}
                     </View>
                 }
@@ -795,7 +892,6 @@ function mapStateToProps(state) {
     }
 }
 export default connect(mapStateToProps, {
-    addTripInfomation: addTripInfomation,
     addSend: addSend,
     addCost: addCost,
     addExtra: addExtra,
