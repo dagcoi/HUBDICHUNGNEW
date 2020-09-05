@@ -1,28 +1,24 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, BackHandler, Alert, Image, Linking, Dimensions, ScrollView, SafeAreaView, AsyncStorage, Modal, ActivityIndicator, Platform, PermissionsAndroid, DeviceEventEmitter } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, Image, Dimensions, ScrollView, SafeAreaView, AsyncStorage, Modal, ActivityIndicator, Platform, PermissionsAndroid } from 'react-native';
 import { connect } from 'react-redux';
 import WebView from 'react-native-webview';
 import * as link from '../../URL'
 import Header from '../../component/Header/HeaderImage'
-import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
-import { addUser, addToken, addLocation } from '../../core/Redux/action/Action'
-import { setupPushNotification } from "../../service/pushNotificaion"
-import PushNotification from 'react-native-push-notification';
+import { addUser, addToken, addLocation, setModalTime } from '../../core/Redux/action/Action'
 import firebase from 'react-native-firebase'
 import { FlatGrid } from 'react-native-super-grid';
 import Detail from './infoDetail'
-import SwiperFlatListCustom from './SwiperFlatList'
 import SwiperFlatList from 'react-native-swiper-flatlist';
 
 import Geocoder from 'react-native-geocoding';
 import * as key from '../../component/KeyGG'
 const GOOGLE_MAPS_API_KEY = key.KEY_GOOGLE;
 import Geolocation from '@react-native-community/geolocation';
+import ModalTimePick from '../../until/ModalTimePick';
 
 const imageCancel = '../../image/cancel.png'
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window')
 const gridLayoutWidth = (SCREEN_WIDTH - 50) / 3
-const gridLayoutHeight = 200
 
 const imageTaxi = '../../image/imagetaxi.png'
 const imageRental = '../../image/imagerental.png'
@@ -381,6 +377,19 @@ class Home1 extends Component {
                             </TouchableOpacity>
                         )}
                     />
+                    <TouchableOpacity
+                        onPress={() => this.props.setModalTime(true, false)}
+                    >
+                        <Text>Show Time pick</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        onPress={() => this.props.setModalTime(false, true)}
+                    >
+                        <Text>Show Time drop</Text>
+                    </TouchableOpacity>
+
+                    <ModalTimePick />
 
                     <Detail />
 
@@ -533,4 +542,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { addUser: addUser, addToken: addToken, addLocation: addLocation })(Home1)
+export default connect(mapStateToProps, { addUser: addUser, addToken: addToken, addLocation: addLocation, setModalTime: setModalTime })(Home1)

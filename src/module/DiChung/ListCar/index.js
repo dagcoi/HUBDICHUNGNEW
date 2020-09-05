@@ -7,7 +7,7 @@ import { Button } from '../../../component/Button'
 import CalendarPicker from 'react-native-calendar-picker';
 import { listHour, listChair, listTime } from '../../../component/TimeSelect/listTime'
 import { getDateTimeAlive } from '../../../until'
-import { addSend, addCost, addExtra, addDepartTime, addPeople, swapAddress, addDuration, addProductChunkType, addCarType, setModalCarType, setModalVehicleType } from '../../../core/Redux/action/Action'
+import { addSend, addCost, addExtra, addDepartTime, addPeople, swapAddress, addDuration, addProductChunkType, addCarType, setModalCarType, setModalVehicleType, addReturnTime } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
 import { ItemCarTaxi, ItemCarTaxiHourly } from '../../../component/ItemCar';
 import TextSpaceBetween from '../../../component/ImageTextDiChung/TextSpaceBetween';
@@ -472,7 +472,13 @@ class ListCar extends Component {
     }
     pressSelectTime = () => {
         this.setState({
-            dialogCalendarVisible: true,
+            dialogCalendarVisible: true, nhanxe: true
+        })
+    }
+
+    onPressSelectTimeReturn = () => {
+        this.setState({
+            dialogCalendarVisible: true, nhanxe: false
         })
     }
 
@@ -538,8 +544,9 @@ class ListCar extends Component {
                     <View style={{ margin: 8, borderRadius: 10, borderWidth: 0.5, borderColor: '#e8e8e8' }}>
                         <FormChungxe
                             onPressPickAddress={this.pressPickAddress}
-                            onPressSelectTime={this.pressSelectTime}
+                            onPressSelectTimeRent={this.pressSelectTime}
                             onPressVehicle={this.pressVehicleType}
+                            onPressSelectTimeReturn= {this.onPressSelectTimeReturn}
                         />
                     </View>
                 )
@@ -716,9 +723,17 @@ class ListCar extends Component {
                                     onPress={() => {
                                         var isDayAlight = this.state.timeAlive.spesentDay == this.state.date.format('DD-MM-YYYY');
                                         var timeClicker = ((item.hour == this.state.timeAlive.hoursAlive && item.minute > this.state.timeAlive.minutesAlive) || item.hour > this.state.timeAlive.hoursAlive);
-
-                                        if (isDayAlight) {
-                                            if (timeClicker) {
+                                        if(this.state.nhanxe){
+                                            if (isDayAlight) {
+                                                if (timeClicker) {
+                                                    this.setState({
+                                                        dialogTimeVisible: false,
+                                                        dialogCalendarVisible: false,
+                                                        depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                    })
+                                                    this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
+                                                }
+                                            } else {
                                                 this.setState({
                                                     dialogTimeVisible: false,
                                                     dialogCalendarVisible: false,
@@ -727,12 +742,23 @@ class ListCar extends Component {
                                                 this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
                                             }
                                         } else {
-                                            this.setState({
-                                                dialogTimeVisible: false,
-                                                dialogCalendarVisible: false,
-                                                depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
-                                            })
-                                            this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
+                                            if (isDayAlight) {
+                                                if (timeClicker) {
+                                                    this.setState({
+                                                        dialogTimeVisible: false,
+                                                        dialogCalendarVisible: false,
+                                                        depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                    })
+                                                    this.props.addReturnTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
+                                                }
+                                            } else {
+                                                this.setState({
+                                                    dialogTimeVisible: false,
+                                                    dialogCalendarVisible: false,
+                                                    depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                })
+                                                this.props.addReturnTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
+                                            }
                                         }
                                     }}
                                 >
@@ -900,5 +926,6 @@ export default connect(mapStateToProps, {
     addPeople: addPeople,
     addDuration: addDuration,
     setModalCarType: setModalCarType,
-    setModalVehicleType: setModalVehicleType
+    setModalVehicleType: setModalVehicleType, 
+    addReturnTime : addReturnTime,
 })(ListCar);

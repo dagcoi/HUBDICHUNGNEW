@@ -102,6 +102,10 @@ const defaultState = {
     modalCarType: false,
     modalVehicleType: false,
     provider: null,
+    timePick: null,
+    timeDrop: null,
+    modalPick: false,
+    modalDrop: false,
 }
 const Reducer = (state = defaultState, action) => {
     switch (action.type) {
@@ -361,6 +365,23 @@ const Reducer = (state = defaultState, action) => {
             return {
                 ...state,
                 provider: action.provider
+            }
+        case types.SET_TIME_PICK:
+            return {
+                ...state,
+                timePick: action.timePick
+            }
+
+        case types.SET_TIME_DROP:
+            return {
+                ...state,
+                timeDrop: action.timeDrop
+            }
+        case types.SET_MODAL_TIME:
+            return {
+                ...state,
+                modalPick: action.modalPick,
+                modalDrop: action.modalDrop
             }
 
         default:

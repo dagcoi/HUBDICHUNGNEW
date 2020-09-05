@@ -770,7 +770,7 @@ export const addCaroDuration = (durationCaro, distanceCaro) => {
     }
 }
 
-export const addCarType = (carName,carType) => {
+export const addCarType = (carName, carType) => {
     return {
         type: types.ADD_CAR_TYPE,
         carName: carName,
@@ -816,7 +816,27 @@ export const setProvider = (provider) => {
     }
 }
 
+export const setTimePick = (timePick) => {
+    return {
+        type: types.SET_TIME_PICK,
+        timePick: timePick,
+    }
+}
 
+export const setTimeDrop = (timeDrop) => {
+    return {
+        type: types.SET_TIME_DROP,
+        timeDrop: timeDrop,
+    }
+}
 
+export const setModalTime = (modalPick, modalDrop) => {
+    console.log(modalPick, modalDrop)
+    return {
+        type: types.SET_MODAL_TIME,
+        modalPick: modalPick,
+        modalDrop: modalDrop,
+    }
+}
 
 

@@ -145,7 +145,7 @@ class MapChungXe extends Component {
 
     onPressSelectTime = () => {
         this.setState({
-            dialogCalendarVisible: true, nhanxe: true,
+            dialogCalendarVisible: true, nhanxe: true, 
         })
     }
     onPressSelectTimeRent = () => {
