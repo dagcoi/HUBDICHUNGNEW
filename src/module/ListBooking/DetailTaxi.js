@@ -72,7 +72,7 @@ function renderDetailTrip(item) {
 
             <ImageTextDiChung
                 source={require(imagePeople)}
-                text={item.slot + ' xe'}
+                text={(item.slot)+  (item.productType=='TRANSFER_SERVICE'? ' người' :item.productType == 'EXPRESS' ? ' kiện hàng':item.productType == 'DRIVER_RENTAL' ? ' tài xế' : item.productType == 'TRUCK' ? ' xe' :' người')}
             />
         </View>
     )
@@ -156,7 +156,7 @@ function renderOther(item) {
             {item.promocode ?
                 <ImageTextDiChung
                     source={require(imageDone)}
-                    text={'Mã giảm giá: ' + item.promotion}
+                    text={'Mã giảm giá: ' + item.promocode}
                 /> : null}
         </View>
     )

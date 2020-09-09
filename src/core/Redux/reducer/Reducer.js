@@ -76,6 +76,7 @@ const defaultState = {
     time_pick: '',
     time_drop: '',
     duration: 6,
+    durationTravel: 24,
     extra_price_km_format: '',
     extra_price_hour_format: '',
     km_limit_format: '',
@@ -106,6 +107,8 @@ const defaultState = {
     timeDrop: null,
     modalPick: false,
     modalDrop: false,
+    typesPick: [],
+    typesDrop: [],
 }
 const Reducer = (state = defaultState, action) => {
     switch (action.type) {
@@ -117,6 +120,7 @@ const Reducer = (state = defaultState, action) => {
                 component_pick: action.address_component,
                 latitude_pick: action.latitude_pick,
                 longitude_pick: action.longitude_pick,
+                typesPick: action.typesAddress
             };
 
         case types.DROP_ADDRESS:
@@ -126,6 +130,7 @@ const Reducer = (state = defaultState, action) => {
                 component_drop: action.address_component,
                 latitude_drop: action.latitude_drop,
                 longitude_drop: action.longitude_drop,
+                typesDrop: action.typesAddress
             }
 
         case types.TRIP_INFORMATION:
@@ -224,6 +229,8 @@ const Reducer = (state = defaultState, action) => {
                 component_pick: action.pick_address_component,
                 latitude_pick: action.latitude_pick,
                 longitude_pick: action.longitude_pick,
+                typesPick: action.typesPick,
+                typesDrop: action.typesDrop,
                 drop_add: action.drop_address,
                 component_drop: action.drop_address_component,
                 latitude_drop: action.latitude_drop,
@@ -272,6 +279,11 @@ const Reducer = (state = defaultState, action) => {
             return {
                 ...state,
                 duration: action.duration,
+            }
+        case types.DURATION_TRAVEL:
+            return {
+                ...state,
+                durationTravel: action.durationTravel,
             }
         case types.ADD_TRIP_INFORMATION_HOURLY_BOOKING:
             return {

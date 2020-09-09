@@ -83,9 +83,10 @@ class InfoCustommer extends Component {
 
     componentDidMount() {
         console.log('a')
-        console.log(this.props.component_drop)
-        this.getData()
+        console.log(this.props.typesPick)
+        console.log(this.props.typesDrop)
         this.props.product_chunk_type == 'express' ? this.setState({ is_checked: true }) : this.setState({ is_checked: false })
+        this.getData()
     }
 
     async getData() {
@@ -105,6 +106,7 @@ class InfoCustommer extends Component {
                 })
                 this._validateEmail(json.email ?? '')
                 this.mobileValidate(json.phone ?? '')
+                this.state.is_checked == true && this.mobileValidate1(this.props.use_phone1)
             }
         } catch (error) {
             console.log(error)
@@ -262,7 +264,7 @@ class InfoCustommer extends Component {
         console.log('this.props.send' + this.props.send)
         const send = JSON.parse(this.props.send)
         return (
-            send.extra && send.extra.airport_id && send.extra.airport_id != 0 ?
+            this.props.typesPick.includes("airport") && this.props.product_chunk_type === 'transfer_service' ?
                 <View>
                     <Text style={styles.textBig}>Mã chuyến bay</Text>
 
@@ -378,13 +380,13 @@ class InfoCustommer extends Component {
             } else {
                 this.checkAirport();
             }
-            // this.checkAirport();
+            this.checkAirport();
         }
     }
 
     checkAirport() {
         const send = JSON.parse(this.props.send)
-        if (send.extra && send.extra.airport_id && (this.state.plane_number.trim().length < 3 || this.state.plane_type < 0)) {
+        if (this.props.typesPick.includes("airport") && this.props.product_chunk_type === 'transfer_service' && (this.state.plane_number.trim().length < 3 || this.state.plane_type < 0)) {
             // Alert.alert(`Vui lòng nhập mã chuyến bay`)
             this.setState({ alertAirport: true })
             return;
@@ -754,6 +756,8 @@ function mapStateToProps(state) {
         cost: state.info.cost,
         product_chunk_type: state.info.product_chunk_type,
         component_drop: state.info.component_drop,
+        typesPick: state.info.typesPick,
+        typesDrop: state.info.typesDrop,
     }
 }
 

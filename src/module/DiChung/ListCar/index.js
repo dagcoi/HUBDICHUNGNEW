@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, Image, ScrollView, ActivityIndicator, Modal, FlatList, Linking, SafeAreaView } from 'react-native';
+import { Text, View, TouchableOpacity, Image, ScrollView, ActivityIndicator, Modal, FlatList, Linking, SafeAreaView, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import CheckBoxList from '../../../component/CheckBoxList'
 import { HeaderText } from '../../../component/Header'
@@ -25,7 +25,8 @@ import FormTravel from '../../ScreenAddress/Travel/FormTravel';
 import ModalCarType from '../../ScreenAddress/Util/Modal/ModalCarType';
 import ModalVehicleType from '../../ScreenAddress/Util/Modal/ModalVehicleType';
 // import FormHourlyTaxi from '../MapDiChung/FormHourlyTaxi';
-
+import HTML from 'react-native-render-html';
+import DetailItem from './DetailItem'
 const imageMaxToMin = '../../../image/maxtomin.png'
 const imageMinToMax = '../../../image/mintomax.png'
 const imageTune = '../../../image/tune.png'
@@ -106,6 +107,7 @@ class ListCar extends Component {
     componentWillUpdate(nextProps, nextState) {
         if (this.props.pick_add != nextProps.pick_add || this.props.drop_add != nextProps.drop_add || this.props.product_chunk_type != nextProps.product_chunk_type || this.props.duration != nextProps.duration || this.props.chair != nextProps.chair || this.props.depart_time2 != nextProps.depart_time2 || this.props.vehicleType != nextProps.vehicleType || this.props.returnTime2 != nextProps.returnTime2 || this.props.carType != nextProps.carType) {
             this.getProvider()
+            this.setState({ item: null, selectItem: -1 })
         }
     }
 
@@ -154,10 +156,11 @@ class ListCar extends Component {
 
     async getListCarHourly(provider, index) {
         const { navigation } = this.props;
+        console.log(this.props.product_chunk_type)
         // console.log('this.props.returnTime2: ' + this.props.returnTime2)
         // console.log(navigation.getParam('vehicleType'))
         const url = `${link.URL_API_PORTAL}price/v1/products?productType=${this.props.product_chunk_type}`;
-        let param = `${url}&bookingTime=${this.props.depart_time2}&startPlace=${JSON.stringify(this.props.component_pick)}&provider=${provider}&duration=${this.props.duration}&slot=${this.props.carType}&sort=price`
+        let param = `${url}&bookingTime=${this.props.depart_time2}&startPlace=${JSON.stringify(this.props.component_pick)}&provider=${provider}&duration=${this.props.product_chunk_type === 'hourly_tourist_car' ? this.props.durationTravel / 24 : this.props.duration}&slot=${this.props.product_chunk_type === 'hourly_rent_taxi' ? this.props.carType : 0}&sort=price`
         this.props.product_chunk_type === 'hourly_car_rental' ? param = param + '&vehicleType=' + this.props.vehicleType + '&returnTime=' + this.props.returnTime2 + '&limit=100' : ''
         console.log(param)
         try {
@@ -245,24 +248,8 @@ class ListCar extends Component {
                 }}>
                     <TouchableOpacity style={{ flex: 1 }} onPress={() => this.setState({ showDetail: false })} ></TouchableOpacity>
                     {this.state.item ?
-                        <View style={{ flex: 1, backgroundColor: '#fff' }} >
-                            <View style={{ height: 200, justifyContent: 'center', alignItems: 'center' }}>
-                                <Image
-                                    style={{ width: 200, height: 120, }}
-                                    source={this.state.item.info.image && this.state.item.info.image ? { uri: this.state.item.info.image } : null}
-                                    resizeMode="contain"
-                                />
-                            </View>
-                            <TextSpaceBetween textBold={'Hình thức: '} text={this.state.item.info.label} />
-                            <TextSpaceBetween textBold={'Ghi chú: '} text={this.state.item.info.description.replaceAll('<br>', ', ')} />
-                            <TextSpaceBetween textBold={'Loại xe: '} text={this.state.item.info.title} />
-                            {this.state.item.info.priceExtra ? <View>
-                                <TextSpaceBetween textBold={'Phụ trội theo giờ: '} text={this.state.item.info.priceExtra.hourExtra} />
-                                <TextSpaceBetween textBold={'phụ trội theo km: '} text={this.state.item.info.priceExtra.kmExtra} />
-
-                            </View> : null}
-                        </View>
-                        : <View style={{ flex: 1 }}></View>}
+                        <DetailItem item={this.state.item} />
+                        : <View style={{ flex: 2 }}></View>}
                     <View style={{ backgroundColor: '#fff', padding: 16 }}>
                         <Button
                             style={{ marginBottom: 10 }}
@@ -291,7 +278,7 @@ class ListCar extends Component {
                     <Text style={{ textAlign: 'center' }}>Không tìm thấy tài xế phù hợp. Vui lòng gọi <Text style={{ color: '#77a300' }}
                         onPress={() => Linking.openURL(`tel: 19006022`)}>19006022</Text></Text>
                     <Text style={{ padding: 4, fontSize: 18 }}>HOẶC</Text>
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                         style={{ backgroundColor: '#77a300', margin: 8, padding: 8 }}
                         onPress={() => {
                             this.props.navigation.push("SpecialRequirements", {
@@ -300,7 +287,7 @@ class ListCar extends Component {
                         }}
                     >
                         <Text style={{ color: '#fff', fontWeight: 'bold' }}>ĐẶT XE THEO YÊU CẦU</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View> :
                 <View style={{ flex: 1 }}>
                     <ScrollView
@@ -382,7 +369,7 @@ class ListCar extends Component {
                     <Text style={{ textAlign: 'center' }}>Không tìm thấy tài xế phù hợp. Vui lòng gọi <Text style={{ color: '#77a300' }}
                         onPress={() => Linking.openURL(`tel: 19006022`)}>19006022</Text></Text>
                     <Text style={{ padding: 4, fontSize: 18 }}>HOẶC</Text>
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                         style={{ backgroundColor: '#77a300', margin: 8, padding: 8 }}
                         onPress={() => {
                             this.props.navigation.push("SpecialRequirements", {
@@ -391,7 +378,7 @@ class ListCar extends Component {
                         }}
                     >
                         <Text style={{ color: '#fff', fontWeight: 'bold' }}>ĐẶT XE THEO YÊU CẦU</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View> :
                 <View style={{ flex: 1 }}>
                     <ScrollView
@@ -402,13 +389,13 @@ class ListCar extends Component {
                                 item={item}
                                 onPress={() => this.pressItem(index, item)}
                                 isSelect={index == this.state.selectItem && item == this.state.item}
-                                />
+                            />
                         )) : objDC.map((item, index) => (
                             <ItemCarTaxi
                                 item={item}
                                 onPress={() => this.pressItem(index, item)}
                                 isSelect={index == this.state.selectItem && item == this.state.item}
-                                />
+                            />
                         ))}
                         {this.state.countLoading > 0 ? <ActivityIndicator
                             size='large'
@@ -467,7 +454,7 @@ class ListCar extends Component {
         });
     }
     pressSwap = () => {
-        this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick);
+        this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.typesDrop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick, this.props.typesPick);
 
     }
     pressSelectTime = () => {
@@ -546,7 +533,7 @@ class ListCar extends Component {
                             onPressPickAddress={this.pressPickAddress}
                             onPressSelectTimeRent={this.pressSelectTime}
                             onPressVehicle={this.pressVehicleType}
-                            onPressSelectTimeReturn= {this.onPressSelectTimeReturn}
+                            onPressSelectTimeReturn={this.onPressSelectTimeReturn}
                         />
                     </View>
                 )
@@ -672,7 +659,7 @@ class ListCar extends Component {
                                     this.props.addPeople(item.chair)
                                 }}
                             >
-                                <Text style={{ fontSize: 16, flex: 1, padding: 8, color: item.chair == this.props.chair ? '#77a300' : '#000000' }}>{item.chair} người</Text>
+                                <Text style={{ fontSize: 16, flex: 1, padding: 8, color: item.chair == this.props.chair ? '#77a300' : '#000000' }}>{item.chair} {this.props.product_chunk_type == 'transfer_service' ? ' người' : this.props.product_chunk_type == 'express' ? ' gói' : 'slot'}</Text>
                                 {item.chair == this.props.chair ? <Image
                                     style={{ height: 24, width: 24, marginLeft: 8 }}
                                     source={require(imageCheck)}
@@ -723,7 +710,7 @@ class ListCar extends Component {
                                     onPress={() => {
                                         var isDayAlight = this.state.timeAlive.spesentDay == this.state.date.format('DD-MM-YYYY');
                                         var timeClicker = ((item.hour == this.state.timeAlive.hoursAlive && item.minute > this.state.timeAlive.minutesAlive) || item.hour > this.state.timeAlive.hoursAlive);
-                                        if(this.state.nhanxe){
+                                        if (this.state.nhanxe) {
                                             if (isDayAlight) {
                                                 if (timeClicker) {
                                                     this.setState({
@@ -911,12 +898,16 @@ function mapStateToProps(state) {
         chair: state.info.chair,
         product_chunk_type: state.info.product_chunk_type,
         duration: state.info.duration,
+        typesPick: state.info.typesPick,
+        typesDrop: state.info.typesDrop,
+        durationTravel: state.info.durationTravel,
         returnTime2: state.info.returnTime2,
         returnTime: state.info.returnTime,
         vehicleType: state.info.vehicleType,
         carType: state.info.carType
     }
 }
+
 export default connect(mapStateToProps, {
     addSend: addSend,
     addCost: addCost,
@@ -926,6 +917,6 @@ export default connect(mapStateToProps, {
     addPeople: addPeople,
     addDuration: addDuration,
     setModalCarType: setModalCarType,
-    setModalVehicleType: setModalVehicleType, 
-    addReturnTime : addReturnTime,
+    setModalVehicleType: setModalVehicleType,
+    addReturnTime: addReturnTime,
 })(ListCar);

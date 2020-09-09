@@ -125,4 +125,13 @@ const listTime= [
     { 'id': 6, 'time': 12 },
 ]
 
-export { listHour, listChair, listTime }
+const listTimeTravel = [
+    { 'id': 1, 'time': 24 },
+    { 'id': 2, 'time': 48 },
+    { 'id': 3, 'time': 72 },
+    { 'id': 4, 'time': 96 },
+    { 'id': 5, 'time': 120 },
+    { 'id': 6, 'time': 144 },
+]
+
+export { listHour, listChair, listTime, listTimeTravel }

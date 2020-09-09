@@ -214,20 +214,16 @@ class CustomerInfoTaxiNow extends Component {
         // Toast.show('thông tin ok')
         // console.log(JSON.stringify(this.state.sendCaro))
         const sendCaro = this.props.sendCaro
-        sendCaro.startPoints = [
-            {
-                "address": this.props.addressLocation,
-                "lat": this.props.latLocation,
-                "long": this.props.lngLocation
-            }
-        ];
-        sendCaro.endPoints = [
-            {
-                "address": this.props.drop_add,
-                "lat": this.props.latitude_drop,
-                "long": this.props.longitude_drop
-            }
-        ]
+        sendCaro.startPoint = {
+            "address": this.props.addressLocation,
+            "lat": this.props.latLocation,
+            "long": this.props.lngLocation
+        }
+        sendCaro.endPoint = {
+            "address": this.props.drop_add,
+            "lat": this.props.latitude_drop,
+            "long": this.props.longitude_drop
+        }
         sendCaro.bookingTime = date.toISOString();
         sendCaro.bookingUser = {
             "email": this.state.email,
@@ -260,7 +256,7 @@ class CustomerInfoTaxiNow extends Component {
             .then(resJson => {
                 console.log(JSON.stringify(resJson))
                 console.log('a' + resJson)
-                this.props.navigation.navigate('MapStartTrip', {'id': resJson.data._id })
+                this.props.navigation.navigate('MapStartTrip', { 'id': resJson.data._id })
             })
     }
 

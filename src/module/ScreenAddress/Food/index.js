@@ -211,7 +211,7 @@ class MapFood extends Component {
                     });
                 }}
                 onPressSwap={() => {
-                    this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick);
+                    this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop,this.props.typesDrop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick, this.props.typesPick);
                 }}
             />
         )
@@ -579,6 +579,8 @@ function mapStateToProps(state) {
         latitude_drop: state.info.latitude_drop,
         longitude_drop: state.info.longitude_drop,
         chair: state.info.chair,
+        typesPick: state.info.typesPick,
+        typesDrop: state.info.typesDrop,
     }
 }
 

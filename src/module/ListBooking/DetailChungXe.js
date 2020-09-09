@@ -157,10 +157,10 @@ function renderOther(item) {
                     source={require(imageDone)}
                     text={'+10 %'}
                 /> : null}
-            {item.promotion !== '' ?
+            {item.promocode ?
                 <ImageTextDiChung
                     source={require(imageDone)}
-                    text={'Mã giảm giá: ' + item.promotion}
+                    text={'Mã giảm giá: ' + item.promocode}
                 /> : null}
         </View>
     )

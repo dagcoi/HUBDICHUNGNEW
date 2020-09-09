@@ -33,7 +33,7 @@ class FormHourlyTravel extends Component {
                 onPress={this.props.onPressHourglass}
                 source={require(imageHourglass)}
                 placeholder={'Chọn số giờ'}
-                value={this.props.duration + ' giờ'}
+                value={(this.props.durationTravel)/24 + ' ngày'}
                 imageRight={true}
             />
         )
@@ -99,7 +99,7 @@ function mapStateToProps(state) {
         longitude_drop: state.info.longitude_drop,
         chair: state.info.chair,
         depart_time: state.info.depart_time,
-        duration: state.info.duration,
+        durationTravel: state.info.durationTravel,
     }
 }
 

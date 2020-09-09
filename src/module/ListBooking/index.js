@@ -179,7 +179,7 @@ class ListBooking extends Component {
                         {item.endPoint && item.endPoint.address && <ImageTextDiChung
                             source={require(imageDrop)}
                             text={item.endPoint.address}
-                        /> }
+                        />}
                         <ImageTextDiChung
                             source={require(imageTime)}
                             textBold={this.formatDate(item.bookingTime)}
@@ -212,7 +212,7 @@ class ListBooking extends Component {
                             {item.code}
                         </Text>
                         <View style={{ height: 32, borderRadius: 16, backgroundColor: '#77a300', paddingLeft: 10, paddingRight: 10, justifyContent: 'center', alignItems: 'flex-end' }}>
-                            <Text style={{ color: '#fff' }}>{item.productType == 'HOURLY_RENT_TAXI' ? 'Thuê taxi theo giờ' : item.productType == 'HOURLY_FREIGHT_TRUCK' ? 'Thuê vận chuyển theo giờ' : item.productType == 'HOURLY_RENT_DRIVER' ? 'Thuê tài xế theo giờ' : item.productType === 'hourly_car_rental' ? 'Thuê xe tự lái1' : 'Khác'}</Text>
+                            <Text style={{ color: '#fff' }}>{item.productType == 'HOURLY_RENT_TAXI' ? 'Thuê taxi theo giờ' : item.productType == 'HOURLY_FREIGHT_TRUCK' ? 'Thuê vận chuyển theo giờ' : item.productType == 'HOURLY_TOURIST_CAR' ? 'Thuê xe du lịch' : item.productType == 'HOURLY_RENT_DRIVER' ? 'Thuê tài xế theo giờ' : item.productType === 'hourly_car_rental' ? 'Thuê xe tự lái1' : 'Khác'}</Text>
                         </View>
                     </View>
 
@@ -230,7 +230,7 @@ class ListBooking extends Component {
                         <ImageTextDiChung
                             source={require(imageTime)}
                             textBold={'Thời gian: '}
-                            text={item.duration + ' giờ'}
+                            text={item.duration + (item.productType === 'HOURLY_TOURIST_CAR' ? ' ngày' : ' giờ')}
                         />
                     </View>
                     <View style={{ padding: 8, flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>

@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Modal, FlatList, ImageBackground } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
 import { connect } from 'react-redux';
-import { addDepartTime, addPeople, swapAddress, addDuration, addProductChunkType } from '../../../core/Redux/action/Action'
+import { addDepartTime, addPeople, swapAddress, addDurationTravel, addProductChunkType, addCarType } from '../../../core/Redux/action/Action'
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
 import ImageTextBold from '../../../component/ImageTextDiChung/ImageTextBold'
-import { listHour, listTime } from '../../../component/TimeSelect/listTime'
+import { listHour, listTimeTravel } from '../../../component/TimeSelect/listTime'
 import { HeaderText } from '../../../component/Header'
 import { FormSwitch, Warning, DropAddress } from '../Util'
 import { ButtonFull } from '../../../component/Button'
@@ -41,7 +41,7 @@ class MapTravel extends Component {
             modalSelectTime: false,
             modalSelectCar: false,
             selectCar: [],
-            duration: 24,
+            durationTravel: 24,
             day: 1,
             carType: '',
             listCar: [
@@ -91,6 +91,7 @@ class MapTravel extends Component {
     nextScreen() {
         this.getDateTimeAlive();
         this.props.addProductChunkType('tourist_car')
+        this.props.addCarType('Tất cả loại xe', '0')
         if (this.props.pick_add != '' && this.props.drop_add != '' && this.props.depart_time != '') {
             console.log(this.state.spesentDay)
             if (this.state.date) {
@@ -224,7 +225,7 @@ class MapTravel extends Component {
     }
 
     onPressSwap = () => {
-        this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick);
+        this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop,this.props.typesDrop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick, this.props.typesPick);
     }
 
     onPressSelectTime = () => {
@@ -232,7 +233,7 @@ class MapTravel extends Component {
             dialogCalendarVisible: true,
         })
     }
-    onPressHourglass=() => {
+    onPressHourglass = () => {
         this.setState({
             modalSelectTime: true
         })
@@ -251,7 +252,7 @@ class MapTravel extends Component {
                     });
                 }}
                 onPressSwap={() => {
-                    this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick);
+                    this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop,this.props.typesDrop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick, this.props.typesPick);
                 }}
             />
         )
@@ -367,7 +368,7 @@ class MapTravel extends Component {
                         {this.renderHourglass()}
                     </View>
                 </View> */}
-                <FormHourlyTravel 
+                <FormHourlyTravel
                     onPressPickAddress={this.onPressPickAddress}
                     onPressSelectTime={this.onPressSelectTime}
                     onPressHourglass={this.onPressHourglass}
@@ -530,21 +531,21 @@ class MapTravel extends Component {
                             </View>
                             <FlatList
                                 style={{ flex: 1, backgroundColor: '#ffffff' }}
-                                data={listTime}
+                                data={listTimeTravel}
                                 renderItem={({ item }) =>
                                     <TouchableOpacity
                                         style={{ flexDirection: 'row', borderBottomColor: '#e8e8e8', borderBottomWidth: 1, justifyContent: 'center', alignItems: 'center' }}
                                         onPress={() => {
                                             this.setState({
-                                                duration: item.time,
+                                                durationTravel: item.time,
                                                 day: item.id,
                                                 modalSelectTime: false,
                                             })
-                                            this.props.addDuration(item.time);
+                                            this.props.addDurationTravel(item.time);
                                         }}
                                     >
-                                        <Text style={{ fontSize: 16, flex: 1, padding: 8, color: item.time === this.state.duration ? '#77a300' : '#000000' }}>{item.id} ngày</Text>
-                                        {item.time === this.state.duration ? <Image
+                                        <Text style={{ fontSize: 16, flex: 1, padding: 8, color: item.time === this.state.durationTravel ? '#77a300' : '#000000' }}>{item.id} ngày</Text>
+                                        {item.time === this.state.durationTravel ? <Image
                                             style={{ height: 24, width: 24, marginLeft: 8 }}
                                             source={require(imageCheck)}
                                         /> : null}
@@ -632,8 +633,10 @@ function mapStateToProps(state) {
         latitude_drop: state.info.latitude_drop,
         longitude_drop: state.info.longitude_drop,
         chair: state.info.chair,
+        typesPick: state.info.typesPick,
+        typesDrop: state.info.typesDrop,
     }
 }
 
 
-export default connect(mapStateToProps, { addDepartTime: addDepartTime, addPeople: addPeople, swapAddress: swapAddress, addDuration: addDuration, addProductChunkType: addProductChunkType })(MapTravel)
+export default connect(mapStateToProps, { addDepartTime: addDepartTime, addPeople: addPeople, swapAddress: swapAddress, addDurationTravel: addDurationTravel, addProductChunkType: addProductChunkType, addCarType: addCarType })(MapTravel)

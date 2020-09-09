@@ -36,6 +36,7 @@ export default StyleSheet.create({
         marginVertical: 8,
         marginVertical: 4,
         fontWeight: 'bold',
+        color: '#77a300',
         maxWidth
     },
     giaTien: {

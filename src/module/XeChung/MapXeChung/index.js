@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Modal, FlatList, SafeAreaView, ImageBackground } from 'react-native';
 import Calendar from '../../../component/Calendar'
 import { connect } from 'react-redux';
-import { addDepartTime, addPeople, swapAddress, addDuration, addProductChunkType } from '../../../core/Redux/action/Action'
+import { addDepartTime, addPeople, swapAddress, addDuration, addProductChunkType, addCarType } from '../../../core/Redux/action/Action'
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
 import { ButtonFull, ButtonDialog } from '../../../component/Button'
 import { listHour, listChair, listTime } from '../../../component/TimeSelect/listTime'
@@ -129,6 +129,7 @@ class MapXeChung extends Component {
     nextScreen() {
         this.getDateTimeAlive.bind(this);
         this.props.addProductChunkType('driver_rental')
+        this.props.addCarType('Tất cả loại xe', '0')
         if (this.props.pick_add != '' && this.props.drop_add != '' && this.state.depart_time != '') {
             console.log(this.state.spesentDay)
             if (this.state.data) {
@@ -250,7 +251,7 @@ class MapXeChung extends Component {
     }
 
     onPressSwap = () => {
-        this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick);
+        this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop,this.props.typesDrop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick, this.props.typesPick);
     }
 
     onPressSelectTime = () => {
@@ -575,7 +576,9 @@ function mapStateToProps(state) {
         longitude_drop: state.info.longitude_drop,
         chair: state.info.chair,
         depart_time: state.info.depart_time,
+        typesPick: state.info.typesPick,
+        typesDrop: state.info.typesDrop,
     }
 }
 
-export default connect(mapStateToProps, { addDepartTime: addDepartTime, addPeople: addPeople, swapAddress: swapAddress, addDuration: addDuration, addProductChunkType: addProductChunkType })(MapXeChung)
+export default connect(mapStateToProps, { addDepartTime: addDepartTime, addPeople: addPeople, swapAddress: swapAddress, addDuration: addDuration, addProductChunkType: addProductChunkType, addCarType: addCarType })(MapXeChung)

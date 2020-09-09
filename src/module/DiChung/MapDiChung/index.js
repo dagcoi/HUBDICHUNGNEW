@@ -223,7 +223,7 @@ class MapDiChung extends Component {
         });
     }
     pressSwap = () => {
-        this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick);
+        this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop,this.props.typesDrop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick, this.props.typesPick);
     }
     pressSelectTime = () => {
         this.setState({
@@ -677,6 +677,8 @@ function mapStateToProps(state) {
         chair: state.info.chair,
         CarType: state.info.CarType,
         depart_time: state.info.depart_time,
+        typesPick: state.info.typesPick,
+        typesDrop: state.info.typesDrop,
     }
 }
 

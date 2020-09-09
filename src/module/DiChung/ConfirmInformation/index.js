@@ -134,7 +134,7 @@ class ConfirmInformation extends Component {
             "long": this.props.longitude_pick
         }
         if (this.state.listHourly.indexOf(this.props.product_chunk_type) >= 0) {
-            dataSend.duration = this.props.duration
+            dataSend.duration = this.props.product_chunk_type === 'hourly_tourist_car' ? this.props.durationTravel / 24 : this.props.duration
             dataSend.endPoint =
             {
                 "address": '',
@@ -151,7 +151,7 @@ class ConfirmInformation extends Component {
 
             dataSend.dimension = 'one_way'
         }
-        dataSend.slot = 1
+        dataSend.slot = (this.props.product_chunk_type == 'express' || this.props.product_chunk_type == 'transfer_service') ? this.props.chair : 1
         dataSend.bookingUser = {
             "email": this.props.email,
             "phone": this.props.use_phone,
@@ -382,13 +382,13 @@ class ConfirmInformation extends Component {
                     </View>
                     : null
                 }
-                {this.renderVAT()}
                 {this.state.detailPrice && this.state.detailPrice.catchInHousePrice &&
                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                         <Text style={styles.textBigLeft}>Đón biển tên: </Text>
                         <Text style={styles.textBigRight}>{this.state.detailPrice.catchInHousePrice.format(0, 3, '.') + ' đ '}</Text>
                     </View>
                 }
+                {this.renderVAT()}
                 {this.state.detailPrice &&
                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                         <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
@@ -494,14 +494,14 @@ class ConfirmInformation extends Component {
                         {/* {this.renderVAT()} */}
 
 
-                        {this.renderMGG()}
+                        {/* {this.renderMGG()} */}
                         {this.renderTT()}
 
                         <Button
                             value={'Xác nhận đặt xe'}
                             onPress={() => {
                                 this.state.loadingPrice ? null :
-                                this.state.callingApi ? null : this.addTicket()
+                                    this.state.callingApi ? null : this.addTicket()
                                 this.setState({
                                     addingTicket: true,
                                 })
@@ -658,6 +658,7 @@ function mapStateToProps(state) {
         label: state.info.label,
         product_chunk_type: state.info.product_chunk_type,
         duration: state.info.duration,
+        durationTravel: state.info.durationTravel,
         extra: state.info.extra,
         returnTime2: state.info.returnTime2,
         rent_date: state.info.rent_date,

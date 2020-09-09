@@ -27,7 +27,7 @@ function DetailHourlyTaxi({ item }) {
     // const hours = new Date(time).toLocaleTimeString()
     // const strtime = hours + " " + date
     const strtime = formatDate(item.bookingTime)
-
+    console.log(item.promotion)
     return (
         <View style={{ paddingHorizontal: 16 }}>
             <Text style={styles.textBigLeft1}>Chi tiết chuyến đi</Text>
@@ -42,29 +42,33 @@ function DetailHourlyTaxi({ item }) {
             <ImageTextDiChung
                 source={require(imageHourglass)}
                 textBold={'Thời lượng: '}
-                text={item.duration + ' giờ'}
+                text={item.duration + (item.productType === 'HOURLY_TOURIST_CAR' ? ' ngày' : ' giờ')}
             />
             <Text style={styles.textBigLeft1}>Chi tiết đơn hàng</Text>
             <ImageTextDiChung
                 source={require(imageIconCar)}
                 textBold={item.productType == 'HOURLY_RENT_TAXI' ? 'Thuê taxi theo giờ' : item.productType == 'HOURLY_FREIGHT_TRUCK' ? 'Thuê vận chuyển theo giờ' : item.productType == 'HOURLY_RENT_DRIVER' ? 'Thuê tài xế theo giờ' : 'Thuê xe du lịch'}
             />
-            {item.payment.priceExtra ?
-                <ImageTextDiChung
-                    text={(item.payment.priceExtra.kmLimit ?? '') + ' km'}
-                    textBold={'Giới hạn: '}
-                />
-                : null}
-            {item.payment.priceExtra ?
-                <ImageTextDiChung
-                    text={item.payment.priceExtra.kmExtra.format(0, 3, '.') + ' đ/km'}
-                    textBold={'Phụ trội theo km: '}
-                /> : null}
-            {item.payment.priceExtra ?
-                <ImageTextDiChung
-                    text={item.payment.priceExtra.hourExtra.format(0, 3, '.') + ' đ/giờ'}
-                    textBold={'Phụ trội theo giờ: '}
-                /> : null}
+            {item.productType === 'HOURLY_TOURIST_CAR' ? null :
+                <View>
+                    {item.payment.priceExtra ?
+                        <ImageTextDiChung
+                            text={(item.payment.priceExtra.kmLimit ?? '') + ' km'}
+                            textBold={'Giới hạn: '}
+                        />
+                        : null}
+                    {item.payment.priceExtra ?
+                        <ImageTextDiChung
+                            text={item.payment.priceExtra.kmExtra.format(0, 3, '.') + ' đ/km'}
+                            textBold={'Phụ trội theo km: '}
+                        /> : null}
+                    {item.payment.priceExtra ?
+                        <ImageTextDiChung
+                            text={item.payment.priceExtra.hourExtra.format(0, 3, '.') + ' đ/giờ'}
+                            textBold={'Phụ trội theo giờ: '}
+                        /> : null}
+                </View>
+            }
             <Text style={styles.textBigLeft1}>Chi tiết khách hàng</Text>
             <ImageTextDiChung
                 source={require(imagePerson)}
@@ -97,12 +101,11 @@ function DetailHourlyTaxi({ item }) {
                     source={require(imageDone)}
                     text={'+ 10%'}
                 /> : null}
-            {item.promotion == '' ? null :
+            {item.promocode ?
                 <ImageTextDiChung
                     source={require(imageDone)}
-                    text={item.promotion}
-                />
-            }
+                    text={'Mã giảm giá: ' + item.promocode}
+                /> : null}
 
             <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', marginBottom: 8 }}>
                 <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>

@@ -1,22 +1,24 @@
 import * as types from './ActionTypes'
 
-export const pickAddress = (pick_add, component_pick, latitude_pick, longitude_pick) => {
+export const pickAddress = (pick_add, component_pick, latitude_pick, longitude_pick, typesAddress) => {
     return {
         type: types.PICK_ADDRESS,
         address: pick_add,
         address_component: component_pick,
         latitude_pick: latitude_pick,
         longitude_pick: longitude_pick,
+        typesAddress : typesAddress
     }
 }
 
-export const dropAddress = (drop_add, component_drop, latitude_drop, longitude_drop) => {
+export const dropAddress = (drop_add, component_drop, latitude_drop, longitude_drop, typesAddress) => {
     return {
         type: types.DROP_ADDRESS,
         address: drop_add,
         address_component: component_drop,
         latitude_drop: latitude_drop,
         longitude_drop: longitude_drop,
+        typesAddress : typesAddress
     }
 }
 
@@ -122,18 +124,19 @@ export const addVAT = (xhd, company_name, company_address, company_mst, company_
     }
 }
 
-export const swapAddress = (pick_address, pick_address_component, latitude_pick, longitude_pick, drop_address, drop_address_component, latitude_drop, longitude_drop) => {
+export const swapAddress = (pick_address, pick_address_component, latitude_pick, longitude_pick, typesPick, drop_address, drop_address_component, latitude_drop, longitude_drop, typesDrop) => {
     return {
         type: types.SWAP_ADDRESS,
         pick_address: pick_address,
         pick_address_component: pick_address_component,
         latitude_pick: latitude_pick,
         longitude_pick: longitude_pick,
-
+        typesPick: typesPick,
         drop_address: drop_address,
         drop_address_component: drop_address_component,
         latitude_drop: latitude_drop,
         longitude_drop: longitude_drop,
+        typesDrop: typesDrop
     }
 }
 
@@ -172,6 +175,13 @@ export const addDuration = (duration) => {
     return {
         type: types.DURATION,
         duration: duration,
+    }
+}
+
+export const addDurationTravel = (durationTravel) => {
+    return {
+        type: types.DURATION_TRAVEL,
+        durationTravel: durationTravel,
     }
 }
 

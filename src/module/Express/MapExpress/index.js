@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Modal, FlatList, SafeAreaView, ImageBackground } from 'react-native';
 import Calendar from '../../../component/Calendar'
 import { connect } from 'react-redux';
-import { addDepartTime, addPeople, swapAddress, addDuration, addProductChunkType } from '../../../core/Redux/action/Action'
+import { addDepartTime, addPeople, swapAddress, addDuration, addProductChunkType, addCarType } from '../../../core/Redux/action/Action'
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
 import { ButtonFull, ButtonDialog } from '../../../component/Button'
 import Dialog, { } from 'react-native-popup-dialog';
@@ -101,7 +101,8 @@ class MapExpress extends Component {
     nextScreen() {
         this.getDateTimeAlive.bind(this);
         this.props.addProductChunkType('express')
-        if (this.props.pick_add != '' && this.props.drop_add != '' && this.state.depart_time != '' && this.state.city_name != '') {
+        this.props.addCarType('Tất cả loại xe', '0')
+        if (this.props.pick_add != '' && this.props.drop_add != '' && this.props.depart_time != '' && this.state.city_name != '') {
             if (this.state.date) {
                 if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                     if (this.state.hoursAlive > this.state.selectedHours) {
@@ -169,7 +170,7 @@ class MapExpress extends Component {
         });
     }
     pressSwap = () => {
-        this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick);
+        this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop,this.props.typesDrop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick, this.props.typesPick);
     }
     pressSelectTime = () => {
         this.setState({
@@ -465,8 +466,11 @@ function mapStateToProps(state) {
         longitude_drop: state.info.longitude_drop,
         chair: state.info.chair,
         pick_add_express: state.rdVanChuyen.pick_add,
+        typesPick: state.info.typesPick,
+        typesDrop: state.info.typesDrop,
+        depart_time: state.info.depart_time,
     }
 }
 
 
-export default connect(mapStateToProps, { addDepartTime: addDepartTime, addPeople: addPeople, swapAddress: swapAddress, addDuration: addDuration, addProductChunkType: addProductChunkType })(MapExpress)
+export default connect(mapStateToProps, { addDepartTime: addDepartTime, addPeople: addPeople, swapAddress: swapAddress, addDuration: addDuration, addProductChunkType: addProductChunkType, addCarType: addCarType })(MapExpress)

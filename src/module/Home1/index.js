@@ -377,7 +377,7 @@ class Home1 extends Component {
                             </TouchableOpacity>
                         )}
                     />
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                         onPress={() => this.props.setModalTime(true, false)}
                     >
                         <Text>Show Time pick</Text>
@@ -389,7 +389,7 @@ class Home1 extends Component {
                         <Text>Show Time drop</Text>
                     </TouchableOpacity>
 
-                    <ModalTimePick />
+                    <ModalTimePick /> */}
 
                     <Detail />
 

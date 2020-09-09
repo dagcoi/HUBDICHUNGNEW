@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, TouchableOpacity, Image, SafeAreaView, Platform, } from 'react-native';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { GooglePlacesAutocomplete, GooglePlaceDetail } from 'react-native-google-places-autocomplete';
 import Geocoder from 'react-native-geocoding';
 import { connect } from 'react-redux';
 import { HeaderText } from '../../../component/Header'
@@ -22,39 +22,41 @@ class SearchPlace extends Component {
             showPlacesList: false,
             lat: 0.1,
             lng: 0.2,
+            types: [],
         }
     }
 
-    _validateAddress(address_component, address) {
+    _validateAddress(address_component, address, types) {
         const { navigation } = this.props;
         const address11 = navigation.getParam('search');
         this.setState(() => ({
             address_component: address_component,
             address: address,
+            types: types,
             blSelect: false,
         }))
-        console.log(JSON.stringify(this.state.address_component));
-        console.log(this.state.address);
+        // console.log(JSON.stringify(this.state.address_component));
+        // console.log(this.state.address);
         if (address11 == 'Pick') {
             this._addPick();
-        } else if(address11== 'Drop') {
+        } else if (address11 == 'Drop') {
             this._addDrop();
-        }else {
+        } else {
             this._addLocation();
         }
 
     }
 
     _addPick() {
-        const { address, address_component, lat, lng } = this.state;
-        this.props.pickAddress(address, address_component, lat, lng);
+        const { address, address_component, lat, lng, types } = this.state;
+        this.props.pickAddress(address, address_component, lat, lng, types);
         this.props.addAddressYCDB(address, address_component, lat, lng);
         this.goBack();
     }
 
     _addDrop() {
-        const { address, address_component, lat, lng } = this.state;
-        this.props.dropAddress(address, address_component, lat, lng);
+        const { address, address_component, lat, lng, types } = this.state;
+        this.props.dropAddress(address, address_component, lat, lng, types);
         this.goBack();
     }
 
@@ -63,13 +65,13 @@ class SearchPlace extends Component {
         this.props.addLocation(address, address_component, lat, lng);
         this.goBack();
     }
-    
+
     addlatlng(latitude, longitude) {
         this.setState({
             lat: latitude,
             lng: longitude,
         });
-        console.log(`lat: ${this.state.lat} lng: ${this.state.lng}`);
+        // console.log(`lat: ${this.state.lat} lng: ${this.state.lng}`);
     }
 
     goBack = () => {
@@ -89,7 +91,7 @@ class SearchPlace extends Component {
                 <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
                     <View style={{ flexDirection: 'row' }}>
                         <GooglePlacesAutocomplete
-                            placeholderTextColor= {'#333'}
+                            placeholderTextColor={'#333'}
                             placeholder={placeholder}
                             minLength={2}
                             currentLocation={false}
@@ -103,18 +105,22 @@ class SearchPlace extends Component {
                                 onBlur: () => this.setState({ showPlacesList: false }),
                             }}
                             renderDescription={row => row.description}
-                            onPress={(data, details = null) => {
-                                console.log(data, details);
+                            onPress={(data, details) => {
+                                // console.log(',,,,,,,,,,,' + JSON.stringify(details))
+                                console.log('123' + JSON.stringify(data))//, '911' + JSON.stringify(details));
                                 this.addlatlng(details.geometry.location.lat, details.geometry.location.lng);
+                                // this._validateAddress(data, data.description, data.types)
+
                                 Geocoder.from(details.geometry.location.lat, details.geometry.location.lng)
                                     .then(json => {
+                                        console.log('..........' + JSON.stringify(json))
                                         details = json.results[0];
-                                        this._validateAddress(details, data.description)
+                                        this._validateAddress(details, data.description, data.types)
                                     })
                                     .catch(error => console.warn(error));
                             }}
 
-                            getDefaultValue={() => address11 == 'Pick' ? this.props.pick_add : address11=='Drop'? this.props.drop_add : this.props.addressLocation}
+                            getDefaultValue={() => address11 == 'Pick' ? this.props.pick_add : address11 == 'Drop' ? this.props.drop_add : this.props.addressLocation}
 
                             query={{
                                 key: API_KEY,
@@ -202,7 +208,7 @@ function mapStateToProps(state) {
     return {
         drop_add: state.info.drop_add,
         pick_add: state.info.pick_add,
-        addressLocation: state.info.addressLocation, 
+        addressLocation: state.info.addressLocation,
     }
 }
 

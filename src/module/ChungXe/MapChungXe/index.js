@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ActivityIndicator, Modal, FlatList, SafeAreaView, ImageBackground } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
-import { addCityTime, addDepartTime, swapAddress, addProductChunkType, addReturnTime, addVehicleType } from '../../../core/Redux/action/Action'
+import { addCityTime, addDepartTime, swapAddress, addProductChunkType, addReturnTime, addVehicleType, addCarType } from '../../../core/Redux/action/Action'
 import { connect } from 'react-redux';
 import * as key from '../../../component/KeyGG'
 import { TextInput } from 'react-native-gesture-handler';
@@ -145,7 +145,7 @@ class MapChungXe extends Component {
 
     onPressSelectTime = () => {
         this.setState({
-            dialogCalendarVisible: true, nhanxe: true, 
+            dialogCalendarVisible: true, nhanxe: true,
         })
     }
     onPressSelectTimeRent = () => {
@@ -166,7 +166,7 @@ class MapChungXe extends Component {
     }
 
     onPressSwap = () => {
-        this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick);
+        this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop,this.props.typesDrop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick, this.props.typesPick);
     }
 
 
@@ -269,6 +269,7 @@ class MapChungXe extends Component {
     nextScreen() {
         this.getTimeAlive();
         this.props.addProductChunkType('car_rental')
+        this.props.addCarType('Tất cả loại xe', '0')
         if (this.props.pick_add != '' && this.props.drop_add != '') {
             console.log(this.state.spesentDay)
             if (this.state.date) {
@@ -283,7 +284,7 @@ class MapChungXe extends Component {
                 } else {
                     this.props.navigation.push("ListCar");
                 }
-            } else{
+            } else {
                 this.props.navigation.push("ListCar");
             }
         }
@@ -697,9 +698,10 @@ function mapStateToProps(state) {
         city: state.info.city,
         rent_date: state.info.rent_date,
         return_date: state.info.return_date,
-
         drop_add: state.info.drop_add,
         pick_add: state.info.pick_add,
+        typesPick: state.info.typesPick,
+        typesDrop: state.info.typesDrop,
         component_drop: state.info.component_drop,
         component_pick: state.info.component_pick,
         latitude_pick: state.info.latitude_pick,
@@ -711,4 +713,4 @@ function mapStateToProps(state) {
 }
 
 
-export default connect(mapStateToProps, { addCityTime: addCityTime, addDepartTime: addDepartTime, swapAddress: swapAddress, addProductChunkType: addProductChunkType, addReturnTime: addReturnTime, addVehicleType: addVehicleType })(MapChungXe);
+export default connect(mapStateToProps, { addCityTime: addCityTime, addDepartTime: addDepartTime, swapAddress: swapAddress, addProductChunkType: addProductChunkType, addReturnTime: addReturnTime, addVehicleType: addVehicleType, addCarType: addCarType })(MapChungXe);

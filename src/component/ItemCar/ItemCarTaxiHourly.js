@@ -28,7 +28,7 @@ function ItemCarTaxiBooking({ item, onPress, slot, chunk_type, isSelect }) {
                     </View>
                     }
                     <Text style={[styles.textLabel]}>{item.info.title.toUpperCase() ?? ''}</Text>
-                    <StarVote number={item.info.rate} />
+                    {/* <StarVote number={item.info.rate} /> */}
                     <Text style={styles.totalCost}>{((chunk_type === 'express' ? slot : 1) * item.info.price).format(0, 3, '.') ?? ''} đ</Text>
                 </View>
                 <View style={styles.imageRight}>
