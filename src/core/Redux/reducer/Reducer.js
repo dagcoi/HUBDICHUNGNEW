@@ -109,6 +109,7 @@ const defaultState = {
     modalDrop: false,
     typesPick: [],
     typesDrop: [],
+    idCustomer: null,
 }
 const Reducer = (state = defaultState, action) => {
     switch (action.type) {
@@ -394,6 +395,11 @@ const Reducer = (state = defaultState, action) => {
                 ...state,
                 modalPick: action.modalPick,
                 modalDrop: action.modalDrop
+            }
+            case types.ADD_ID_CUSTOMER:
+            return {
+                ...state,
+                idCustomer: action.idCustomer,
             }
 
         default:

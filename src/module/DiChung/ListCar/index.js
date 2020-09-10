@@ -22,6 +22,7 @@ import FormHourlyXeChung from '../../XeChung/MapXeChung/FormHourlyXeChung';
 import FormXeChung from '../../XeChung/MapXeChung/FormXeChung';
 import FormHourlyTravel from '../../ScreenAddress/Travel/FormHourlyTravel';
 import FormTravel from '../../ScreenAddress/Travel/FormTravel';
+import FormRideShare from '../../ScreenAddress/RideShare/FormRideShare';
 import ModalCarType from '../../ScreenAddress/Util/Modal/ModalCarType';
 import ModalVehicleType from '../../ScreenAddress/Util/Modal/ModalVehicleType';
 // import FormHourlyTaxi from '../MapDiChung/FormHourlyTaxi';
@@ -112,8 +113,11 @@ class ListCar extends Component {
     }
 
     async getListCarNewV2(provider, index) {
+        var time = new Date(this.props.depart_time2 + '+07:00').toISOString();
+        // var time = new Date(this.props.depart_time2 + '+07:00').getTime();
+
         const url = `${link.URL_API_PORTAL}price/v1/products?productType=${this.props.product_chunk_type}`;
-        let param = `${url}&bookingTime=${this.props.depart_time2}&endPlace=${JSON.stringify(this.props.component_drop)}&startPlace=${JSON.stringify(this.props.component_pick)}&sort=price&slot=${this.props.chair}&provider=${provider}`
+        let param = `${url}&bookingTime=${time}&endPlace=${JSON.stringify(this.props.component_drop)}&startPlace=${JSON.stringify(this.props.component_pick)}&sort=price&slot=${this.props.chair}&provider=${provider}${this.props.product_chunk_type==='ride_share'? '&vehicleType=2': ''}`
         console.log(param)
         try {
             const response = await fetch(param, {
@@ -157,11 +161,13 @@ class ListCar extends Component {
     async getListCarHourly(provider, index) {
         const { navigation } = this.props;
         console.log(this.props.product_chunk_type)
+        var time = new Date(this.props.depart_time2 + '+07:00').toISOString();
+        var timeReturn = new Date(this.props.returnTime2 + '+07:00').toISOString();
         // console.log('this.props.returnTime2: ' + this.props.returnTime2)
         // console.log(navigation.getParam('vehicleType'))
         const url = `${link.URL_API_PORTAL}price/v1/products?productType=${this.props.product_chunk_type}`;
-        let param = `${url}&bookingTime=${this.props.depart_time2}&startPlace=${JSON.stringify(this.props.component_pick)}&provider=${provider}&duration=${this.props.product_chunk_type === 'hourly_tourist_car' ? this.props.durationTravel / 24 : this.props.duration}&slot=${this.props.product_chunk_type === 'hourly_rent_taxi' ? this.props.carType : 0}&sort=price`
-        this.props.product_chunk_type === 'hourly_car_rental' ? param = param + '&vehicleType=' + this.props.vehicleType + '&returnTime=' + this.props.returnTime2 + '&limit=100' : ''
+        let param = `${url}&bookingTime=${time}&startPlace=${JSON.stringify(this.props.component_pick)}&provider=${provider}&duration=${this.props.product_chunk_type === 'hourly_tourist_car' ? this.props.durationTravel / 24 : this.props.duration}&slot=${this.props.product_chunk_type === 'hourly_rent_taxi' ? this.props.carType : 0}&sort=price`
+        this.props.product_chunk_type === 'hourly_car_rental' ? param = param + '&vehicleType=' + this.props.vehicleType + '&returnTime=' + timeReturn + '&limit=100' : ''
         console.log(param)
         try {
             const response = await fetch(param, {
@@ -618,6 +624,18 @@ class ListCar extends Component {
                         />
                     </View>
                 )
+            case 'ride_share':
+                return (
+                    <View style={{ margin: 8, borderRadius: 10, borderWidth: 0.5, borderColor: '#e8e8e8' }}>
+                        <FormTaxi
+                            onPressPickAddress={this.pressPickAddress}
+                            onPressDropAddress={this.pressDropAddress}
+                            onPressSwap={this.pressSwap}
+                            onPressSelectTime={this.pressSelectTime}
+                            onPressSelectSlot={this.pressSelectSlot}
+                        />
+                    </View>
+                )
             default: null
         }
     }
@@ -659,7 +677,7 @@ class ListCar extends Component {
                                     this.props.addPeople(item.chair)
                                 }}
                             >
-                                <Text style={{ fontSize: 16, flex: 1, padding: 8, color: item.chair == this.props.chair ? '#77a300' : '#000000' }}>{item.chair} {this.props.product_chunk_type == 'transfer_service' ? ' người' : this.props.product_chunk_type == 'express' ? ' gói' : 'slot'}</Text>
+                                <Text style={{ fontSize: 16, flex: 1, padding: 8, color: item.chair == this.props.chair ? '#77a300' : '#000000' }}>{item.chair} {(this.props.product_chunk_type == 'transfer_service' || this.props.product_chunk_type == 'ride_share') ? ' người' : this.props.product_chunk_type == 'express' ? ' gói' : 'slot'}</Text>
                                 {item.chair == this.props.chair ? <Image
                                     style={{ height: 24, width: 24, marginLeft: 8 }}
                                     source={require(imageCheck)}

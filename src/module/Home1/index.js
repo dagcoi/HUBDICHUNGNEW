@@ -37,7 +37,7 @@ class Home1 extends Component {
             listItem: [
                 { name: 'Đặt xe có lái', image: 1 },
                 { name: 'Thuê xe tự lái', image: 2 },
-                // { name: 'Đi chung xe', image: 3 },
+                { name: 'Đi chung xe', image: 3 },
                 { name: 'Thuê tài xế', image: 4 },
                 { name: 'Thuê xe du lịch', image: 5 },
                 // { name: 'Combo du lịch', image: 6 },
@@ -348,7 +348,7 @@ class Home1 extends Component {
                                     this.props.isLogin == 0 ? this.props.navigation.navigate('Login') :
                                         item.image === 1 ? this.props.navigation.navigate('MapDiChung') :
                                             item.image === 2 ? this.props.navigation.navigate('MapChungXe') :
-                                                item.image === 3 ? this.props.navigation.navigate('MapDiChung') :
+                                                item.image === 3 ? this.props.navigation.navigate('RideShare') :
                                                     item.image === 4 ? this.props.navigation.navigate('MapXeChung') :
                                                         item.image === 5 ? this.props.navigation.navigate('MapTravel') :
                                                             item.image === 6 ? this.props.navigation.navigate('MapTravel') :

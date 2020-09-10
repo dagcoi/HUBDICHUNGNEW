@@ -165,7 +165,7 @@ function renderOther(item) {
 function renderTT(item) {
     return (
         <View>
-            {(item.forward.status == 'forwarded' && item.forward.result) ?
+            {(item.forward.status == 'forwarded') ?
                 <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', }}>
                     <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
                     <Text style={styles.textBigRight1}>{parseInt(item.payment.totalCost).format(0, 3, '.')} đ</Text>

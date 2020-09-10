@@ -82,7 +82,7 @@ class ConfirmInformation extends Component {
         console.log('11111111111111111111')
         const { navigation } = this.props;
         var time = new Date(this.props.depart_time2 + '+07:00')
-        var url = link.URL_API_PORTAL + `price/v1/products/price?provider=${send.provider.name}&price=${this.props.cost}&productType=${this.props.product_chunk_type}&bookingTime=${time}`
+        var url = link.URL_API_PORTAL + `price/v1/products/price?provider=${send.provider.name}${this.product_chunk_type === 'ride_share' ? '' : `&price=` + this.props.cost}&productType=${this.props.product_chunk_type}&bookingTime=${time}&promotionDiscount=${this.props.discount_price}`
         const providerName = send.provider.name
         console.log(providerName)
         switch (providerName) {
@@ -101,6 +101,10 @@ class ConfirmInformation extends Component {
                 url = url + `&invoice=${navigation.getParam('xhd') ? 1 : 0}&catch_in_house=${navigation.getParam('broad_price') ? 1 : 0}`
                 this.getPrice(url)
                 break;
+            case 'rideshare':
+                url = url + `&slot=${this.props.chair}&extra=${JSON.stringify(send.extra)}`
+                this.getPrice(url)
+                break;
         }
 
         console.log('url: .....' + url)
@@ -110,6 +114,7 @@ class ConfirmInformation extends Component {
     }
 
     async getPrice(url) {
+        console.log(url)
         return fetch(url)
             .then((res) => res.json())
             .then((jsonRes) => {
@@ -124,7 +129,6 @@ class ConfirmInformation extends Component {
 
     async setDataSend() {
         var time = new Date(this.props.depart_time2 + '+07:00').getTime();
-
         const { navigation } = this.props;
         const dataSend = JSON.parse(this.props.send)
         dataSend.startPoint =
@@ -196,7 +200,12 @@ class ConfirmInformation extends Component {
             "taxCode": this.props.company_mst,
             "addressReceive": this.props.company_address_receive
         } : ''
-
+        if (this.props.product_chunk_type == 'ride_share') {
+            dataSend.extra.bookedSlots = this.props.chair
+            dataSend.extra.note = this.props.comment
+            dataSend.extra.phoneNumber = this.props.use_phone
+            dataSend.extra.userId = this.props.idCustomer
+        }
         console.log('123' + JSON.stringify(dataSend))
         this.setState({ dataSend: dataSend })
     }
@@ -374,6 +383,12 @@ class ConfirmInformation extends Component {
                     <Text style={styles.textBigLeft}>Đơn giá: </Text>
                     <Text style={styles.textBigRight}>{parseInt(this.props.cost).format(0, 3, '.') + ' đ '}</Text>
                 </View>
+                {this.state.detailPrice && this.state.detailPrice.slot &&
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
+                        <Text style={styles.textBigLeft}>Số lượng </Text>
+                        <Text style={styles.textBigRight}>{this.state.detailPrice.slot} người</Text>
+                    </View>
+                }
 
                 {send && send.payment && send.payment.tollFee && send.payment.tollFee != 'NA' && send.payment.tollFee != '0' ?
                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
@@ -386,6 +401,12 @@ class ConfirmInformation extends Component {
                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                         <Text style={styles.textBigLeft}>Đón biển tên: </Text>
                         <Text style={styles.textBigRight}>{this.state.detailPrice.catchInHousePrice.format(0, 3, '.') + ' đ '}</Text>
+                    </View>
+                }
+                {this.state.detailPrice && this.state.detailPrice.promotionDiscount && this.state.detailPrice.promotionDiscount != 0 &&
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
+                        <Text style={styles.textBigLeft}>Mã giảm giá:</Text>
+                        <Text style={styles.textBigRight}>{(this.state.detailPrice.promotionDiscount).format(0, 3, '.') + ' đ '}</Text>
                     </View>
                 }
                 {this.renderVAT()}
@@ -664,6 +685,8 @@ function mapStateToProps(state) {
         rent_date: state.info.rent_date,
         time_drop: state.info.time_drop,
         returnTime: state.info.returnTime,
+        discount_price: state.info.discount_price,
+        idCustomer: state.info.idCustomer,
     }
 }
 

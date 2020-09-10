@@ -7,7 +7,7 @@ export const pickAddress = (pick_add, component_pick, latitude_pick, longitude_p
         address_component: component_pick,
         latitude_pick: latitude_pick,
         longitude_pick: longitude_pick,
-        typesAddress : typesAddress
+        typesAddress: typesAddress
     }
 }
 
@@ -18,7 +18,7 @@ export const dropAddress = (drop_add, component_drop, latitude_drop, longitude_d
         address_component: component_drop,
         latitude_drop: latitude_drop,
         longitude_drop: longitude_drop,
-        typesAddress : typesAddress
+        typesAddress: typesAddress
     }
 }
 
@@ -80,6 +80,7 @@ export const addTripInformation = (partner_name, merged, depart_time, chunk_id, 
 }
 
 export const addPromotionCode = (promotion_code, discount_price) => {
+    console.log('qqq' + discount_price)
     return {
         type: types.ADD_PROMOTION_CODE,
         promotion_code: promotion_code,
@@ -846,6 +847,13 @@ export const setModalTime = (modalPick, modalDrop) => {
         type: types.SET_MODAL_TIME,
         modalPick: modalPick,
         modalDrop: modalDrop,
+    }
+}
+
+export const addIdCustomer = (idCustomer) => {
+    return {
+        type: types.ADD_ID_CUSTOMER,
+        idCustomer: idCustomer,
     }
 }
 

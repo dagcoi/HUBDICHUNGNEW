@@ -3,16 +3,9 @@ import { View, Text, Image, StyleSheet, ActivityIndicator, ScrollView, Touchable
 import OTPInputView from '@twotalltotems/react-native-otp-input'
 import * as link from '../../../URL'
 import WebView from 'react-native-webview';
-import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { NavigationActions, StackActions } from 'react-navigation';
-import { Button, ButtonGray, ButtonDialog } from '../../../component/Button'
-import { formatDate } from '../../../until'
-import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
-import PopUp from '../../../component/PopUp'
-import OtpInputs from 'react-native-otp-inputs';
-// import { handleAndroidBackButton, removeAndroidBackButtonHandler, exitAlert } from '../../../component/AndroidBackButton'
+import { Button, ButtonGray } from '../../../component/Button'
 import { HeaderText } from '../../../component/Header'
-import { StatusTicket } from '../../../component/Ticket';
 import DetailChungXe from '../../ListBooking//DetailChungXe'
 import DetailExpress from '../../ListBooking/DetailExpress'
 import DetailHourlyTaxi from '../../ListBooking//DetailHourlyTaxi'
@@ -20,19 +13,9 @@ import DetailTaxi from '../../ListBooking/DetailTaxi'
 import DetailTuLai from '../../ListBooking/DetailTuLai'
 import DetailXeChung from '../../ListBooking/DetailXeChung'
 
-const imageLocation = '../../../image/location2.png'
-const imageCalendar = '../../../image/calendar.png'
-const imagePeople = '../../../image/people.png'
-const imageIconCar = '../../../image/iconcar.png'
-const imagePerson = '../../../image/person.png'
-const imageIconPhone = '../../../image/iconphone.png'
-const imageEmail = '../../../image/email.png'
-const imageDone = '../../../image/done.png'
-const imagePayment = '../../../image/payment.png'
-const imageComment = '../../../image/comment.png'
 const imageCancel = '../../../image/cancel.png'
 
-const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window')
+const { height: SCREEN_HEIGHT } = Dimensions.get('window')
 const cancel_booking = link.URL_API + `passenger/cancel_booking`
 const cancel_booking_token = link.URL_API + `passenger/generate_cancel_booking_token`
 
@@ -122,155 +105,6 @@ class TicketInformation extends Component {
         });
         // console.log(JSON.stringify(jsonRes))
         return (jsonRes);
-    }
-
-    renderDetailTrip(item) {
-        // const time = item.bookingTime
-        // const date = new Date(time).toLocaleDateString()
-        // const hours = new Date(time).toLocaleTimeString()
-        // const strtime = hours + " " + date
-        const strtime = formatDate(item.bookingTime)
-        return (
-            <View>
-                <Text style={styles.textBigLeft1}>Chi tiết chuyến đi</Text>
-
-                <ImageTextDiChung
-                    source={require(imageLocation)}
-                    // text={item.pick_address_api}
-                    text={item.startPoint.address}
-                />
-
-                <ImageTextDiChung
-                    source={require(imageLocation)}
-                    // text={item.drop_address_api}
-                    text={item.endPoint.address}
-                />
-
-                <ImageTextDiChung
-                    source={require(imageCalendar)}
-                    // text={item.in_time + ' ' + item.in_date}
-                    text={strtime}
-                />
-
-                <ImageTextDiChung
-                    source={require(imagePeople)}
-                    // text={item.chair_count + ' xe'}
-                    text={item.slot + ' xe'}
-                />
-            </View>
-        )
-    }
-
-    renderDetailOrder(item) {
-        return (
-            <View>
-                <Text style={styles.textBigLeft1}>Chi tiết đơn hàng</Text>
-
-                <ImageTextDiChung
-                    source={require(imageIconCar)}
-                    // text={item.ride_method_id == '1' ? 'Đi riêng': 'Đi chung'}
-                    text={item.label}
-                />
-            </View>
-        )
-    }
-
-    renderDetailCustommer(item) {
-        return (
-            <View>
-                <Text style={styles.textBigLeft1}>Chi tiết khách hàng</Text>
-
-                <ImageTextDiChung
-                    source={require(imagePerson)}
-                    // text={item.fullname}
-                    text={item.bookingUser.fullName}
-                />
-
-                <ImageTextDiChung
-                    source={require(imageIconPhone)}
-                    // text={item.other_phone}
-                    text={item.bookingUser.phone}
-                />
-
-                <ImageTextDiChung
-                    source={require(imageEmail)}
-                    // text={item.email}
-                    text={item.bookingUser.email}
-                />
-            </View>
-        )
-    }
-
-    renderDetailPeopleMove(item) {
-
-        return (
-            <View>
-                <Text style={styles.textBigLeft1}>Chi tiết người đi</Text>
-
-                <ImageTextDiChung
-                    source={require(imagePerson)}
-                    // text={item.use_name}
-                    text={item.beneficiary.fullName}
-                />
-
-                <ImageTextDiChung
-                    source={require(imageIconPhone)}
-                    // text={item.use_phone}
-                    text={item.beneficiary.phone}
-                />
-
-            </View>
-        )
-
-    }
-
-
-
-    renderOther(item) {
-        return (
-            <View style={{ marginBottom: 8 }}>
-                <Text style={styles.textBigLeft1}>Thanh toán và khác</Text>
-                <ImageTextDiChung
-                    source={require(imagePayment)}
-                    // text={item.pay_method_name}
-                    text={item.payment.method == 'cash' ? 'Trả sau' : 'Trả trước'}
-                />
-                {/* {item.board_price != '0' ? */}
-                {item.extra.catch_in_house != '0' ?
-                    <ImageTextDiChung
-                        source={require(imageDone)}
-                        text={'Đón bằng biển tên (+ 30.000 ₫)'}
-                    /> : null}
-                {/* {item.xhd == 1 ? */}
-                {item.extra.xhd == 1 ?
-                    <ImageTextDiChung
-                        source={require(imageDone)}
-                        text={'+10 %'}
-                    /> : null}
-                {item.promotion !== '' ?
-                    <ImageTextDiChung
-                        source={require(imageDone)}
-                        text={'Mã giảm giá: ' + item.promotion}
-                    /> : null}
-            </View>
-        )
-    }
-
-    renderTT(item) {
-        return (
-            <View>
-                <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', }}>
-                    <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
-                    {item.forward.status == 'forwarded' ?
-                        <Text style={styles.textBigRight1}>
-                            {/* {parseInt(item.total_cost).format(0, 3, '.')} đ */}
-                            {parseInt(item.payment.totalCost).format(0, 3, '.')} đ
-                    </Text>
-                        : null}
-                </View>
-                {/* <Text style={{ marginBottom: 8, textAlign: 'right' }}>{item.toll_fee == 'NA' ? "Giá chưa bao giờ phí cầu đường": "Giá trọn gói không phí ẩn"}</Text> */}
-            </View>
-        )
     }
 
     renderPaymentOnline(item) {
@@ -397,19 +231,6 @@ class TicketInformation extends Component {
         })
     }
 
-    renderComment(item) {
-        if (item.note.length > 1) {
-            return (
-                < ImageTextDiChung
-                    source={require(imageComment)}
-                    text={item.note}
-                />
-            )
-        } else {
-            return null;
-        }
-    }
-
     renderRadio() {
         const { value } = this.state;
 
@@ -466,36 +287,14 @@ class TicketInformation extends Component {
                                 <Text style={styles.textBigRight}>Mã thuê xe của bạn: <Text style={{ fontWeight: 'bold', backgroundColor: '#77a300', color: '#fff', padding: 4 }}>{item.code}</Text></Text>
                                 : <Text style={styles.textBigRight}>Yêu cầu đặt xe của bạn đã được hệ thồng ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>
                             }
-                            {/* 
-                            <StatusTicket item={item} />
-
-                            <Text>Mọi thắc mắc vui lòng liên hệ: <Text
-                                style={{ color: '#77a300', fontWeight: 'bold', textDecorationLine: 'underline' }}
-                                onPress={() => Linking.openURL(`tel: 19006022`)}
-                            >
-                                19006022
-                            </Text>
-                            </Text>
-
-                            {this.renderDetailTrip(item)}
-                            {this.renderDetailOrder(item)}
-                            {this.renderDetailCustommer(item)}
-                            {this.renderDetailPeopleMove(item)}
-                            {this.renderComment(item)}
-                            {this.renderOther(item)}
-                            {this.renderTT(item)}
-                             */}
-
-                            {/* {this.state.listHourly.indexOf(this.state.bookingDetail.productType.toLowerCase()) >= 0 ? <DetailHourlyTaxi item={item} />
-                                : this.state.bookingDetail.productType === 'hourly_car_rental' ? <DetailChungXe item={item} />
-                                    : <DetailTaxi item={item} />} */}
                             {this.state.bookingDetail.productType == 'CAR_RENTAL' ? <DetailTuLai item={this.state.bookingDetail} />
                                 : this.state.bookingDetail.productType == 'DRIVER_RENTAL' ? <DetailXeChung item={this.state.bookingDetail} />
                                     : this.state.bookingDetail.productType == 'hourly_car_rental' ? <DetailChungXe item={this.state.bookingDetail} />
                                         : this.state.bookingDetail.productType == 'EXPRESS' ? <DetailExpress item={this.state.bookingDetail} />
                                             : this.state.bookingDetail.productType == 'TRANSFER_SERVICE' ? <DetailTaxi item={this.state.bookingDetail} />
                                                 : this.state.bookingDetail.productType == 'TRUCK' ? <DetailTaxi item={this.state.bookingDetail} />
-                                                    : <DetailHourlyTaxi item={this.state.bookingDetail} />}
+                                                    : this.state.bookingDetail.productType == 'RIDE_SHARE' ? <DetailTaxi item={this.state.bookingDetail} />
+                                                        : <DetailHourlyTaxi item={this.state.bookingDetail} />}
                             <View style={{ paddingHorizontal: 8 }}>
                                 {this.renderPaymentOnline(item)}
 

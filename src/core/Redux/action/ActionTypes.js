@@ -148,4 +148,5 @@ export const SET_PROVIDER = 'SET_PROVIDER'
 export const SET_MODAL_TIME = 'SET_MODAL_TIME'
 export const SET_TIME_PICK = 'SET_TIME_PICK'
 export const SET_TIME_DROP = 'SET_TIME_DROP'
+export const ADD_ID_CUSTOMER = 'ADD_ID_CUSTOMER'
 

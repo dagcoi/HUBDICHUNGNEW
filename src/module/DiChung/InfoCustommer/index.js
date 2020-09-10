@@ -5,7 +5,7 @@ import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBox from 'react-native-check-box'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import { connect } from 'react-redux';
-import { addInfoPeople1, addInfoPeople2, addVAT, addInfoFlight, addPromotionCode, addPaymentMethodID, addComment } from '../../../core/Redux/action/Action'
+import { addInfoPeople1, addInfoPeople2, addVAT, addInfoFlight, addPromotionCode, addPaymentMethodID, addComment, addIdCustomer } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
 import { Button, ButtonDialog } from '../../../component/Button'
 import AwesomeAlert from 'react-native-awesome-alerts'
@@ -104,6 +104,7 @@ class InfoCustommer extends Component {
                     promotion_code: '',
                     comment: this.props.comment,
                 })
+                this.props.addIdCustomer(json._id)
                 this._validateEmail(json.email ?? '')
                 this.mobileValidate(json.phone ?? '')
                 this.state.is_checked == true && this.mobileValidate1(this.props.use_phone1)
@@ -260,9 +261,49 @@ class InfoCustommer extends Component {
         }
     }
 
+    renderMGG() {
+        return (
+            <View style={{ flexDirection: 'row', marginTop: 8, marginBottom: 8, height: 50 }}>
+                <View style={{ marginTop: 8, borderWidth: 0.5, borderColor: '#e8e8e8', borderRadius: 4, flexDirection: 'row', justifyContent: "center", alignItems: "center", flex: 1, }} >
+                    <TextInput
+                        style={[styles.textInput]}
+                        value={this.state.promotion_code}
+                        onChangeText={(text) => this.setState({
+                            promotion_code: text.toUpperCase(),
+                            blDiscount: false,
+                        })}
+                        placeholder={'Mã giảm giá'}
+                    />
+                    <TouchableOpacity
+                        onPress={() => this.setState({
+                            promotion_code: '',
+                            blDiscount: false,
+                        }
+                        )}
+                    >
+                        <Image
+                            style={{ width: 20, height: 20, margin: 8 }}
+                            source={this.state.promotion_code.length == 0 ? null : require(imageCancel)}
+                        />
+                    </TouchableOpacity>
+                </View>
+
+                <TouchableOpacity
+                    onPress={() => {
+                        this.setState({
+                            isLoading: true,
+                        })
+                        this.checkPromotionCode();
+                    }}
+                    style={{ padding: 8, justifyContent: 'center', backgroundColor: '#77a300', marginLeft: 8, borderRadius: 4, marginTop: 8 }}
+                >
+                    <Text style={{ color: '#ffffff' }}>ÁP DỤNG</Text>
+                </TouchableOpacity>
+            </View>
+        )
+    }
+
     renderSanBay() {
-        console.log('this.props.send' + this.props.send)
-        const send = JSON.parse(this.props.send)
         return (
             this.props.typesPick.includes("airport") && this.props.product_chunk_type === 'transfer_service' ?
                 <View>
@@ -385,7 +426,6 @@ class InfoCustommer extends Component {
     }
 
     checkAirport() {
-        const send = JSON.parse(this.props.send)
         if (this.props.typesPick.includes("airport") && this.props.product_chunk_type === 'transfer_service' && (this.state.plane_number.trim().length < 3 || this.state.plane_type < 0)) {
             // Alert.alert(`Vui lòng nhập mã chuyến bay`)
             this.setState({ alertAirport: true })
@@ -442,18 +482,21 @@ class InfoCustommer extends Component {
     }
 
     async checkPromotionCode() {
-        const url = link.URL_API + `passenger/check_promotion_code?promotion_code=${this.state.promotion_code}&phone_number=84${this.state.use_phone}&chunk_id=${this.props.chunk_id}&ride_method_id=${this.props.ride_method_id}&depart_time=${this.props.depart_time}&transport_partner_id=${this.props.brand_partner_id}`;
+        var time = new Date(this.props.depart_time2 + '+07:00').getTime()
+        const send = JSON.parse(this.props.send)
+        // console.log(send)
+        const url = link.URL_API_PORTAL + `price/v1/promocode?code=${this.state.promotion_code}&provider=${send.provider.name}&phone=${this.state.use_phone}&chunkId=${send.extra.chunk_id}&rideMethodId=${send.extra.ride_method_id}&bookingTime=${time}&transportPartnerId=${send.extra.brand_partner_id}`;
         console.log(url)
         return fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
-                console.log(responseJson.code)
-                if (responseJson.code == 'error') {
+                console.log(responseJson)
+                if (responseJson.error) {
                     console.log('a')
                     this.setStateAsync({
                         isLoading: false,
                         promotionStatus: false,
-                        detailPromotion: responseJson.message,
+                        detailPromotion: responseJson.error.message,
                         promotion_code: '',
                         blDiscount: false,
                     })
@@ -463,12 +506,13 @@ class InfoCustommer extends Component {
                     this.setStateAsync({
                         isLoading: false,
                         promotionStatus: true,
-                        detailPromotion: responseJson.data.discount_text,
-                        discount_price: responseJson.data.discount_price,
+                        detailPromotion: responseJson.data.discountText,
+                        discount_price: responseJson.data.discountPrice,
                         blDiscount: true,
                         promotion_code: this.state.promotion_code.toUpperCase()
                     })
-                    this.props.addPromotionCode(this.state.promotion_code, this.state.discount_price);
+                    console.log('..2..' + responseJson.data.discountPrice)
+                    this.props.addPromotionCode(this.state.promotion_code, responseJson.data.discountPrice);
                 }
                 return responseJson.code;
             })
@@ -667,20 +711,22 @@ class InfoCustommer extends Component {
 
                         {this.renderPostpaid()}
 
+                        {this.renderMGG()}
                         <View>{this.state.detailPromotion == '' ? null : <Text style={{ color: this.state.promotion ? "#77a300" : "#fa0000" }}>{this.state.detailPromotion}</Text>}</View>
-
-                        <CheckBox
-                            style={{ marginTop: 8 }}
-                            onClick={() => {
-                                this.setState({
-                                    vat: !this.state.vat
-                                })
-                            }}
-                            isChecked={this.state.vat}
-                            rightText={"Xuất hóa đơn"}
-                            rightTextStyle={{ fontSize: 16 }}
-                            checkBoxColor={'#77a300'}
-                        />
+                        {this.props.product_chunk_type != 'ride_share' &&
+                            <CheckBox
+                                style={{ marginTop: 8 }}
+                                onClick={() => {
+                                    this.setState({
+                                        vat: !this.state.vat
+                                    })
+                                }}
+                                isChecked={this.state.vat}
+                                rightText={"Xuất hóa đơn"}
+                                rightTextStyle={{ fontSize: 16 }}
+                                checkBoxColor={'#77a300'}
+                            />
+                        }
                         {this.renderFormVAT()}
 
                         <Button
@@ -758,7 +804,8 @@ function mapStateToProps(state) {
         component_drop: state.info.component_drop,
         typesPick: state.info.typesPick,
         typesDrop: state.info.typesDrop,
+        depart_time2: state.info.depart_time2,
     }
 }
 
-export default connect(mapStateToProps, { addInfoFlight: addInfoFlight, addInfoPeople1: addInfoPeople1, addInfoPeople2: addInfoPeople2, addVAT: addVAT, addPromotionCode: addPromotionCode, addPaymentMethodID: addPaymentMethodID, addComment: addComment })(InfoCustommer);
+export default connect(mapStateToProps, { addInfoFlight: addInfoFlight, addInfoPeople1: addInfoPeople1, addInfoPeople2: addInfoPeople2, addVAT: addVAT, addPromotionCode: addPromotionCode, addPaymentMethodID: addPaymentMethodID, addComment: addComment, addIdCustomer: addIdCustomer })(InfoCustommer);
