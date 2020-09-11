@@ -4,7 +4,7 @@ import CalendarPicker from 'react-native-calendar-picker';
 import { connect } from 'react-redux';
 import { addDepartTime, addPeople, swapAddress, addDuration, addProductChunkType, addCarType } from '../../../core/Redux/action/Action'
 import ImageTextBold from '../../../component/ImageTextDiChung/ImageTextBold'
-import {listHour, listChair, listTime} from '../../../component/TimeSelect/listTime'
+import { listHour, listChair, listTime } from '../../../component/TimeSelect/listTime'
 import Dialog, { } from 'react-native-popup-dialog';
 import { HeaderText } from '../../../component/Header'
 
@@ -223,7 +223,7 @@ class MapDiChung extends Component {
         });
     }
     pressSwap = () => {
-        this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop,this.props.typesDrop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick, this.props.typesPick);
+        this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.typesDrop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick, this.props.typesPick);
     }
     pressSelectTime = () => {
         this.setState({
@@ -373,7 +373,7 @@ class MapDiChung extends Component {
 
     gotoListCarHourlyBooking() {
         this.props.addProductChunkType('hourly_rent_taxi')
-        if (this.props.pick_add != '' && this.state.carType != '' && this.state.depart_time != '') {
+        if (this.props.pick_add != '' && this.props.carName != null && this.state.depart_time != '') {
             if (this.state.date) {
                 if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                     if (this.state.hoursAlive > this.state.selectedHours) {
@@ -610,8 +610,8 @@ class MapDiChung extends Component {
                                             this.props.addCarType(item.carname, item.listCarType)
                                         }}
                                     >
-                                        <Text style={{ fontSize: 16, flex: 1, padding: 8, color: item.carname === this.state.carType ? '#77a300' : '#000000' }}>{item.carname}</Text>
-                                        {item.carname === this.state.carType ? <Image
+                                        <Text style={{ fontSize: 16, flex: 1, padding: 8, color: item.carname === this.props.carName ? '#77a300' : '#000000' }}>{item.carname}</Text>
+                                        {item.carname === this.props.carName ? <Image
                                             style={{ height: 24, width: 24, marginLeft: 8 }}
                                             source={require(imageCheck)}
                                         /> : null}
@@ -679,6 +679,7 @@ function mapStateToProps(state) {
         depart_time: state.info.depart_time,
         typesPick: state.info.typesPick,
         typesDrop: state.info.typesDrop,
+        carName: state.info.carName,
     }
 }
 

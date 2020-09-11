@@ -588,6 +588,7 @@ class InfoCustommer extends Component {
 
     render() {
         const { navigation } = this.props;
+        const send = JSON.parse(this.props.send)
         // var pay_methods = JSON.parse(navigation.getParam('pay_methods'));
         var radio_payment = []
         // if (pay_methods['3'] != null) {
@@ -711,7 +712,7 @@ class InfoCustommer extends Component {
 
                         {this.renderPostpaid()}
 
-                        {this.renderMGG()}
+                        {send.provider.name == 'dichungtaxi' && this.renderMGG()}
                         <View>{this.state.detailPromotion == '' ? null : <Text style={{ color: this.state.promotion ? "#77a300" : "#fa0000" }}>{this.state.detailPromotion}</Text>}</View>
                         {this.props.product_chunk_type != 'ride_share' &&
                             <CheckBox
