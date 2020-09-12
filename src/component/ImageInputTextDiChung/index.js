@@ -27,7 +27,7 @@ function ImageInputTextDiChung({
                 <TextInput
                     editable={false}
                     onTouchStart={onPress}
-                    style={{ fontSize: 14, height: 40, color: "#00363d" }}
+                    style={{ fontSize: 14, height: 40, color: "#333333" }}
                     pointerEvents="none"
                     value={value}
                     placeholder={placeholder}

@@ -7,7 +7,10 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "apk" : "cd android && ./gradlew assembleRelease && cd ..",
+    "pod" : "cd ios && pod install && cd ..",
+    "npm install" : "npm install"
   },
   "dependencies": {
     "@react-native-community/datetimepicker": "^3.0.1",

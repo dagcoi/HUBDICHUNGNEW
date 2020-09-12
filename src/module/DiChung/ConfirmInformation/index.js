@@ -129,6 +129,10 @@ class ConfirmInformation extends Component {
 
     async setDataSend() {
         var time = new Date(this.props.depart_time2 + '+07:00').getTime();
+        var timeReturn;
+        if (this.props.returnTime2) {
+            timeReturn = new Date(this.props.returnTime2 + '+07:00').getTime();
+        }
         const { navigation } = this.props;
         const dataSend = JSON.parse(this.props.send)
         dataSend.startPoint =
@@ -155,7 +159,7 @@ class ConfirmInformation extends Component {
 
             dataSend.dimension = 'one_way'
         }
-        dataSend.slot = (this.props.product_chunk_type == 'express' || this.props.product_chunk_type == 'transfer_service') ? this.props.chair : 1
+        dataSend.slot = (this.props.product_chunk_type == 'express' || this.props.product_chunk_type == 'transfer_service' || this.props.product_chunk_type == 'ride_share') ? this.props.chair : 1
         dataSend.bookingUser = {
             "email": this.props.email,
             "phone": this.props.use_phone,
@@ -185,7 +189,7 @@ class ConfirmInformation extends Component {
         if (this.props.product_chunk_type === 'hourly_car_rental') {
             dataSend.extra = {
                 "bookDeliveryFrom": "agent",
-                "returnTime": this.props.returnTime2,
+                "returnTime": timeReturn,
             }
         }
         if (navigation.getParam('plane_type') > -1) {

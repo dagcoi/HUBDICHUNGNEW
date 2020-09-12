@@ -72,7 +72,7 @@ function renderDetailTrip(item) {
 
             <ImageTextDiChung
                 source={require(imagePeople)}
-                text={(item.slot)+  (item.productType=='TRANSFER_SERVICE'? ' người' :item.productType == 'EXPRESS' ? ' kiện hàng':item.productType == 'DRIVER_RENTAL' ? ' tài xế' : item.productType == 'TRUCK' ? ' xe' :' người')}
+                text={(item.slot)+  (item.productType=='TRANSFER_SERVICE'? ' người' :item.productType == 'EXPRESS' ? ' kiện hàng':item.productType == 'DRIVER_RENTAL' ? ' tài xế' : item.productType == 'TRUCK' ? ' xe' : item.productType == 'TOURIST_CAR' ? ' xe' :' người')+ ' - ' + item.vehicle.name}
             />
         </View>
     )

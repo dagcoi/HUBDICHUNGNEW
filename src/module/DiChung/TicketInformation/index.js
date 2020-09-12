@@ -293,8 +293,9 @@ class TicketInformation extends Component {
                                         : this.state.bookingDetail.productType == 'EXPRESS' ? <DetailExpress item={this.state.bookingDetail} />
                                             : this.state.bookingDetail.productType == 'TRANSFER_SERVICE' ? <DetailTaxi item={this.state.bookingDetail} />
                                                 : this.state.bookingDetail.productType == 'TRUCK' ? <DetailTaxi item={this.state.bookingDetail} />
-                                                    : this.state.bookingDetail.productType == 'RIDE_SHARE' ? <DetailTaxi item={this.state.bookingDetail} />
-                                                        : <DetailHourlyTaxi item={this.state.bookingDetail} />}
+                                                    : this.state.bookingDetail.productType == 'TOURIST_CAR' ? <DetailTaxi item={this.state.bookingDetail} />
+                                                        : this.state.bookingDetail.productType == 'ride_share' ? <DetailTaxi item={this.state.bookingDetail} />
+                                                            : <DetailHourlyTaxi item={this.state.bookingDetail} />}
                             <View style={{ paddingHorizontal: 8 }}>
                                 {this.renderPaymentOnline(item)}
 
