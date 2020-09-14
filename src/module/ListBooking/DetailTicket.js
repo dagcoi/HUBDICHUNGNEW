@@ -258,7 +258,7 @@ class BookingDetail extends Component {
                                                     : this.state.bookingDetail.productType == 'TRUCK' ? <DetailTaxi item={this.state.bookingDetail} />
                                                         : this.state.bookingDetail.productType == 'TOURIST_CAR' ? <DetailTaxi item={this.state.bookingDetail} />
                                                             : this.state.bookingDetail.productType == 'ride_share' ? <DetailTaxi item={this.state.bookingDetail} />
-                                                                : this.state.bookingDetail.productType == 'transfer_service' ? <DetailCaro item={this.state.bookingDetail} />
+                                                                : this.state.bookingDetail.productType == 'transfer_service' ? this.state.bookingDetail.provider.name == 'dichung' ? <DetailTaxi item={this.state.bookingDetail} /> : <DetailCaro item={this.state.bookingDetail} />
                                                                     : <DetailHourlyTaxi item={this.state.bookingDetail} />}
                             </View>
                             <View style={{ paddingHorizontal: 16 }}>

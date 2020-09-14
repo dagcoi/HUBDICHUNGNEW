@@ -48,7 +48,7 @@ function DetailTaxi({ item }) {
 }
 
 function renderDetailTrip(item) {
-    var product_type = (item.productType == 'TRANSFER_SERVICE' ? 'thuê xe taxi' : item.productType == 'EXPRESS' ? 'vận chuyển' : item.productType == 'TOURIST_CAR' ? 'thuê xe du lịch' : item.productType == 'DRIVER_RENTAL' ? 'thuê tài xế' : item.productType == 'CAR_RENTAL' ? 'thuê tự lái' : item.productType == 'TRUCK' ? 'thuê xe tải' : item.productType == 'transfer_service' ? 'taxi(đi luôn)' : 'khác')
+    var product_type = (item.productType == 'TRANSFER_SERVICE' ? 'thuê xe taxi' : item.productType == 'EXPRESS' ? 'vận chuyển' : item.productType == 'TOURIST_CAR' ? 'thuê xe du lịch' : item.productType == 'DRIVER_RENTAL' ? 'thuê tài xế' : item.productType == 'CAR_RENTAL' ? 'thuê tự lái' : item.productType == 'TRUCK' ? 'thuê xe tải' : item.productType == 'transfer_service' ? item.provider.name == 'dichung' ? 'Thuê xe taxi' : 'taxi(đi luôn)' : 'khác')
     const strtime = formatDate(item.bookingTime)
     return (
         <View>
@@ -72,7 +72,7 @@ function renderDetailTrip(item) {
 
             <ImageTextDiChung
                 source={require(imagePeople)}
-                text={(item.slot)+  (item.productType=='TRANSFER_SERVICE'? ' người' :item.productType == 'EXPRESS' ? ' kiện hàng':item.productType == 'DRIVER_RENTAL' ? ' tài xế' : item.productType == 'TRUCK' ? ' xe' : item.productType == 'TOURIST_CAR' ? ' xe' :' người')+ ' - ' + item.vehicle.name}
+                text={(item.slot) + (item.productType == 'TRANSFER_SERVICE' ? ' người' : item.productType == 'EXPRESS' ? ' kiện hàng' : item.productType == 'DRIVER_RENTAL' ? ' tài xế' : item.productType == 'TRUCK' ? ' xe' : item.productType == 'TOURIST_CAR' ? ' xe' : ' người') + ' - ' + item.vehicle.name}
             />
         </View>
     )
@@ -143,12 +143,12 @@ function renderOther(item) {
                 source={require(imagePayment)}
                 text={item.payment.method == 'cash' ? 'Trả sau' : 'Trả trước'}
             />
-            {item.extra.catch_in_house == '1' ?
+            {item.extra?.catch_in_house && item.extra.catch_in_house == '1' ?
                 <ImageTextDiChung
                     source={require(imageDone)}
                     text={'Đón bằng biển tên (+ 30.000 ₫)'}
                 /> : null}
-            {item.extra.xhd == 1 ?
+            {item.extra?.xhd == 1 ?
                 <ImageTextDiChung
                     source={require(imageDone)}
                     text={'+10 %'}

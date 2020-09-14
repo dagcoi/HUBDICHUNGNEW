@@ -9,15 +9,15 @@ import ConfirmInformation from './module/DiChung/ConfirmInformation'
 import ListCar from './module/DiChung/ListCar'
 import TicketInformation from './module/DiChung/TicketInformation'
 import PaymentOnline from './module/DiChung/PaymentOnline'
-import ListCarHourlyBooking from './module/DiChung/ListCarHourlyBooking'
-import InfoCustommerHourlyBooking from './module/DiChung/InfoCustommerHourlyBooking'
-import ConfirmInformationHB from './module/DiChung/ConfirmInformationHB'
+// import ListCarHourlyBooking from './module/DiChung/ListCarHourlyBooking'
+// import InfoCustommerHourlyBooking from './module/DiChung/InfoCustommerHourlyBooking'
+// import ConfirmInformationHB from './module/DiChung/ConfirmInformationHB'
 
 import MapChungXe from './module/ChungXe/MapChungXe'
-import ListVehicle from './module/ChungXe/ListVehicle'
-import InfoChungXe from './module/ChungXe/InfoCarChungXe'
-import ConfirmInfoChungXe from './module/ChungXe/ConfirmInfoChungXe'
-import ChungXeTicketInformation from './module/ChungXe/ChungXeTicketInformation'
+// import ListVehicle from './module/ChungXe/ListVehicle'
+// import InfoChungXe from './module/ChungXe/InfoCarChungXe'
+// import ConfirmInfoChungXe from './module/ChungXe/ConfirmInfoChungXe'
+// import ChungXeTicketInformation from './module/ChungXe/ChungXeTicketInformation'
 
 import MapXeChung from './module/XeChung/MapXeChung'
 import MapExpress from './module/Express/MapExpress'
@@ -167,26 +167,26 @@ const RootStack = createStackNavigator({
         }
     },
 
-    ListCarHourlyBooking: {
-        screen: ListCarHourlyBooking,
-        navigationOptions: {
-            header: null,
-        }
-    },
+    // ListCarHourlyBooking: {
+    //     screen: ListCarHourlyBooking,
+    //     navigationOptions: {
+    //         header: null,
+    //     }
+    // },
 
-    InfoCustommerHourlyBooking: {
-        screen: InfoCustommerHourlyBooking,
-        navigationOptions: {
-            header: null,
-        }
-    },
+    // InfoCustommerHourlyBooking: {
+    //     screen: InfoCustommerHourlyBooking,
+    //     navigationOptions: {
+    //         header: null,
+    //     }
+    // },
 
-    ConfirmInformationHB: {
-        screen: ConfirmInformationHB,
-        navigationOptions: {
-            header: null,
-        }
-    },
+    // ConfirmInformationHB: {
+    //     screen: ConfirmInformationHB,
+    //     navigationOptions: {
+    //         header: null,
+    //     }
+    // },
 
     SearchPlace: {
         screen: SearchPlace,
@@ -209,26 +209,26 @@ const RootStack = createStackNavigator({
         },
     },
 
-    ListVehicle: {
-        screen: ListVehicle,
-        navigationOptions: {
-            header: null,
-        },
-    },
+    // ListVehicle: {
+    //     screen: ListVehicle,
+    //     navigationOptions: {
+    //         header: null,
+    //     },
+    // },
 
-    InfoChungXe: {
-        screen: InfoChungXe,
-        navigationOptions: {
-            header: null,
-        }
-    },
+    // InfoChungXe: {
+    //     screen: InfoChungXe,
+    //     navigationOptions: {
+    //         header: null,
+    //     }
+    // },
 
-    ConfirmInfoChungXe: {
-        screen: ConfirmInfoChungXe,
-        navigationOptions: {
-            header: null,
-        }
-    },
+    // ConfirmInfoChungXe: {
+    //     screen: ConfirmInfoChungXe,
+    //     navigationOptions: {
+    //         header: null,
+    //     }
+    // },
 
     TicketInformation: {
         screen: TicketInformation,
@@ -237,12 +237,12 @@ const RootStack = createStackNavigator({
         }
     },
 
-    ChungXeTicketInformation: {
-        screen: ChungXeTicketInformation,
-        navigationOptions: {
-            header: null,
-        }
-    },
+    // ChungXeTicketInformation: {
+    //     screen: ChungXeTicketInformation,
+    //     navigationOptions: {
+    //         header: null,
+    //     }
+    // },
 
     MapXeChung: {
         screen: MapXeChung,
