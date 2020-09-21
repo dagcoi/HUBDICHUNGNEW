@@ -857,4 +857,111 @@ export const addIdCustomer = (idCustomer) => {
     }
 }
 
+export const addItemCarOperator = (itemCarOperator) => {
+    return {
+        type: types.ADD_ITEM_CAR_TYPE,
+        itemCarOperator: itemCarOperator,
+        modalCarTypeOperator: false,
+    }
+}
+
+export const showModalOperator = (modalCarTypeOperator) => {
+    return {
+        type: types.SHOW_MODAL_CAR_OPERATOR,
+        modalCarTypeOperator: modalCarTypeOperator
+    }
+}
+
+export const addTimePick = (idTimePick, timePick) => {
+    return {
+        type: types.ADD_TIME_PICK,
+        idTimePick: idTimePick,
+        timePick: timePick,
+        modalTimePick: false,
+    }
+}
+
+export const addTimeDrop = (idTimeDrop, timeDrop) => {
+    return {
+        type: types.ADD_TIME_DROP,
+        idTimeDrop: idTimeDrop,
+        timeDrop: timeDrop,
+        modalTimeDrop: false,
+    }
+}
+
+export const showModalTimePick = (modalTimePick) =>{
+    return{
+        type: types.SHOW_MODAL_TIME_PICK,
+        modalTimePick: modalTimePick
+    }
+}
+
+export const showModalTimeDrop = (modalTimeDrop) =>{
+    return{
+        type: types.SHOW_MODAL_TIME_DROP,
+        modalTimeDrop: modalTimeDrop
+    }
+}
+
+export const showModalConfirm = (modalConfirm) =>{
+    return{
+        type: types.SHOW_MODAL_CONFIRM,
+        modalConfirm: modalConfirm
+    }
+}
+
+export const addItemConfirm = (itemConfirm) => {
+    return {
+        type: types.ADD_ITEM_CONFIRM,
+        itemConfirm: itemConfirm,
+        modalConfirm: false,
+    }
+}
+
+export const addListDayOfWeek = (listDaySelect) => {
+    return {
+        type: types.LIST_DAY_OF_WEEK,
+        listDaySelect: listDaySelect,
+    }
+}
+
+export const addSendDataOperator = (sendDataOperator) => {
+    return {
+        type: types.ADD_DATA_SEND_OPERATOR,
+        sendDataOperator: sendDataOperator,
+    }
+}
+
+export const showModalCity = (modalCity) =>{
+    return{
+        type: types.SHOW_MODAL_CITY,
+        modalCity: modalCity
+    }
+}
+
+export const addItemCity = (itemCity) => {
+    return {
+        type: types.ADD_ITEM_CITY,
+        itemCity: itemCity,
+        modalCity: false,
+    }
+}
+
+
+export const showModalTransmission = (modalTransmission) =>{
+    return{
+        type: types.SHOW_MODAL_TRANSMISSION,
+        modalTransmission: modalTransmission
+    }
+}
+
+export const addItemTransmission = (itemTransmission) => {
+    return {
+        type: types.ADD_ITEM_TRANSMISSION,
+        itemTransmission: itemTransmission,
+        modalTransmission: false,
+    }
+}
+
 

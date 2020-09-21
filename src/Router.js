@@ -48,9 +48,15 @@ import ListCarTaxiNow from './module/TaxiNow/ListCarTaxiNow'
 import CustomerInfoTaxiNow from './module/TaxiNow/CustomerInfoTaxiNow'
 import MapStartTrip from './module/TaxiNow/MapStartTrip'
 
+import Confirm from './module/DoiTac/Screen/Confirm'
+// import RideShareA from './module/DoiTac/Form/RideShare'
+import HomeOperator from './module/DoiTac/Screen/Home'
 import { createDrawerNavigator } from 'react-navigation-drawer'
 import CustomNavigator from './component/CustomNavigator'
 import { connect } from 'react-redux'
+import TransferService from './module/DoiTac/Screen/TransferService'
+import Express from './module/DoiTac/Screen/Express'
+import CarRental from './module/DoiTac/Screen/CarRental'
 
 const ListBookingDetail = createStackNavigator({
     ListBooking: {
@@ -188,13 +194,6 @@ const RootStack = createStackNavigator({
     //     }
     // },
 
-    SearchPlace: {
-        screen: SearchPlace,
-        navigationOptions: {
-            header: null,
-        }
-    },
-
     PaymentOnline: {
         screen: PaymentOnline,
         navigationOptions: {
@@ -302,11 +301,59 @@ const Profiles = createStackNavigator({
     },
 })
 
+const StackRideShare = createStackNavigator({
+    HomeOperator: {
+        screen: HomeOperator,
+        navigationOptions: {
+            header: null,
+        }
+    },
+
+    TransferServiceOperator: {
+        screen: TransferService,
+        navigationOptions: {
+            header: null,
+        }
+    },
+
+    CarRentalOperator: {
+        screen: CarRental,
+        navigationOptions: {
+            header: null,
+        }
+    },
+
+    ExpressOperator: {
+        screen: Express,
+        navigationOptions: {
+            header: null,
+        }
+    },
+
+    Confirm: {
+        screen: Confirm,
+        navigationOptions: {
+            header: null,
+        }
+    }
+
+
+})
+
+
 const DrawerNavi = createDrawerNavigator({
     Main: {
         screen: RootStack,
         navigationOptions: {
             title: 'Đặt xe',
+            alignItems: 'center'
+        }
+    },
+
+    StackRideShare: {
+        screen: StackRideShare,
+        navigationOptions: {
+            title: 'Cho thuê xe',
             alignItems: 'center'
         }
     },
@@ -368,6 +415,20 @@ const DrawerNavi = createDrawerNavigator({
     contentComponent: CustomNavigator,
 })
 
+const StackMain = createStackNavigator({
+    Main: {
+        screen: DrawerNavi,
+        navigationOptions: {
+            header: null
+        }
+    },
+    SearchPlace: {
+        screen: SearchPlace,
+        navigationOptions: {
+            header: null,
+        }
+    },
+})
 
 function mapStateToProps(state) {
     return {
@@ -377,4 +438,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps)(createAppContainer(DrawerNavi))
+export default connect(mapStateToProps)(createAppContainer(StackMain))

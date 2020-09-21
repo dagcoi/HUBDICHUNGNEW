@@ -8,9 +8,9 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "apk" : "cd android && ./gradlew assembleRelease && cd ..",
-    "pod" : "cd ios && pod install && cd ..",
-    "npm install" : "npm install"
+    "apk": "cd android && ./gradlew assembleRelease && cd ..",
+    "pod": "cd ios && pod install && cd ..",
+    "npm install": "npm install"
   },
   "dependencies": {
     "@react-native-community/datetimepicker": "^3.0.1",
@@ -51,6 +51,7 @@
     "react-native-simple-radio-button": "^2.7.4",
     "react-native-simple-toast": "^1.1.2",
     "react-native-super-grid": "^4.0.2",
+    "react-native-svg": "^12.1.0",
     "react-native-swipe-gestures": "^1.0.4",
     "react-native-swiper": "^1.5.14",
     "react-native-swiper-flatlist": "^2.0.3",

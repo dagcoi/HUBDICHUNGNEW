@@ -7,6 +7,7 @@ import ReducerTuLai from './ReducerTuLai'
 import ReducerYCDB from './ReducerYCDB'
 import ReducerInfo from './ReducerInfo'
 import ReducerModal from './ReducerModal'
+import ReducerOperator from './ReducerOperator'
 
 const reducer = combineReducers({
     info: Reducer,
@@ -17,6 +18,7 @@ const reducer = combineReducers({
     dacbiet: ReducerYCDB,
     thongtin: ReducerInfo,
     modal : ReducerModal,
+    rdOperator : ReducerOperator,
 });
 
 export default reducer;
