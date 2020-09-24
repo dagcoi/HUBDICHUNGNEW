@@ -13,6 +13,7 @@ import Toast from 'react-native-simple-toast';
 import { addCaroDuration } from '../../core/Redux/action/Action'
 import BottomSheet from 'reanimated-bottom-sheet'
 import { HeaderText } from '../../component/Header'
+import { SvgPick } from '../../icons';
 
 const origin = { latitude: 20.97820166666667, longitude: 105.79656666666666 };
 const GOOGLE_MAPS_API_KEY = key.KEY_GOOGLE;
@@ -193,6 +194,7 @@ class Map extends Component {
         return (
             <View style={styles.formInput}>
                 <ImageInputTextDiChung
+                    children={<SvgPick/>}
                     onPress={() => {
                         this.props.navigation.push("SearchPlace", {
                             search: 'Location',
@@ -206,6 +208,7 @@ class Map extends Component {
                 />
 
                 <ImageInputTextDiChung
+                    children={<SvgPick/>}
                     onPress={() => {
                         this.props.navigation.push("SearchPlace", {
                             search: 'Drop',

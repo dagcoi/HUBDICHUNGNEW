@@ -7,15 +7,19 @@ function ImageTextDiChung({
     source,
     style,
     styleIcon,
+    children
 }) {
     return (
         <View style={style ?? styles.container}>
-            {source == null ? null :
+            <View>
+                {children}
+            </View>
+            {/* { children ?? source == null ? null :
                 <Image
                     style={styleIcon ?? styles.leftIcon}
                     source={source}
                 />
-            }
+            } */}
             <Text style={styles.textBigRight}><Text style={styles.textBigRightBold}>{textBold}</Text>{text}</Text>
         </View>
     )

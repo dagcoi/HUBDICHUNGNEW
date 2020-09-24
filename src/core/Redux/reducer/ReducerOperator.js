@@ -17,6 +17,10 @@ const defaultStateOperator = {
     modalCity: false,
     itemTransmission: null,
     modalTransmission: false,
+    itemVehicle: null,
+    modalVehicle: false,
+    itemSlot: null,
+    modalSlot: false,
 }
 const ReducerOperator = (state = defaultStateOperator, action) => {
     switch (action.type) {
@@ -100,6 +104,30 @@ const ReducerOperator = (state = defaultStateOperator, action) => {
                 ...state,
                 modalTransmission: action.modalTransmission,
             }
+        case types.ADD_ITEM_VEHICLE:
+            return {
+                ...state,
+                itemVehicle: action.itemVehicle,
+                modalVehicle: action.modalVehicle,
+                itemSlot: action.itemSlot,
+            }
+        case types.SHOW_MODAL_VEHICLE:
+            return {
+                ...state,
+                modalVehicle: action.modalVehicle,
+            }
+        case types.ADD_ITEM_SLOT:
+            return {
+                ...state,
+                itemSlot: action.itemSlot,
+                modalSlot: action.modalSlot,
+            }
+        case types.SHOW_MODAL_SLOT:
+            return {
+                ...state,
+                modalSlot: action.modalSlot,
+            }
+
         default:
             return state;
     }

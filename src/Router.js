@@ -57,6 +57,8 @@ import { connect } from 'react-redux'
 import TransferService from './module/DoiTac/Screen/TransferService'
 import Express from './module/DoiTac/Screen/Express'
 import CarRental from './module/DoiTac/Screen/CarRental'
+import ConfirmRideShare from './module/DoiTac/Screen/ConfirmRideShare'
+import CreateRideShare from './module/DoiTac/Screen/CreateRideShare'
 
 const ListBookingDetail = createStackNavigator({
     ListBooking: {
@@ -276,6 +278,12 @@ const RootStack = createStackNavigator({
             header: null,
         },
     },
+    SearchPlace: {
+        screen: SearchPlace,
+        navigationOptions: {
+            header: null,
+        }
+    },
 })
 
 const Profiles = createStackNavigator({
@@ -335,7 +343,26 @@ const StackRideShare = createStackNavigator({
         navigationOptions: {
             header: null,
         }
-    }
+    },
+    ConfirmRideShare: {
+        screen: ConfirmRideShare,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    CreateRideShare: {
+        screen: CreateRideShare,
+        navigationOptions: {
+            header: null,
+        }
+    },
+
+    SearchPlace: {
+        screen: SearchPlace,
+        navigationOptions: {
+            header: null,
+        }
+    },
 
 
 })
@@ -415,20 +442,20 @@ const DrawerNavi = createDrawerNavigator({
     contentComponent: CustomNavigator,
 })
 
-const StackMain = createStackNavigator({
-    Main: {
-        screen: DrawerNavi,
-        navigationOptions: {
-            header: null
-        }
-    },
-    SearchPlace: {
-        screen: SearchPlace,
-        navigationOptions: {
-            header: null,
-        }
-    },
-})
+// const StackMain = createStackNavigator({
+//     Main: {
+//         screen: DrawerNavi,
+//         navigationOptions: {
+//             header: null
+//         }
+//     },
+//     SearchPlace: {
+//         screen: SearchPlace,
+//         navigationOptions: {
+//             header: null,
+//         }
+//     },
+// })
 
 function mapStateToProps(state) {
     return {
@@ -438,4 +465,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps)(createAppContainer(StackMain))
+export default connect(mapStateToProps)(createAppContainer(DrawerNavi))

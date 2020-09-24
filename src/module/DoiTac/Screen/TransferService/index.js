@@ -5,11 +5,12 @@ import { listHour } from '../../../../component/TimeSelect/listTime'
 import CalendarPicker from 'react-native-calendar-picker'
 import ImageInputTextDiChung from '../../../../component/ImageInputTextDiChung'
 import { HeaderText } from '../../../../component/Header'
-import { showModalOperator, showModalTimePick, showModalTimeDrop, showModalConfirm, addListDayOfWeek, addSendDataOperator, addDepartTime } from '../../../../core/Redux/action/Action'
+import { showModalOperator, showModalTimePick, showModalTimeDrop, showModalConfirm, addListDayOfWeek, addSendDataOperator, addDepartTime, showModalVehicle, showModalSlot } from '../../../../core/Redux/action/Action'
 import { connect } from 'react-redux'
 import { ButtonFull } from '../../../../component/Button'
-import { FormSelectCar, InputImage, ModalConfirm, ModalListCar, ModalListTime, TimePickDrop } from '../../Form'
+import { FormSelectCar, InputImage, ModalConfirm, ModalListCar, ModalListTime, TimePickDrop, FormSelectVehicleSlot, ModalVehicle, ModalSlot } from '../../Form'
 import Toast from 'react-native-simple-toast';
+import { SvgPeople, SvgVehicle } from '../../../../icons'
 
 const imageLocation = '../../../../image/location.png'
 
@@ -117,7 +118,7 @@ class OperatorTransferService extends Component {
             <SafeAreaView style={{ flex: 1 }}>
                 <HeaderText textCenter={'Cho thuê dịch vụ'} onPressLeft={this.goBack} />
                 <View style={{ padding: 8 }}>
-                    <View style={[styles.borderTop, { height: 40, backgroundColor: '#77a' }]}>
+                    <View style={[styles.borderTop, { height: 40, backgroundColor: '#77a300' }]}>
                         <TouchableOpacity style={[this.state.select ? styles.selectSwitch : styles.normalSwitch, { borderTopLeftRadius: 8 }]}
                             onPress={() => { this.setState({ select: false }) }}
                         >
@@ -130,6 +131,12 @@ class OperatorTransferService extends Component {
                         </TouchableOpacity>
                     </View>
                     {!this.state.select ? this.formTransfer() : this.formRideShare()}
+                    <View>
+                        {/* <SvgComponent />
+                        <SvgBulletPoints  color={'#77a300'}/>
+                        <SvgVehicle color={'#00363d'} /> */}
+                        {/* <Text>abc</Text> */}
+                    </View>
                     <ModalListCar />
                     <ModalListTime />
                     <ModalConfirm />
@@ -167,59 +174,66 @@ class OperatorTransferService extends Component {
                     value={this.props.itemConfirm?.label}
                     onPress={this.showModalConfirmSelect}
                 />
-                {/* <InputImage maxLength={12}
-                    value={this.state.money}
-                    onChangeText={(text) => this.handleChange(text.replace(new RegExp(/,/gi), ''))}
-                    placeholder={'Giá tiền'}
-                    keyboardType={'decimal-pad'}
-                /> */}
+                <FormSelectVehicleSlot
+                    onPress={this.showModalVehicle}
+                    placeholder={'Chọn phương tiện'}
+                    value={this.props.itemVehicle?.label}
+                    onPress2={this.showModalSlot}
+                    placeholder2={'Chọn Số chỗ'}
+                    children={<SvgVehicle color={'#00363d'}/>}
+                    children2={<SvgPeople color={'#00363d'} />}
+                    value2={this.props.itemSlot ? this.props.itemSlot.label + ' Chỗ' : ''}
+                />
+                <ModalVehicle />
+                <ModalSlot />
+
                 <ButtonFull value={'Tiếp tục'} onPress={this.pressConfirmRideShare} />
                 <Modal
-                        animationType="slide"
-                        transparent={true}
-                        visible={this.state.dialogCalendarVisible}
-                        onRequestClose={() => {
-                            console.log('a');
-                        }}>
-                        <SafeAreaView style={{
-                            flex: 1,
-                            flexDirection: 'column',
-                            justifyContent: 'flex-end',
-                        }}>
-                            <View style={{ flex: 1, backgroundColor: '#fff', alignItems: "center" }}>
-                                <View style={{ flexDirection: 'row', margin: 16 }}>
-                                    <Text style={{ fontSize: 18, fontWeight: 'bold', flex: 1, textAlign: 'center' }}>Chọn thời gian đi</Text>
-                                </View>
-                                <CalendarPicker
-                                    textStyle={{
-                                        color: '#000000',
-                                        fontSize: 14,
-                                    }}
-                                    weekdays={['Th 2', 'Th 3', 'Th 4', 'Th 5', 'Th 6', 'Th 7', 'CN',]}
-                                    months={['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']}
-                                    previousTitle="Trước"
-                                    nextTitle="Sau"
-                                    allowRangeSelection={false}
-                                    minDate={minDate}
-                                    startFromMonday={true}
-                                    selectedDayColor="#77a300"
-                                    selectedDayTextColor="#FFFFFF"
-                                    dayShape='cicle'
-
-                                    onDateChange={(date) => {
-                                        console.log('date: ....' + date)
-                                        this.setState({
-                                            date: date,
-                                            dialogTimeVisible: true,
-                                        })
-                                    }}
-
-                                />
+                    animationType="slide"
+                    transparent={true}
+                    visible={this.state.dialogCalendarVisible}
+                    onRequestClose={() => {
+                        console.log('a');
+                    }}>
+                    <SafeAreaView style={{
+                        flex: 1,
+                        flexDirection: 'column',
+                        justifyContent: 'flex-end',
+                    }}>
+                        <View style={{ flex: 1, backgroundColor: '#fff', alignItems: "center" }}>
+                            <View style={{ flexDirection: 'row', margin: 16 }}>
+                                <Text style={{ fontSize: 18, fontWeight: 'bold', flex: 1, textAlign: 'center' }}>Chọn thời gian đi</Text>
                             </View>
-                            {this.modalTime()}
+                            <CalendarPicker
+                                textStyle={{
+                                    color: '#000000',
+                                    fontSize: 14,
+                                }}
+                                weekdays={['Th 2', 'Th 3', 'Th 4', 'Th 5', 'Th 6', 'Th 7', 'CN',]}
+                                months={['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']}
+                                previousTitle="Trước"
+                                nextTitle="Sau"
+                                allowRangeSelection={false}
+                                minDate={minDate}
+                                startFromMonday={true}
+                                selectedDayColor="#77a300"
+                                selectedDayTextColor="#FFFFFF"
+                                dayShape='cicle'
 
-                        </SafeAreaView>
-                    </Modal>
+                                onDateChange={(date) => {
+                                    console.log('date: ....' + date)
+                                    this.setState({
+                                        date: date,
+                                        dialogTimeVisible: true,
+                                    })
+                                }}
+
+                            />
+                        </View>
+                        {this.modalTime()}
+
+                    </SafeAreaView>
+                </Modal>
             </View>
         )
     }
@@ -247,7 +261,11 @@ class OperatorTransferService extends Component {
                     placeholder2={'số chỗ'}
                     onChangText={(text) => { this.setState({ slot: text }) }}
                 />
-                <InputImage value={this.state.carNameDetail} onChangeText={(text) => { this.setState({ carNameDetail: text }) }} placeholder={'Tên xe'} />
+                <InputImage
+                    value={this.state.carNameDetail}
+                    onChangeText={(text) => { this.setState({ carNameDetail: text }) }}
+                    placeholder={'Tên xe'}
+                />
                 <TimePickDrop
                     onPress={this.showModalPick}
                     value={this.props.timePick}
@@ -374,8 +392,10 @@ class OperatorTransferService extends Component {
             Toast.show('Vui lòng chọn thời gian đi', Toast.SHORT);
         } else if (!this.props.itemConfirm) {
             Toast.show('Vui lòng chọn hình thức nhận chuyến', Toast.SHORT);
-        } else if (this.state.money < 1) {
-            Toast.show('Vui lòng nhập giá tiền', Toast.SHORT);
+            // } else if (this.state.money < 1) {
+            //     Toast.show('Vui lòng nhập giá tiền', Toast.SHORT);
+        } else {
+            this.props.navigation.navigate('ConfirmRideShare')
         }
     }
 
@@ -425,7 +445,10 @@ class OperatorTransferService extends Component {
         this.props.addSendDataOperator(send)
         this.props.navigation.navigate('Confirm')
     }
-
+    showModalSlot = () => {
+        this.props.itemVehicle.label == 'Xe máy' ? Toast.show('Xe máy không chọn được chỗ', Toast.SHORT) : this.props.showModalSlot(true)
+    }
+    showModalVehicle = () => { this.props.showModalVehicle(true) }
     showModalOperator = () => { this.props.showModalOperator(true) }
     showModalConfirmSelect = () => { this.props.showModalConfirm(true) }
     showModalPick = () => { this.props.showModalTimePick(true) }
@@ -451,6 +474,7 @@ function mapStateToProps(state) {
     return {
         modalCarType: state.rdOperator.modalCarType,
         itemCarOperator: state.rdOperator.itemCarOperator,
+        itemVehicle: state.rdOperator.itemVehicle,
         timePick: state.rdOperator.timePick,
         timeDrop: state.rdOperator.timeDrop,
         pickAddress: state.info.pick_add,
@@ -461,6 +485,8 @@ function mapStateToProps(state) {
         listDayOfWeek: state.rdOperator.listDayOfWeek,
         listDaySelect: state.rdOperator.listDaySelect,
         depart_time: state.info.depart_time,
+        itemSlot: state.rdOperator.itemSlot,
+
     }
 }
 
@@ -472,4 +498,6 @@ export default connect(mapStateToProps, {
     addListDayOfWeek: addListDayOfWeek,
     addSendDataOperator: addSendDataOperator,
     addDepartTime: addDepartTime,
+    showModalVehicle: showModalVehicle,
+    showModalSlot: showModalSlot,
 })(OperatorTransferService);

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { View, Image, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { SvgArrowBack } from '../../icons';
 
 function HeaderText({
     onPressLeft,
@@ -13,20 +14,16 @@ function HeaderText({
         <View style={styles.container}>
             <TouchableOpacity
                 onPress={onPressLeft}
-
             >
                 <View style={{ height: 50, width: 50, marginLeft: 8, justifyContent: 'center', alignItems: 'center' }}>
-                    <Image
-                        style={{ height: 30, width: 30, borderRadius: 20 }}
-                        source={require('../../image/arrowback.png')}
-                    />
+                    <SvgArrowBack />
                 </View>
             </TouchableOpacity>
 
             <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1, height: 50 }}>
                 <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{textCenter}</Text>
             </View>
-            <View style={{justifyContent:'center', alignItems: 'center', height: 50, minWidth: 50, flexDirection: 'row'}}>
+            <View style={{ justifyContent: 'center', alignItems: 'center', height: 50, minWidth: 50, flexDirection: 'row' }}>
                 {source1 ? <TouchableOpacity
                     style={{ height: 30, width: 30, marginRight: 8, justifyContent: 'center', alignItems: 'center' }}
                     onPress={onPressRight1}

@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { Modal, FlatList, Text, View, SafeAreaView, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
-import { addItemVehicle, showModalVehicle } from '../../../core/Redux/action/Action'
+import { addItemSlot, showModalSlot } from '../../../core/Redux/action/Action'
 import Toast from 'react-native-simple-toast';
 
-class ModalVehicle extends Component {
+class ModalSlot extends Component {
 
     constructor(props) {
         super(props);
@@ -16,20 +16,34 @@ class ModalVehicle extends Component {
     componentDidMount() {
         this.setState({
             items: [
-                { 'value': 'motorbike', 'label': 'Xe máy' },
-                { 'value': 'car', 'label': 'Ô tô' },
+                { 'value': 0, 'label': '1' },
+                { 'value': 1, 'label': '2' },
+                { 'value': 2, 'label': '3' },
+                { 'value': 3, 'label': '4' },
+                { 'value': 4, 'label': '5' },
+                { 'value': 5, 'label': '6' },
+                { 'value': 6, 'label': '7' },
+                { 'value': 7, 'label': '8' },
+                { 'value': 8, 'label': '9' },
+                { 'value': 9, 'label': '10' },
+                { 'value': 10, 'label': '11' },
+                { 'value': 11, 'label': '12' },
+                { 'value': 12, 'label': '13' },
+                { 'value': 13, 'label': '14' },
+                { 'value': 14, 'label': '15' },
+                { 'value': 15, 'label': '16' },
             ]
         })
     }
     render() {
         return (
             <Modal
-                visible={this.props.modalVehicle}
+                visible={this.props.modalSlot}
                 transparent={true}
             >
                 <SafeAreaView style={{ flex: 1, backgroundColor: '#000000AA' }}>
                     <TouchableOpacity style={{ flex: 1 }}
-                        onPress={() => this.props.showModalVehicle(false)}
+                        onPress={() => this.props.showModalSlot(false)}
                     >
                     </TouchableOpacity>
                     <View style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -38,9 +52,9 @@ class ModalVehicle extends Component {
                             renderItem={({ item, index }) => {
                                 return (
                                     <TouchableOpacity
-                                        onPress={() => {  this.props.addItemVehicle(item)}}
+                                        onPress={() => {  this.props.addItemSlot(item)}}
                                         style={{ justifyContent: "center", alignItems: 'baseline', paddingHorizontal: 16, paddingVertical: 8, borderBottomWidth: 0.5, borderColor: '#e8e8e8' }}>
-                                        <Text style={{ color:  this.props.itemVehicle?.label == item.label ? '#77a300' : '#333' , fontSize: 18, backgroundColor: this.props }}>{item.label}</Text>
+                                        <Text style={{ color:  this.props.itemSlot?.label == item.label ? '#77a300' : '#333' , fontSize: 18, backgroundColor: this.props }}>{item.label+ ' Chỗ'}</Text>
                                     </TouchableOpacity>
                                 )
                             }}
@@ -55,9 +69,9 @@ class ModalVehicle extends Component {
 
 function mapStateToProps(state) {
     return {
-        modalVehicle: state.rdOperator.modalVehicle,
-        itemVehicle: state.rdOperator.itemVehicle
+        modalSlot: state.rdOperator.modalSlot,
+        itemSlot: state.rdOperator.itemSlot
     }
 }
 
-export default connect(mapStateToProps, { addItemVehicle: addItemVehicle, showModalVehicle: showModalVehicle })(ModalVehicle);
+export default connect(mapStateToProps, { addItemSlot: addItemSlot, showModalSlot: showModalSlot })(ModalSlot);

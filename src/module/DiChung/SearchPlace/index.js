@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { HeaderText } from '../../../component/Header'
 
 import { pickAddress, dropAddress, addAddressYCDB, addLocation } from '../../../core/Redux/action/Action'
+import { SvgPick } from '../../../icons';
 navigator.geolocation = require('@react-native-community/geolocation')
 
 const API_KEY = 'AIzaSyBDZSUAda65OflvYZmZ4G5XSGONZv3pkuY';
@@ -139,10 +140,11 @@ class SearchPlace extends Component {
                                     color: '#333'
                                 },
                                 description: {
+                                    color: '#333',
                                     fontWeight: 'normal',
                                 },
                                 predefinedPlacesDescription: {
-                                    color: '#77a300'
+                                    color: '#77a300',
                                 }
                             }}
 
@@ -158,10 +160,11 @@ class SearchPlace extends Component {
                             debounce={500}
                             ref={ref => this.GooglePlaceRef1 = ref}
                             renderLeftButton={() => <View style={{ justifyContent: "center", alignItems: "center", marginLeft: 8, }}>
-                                <Image
+                                {/* <Image
                                     style={{ width: 30, height: 30, }}
                                     source={address11 == 'Pick' ? require(imageLocation) : require(imageDrop)}
-                                />
+                                /> */}
+                                <SvgPick color={address11 == 'Pick' ? '#00363d' : '#77a300'} />
                             </View>
                             }
                             renderRightButton={() => <View style={{ padding: 8, justifyContent: 'center', alignItems: 'center' }}>

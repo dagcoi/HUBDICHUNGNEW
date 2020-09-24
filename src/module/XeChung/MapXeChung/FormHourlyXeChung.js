@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
+import { SvgClock, SvgDuration, SvgPick } from '../../../icons';
 
 
 const imageLocation = '../../../image/location.png'
@@ -19,6 +20,7 @@ class FormHourlyXeChung extends Component {
     renderPickAddress() {
         return (
             <ImageInputTextDiChung
+                children={<SvgPick />}
                 noBorderTop
                 onPress={this.props.onPressPickAddress}
                 source={require(imageLocation)}
@@ -31,6 +33,7 @@ class FormHourlyXeChung extends Component {
     renderHourglass() {
         return (
             <ImageInputTextDiChung
+                children={<SvgDuration />}
                 onPress={this.props.onPressHourglass}
                 source={require(imageHourglass)}
                 placeholder={'Chọn số giờ'}
@@ -42,16 +45,14 @@ class FormHourlyXeChung extends Component {
 
     renderTimePick() {
         return (
-            <View style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
-            >
-                <ImageInputTextDiChung
-                    widthHeightImage={24}
-                    onPress={this.props.onPressSelectTime}
-                    source={require(imageTime)}
-                    placeholder={'Chọn giờ đi'}
-                    value={this.props.depart_time}
-                />
-            </View>
+            <ImageInputTextDiChung
+                children={<SvgClock />}
+                widthHeightImage={24}
+                onPress={this.props.onPressSelectTime}
+                source={require(imageTime)}
+                placeholder={'Chọn giờ đi'}
+                value={this.props.depart_time}
+            />
         )
     }
 
@@ -63,9 +64,11 @@ class FormHourlyXeChung extends Component {
                 <View style={{ flex: 1 }}>
                     {this.renderPickAddress()}
                     <View style={{ height: 40, flexDirection: 'row', }}>
-                        {this.renderTimePick()}
+                        <View style={{ flex: 1 }}>
+                            {this.renderTimePick()}
+                        </View>
                     </View>
-                    <View style={{ height: 40, flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#e8e8e8', }}>
+                    <View style={{ height: 40, flexDirection: 'row', }}>
                         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
                             {this.renderHourglass()}
                         </View>

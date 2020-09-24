@@ -890,22 +890,22 @@ export const addTimeDrop = (idTimeDrop, timeDrop) => {
     }
 }
 
-export const showModalTimePick = (modalTimePick) =>{
-    return{
+export const showModalTimePick = (modalTimePick) => {
+    return {
         type: types.SHOW_MODAL_TIME_PICK,
         modalTimePick: modalTimePick
     }
 }
 
-export const showModalTimeDrop = (modalTimeDrop) =>{
-    return{
+export const showModalTimeDrop = (modalTimeDrop) => {
+    return {
         type: types.SHOW_MODAL_TIME_DROP,
         modalTimeDrop: modalTimeDrop
     }
 }
 
-export const showModalConfirm = (modalConfirm) =>{
-    return{
+export const showModalConfirm = (modalConfirm) => {
+    return {
         type: types.SHOW_MODAL_CONFIRM,
         modalConfirm: modalConfirm
     }
@@ -933,8 +933,8 @@ export const addSendDataOperator = (sendDataOperator) => {
     }
 }
 
-export const showModalCity = (modalCity) =>{
-    return{
+export const showModalCity = (modalCity) => {
+    return {
         type: types.SHOW_MODAL_CITY,
         modalCity: modalCity
     }
@@ -949,8 +949,8 @@ export const addItemCity = (itemCity) => {
 }
 
 
-export const showModalTransmission = (modalTransmission) =>{
-    return{
+export const showModalTransmission = (modalTransmission) => {
+    return {
         type: types.SHOW_MODAL_TRANSMISSION,
         modalTransmission: modalTransmission
     }
@@ -961,6 +961,37 @@ export const addItemTransmission = (itemTransmission) => {
         type: types.ADD_ITEM_TRANSMISSION,
         itemTransmission: itemTransmission,
         modalTransmission: false,
+    }
+}
+
+export const showModalVehicle = (modalVehicle) => {
+    return {
+        type: types.SHOW_MODAL_VEHICLE,
+        modalVehicle: modalVehicle
+    }
+}
+
+export const addItemVehicle = (itemVehicle) => {
+    return {
+        type: types.ADD_ITEM_VEHICLE,
+        itemVehicle: itemVehicle,
+        itemSlot: { 'value': 0, 'label': '1' },
+        modalVehicle: false,
+    }
+}
+
+export const showModalSlot = (modalSlot) => {
+    return {
+        type: types.SHOW_MODAL_SLOT,
+        modalSlot: modalSlot
+    }
+}
+
+export const addItemSlot = (itemSlot) => {
+    return {
+        type: types.ADD_ITEM_SLOT,
+        itemSlot: itemSlot,
+        modalSlot: false,
     }
 }
 

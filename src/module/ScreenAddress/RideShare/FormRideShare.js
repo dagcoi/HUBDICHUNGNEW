@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, TouchableOpacity, Text, Image } from 'react-native'
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung';
 import { connect } from 'react-redux';
+import { SvgArrowDown, SvgCalendar, SvgPeople, SvgPick } from '../../../icons';
 
 const imageLocation = '../../../image/location.png'
 const imagePeople = '../../../image/people.png'
@@ -16,22 +17,22 @@ class FormRideShare extends Component {
 
     renderTimePick() {
         return (
-            <View style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
-            >
-                <ImageInputTextDiChung
-                    widthHeightImage={24}
-                    onPress={this.props.onPressSelectTime}
-                    source={require(imageTime)}
-                    placeholder={'Chọn giờ đi'}
-                    value={this.props.depart_time}
-                />
-            </View>
+            <ImageInputTextDiChung
+                noBorderTop
+                children={<SvgCalendar />}
+                widthHeightImage={24}
+                onPress={this.props.onPressSelectTime}
+                source={require(imageTime)}
+                placeholder={'Chọn giờ đi'}
+                value={this.props.depart_time}
+            />
         )
     }
 
     renderPickAddress() {
         return (
             <ImageInputTextDiChung
+                children={<SvgPick />}
                 noBorderTop
                 onPress={this.props.onPressPickAddress}
                 source={require(imageLocation)}
@@ -44,6 +45,7 @@ class FormRideShare extends Component {
     renderDropAddress() {
         return (
             <ImageInputTextDiChung
+                children={<SvgPick />}
                 onPress={this.props.onPressDropAddress}
                 source={require(imageLocation)}
                 placeholder={'Nhập điểm đến'}
@@ -61,21 +63,17 @@ class FormRideShare extends Component {
                     {this.renderDropAddress()}
 
                     <View style={{ flexDirection: 'row', height: 40, }}>
-                        {this.renderTimePick()}
+                        <View style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', }}>
+                            {this.renderTimePick()}
+                        </View>
                         <View style={{ width: 1, backgroundColor: '#e8e8e8' }}></View>
                         <TouchableOpacity
                             style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", flexDirection: 'row', alignItems: 'center' }}
                             onPress={this.props.onPressSelectSlot}
                         >
-                            <Image
-                                style={{ height: 24, width: 24, margin: 8 }}
-                                source={require(imagePeople)}
-                            />
+                            <SvgPeople />
                             <Text style={{ flex: 1 }}>{this.props.chair} người</Text>
-                            <Image
-                                style={{ height: 24, width: 24, margin: 8 }}
-                                source={require(imageDown)}
-                            />
+                            <SvgArrowDown />
                         </TouchableOpacity>
                     </View>
 

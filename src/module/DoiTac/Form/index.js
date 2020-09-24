@@ -6,16 +6,22 @@ import ModalCity from './ModalCity'
 import FormSelectCar from './FormSelectCar'
 import ModalListCar from './ModalListCar'
 import ModalTransmission from './ModalTransmission'
+import ModalVehicle from './ModalVehicle'
 import Input from './Input'
+import ModalSlot from './ModalSlot'
+import FormSelectVehicleSlot from './FormSelectVehicleSlot'
 
-export{
+export {
     Input,
     InputImage,
     TimePickDrop,
     FormSelectCar,
+    FormSelectVehicleSlot,
+    ModalSlot,
     ModalListTime,
     ModalConfirm,
     ModalListCar,
     ModalCity,
+    ModalVehicle,
     ModalTransmission
 }

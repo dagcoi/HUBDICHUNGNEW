@@ -4,7 +4,6 @@ import HTML from 'react-native-render-html'
 
 function TextSpaceBetween({
     text,
-    listText,
     textBold,
     style,
     onPress,

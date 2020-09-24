@@ -3,6 +3,7 @@ import { View, TouchableOpacity, Text, Image, TextInput } from 'react-native'
 import { connect } from 'react-redux'
 import FormXeChung from '../../XeChung/MapXeChung/FormXeChung'
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung';
+import { SvgClock, SvgPick, SvgPosition, SvgVehicle, SvgArrowDown } from '../../../icons';
 
 const imageLocation = '../../../image/location.png'
 
@@ -16,6 +17,7 @@ class FromChungXe extends Component {
                 source={require(imageLocation)}
                 placeholder={'Nhập điểm nhận xe'}
                 value={this.props.pick_add}
+                children={<SvgPick />}
             />
         )
     }
@@ -23,38 +25,30 @@ class FromChungXe extends Component {
     render() {
         return (
             <View style={{ flexDirection: 'row' }} >
-                <View style={{ flex: 1 }}>
+                <View style={{ flex: 1, paddingHorizontal: 8 }}>
                     {this.renderPickAddress()}
-                    <View style={{ flexDirection: 'row', height: 40, }}>
+                    <View style={{ flexDirection: 'row', }}>
                         <TouchableOpacity
-                            style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
+                            style={{ paddingLeft: 4, flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
                             onPress={this.props.onPressSelectTimeRent}
                         >
-                            <Image
-                                style={{ height: 24, width: 24, margin: 8 }}
-                                source={require('../../../image/time.png')}
-                            />
-
+                            <SvgClock />
                             <TextInput
                                 value={this.props.depart_time}
                                 placeholder='Thời gian nhận xe'
                                 placeholderTextColor={'#333333'}
                                 onTouchStart={this.props.onPressSelectTimeRent}
                                 pointerEvents='none'
-                                style={{ fontSize: 14, flex: 1, color: '#000' }}
+                                style={{ marginLeft: 12, fontSize: 14, flex: 1, color: '#000' }}
                                 editable={false}
                             />
-
                         </TouchableOpacity>
                         <View style={{ width: 1, backgroundColor: '#e8e8e8' }}></View>
                         <TouchableOpacity
-                            style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", flexDirection: 'row', alignItems: 'center' }}
+                            style={{ paddingLeft: 4, flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", flexDirection: 'row', alignItems: 'center' }}
                             onPress={this.props.onPressSelectTimeReturn}
                         >
-                            <Image
-                                style={{ height: 24, width: 24, margin: 8 }}
-                                source={require('../../../image/time.png')}
-                            />
+                            <SvgClock />
                             <TextInput
                                 editable={false}
                                 value={this.props.returnTime}
@@ -62,7 +56,7 @@ class FromChungXe extends Component {
                                 placeholderTextColor={'#333333'}
                                 onTouchStart={this.props.onPressSelectTimeReturn}
                                 pointerEvents='none'
-                                style={{ fontSize: 14, flex: 1, color: '#000' }}
+                                style={{ marginLeft: 8, fontSize: 14, flex: 1, color: '#000' }}
                             />
                         </TouchableOpacity>
                     </View>
@@ -71,25 +65,20 @@ class FromChungXe extends Component {
                         style={{ borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
                         onPress={this.props.onPressVehicle}
                     >
-                        <Image
-                            style={{ height: 24, width: 24, margin: 8 }}
-                            source={require('../../../image/arrowdown.png')}
-                        />
-
+                        <View style={{ width: 28, height: 28, justifyContent: "center", alignItems: "center" }}>
+                            <SvgVehicle />
+                        </View>
                         <TextInput
                             value={this.props.vehicleName}
                             placeholder='Chọn loại xe'
                             placeholderTextColor={'#333333'}
                             onTouchStart={this.props.onPressVehicle}
                             pointerEvents='none'
-                            style={{ fontSize: 14, flex: 1, color: '#000' }}
+                            style={{ marginLeft: 8, fontSize: 14, flex: 1, color: '#000' }}
                             editable={false}
                         />
 
-                        <Image
-                            style={{ height: 24, width: 24, margin: 8 }}
-                            source={require('../../../image/arrowdown.png')}
-                        />
+                        <SvgArrowDown />
 
                     </TouchableOpacity>
                 </View>

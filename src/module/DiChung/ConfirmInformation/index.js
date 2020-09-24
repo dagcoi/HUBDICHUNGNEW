@@ -7,6 +7,7 @@ import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { Button, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogTitle } from 'react-native-popup-dialog';
 import { HeaderText } from '../../../component/Header'
+import { SvgCalendar, SvgCar, SvgDuration, SvgMail, SvgPerson, SvgPhone, SvgPick, SvgTicket, SvgNote, SvgMoney } from '../../../icons';
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
     return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
@@ -220,16 +221,19 @@ class ConfirmInformation extends Component {
                 <Text style={styles.textBigLeft1}>Chi tiết chuyến đi</Text>
 
                 <ImageTextDiChung
+                    children={<SvgPick />}
                     source={require(imageLocation)}
                     text={this.props.pick_add}
                 />
                 {this.state.listHourly.indexOf(this.props.product_chunk_type) < 0 ?
                     <View>
                         <ImageTextDiChung
+                            children={<SvgPick />}
                             source={require(imageLocation)}
                             text={this.props.drop_add}
                         />
                         <ImageTextDiChung
+                            children={<SvgPerson />}
                             source={require(imagePeople)}
                             text={this.props.chair + (this.props.product_chunk_type === 'express' ? ' gói hàng' : ' người')}
                         />
@@ -238,12 +242,14 @@ class ConfirmInformation extends Component {
                             null
                             :
                             <ImageTextDiChung
+                                children={<SvgDuration />}
                                 source={require(imageCalendar)}
                                 text={'Thời lượng: ' + this.props.duration + ' giờ'}
                             />}
                     </View>}
 
                 <ImageTextDiChung
+                    children={<SvgCalendar />}
                     source={require(imageCalendar)}
                     text={this.props.depart_time + (this.props.product_chunk_type === 'hourly_car_rental' ? ' - ' + this.props.returnTime : '')}
                 />
@@ -259,11 +265,13 @@ class ConfirmInformation extends Component {
 
                 {this.state.listHourly.indexOf(this.props.product_chunk_type) < 0 ?
                     <ImageTextDiChung
+                        children={<SvgCar />}
                         source={require(imageIconCar)}
                         text={this.props.label}
                     />
                     : <View>
                         <ImageTextDiChung
+                            children={<SvgCar />}
                             source={require(imageIconCar)}
                             // text={'Thuê xe theo tour'}
                             text={this.props.label}
@@ -284,16 +292,19 @@ class ConfirmInformation extends Component {
                 <Text style={styles.textBigLeft1}>Chi tiết khách hàng</Text>
 
                 <ImageTextDiChung
+                    children={<SvgPerson />}
                     source={require(imagePerson)}
                     text={this.props.full_name}
                 />
 
                 <ImageTextDiChung
+                    children={<SvgPhone />}
                     source={require(imageIconPhone)}
                     text={this.props.use_phone}
                 />
 
                 <ImageTextDiChung
+                    children={<SvgMail />}
                     source={require(imageEmail)}
                     text={this.props.email}
                 />
@@ -307,6 +318,7 @@ class ConfirmInformation extends Component {
         } else {
             return (
                 <ImageTextDiChung
+                    children={<SvgTicket />}
                     source={require(imageIconPlan)}
                     text={this.props.plane_number}
                 />
@@ -322,11 +334,13 @@ class ConfirmInformation extends Component {
                     <Text style={styles.textBigLeft1}>Chi tiết người đi</Text>
 
                     <ImageTextDiChung
+                        children={<SvgPerson />}
                         source={require(imagePerson)}
                         text={this.props.full_name2}
                     />
 
                     <ImageTextDiChung
+                        children={<SvgPhone />}
                         source={require(imageIconPhone)}
                         text={this.props.use_phone2}
                     />
@@ -439,6 +453,7 @@ class ConfirmInformation extends Component {
         } else {
             return (
                 <ImageTextDiChung
+                    children={<SvgTicket />}
                     source={require(imageDone)}
                     text={navigation.getParam('detailPromotion')}
                 />
@@ -449,6 +464,7 @@ class ConfirmInformation extends Component {
     formComment() {
         return (
             <ImageTextDiChung
+                children={<SvgNote />}
                 source={require(imageComment)}
                 text={this.props.comment}
             />
@@ -512,6 +528,7 @@ class ConfirmInformation extends Component {
                         <Text style={styles.textBigLeft1}>Thanh toán và khác</Text>
 
                         <ImageTextDiChung
+                            children={<SvgMoney />}
                             source={require(imagePayment)}
                             text={navigation.getParam('Payment') == '0' ? 'Trả sau' : 'Trả trước'}
                         />

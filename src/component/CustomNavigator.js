@@ -16,7 +16,7 @@ class CustomNavigator extends Component {
     }
 
     render() {
-        console.log(this.props.link_avatar)
+        // console.log(this.props.link_avatar)
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <TouchableOpacity

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, TouchableOpacity, Text, Image } from 'react-native'
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung';
 import { connect } from 'react-redux';
+import { SvgCalendar, SvgPick } from '../../../icons';
 
 const imageLocation = '../../../image/location.png'
 const imagePeople = '../../../image/people.png'
@@ -16,16 +17,15 @@ class FormXeChungDoor extends Component {
 
     renderTimePick() {
         return (
-            <View style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
-            >
-                <ImageInputTextDiChung
-                    widthHeightImage={24}
-                    onPress={this.props.onPressSelectTime}
-                    source={require(imageTime)}
-                    placeholder={'Chọn giờ đi'}
-                    value={this.props.depart_time}
-                />
-            </View>
+            <ImageInputTextDiChung
+                noBorderTop
+                children={<SvgCalendar />}
+                widthHeightImage={24}
+                onPress={this.props.onPressSelectTime}
+                source={require(imageTime)}
+                placeholder={'Chọn giờ đi'}
+                value={this.props.depart_time}
+            />
         )
     }
 
@@ -33,6 +33,7 @@ class FormXeChungDoor extends Component {
         return (
             <ImageInputTextDiChung
                 noBorderTop
+                children={<SvgPick />}
                 onPress={this.props.onPressPickAddress}
                 source={require(imageLocation)}
                 placeholder={'Nhập điểm xuất phát'}
@@ -44,6 +45,7 @@ class FormXeChungDoor extends Component {
     renderDropAddress() {
         return (
             <ImageInputTextDiChung
+                children={<SvgPick />}
                 onPress={this.props.onPressDropAddress}
                 source={require(imageLocation)}
                 placeholder={'Nhập điểm đến'}
@@ -61,7 +63,9 @@ class FormXeChungDoor extends Component {
                     {this.renderDropAddress()}
 
                     <View style={{ flexDirection: 'row', height: 40, }}>
-                        {this.renderTimePick()}
+                        <View style={{ flex: 1 }}>
+                            {this.renderTimePick()}
+                        </View>
                     </View>
 
                 </View>

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, TouchableOpacity, Text, Image } from 'react-native'
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung';
 import { connect } from 'react-redux';
+import { SvgClock, SvgPick } from '../../../icons';
 
 const imageLocation = '../../../image/location.png'
 const imagePeople = '../../../image/people.png'
@@ -16,22 +17,21 @@ class FormChungXeTuyen extends Component {
 
     renderTimePick() {
         return (
-            <View style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
-            >
-                <ImageInputTextDiChung
-                    widthHeightImage={24}
-                    onPress={this.props.onPressSelectTime}
-                    source={require(imageTime)}
-                    placeholder={'Chọn giờ nhận xe'}
-                    value={this.props.depart_time}
-                />
-            </View>
+            <ImageInputTextDiChung
+                children={<SvgClock />}
+                widthHeightImage={24}
+                onPress={this.props.onPressSelectTime}
+                source={require(imageTime)}
+                placeholder={'Chọn giờ nhận xe'}
+                value={this.props.depart_time}
+            />
         )
     }
 
     renderPickAddress() {
         return (
             <ImageInputTextDiChung
+                children={<SvgPick />}
                 noBorderTop
                 onPress={this.props.onPressPickAddress}
                 source={require(imageLocation)}
@@ -44,6 +44,7 @@ class FormChungXeTuyen extends Component {
     renderDropAddress() {
         return (
             <ImageInputTextDiChung
+                children={<SvgPick />}
                 onPress={this.props.onPressDropAddress}
                 source={require(imageLocation)}
                 placeholder={'Nhập điểm trả xe'}
@@ -61,7 +62,9 @@ class FormChungXeTuyen extends Component {
                     {this.renderDropAddress()}
 
                     <View style={{ flexDirection: 'row', height: 40, }}>
-                        {this.renderTimePick()}
+                        <View style={{ flex: 1 }}>
+                            {this.renderTimePick()}
+                        </View>
                     </View>
 
                 </View>

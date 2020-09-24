@@ -5,10 +5,11 @@ function ImageTextDiChung({
     textBold,
     source,
     style,
+    children,
 }) {
     return (
         <View style={style ?? styles.container}>
-            {source == null ? null :
+            {children ?? source == null ? null :
                 <Image
                     style={styles.leftIcon}
                     source={source}

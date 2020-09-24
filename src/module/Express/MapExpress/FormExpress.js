@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { View, TouchableOpacity, TextInput, Image,Text } from 'react-native'
+import { View, TouchableOpacity, TextInput, Image, Text } from 'react-native'
 import { DropAddress } from '../../ScreenAddress/Util/index'
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
 import { connect } from 'react-redux'
+import { SvgArrowDown, SvgClock, SvgPick } from '../../../icons'
 
 const imageLocation = '../../../image/location.png'
 const imageTime = '../../../image/time.png'
@@ -16,6 +17,7 @@ class FormExpress extends Component {
             <View style={{ flexDirection: 'row' }} >
                 <View style={{ flex: 1 }} >
                     <ImageInputTextDiChung
+                        children={<SvgPick />}
                         onPress={this.props.onPressPickAddress}
                         source={require(imageLocation)}
                         placeholder={'Điểm nhận hàng'}
@@ -33,11 +35,9 @@ class FormExpress extends Component {
                             style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
                             onPress={this.props.onPressSelectTime}
                         >
-                            <Image
-                                style={{ height: 24, width: 24, marginLeft: 8, }}
-                                source={require(imageTime)}
-                            />
-
+                            <View style={{ paddingLeft: 8 }}>
+                                <SvgClock />
+                            </View>
                             <TextInput
                                 editable={false}
                                 // value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours} : ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
@@ -50,21 +50,19 @@ class FormExpress extends Component {
                             />
                         </TouchableOpacity>
 
-                        <View style={{ width: 1, backgroundColor: '#e8e8e8' }}></View>
-                        <TouchableOpacity
+                        {/* ẩn phần chọn số gói hàng */}
+                        {/* <View style={{ width: 1, backgroundColor: '#e8e8e8' }}></View> */}
+
+                        {/* <TouchableOpacity
                             style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", flexDirection: 'row', alignItems: 'center' }}
                             onPress={this.props.onPressSelectSlot}
                         >
-                            <Image
-                                style={{ height: 24, width: 24, margin: 8 }}
-                                source={require(imageParcel)}
-                            />
+                            <View style={{ padding: 8 }}>
+                                
+                            </View>
                             <Text style={{ flex: 1 }}>{this.props.chair} gói</Text>
-                            <Image
-                                style={{ height: 24, width: 24, margin: 8 }}
-                                source={require(imageDown)}
-                            />
-                        </TouchableOpacity>
+                            <SvgArrowDown />
+                        </TouchableOpacity> */}
                     </View>
                 </View>
             </View>

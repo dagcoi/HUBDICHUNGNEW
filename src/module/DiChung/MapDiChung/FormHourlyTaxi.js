@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
+import { SvgClock, SvgPeople, SvgPick, SvgVehicle } from '../../../icons';
 
 
 const imageLocation = '../../../image/location.png'
@@ -24,6 +25,7 @@ class FormHourlyTaxi extends Component {
                 source={require(imageLocation)}
                 placeholder={'Nhập điểm xuất phát'}
                 value={this.props.pick_add}
+                children={<SvgPick />}
             />
         )
     }
@@ -36,6 +38,7 @@ class FormHourlyTaxi extends Component {
                 placeholder={'Chọn số giờ'}
                 value={this.props.duration + ' giờ'}
                 imageRight={true}
+                children={<SvgClock />}
             />
         )
     }
@@ -48,22 +51,21 @@ class FormHourlyTaxi extends Component {
                 placeholder={'Chọn loại xe'}
                 value={this.props.carName}
                 imageRight={true}
+                children={<SvgVehicle />}
             />
         )
     }
 
     renderTimePick() {
         return (
-            <View style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
-            >
-                <ImageInputTextDiChung
-                    widthHeightImage={24}
-                    onPress={this.props.onPressSelectTime}
-                    source={require(imageTime)}
-                    placeholder={'Chọn giờ đi'}
-                    value={this.props.depart_time}
-                />
-            </View>
+            <ImageInputTextDiChung
+                widthHeightImage={24}
+                onPress={this.props.onPressSelectTime}
+                source={require(imageTime)}
+                placeholder={'Chọn giờ đi'}
+                value={this.props.depart_time}
+                children={<SvgClock />}
+            />
         )
     }
 
@@ -75,9 +77,11 @@ class FormHourlyTaxi extends Component {
                 <View style={{ flex: 1 }}>
                     {this.renderPickAddress()}
                     <View style={{ height: 40, flexDirection: 'row', }}>
-                        {this.renderTimePick()}
+                        <View style={{ flex: 1 }}>
+                            {this.renderTimePick()}
+                        </View>
                     </View>
-                    <View style={{ height: 40, flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#e8e8e8', }}>
+                    <View style={{ height: 40, flexDirection: 'row', }}>
                         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
                             {this.renderHourglass()}
                         </View>
