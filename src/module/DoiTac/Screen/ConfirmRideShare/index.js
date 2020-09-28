@@ -5,6 +5,7 @@ import { HeaderText } from '../../../../component/Header'
 import ImageInputTextDiChung from '../../../../component/ImageInputTextDiChung'
 import styles from '../../style'
 import { ButtonFull } from '../../../../component/Button'
+import { SvgBulletPoints, SvgPick } from '../../../../icons'
 
 const imageLocation = '../../../../image/location.png'
 class ConfirmRideShare extends Component {
@@ -53,6 +54,7 @@ class ConfirmRideShare extends Component {
                 <HeaderText onPressLeft={this.goBack} textCenter={'Giá dịch vụ'} />
                 <View style={{ paddingHorizontal: 8 }}>
                     <ImageInputTextDiChung
+                        children={<SvgPick />}
                         noBorderTop
                         value={this.props.pickAddress}
                         placeholder={'Nhập điểm đón'}
@@ -60,6 +62,7 @@ class ConfirmRideShare extends Component {
                     />
 
                     <ImageInputTextDiChung
+                        children={<SvgPick />}
                         noBorderTop
                         value={this.props.dropAddress}
                         placeholder={'Nhập điểm trả'}
@@ -67,12 +70,16 @@ class ConfirmRideShare extends Component {
                     />
 
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                        <Image style={{ width: 32, height: 32, margin: 2 }} />
+                        <View style={{ width: 32, height: 32, justifyContent: 'center', alignItems: 'center', paddingRight: 4, marginRight: 4 }}>
+                            <SvgBulletPoints />
+                        </View>
                         <Text>Khoảng cách: </Text>
                         <Text>{this.state.range}</Text>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                        <Image style={{ width: 32, height: 32, margin: 2 }} />
+                        <View style={{ width: 32, height: 32, justifyContent: 'center', alignItems: 'center', paddingRight: 4, marginRight: 4 }}>
+                            <SvgBulletPoints />
+                        </View>
                         <Text>Giá bán một chỗ: </Text>
                         <TextInput
                             style={{ borderWidth: 0.5, flex: 1, padding: 8, borderColor: '#e8e8e8', borderRadius: 8 }}
@@ -86,7 +93,7 @@ class ConfirmRideShare extends Component {
 
                 </View>
             </SafeAreaView>
-        ) 
+        )
     }
 
     pressConfirmRideShare = () => {

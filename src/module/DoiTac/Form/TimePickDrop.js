@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Image, TouchableOpacity, } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
+import { SvgClock } from '../../../icons';
 
 const source = require('../../../image/time.png')
 function TimePickDrop({
@@ -16,10 +17,7 @@ function TimePickDrop({
     return (
         <View style={[{ flexDirection: 'row', borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', }, noBorderTop ? { borderTopWidth: 0 } : { borderTopWidth: 1 }]}>
             <View style={{ width: 28, height: 28, justifyContent: "center", alignItems: "center" }}>
-                <Image
-                    style={{ height: widthHeightImage ?? 28, width: widthHeightImage ?? 28, marginLeft: 8, resizeMode: 'contain' }}
-                    source={source}
-                />
+                <SvgClock/>
             </View>
             <TouchableOpacity
                 style={{ flex: 1, height: 40, flexDirection: 'row', alignItems: 'center', marginLeft: 8 }}
@@ -38,10 +36,7 @@ function TimePickDrop({
             </TouchableOpacity>
             <View style={{ borderColor: '#e8e8e8', borderWidth: 0.5, width: 0, height: 40 }} />
             <View style={{ width: 28, height: 28, justifyContent: "center", alignItems: "center" }}>
-                <Image
-                    style={{ height: widthHeightImage ?? 28, width: widthHeightImage ?? 28, marginLeft: 8, resizeMode: 'contain' }}
-                    source={source}
-                />
+                <SvgClock/>
             </View>
             <TouchableOpacity
                 style={{ flex: 1, height: 40, flexDirection: 'row', alignItems: 'center', marginLeft: 8 }}

@@ -713,7 +713,7 @@ class InfoCustommer extends Component {
                         {this.renderPostpaid()}
 
                         {send.provider.name == 'dichungtaxi' && this.renderMGG()}
-                        <View>{this.state.detailPromotion == '' ? null : <Text style={{ color: this.state.promotion ? "#77a300" : "#fa0000" }}>{this.state.detailPromotion}</Text>}</View>
+                        <View>{this.state.detailPromotion == '' ? null : <Text style={{ color: this.state.promotionStatus ? "#77a300" : "#fa0000" }}>{this.state.detailPromotion}</Text>}</View>
                         {this.props.product_chunk_type != 'ride_share' &&
                             <CheckBox
                                 style={{ marginTop: 8 }}

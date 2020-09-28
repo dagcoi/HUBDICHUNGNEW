@@ -10,6 +10,7 @@ import { HeaderText } from '../../../component/Header'
 import { FormSwitch, Warning, DropAddress } from '../Util'
 import { ButtonFull } from '../../../component/Button'
 import { SafeAreaView } from 'react-navigation';
+import { SvgCar, SvgClock, SvgDuration, SvgPick } from '../../../icons';
 
 const imageLocation = '../../../image/location.png'
 const imageCheckWhite = '../../../image/checkw.png'
@@ -136,6 +137,7 @@ class MapCombo extends Component {
     renderPickAddress() {
         return (
             <ImageInputTextDiChung
+                children={<SvgPick/>}
                 onPress={() => {
                     this.props.navigation.push("SearchPlace", {
                         search: 'Pick',
@@ -152,6 +154,7 @@ class MapCombo extends Component {
     renderHourglass() {
         return (
             <ImageInputTextDiChung
+            children={<SvgDuration/>}
                 onPress={() => {
                     this.setState({
                         modalSelectTime: true
@@ -168,6 +171,7 @@ class MapCombo extends Component {
     renderCarType() {
         return (
             <ImageInputTextDiChung
+            children={<SvgCar/>}
                 onPress={() => {
                     this.setState({
                         modalSelectCar: true
@@ -186,6 +190,7 @@ class MapCombo extends Component {
             <View style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
             >
                 <ImageInputTextDiChung
+                    children={<SvgClock/>}
                     widthHeightImage={24}
                     onPress={() => {
                         this.setState({

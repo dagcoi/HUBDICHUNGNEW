@@ -13,6 +13,7 @@ import ModalConfirm from './ModalConfirm'
 import FormSelectCar from './FormSelectCar'
 import { ButtonFull } from '../../../component/Button'
 import Toast from 'react-native-simple-toast';
+import { SvgCheckSuccess, SvgPick } from '../../../icons'
 
 const imageLocation = '../../../image/location.png'
 
@@ -100,6 +101,7 @@ class RideShare extends Component {
                     {!this.state.select ?
                         <View style={styles.borderBottom}>
                             <ImageInputTextDiChung
+                                children={<SvgPick />}
                                 value={this.props.pickAddress}
                                 placeholder={'Nhập điểm đón'}
                                 onPress={this.pressPickAddress}
@@ -107,6 +109,7 @@ class RideShare extends Component {
                             />
 
                             <ImageInputTextDiChung
+                                children={<SvgPick />}
                                 value={this.props.dropAddress}
                                 placeholder={'Nhập điểm trả'}
                                 onPress={this.pressDropAddress}
@@ -147,6 +150,7 @@ class RideShare extends Component {
                                 />
                             </View>
                             <ImageInputTextDiChung
+                                children={<SvgCheckSuccess />}
                                 placeholder={'Hình thức chấp nhận'}
                                 value={this.props.itemConfirm?.label}
                                 onPress={this.showModalConfirmSelect}

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, Image, StyleSheet, Text, ScrollView, Linking } from 'react-native'
 import ImageTextDiChung from '../../component/ImageTextDiChung'
 import { StatusTicket } from '../../component/Ticket'
+import { SvgCalendar, SvgCar, SvgCheckNormal, SvgMail, SvgMoney, SvgNote, SvgPeople, SvgPerson, SvgPhone, SvgPick } from '../../icons'
 import { formatDate } from '../../until'
 
 
@@ -48,14 +49,6 @@ function DetailChungXe({ item }) {
 }
 
 function renderDetailTrip(item) {
-    // const time = item.bookingTime
-    // const time1 = item.extra.returnTime
-    // const date = new Date(time).toLocaleDateString()
-    // const hours = new Date(time).toLocaleTimeString()
-    // const strtime = hours + " " + date
-    // const date1 = new Date(time1).toLocaleDateString()
-    // const hours1 = new Date(time1).toLocaleTimeString()
-    // const strtime1 = hours1 + " " + date1
     const strtime = formatDate(item.bookingTime)
     const strtime1 = formatDate(item.extra.returnTime)
     return (
@@ -63,17 +56,20 @@ function renderDetailTrip(item) {
             <Text style={styles.textBigLeft1}>Chi tiết dịch vụ thuê xe tự lái</Text>
 
             <ImageTextDiChung
+                children={<SvgPick />}
                 source={require(imageLocation)}
                 text={item.startPoint.address}
             />
 
             <ImageTextDiChung
+                children={<SvgCalendar />}
                 source={require(imageCalendar)}
                 text={strtime + '->' + strtime1}
 
             />
 
             <ImageTextDiChung
+                children={<SvgPeople />}
                 source={require(imagePeople)}
                 text={item.slot + ' xe'}
             />
@@ -87,6 +83,7 @@ function renderDetailOrder(item) {
             <Text style={styles.textBigLeft1}>Chi tiết đơn hàng</Text>
 
             <ImageTextDiChung
+                children={<SvgCar />}
                 source={require(imageIconCar)}
                 text={item.label}
             // text={item.ride_method_id == '1' ? 'Đi riêng' : 'Đi chung'}
@@ -101,16 +98,19 @@ function renderDetailCustommer(item) {
             <Text style={styles.textBigLeft1}>Chi tiết khách hàng</Text>
 
             <ImageTextDiChung
+                children={<SvgPerson />}
                 source={require(imagePerson)}
                 text={item.bookingUser.fullName}
             />
 
             <ImageTextDiChung
+                children={<SvgPhone />}
                 source={require(imageIconPhone)}
                 text={item.bookingUser.phone}
             />
 
             <ImageTextDiChung
+                children={<SvgMail />}
                 source={require(imageEmail)}
                 text={item.bookingUser.email}
             />
@@ -125,11 +125,13 @@ function renderDetailPeopleMove(item) {
             <Text style={styles.textBigLeft1}>Chi tiết người đi</Text>
 
             <ImageTextDiChung
+                children={<SvgPerson />}
                 source={require(imagePerson)}
                 text={item.beneficiary.fullName}
             />
 
             <ImageTextDiChung
+                children={<SvgPhone />}
                 source={require(imageIconPhone)}
                 text={item.beneficiary.phone}
             />
@@ -144,21 +146,25 @@ function renderOther(item) {
         <View style={{ marginBottom: 8 }}>
             <Text style={styles.textBigLeft1}>Thanh toán và khác</Text>
             <ImageTextDiChung
+                children={<SvgMoney />}
                 source={require(imagePayment)}
                 text={item.payment.method == 'cash' ? 'Trả sau' : 'Trả trước'}
             />
             {item.extra.catch_in_house == '1' ?
                 <ImageTextDiChung
+                    children={<SvgCheckNormal />}
                     source={require(imageDone)}
                     text={'Đón bằng biển tên (+ 30.000 ₫)'}
                 /> : null}
             {item.extra.xhd == 1 ?
                 <ImageTextDiChung
+                    children={<SvgCheckNormal />}
                     source={require(imageDone)}
                     text={'+10 %'}
                 /> : null}
             {item.promocode ?
                 <ImageTextDiChung
+                    children={<SvgCheckNormal />}
                     source={require(imageDone)}
                     text={'Mã giảm giá: ' + item.promocode}
                 /> : null}
@@ -183,6 +189,7 @@ function renderTT(item) {
 function renderComment(item) {
     return (
         <ImageTextDiChung
+            children={<SvgNote />}
             source={require(imageComment)}
             text={item.note}
         />

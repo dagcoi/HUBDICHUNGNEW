@@ -7,6 +7,7 @@ import { ButtonFull, ButtonDialog } from '../../../../component/Button'
 import { FormSelectVehicleSlot } from '../../Form'
 import Dialog from 'react-native-popup-dialog';
 import * as link from '../../../../URL'
+import { SvgBulletPoints, SvgCheckSuccess, SvgPeople, SvgPick, SvgVehicle } from '../../../../icons'
 
 const imageLocation = '../../../../image/location.png'
 class CreateRideShare extends Component {
@@ -90,8 +91,8 @@ class CreateRideShare extends Component {
                 'administrative_area_level_1',
             ]),
         }
-        send.vehicle = this.props.itemVehicle.value == 'car' ? '2' : '1'
-        // console.log((send))
+        send.vehicle = this.props.itemVehicle.value == 'car' ? 2 : 1
+        console.log((send))
         this.setState({ sendData: send })
     }
 
@@ -105,6 +106,7 @@ class CreateRideShare extends Component {
                 <HeaderText onPressLeft={this.goBack} textCenter={'Xác nhận đăng chuyến'} />
                 <View style={{ paddingHorizontal: 8 }}>
                     <ImageInputTextDiChung
+                        children={<SvgPick />}
                         noBorderTop
                         value={this.props.pickAddress}
                         placeholder={'Nhập điểm đón'}
@@ -112,6 +114,7 @@ class CreateRideShare extends Component {
                     />
 
                     <ImageInputTextDiChung
+                        children={<SvgPick />}
                         noBorderTop
                         value={this.props.dropAddress}
                         placeholder={'Nhập điểm trả'}
@@ -119,14 +122,18 @@ class CreateRideShare extends Component {
                     />
 
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                        <Image style={{ width: 32, height: 32, margin: 2 }} />
-                        <Text>Khoảng cách: </Text>
+                        <View style={{ width: 32, height: 32, justifyContent: 'center', alignItems: 'center' }}>
+                            <SvgBulletPoints />
+                        </View>
+                        <Text style={{ paddingLeft: 4 }}>Khoảng cách: </Text>
                         <Text>{this.state.data?.data?.distanceText}</Text>
                     </View>
 
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                        <Image style={{ width: 32, height: 32, margin: 2 }} />
-                        <Text>Giá bán một chỗ: </Text>
+                        <View style={{ width: 32, height: 32, justifyContent: 'center', alignItems: 'center' }}>
+                            <SvgBulletPoints />
+                        </View>
+                        <Text style={{ paddingLeft: 4 }}>Giá bán một chỗ: </Text>
                         <TextInput
                             style={{ flex: 1, padding: 8, borderColor: '#e8e8e8', borderRadius: 8 }}
                             value={this.state.price}
@@ -135,6 +142,7 @@ class CreateRideShare extends Component {
                     </View>
 
                     <ImageInputTextDiChung
+                        children={<SvgCheckSuccess />}
                         noBorderTop
                         placeholder={'Hình thức chấp nhận'}
                         value={this.props.itemConfirm?.label}
@@ -142,6 +150,8 @@ class CreateRideShare extends Component {
 
                     <FormSelectVehicleSlot
                         noBorderTop
+                        children={<SvgVehicle/>}
+                        children2={<SvgPeople/>}
                         value={this.props.itemVehicle?.label}
                         value2={this.props.itemSlot ? this.props.itemSlot.label + ' Chỗ' : ''}
                     />

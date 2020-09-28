@@ -8,6 +8,7 @@ import { connect } from 'react-redux'
 import { ButtonFull } from '../../../../component/Button'
 import { FormSelectCar, InputImage, ModalConfirm, ModalListCar, ModalListTime, TimePickDrop } from '../../Form'
 import Toast from 'react-native-simple-toast';
+import { SvgCheckSuccess, SvgMoney, SvgNote2, SvgPick, SvgTitle } from '../../../../icons'
 
 const imageLocation = '../../../../image/location.png'
 
@@ -30,7 +31,7 @@ class ExpressOperator extends Component {
                 { 'id': 6, 'DayOfWeek': 'T7' },
             ],
             listDaySelect: [],
-            slot: '',
+            slot: 1,
             moneyNoFormat: null,
             title: '',
             note: '',
@@ -84,6 +85,7 @@ class ExpressOperator extends Component {
                     {!this.state.select ?
                         <View style={[styles.borderBottom, { borderTopLeftRadius: 8, borderTopRightRadius: 8, borderTopWidth: 0.5 }]}>
                             <ImageInputTextDiChung
+                                children={<SvgPick />}
                                 noBorderTop
                                 value={this.props.pickAddress}
                                 placeholder={'Nhập điểm đón'}
@@ -92,18 +94,21 @@ class ExpressOperator extends Component {
                             />
 
                             <ImageInputTextDiChung
+                                children={<SvgPick />}
                                 value={this.props.dropAddress}
                                 placeholder={'Nhập điểm trả'}
                                 onPress={this.pressDropAddress}
                                 source={require(imageLocation)}
                             />
                             <InputImage
+                                children={<SvgTitle />}
                                 value={this.state.title}
                                 onChangeText={(text) => { this.setState({ title: text }) }}
                                 placeholder={'VD: Giao bằng xe máy'}
                             />
 
                             <InputImage
+                                children={<SvgNote2 />}
                                 value={this.state.note}
                                 onChangeText={(text) => { this.setState({ note: text }) }}
                                 placeholder={'VD: Tối đa 20kg'} />
@@ -133,17 +138,19 @@ class ExpressOperator extends Component {
                                     }}
                                 />
                             </View>
-                            <InputImage
+                            {/* <InputImage
                                 keyboardType={'decimal-pad'}
                                 value={this.state.slot}
                                 onChangeText={(text) => { this.setState({ slot: text }) }}
-                                placeholder={'Số gói hàng'} />
+                                placeholder={'Số gói hàng'} /> */}
                             <ImageInputTextDiChung
+                                children={<SvgCheckSuccess />}
                                 placeholder={'Hình thức chấp nhận'}
                                 value={this.props.itemConfirm?.label}
                                 onPress={this.showModalConfirmSelect}
                             />
                             <InputImage
+                                children={<SvgMoney />}
                                 keyboardType={'decimal-pad'}
                                 maxLength={12} value={this.state.money}
                                 onChangeText={(text) => this.handleChange(text.replace(new RegExp(/,/gi), ''))}

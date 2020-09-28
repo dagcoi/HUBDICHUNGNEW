@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Image, TouchableOpacity, TextInput} from 'react-native';
+import { View, Image, TouchableOpacity, TextInput } from 'react-native';
 
 const source = require('../../../image/time.png')
 function FormSelectCar({
@@ -11,14 +11,13 @@ function FormSelectCar({
     onChangText,
     value2,
     placeholder2,
+    children,
+    children2,
 }) {
     return (
         <View style={[{ flexDirection: 'row', borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', }, noBorderTop ? { borderTopWidth: 0 } : { borderTopWidth: 1 }]}>
             <View style={{ width: 28, height: 28, justifyContent: "center", alignItems: "center" }}>
-                <Image
-                    style={{ height: widthHeightImage ?? 28, width: widthHeightImage ?? 28, marginLeft: 8, resizeMode: 'contain' }}
-                    source={source}
-                />
+                {children}
             </View>
             <TouchableOpacity
                 style={{ flex: 1, height: 40, flexDirection: 'row', alignItems: 'center', marginLeft: 8 }}
@@ -37,10 +36,7 @@ function FormSelectCar({
             </TouchableOpacity>
             <View style={{ borderColor: '#e8e8e8', borderWidth: 0.5, width: 0, height: 40 }} />
             <View style={{ width: 28, height: 28, justifyContent: "center", alignItems: "center" }}>
-                <Image
-                    style={{ height: widthHeightImage ?? 28, width: widthHeightImage ?? 28, marginLeft: 8, resizeMode: 'contain' }}
-                    source={source}
-                />
+                {children2}
             </View>
             <View
                 style={{ flex: 1, height: 40, flexDirection: 'row', alignItems: 'center', marginLeft: 8 }}

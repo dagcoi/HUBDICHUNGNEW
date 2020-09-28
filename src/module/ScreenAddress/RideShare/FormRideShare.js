@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, TouchableOpacity, Text, Image } from 'react-native'
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung';
 import { connect } from 'react-redux';
-import { SvgArrowDown, SvgCalendar, SvgPeople, SvgPick } from '../../../icons';
+import { SvgArrowDown, SvgCalendar, SvgClock, SvgPeople, SvgPick } from '../../../icons';
 
 const imageLocation = '../../../image/location.png'
 const imagePeople = '../../../image/people.png'
@@ -19,7 +19,7 @@ class FormRideShare extends Component {
         return (
             <ImageInputTextDiChung
                 noBorderTop
-                children={<SvgCalendar />}
+                children={<SvgClock />}
                 widthHeightImage={24}
                 onPress={this.props.onPressSelectTime}
                 source={require(imageTime)}
@@ -68,10 +68,12 @@ class FormRideShare extends Component {
                         </View>
                         <View style={{ width: 1, backgroundColor: '#e8e8e8' }}></View>
                         <TouchableOpacity
-                            style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", flexDirection: 'row', alignItems: 'center' }}
+                            style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", flexDirection: 'row', alignItems: 'center', }}
                             onPress={this.props.onPressSelectSlot}
                         >
-                            <SvgPeople />
+                            <View style={{ padding: 4 }}>
+                                <SvgPeople />
+                            </View>
                             <Text style={{ flex: 1 }}>{this.props.chair} người</Text>
                             <SvgArrowDown />
                         </TouchableOpacity>

@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, Modal, FlatList, SafeA
 import Calendar from '../../../component/Calendar'
 import { connect } from 'react-redux';
 import { addDepartTime, addPeople, swapAddress, addDuration, addProductChunkType, addCarType } from '../../../core/Redux/action/Action'
-import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
 import { ButtonFull, ButtonDialog } from '../../../component/Button'
 import Dialog, { } from 'react-native-popup-dialog';
 import ImageTextBold from '../../../component/ImageTextDiChung/ImageTextBold'

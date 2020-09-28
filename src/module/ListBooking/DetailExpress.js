@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet, ScrollView, } from 'react-native';
 import ImageTextDiChung from '../../component/ImageTextDiChung'
 import { StatusTicket } from '../../component/Ticket'
+import { SvgMail, SvgNote, SvgPerson, SvgPhone, SvgPick } from '../../icons';
 import { formatDate } from '../../until'
 
 const imageLocation = '../../image/location2.png'
 const imageCalendar = '../../image/calendar.png'
-const imagePeople = '../../image/people.png'
+const imagePeople = '../../image/people.png' 
 const imageIconCar = '../../image/iconcar.png'
 const imagePerson = '../../image/person.png'
 const imageIconPhone = '../../image/iconphone.png'
@@ -47,10 +48,6 @@ function DetailExpress({ item }) {
     )
 }
 function renderDetailTrip(item) {
-    // const time = item.bookingTime
-    // const date = new Date(time).toLocaleDateString()
-    // const hours = new Date(time).toLocaleTimeString()
-    // const strtime = hours + " " + date
     const strtime = formatDate(item.bookingTime)
     return (
         <View>
@@ -80,26 +77,31 @@ function renderDetailCustommer(item) {
             <Text style={styles.textBigLeft1}>Chi tiết người gửi</Text>
 
             <ImageTextDiChung
+                children={<SvgPerson/>}
                 source={require(imagePerson)}
                 text={item.bookingUser.fullName}
             />
 
             <ImageTextDiChung
+                children={<SvgPhone/>}
                 source={require(imageIconPhone)}
                 text={item.bookingUser.phone}
             />
 
             <ImageTextDiChung
+                children={<SvgMail/>}
                 source={require(imageEmail)}
                 text={item.bookingUser.email}
             />
 
             <ImageTextDiChung
+                children={<SvgPick/>}
                 source={require(imageLocation)}
                 text={item.startPoint.address}
             />
 
             <ImageTextDiChung
+                children={<SvgNote/>}
                 source={require(imageComment)}
                 text={item.note}
             />

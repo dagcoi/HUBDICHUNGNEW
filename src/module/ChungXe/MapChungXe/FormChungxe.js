@@ -27,7 +27,7 @@ class FromChungXe extends Component {
             <View style={{ flexDirection: 'row' }} >
                 <View style={{ flex: 1, paddingHorizontal: 8 }}>
                     {this.renderPickAddress()}
-                    <View style={{ flexDirection: 'row', }}>
+                    <View style={{ flexDirection: 'row', height: 40 }}>
                         <TouchableOpacity
                             style={{ paddingLeft: 4, flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
                             onPress={this.props.onPressSelectTimeRent}
@@ -62,7 +62,7 @@ class FromChungXe extends Component {
                     </View>
 
                     <TouchableOpacity
-                        style={{ borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
+                        style={{ borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', height: 40 }}
                         onPress={this.props.onPressVehicle}
                     >
                         <View style={{ width: 28, height: 28, justifyContent: "center", alignItems: "center" }}>

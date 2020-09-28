@@ -10,7 +10,7 @@ import { connect } from 'react-redux'
 import { ButtonFull } from '../../../../component/Button'
 import { FormSelectCar, InputImage, ModalConfirm, ModalListCar, ModalListTime, TimePickDrop, FormSelectVehicleSlot, ModalVehicle, ModalSlot } from '../../Form'
 import Toast from 'react-native-simple-toast';
-import { SvgPeople, SvgVehicle } from '../../../../icons'
+import { SvgCheckSuccess, SvgClock, SvgMoney, SvgPeople, SvgPick, SvgTitle, SvgVehicle } from '../../../../icons'
 
 const imageLocation = '../../../../image/location.png'
 
@@ -150,6 +150,7 @@ class OperatorTransferService extends Component {
         return (
             <View style={styles.borderBottom}>
                 <ImageInputTextDiChung
+                    children={<SvgPick />}
                     value={this.props.pickAddress}
                     placeholder={'Nhập điểm đón'}
                     onPress={this.pressPickAddress}
@@ -157,12 +158,14 @@ class OperatorTransferService extends Component {
                 />
 
                 <ImageInputTextDiChung
+                    children={<SvgPick />}
                     value={this.props.dropAddress}
                     placeholder={'Nhập điểm trả'}
                     onPress={this.pressDropAddress}
                     source={require(imageLocation)}
                 />
                 <ImageInputTextDiChung
+                    children={<SvgClock />}
                     widthHeightImage={24}
                     onPress={this.pressSelectTime}
                     // source={require(imageTime)}
@@ -170,6 +173,7 @@ class OperatorTransferService extends Component {
                     value={this.props.depart_time}
                 />
                 <ImageInputTextDiChung
+                    children={<SvgCheckSuccess />}
                     placeholder={'Hình thức chấp nhận'}
                     value={this.props.itemConfirm?.label}
                     onPress={this.showModalConfirmSelect}
@@ -179,9 +183,9 @@ class OperatorTransferService extends Component {
                     placeholder={'Chọn phương tiện'}
                     value={this.props.itemVehicle?.label}
                     onPress2={this.showModalSlot}
-                    placeholder2={'Chọn Số chỗ'}
-                    children={<SvgVehicle color={'#00363d'}/>}
-                    children2={<SvgPeople color={'#00363d'} />}
+                    placeholder2={'Chọn số chỗ'}
+                    children={<SvgVehicle />}
+                    children2={<SvgPeople />}
                     value2={this.props.itemSlot ? this.props.itemSlot.label + ' Chỗ' : ''}
                 />
                 <ModalVehicle />
@@ -242,6 +246,7 @@ class OperatorTransferService extends Component {
         return (
             <View style={styles.borderBottom}>
                 <ImageInputTextDiChung
+                    children={<SvgPick />}
                     value={this.props.pickAddress}
                     placeholder={'Nhập điểm đón'}
                     onPress={this.pressPickAddress}
@@ -249,19 +254,23 @@ class OperatorTransferService extends Component {
                 />
 
                 <ImageInputTextDiChung
+                    children={<SvgPick />}
                     value={this.props.dropAddress}
                     placeholder={'Nhập điểm trả'}
                     onPress={this.pressDropAddress}
                     source={require(imageLocation)}
                 />
                 <FormSelectCar
+                    children={<SvgVehicle />}
                     placeholder={'Loại xe'}
                     value={this.props.itemCarOperator?.label}
                     onPress={this.showModalOperator}
+                    children2={<SvgPeople />}
                     placeholder2={'số chỗ'}
                     onChangText={(text) => { this.setState({ slot: text }) }}
                 />
                 <InputImage
+                    children={<SvgTitle />}
                     value={this.state.carNameDetail}
                     onChangeText={(text) => { this.setState({ carNameDetail: text }) }}
                     placeholder={'Tên xe'}
@@ -293,11 +302,14 @@ class OperatorTransferService extends Component {
                     />
                 </View>
                 <ImageInputTextDiChung
+                    children={<SvgCheckSuccess />}
                     placeholder={'Hình thức chấp nhận'}
                     value={this.props.itemConfirm?.label}
                     onPress={this.showModalConfirmSelect}
                 />
-                <InputImage maxLength={12}
+                <InputImage
+                    children={<SvgMoney />}
+                    maxLength={12}
                     value={this.state.money}
                     onChangeText={(text) => this.handleChange(text.replace(new RegExp(/,/gi), ''))}
                     placeholder={'Giá tiền'}

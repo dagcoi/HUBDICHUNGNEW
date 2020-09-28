@@ -57,7 +57,7 @@ class FormChungXeTuyen extends Component {
     render() {
         return (
             <View style={{ flexDirection: 'row' }}>
-                <View style={{ flex: 1 }}>
+                <View style={{ flex: 1, paddingHorizontal: 8 }}>
                     {this.renderPickAddress()}
                     {this.renderDropAddress()}
 

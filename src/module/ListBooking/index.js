@@ -8,6 +8,7 @@ import * as link from '../../URL'
 import { connect } from 'react-redux'
 import { NavigationEvents, SafeAreaView } from 'react-navigation';
 import { ButtonFull } from '../../component/Button'
+import { SvgClock, SvgDuration, SvgPick } from '../../icons'
 
 const imagePick = '../../image/location2.png'
 const imageDrop = '../../image/location2.png'
@@ -175,14 +176,17 @@ class ListBooking extends Component {
 
                     <View style={styles.contentTicket}>
                         <ImageTextDiChung
+                            children={<SvgPick />}
                             source={require(imagePick)}
                             text={item.startPoint.address}
                         />
                         {item.endPoint && item.endPoint.address && <ImageTextDiChung
+                            children={<SvgPick />}
                             source={require(imageDrop)}
                             text={item.endPoint.address}
                         />}
                         <ImageTextDiChung
+                            children={<SvgClock />}
                             source={require(imageTime)}
                             textBold={this.formatDate(item.bookingTime)}
                         />
@@ -220,16 +224,19 @@ class ListBooking extends Component {
 
                     <View style={styles.contentTicket}>
                         <ImageTextDiChung
+                            children={<SvgPick />}
                             source={require(imagePick)}
                             text={item.startPoint.address}
                         />
 
                         <ImageTextDiChung
+                            children={<SvgClock />}
                             source={require(imageTime)}
                             textBold={this.formatDate(item.bookingTime)}
                         />
 
                         <ImageTextDiChung
+                            children={<SvgDuration />}
                             source={require(imageTime)}
                             textBold={'Thời gian: '}
                             text={item.duration + (item.productType === 'HOURLY_TOURIST_CAR' ? ' ngày' : ' giờ')}
@@ -266,16 +273,19 @@ class ListBooking extends Component {
 
                     <View style={styles.contentTicket}>
                         <ImageTextDiChung
+                            children={<SvgPick />}
                             source={require(imagePick)}
                             text={item.startPoint.address}
                         />
 
                         <ImageTextDiChung
+                            children={<SvgClock />}
                             source={require(imageTime)}
                             textBold={this.formatDate(item.bookingTime)}
                         />
 
                         <ImageTextDiChung
+                            children={<SvgClock />}
                             source={require(imageTime)}
                             textBold={this.formatDate(item.extra.returnTime)}
                         />

@@ -1,20 +1,14 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Image, Text } from 'react-native';
+import { SvgCheckNormal } from '../../icons';
 
 function ImageTextDiChung({
     textBold,
-    source,
     style,
-    children,
 }) {
     return (
         <View style={style ?? styles.container}>
-            {children ?? source == null ? null :
-                <Image
-                    style={styles.leftIcon}
-                    source={source}
-                />
-            }
+            <SvgCheckNormal color={'#fff'} />
             <Text style={styles.textBigRightBold}>{textBold}</Text>
         </View>
     )

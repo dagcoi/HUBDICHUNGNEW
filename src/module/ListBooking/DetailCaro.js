@@ -4,6 +4,7 @@ import ImageTextDiChung from '../../component/ImageTextDiChung'
 import { StatusTicket } from '../../component/Ticket'
 import Toast from 'react-native-simple-toast';
 import { formatDate } from '../../until'
+import { SvgCalendar, SvgMail, SvgNote, SvgPerson, SvgPhone, SvgPick } from '../../icons';
 
 const imageLocation = '../../image/location2.png'
 const imageCalendar = '../../image/calendar.png'
@@ -81,14 +82,17 @@ function renderDetailTrip(item) {
         <View>
             <Text style={styles.textBigLeft1}>Chi tiết dịch vụ taxi</Text>
             <ImageTextDiChung
+                children={<SvgPick/>}
                 source={require(imageLocation)}
                 text={item.startPoint.address}
             />
             <ImageTextDiChung
+                children={<SvgPick/>}
                 source={require(imageLocation)}
                 text={item.endPoint.address}
             />
             <ImageTextDiChung
+                children={<SvgCalendar/>}
                 source={require(imageCalendar)}
                 text={strtime}
             />
@@ -101,14 +105,17 @@ function renderDetailCustomer(item) {
         <View>
             <Text style={styles.textBigLeft1}>Chi tiết khách hàng</Text>
             <ImageTextDiChung
+                children={<SvgPerson/>}
                 source={require(imagePerson)}
                 text={item.bookingUser.fullName}
             />
             <ImageTextDiChung
+                children={<SvgPhone/>}
                 source={require(imageIconPhone)}
                 text={item.bookingUser.phone}
             />
             <ImageTextDiChung
+                children={<SvgMail/>}
                 source={require(imageEmail)}
                 text={item.bookingUser.email}
             />
@@ -119,6 +126,7 @@ function renderDetailCustomer(item) {
 function renderComment(item) {
     return (
         <ImageTextDiChung
+            children={<SvgNote/>}
             source={require(imageComment)}
             text={item.note}
         />

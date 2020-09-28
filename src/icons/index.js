@@ -2,7 +2,7 @@ import * as React from "react"
 import { View, StyleSheet } from 'react-native'
 import Svg, { Path } from "react-native-svg"
 
-const colorDefault = '#77a300'
+const colorDefault = '#00363d'
 
 function SvgPick(props) {
     return (
@@ -433,6 +433,75 @@ function SvgCheckCircleBorder(props) {
     )
 }
 
+function SvgCheckSuccess(props) {
+    return (
+        <View style={props.style ?? styles.styleSmall}>
+            <Svg
+                width={20}
+                height={20}
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                {...props}
+            >
+                <Path fill="none" d="M0 0h24v24H0z" />
+                <Path fill={props.color ?? colorDefault} d="M19 1H5c-1.1 0-1.99.9-1.99 2L3 15.93c0 .69.35 1.3.88 1.66L12 23l8.11-5.41c.53-.36.88-.97.88-1.66L21 3c0-1.1-.9-2-2-2zm-9 15l-5-5 1.41-1.41L10 13.17l7.59-7.59L19 7l-9 9z" />
+            </Svg>
+        </View>
+    )
+}
+
+function SvgSetting(props) {
+    return (
+        <View style={props.style ?? styles.styleSmall}>
+            <Svg
+                width={24}
+                height={24}
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                {...props}
+            >
+                <Path fill="none" d="M0 0h24v24H0V0z" />
+                <Path fill={props.color ?? colorDefault} d="M19.14 12.936c.036-.3.06-.612.06-.936s-.024-.636-.072-.936l2.028-1.584a.496.496 0 00.12-.612l-1.92-3.324c-.12-.216-.372-.288-.588-.216l-2.388.96a7.03 7.03 0 00-1.62-.936l-.36-2.544a.479.479 0 00-.48-.408h-3.84a.467.467 0 00-.468.408l-.36 2.544a7.219 7.219 0 00-1.62.936l-2.388-.96a.475.475 0 00-.588.216l-1.92 3.324a.465.465 0 00.12.612l2.028 1.584c-.048.3-.084.624-.084.936s.024.636.072.936L2.844 14.52a.496.496 0 00-.12.612l1.92 3.324c.12.216.372.288.588.216l2.388-.96a7.03 7.03 0 001.62.936l.36 2.544c.048.24.24.408.48.408h3.84c.24 0 .444-.168.468-.408l.36-2.544a7.219 7.219 0 001.62-.936l2.388.96c.216.084.468 0 .588-.216l1.92-3.324a.465.465 0 00-.12-.612l-2.004-1.584zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" />
+            </Svg>
+        </View>
+    )
+}
+
+function SvgTitle(props) {
+    return (
+        <View style={props.style ?? styles.styleSmall}>
+            <Svg
+                width={20}
+                height={20}
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                {...props}
+            >
+                <Path fill="none" d="M0 0h24v24H0z" />
+                <Path fill={props.color ?? colorDefault} d="M9 4v3h5v12h3V7h5V4H9zm-6 8h3v7h3v-7h3V9H3v3z" />
+            </Svg>
+        </View>
+    )
+}
+
+function SvgNote2(props) {
+    return (
+        <View style={props.style ?? styles.styleSmall}>
+            <Svg
+                width={20}
+                height={20}
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                {...props}
+            >
+                <Path fill="none" d="M0 0h24v24H0z" />
+                <Path fill={props.color ?? colorDefault} d="M17 10H7v2h10v-2zm2-7h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19a2 2 0 002 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zm-5-5H7v2h7v-2z" />
+
+            </Svg>
+        </View>
+    )
+}
+
 
 const styles = StyleSheet.create({
     styleSmall: {
@@ -470,4 +539,8 @@ export {
     SvgTicket,
     SvgPlane,
     SvgCheckCircleBorder,
+    SvgCheckSuccess,
+    SvgSetting,
+    SvgTitle,
+    SvgNote2,
 }

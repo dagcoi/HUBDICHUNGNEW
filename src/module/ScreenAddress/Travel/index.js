@@ -12,6 +12,7 @@ import { ButtonFull } from '../../../component/Button'
 import { SafeAreaView } from 'react-navigation';
 import FormTravel from './FormTravel';
 import FormHourlyTravel from './FormHourlyTravel';
+import { SvgClock, SvgDuration, SvgPick, SvgVehicle } from '../../../icons';
 
 const imageLocation = '../../../image/location.png'
 const imageCheckWhite = '../../../image/checkw.png'
@@ -145,6 +146,7 @@ class MapTravel extends Component {
     renderPickAddress() {
         return (
             <ImageInputTextDiChung
+                children={<SvgPick/>}
                 onPress={() => {
                     this.props.navigation.push("SearchPlace", {
                         search: 'Pick',
@@ -161,6 +163,7 @@ class MapTravel extends Component {
     renderHourglass() {
         return (
             <ImageInputTextDiChung
+                children={<SvgDuration/>}
                 onPress={() => {
                     this.setState({
                         modalSelectTime: true
@@ -177,6 +180,7 @@ class MapTravel extends Component {
     renderCarType() {
         return (
             <ImageInputTextDiChung
+                children={<SvgVehicle/>}
                 onPress={() => {
                     this.setState({
                         modalSelectCar: true
@@ -195,6 +199,7 @@ class MapTravel extends Component {
             <View style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
             >
                 <ImageInputTextDiChung
+                    children={<SvgClock/>}
                     widthHeightImage={24}
                     onPress={() => {
                         this.setState({

@@ -8,6 +8,7 @@ import { connect } from 'react-redux'
 import { FormSelectCar, Input, InputImage, ModalCity, ModalConfirm, ModalListCar, ModalListTime, TimePickDrop, ModalTransmission } from '../../Form'
 import { ButtonFull } from '../../../../component/Button'
 import Toast from 'react-native-simple-toast';
+import { SvgCheckSuccess, SvgMoney, SvgPick, SvgSetting, SvgTitle, SvgVehicle } from '../../../../icons'
 
 const imageLocation = '../../../../image/location.png'
 
@@ -87,6 +88,7 @@ class OperatorTransferService extends Component {
                 <ScrollView style={{ padding: 8 }}>
                     <View style={[styles.borderBottom, { borderTopLeftRadius: 8, borderTopRightRadius: 8, borderTopWidth: 0.5 }]}>
                         <ImageInputTextDiChung
+                            children={<SvgPick />}
                             noBorderTop
                             value={this.props.itemCity?.label ?? ''}
                             placeholder={'Chọn thành phố'}
@@ -94,24 +96,28 @@ class OperatorTransferService extends Component {
                             source={require(imageLocation)}
                         />
                         <ImageInputTextDiChung
+                            children={<SvgPick />}
                             value={this.props.pickAddress}
                             placeholder={'Nhập địa chỉ'}
                             onPress={this.pressPickAddress}
                             source={require(imageLocation)}
                         />
                         <ImageInputTextDiChung
+                            children={<SvgVehicle />}
                             value={this.props.itemCarOperator?.label ?? ''}
                             placeholder={'Chọn loại xe'}
                             onPress={this.showModalOperator}
                         />
 
                         <InputImage
+                            children={<SvgTitle />}
                             value={this.state.title}
                             onChangeText={(text) => { this.setState({ title: text }) }}
                             placeholder={'Tên xe VD: Vinfast Lux A2.0'}
-                            onPressClear={()=> {this.setState({title : ''})}}
+                            onPressClear={() => { this.setState({ title: '' }) }}
                         />
                         <ImageInputTextDiChung
+                            children={<SvgSetting />}
                             value={this.props.itemTransmission?.label ?? ''}
                             placeholder={'Chọn loại số'}
                             onPress={this.showModalTransmission}
@@ -174,12 +180,15 @@ class OperatorTransferService extends Component {
                             placeholder={'Giờ'}
                         />
                         <ImageInputTextDiChung
+                            children={<SvgCheckSuccess />}
                             placeholder={'Hình thức chấp nhận'}
                             value={this.props.itemConfirm?.label}
                             onPress={this.showModalConfirmSelect}
                         />
                         <InputImage
-                            maxLength={12} value={this.state.money}
+                            children={<SvgMoney />}
+                            maxLength={12}
+                            value={this.state.money}
                             onChangeText={(text) => this.handleChange(text.replace(new RegExp(/,/gi), ''))}
                             placeholder={'Giá tiền'}
                             keyboardType={'decimal-pad'}

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, TouchableOpacity, Text, Image } from 'react-native'
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung';
 import { connect } from 'react-redux';
-import { SvgCalendar, SvgPick } from '../../../icons';
+import { SvgCalendar, SvgClock, SvgPick } from '../../../icons';
 
 const imageLocation = '../../../image/location.png'
 const imagePeople = '../../../image/people.png'
@@ -18,8 +18,7 @@ class FormXeChungDoor extends Component {
     renderTimePick() {
         return (
             <ImageInputTextDiChung
-                noBorderTop
-                children={<SvgCalendar />}
+                children={<SvgClock />}
                 widthHeightImage={24}
                 onPress={this.props.onPressSelectTime}
                 source={require(imageTime)}

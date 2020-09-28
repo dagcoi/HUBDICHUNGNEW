@@ -11,15 +11,13 @@ function InputImage({
     onChangeText,
     onPressClear,
     maxLength,
-    keyboardType
+    keyboardType,
+    children,
 }) {
     return (
         <View style={[{ flexDirection: 'row', borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', }, noBorderTop ? { borderTopWidth: 0 } : { borderTopWidth: 1 }]}>
             <View style={{ width: 28, height: 28, justifyContent: "center", alignItems: "center" }}>
-                <Image
-                    style={{ height: widthHeightImage ?? 28, width: widthHeightImage ?? 28, marginLeft: 8, resizeMode: 'contain' }}
-                    source={source}
-                />
+                {children}
             </View>
             <View
                 style={{ flex: 1, height: 40, flexDirection: 'row', alignItems: 'center', marginLeft: 8 }}

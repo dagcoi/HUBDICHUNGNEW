@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, TouchableOpacity, Text, Image } from 'react-native'
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung';
 import { connect } from 'react-redux';
+import { SvgClock, SvgPick } from '../../../icons';
 
 const imageLocation = '../../../image/location.png'
 const imagePeople = '../../../image/people.png'
@@ -19,6 +20,7 @@ class FormCombo extends Component {
             <View style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
             >
                 <ImageInputTextDiChung
+                    children={<SvgClock />}
                     widthHeightImage={24}
                     onPress={this.props.onPressSelectTime}
                     source={require(imageTime)}
@@ -32,6 +34,7 @@ class FormCombo extends Component {
     renderPickAddress() {
         return (
             <ImageInputTextDiChung
+                children={<SvgPick />}
                 noBorderTop
                 onPress={this.props.onPressPickAddress}
                 source={require(imageLocation)}
@@ -44,6 +47,7 @@ class FormCombo extends Component {
     renderDropAddress() {
         return (
             <ImageInputTextDiChung
+                children={<SvgPick />}
                 onPress={this.props.onPressDropAddress}
                 source={require(imageLocation)}
                 placeholder={'Nhập điểm đến'}

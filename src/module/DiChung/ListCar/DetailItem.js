@@ -11,19 +11,18 @@ function Detail({ item }) {
                 <View>
                     <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: 'bold', margin: 8, }}>Chi tiết</Text>
                 </View>
-                <View style={{ height: 200, borderRadius: 8, borderWidth: 2, borderColor: '#77a300' }}>
-                    <View style={{ flexDirection: 'row', }}>
+                <View style={{ borderRadius: 8, borderWidth: 2, borderColor: '#77a300', padding: 8, }}>
+                    {/* <View style={{ flexDirection: 'row', }}>
                         <Text style={{ textAlign: 'left', color: '#fff', backgroundColor: '#77a300', padding: 4, }}>Đề xuất</Text>
-                    </View>
+                    </View> */}
                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-
                         <Image
                             style={{ width: 200, height: 120 }}
                             source={item.info.image && item.info.image ? { uri: item.info.image } : null}
                             resizeMode="contain"
                         />
                     </View>
-                    <View style={{ flexDirection: 'row', paddingHorizontal: 16}}>
+                    <View style={{ flexDirection: 'row', paddingHorizontal: 16 }}>
                         <View style={{ flex: 1 }} />
                         <Text style={{ textAlign: 'left', color: '#fff', backgroundColor: '#eb6752', padding: 4, }}>{item.info.label}</Text>
                     </View>

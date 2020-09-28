@@ -10,6 +10,7 @@ import { HeaderText } from '../../../component/Header'
 import { FormSwitch, Warning, DropAddress } from '../Util'
 import { ButtonFull } from '../../../component/Button'
 import { SafeAreaView } from 'react-navigation';
+import { SvgCar, SvgClock, SvgPick } from '../../../icons';
 
 const imageLocation = '../../../image/location.png'
 const imageCheckWhite = '../../../image/checkw.png'
@@ -134,6 +135,7 @@ class MapFood extends Component {
     renderPickAddress() {
         return (
             <ImageInputTextDiChung
+                children={<SvgPick />}
                 onPress={() => {
                     this.props.navigation.push("SearchPlace", {
                         search: 'Pick',
@@ -150,6 +152,7 @@ class MapFood extends Component {
     renderHourglass() {
         return (
             <ImageInputTextDiChung
+                children={<SvgClock />}
                 onPress={() => {
                     this.setState({
                         modalSelectTime: true
@@ -166,6 +169,7 @@ class MapFood extends Component {
     renderCarType() {
         return (
             <ImageInputTextDiChung
+                children={<SvgCar />}
                 onPress={() => {
                     this.setState({
                         modalSelectCar: true
@@ -184,6 +188,7 @@ class MapFood extends Component {
             <View style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
             >
                 <ImageInputTextDiChung
+                    children={<SvgClock />}
                     widthHeightImage={24}
                     onPress={() => {
                         this.setState({
@@ -211,7 +216,7 @@ class MapFood extends Component {
                     });
                 }}
                 onPressSwap={() => {
-                    this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop,this.props.typesDrop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick, this.props.typesPick);
+                    this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.typesDrop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick, this.props.typesPick);
                 }}
             />
         )

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import ImageTextDiChung from '../../component/ImageTextDiChung'
+import { SvgCalendar, SvgCar, SvgCheckNormal, SvgDuration, SvgMail, SvgNote, SvgPerson, SvgPhone, SvgPick } from '../../icons'
 import { formatDate } from '../../until'
 
 const imageLocation = '../../image/location2.png'
@@ -21,31 +22,30 @@ Number.prototype.format = function (n, x) {
 };
 
 function DetailHourlyTaxi({ item }) {
-    // console.log(JSON.stringify(item))
-    // const time = item.bookingTime
-    // const date = new Date(time).toLocaleDateString()
-    // const hours = new Date(time).toLocaleTimeString()
-    // const strtime = hours + " " + date
     const strtime = formatDate(item.bookingTime)
     console.log(item.promotion)
     return (
         <View style={{ paddingHorizontal: 16 }}>
             <Text style={styles.textBigLeft1}>Chi tiết chuyến đi</Text>
             <ImageTextDiChung
+                children={<SvgPick/>}
                 source={require(imageLocation)}
                 text={item.startPoint.address}
             />
             <ImageTextDiChung
+                children={<SvgCalendar/>}
                 source={require(imageCalendar)}
                 text={strtime}
             />
             <ImageTextDiChung
+                children={<SvgDuration/>}
                 source={require(imageHourglass)}
                 textBold={'Thời lượng: '}
                 text={item.duration + (item.productType === 'HOURLY_TOURIST_CAR' ? ' ngày' : ' giờ')}
             />
             <Text style={styles.textBigLeft1}>Chi tiết đơn hàng</Text>
             <ImageTextDiChung
+                children={<SvgCar/>}
                 source={require(imageIconCar)}
                 textBold={item.productType == 'HOURLY_RENT_TAXI' ? 'Thuê taxi theo giờ' : item.productType == 'HOURLY_FREIGHT_TRUCK' ? 'Thuê vận chuyển theo giờ' : item.productType == 'HOURLY_RENT_DRIVER' ? 'Thuê tài xế theo giờ' : 'Thuê xe du lịch'}
             />
@@ -71,38 +71,46 @@ function DetailHourlyTaxi({ item }) {
             }
             <Text style={styles.textBigLeft1}>Chi tiết khách hàng</Text>
             <ImageTextDiChung
+                children={<SvgPerson/>}
                 source={require(imagePerson)}
                 text={item.bookingUser.fullName}
             />
             <ImageTextDiChung
+                children={<SvgPhone/>}
                 source={require(imageIconPhone)}
                 text={item.bookingUser.phone}
             />
             <ImageTextDiChung
+                children={<SvgMail/>}
                 source={require(imageEmail)}
                 text={item.bookingUser.email}
             />
 
             <Text style={styles.textBigLeft1}>Chi tiết người đi</Text>
             <ImageTextDiChung
+                children={<SvgMail/>}
                 source={require(imagePerson)}
                 text={item.beneficiary.fullName}
             />
             <ImageTextDiChung
+                children={<SvgPhone/>}
                 source={require(imageIconPhone)}
                 text={item.beneficiary.phone}
             />
             <ImageTextDiChung
+                children={<SvgNote/>}
                 source={require(imageComment)}
                 text={item.note}
             />
             {item.extra.xhd == 1 ?
                 <ImageTextDiChung
+                    children={<SvgCheckNormal/>}
                     source={require(imageDone)}
                     text={'+ 10%'}
                 /> : null}
             {item.promocode ?
                 <ImageTextDiChung
+                    children={<SvgCheckNormal/>}
                     source={require(imageDone)}
                     text={'Mã giảm giá: ' + item.promocode}
                 /> : null}

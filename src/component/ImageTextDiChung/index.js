@@ -11,15 +11,15 @@ function ImageTextDiChung({
 }) {
     return (
         <View style={style ?? styles.container}>
-            <View>
+            <View style={{padding: 2}}>
                 {children}
             </View>
-            {/* { children ?? source == null ? null :
+            { children ?? source == null ? null :
                 <Image
                     style={styleIcon ?? styles.leftIcon}
                     source={source}
                 />
-            } */}
+            }
             <Text style={styles.textBigRight}><Text style={styles.textBigRightBold}>{textBold}</Text>{text}</Text>
         </View>
     )
