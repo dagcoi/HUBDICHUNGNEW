@@ -77,7 +77,26 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
         color: '#333'
-    }
+    },
+    textTitle: {
+        color: '#77a300',
+        fontWeight: 'bold',
+        fontSize: 16
+    },
+    card: {
+        backgroundColor: '#fff',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+        margin: 8,
+        padding: 8,
+        borderRadius: 8,
+    },
 
 })
 

@@ -35,6 +35,7 @@ import Login2 from './module/Account/Login/LoginAuth'
 import Profile from './module/Account/Profile'
 import ListBooking from './module/ListBooking'
 import DetailTicket from './module/ListBooking/DetailTicket.js'
+import ListTrip from './module/DoiTac/ListTrip'
 
 import MapTravel from './module/ScreenAddress/Travel'
 import MapCombo from './module/ScreenAddress/Combo'
@@ -367,6 +368,15 @@ const StackRideShare = createStackNavigator({
 
 })
 
+const ListTripDetail = createStackNavigator({
+    ListTrip: {
+        screen: ListTrip,
+        navigationOptions: {
+            header: null,
+        }
+    },
+})
+
 
 const DrawerNavi = createDrawerNavigator({
     Main: {
@@ -385,34 +395,6 @@ const DrawerNavi = createDrawerNavigator({
         }
     },
 
-    AboutUs: {
-        screen: AboutUs,
-        navigationOptions: {
-            title: 'Về chúng tôi',
-            alignItems: 'center'
-        },
-    },
-    News: {
-        screen: News,
-        navigationOptions: {
-            title: 'Tin tức',
-            alignItems: 'center'
-        },
-    },
-    FAQ: {
-        screen: FAQ,
-        navigationOptions: {
-            title: 'Câu hỏi thường gặp',
-            alignItems: 'center'
-        },
-    },
-    PoliciesAndServices: {
-        screen: PoliciesAndServices,
-        navigationOptions: {
-            title: 'Chính sách vận chuyển',
-            alignItems: 'center'
-        },
-    },
     ListBooking: {
         screen: ListBookingDetail,
         navigationOptions: () => {
@@ -420,6 +402,47 @@ const DrawerNavi = createDrawerNavigator({
                 drawerLabel: () => 'Danh sách vé',
             }
         }
+    },
+
+    ListTripDetails: {
+        screen: ListTripDetail,
+        navigationOptions: () => {
+            return {
+                drawerLabel: () => 'Danh sách chuyến tạo'
+            }
+        }
+    },
+
+    AboutUs: {
+        screen: AboutUs,
+        navigationOptions: {
+            title: 'Về chúng tôi',
+            alignItems: 'center'
+        },
+    },
+
+    News: {
+        screen: News,
+        navigationOptions: {
+            title: 'Tin tức',
+            alignItems: 'center'
+        },
+    },
+
+    FAQ: {
+        screen: FAQ,
+        navigationOptions: {
+            title: 'Câu hỏi thường gặp',
+            alignItems: 'center'
+        },
+    },
+
+    PoliciesAndServices: {
+        screen: PoliciesAndServices,
+        navigationOptions: {
+            title: 'Chính sách vận chuyển',
+            alignItems: 'center'
+        },
     },
 
     Profiles: {
