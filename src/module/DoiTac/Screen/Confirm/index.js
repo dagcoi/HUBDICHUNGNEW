@@ -5,7 +5,7 @@ import { ButtonFull, ButtonDialog } from '../../../../component/Button';
 import { HeaderText } from '../../../../component/Header';
 import { TextBold, TextNormal } from './Textt';
 import Dialog, { DialogTitle } from 'react-native-popup-dialog';
-
+import * as link from '../../../../URL'
 class Confirm extends Component {
     constructor(props) {
         super(props);
@@ -153,7 +153,7 @@ class Confirm extends Component {
     }
 
     pressConfirm() {
-        url = `https://dev.portal.dichung.vn/api/product/v1/products`
+        url = link.URL_API_PORTAL + `product/v1/products`
         jsonStr = JSON.stringify(this.props.sendDataOperator)
         console.log(jsonStr)
         fetch(url, {

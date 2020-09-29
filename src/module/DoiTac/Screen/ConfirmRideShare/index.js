@@ -6,7 +6,7 @@ import ImageInputTextDiChung from '../../../../component/ImageInputTextDiChung'
 import styles from '../../style'
 import { ButtonFull } from '../../../../component/Button'
 import { SvgBulletPoints, SvgPick } from '../../../../icons'
-
+import * as link from '../../../../URL'
 const imageLocation = '../../../../image/location.png'
 class ConfirmRideShare extends Component {
 
@@ -28,7 +28,7 @@ class ConfirmRideShare extends Component {
         console.log(this.props.depart_time)
         var url;
         if (this.props.pickAddressComponent?.place_id && this.props.dropAddressComponent?.place_id) {
-            url = `https://dev.portal.dichung.vn/api/rs-schedule/v1/schedules/estimation?departureTime=${time}&startId=${this.props.pickAddressComponent?.place_id}&endId=${this.props.dropAddressComponent?.place_id}`
+            url = link.URL_API_PORTAL + `rs-schedule/v1/schedules/estimation?departureTime=${time}&startId=${this.props.pickAddressComponent?.place_id}&endId=${this.props.dropAddressComponent?.place_id}`
         }
 
         console.log(url)

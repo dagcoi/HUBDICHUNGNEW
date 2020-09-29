@@ -55,14 +55,6 @@ class ConfirmInformation extends Component {
         const send = JSON.parse(this.props.send)
         this.getURL(send)
         this.setDataSend()
-        const { navigation } = this.props;
-        console.log('token' + this.props.token)
-        // console.log('vehice_id' + this.props.vehice_id)
-        console.log('vehicle_name' + this.props.vehicle_name)
-        console.log('vehicle_icon' + this.props.vehicle_icon)
-        console.log('payment:...........' + navigation.getParam('Payment'))
-        console.log(this.props.depart_time2);
-        // this.getDetail()
         this.countWeekend(this.props.depart_time2, this.props.returnTime2)
     }
 
@@ -80,7 +72,6 @@ class ConfirmInformation extends Component {
     }
 
     async getURL(send) {
-        console.log('11111111111111111111')
         const { navigation } = this.props;
         var time = new Date(this.props.depart_time2 + '+07:00')
         var url = link.URL_API_PORTAL + `price/v1/products/price?provider=${send.provider.name}${this.product_chunk_type === 'ride_share' ? '' : `&price=` + this.props.cost}&productType=${this.props.product_chunk_type}&bookingTime=${time}&promotionDiscount=${this.props.discount_price}`
@@ -276,9 +267,9 @@ class ConfirmInformation extends Component {
                             // text={'Thuê xe theo tour'}
                             text={this.props.label}
                         />
-                        {this.props.extra && this.props.extra.kmLimit ? <ImageTextDiChung textBold={'Giới hạn: '} text={this.props.extra.kmLimit + ' km'} /> : null}
-                        {this.props.extra && this.props.extra.kmExtra ? <ImageTextDiChung textBold={'Phụ trội theo km: '} text={this.props.extra.kmExtra.format(0, 3, '.') + ' đ/km'} /> : null}
-                        {this.props.extra && this.props.extra.hourExtra ? <ImageTextDiChung textBold={'Phụ trội theo giờ: '} text={this.props.extra.hourExtra.format(0, 3, '.') + ' đ/giờ'} /> : null}
+                        {this.props.extra && this.props.extra.kmLimit && <ImageTextDiChung textBold={'Giới hạn: '} text={this.props.extra.kmLimit + ' km'} />}
+                        {this.props.extra && this.props.extra.kmExtra && <ImageTextDiChung textBold={'Phụ trội theo km: '} text={this.props.extra.kmExtra.format(0, 3, '.') + ' đ/km'} />}
+                        {this.props.extra && this.props.extra.hourExtra && <ImageTextDiChung textBold={'Phụ trội theo giờ: '} text={this.props.extra.hourExtra.format(0, 3, '.') + ' đ/giờ'} />}
 
                     </View>}
 
@@ -358,10 +349,6 @@ class ConfirmInformation extends Component {
             return null;
         } else {
             return (
-                // <ImageTextDiChung
-                //     source={require(imageDone)}
-                //     text={'+ 10%'}
-                // />
                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                     <Text style={styles.textBigLeft}>VAT 10%: </Text>
                     <Text style={styles.textBigRight}>{(this.state.detailPrice.invoiceFee ?? 0).format(0, 3, '.') + ' đ '}</Text>
@@ -378,10 +365,6 @@ class ConfirmInformation extends Component {
         if (this.state.loadingPrice) {
             return null;
         }
-        // console.log(this.state.infoCarCX)
-        // const checkPriceWeekend = (this.state.infoCarCX && this.state.infoCarCX.info && this.state.infoCarCX.info.priceExtra && this.state.infoCarCX.info.priceExtra.weekendExtra && (this.state.infoCarCX.info.priceExtra.weekendExtra.saturday || this.state.infoCarCX.info.priceExtra.weekendExtra.sunday))
-        // const sumPriceExtra = checkPriceWeekend ? (this.state.countSaturday * this.state.infoCarCX.info.priceExtra.weekendExtra.saturday ?? 0) + (this.state.countSunday * this.state.infoCarCX.info.priceExtra.weekendExtra.sunday ?? 0) : 0
-        // const sumPrice = (this.props.cost * (this.props.product_chunk_type === 'hourly_car_rental' ? this.state.countDay : 1) + (navigation.getParam('broad_price') ? 30000 : 0) - (navigation.getParam('blDiscount') ? this.props.discount_price : 0)) * (navigation.getParam('xhd') ? 11 / 10 : 1)
         return (
             <View>
                 {this.props.product_chunk_type === 'hourly_car_rental' ?
@@ -408,12 +391,11 @@ class ConfirmInformation extends Component {
                     </View>
                 }
 
-                {send && send.payment && send.payment.tollFee && send.payment.tollFee != 'NA' && send.payment.tollFee != '0' ?
+                {send && send.payment && send.payment.tollFee && send.payment.tollFee != 'NA' && send.payment.tollFee != '0' &&
                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                         <Text style={styles.textBigLeft}>Phí cầu đường</Text>
                         <Text style={styles.textBigRight}>{parseInt(send.payment.tollFee).format(0, 3, '.') + ' đ '}</Text>
                     </View>
-                    : null
                 }
                 {this.state.detailPrice && this.state.detailPrice.catchInHousePrice &&
                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
@@ -434,14 +416,6 @@ class ConfirmInformation extends Component {
                         <Text style={styles.textBigRight1}>{(this.state.detailPrice.totalPrice ?? 0).format(0, 3, '.') + ' đ '}</Text>
                     </View>
                 }
-
-
-                {/* <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
-                    <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
-                    {send && send.payment && send.payment.tollFee ? <Text style={styles.textBigRight1}>{send.payment.tollFee === 'NA' ? (sumPriceExtra + sumPrice).format(0, 3, '.') : (sumPriceExtra + sumPrice + parseInt(send.payment.tollFee)).format(0, 3, '.') + ' đ '}</Text> :
-                        <Text style={styles.textBigRight1}>{(sumPriceExtra + sumPrice).format(0, 3, '.')} đ</Text>}
-                </View>
-                {send && send.payment && send.payment.tollFee && <Text style={{ textAlign: 'right' }}>{send.payment.tollFee === '0' ? 'Giá trọn gói không phí ẩn' : send.payment.tollFee === 'NA' ? 'chưa có phí cầu đường' : 'Đã bao gồm phí cầu đường'}</Text>} */}
             </View>
         )
     }
@@ -674,7 +648,6 @@ function mapStateToProps(state) {
         vehicle_name: state.info.vehicle_name,
         full_name: state.info.full_name,
         use_phone: state.info.use_phone,
-        vehice_id: state.info.vehice_id,
         comment: state.info.comment,
         chair: state.info.chair,
         full_name2: state.info.full_name2,
