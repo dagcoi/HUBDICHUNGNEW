@@ -271,8 +271,9 @@ class Profile extends Component {
         return (
             <ScrollView
                 showsVerticalScrollIndicator={false}
+                bounces={false}
             >
-                <KeyboardAwareScrollView style={{ flexGrow: 1, }} enableOnAndroid={true} enableAutoAutomaticScroll={(Platform.OS === 'ios')} >
+                <KeyboardAwareScrollView bounces={false} style={{ flexGrow: 1, }} enableOnAndroid={true} enableAutoAutomaticScroll={(Platform.OS === 'ios')} >
                     <View style={{ height: SCREEN_WIDTH, width: SCREEN_WIDTH, }}>
                         <View style={{ height: SCREEN_WIDTH, width: SCREEN_WIDTH, justifyContent: 'center', alignItems: 'center', zIndex: 5, position: 'relative', borderRadius: 1 }}>
                             {(this.state.dataProfile && this.state.dataProfile.avatar) ?

@@ -15,6 +15,8 @@ import * as key from '../../component/KeyGG'
 const GOOGLE_MAPS_API_KEY = key.KEY_GOOGLE;
 import Geolocation from '@react-native-community/geolocation';
 import ModalTimePick from '../../until/ModalTimePick';
+import { SvgChungXe, SvgComboTravel, SvgDiChungTaxi, SvgDiChungXe, SvgExpress, SvgTravel, SvgTruck, SvgXeChung } from '../../icons';
+import SelectCar from './SelectCar';
 
 const imageCancel = '../../image/cancel.png'
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window')
@@ -54,6 +56,7 @@ class Home1 extends Component {
             modalWebView: false,
             titleModal: null,
             urlWebView: null,
+            select: 1,
         }
     }
 
@@ -127,7 +130,7 @@ class Home1 extends Component {
                     .setSubtitle(notification.data.subtitle)
                     .setBody(notification.data.body)
                     .setData(notification.data.data)
-                    .ios.setBadge(9);
+                // .ios.setBadge(0);
                 console.log('đã vào đến Notification iOS..')
 
                 firebase.notifications()
@@ -325,6 +328,92 @@ class Home1 extends Component {
         )
     }
 
+    renderListDilai() {
+        return (
+            <View>
+                <SelectCar
+                    child={<SvgDiChungXe />}
+                    onPress={() => this.props.isLogin == 0 ? this.props.navigation.navigate('Login') : this.props.navigation.navigate('RideShare')}
+                    textDetail={'Tìm bạn đi cùng xe máy, ô tô trên cùng tuyến đường'}
+                    title={'Đi chung xe'}
+                />
+
+                <SelectCar
+                    child={<SvgDiChungTaxi />}
+                    onPress={() => this.props.isLogin == 0 ? this.props.navigation.navigate('Login') : this.props.navigation.navigate('MapDiChung')}
+                    textDetail={'Đặt trước xe đi hàng ngày, sân bay, đường dài giá siêu tiết kiệm'}
+                    title={'Đặt xe có lái'}
+                />
+
+                <SelectCar
+                    child={<SvgChungXe />}
+                    onPress={() => this.props.isLogin == 0 ? this.props.navigation.navigate('Login') : this.props.navigation.navigate('MapChungXe')}
+                    textDetail={'Mạng lưới cho thuê xe tự lái ô tô, xe máy trên toàn quốc'}
+                    title={'Thuê xe tự lái'}
+                />
+
+                <SelectCar
+                    child={<SvgXeChung />}
+                    onPress={() => this.props.isLogin == 0 ? this.props.navigation.navigate('Login') : this.props.navigation.navigate('MapXeChung')}
+                    textDetail={'Ai cũng có thể thuê tài xế riêng. Việc mất thời gian để chúng tôi lo'}
+                    title={'Thuê tài xế'}
+                />
+            </View>
+        )
+    }
+
+    renderListDuLich() {
+        return (
+            <View>
+                <SelectCar
+                    child={<SvgTravel />}
+                    onPress={() => this.props.isLogin == 0 ? this.props.navigation.navigate('Login') : this.props.navigation.navigate('MapTravel')}
+                    textDetail={'Thiết kế lịch trình riêng với các dòng xe lớn 16 - 45 chỗ'}
+                    title={'Xe du lịch'}
+                />
+            </View>
+        )
+    }
+
+    renderListVanChuyen() {
+        return (
+            <View>
+                <SelectCar
+                    child={<SvgExpress />}
+                    onPress={() => this.props.isLogin == 0 ? this.props.navigation.navigate('Login') : this.props.navigation.navigate('MapExpress')}
+                    textDetail={'Chuyển hàng siêu tốc liên tỉnh, liên sân bay'}
+                    title={'Vận chuyển hàng hóa'}
+                />
+
+                <SelectCar
+                    child={<SvgTruck />}
+                    onPress={() => this.props.isLogin == 0 ? this.props.navigation.navigate('Login') : this.props.navigation.navigate('MapTruck')}
+                    textDetail={'Lựa chọn đa dạng. Bao xe, ghép hàng, tiện chuyến'}
+                    title={'Thuê xe tải'}
+                />
+            </View>
+        )
+    }
+
+    renderList(select) {
+        switch (select) {
+            case 1:
+                return (
+                    this.renderListDilai()
+                )
+            case 2:
+                return (
+                    this.renderListDuLich()
+                )
+            case 3:
+                return (
+                    this.renderListVanChuyen()
+                )
+            default:
+                break
+        }
+    }
+
     render() {
         return (
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
@@ -332,11 +421,11 @@ class Home1 extends Component {
                     onPressLeft={() => { this.props.navigation.openDrawer() }}
                     onPressCenter={this.gotoHomeScreen}
                 />
-                <ScrollView>
-                    <View style={{ backgroundColor: '#00363d', minHeight: 40, flexDirection: 'row', alignContent: 'center' }}>
-                        <Text style={{ paddingHorizontal: 16, paddingTop: 24, paddingBottom: 44, color: '#fff', fontSize: 16, fontWeight: 'bold', lineHeight: 30 }}>Trải nghiệm ngay hệ sinh thái vận chuyển toàn quốc hàng đầu Việt Nam</Text>
+                <ScrollView bounces={false}>
+                    <View style={{ backgroundColor: '#fff', minHeight: 40, flexDirection: 'row', alignContent: 'center' }}>
+                        <Text style={{ paddingHorizontal: 16, paddingTop: 8, color: '#00363d', fontSize: 21, fontWeight: 'bold', lineHeight: 30 }}>Chào bạn! Hãy cùng đi tìm một chuyến đi.</Text>
                     </View>
-                    <FlatGrid
+                    {/* <FlatGrid
                         spacing={10}
                         style={styles.gridView}
                         itemDimension={gridLayoutWidth}
@@ -373,24 +462,40 @@ class Home1 extends Component {
                                                                         require(imageFood)}
                                     resizeMode='contain'
                                 />
+                                <View>
+                                    {item.image == 1 ? <SvgDiChungTaxi /> :
+                                        item.image == 2 ? <SvgChungXe /> :
+                                            item.image == 3 ? <SvgDiChungXe /> :
+                                                item.image == 4 ? <SvgXeChung /> :
+                                                    item.image == 5 ? <SvgTravel /> :
+                                                        item.image == 6 ? <SvgComboTravel /> :
+                                                            item.image == 7 ? <SvgExpress /> :
+                                                                item.image == 8 ? <SvgTruck /> :
+                                                                    <SvgDiChungTaxi />}
+                                </View>
                                 <Text style={styles.itemName}>{item.name}</Text>
                             </TouchableOpacity>
                         )}
-                    />
-                    {/* <TouchableOpacity
-                        onPress={() => this.props.setModalTime(true, false)}
-                    >
-                        <Text>Show Time pick</Text>
-                    </TouchableOpacity>
+                    /> */}
+                    <View style={[styles.itemSelect, { flexDirection: 'row', height: 60, marginHorizontal: 8, borderRadius: 8 }]}>
+                        <TouchableOpacity style={{ flex: 1, backgroundColor: this.state.select == 1 ? '#fff' : '#e8e8e8', justifyContent: 'center', height: 60, alignItems: 'center', borderTopLeftRadius: 8, borderBottomLeftRadius: 8 }}
+                            onPress={() => this.setState({ select: 1 })}
+                        >
+                            <Text style={{ fontSize: 16, fontWeight: this.state.select == 1 ? 'bold' : 'normal', color: this.state.select == 1 ? '#77a300' : '#333' }}>Đi lại</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{ flex: 1, backgroundColor: this.state.select == 2 ? '#fff' : '#e8e8e8', justifyContent: 'center', height: 60, alignItems: 'center' }}
+                            onPress={() => this.setState({ select: 2 })}
+                        >
+                            <Text style={{ fontSize: 16, fontWeight: this.state.select == 2 ? 'bold' : 'normal', color: this.state.select == 2 ? '#77a300' : '#333' }}>Du lịch</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{ flex: 1, backgroundColor: this.state.select == 3 ? '#fff' : '#e8e8e8', justifyContent: 'center', height: 60, alignItems: 'center', borderTopRightRadius: 8, borderBottomRightRadius: 8 }}
+                            onPress={() => this.setState({ select: 3 })}
+                        >
+                            <Text style={{ fontSize: 16, fontWeight: this.state.select == 3 ? 'bold' : 'normal', color: this.state.select == 3 ? '#77a300' : '#333' }}>Chuyển hàng</Text>
+                        </TouchableOpacity>
+                    </View>
 
-                    <TouchableOpacity
-                        onPress={() => this.props.setModalTime(false, true)}
-                    >
-                        <Text>Show Time drop</Text>
-                    </TouchableOpacity>
-
-                    <ModalTimePick /> */}
-
+                    {this.renderList(this.state.select)}
                     <Detail />
 
                     {this.state.isLoadingNewPaper ? null :
@@ -530,7 +635,24 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: 'bold',
         color: '#00363d'
-    }
+    },
+    itemSelect: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 5,
+        margin: 2,
+        height: 40,
+        backgroundColor: '#fff',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
+
+    },
 });
 
 

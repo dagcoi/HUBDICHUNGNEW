@@ -12,6 +12,7 @@ import { ButtonFull, ButtonDialog } from '../../../component/Button'
 import { SafeAreaView } from 'react-navigation';
 import FormTaxi from './FormTaxi';
 import FormHourlyTaxi from './FormHourlyTaxi';
+import Toast from 'react-native-simple-toast'
 
 const imageCheckWhite = '../../../image/checkw.png'
 const imageCheck = '../../../image/done.png'
@@ -47,8 +48,6 @@ class MapDiChung extends Component {
             ],
             scroll: 48,
             forceRefresh: 1,
-            showAlertTime: false,
-            showAlertInfo: false,
             date: null,
         }
         this.mapRef = null;
@@ -126,9 +125,9 @@ class MapDiChung extends Component {
             if (this.state.date) {
                 if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                     if (this.state.hoursAlive > this.state.selectedHours) {
-                        this.setState({ showAlertTime: true })
+                        this.ToastTime()
                     } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                        this.setState({ showAlertTime: true })
+                        this.ToastTime()
                     } else {
                         this.checkNightBooking()
                     }
@@ -141,50 +140,16 @@ class MapDiChung extends Component {
             }
         }
         else {
-            this.setState({ showAlertInfo: true })
+            this.ToastInfo()
         }
     }
 
-    renderAlertTime() {
-        return (
-            <Dialog
-                visible={this.state.showAlertTime}
-                width={0.8}
-            >
-                <View>
-                    <View style={{ padding: 8 }}>
-                        <Text style={{ fontSize: 16, fontWeight: '100' }}>Giờ đi phải lớn hơn giờ hiện tại</Text>
-                        <ButtonDialog
-                            text={'Đồng ý'}
-                            onPress={() => {
-                                this.setState({ showAlertTime: false, })
-                            }}
-                        />
-                    </View>
-                </View>
-            </Dialog>
-        )
+    ToastInfo() {
+        Toast.show('Vui lòng điền đầy đủ thông tin để xem giá.', Toast.LONG)
     }
 
-    renderAlertInfo() {
-        return (
-            <Dialog
-                visible={this.state.showAlertInfo}
-                width={0.8}
-            >
-                <View>
-                    <View style={{ padding: 8, marginTop: 8, justifyContent: 'center', alignItems: 'center', }}>
-                        <Text style={{ fontSize: 16, fontWeight: '100' }}>Vui lòng điền đầy đủ thông tin để xem giá.</Text>
-                        <ButtonDialog
-                            text={'Đồng ý'}
-                            onPress={() => {
-                                this.setState({ showAlertInfo: false, })
-                            }}
-                        />
-                    </View>
-                </View>
-            </Dialog>
-        )
+    ToastTime() {
+        Toast.show('Giờ đi phải lớn hơn giờ hiện tại', Toast.LONG)
     }
 
     addPeople(people) {
@@ -204,7 +169,7 @@ class MapDiChung extends Component {
                 />
                 <ButtonFull
                     onPress={() => { this.nextScreen() }}
-                    value={'Xem giá'}
+                    value={'TIẾP TỤC'}
                 />
             </View>
         )
@@ -334,7 +299,7 @@ class MapDiChung extends Component {
                 />
                 <ButtonFull
                     onPress={() => { this.gotoListCarHourlyBooking() }}
-                    value={'Xem giá'}
+                    value={'TIẾP TỤC'}
                 />
             </View>
         )
@@ -377,9 +342,9 @@ class MapDiChung extends Component {
             if (this.state.date) {
                 if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                     if (this.state.hoursAlive > this.state.selectedHours) {
-                        this.setState({ showAlertTime: true })
+                        this.ToastTime()
                     } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                        this.setState({ showAlertTime: true })
+                        this.ToastTime()
                     } else {
                         //sang màn danh sách xe
                         this.props.navigation.navigate("ListCar", {
@@ -399,7 +364,7 @@ class MapDiChung extends Component {
                 })
             }
         } else {
-            this.setState({ showAlertInfo: true })
+            this.ToastInfo()
         }
     }
 
@@ -428,8 +393,6 @@ class MapDiChung extends Component {
                             <ImageTextBold source={require(imageCheckWhite)} textBold={"Miễn phí thay đổi thông tin"} />
                         </View>
                     </View>
-                    {this.renderAlertTime()}
-                    {this.renderAlertInfo()}
                     <Modal
                         animationType="slide"
                         transparent={true}

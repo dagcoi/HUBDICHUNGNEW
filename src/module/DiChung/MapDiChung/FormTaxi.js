@@ -50,7 +50,7 @@ class FormTaxiDoorToDoor extends Component {
                 placeholder={'Nhập điểm đến'}
                 value={this.props.drop_add}
                 onPressSwap={this.props.onPressSwap}
-                children={<SvgPick />}
+                children={<SvgPick color={'#eb6752'} />}
             />
         )
     }

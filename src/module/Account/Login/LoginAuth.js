@@ -5,7 +5,7 @@ import { ButtonFull } from '../../../component/Button'
 import firebase from 'react-native-firebase';
 import CountDown from 'react-native-countdown-component';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-
+import Header from '../../../component/Header/HeaderImage'
 const successImageUri = 'https://cdn.pixabay.com/photo/2015/06/09/16/12/icon-803718_1280.png';
 
 export default class PhoneAuthTest extends Component {
@@ -30,11 +30,11 @@ export default class PhoneAuthTest extends Component {
         this.unsubscribe = await firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 this.setState({ user: user.toJSON() });
-                console.log('1...'+user); // this is shown. Firebase user and provider data
-                console.log('2...'+user.uid); // Shown
+                console.log('1...' + user); // this is shown. Firebase user and provider data
+                console.log('2...' + user.uid); // Shown
                 // this.cpn()
                 user.getIdToken().then((idToken) => {  // <------ Check this line
-                    console.log('3...'+idToken); // It shows the Firebase token now
+                    console.log('3...' + idToken); // It shows the Firebase token now
                     this.apiLogin(idToken)
                 })
             } else {
@@ -106,7 +106,7 @@ export default class PhoneAuthTest extends Component {
                         messageLogin: resJson.error.message
                     })
                 }
-            }).catch((error) => { console.log('5...'+error) });
+            }).catch((error) => { console.log('5...' + error) });
     }
     gotoProfileScreen(dataLogin) {
         this.props.navigation.replace('Profile', { 'dataLogin': dataLogin })
@@ -144,7 +144,7 @@ export default class PhoneAuthTest extends Component {
 
     renderPhoneNumberInput() {
         const { phoneNumber } = this.state;
-
+        // console.log(this.state.message)
         return (
             <View style={{ flex: 1, padding: 25, justifyContent: 'center', alignItems: 'center', backgroundColor: '#00363d' }}>
                 <Text style={{ textAlign: 'center', color: '#fff', fontSize: 22, fontWeight: 'bold' }}>Chào mừng đến với Đi Chung</Text>
@@ -158,14 +158,15 @@ export default class PhoneAuthTest extends Component {
                         value={phoneNumber}
                     />
                 </View>
+                {/* <Text>{this.state.message}</Text> */}
                 <ButtonFull value="Gửi" onPress={this.startTimer.bind(this)} />
 
-                <TouchableOpacity
+                {/* <TouchableOpacity
                     onPress={this.goBack}
-                    style={{margin: 16}}
+                    style={{ margin: 16 }}
                 >
-                    <Text style={{color: '#77a300', textDecorationLine: 'underline'}}>Đăng nhập bằng mật khẩu</Text>
-                </TouchableOpacity>
+                    <Text style={{ color: '#77a300', textDecorationLine: 'underline' }}>Đăng nhập bằng mật khẩu</Text>
+                </TouchableOpacity> */}
             </View>
         );
     }
@@ -194,6 +195,18 @@ export default class PhoneAuthTest extends Component {
                             <Text style={{ color: '#77a300', textDecorationLine: 'underline' }}>Gửi lại</Text>}
                     </TouchableOpacity>
                 </View>
+
+                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            this.setState({
+                                confirmResult: false,
+                            })
+                        }}
+                    >
+                        <Text style={{ color: '#77a300', textDecorationLine: 'underline' }}>Nhập lại SĐT</Text>
+                    </TouchableOpacity>
+                </View>
                 <ButtonFull value="Xác nhận" onPress={this.confirmCode} />
                 {/* <ButtonFull value={this.state.timing ? `Gửi lại sau: ${this.state.timer / 60}` : "Gửi lại"} onPress={this.state.timing ? null : this.startTimer.bind()} /> */}
             </View>
@@ -204,7 +217,10 @@ export default class PhoneAuthTest extends Component {
         const { user, confirmResult } = this.state;
         return (
             <View style={{ flex: 1 }}>
-
+                <Header
+                    onPressLeft={() => { this.props.navigation.openDrawer() }}
+                    onPressCenter={this.gotoHomeScreen}
+                />
                 {!user && !confirmResult && this.renderPhoneNumberInput()}
 
                 {!user && confirmResult && this.renderVerificationCodeInput()}

@@ -52,8 +52,6 @@ class MapTravel extends Component {
                 { 'id': 4, 'carname': 'Xe 16 chỗ', 'listCarType': '24' },
             ],
             scroll: 48,
-            showAlertTime: false,
-            showAlertInfo: false,
         }
         this.mapRef = null;
     }
@@ -98,9 +96,9 @@ class MapTravel extends Component {
             if (this.state.date) {
                 if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                     if (this.state.hoursAlive > this.state.selectedHours) {
-                        this.setState({ showAlertTime: true })
+                        this.ToastTime()
                     } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                        this.setState({ showAlertTime: true })
+                        this.ToastTime()
                     }
                 } else {
                     this.props.navigation.push("ListCar");
@@ -110,32 +108,20 @@ class MapTravel extends Component {
             }
         }
         else {
-            this.setState({ showAlertInfo: true })
+            this.ToastInfo()
         }
     }
 
-    renderAlertTime() {
-        return (
-            <Warning
-                visible={this.state.showAlertTime}
-                textWarning={'Giờ đi phải lớn hơn giờ hiện tại'}
-                onPress={() => {
-                    this.setState({ showAlertTime: false, })
-                }}
-            />
-        )
+    ToastInfo() {
+        Toast.show('Vui lòng điền đầy đủ thông tin để xem giá.', Toast.LONG)
     }
 
-    renderAlertInfo() {
-        return (
-            <Warning
-                visible={this.state.showAlertInfo}
-                onPress={() => {
-                    this.setState({ showAlertInfo: false, })
-                }}
-                textWarning={'Vui lòng điền đầy đủ thông tin để xem giá.'}
-            />
-        )
+    ToastTime() {
+        Toast.show('Giờ đi phải lớn hơn giờ hiện tại', Toast.LONG)
+    }
+
+    ToastTimeDrop() {
+        Toast.show('Giờ trả xe phải lớn hơn giờ đi.', Toast.LONG)
     }
 
     addPeople(people) {
@@ -146,7 +132,7 @@ class MapTravel extends Component {
     renderPickAddress() {
         return (
             <ImageInputTextDiChung
-                children={<SvgPick/>}
+                children={<SvgPick />}
                 onPress={() => {
                     this.props.navigation.push("SearchPlace", {
                         search: 'Pick',
@@ -163,7 +149,7 @@ class MapTravel extends Component {
     renderHourglass() {
         return (
             <ImageInputTextDiChung
-                children={<SvgDuration/>}
+                children={<SvgDuration />}
                 onPress={() => {
                     this.setState({
                         modalSelectTime: true
@@ -180,7 +166,7 @@ class MapTravel extends Component {
     renderCarType() {
         return (
             <ImageInputTextDiChung
-                children={<SvgVehicle/>}
+                children={<SvgVehicle />}
                 onPress={() => {
                     this.setState({
                         modalSelectCar: true
@@ -199,7 +185,7 @@ class MapTravel extends Component {
             <View style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
             >
                 <ImageInputTextDiChung
-                    children={<SvgClock/>}
+                    children={<SvgClock />}
                     widthHeightImage={24}
                     onPress={() => {
                         this.setState({
@@ -230,7 +216,7 @@ class MapTravel extends Component {
     }
 
     onPressSwap = () => {
-        this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop,this.props.typesDrop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick, this.props.typesPick);
+        this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.typesDrop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick, this.props.typesPick);
     }
 
     onPressSelectTime = () => {
@@ -257,7 +243,7 @@ class MapTravel extends Component {
                     });
                 }}
                 onPressSwap={() => {
-                    this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop,this.props.typesDrop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick, this.props.typesPick);
+                    this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.typesDrop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick, this.props.typesPick);
                 }}
             />
         )
@@ -275,7 +261,7 @@ class MapTravel extends Component {
 
                 <ButtonFull
                     onPress={() => { this.nextScreen() }}
-                    value={'Xem giá'}
+                    value={'TIẾP TỤC'}
                 />
 
                 <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
@@ -380,7 +366,7 @@ class MapTravel extends Component {
                 />
                 <ButtonFull
                     onPress={() => { this.gotoListCarHourlyBooking() }}
-                    value={'Xem giá'}
+                    value={'TIẾP TỤC'}
                 />
                 <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
                     <View style={{ flex: 1 }}></View>
@@ -419,9 +405,9 @@ class MapTravel extends Component {
             if (this.state.data) {
                 if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                     if (this.state.hoursAlive > this.state.selectedHours) {
-                        this.setState({ showAlertTime: true })
+                        this.ToastTime()
                     } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                        this.setState({ showAlertTime: true })
+                        this.ToastTime()
                     } else {
                         this.props.navigation.navigate("ListCar", {
                             'listCarType': this.state.selectCar,
@@ -438,7 +424,7 @@ class MapTravel extends Component {
                 });
             }
         } else {
-            this.setState({ showAlertInfo: true })
+            this.ToastInfo()
         }
     }
 
@@ -465,8 +451,6 @@ class MapTravel extends Component {
                             <ImageTextBold source={require(imageCheckWhite)} textBold={"Cam kết giá tốt"} />
                         </View>
                     </View>
-                    {this.renderAlertTime()}
-                    {this.renderAlertInfo()}
                     <Modal
                         animationType="slide"
                         transparent={true}

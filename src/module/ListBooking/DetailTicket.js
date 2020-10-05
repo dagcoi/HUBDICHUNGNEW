@@ -60,7 +60,6 @@ class BookingDetail extends Component {
             modalTell: false,
             modalPayment: false,
             urlPayment: null,
-            refreshing: true,
         }
     }
 
@@ -86,6 +85,7 @@ class BookingDetail extends Component {
     };
 
     _refreshData = async (token) => {
+        // this.setState({ isLoading: true, bookingDetail: null })
         const { navigation } = this.props;
         this.setState({ refreshing: true })
         const ticket_id = navigation.getParam('ticket_id')
@@ -94,12 +94,11 @@ class BookingDetail extends Component {
         console.log('ticket_id' + ticket_id)
         console.log('code' + code)
         console.log('phone' + phone)
-        if (ticket_id) {
-            this.getTicketInfoDC(ticket_id, token)
-
-        } else {
-            this.getTicketByCode(code, phone, token)
-        }
+        // if (ticket_id) {
+        this.getTicketInfoDC(ticket_id, token)
+        // } else {
+        //     this.getTicketByCode(code, phone, token)
+        // }
     }
 
     async getTicketInfoDC(_id, token) {
@@ -246,8 +245,14 @@ class BookingDetail extends Component {
             <SafeAreaView style={{ flex: 1 }}>
                 <HeaderText textCenter={'Chi tiết vé'} onPressLeft={this.goBack} />
                 <View style={{ flex: 1 }}>
-                    <ScrollView style={{ height: SCREEN_HEIGHT }} refreshControl={<RefreshControl onRefresh={this._refreshData} refreshing={this.state.refreshing} />}>
-                        <Text style={{ flex: 1, fontSize: 14, marginHorizontal: 16, marginTop: 8 }}>Mã vé: <Text style={{ color: '#000', fontWeight: 'bold' }}>{this.state.bookingDetail.code}</Text></Text>
+                    <ScrollView
+                        style={{ height: SCREEN_HEIGHT }}
+                        bounces={false}
+                    //  refreshControl={<RefreshControl onRefresh={this._refreshData} 
+                    //  refreshing={this.state.refreshing}
+                    //   />}
+                    >
+                        <Text style={{ flex: 1, fontSize: 14, marginHorizontal: 16, marginTop: 8 }}>Mã vé: <Text style={{ color: '#000', fontWeight: 'bold' }}>{this.state.bookingDetail?.code ?? ''}</Text></Text>
                         <View style={{ justifyContent: 'center' }}>
                             <View style={{ marginVertical: 0 }}>
                                 {this.state.bookingDetail.productType == 'CAR_RENTAL' ? <DetailTuLai item={this.state.bookingDetail} />

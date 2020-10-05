@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, Image, StyleSheet, Text, ScrollView, Linking } from 'react-native'
 import ImageTextDiChung from '../../component/ImageTextDiChung'
 import { StatusTicket } from '../../component/Ticket'
-import { SvgCalendar, SvgCar, SvgCheck, SvgMail, SvgMoney, SvgNote, SvgPeople, SvgPerson, SvgPhone, SvgPick } from '../../icons'
+import { SvgCalendar, SvgCar, SvgCheck, SvgMail, SvgMoney, SvgNote, SvgPeople, SvgPerson, SvgPhone, SvgPick, SvgPlane, SvgTicket } from '../../icons'
 import { formatDate } from '../../until'
 
 
@@ -25,7 +25,9 @@ Number.prototype.format = function (n, x) {
 function DetailTaxi({ item }) {
     console.log(JSON.stringify(item))
     return (
-        <ScrollView style={{ paddingHorizontal: 16 }} showsHorizontalScrollIndicator={false}>
+        <ScrollView
+            bounces={false}
+            style={{ paddingHorizontal: 16 }} showsHorizontalScrollIndicator={false}>
 
             <StatusTicket item={item} />
 
@@ -42,6 +44,7 @@ function DetailTaxi({ item }) {
             {renderDetailCustommer(item)}
             {renderDetailPeopleMove(item)}
             {renderComment(item)}
+            {item?.extra?.plane_number && renderPlaneType(item)}
             {renderOther(item)}
             {renderTT(item)}
         </ScrollView>
@@ -62,7 +65,7 @@ function renderDetailTrip(item) {
             />
 
             <ImageTextDiChung
-                children={<SvgPick />}
+                children={<SvgPick color={'#eb6752'} />}
                 source={require(imageLocation)}
                 text={item.endPoint.address}
             />
@@ -92,6 +95,21 @@ function renderDetailOrder(item) {
                 children={<SvgCar />}
                 source={require(imageIconCar)}
                 text={item.label}
+            />
+        </View>
+    )
+}
+
+function renderPlaneType(item) {
+    return (
+        <View>
+            <ImageTextDiChung
+                children={<SvgTicket />}
+                text={`Mã chuyến bay: ` + item.extra.plane_number}
+            />
+            <ImageTextDiChung
+                children={<SvgPlane />}
+                text={`Loại chuyến bay: ` + (item.extra.plane_type == 1 ? 'Nội địa' : 'Quốc tế')}
             />
         </View>
     )

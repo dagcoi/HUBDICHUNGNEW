@@ -164,7 +164,7 @@ class SearchPlace extends Component {
                                     style={{ width: 30, height: 30, }}
                                     source={address11 == 'Pick' ? require(imageLocation) : require(imageDrop)}
                                 /> */}
-                                <SvgPick color={address11 == 'Pick' ? '#00363d' : '#77a300'} />
+                                <SvgPick color={address11 == 'Pick' ? '#00363d' : '#eb6752'} />
                             </View>
                             }
                             renderRightButton={() => <View style={{ padding: 8, justifyContent: 'center', alignItems: 'center' }}>

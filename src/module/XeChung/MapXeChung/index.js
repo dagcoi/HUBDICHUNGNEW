@@ -10,6 +10,7 @@ import { HeaderText } from '../../../component/Header'
 import ImageTextBold from '../../../component/ImageTextDiChung/ImageTextBold'
 import FormXeChung from './FormXeChung';
 import FormHourlyXeChung from './FormHourlyXeChung';
+import Toast from 'react-native-simple-toast'
 
 // const destination = { latitude: 21.0019302, longitude: 105.85090579999996 };
 
@@ -74,9 +75,6 @@ class MapXeChung extends Component {
                 }
             ],
             hourlyBooking: false,
-            alertCity: false,
-            alertTime: false,
-            alertInfo: false,
         }
         this.mapRef = null;
     }
@@ -134,9 +132,9 @@ class MapXeChung extends Component {
             if (this.state.data) {
                 if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                     if (this.state.hoursAlive > this.state.selectedHours) {
-                        this.setState({ alertTime: true })
+                        this.ToastTime()
                     } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                        this.setState({ alertTime: true })
+                        this.ToastTime()
                     } else {
                         this.props.navigation.push("ListCar", { datdem: false });
                     }
@@ -149,7 +147,7 @@ class MapXeChung extends Component {
             }
         }
         else {
-            this.setState({ alertInfo: true })
+            this.ToastInfo()
         }
     }
 
@@ -165,9 +163,9 @@ class MapXeChung extends Component {
             if (this.state.date) {
                 if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                     if (this.state.hoursAlive > this.state.selectedHours) {
-                        this.setState({ alertTime: true })
+                        this.ToastTime()
                     } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                        this.setState({ alertTime: true })
+                        this.ToastTime()
                     } else {
                         this.props.navigation.push("ListCar");
                     }
@@ -179,36 +177,19 @@ class MapXeChung extends Component {
             }
         }
         else {
-            this.setState({ alertInfo: true })
+            this.ToastInfo()
         }
     }
+    ToastInfo() {
+        Toast.show('Vui lòng điền đầy đủ thông tin để xem giá.', Toast.LONG)
+    }
 
-    renderAlert() {
-        return (
-            <Dialog
-                visible={this.state.alertCity || this.state.alertInfo || this.state.alertTime}
-                width={0.8}
-            >
-                <View>
-                    <View style={{ padding: 8, flexDirection: 'column' }}>
-                        {this.state.alertCity ? <Text>Vui lòng nhập đúng địa chỉ trong thành phố.</Text> : null}
-                        {this.state.alertInfo ? <Text>Vui lòng nhập đầy đủ thông tin trước khi xem giá.</Text> : null}
-                        {this.state.alertTime ? <Text>Thời gian chọn phải lớn hơn thời gian hiện tại.</Text> : null}
+    ToastTime() {
+        Toast.show('Giờ đi phải lớn hơn giờ hiện tại', Toast.LONG)
+    }
 
-                        <ButtonDialog
-                            text="Đồng ý"
-                            onPress={() => {
-                                this.setState({
-                                    alertCity: false,
-                                    alertInfo: false,
-                                    alertTime: false,
-                                })
-                            }}
-                        />
-                    </View>
-                </View>
-            </Dialog>
-        )
+    ToastTimeDrop() {
+        Toast.show('Giờ trả xe phải lớn hơn giờ đi.', Toast.LONG)
     }
 
     renderFormThueTaiTheoGio() {
@@ -223,7 +204,7 @@ class MapXeChung extends Component {
                     onPress={() => {
                         this.gotoListDriverHourlyBooking();
                     }}
-                    value={'Xem giá'}
+                    value={'TIẾP TỤC'}
                 />
             </View >
         )
@@ -250,7 +231,7 @@ class MapXeChung extends Component {
     }
 
     onPressSwap = () => {
-        this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop,this.props.typesDrop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick, this.props.typesPick);
+        this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.typesDrop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick, this.props.typesPick);
     }
 
     onPressSelectTime = () => {
@@ -272,7 +253,7 @@ class MapXeChung extends Component {
                     onPress={() => {
                         this.nextScreen()
                     }}
-                    value={'Xem giá'}
+                    value={'TIẾP TỤC'}
                 />
             </View>
         )
@@ -401,8 +382,6 @@ class MapXeChung extends Component {
                         <ImageTextBold source={require(imageCheckWhite)} textBold={"Cam kết giá tốt nhất"} />
                         <ImageTextBold source={require(imageCheckWhite)} textBold={"Người đồng hành tin cậy"} />
                     </View>
-
-                    {this.renderAlert()}
 
                     <Modal
                         animationType="slide"

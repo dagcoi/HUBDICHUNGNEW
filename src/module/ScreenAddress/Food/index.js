@@ -50,8 +50,6 @@ class MapFood extends Component {
                 { 'id': 4, 'carname': 'Xe 16 chỗ', 'listCarType': '24' },
             ],
             scroll: 48,
-            showAlertTime: false,
-            showAlertInfo: false,
         }
         this.mapRef = null;
     }
@@ -94,9 +92,9 @@ class MapFood extends Component {
             console.log(this.state.date.format('DD-MM-YYYY'))
             if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                 if (this.state.hoursAlive > this.state.selectedHours) {
-                    this.setState({ showAlertTime: true })
+                    this.ToastTime()
                 } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                    this.setState({ showAlertTime: true })
+                    this.ToastTime()
                 }
             } else {
                 console.log('datdem: false')
@@ -104,32 +102,8 @@ class MapFood extends Component {
             }
         }
         else {
-            this.setState({ showAlertInfo: true })
+            this.ToastInfo()
         }
-    }
-
-    renderAlertTime() {
-        return (
-            <Warning
-                visible={this.state.showAlertTime}
-                textWarning={'Giờ đi phải lớn hơn giờ hiện tại'}
-                onPress={() => {
-                    this.setState({ showAlertTime: false, })
-                }}
-            />
-        )
-    }
-
-    renderAlertInfo() {
-        return (
-            <Warning
-                visible={this.state.showAlertInfo}
-                onPress={() => {
-                    this.setState({ showAlertInfo: false, })
-                }}
-                textWarning={'Vui lòng điền đầy đủ thông tin để xem giá.'}
-            />
-        )
     }
 
     renderPickAddress() {
@@ -147,6 +121,18 @@ class MapFood extends Component {
                 value={this.props.pick_add}
             />
         )
+    }
+
+    ToastInfo() {
+        Toast.show('Vui lòng điền đầy đủ thông tin để xem giá.', Toast.LONG)
+    }
+
+    ToastTime() {
+        Toast.show('Giờ đi phải lớn hơn giờ hiện tại', Toast.LONG)
+    }
+
+    ToastTimeDrop() {
+        Toast.show('Giờ trả xe phải lớn hơn giờ đi.', Toast.LONG)
     }
 
     renderHourglass() {
@@ -234,7 +220,7 @@ class MapFood extends Component {
 
                 <ButtonFull
                     onPress={() => { this.nextScreen() }}
-                    value={'Xem giá'}
+                    value={'TIẾP TỤC'}
                 />
 
                 <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
@@ -334,7 +320,7 @@ class MapFood extends Component {
                 </View>
                 <ButtonFull
                     onPress={() => { this.gotoListCarHourlyBooking() }}
-                    value={'Xem giá'}
+                    value={'TIẾP TỤC'}
                 />
                 <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
                     <View style={{ flex: 1 }}></View>
@@ -371,9 +357,9 @@ class MapFood extends Component {
         if (this.props.pick_add != '' && this.state.carType != '' && this.state.depart_time != '') {
             if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                 if (this.state.hoursAlive > this.state.selectedHours) {
-                    this.setState({ showAlertTime: true })
+                    this.ToastTime()
                 } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                    this.setState({ showAlertTime: true })
+                    this.ToastTime()
                 } else {
                     this.props.navigation.navigate("ListCarHourlyBooking", {
                         'listCarType': this.state.selectCar,
@@ -385,7 +371,7 @@ class MapFood extends Component {
                 });
             }
         } else {
-            this.setState({ showAlertInfo: true })
+            this.ToastInfo()
         }
     }
 
@@ -412,8 +398,6 @@ class MapFood extends Component {
                             <ImageTextBold source={require(imageCheckWhite)} textBold={"Giao hàng an toàn, tận nhà"} />
                         </View>
                     </View>
-                    {this.renderAlertTime()}
-                    {this.renderAlertInfo()}
                     <Modal
                         animationType="slide"
                         transparent={true}

@@ -23,6 +23,7 @@ Number.prototype.format = function (n, x) {
 function DetailTuLai({ item }) {
     return (
         <ScrollView
+            bounces={false}
             style={{ paddingHorizontal: 16 }}
             showsVerticalScrollIndicator={false}
         >
@@ -47,7 +48,7 @@ function renderDetailTrip(item) {
                 text={item.startPoint.address}
             />
             <ImageTextDiChung
-                children={<SvgPick />}
+                children={<SvgPick color={'#eb6752'} />}
                 source={require(imageLocation)}
                 text={item.endPoint.address}
             />

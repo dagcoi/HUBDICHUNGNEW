@@ -114,7 +114,7 @@ class CreateRideShare extends Component {
                     />
 
                     <ImageInputTextDiChung
-                        children={<SvgPick />}
+                        children={<SvgPick color={'#eb6752'} />}
                         noBorderTop
                         value={this.props.dropAddress}
                         placeholder={'Nhập điểm trả'}
@@ -150,8 +150,8 @@ class CreateRideShare extends Component {
 
                     <FormSelectVehicleSlot
                         noBorderTop
-                        children={<SvgVehicle/>}
-                        children2={<SvgPeople/>}
+                        children={<SvgVehicle />}
+                        children2={<SvgPeople />}
                         value={this.props.itemVehicle?.label}
                         value2={this.props.itemSlot ? this.props.itemSlot.label + ' Chỗ' : ''}
                     />

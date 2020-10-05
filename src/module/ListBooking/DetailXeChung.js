@@ -23,6 +23,7 @@ Number.prototype.format = function (n, x) {
 function DetailXeChung({ item }) {
     return (
         <ScrollView
+            bounces={false}
             style={{ paddingHorizontal: 16 }}
             showsVerticalScrollIndicator={false}
         >
@@ -61,7 +62,7 @@ function renderDetailTrip(item) {
             />
 
             <ImageTextDiChung
-                children={<SvgPick />}
+                children={<SvgPick color={'#eb6752'} />}
                 source={require(imageLocation)}
                 text={item.endPoint.address}
             />
@@ -160,7 +161,7 @@ function renderOther(item) {
                 /> : null}
             {item.promocode ?
                 <ImageTextDiChung
-                    children={<SvgCheckNormal/>}
+                    children={<SvgCheckNormal />}
                     source={require(imageDone)}
                     text={'Mã giảm giá: ' + item.promocode}
                 /> : null}

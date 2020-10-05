@@ -25,7 +25,9 @@ Number.prototype.format = function (n, x) {
 function DetailCaro({ item }) {
     console.log(JSON.stringify(item))
     return (
-        <ScrollView style={{ paddingHorizontal: 16 }} showsHorizontalScrollIndicator={false}>
+        <ScrollView
+            bounces={false}
+            style={{ paddingHorizontal: 16 }} showsHorizontalScrollIndicator={false}>
             <StatusTicket item={item} />
             <Text>Mọi thắc mắc vui lòng liên hệ:
                 <Text
@@ -82,17 +84,17 @@ function renderDetailTrip(item) {
         <View>
             <Text style={styles.textBigLeft1}>Chi tiết dịch vụ taxi</Text>
             <ImageTextDiChung
-                children={<SvgPick/>}
+                children={<SvgPick />}
                 source={require(imageLocation)}
                 text={item.startPoint.address}
             />
             <ImageTextDiChung
-                children={<SvgPick/>}
+                children={<SvgPick color={'#eb6752'} />}
                 source={require(imageLocation)}
                 text={item.endPoint.address}
             />
             <ImageTextDiChung
-                children={<SvgCalendar/>}
+                children={<SvgCalendar />}
                 source={require(imageCalendar)}
                 text={strtime}
             />
@@ -105,17 +107,17 @@ function renderDetailCustomer(item) {
         <View>
             <Text style={styles.textBigLeft1}>Chi tiết khách hàng</Text>
             <ImageTextDiChung
-                children={<SvgPerson/>}
+                children={<SvgPerson />}
                 source={require(imagePerson)}
                 text={item.bookingUser.fullName}
             />
             <ImageTextDiChung
-                children={<SvgPhone/>}
+                children={<SvgPhone />}
                 source={require(imageIconPhone)}
                 text={item.bookingUser.phone}
             />
             <ImageTextDiChung
-                children={<SvgMail/>}
+                children={<SvgMail />}
                 source={require(imageEmail)}
                 text={item.bookingUser.email}
             />
@@ -126,7 +128,7 @@ function renderDetailCustomer(item) {
 function renderComment(item) {
     return (
         <ImageTextDiChung
-            children={<SvgNote/>}
+            children={<SvgNote />}
             source={require(imageComment)}
             text={item.note}
         />

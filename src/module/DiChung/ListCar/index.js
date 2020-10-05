@@ -25,6 +25,8 @@ import FormTravel from '../../ScreenAddress/Travel/FormTravel';
 import FormRideShare from '../../ScreenAddress/RideShare/FormRideShare';
 import ModalCarType from '../../ScreenAddress/Util/Modal/ModalCarType';
 import ModalVehicleType from '../../ScreenAddress/Util/Modal/ModalVehicleType';
+import Dialog, { DialogContent, DialogButton } from 'react-native-popup-dialog';
+
 // import FormHourlyTaxi from '../MapDiChung/FormHourlyTaxi';
 import HTML from 'react-native-render-html';
 import DetailItem from './DetailItem'
@@ -324,7 +326,8 @@ class ListCar extends Component {
                         /> : null
                         }
                     </ScrollView>
-                    {this.modalDetail(this.state.showDetail)}
+                    {/* {this.modalDetail(this.state.showDetail)} */}
+                    {this.renderDetail(this.state.showDetail)}
 
                     {this.state.selectItem >= 0 ?
                         <Button
@@ -343,9 +346,12 @@ class ListCar extends Component {
                 <TouchableOpacity
                     style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderColor: '#77a300', borderBottomWidth: this.state.selectDCT ? 2 : 0 }}
                     onPress={() => {
-                        this.setState({
-                            selectDCT: true,
-                        })
+                        if (!this.state.selectDCT) {
+                            this.setState({
+                                selectDCT: true,
+                                selectItem: -1,
+                            })
+                        }
                     }}
                 >
                     <Text style={{ fontSize: 16, fontWeight: 'bold', color: this.state.selectDCT ? '#77a300' : '#333' }}>Đối tác đảm bảo</Text>
@@ -353,9 +359,12 @@ class ListCar extends Component {
                 <TouchableOpacity
                     style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderColor: '#77a300', borderBottomWidth: this.state.selectDCT ? 0 : 2 }}
                     onPress={() => {
-                        this.setState({
-                            selectDCT: false,
-                        })
+                        if (this.state.selectDCT) {
+                            this.setState({
+                                selectDCT: false,
+                                selectItem: -1,
+                            })
+                        }
                     }}
                 >
                     <Text style={{ fontSize: 16, fontWeight: 'bold', color: this.state.selectDCT ? '#333' : '#77a300' }}>Đối tác thường</Text>
@@ -378,41 +387,51 @@ class ListCar extends Component {
                     <Text style={{ textAlign: 'center' }}>Không tìm thấy tài xế phù hợp. Vui lòng gọi <Text style={{ color: '#77a300' }}
                         onPress={() => Linking.openURL(`tel: 19006022`)}>19006022</Text></Text>
                     <Text style={{ padding: 4, fontSize: 18 }}>HOẶC</Text>
-                    {/* <TouchableOpacity
-                        style={{ backgroundColor: '#77a300', margin: 8, padding: 8 }}
-                        onPress={() => {
-                            this.props.navigation.push("SpecialRequirements", {
-                                'screen': 'DiChung'
-                            })
-                        }}
-                    >
-                        <Text style={{ color: '#fff', fontWeight: 'bold' }}>ĐẶT XE THEO YÊU CẦU</Text>
-                    </TouchableOpacity> */}
                 </View> :
                 <View style={{ flex: 1 }}>
                     <ScrollView
                         showsVerticalScrollIndicator={false}
                     >
-                        {this.state.selectDCT ? objDCT.map((item, index) => (
-                            <ItemCarTaxi
-                                item={item}
-                                onPress={() => this.pressItem(index, item)}
-                                isSelect={index == this.state.selectItem && item == this.state.item}
-                            />
-                        )) : objDC.map((item, index) => (
-                            <ItemCarTaxi
-                                item={item}
-                                onPress={() => this.pressItem(index, item)}
-                                isSelect={index == this.state.selectItem && item == this.state.item}
-                            />
-                        ))}
+                        {this.state.selectDCT ? (objDCT.length == 0 && this.state.countLoading == 0) ?
+                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
+                                <Image
+                                    style={{ width: 80, height: 80 }}
+                                    source={require('../../../image/sorry.png')}
+                                />
+                                <Text style={{ textAlign: 'center' }}>Không tìm thấy tài xế phù hợp. Vui lòng gọi <Text style={{ color: '#77a300' }}
+                                    onPress={() => Linking.openURL(`tel: 19006022`)}>19006022</Text></Text>
+                            </View>
+                            : objDCT.map((item, index) => (
+                                <ItemCarTaxi
+                                    item={item}
+                                    onPress={() => this.pressItem(index, item)}
+                                    isSelect={index == this.state.selectItem && item == this.state.item}
+                                />
+                            )) : (objDC.length == 0 && this.state.countLoading == 0) ?
+                                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
+                                    <Image
+                                        style={{ width: 80, height: 80 }}
+                                        source={require('../../../image/sorry.png')}
+                                    />
+                                    <Text style={{ textAlign: 'center' }}>Không tìm thấy tài xế phù hợp. Vui lòng gọi <Text style={{ color: '#77a300' }}
+                                        onPress={() => Linking.openURL(`tel: 19006022`)}>19006022</Text></Text>
+                                    {/* <Text style={{ padding: 4, fontSize: 18 }}>HOẶC</Text> */}
+                                </View>
+                                : objDC.map((item, index) => (
+                                    <ItemCarTaxi
+                                        item={item}
+                                        onPress={() => this.pressItem(index, item)}
+                                        isSelect={index == this.state.selectItem && item == this.state.item}
+                                    />
+                                ))}
                         {this.state.countLoading > 0 ? <ActivityIndicator
                             size='large'
                             style={{ marginTop: 20 }}
                         /> : null
                         }
                     </ScrollView>
-                    {this.modalDetail(this.state.showDetail)}
+                    {/* {this.modalDetail(this.state.showDetail)} */}
+                    {this.renderDetail(this.state.showDetail)}
 
                     {this.state.selectItem >= 0 ?
                         <Button
@@ -422,6 +441,31 @@ class ListCar extends Component {
                         /> : null}
 
                 </View>
+        )
+    }
+
+    renderDetail(showDetail) {
+        return (
+            <Dialog
+                visible={showDetail}
+                width={0.9}
+                onTouchOutside={() => this.setState({ showDetail: false })}
+            >
+                <DialogContent>
+                    <View>
+                        {this.state.item && <DetailItem item={this.state.item} />}
+                        <View style={{ backgroundColor: '#fff', }}>
+                            <Button
+                                onPress={() => {
+                                    this.gotoInfoCustomer(this.state.item)
+                                    this.setState({ showDetail: false })
+                                }}
+                                value={'CHỌN'}
+                            />
+                        </View>
+                    </View>
+                </DialogContent>
+            </Dialog>
         )
     }
 

@@ -55,9 +55,6 @@ class MapExpress extends Component {
             duration: 6,
             modalSelectTime: false,
             scroll: 48,
-            alertTimeSent: false,
-            alertTimeRent: false,
-            alertInfo: false,
         }
         this.mapRef = null;
     }
@@ -105,9 +102,9 @@ class MapExpress extends Component {
             if (this.state.date) {
                 if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                     if (this.state.hoursAlive > this.state.selectedHours) {
-                        this.setState({ alertTimeSent: true })
+                        this.ToastTime()
                     } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                        this.setState({ alertTimeSent: true })
+                        this.ToastTime()
                     } else {
                         this.props.navigation.push("ListCar");
                     }
@@ -120,36 +117,20 @@ class MapExpress extends Component {
             }
         }
         else {
-            this.setState({ alertInfo: true })
+            this.ToastInfo()
         }
     }
 
-    renderAlertInfo() {
-        return (
-            <Dialog
-                visible={this.state.alertInfo || this.state.alertTimeRent || this.state.alertTimeSent}
-                width={0.8}
-            >
-                <View>
-                    <View style={{ padding: 8 }}>
-                        {this.state.alertInfo ? <Text style={{ fontSize: 16, fontWeight: '100' }}>Vui lòng điền đầy đủ thông tin để xem giá.</Text> : null}
-                        {this.state.alertTimeSent ? <Text style={{ fontSize: 16, fontWeight: '100' }}>Giờ gửi hàng phải lớn hơn giờ hiện tại.</Text> : null}
-                        {this.state.alertTimeRent ? <Text style={{ fontSize: 16, fontWeight: '100' }}>Giờ thuê phải lớn hơn giờ hiện tại.</Text> : null}
+    ToastInfo() {
+        Toast.show('Vui lòng điền đầy đủ thông tin để xem giá.', Toast.LONG)
+    }
 
-                        <ButtonDialog
-                            text="Đồng ý"
-                            onPress={() => {
-                                this.setState({
-                                    alertInfo: false,
-                                    alertTimeRent: false,
-                                    alertTimeSent: false,
-                                })
-                            }}
-                        />
-                    </View>
-                </View>
-            </Dialog>
-        )
+    ToastTime() {
+        Toast.show('Giờ đi phải lớn hơn giờ hiện tại', Toast.LONG)
+    }
+
+    ToastTimeDrop() {
+        Toast.show('Giờ trả xe phải lớn hơn giờ đi.', Toast.LONG)
     }
 
     addPeople(people) {
@@ -169,7 +150,7 @@ class MapExpress extends Component {
         });
     }
     pressSwap = () => {
-        this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop,this.props.typesDrop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick, this.props.typesPick);
+        this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.typesDrop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick, this.props.typesPick);
     }
     pressSelectTime = () => {
         this.setState({
@@ -194,7 +175,7 @@ class MapExpress extends Component {
                 />
                 <ButtonFull
                     onPress={() => { this.nextScreen() }}
-                    value={'Xem giá'}
+                    value={'TIẾP TỤC'}
                 />
             </View>
         )
@@ -327,7 +308,6 @@ class MapExpress extends Component {
                         <ImageTextBold source={require(imageCheckWhite)} textBold={"Thời gian giao siêu tốc"} />
                         <ImageTextBold source={require(imageCheckWhite)} textBold={"Đa dạng loại hàng hoá"} />
                     </View>
-                    {this.renderAlertInfo()}
                     <Modal
                         animationType="slide"
                         transparent={true}

@@ -194,7 +194,7 @@ class Map extends Component {
         return (
             <View style={styles.formInput}>
                 <ImageInputTextDiChung
-                    children={<SvgPick/>}
+                    children={<SvgPick />}
                     onPress={() => {
                         this.props.navigation.push("SearchPlace", {
                             search: 'Location',
@@ -208,7 +208,7 @@ class Map extends Component {
                 />
 
                 <ImageInputTextDiChung
-                    children={<SvgPick/>}
+                    children={<SvgPick color={'#eb6752'} />}
                     onPress={() => {
                         this.props.navigation.push("SearchPlace", {
                             search: 'Drop',

@@ -7,7 +7,7 @@ import { formatDate } from '../../until'
 
 const imageLocation = '../../image/location2.png'
 const imageCalendar = '../../image/calendar.png'
-const imagePeople = '../../image/people.png' 
+const imagePeople = '../../image/people.png'
 const imageIconCar = '../../image/iconcar.png'
 const imagePerson = '../../image/person.png'
 const imageIconPhone = '../../image/iconphone.png'
@@ -26,6 +26,7 @@ Number.prototype.format = function (n, x) {
 function DetailExpress({ item }) {
     return (
         <ScrollView
+            bounces={false}
             style={{ paddingHorizontal: 16 }}
             showsVerticalScrollIndicator={false}
         >
@@ -77,31 +78,31 @@ function renderDetailCustommer(item) {
             <Text style={styles.textBigLeft1}>Chi tiết người gửi</Text>
 
             <ImageTextDiChung
-                children={<SvgPerson/>}
+                children={<SvgPerson />}
                 source={require(imagePerson)}
                 text={item.bookingUser.fullName}
             />
 
             <ImageTextDiChung
-                children={<SvgPhone/>}
+                children={<SvgPhone />}
                 source={require(imageIconPhone)}
                 text={item.bookingUser.phone}
             />
 
             <ImageTextDiChung
-                children={<SvgMail/>}
+                children={<SvgMail />}
                 source={require(imageEmail)}
                 text={item.bookingUser.email}
             />
 
             <ImageTextDiChung
-                children={<SvgPick/>}
+                children={<SvgPick />}
                 source={require(imageLocation)}
                 text={item.startPoint.address}
             />
 
             <ImageTextDiChung
-                children={<SvgNote/>}
+                children={<SvgNote />}
                 source={require(imageComment)}
                 text={item.note}
             />

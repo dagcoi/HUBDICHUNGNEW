@@ -44,7 +44,7 @@ class FormTravel extends Component {
     renderDropAddress() {
         return (
             <ImageInputTextDiChung
-                children={<SvgPick />}
+                children={<SvgPick color={'#eb6752'} />}
                 onPress={this.props.onPressDropAddress}
                 source={require(imageLocation)}
                 placeholder={'Nhập điểm đến'}

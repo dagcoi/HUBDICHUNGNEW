@@ -158,7 +158,7 @@ class OperatorTransferService extends Component {
                 />
 
                 <ImageInputTextDiChung
-                    children={<SvgPick />}
+                    children={<SvgPick color={'#eb6752'} />}
                     value={this.props.dropAddress}
                     placeholder={'Nhập điểm trả'}
                     onPress={this.pressDropAddress}

@@ -197,9 +197,9 @@ class MapDiChungTuLai extends Component {
             if (this.state.data) {
                 if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                     if (this.state.hoursAlive > this.state.selectedHours) {
-                        Alert.alert('Giờ đi phải lớn hơn giờ hiện tại')
+                        this.ToastTime()
                     } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                        Alert.alert('Giờ đi phải lớn hơn giờ hiện tại')
+                        this.ToastTime()
                     } else {
                         this.gotoListCar()
                     }
@@ -211,10 +211,21 @@ class MapDiChungTuLai extends Component {
             }
         }
         else {
-            Alert.alert('Vui lòng điền đầy đủ thông tin để xem giá.')
+            this.ToastInfo()
         }
     }
 
+    ToastInfo() {
+        Toast.show('Vui lòng điền đầy đủ thông tin để xem giá.', Toast.LONG)
+    }
+
+    ToastTime() {
+        Toast.show('Giờ đi phải lớn hơn giờ hiện tại', Toast.LONG)
+    }
+
+    ToastTimeDrop() {
+        Toast.show('Giờ trả xe phải lớn hơn giờ đi.', Toast.LONG)
+    }
     addPeopleTuLai() {
         this.props.addPeopleTuLai(1);
     }
@@ -378,9 +389,9 @@ class MapDiChungTuLai extends Component {
             if (this.state.data) {
                 if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                     if (this.state.hoursAlive > this.state.selectedHours) {
-                        Alert.alert('Giờ đi phải lớn hơn giờ hiện tại')
+                        this.ToastTime()
                     } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                        Alert.alert('Giờ đi phải lớn hơn giờ hiện tại')
+                        this.ToastTime()
                     } else {
                         //sang màn danh sách xe
                         this.props.navigation.navigate("ListCarHourlyBookingTL");
@@ -393,7 +404,7 @@ class MapDiChungTuLai extends Component {
                 this.props.navigation.navigate("ListCarHourlyBookingTL");
             }
         } else {
-            Alert.alert('Vui lòng điền đầy đủ thông tin để xem giá.')
+            this.ToastInfo()
         }
     }
 

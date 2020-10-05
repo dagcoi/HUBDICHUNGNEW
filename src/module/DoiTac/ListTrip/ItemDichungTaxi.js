@@ -29,7 +29,7 @@ function ItemDiChungTaxi({ item }) {
                 text={item.startPlace?.formatted_address ?? ''}
             />
             <ImageTextDiChung
-                children={<SvgPick />}
+                children={<SvgPick color={'#eb6752'} />}
                 text={item.endPlace?.formatted_address ?? ''}
             />
             <ImageTextDiChung
@@ -37,7 +37,7 @@ function ItemDiChungTaxi({ item }) {
                 text={item.autoAccept == 1 ? 'Tự động chấp nhận đặt xe' : 'Không tự động chấp nhận đặt xe'}
             />
             <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
-                <Text style={{paddingHorizontal: 4}}>Lịch trình : </Text>
+                <Text style={{ paddingHorizontal: 4 }}>Lịch trình : </Text>
                 <View style={{ flexDirection: 'row' }}>
                     {listDaySelect.map((item, index) => (
                         <View style={{ width: 32, height: 32, borderRadius: 20, backgroundColor: '#77a300', justifyContent: 'center', alignItems: 'center', marginHorizontal: 4 }}>

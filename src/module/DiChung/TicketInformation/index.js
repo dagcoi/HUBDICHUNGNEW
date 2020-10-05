@@ -281,7 +281,10 @@ class TicketInformation extends Component {
                 <SafeAreaView style={{ flex: 1 }}>
                     <HeaderText textCenter={'Chi tiết vé'} onPressLeft={this.goBack} />
                     <View style={styles.container}>
-                        <ScrollView showsVerticalScrollIndicator={false} >
+                        <ScrollView
+                            showsVerticalScrollIndicator={false}
+                            bounces={false}
+                        >
 
                             {item.forward.status == 'forwarded' ?
                                 <Text style={styles.textBigRight}>Mã thuê xe của bạn: <Text style={{ fontWeight: 'bold', backgroundColor: '#77a300', color: '#fff', padding: 4 }}>{item.code}</Text></Text>

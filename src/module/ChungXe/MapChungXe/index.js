@@ -14,6 +14,7 @@ import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
 import { getDateTimeAlive } from '../../../until'
 import FormChungxeTuyen from './FormChungxeTuyen';
 import FormChungxe from './FormChungxe';
+import Toast from 'react-native-simple-toast'
 
 const imageLocation = '../../../image/location.png'
 const imageDrop = '../../../image/location.png'
@@ -57,9 +58,6 @@ class MapChungXe extends Component {
             isShowModalCity: false,
             scrollNhan: 24,
             scrollTra: 72,
-            showAlertTime: false,
-            showAlertInfo: false,
-            showAlertTimeDrop: false,
             hourly: true,
             dialogCarType: false,
             carType: '',
@@ -93,24 +91,6 @@ class MapChungXe extends Component {
         { length: 40, offset: 40 * index, index }
     )
 
-    renderAlertInfo() {
-        return (
-            <PopUp
-                showModal={this.state.showAlertInfo || this.state.showAlertTime || this.state.showAlertTimeDrop}
-                textMessage={this.state.showAlertInfo ? 'Vui lòng điền đầy đủ thông tin để xem giá.' :
-                    this.state.showAlertTime ? 'Giờ đi phải lớn hơn giờ hiện tại.' :
-                        this.state.showAlertTimeDrop ? 'Giờ trả xe phải lớn hơn giờ đi.' : ''}
-                textButtonLeft={'Đồng ý'}
-                onPressLeft={() => {
-                    this.setState({
-                        showAlertInfo: false,
-                        showAlertTime: false,
-                        showAlertTimeDrop: false
-                    })
-                }}
-            />
-        )
-    }
 
     getTimeAlive() {
         var that = this;
@@ -166,7 +146,7 @@ class MapChungXe extends Component {
     }
 
     onPressSwap = () => {
-        this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop,this.props.typesDrop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick, this.props.typesPick);
+        this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.typesDrop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick, this.props.typesPick);
     }
 
 
@@ -260,7 +240,7 @@ class MapChungXe extends Component {
                 />
                 <ButtonFull
                     onPress={() => { this.nextScreen() }}
-                    value={'Xem giá'}
+                    value={'TIẾP TỤC'}
                 />
             </View>
         )
@@ -275,9 +255,9 @@ class MapChungXe extends Component {
             if (this.state.date) {
                 if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                     if (this.state.hoursAlive > this.state.selectedHours) {
-                        this.setState({ showAlertTime: true })
+                        this.ToastTime()
                     } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                        this.setState({ showAlertTime: true })
+                        this.ToastTime()
                     } else {
                         this.props.navigation.push("ListCar");
                     }
@@ -289,8 +269,20 @@ class MapChungXe extends Component {
             }
         }
         else {
-            this.setState({ showAlertInfo: true })
+            this.ToastInfo()
         }
+    }
+
+    ToastInfo() {
+        Toast.show('Vui lòng điền đầy đủ thông tin để xem giá.', Toast.LONG)
+    }
+
+    ToastTime() {
+        Toast.show('Giờ đi phải lớn hơn giờ hiện tại', Toast.LONG)
+    }
+
+    ToastTimeDrop() {
+        Toast.show('Giờ trả xe phải lớn hơn giờ đi.', Toast.LONG)
     }
 
     formCarTour() {
@@ -304,7 +296,7 @@ class MapChungXe extends Component {
                 />
                 <ButtonFull
                     onPress={() => { this.gotoListCarTour() }}
-                    value={'Xem giá'}
+                    value={'TIẾP TỤC'}
                 />
             </View>
         )
@@ -468,16 +460,6 @@ class MapChungXe extends Component {
                         <ImageTextBold source={require(imageCheckWhite)} textBold={"Dễ dàng tìm kiếm, so sánh"} />
                         <ImageTextBold source={require(imageCheckWhite)} textBold={"Bảo hiểm an tâm"} />
                     </View>
-                    {/* {this.state.hourly ?
-                    <ButtonFull
-                        onPress={() => { this.gotoListCarTour() }}
-                        value={'Xem giá'}
-                    /> :
-                    <ButtonFull
-                        onPress={() => { this.nextScreen() }}
-                        value={'Xem giá'}
-                    />} */}
-                    {this.renderAlertInfo()}
                     <Modal
                         visible={this.state.dialogCalendarVisible}
                         animationType="slide"
@@ -591,14 +573,21 @@ class MapChungXe extends Component {
         console.log(datePick);
         console.log(dateReturn);
         console.log(Difference_In_Days);
-        if (Difference_In_Days < 1) {
-            return true;
-        } else if (Difference_In_Days == 1) {
-            if (selectedHours > selectedHours1) {
+        if (rent_date != '' && return_date != '') {
+            if (Difference_In_Days < 1) {
+                this.ToastTimeDrop()
                 return true;
-            } else if (selectedHours == selectedHours1) {
-                if (selectedMinutes >= selectedMinutes1) {
+            } else if (Difference_In_Days == 1) {
+                if (selectedHours > selectedHours1) {
+                    this.ToastTimeDrop();
                     return true;
+                } else if (selectedHours == selectedHours1) {
+                    if (selectedMinutes >= selectedMinutes1) {
+                        this.ToastTimeDrop()
+                        return true;
+                    } else {
+                        return false;
+                    }
                 } else {
                     return false;
                 }
@@ -606,7 +595,8 @@ class MapChungXe extends Component {
                 return false;
             }
         } else {
-            return false;
+            Toast.show('Vui lòng chọn đầy đủ thời gian.', Toast.SHORT)
+            return true;
         }
     }
 
@@ -616,23 +606,11 @@ class MapChungXe extends Component {
         console.log(spesentDay)
         console.log('a')
         if (this.props.pick_add == '') {
-            this.setState({ showAlertInfo: true })
+            this.ToastInfo()
             return;
-            // } else if (this.state.rent_date == '' || this.state.return_date == '') {
-            //     this.setState({ showAlertInfo: true })
-            //     return;
         } else if (this.selectedDate()) {
-            this.setState({ showAlertTimeDrop: true })
+            // this.ToastTimeDrop()
             return;
-            // } else if (spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
-            //     // console.log(spesentDay)
-            //     if (this.state.hoursAlive > this.state.selectedHours) {
-            //         this.setState({ showAlertTime: true })
-            //     } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-            //         this.setState({ showAlertTime: true })
-            //     } else {
-            //         this.addData()
-            //     }
         } else {
             this.addData()
         }
@@ -640,17 +618,7 @@ class MapChungXe extends Component {
 
     addData() {
         const rent_date1 = new Date(`${this.state.rent_date}`);
-        // const return_date1 = new Date(this.state.return_date);
-        // const rent_date = new Date(rent_date1.getFullYear(), rent_date1.getMonth(), rent_date1.getDate(), this.state.selectedHours, this.state.selectedMinutes);
-        // const return_date = new Date(return_date1.getFullYear(), return_date1.getMonth(), return_date1.getDate(), this.state.selectedHours1, this.state.selectedMinutes1);
-        // const rd = rent_date.toISOString();
-        // const rd1 = return_date.toISOString();
-        // console.log(rd);
-        // console.log(rd1);
-        // console.log(this.state.rent_date);
-        // console.log(this.state.return_date);
         this.props.addProductChunkType('hourly_car_rental')
-        // this.props.addCityTime(this.state.city_id, rd, rd1, this.state.city_name, this.state.time_pick, this.state.time_drop);
         this.props.navigation.push("ListCar", {
             vehicleType: this.props.carType,
             rent_date: this.state.rent_date,

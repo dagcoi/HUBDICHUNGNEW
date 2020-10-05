@@ -25,7 +25,9 @@ Number.prototype.format = function (n, x) {
 function DetailChungXe({ item }) {
     console.log(JSON.stringify(item))
     return (
-        <ScrollView style={{ paddingHorizontal: 16 }} showsHorizontalScrollIndicator={false}>
+        <ScrollView
+            bounces={false}
+            style={{ paddingHorizontal: 16 }} showsHorizontalScrollIndicator={false}>
 
             <StatusTicket item={item} />
 

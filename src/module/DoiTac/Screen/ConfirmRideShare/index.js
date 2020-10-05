@@ -62,7 +62,7 @@ class ConfirmRideShare extends Component {
                     />
 
                     <ImageInputTextDiChung
-                        children={<SvgPick />}
+                        children={<SvgPick color={'#eb6752'} />}
                         noBorderTop
                         value={this.props.dropAddress}
                         placeholder={'Nhập điểm trả'}

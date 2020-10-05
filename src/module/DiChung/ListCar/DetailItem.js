@@ -2,19 +2,17 @@ import React, { Component } from 'react'
 import { View, Image, Text, StyleSheet, ScrollView } from 'react-native'
 import HTML from 'react-native-render-html';
 import TextSpaceBetween from '../../../component/ImageTextDiChung/TextSpaceBetween';
+import { SvgCheckCircle, SvgCheckCircleBorder } from '../../../icons';
 
 function Detail({ item }) {
     console.log(item.info.description);
     return (
-        <View style={{ flex: 2, backgroundColor: '#fff' }} >
-            <ScrollView style={{ paddingHorizontal: 16 }}>
+        <View style={{ backgroundColor: '#fff' }} >
+            <ScrollView style={{ paddingHorizontal: 4 }}>
                 <View>
                     <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: 'bold', margin: 8, }}>Chi tiết</Text>
                 </View>
                 <View style={{ borderRadius: 8, borderWidth: 2, borderColor: '#77a300', padding: 8, }}>
-                    {/* <View style={{ flexDirection: 'row', }}>
-                        <Text style={{ textAlign: 'left', color: '#fff', backgroundColor: '#77a300', padding: 4, }}>Đề xuất</Text>
-                    </View> */}
                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                         <Image
                             style={{ width: 200, height: 120 }}
@@ -28,16 +26,12 @@ function Detail({ item }) {
                     </View>
                 </View>
                 <Text style={{ fontSize: 16, fontWeight: 'bold', marginVertical: 8, }}>{item.info.title.toUpperCase()}</Text>
-                {/* <TextSpaceBetween textBold={'Hình thức: '} text={item.info.label} /> */}
-                {/* <TextSpaceBetween textBold={'Ghi chú: '} text={item.info.description.replaceAll('<br>', ', ')} /> */}
-                {/* <View style={{ flexDirection: 'row', paddingHorizontal: 16, height: 40 }}>
-                    <Text style={styles.textBigLeftBold}>Ghi chú: </Text>
-                    <View style={{ flex: 1, alignItems: 'flex-end' }}>
-                        <HTML html={item.info.description} />
-                    </View>
-                </View> */}
-                {/* <TextSpaceBetween textBold={'Loại xe: '} text={item.info.title} /> */}
-                <View>
+                <View style={{ flexDirection: 'row' }}>
+                    <SvgCheckCircleBorder color={"#77a300"} />
+                    <Text style={{ fontSize: 14, }}>{item.info.vehicleType}</Text>
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                    <SvgCheckCircleBorder color={"#77a300"} />
                     <HTML html={item.info.description} />
                 </View>
                 {item.info.priceExtra ? <View>

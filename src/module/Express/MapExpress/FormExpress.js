@@ -24,6 +24,7 @@ class FormExpress extends Component {
                         value={this.props.pick_add}
                     />
                     <DropAddress
+                        children={<SvgPick color={'#eb6752'} />}
                         onPressInput={this.props.onPressDropAddress}
                         onPressSwap={this.props.onPressSwap}
                         placeholder={'Điểm giao hàng'}

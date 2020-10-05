@@ -9,15 +9,8 @@ import ConfirmInformation from './module/DiChung/ConfirmInformation'
 import ListCar from './module/DiChung/ListCar'
 import TicketInformation from './module/DiChung/TicketInformation'
 import PaymentOnline from './module/DiChung/PaymentOnline'
-// import ListCarHourlyBooking from './module/DiChung/ListCarHourlyBooking'
-// import InfoCustommerHourlyBooking from './module/DiChung/InfoCustommerHourlyBooking'
-// import ConfirmInformationHB from './module/DiChung/ConfirmInformationHB'
 
 import MapChungXe from './module/ChungXe/MapChungXe'
-// import ListVehicle from './module/ChungXe/ListVehicle'
-// import InfoChungXe from './module/ChungXe/InfoCarChungXe'
-// import ConfirmInfoChungXe from './module/ChungXe/ConfirmInfoChungXe'
-// import ChungXeTicketInformation from './module/ChungXe/ChungXeTicketInformation'
 
 import MapXeChung from './module/XeChung/MapXeChung'
 import MapExpress from './module/Express/MapExpress'
@@ -49,17 +42,16 @@ import ListCarTaxiNow from './module/TaxiNow/ListCarTaxiNow'
 import CustomerInfoTaxiNow from './module/TaxiNow/CustomerInfoTaxiNow'
 import MapStartTrip from './module/TaxiNow/MapStartTrip'
 
+import TransferService from './module/DoiTac/Screen/TransferService'
+import Express from './module/DoiTac/Screen/Express'
+import CarRental from './module/DoiTac/Screen/CarRental'
 import Confirm from './module/DoiTac/Screen/Confirm'
-// import RideShareA from './module/DoiTac/Form/RideShare'
+import ConfirmRideShare from './module/DoiTac/Screen/ConfirmRideShare'
+import CreateRideShare from './module/DoiTac/Screen/CreateRideShare'
 import HomeOperator from './module/DoiTac/Screen/Home'
 import { createDrawerNavigator } from 'react-navigation-drawer'
 import CustomNavigator from './component/CustomNavigator'
 import { connect } from 'react-redux'
-import TransferService from './module/DoiTac/Screen/TransferService'
-import Express from './module/DoiTac/Screen/Express'
-import CarRental from './module/DoiTac/Screen/CarRental'
-import ConfirmRideShare from './module/DoiTac/Screen/ConfirmRideShare'
-import CreateRideShare from './module/DoiTac/Screen/CreateRideShare'
 
 const ListBookingDetail = createStackNavigator({
     ListBooking: {
@@ -176,27 +168,6 @@ const RootStack = createStackNavigator({
         }
     },
 
-    // ListCarHourlyBooking: {
-    //     screen: ListCarHourlyBooking,
-    //     navigationOptions: {
-    //         header: null,
-    //     }
-    // },
-
-    // InfoCustommerHourlyBooking: {
-    //     screen: InfoCustommerHourlyBooking,
-    //     navigationOptions: {
-    //         header: null,
-    //     }
-    // },
-
-    // ConfirmInformationHB: {
-    //     screen: ConfirmInformationHB,
-    //     navigationOptions: {
-    //         header: null,
-    //     }
-    // },
-
     PaymentOnline: {
         screen: PaymentOnline,
         navigationOptions: {
@@ -211,40 +182,12 @@ const RootStack = createStackNavigator({
         },
     },
 
-    // ListVehicle: {
-    //     screen: ListVehicle,
-    //     navigationOptions: {
-    //         header: null,
-    //     },
-    // },
-
-    // InfoChungXe: {
-    //     screen: InfoChungXe,
-    //     navigationOptions: {
-    //         header: null,
-    //     }
-    // },
-
-    // ConfirmInfoChungXe: {
-    //     screen: ConfirmInfoChungXe,
-    //     navigationOptions: {
-    //         header: null,
-    //     }
-    // },
-
     TicketInformation: {
         screen: TicketInformation,
         navigationOptions: {
             header: null,
         }
     },
-
-    // ChungXeTicketInformation: {
-    //     screen: ChungXeTicketInformation,
-    //     navigationOptions: {
-    //         header: null,
-    //     }
-    // },
 
     MapXeChung: {
         screen: MapXeChung,
@@ -288,20 +231,18 @@ const RootStack = createStackNavigator({
 })
 
 const Profiles = createStackNavigator({
+    // Login2: {
+    //     screen: Login,
+    //     navigationOptions: {
+    //         header: null,
+    //     }
+    // },
     Login: {
-        screen: Login,
-        navigationOptions: {
-            header: null,
-        }
-    },
-
-    Login2: {
         screen: Login2,
         navigationOptions: {
             header: null,
         }
     },
-
     Profile: {
         screen: Profile,
         navigationOptions: {
@@ -464,21 +405,6 @@ const DrawerNavi = createDrawerNavigator({
     },
     contentComponent: CustomNavigator,
 })
-
-// const StackMain = createStackNavigator({
-//     Main: {
-//         screen: DrawerNavi,
-//         navigationOptions: {
-//             header: null
-//         }
-//     },
-//     SearchPlace: {
-//         screen: SearchPlace,
-//         navigationOptions: {
-//             header: null,
-//         }
-//     },
-// })
 
 function mapStateToProps(state) {
     return {

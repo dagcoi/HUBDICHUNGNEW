@@ -50,8 +50,6 @@ class MapCombo extends Component {
                 { 'id': 4, 'carname': 'Xe 16 chỗ', 'listCarType': '24' },
             ],
             scroll: 48,
-            showAlertTime: false,
-            showAlertInfo: false,
         }
         this.mapRef = null;
     }
@@ -91,53 +89,42 @@ class MapCombo extends Component {
         if (this.props.pick_add != '' && this.props.drop_add != '' && this.state.depart_time != '') {
             console.log(this.state.spesentDay)
             console.log(this.state.date.format('DD-MM-YYYY'))
-            if(this.state.date){
-            if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
-                if (this.state.hoursAlive > this.state.selectedHours) {
-                    this.setState({ showAlertTime: true })
-                } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                    this.setState({ showAlertTime: true })
+            if (this.state.date) {
+                if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
+                    if (this.state.hoursAlive > this.state.selectedHours) {
+                        this.ToastTime()
+                    } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
+                        this.ToastTime()
+                    }
+                } else {
+                    console.log('datdem: false')
+                    this.props.navigation.push("ListCar");
                 }
             } else {
-                console.log('datdem: false')
-                this.props.navigation.push("ListCar");
-            }} else{
                 this.props.navigation.push("ListCar");
             }
         }
         else {
-            this.setState({ showAlertInfo: true })
+            this.ToastInfo()
         }
     }
 
-    renderAlertTime() {
-        return (
-            <Warning
-                visible={this.state.showAlertTime}
-                textWarning={'Giờ đi phải lớn hơn giờ hiện tại'}
-                onPress={() => {
-                    this.setState({ showAlertTime: false, })
-                }}
-            />
-        )
+    ToastInfo() {
+        Toast.show('Vui lòng điền đầy đủ thông tin để xem giá.', Toast.LONG)
     }
 
-    renderAlertInfo() {
-        return (
-            <Warning
-                visible={this.state.showAlertInfo}
-                onPress={() => {
-                    this.setState({ showAlertInfo: false, })
-                }}
-                textWarning={'Vui lòng điền đầy đủ thông tin để xem giá.'}
-            />
-        )
+    ToastTime() {
+        Toast.show('Giờ đi phải lớn hơn giờ hiện tại', Toast.LONG)
+    }
+
+    ToastTimeDrop() {
+        Toast.show('Giờ trả xe phải lớn hơn giờ đi.', Toast.LONG)
     }
 
     renderPickAddress() {
         return (
             <ImageInputTextDiChung
-                children={<SvgPick/>}
+                children={<SvgPick />}
                 onPress={() => {
                     this.props.navigation.push("SearchPlace", {
                         search: 'Pick',
@@ -154,7 +141,7 @@ class MapCombo extends Component {
     renderHourglass() {
         return (
             <ImageInputTextDiChung
-            children={<SvgDuration/>}
+                children={<SvgDuration />}
                 onPress={() => {
                     this.setState({
                         modalSelectTime: true
@@ -171,7 +158,7 @@ class MapCombo extends Component {
     renderCarType() {
         return (
             <ImageInputTextDiChung
-            children={<SvgCar/>}
+                children={<SvgCar />}
                 onPress={() => {
                     this.setState({
                         modalSelectCar: true
@@ -190,7 +177,7 @@ class MapCombo extends Component {
             <View style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', justifyContent: "center", alignItems: 'center', flexDirection: 'row', }}
             >
                 <ImageInputTextDiChung
-                    children={<SvgClock/>}
+                    children={<SvgClock />}
                     widthHeightImage={24}
                     onPress={() => {
                         this.setState({
@@ -218,7 +205,7 @@ class MapCombo extends Component {
                     });
                 }}
                 onPressSwap={() => {
-                    this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop,this.props.typesDrop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick, this.props.typesPick);
+                    this.props.swapAddress(this.props.drop_add, this.props.component_drop, this.props.latitude_drop, this.props.longitude_drop, this.props.typesDrop, this.props.pick_add, this.props.component_pick, this.props.latitude_pick, this.props.longitude_pick, this.props.typesPick);
                 }}
             />
         )
@@ -236,7 +223,7 @@ class MapCombo extends Component {
 
                 <ButtonFull
                     onPress={() => { this.nextScreen() }}
-                    value={'Xem giá'}
+                    value={'TIẾP TỤC'}
                 />
 
                 <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
@@ -336,7 +323,7 @@ class MapCombo extends Component {
                 </View>
                 <ButtonFull
                     onPress={() => { this.gotoListCarHourlyBooking() }}
-                    value={'Xem giá'}
+                    value={'TIẾP TỤC'}
                 />
                 <View style={{ height: 1, backgroundColor: '#e8e8e8', flexDirection: 'row' }}>
                     <View style={{ flex: 1 }}></View>
@@ -373,9 +360,9 @@ class MapCombo extends Component {
         if (this.props.pick_add != '' && this.state.carType != '' && this.state.depart_time != '') {
             if (this.state.spesentDay == `${this.state.date.format('DD-MM-YYYY')}`) {
                 if (this.state.hoursAlive > this.state.selectedHours) {
-                    this.setState({ showAlertTime: true })
+                    this.ToastTime()
                 } else if ((this.state.hoursAlive == this.state.selectedHours) && (this.state.minutesAlive >= this.state.selectedMinutes)) {
-                    this.setState({ showAlertTime: true })
+                    this.ToastTime()
                 } else {
                     this.props.navigation.navigate("ListCarHourlyBooking", {
                         'listCarType': this.state.selectCar,
@@ -387,7 +374,7 @@ class MapCombo extends Component {
                 });
             }
         } else {
-            this.setState({ showAlertInfo: true })
+            this.ToastInfo()
         }
     }
 
@@ -414,8 +401,6 @@ class MapCombo extends Component {
                             <ImageTextBold source={require(imageCheckWhite)} textBold={"Cam kết giá tốt"} />
                         </View>
                     </View>
-                    {this.renderAlertTime()}
-                    {this.renderAlertInfo()}
                     <Modal
                         animationType="slide"
                         transparent={true}

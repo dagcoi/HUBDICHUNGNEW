@@ -219,7 +219,7 @@ class ConfirmInformation extends Component {
                 {this.state.listHourly.indexOf(this.props.product_chunk_type) < 0 ?
                     <View>
                         <ImageTextDiChung
-                            children={<SvgPick />}
+                            children={<SvgPick color={'#eb6752'} />}
                             source={require(imageLocation)}
                             text={this.props.drop_add}
                         />
@@ -384,7 +384,7 @@ class ConfirmInformation extends Component {
                     <Text style={styles.textBigLeft}>Đơn giá: </Text>
                     <Text style={styles.textBigRight}>{parseInt(this.props.cost).format(0, 3, '.') + ' đ '}</Text>
                 </View>
-                {this.state.detailPrice && this.state.detailPrice.slot &&
+                {this.state.detailPrice?.slot &&
                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                         <Text style={styles.textBigLeft}>Số lượng </Text>
                         <Text style={styles.textBigRight}>{this.state.detailPrice.slot} người</Text>
@@ -397,7 +397,7 @@ class ConfirmInformation extends Component {
                         <Text style={styles.textBigRight}>{parseInt(send.payment.tollFee).format(0, 3, '.') + ' đ '}</Text>
                     </View>
                 }
-                {this.state.detailPrice && this.state.detailPrice.catchInHousePrice &&
+                {this.state.detailPrice?.catchInHousePrice &&
                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                         <Text style={styles.textBigLeft}>Đón biển tên: </Text>
                         <Text style={styles.textBigRight}>{this.state.detailPrice.catchInHousePrice.format(0, 3, '.') + ' đ '}</Text>
@@ -418,21 +418,6 @@ class ConfirmInformation extends Component {
                 }
             </View>
         )
-    }
-
-    renderMGG() {
-        const { navigation } = this.props;
-        if (!navigation.getParam('blDiscount')) {
-            return null;
-        } else {
-            return (
-                <ImageTextDiChung
-                    children={<SvgTicket />}
-                    source={require(imageDone)}
-                    text={navigation.getParam('detailPromotion')}
-                />
-            )
-        }
     }
 
     formComment() {
@@ -483,6 +468,7 @@ class ConfirmInformation extends Component {
                 <HeaderText textCenter={'Xác nhận thông tin'} onPressLeft={this.goBack} />
                 <View style={{ flex: 1, padding: 8 }}>
                     <ScrollView
+                        bounces={false}
                         showsVerticalScrollIndicator={false}
                     >
                         <View style={{ height: 150, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
@@ -507,10 +493,6 @@ class ConfirmInformation extends Component {
                             text={navigation.getParam('Payment') == '0' ? 'Trả sau' : 'Trả trước'}
                         />
 
-                        {/* {this.renderVAT()} */}
-
-
-                        {/* {this.renderMGG()} */}
                         {this.renderTT()}
 
                         <Button

@@ -27,7 +27,7 @@ function ItemRideShare({ item }) {
                 text={item.startPlace?.formatted_address ?? ''}
             />
             <ImageTextDiChung
-                children={<SvgPick />}
+                children={<SvgPick color={'#eb6752'} />}
                 text={item.endPlace?.formatted_address ?? ''}
             />
             <ImageTextDiChung

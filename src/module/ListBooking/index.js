@@ -181,7 +181,7 @@ class ListBooking extends Component {
                             text={item.startPoint.address}
                         />
                         {item.endPoint && item.endPoint.address && <ImageTextDiChung
-                            children={<SvgPick />}
+                            children={<SvgPick color={'#eb6752'} />}
                             source={require(imageDrop)}
                             text={item.endPoint.address}
                         />}
