@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Image, TouchableOpacity, } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import { SvgClock } from '../../../icons';
+import { SvgClock, SvgDuration, SvgFromTo } from '../../../icons';
 
 const source = require('../../../image/time.png')
 function TimePickDrop({
@@ -17,7 +17,7 @@ function TimePickDrop({
     return (
         <View style={[{ flexDirection: 'row', borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', }, noBorderTop ? { borderTopWidth: 0 } : { borderTopWidth: 1 }]}>
             <View style={{ width: 28, height: 28, justifyContent: "center", alignItems: "center" }}>
-                <SvgClock/>
+                <SvgDuration />
             </View>
             <TouchableOpacity
                 style={{ flex: 1, height: 40, flexDirection: 'row', alignItems: 'center', marginLeft: 8 }}
@@ -31,15 +31,15 @@ function TimePickDrop({
                     value={value}
                     placeholder={placeholder}
                     selection={{ start: 0, end: 0 }}
-                    placeholderTextColor={'#333333'}
+                // placeholderTextColor={'#333333'}
                 />
             </TouchableOpacity>
-            <View style={{ borderColor: '#e8e8e8', borderWidth: 0.5, width: 0, height: 40 }} />
+            <View style={{ borderColor: '#e8e8e8', borderWidth: 0, width: 0, height: 40 }} />
             <View style={{ width: 28, height: 28, justifyContent: "center", alignItems: "center" }}>
-                <SvgClock/>
+                <SvgFromTo />
             </View>
             <TouchableOpacity
-                style={{ flex: 1, height: 40, flexDirection: 'row', alignItems: 'center', marginLeft: 8 }}
+                style={{ flex: 2, height: 40, flexDirection: 'row', alignItems: 'center', marginLeft: 8 }}
                 onPress={onPress2}
             >
                 <TextInput
@@ -50,7 +50,7 @@ function TimePickDrop({
                     value={value2}
                     placeholder={placeholder2}
                     selection={{ start: 0, end: 0 }}
-                    placeholderTextColor={'#333333'}
+                // placeholderTextColor={'#333333'}
                 />
             </TouchableOpacity>
         </View>

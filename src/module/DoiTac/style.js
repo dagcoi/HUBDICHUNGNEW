@@ -73,6 +73,11 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: '#333'
     },
+    textBold14: {
+        fontWeight: 'bold',
+        fontSize: 14,
+        color: '#333'
+    },
     textBold: {
         fontSize: 16,
         fontWeight: 'bold',

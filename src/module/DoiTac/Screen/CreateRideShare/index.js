@@ -7,7 +7,9 @@ import { ButtonFull, ButtonDialog } from '../../../../component/Button'
 import { FormSelectVehicleSlot } from '../../Form'
 import Dialog from 'react-native-popup-dialog';
 import * as link from '../../../../URL'
-import { SvgBulletPoints, SvgCheckSuccess, SvgPeople, SvgPick, SvgVehicle } from '../../../../icons'
+import { SvgBulletPoints, SvgCheckSuccess, SvgMoneyUlgy, SvgPeople, SvgPick, SvgVehicle } from '../../../../icons'
+
+const colorRed = '#ef465e'
 
 const imageLocation = '../../../../image/location.png'
 class CreateRideShare extends Component {
@@ -21,6 +23,7 @@ class CreateRideShare extends Component {
             addingTicket: false,
             popupSuccess: false,
             popupError: false,
+            ticket: null,
         }
     }
 
@@ -86,7 +89,7 @@ class CreateRideShare extends Component {
             'lat': pickAddressComponent.geometry.location.lat,
             'lng': pickAddressComponent.geometry.location.lng,
             'placeId': dropAddressComponent.place_id,
-            'price': navigation.getParam('price'),
+            'price': replacePoint(navigation.getParam('price')),
             'province': this.filterComponent(pickAddressComponent.address_components, [
                 'administrative_area_level_1',
             ]),
@@ -114,7 +117,7 @@ class CreateRideShare extends Component {
                     />
 
                     <ImageInputTextDiChung
-                        children={<SvgPick color={'#eb6752'} />}
+                        children={<SvgPick color={colorRed} />}
                         noBorderTop
                         value={this.props.dropAddress}
                         placeholder={'Nhập điểm trả'}
@@ -126,7 +129,7 @@ class CreateRideShare extends Component {
                             <SvgBulletPoints />
                         </View>
                         <Text style={{ paddingLeft: 4 }}>Khoảng cách: </Text>
-                        <Text>{this.state.data?.data?.distanceText}</Text>
+                        <Text style={{ color: colorRed, fontWeight: 'bold' }}>{this.state.data?.data?.distanceText}</Text>
                     </View>
 
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
@@ -134,19 +137,9 @@ class CreateRideShare extends Component {
                             <SvgBulletPoints />
                         </View>
                         <Text style={{ paddingLeft: 4 }}>Giá bán một chỗ: </Text>
-                        <TextInput
-                            style={{ flex: 1, padding: 8, borderColor: '#e8e8e8', borderRadius: 8 }}
-                            value={this.state.price}
-                            editable={false}
-                        />
+                        {this.state.price != null &&
+                            <Text style={{ flex: 1, padding: 8, borderColor: '#e8e8e8', borderRadius: 8, color: colorRed, fontWeight: 'bold' }}>{handleChange(this.state.price) + ' ₫'}</Text>}
                     </View>
-
-                    <ImageInputTextDiChung
-                        children={<SvgCheckSuccess />}
-                        noBorderTop
-                        placeholder={'Hình thức chấp nhận'}
-                        value={this.props.itemConfirm?.label}
-                    />
 
                     <FormSelectVehicleSlot
                         noBorderTop
@@ -155,6 +148,25 @@ class CreateRideShare extends Component {
                         value={this.props.itemVehicle?.label}
                         value2={this.props.itemSlot ? this.props.itemSlot.label + ' Chỗ' : ''}
                     />
+
+                    <ImageInputTextDiChung
+                        children={<SvgCheckSuccess />}
+                        noBorderTop
+                        placeholder={'Hình thức chấp nhận'}
+                        value={this.props.itemConfirm?.label}
+                    />
+
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+                        <View style={{ width: 32, height: 32, justifyContent: 'center', alignItems: 'center', paddingRight: 4, marginRight: 4 }}>
+                            <SvgMoneyUlgy width={20} height={20} color={colorRed} />
+                        </View>
+                        <Text>Doanh thu tạm tính: </Text>
+                        {this.state.price != null &&
+                            <Text style={{ color: colorRed, fontWeight: 'bold' }}>{formatCurrency(this.props.itemSlot?.label * replacePoint(this.state.price)) + 'đ'}</Text>
+
+                        }
+                    </View>
+
                     <ButtonFull
                         value={'Đăng chuyến'}
                         onPress={() => {
@@ -187,10 +199,11 @@ class CreateRideShare extends Component {
             >
                 <View>
                     <View style={{ padding: 8 }}>
-                        <Text style={{ fontSize: 16, fontWeight: '100' }}>Đăng chuyến thành công</Text>
+                        <Text style={{ fontSize: 16, fontWeight: '100' }}>Đăng chuyến thành công! Vui lòng kiểm tra trong phần danh sách chuyến tạo</Text>
                         <ButtonDialog
-                            text={'Đóng'}
+                            text={'Trang chủ'}
                             onPress={() => {
+                                // this.ticketDetail(this.state.ticket._id)
                                 this.setState({ popupSuccess: false, })
                                 this.props.navigation.popToTop()
                             }}
@@ -221,6 +234,12 @@ class CreateRideShare extends Component {
         )
     }
 
+    async ticketDetail(ticketId) {
+        console.log(ticketId)
+        await this.setState({ popupSuccess: false, })
+        await this.props.navigation.replace('DetailTicketPartner1', { 'code': ticketId })
+    }
+
     pressCreateRideShare(send) {
         const url = link.URL_API_PORTAL + `rs-schedule/v1/schedules`
         console.log(this.props.token)
@@ -240,7 +259,9 @@ class CreateRideShare extends Component {
                 console.log(JSON.stringify(resJson))
                 if (resJson.data) {
                     console.log('success')
+                    console.log(resJson.data)
                     this.setState({
+                        ticket: resJson.data,
                         addingTicket: false,
                         popupSuccess: true,
                     })
@@ -255,6 +276,29 @@ class CreateRideShare extends Component {
     }
 }
 
+
+function handleChange(num) {
+    let number = num.replace(new RegExp(/,/gi), '')
+    let money = Number(number).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    return money;
+};
+
+function formatCurrency(currency) {
+    console.log(currency)
+    // return '123'
+    return currency
+        .toString()
+        .split('')
+        .reverse()
+        .join('')
+        .match(/.{1,3}/g)
+        .map((i) => i.split('').reverse().join(''))
+        .reverse()
+        .join(',')
+}
+function replacePoint(currency) {
+    return Number(currency.replace(new RegExp(/,/gi), ''))
+}
 
 function mapStateToProps(state) {
     return {

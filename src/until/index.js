@@ -57,8 +57,34 @@ function formatDate(string) {
     return strDate;
 }
 
+function handleChange(num) {
+    let number = num.replace(new RegExp(/,/gi), '')
+    let money = Number(number).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    return money;
+};
+
+function formatCurrency(currency) {
+    console.log(currency)
+    // return '123'
+    return currency
+        .toString()
+        .split('')
+        .reverse()
+        .join('')
+        .match(/.{1,3}/g)
+        .map((i) => i.split('').reverse().join(''))
+        .reverse()
+        .join(',')
+}
+function replacePoint(currency) {
+    return Number(currency.replace(new RegExp(/,/gi), ''))
+}
+
 export {
     countWeekend,
     getDateTimeAlive,
-    formatDate
+    formatDate,
+    handleChange,
+    formatCurrency,
+    replacePoint,
 }

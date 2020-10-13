@@ -41,7 +41,7 @@ import RideShare from './module/ScreenAddress/RideShare'
 import ListCarTaxiNow from './module/TaxiNow/ListCarTaxiNow'
 import CustomerInfoTaxiNow from './module/TaxiNow/CustomerInfoTaxiNow'
 import MapStartTrip from './module/TaxiNow/MapStartTrip'
-
+import DetailTicketPartner from './module/DoiTac/Screen/DetailTicket'
 import TransferService from './module/DoiTac/Screen/TransferService'
 import Express from './module/DoiTac/Screen/Express'
 import CarRental from './module/DoiTac/Screen/CarRental'
@@ -306,6 +306,12 @@ const StackRideShare = createStackNavigator({
         }
     },
 
+    DetailTicketPartner1: {
+        screen: DetailTicketPartner,
+        navigationOptions: {
+            header: null,
+        }
+    }
 
 })
 
@@ -316,6 +322,12 @@ const ListTripDetail = createStackNavigator({
             header: null,
         }
     },
+    DetailTicketPartner: {
+        screen: DetailTicketPartner,
+        navigationOptions: {
+            header: null,
+        }
+    }
 })
 
 
@@ -331,7 +343,7 @@ const DrawerNavi = createDrawerNavigator({
     StackRideShare: {
         screen: StackRideShare,
         navigationOptions: {
-            title: 'Cho thuê xe',
+            title: 'Cung cấp dịch vụ',
             alignItems: 'center'
         }
     },

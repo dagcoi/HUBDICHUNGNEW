@@ -129,7 +129,7 @@ class RideShare extends Component {
                                 placeholder={'Bắt đầu'}
                                 onPress2={this.showModalDrop}
                                 value2={this.props.timeDrop}
-                                placeholder2={'Giờ ngưng nhận'}
+                                placeholder2={'Giờ kết thúc'}
                             />
                             <View style={styles.listDayOfWeek}>
                                 <FlatList

@@ -186,8 +186,8 @@ function SvgCar(props) {
     return (
         <View style={props.style ?? styles.styleSmall}>
             <Svg
-                // width={24}
-                // height={24}
+                // width={props.width ?? 24}
+                // height={props.height ?? 24}
                 viewBox="0 0 24 24"
                 aria-hidden="true"
                 color="#000"
@@ -677,7 +677,7 @@ function SvgTruck(props) {
 
 function SvgMoneyUlgy(props) {
     return (
-        <Svg width={80} height={80} viewBox="0 0 80 80" {...props}>
+        <Svg width={props.width ?? 80} height={props.height ?? 80} viewBox="0 0 80 80" {...props}>
             <Defs>
                 <Path
                     id="prefix__a"
@@ -689,7 +689,7 @@ function SvgMoneyUlgy(props) {
                 <Mask id="prefix__b" fill="#fff">
                     <Use xlinkHref="#prefix__a" />
                 </Mask>
-                <Use fill="#76A340" xlinkHref="#prefix__a" />
+                <Use fill={props.color ?? "#76A340"} xlinkHref="#prefix__a" />
                 <Path
                     fill="#FFF"
                     d="M37.665 35.477c1 .554 2.542 1.13 4.627 1.726 2.088.597 3.804 1.193 5.15 1.79 1.348.596 2.498 1.492 3.454 2.685.957 1.193 1.435 2.77 1.435 4.73 0 2.5-.862 4.533-2.586 6.094-1.724 1.563-4.005 2.515-6.843 2.856v6.18h-4.998v-6.18a22.08 22.08 0 01-5.909-1.577c-1.884-.795-3.55-1.804-4.997-3.026l2.738-5.497c1.535 1.363 3.302 2.457 5.3 3.281 2 .825 3.824 1.236 5.475 1.236 1.42 0 2.528-.256 3.324-.767.797-.511 1.196-1.25 1.196-2.217 0-.766-.269-1.398-.804-1.896-.536-.497-1.217-.901-2.042-1.214-.826-.313-1.963-.667-3.412-1.066-2.085-.567-3.787-1.136-5.106-1.704-1.317-.568-2.455-1.435-3.41-2.6-.957-1.165-1.434-2.713-1.434-4.645 0-2.33.818-4.268 2.455-5.818 1.636-1.548 3.846-2.52 6.626-2.919v-5.796h4.998v5.753c1.738.2 3.403.57 4.997 1.109 1.593.54 3.012 1.221 4.259 2.045l-2.651 5.583a23.3 23.3 0 00-4.976-2.238c-1.753-.554-3.253-.83-4.497-.83-1.189 0-2.13.213-2.825.639-.695.426-1.043 1.051-1.043 1.875 0 1.052.5 1.854 1.499 2.408"
@@ -700,14 +700,125 @@ function SvgMoneyUlgy(props) {
     )
 }
 
+function SvgBag(props) {
+    return (
+        <Svg
+            width={props.width ?? 24}
+            height={props.height ?? 24}
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            style={{
+                marginRight: 5,
+            }}
+            color="#000"
+            fontSize={20}
+            {...props}
+        >
+            <Path
+                fill={props.color ?? colorDefault}
+                fillRule="evenodd"
+                d="M14 6V4h-4v2h4zM4 8v11h16V8H4zm16-2c1.11 0 2 .89 2 2v11c0 1.11-.89 2-2 2H4c-1.11 0-2-.89-2-2l.01-11c0-1.11.88-2 1.99-2h4V4c0-1.11.89-2 2-2h4c1.11 0 2 .89 2 2v2h4z"
+                clipRule="evenodd"
+            />
+            <Path fill="none" d="M0 0h24v24H0z" />
+        </Svg>
+    )
+}
+
 function SvgMenu(props) {
     return (
         <Svg viewBox="0 0 24 24" width={props.width ?? 48} height={props.height ?? 48} {...props}>
             <Path d="M0 0h24v24H0V0z" fill="none" />
-            <Path d="M4 18h16c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1s.45 1 1 1zm0-5h16c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1s.45 1 1 1zM3 7c0 .55.45 1 1 1h16c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1z" />
+            <Path fill={props.color ?? colorDefault} d="M4 18h16c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1s.45 1 1 1zm0-5h16c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1s.45 1 1 1zM3 7c0 .55.45 1 1 1h16c.55 0 1-.45 1-1s-.45-1-1-1H4c-.55 0-1 .45-1 1z" />
         </Svg>
     )
 }
+
+function SvgFromTo(props) {
+    return (
+        <Svg
+            width={props.width ?? 24}
+            height={props.height ?? 24}
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            style={{
+                alignSelf: "center",
+            }}
+            {...props}
+        >
+            <Path fill="none" d="M0 0h24v24H0z" />
+            <Path fill={props.color ?? colorDefault} d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z" />
+        </Svg>
+    )
+}
+
+
+function SvgEdit(props) {
+    return (
+        <Svg
+            width={props.width ?? 24}
+            height={props.height ?? 24}
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            style={{
+                marginLeft: 10,
+            }}
+            cursor="pointer"
+            color="#333"
+            {...props}
+        >
+            <Path fill={props.color ?? colorDefault} d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a.996.996 0 000-1.41l-2.34-2.34a.996.996 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+            <Path fill="none" d="M0 0h24v24H0z" />
+        </Svg>
+    )
+}
+
+function SvgAvatarIcon(props) {
+    return (
+        <View style={props.style ?? styles.styleSmall}>
+            <Svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                {...props}
+            >
+                <Path fill={props.color ?? colorDefault} d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2a7.2 7.2 0 01-6-3.22c.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08a7.2 7.2 0 01-6 3.22z" />
+                <Path fill="none" d="M0 0h24v24H0z" />
+            </Svg>
+        </View>
+    )
+}
+
+function SvgPhoneCD(props) {
+    return (
+        <View style={props.style ?? styles.styleSmall}>
+            <Svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                {...props}
+            >
+                <Path fill="none" d="M0 0h24v24H0z" />
+                <Path fill={props.color ?? colorDefault} d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+            </Svg>
+        </View>
+    )
+}
+
+function SvgCalenderSelect(props) {
+    return (
+        <View style={props.style ?? styles.styleSmall}>
+            <Svg
+                className="prefix__jss36"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                {...props}
+            >
+                <Path fill={props.color ?? colorDefault} d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 002 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z" />
+                <Path fill="none" d="M0 0h24v24H0z" />
+            </Svg>
+        </View>
+    )
+}
+
 
 const styles = StyleSheet.create({
     styleSmall: {
@@ -761,4 +872,11 @@ export {
     SvgComboTravel,
     SvgExpress,
     SvgTruck,
+    SvgFromTo,
+    SvgMoneyUlgy,
+    SvgBag,
+    SvgEdit,
+    SvgAvatarIcon,
+    SvgPhoneCD,
+    SvgCalenderSelect,
 }

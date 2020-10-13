@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
-import { SafeAreaView, View, Text, TextInput, Image } from 'react-native'
+import { SafeAreaView, View, Text, TextInput, Image, Button, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { HeaderText } from '../../../../component/Header'
 import ImageInputTextDiChung from '../../../../component/ImageInputTextDiChung'
 import styles from '../../style'
 import { ButtonFull } from '../../../../component/Button'
-import { SvgBulletPoints, SvgPick } from '../../../../icons'
+import { SvgBulletPoints, SvgEdit, SvgMoneyUlgy, SvgPick } from '../../../../icons'
 import * as link from '../../../../URL'
 const imageLocation = '../../../../image/location.png'
+
+const colorRed = '#ef465e'
 class ConfirmRideShare extends Component {
 
     constructor(props) {
@@ -17,6 +19,7 @@ class ConfirmRideShare extends Component {
             price: '',
             data: null,
         }
+        this.refInput
     }
 
     componentDidMount() {
@@ -62,7 +65,7 @@ class ConfirmRideShare extends Component {
                     />
 
                     <ImageInputTextDiChung
-                        children={<SvgPick color={'#eb6752'} />}
+                        children={<SvgPick color={colorRed} />}
                         noBorderTop
                         value={this.props.dropAddress}
                         placeholder={'Nhập điểm trả'}
@@ -74,20 +77,40 @@ class ConfirmRideShare extends Component {
                             <SvgBulletPoints />
                         </View>
                         <Text>Khoảng cách: </Text>
-                        <Text>{this.state.range}</Text>
+                        <Text style={{ color: '#00363d', fontWeight: 'bold' }}>{this.state.range}</Text>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
                         <View style={{ width: 32, height: 32, justifyContent: 'center', alignItems: 'center', paddingRight: 4, marginRight: 4 }}>
                             <SvgBulletPoints />
                         </View>
-                        <Text>Giá bán một chỗ: </Text>
+                        <Text>Giá bán 1 chỗ: </Text>
                         <TextInput
-                            style={{ borderWidth: 0.5, flex: 1, padding: 8, borderColor: '#e8e8e8', borderRadius: 8 }}
-                            value={this.state.price}
+                            ref={(input) => { this.refInput = input; }}
+                            style={{ borderWidth: 0, padding: 8, borderColor: '#e8e8e8', borderRadius: 8, color: colorRed, fontWeight: 'bold' }}
+                            value={handleChange(this.state.price)}
+                            maxLength={12}
                             placeholder={'nhập giá'}
                             keyboardType={'number-pad'}
-                            onChangeText={(text) => this.setState({ price: text })}
+                            onChangeText={(text) => this.setState({ price: handleChange(text) })}
                         />
+                        <Text style={{ color: colorRed, fontWeight: 'bold' }}>đ</Text>
+                        {/* <Button title='abc' onPress={() => this.refInput.focus()} /> */}
+                        <TouchableOpacity
+                            onPress={() => this.refInput.focus()}
+                        >
+                            <SvgEdit />
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+                        <View style={{ width: 32, height: 32, justifyContent: 'center', alignItems: 'center', paddingRight: 4, marginRight: 4 }}>
+                            <SvgMoneyUlgy width={20} height={20} color={colorRed} />
+                        </View>
+                        <Text>Doanh thu tạm tính: </Text>
+                        {/* <Text>{replacePoint(this.state.price)}</Text> */}
+                        <Text style={{ color: colorRed, fontWeight: 'bold' }}>{handleChange(this.state.price)}</Text>
+                        <Text style={{ color: '#00363d', fontWeight: 'bold' }}>{' x ' + this.props.itemSlot?.label + ' Chỗ = '}</Text>
+                        <Text style={{ color: colorRed, fontWeight: 'bold' }}>{formatCurrency(this.props.itemSlot?.label * replacePoint(this.state.price))}</Text>
+                        <Text style={{ color: colorRed, fontWeight: 'bold' }}>đ</Text>
                     </View>
                     <ButtonFull value={'Tiếp tục'} onPress={this.pressConfirmRideShare} />
 
@@ -104,10 +127,32 @@ class ConfirmRideShare extends Component {
     }
 }
 
+function handleChange(num) {
+    let number = num.replace(new RegExp(/,/gi), '')
+    let money = Number(number).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    return money;
+};
+
+function formatCurrency(currency) {
+    return currency
+        .toString()
+        .split('')
+        .reverse()
+        .join('')
+        .match(/.{1,3}/g)
+        .map((i) => i.split('').reverse().join(''))
+        .reverse()
+        .join(',')
+}
+function replacePoint(currency) {
+    return Number(currency.replace(new RegExp(/,/gi), ''))
+}
+
 
 function mapStateToProps(state) {
     return {
         modalCarType: state.rdOperator.modalCarType,
+        sendData: state.rdOperator.sendData,
         itemCarOperator: state.rdOperator.itemCarOperator,
         timePick: state.rdOperator.timePick,
         timeDrop: state.rdOperator.timeDrop,
@@ -122,6 +167,7 @@ function mapStateToProps(state) {
         listDaySelect: state.rdOperator.listDaySelect,
         depart_time: state.info.depart_time,
         depart_time2: state.info.depart_time2,
+        itemSlot: state.rdOperator.itemSlot
     }
 }
 

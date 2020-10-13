@@ -218,7 +218,7 @@ class MapChungXe extends Component {
                     editable={false}
                     value={this.state.date ? this.state.time_pick : ""}
                     placeholder='Chọn giờ lấy xe'
-                    placeholderTextColor={'#333333'}
+                    // placeholderTextColor={'#333333'}
                     onTouchStart={() => { this.setState({ dialogCalendarVisible: true }) }}
                     pointerEvents='none'
                     style={{ fontSize: 14, color: "#00363d", flex: 1, marginLeft: 8 }}
@@ -560,44 +560,65 @@ class MapChungXe extends Component {
         );
     }
     selectedDate() {
-        var { rent_date, return_date, selectedHours, selectedHours1, selectedMinutes1, selectedMinutes } = this.state;
-        console.log(rent_date);
-        console.log(return_date);
-        var datePick = new Date(this.state.rent_date).getTime();
-        var dateReturn = new Date(this.state.return_date).getTime();
-        var Difference_In_Time = dateReturn - datePick
-        var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24) + 1;
-        console.log('a');
-        console.log(rent_date);
-        console.log(return_date);
-        console.log(datePick);
-        console.log(dateReturn);
-        console.log(Difference_In_Days);
-        if (rent_date != '' && return_date != '') {
-            if (Difference_In_Days < 1) {
+        // var { rent_date, return_date, selectedHours, selectedHours1, selectedMinutes1, selectedMinutes } = this.state;
+        // console.log(rent_date);
+        // console.log(return_date);
+        // var datePick = new Date(this.state.rent_date).getTime();
+        // var dateReturn = new Date(this.state.return_date).getTime();
+        // var Difference_In_Time = dateReturn - datePick
+        // var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24) + 1;
+        // console.log('a');
+        // console.log(rent_date);
+        // console.log(return_date);
+        // console.log(datePick);
+        // console.log(dateReturn);
+        // console.log(Difference_In_Days);
+        console.log('----------------------')
+        console.log(this.props.depart_time2)
+        console.log(this.props.returnTime2)
+        if (this.props.depart_time2 == null) {
+            Toast.show('Vui lòng chọn thời gian nhận xe.', Toast.SHORT);
+            return true;
+        } else if (this.props.returnTime2 == null) {
+            Toast.show('Vui lòng chọn thời gian trả xe.', Toast.SHORT);
+            return true;
+        } else {
+            var datePick = new Date(this.props.depart_time2).getTime()
+            var dateDrop = new Date(this.props.returnTime2).getTime()
+            var time = dateDrop - datePick;
+            if (time <= 0) {
                 this.ToastTimeDrop()
                 return true;
-            } else if (Difference_In_Days == 1) {
-                if (selectedHours > selectedHours1) {
-                    this.ToastTimeDrop();
-                    return true;
-                } else if (selectedHours == selectedHours1) {
-                    if (selectedMinutes >= selectedMinutes1) {
-                        this.ToastTimeDrop()
-                        return true;
-                    } else {
-                        return false;
-                    }
-                } else {
-                    return false;
-                }
             } else {
                 return false;
             }
-        } else {
-            Toast.show('Vui lòng chọn đầy đủ thời gian.', Toast.SHORT)
-            return true;
         }
+
+        // if (rent_date != '' && return_date != '') {
+        //     if (Difference_In_Days < 1) {
+        //         this.ToastTimeDrop()
+        //         return true;
+        //     } else if (Difference_In_Days == 1) {
+        //         if (selectedHours > selectedHours1) {
+        //             this.ToastTimeDrop();
+        //             return true;
+        //         } else if (selectedHours == selectedHours1) {
+        //             if (selectedMinutes >= selectedMinutes1) {
+        //                 this.ToastTimeDrop()
+        //                 return true;
+        //             } else {
+        //                 return false;
+        //             }
+        //         } else {
+        //             return false;
+        //         }
+        //     } else {
+        //         return false;
+        //     }
+        // } else {
+        //     Toast.show('Vui lòng chọn đầy đủ thời gian.', Toast.SHORT)
+        //     return true;
+        // }
     }
 
     gotoListCarTour() {
@@ -611,6 +632,8 @@ class MapChungXe extends Component {
         } else if (this.selectedDate()) {
             // this.ToastTimeDrop()
             return;
+        } else if (this.props.vehicleType == 0) {
+            Toast.show('Vui lòng chọn loại xe.', Toast.SHORT);
         } else {
             this.addData()
         }
@@ -663,6 +686,8 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
     return {
+        depart_time2: state.info.depart_time2,
+        returnTime2: state.info.returnTime2,
         city: state.info.city,
         rent_date: state.info.rent_date,
         return_date: state.info.return_date,
@@ -677,6 +702,8 @@ function mapStateToProps(state) {
         latitude_drop: state.info.latitude_drop,
         longitude_drop: state.info.longitude_drop,
         chair: state.info.chair,
+        vehicleType: state.info.vehicleType,
+
     }
 }
 

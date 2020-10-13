@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import StarVote from '../../../component/StarVote'
 import { SvgClock, SvgPick, SvgCheckSuccess } from '../../../icons'
@@ -16,14 +16,14 @@ function formatMoney(num) {
     return money;
 };
 
-function ItemChungXe({ item }) {
+function ItemChungXe({ item, onPress }) {
     listDaySelect = item.schedule.applyWeekdays;
     console.log(listDaySelect)
     const arr = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7']
     return (
-        <View style={styles.card}>
+        <TouchableOpacity style={styles.card} onPress={onPress}>
             <Text style={{ textAlign: 'right' }}>{formatDate(item.createdAt)}</Text>
-            <Text style={styles.textTitle}></Text>
+            <Text style={styles.textTitle}>CHUYẾN TỰ LÁI</Text>
             <ImageTextDiChung
                 children={<SvgPick />}
                 text={item.startPlace?.formatted_address ?? ''}
@@ -45,13 +45,13 @@ function ItemChungXe({ item }) {
             </View>
             <ImageTextDiChung
                 children={<SvgClock />}
-                text={item.schedule.endTimeString}
+                text={item.schedule.startTimeString + ' - ' + item.schedule.endTimeString}
             />
             <View style={{ flexDirection: 'row', paddingLeft: 4 }}>
                 <StarVote margin={4} />
                 <Text style={{ flex: 1, textAlign: 'right', fontWeight: 'bold' }}>Giá: {formatMoney(item.price)} đ</Text>
             </View>
-        </View>
+        </TouchableOpacity>
 
     )
 }

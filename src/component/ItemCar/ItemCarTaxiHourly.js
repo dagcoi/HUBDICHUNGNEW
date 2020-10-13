@@ -1,9 +1,10 @@
-import { View, Image, StyleSheet, Text, Dimensions,TouchableOpacity } from 'react-native'
+import { View, Image, StyleSheet, Text, Dimensions, TouchableOpacity } from 'react-native'
 import StarVote from '../StarVote'
 import { Button } from '../Button'
 import React, { Component } from 'react'
 import styles from './style'
 import HTML from 'react-native-render-html';
+import { SvgCar } from '../../icons'
 
 const imageCheck = '../../image/check.png'
 
@@ -30,6 +31,10 @@ function ItemCarTaxiBooking({ item, onPress, slot, chunk_type, isSelect }) {
                     <Text style={[styles.textLabel]}>{item.info.title.toUpperCase() ?? ''}</Text>
                     {/* <StarVote number={item.info.rate} /> */}
                     <Text style={styles.totalCost}>{((chunk_type === 'express' ? slot : 1) * item.info.price).format(0, 3, '.') ?? ''} đ</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <SvgCar />
+                        <Text style={{ fontSize: 16, paddingLeft: 8 }}>{item.info.vehicleType}</Text>
+                    </View>
                 </View>
                 <View style={styles.imageRight}>
                     <Image
@@ -38,6 +43,7 @@ function ItemCarTaxiBooking({ item, onPress, slot, chunk_type, isSelect }) {
                         resizeMode="contain"
                     />
                 </View>
+
             </View>
 
             {/* <View>

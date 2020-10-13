@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import StarVote from '../../../component/StarVote'
 import { SvgCheckSuccess, SvgClock, SvgPick } from '../../../icons'
@@ -17,9 +17,9 @@ function formatMoney(num) {
     return money;
 };
 
-function ItemRideShare({ item }) {
+function ItemRideShare({ item, onPress }) {
     return (
-        <View style={styles.card}>
+        <TouchableOpacity style={styles.card} onPress={onPress}>
             <Text style={{ textAlign: 'right' }}>{formatDate(item.createdAt)}</Text>
             <Text style={styles.textTitle}>CHIA SẺ CHỖ TRỐNG</Text>
             <ImageTextDiChung
@@ -42,7 +42,7 @@ function ItemRideShare({ item }) {
                 <StarVote margin={4} />
                 <Text style={{ flex: 1, textAlign: 'right', fontWeight: 'bold' }}>Giá: {formatMoney(item.price)} đ/Ghế</Text>
             </View>
-        </View>
+        </TouchableOpacity>
 
     )
 }

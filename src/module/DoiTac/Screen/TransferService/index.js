@@ -5,12 +5,15 @@ import { listHour } from '../../../../component/TimeSelect/listTime'
 import CalendarPicker from 'react-native-calendar-picker'
 import ImageInputTextDiChung from '../../../../component/ImageInputTextDiChung'
 import { HeaderText } from '../../../../component/Header'
-import { showModalOperator, showModalTimePick, showModalTimeDrop, showModalConfirm, addListDayOfWeek, addSendDataOperator, addDepartTime, showModalVehicle, showModalSlot } from '../../../../core/Redux/action/Action'
+import { showModalOperator, showModalOperator1, showModalTypePrice, showModalTimePick, showModalTimeDrop, showModalConfirm, addListDayOfWeek, addSendDataOperator, addDepartTime, showModalVehicle, showModalSlot } from '../../../../core/Redux/action/Action'
 import { connect } from 'react-redux'
 import { ButtonFull } from '../../../../component/Button'
 import { FormSelectCar, InputImage, ModalConfirm, ModalListCar, ModalListTime, TimePickDrop, FormSelectVehicleSlot, ModalVehicle, ModalSlot } from '../../Form'
 import Toast from 'react-native-simple-toast';
 import { SvgCheckSuccess, SvgClock, SvgMoney, SvgPeople, SvgPick, SvgTitle, SvgVehicle } from '../../../../icons'
+import ModalCarType from '../../../ScreenAddress/Util/Modal/ModalCarType'
+import ModalListCarType from '../../Form/ModalListCarType'
+import ModalPriceType from '../../Form/ModalPriceType'
 
 const imageLocation = '../../../../image/location.png'
 
@@ -19,9 +22,9 @@ class OperatorTransferService extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            select: false,
+            select: true,
             carNameDetail: '',
-            money: '0',
+            money: '',
             timePick: '',
             timeDrop: '',
             listDayOfWeek: [
@@ -119,16 +122,17 @@ class OperatorTransferService extends Component {
                 <HeaderText textCenter={'Cho thuê dịch vụ'} onPressLeft={this.goBack} />
                 <View style={{ padding: 8 }}>
                     <View style={[styles.borderTop, { height: 40, backgroundColor: '#77a300' }]}>
-                        <TouchableOpacity style={[this.state.select ? styles.selectSwitch : styles.normalSwitch, { borderTopLeftRadius: 8 }]}
-                            onPress={() => { this.setState({ select: false }) }}
-                        >
-                            <Text style={this.state.select ? styles.textSwitch : styles.textSwitchSelect}>Cho thuê xe có lái</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={[this.state.select ? styles.normalSwitch : styles.selectSwitch, { borderTopRightRadius: 8 }]}
+                        <TouchableOpacity style={[this.state.select ? styles.normalSwitch : styles.selectSwitch, { borderTopLeftRadius: 8 }]}
                             onPress={() => { this.setState({ select: true }) }}
                         >
                             <Text style={this.state.select ? styles.textSwitchSelect : styles.textSwitch}>Chia sẻ chỗ trống</Text>
                         </TouchableOpacity>
+                        <TouchableOpacity style={[this.state.select ? styles.selectSwitch : styles.normalSwitch, { borderTopRightRadius: 8 }]}
+                            onPress={() => { this.setState({ select: false }) }}
+                        >
+                            <Text style={this.state.select ? styles.textSwitch : styles.textSwitchSelect}>Cho thuê xe có lái</Text>
+                        </TouchableOpacity>
+
                     </View>
                     {!this.state.select ? this.formTransfer() : this.formRideShare()}
                     <View>
@@ -137,7 +141,9 @@ class OperatorTransferService extends Component {
                         <SvgVehicle color={'#00363d'} /> */}
                         {/* <Text>abc</Text> */}
                     </View>
-                    <ModalListCar />
+                    <ModalListCarType />
+                    <ModalPriceType />
+                    {/* <ModalListCar /> */}
                     <ModalListTime />
                     <ModalConfirm />
                 </View>
@@ -172,12 +178,7 @@ class OperatorTransferService extends Component {
                     placeholder={'Chọn giờ đi'}
                     value={this.props.depart_time}
                 />
-                <ImageInputTextDiChung
-                    children={<SvgCheckSuccess />}
-                    placeholder={'Hình thức chấp nhận'}
-                    value={this.props.itemConfirm?.label}
-                    onPress={this.showModalConfirmSelect}
-                />
+
                 <FormSelectVehicleSlot
                     onPress={this.showModalVehicle}
                     placeholder={'Chọn phương tiện'}
@@ -187,6 +188,13 @@ class OperatorTransferService extends Component {
                     children={<SvgVehicle />}
                     children2={<SvgPeople />}
                     value2={this.props.itemSlot ? this.props.itemSlot.label + ' Chỗ' : ''}
+                />
+
+                <ImageInputTextDiChung
+                    children={<SvgCheckSuccess />}
+                    placeholder={'Hình thức chấp nhận'}
+                    value={this.props.itemConfirm?.label}
+                    onPress={this.showModalConfirmSelect}
                 />
                 <ModalVehicle />
                 <ModalSlot />
@@ -260,7 +268,13 @@ class OperatorTransferService extends Component {
                     onPress={this.pressDropAddress}
                     source={require(imageLocation)}
                 />
-                <FormSelectCar
+                <ImageInputTextDiChung
+                    children={<SvgVehicle />}
+                    value={this.props.itemCarOperator1?.label}
+                    placeholder={'Chọn Loại xe'}
+                    onPress={this.showModalOperator1}
+                />
+                {/* <FormSelectCar
                     children={<SvgVehicle />}
                     placeholder={'Loại xe'}
                     value={this.props.itemCarOperator?.label}
@@ -268,7 +282,7 @@ class OperatorTransferService extends Component {
                     children2={<SvgPeople />}
                     placeholder2={'số chỗ'}
                     onChangText={(text) => { this.setState({ slot: text }) }}
-                />
+                /> */}
                 <InputImage
                     children={<SvgTitle />}
                     value={this.state.carNameDetail}
@@ -314,6 +328,13 @@ class OperatorTransferService extends Component {
                     onChangeText={(text) => this.handleChange(text.replace(new RegExp(/,/gi), ''))}
                     placeholder={'Giá tiền'}
                     keyboardType={'decimal-pad'}
+                    onPressClear={() => this.setState({ money: 0, moneyNoFormat: 0 })}
+                />
+                <ImageInputTextDiChung
+                    children={<SvgVehicle />}
+                    value={this.props.itemTypePrice?.label}
+                    placeholder={'Loại thuê'}
+                    onPress={this.showModalTypePrice}
                 />
                 <ButtonFull value={'Tiếp tục'} onPress={this.pressConfirm} />
             </View>
@@ -416,10 +437,8 @@ class OperatorTransferService extends Component {
             Toast.show('Vui lòng nhập điểm xuất phát', Toast.SHORT);
         } else if (!this.props.dropAddress) {
             Toast.show('Vui lòng nhập điểm đến', Toast.SHORT);
-        } else if (!this.props.itemCarOperator) {
+        } else if (!this.props.itemCarOperator1) {
             Toast.show('Vui lòng chọn loại phương tiện', Toast.SHORT);
-        } else if (this.state.slot < 1) {
-            Toast.show('Vui lòng nhập số chỗ', Toast.SHORT);
         } else if (this.state.carNameDetail == '') {
             Toast.show('Vui lòng nhập tên phương tiện', Toast.SHORT);
         } else if (this.props.timePick == '') {
@@ -447,21 +466,28 @@ class OperatorTransferService extends Component {
             'startTimeString': this.props.timePick,
             'endTimeString': this.props.timeDrop,
         }
-        send.slot = this.state.slot
+        send.slot = this.props.itemCarOperator1?.value
         send.type = 'transfer_service'
-        send.vehicleName = this.state.carNameDetail,
-            send.vehicleType = this.props.itemCarOperator?.value
+        send.vehicleName = this.state.carNameDetail
+        send.vehicleType = this.props.itemCarOperator1?.label
         send.note = ''
         send.price = this.state.moneyNoFormat
+        send.priceType = this.props.itemTypePrice?.value
         console.log(JSON.stringify(send))
         this.props.addSendDataOperator(send)
         this.props.navigation.navigate('Confirm')
     }
     showModalSlot = () => {
-        this.props.itemVehicle.label == 'Xe máy' ? Toast.show('Xe máy không chọn được chỗ', Toast.SHORT) : this.props.showModalSlot(true)
+        if (this.props.itemVehicle?.label) {
+            this.props.itemVehicle.label == 'Xe máy' ? Toast.show('Xe máy không chọn được chỗ', Toast.SHORT) : this.props.showModalSlot(true)
+        } else {
+            Toast.show('Vui lòng chọn phương tiện trước.')
+        }
     }
     showModalVehicle = () => { this.props.showModalVehicle(true) }
-    showModalOperator = () => { this.props.showModalOperator(true) }
+    // showModalOperator = () => { this.props.showModalOperator(true) }
+    showModalOperator1 = () => { this.props.showModalOperator1(true) }
+    showModalTypePrice = () => { this.props.showModalTypePrice(true) }
     showModalConfirmSelect = () => { this.props.showModalConfirm(true) }
     showModalPick = () => { this.props.showModalTimePick(true) }
     showModalDrop = () => { this.props.showModalTimeDrop(true) }
@@ -486,6 +512,9 @@ function mapStateToProps(state) {
     return {
         modalCarType: state.rdOperator.modalCarType,
         itemCarOperator: state.rdOperator.itemCarOperator,
+        modalCarType1: state.rdOperator.modalCarType1,
+        itemCarOperator1: state.rdOperator.itemCarOperator1,
+        itemTypePrice: state.rdOperator.itemTypePrice,
         itemVehicle: state.rdOperator.itemVehicle,
         timePick: state.rdOperator.timePick,
         timeDrop: state.rdOperator.timeDrop,
@@ -504,6 +533,8 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
     showModalOperator: showModalOperator,
+    showModalOperator1: showModalOperator1,
+    showModalTypePrice: showModalTypePrice,
     showModalTimePick: showModalTimePick,
     showModalTimeDrop: showModalTimeDrop,
     showModalConfirm: showModalConfirm,

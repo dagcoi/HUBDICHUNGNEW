@@ -45,7 +45,7 @@ const defaultState = {
     street_id: '',
     village_id: '',
     depart_time: '',
-    depart_time2: '',
+    depart_time2: null,
     latitude_pick: '',
     longitude_pick: '',
     latitude_drop: '',
@@ -396,7 +396,7 @@ const Reducer = (state = defaultState, action) => {
                 modalPick: action.modalPick,
                 modalDrop: action.modalDrop
             }
-            case types.ADD_ID_CUSTOMER:
+        case types.ADD_ID_CUSTOMER:
             return {
                 ...state,
                 idCustomer: action.idCustomer,

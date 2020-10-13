@@ -253,7 +253,7 @@ class MapDiChungTuLai extends Component {
                             placeholder: 'Nhập điểm nhận xe'
                         })
                         }
-                        style={{ fontSize: 14, height: 40, color: "#00363d" }}
+                        style={{ fontSize: 14, height: 40, color: "#333333" }}
                         pointerEvents="none"
                         value={this.props.pick_add}
                         placeholder='Nhập điểm nhận xe'
@@ -284,7 +284,7 @@ class MapDiChungTuLai extends Component {
                     placeholder='Chọn thời gian'
                     onTouchStart={() => { this.setState({ dialogCalendarVisible: true }) }}
                     pointerEvents='none'
-                    style={{ fontSize: 14, height: 40, color: "#00363d", flex: 1 }}
+                    style={{ fontSize: 14, height: 40, color: "#333333", flex: 1 }}
                 />
 
             </TouchableOpacity>
@@ -318,7 +318,7 @@ class MapDiChungTuLai extends Component {
                                     placeholder: 'Nhập điểm trả'
                                 })
                                 }
-                                style={{ fontSize: 14, height: 40, color: "#00363d" }}
+                                style={{ fontSize: 14, height: 40, color: "#333333" }}
                                 pointerEvents="none"
                                 value={this.props.drop_add}
                                 placeholder='Nhập điểm trả'

@@ -14,6 +14,7 @@ class Confirm extends Component {
             popupSuccess: false,
             popupError: false,
             listDay: null,
+            ticket: null,
         }
     }
     componentDidMount() {
@@ -42,7 +43,7 @@ class Confirm extends Component {
                         }
                         <TextBold text={'Điểm xuất phát'} />
                         <TextNormal text={this.props.pickAddress} />
-                        {!this.props.sendDataOperator.type == 'hourly_car_rental' &&
+                        {this.props.sendDataOperator.type != 'hourly_car_rental' &&
                             <View>
                                 <TextBold text={'Điểm đến'} />
                                 <TextNormal text={this.props.dropAddress} />
@@ -53,14 +54,14 @@ class Confirm extends Component {
                         {this.props.sendDataOperator.vehicleType &&
                             <View>
                                 <TextBold text={'Loại phương tiện'} />
-                                <TextNormal text={this.props.sendDataOperator.type == 'hourly_car_rental' ? (this.props.itemCarOperator.label + ' - ' + this.props.sendDataOperator.slot + ' chỗ -' + this.props.itemTransmission.label) : this.props.itemCarOperator.label} />
+                                <TextNormal text={this.props.sendDataOperator.type == 'hourly_car_rental' ? (this.props.itemCarOperator?.label + ' - ' + this.props.sendDataOperator.slot + ' chỗ -' + this.props.itemTransmission.label) : this.props.itemCarOperator?.label} />
                             </View>
                         }
                         {this.props.sendDataOperator?.priceExtra &&
                             <View>
                                 <TextBold text={'Giá phụ trội'} />
                                 <TextNormal text={`Phụ trội theo km: ${this.props.sendDataOperator.priceExtra.kmExtra} đ/km(tối đa ${this.props.sendDataOperator.priceExtra.kmLimit}km)`} />
-                                <TextNormal text={`Phụ trội theo giờ: ${this.props.sendDataOperator.priceExtra.hourExtra} đ/km(tối đa ${this.props.sendDataOperator.priceExtra.hourLimit}giờ)`} />
+                                <TextNormal text={`Phụ trội theo giờ: ${this.props.sendDataOperator.priceExtra.hourExtra} đ/giờ(tối đa ${this.props.sendDataOperator.priceExtra.hourLimit}giờ)`} />
                             </View>
                         }
                         {this.props.sendDataOperator?.title &&
@@ -84,13 +85,13 @@ class Confirm extends Component {
                         <TextBold text={'Hình thức nhận chuyến'} />
                         <TextNormal text={this.props.itemConfirm?.label} />
                         <TextBold text={'Giá'} />
-                        <TextNormal text={`${this.props.sendDataOperator.price} đ`} />
+                        <TextNormal text={`${formatCurrency(this.props.sendDataOperator.price)} đ`} />
                     </View>
                     <ButtonFull onPress={() => {
                         this.setState({ addingTicket: true })
                         this.pressConfirm()
                     }}
-                        value={'Xác nhận đặt chuyến'} />
+                        value={'Xác nhận đăng chuyến'} />
                     <Dialog
                         // width={0.8}
                         visible={this.state.addingTicket}
@@ -120,10 +121,11 @@ class Confirm extends Component {
                     <View style={{ padding: 8 }}>
                         <Text style={{ fontSize: 16, fontWeight: '100' }}>Đăng chuyến thành công</Text>
                         <ButtonDialog
-                            text={'Đóng'}
+                            text={'Chi tiết'}
                             onPress={() => {
-                                this.setState({ popupSuccess: false, })
-                                this.props.navigation.popToTop()
+                                this.ticketDetail(this.state.ticket._id)
+                                // this.props.navigation.popToTop()
+                                // this.props.navigation.replace('DetailTicketPartner1', { 'code': this.state.ticket._id })
                             }}
                         />
                     </View>
@@ -131,6 +133,12 @@ class Confirm extends Component {
             </Dialog>
         )
     }
+
+    async ticketDetail(ticketId) {
+        await this.setState({ popupSuccess: false, })
+        await this.props.navigation.replace('DetailTicketPartner1', { 'code': ticketId })
+    }
+
     renderError() {
         return (
             <Dialog
@@ -169,7 +177,9 @@ class Confirm extends Component {
             .then(resJson => {
                 if (resJson.data) {
                     console.log('success')
+                    console.log(resJson.data)
                     this.setState({
+                        ticket: resJson.data,
                         addingTicket: false,
                         popupSuccess: true,
                     })
@@ -189,13 +199,23 @@ class Confirm extends Component {
 
 
 }
-
+function formatCurrency(currency) {
+    return currency
+        .toString()
+        .split('')
+        .reverse()
+        .join('')
+        .match(/.{1,3}/g)
+        .map((i) => i.split('').reverse().join(''))
+        .reverse()
+        .join(',')
+}
 
 
 function mapStateToProps(state) {
     return {
         modalCarType: state.rdOperator.modalCarType,
-        itemCarOperator: state.rdOperator.itemCarOperator,
+        itemCarOperator: state.rdOperator.itemCarOperator1,
         timePick: state.rdOperator.timePick,
         timeDrop: state.rdOperator.timeDrop,
         pickAddress: state.info.pick_add,

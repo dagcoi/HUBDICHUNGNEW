@@ -872,6 +872,36 @@ export const showModalOperator = (modalCarTypeOperator) => {
     }
 }
 
+export const addItemCarOperator1 = (itemCarOperator1) => {
+    return {
+        type: types.ADD_ITEM_CAR_TYPE1,
+        itemCarOperator1: itemCarOperator1,
+        modalCarTypeOperator1: false,
+    }
+}
+
+export const showModalOperator1 = (modalCarTypeOperator) => {
+    return {
+        type: types.SHOW_MODAL_CAR_OPERATOR1,
+        modalCarTypeOperator1: modalCarTypeOperator
+    }
+}
+
+export const addItemTypePrice = (itemTypePrice) => {
+    return {
+        type: types.ADD_ITEM_TYPE_PRICE,
+        itemTypePrice: itemTypePrice,
+        modalTypePrice: false,
+    }
+}
+
+export const showModalTypePrice = (modalTypeOperator) => {
+    return {
+        type: types.MODAL_TYPE_PRICE,
+        modalTypePrice: modalTypeOperator
+    }
+}
+
 export const addTimePick = (idTimePick, timePick) => {
     return {
         type: types.ADD_TIME_PICK,

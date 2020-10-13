@@ -44,10 +44,10 @@ class FormExpress extends Component {
                                 // value={this.state.date ? `${this.state.date.format('DD-MM-YYYY')}  ${this.state.selectedHours} : ${this.state.selectedMinutes == 0 ? '00' : this.state.selectedMinutes}` : ""}
                                 value={this.props.depart_time}
                                 placeholder='Chọn giờ gửi hàng'
-                                placeholderTextColor={'#333333'}
+                                // placeholderTextColor={'#333333'}
                                 onTouchStart={this.props.onPressSelectTime}
                                 pointerEvents='none'
-                                style={{ fontSize: 14, height: 40, color: "#00363d", flex: 1, marginLeft: 8 }}
+                                style={{ fontSize: 14, height: 40, color: "#333333", flex: 1, marginLeft: 8 }}
                             />
                         </TouchableOpacity>
 

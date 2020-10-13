@@ -68,6 +68,7 @@ class ListCar extends Component {
             dialogSelectPeople: false,
             modalSelectTime: false,
             selectDCT: true,
+            itemChungXe: null,
         }
     }
 
@@ -277,7 +278,7 @@ class ListCar extends Component {
     }
 
     renderItem(obj1, countLoading) {
-        { this.state.sort ? obj1.sort((a, b) => b.info.price - a.info.price) : obj1.sort((a, b) => a.info.price - b.info.price) }
+        // { this.state.sort ? obj1.sort((a, b) => b.info.price - a.info.price) : obj1.sort((a, b) => a.info.price - b.info.price) }
 
         return (
             obj1.length < 1 && countLoading == 0 ?
@@ -288,7 +289,7 @@ class ListCar extends Component {
                     />
                     <Text style={{ textAlign: 'center' }}>Không tìm thấy tài xế phù hợp. Vui lòng gọi <Text style={{ color: '#77a300' }}
                         onPress={() => Linking.openURL(`tel: 19006022`)}>19006022</Text></Text>
-                    <Text style={{ padding: 4, fontSize: 18 }}>HOẶC</Text>
+                    {/* <Text style={{ padding: 4, fontSize: 18 }}>HOẶC</Text> */}
                     {/* <TouchableOpacity
                         style={{ backgroundColor: '#77a300', margin: 8, padding: 8 }}
                         onPress={() => {
@@ -374,7 +375,7 @@ class ListCar extends Component {
     }
 
     renderItemTaxi(obj1, countLoading) {
-        { this.state.sort ? obj1.sort((a, b) => b.info.price - a.info.price) : obj1.sort((a, b) => a.info.price - b.info.price) }
+        // { this.state.sort ? obj1.sort((a, b) => b.info.price - a.info.price) : obj1.sort((a, b) => a.info.price - b.info.price) }
         var objDC = [...this.state.listDC];
         var objDCT = [...this.state.listDCT];
         return (
@@ -386,7 +387,7 @@ class ListCar extends Component {
                     />
                     <Text style={{ textAlign: 'center' }}>Không tìm thấy tài xế phù hợp. Vui lòng gọi <Text style={{ color: '#77a300' }}
                         onPress={() => Linking.openURL(`tel: 19006022`)}>19006022</Text></Text>
-                    <Text style={{ padding: 4, fontSize: 18 }}>HOẶC</Text>
+                    {/* <Text style={{ padding: 4, fontSize: 18 }}>HOẶC</Text> */}
                 </View> :
                 <View style={{ flex: 1 }}>
                     <ScrollView
@@ -453,7 +454,7 @@ class ListCar extends Component {
             >
                 <DialogContent>
                     <View>
-                        {this.state.item && <DetailItem item={this.state.item} />}
+                        {this.state.item && <DetailItem item={this.state.itemChungXe ?? this.state.item} />}
                         <View style={{ backgroundColor: '#fff', }}>
                             <Button
                                 onPress={() => {
@@ -472,10 +473,21 @@ class ListCar extends Component {
     pressItem = (index, item) => {
         if (index != this.state.selectItem || item != this.state.item) {
             this.setState({ item: item, selectItem: index })
+            if (item.info.provider == 'chungxe') {
+                this.getDetailChungXe(item)
+            }
         } else {
             console.log(item)
             this.setState({ showDetail: true })
         }
+    }
+
+    async getDetailChungXe(item) {
+        const response = await fetch(`${link.URL_API_PORTAL}price/v1/products/chungxe/${item.send.vehicle.id}`, { method: 'GET' })
+        const responseJson = await response.json();
+        const itemChungXe = responseJson.data;
+        console.log(itemChungXe)
+        this.setState({ itemChungXe })
     }
 
     goBack = () => {

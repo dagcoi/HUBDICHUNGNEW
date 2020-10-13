@@ -76,6 +76,7 @@ class ConfirmInformation extends Component {
         var time = new Date(this.props.depart_time2 + '+07:00')
         var url = link.URL_API_PORTAL + `price/v1/products/price?provider=${send.provider.name}${this.product_chunk_type === 'ride_share' ? '' : `&price=` + this.props.cost}&productType=${this.props.product_chunk_type}&bookingTime=${time}&promotionDiscount=${this.props.discount_price}`
         const providerName = send.provider.name
+        const productType = this.props.product_chunk_type
         console.log(providerName)
         switch (providerName) {
             case 'dichungtaxi':
@@ -90,8 +91,14 @@ class ConfirmInformation extends Component {
                 break;
 
             case 'dichung':
-                url = url + `&invoice=${navigation.getParam('xhd') ? 1 : 0}&catch_in_house=${navigation.getParam('broad_price') ? 1 : 0}`
-                this.getPrice(url)
+                if (productType == 'hourly_car_rental') {
+                    var returnTime = new Date(this.props.returnTime2 + '+07:00')
+                    url = url + `&returnTime=${returnTime}&productId=${send.productId}`
+                    this.getPrice(url)
+                } else {
+                    url = url + `&invoice=${navigation.getParam('xhd') ? 1 : 0}&catch_in_house=${navigation.getParam('broad_price') ? 1 : 0}`
+                    this.getPrice(url)
+                }
                 break;
             case 'rideshare':
                 url = url + `&slot=${this.props.chair}&extra=${JSON.stringify(send.extra)}`
@@ -226,7 +233,7 @@ class ConfirmInformation extends Component {
                         <ImageTextDiChung
                             children={<SvgPerson />}
                             source={require(imagePeople)}
-                            text={this.props.chair + (this.props.product_chunk_type === 'express' ? ' gói hàng' : ' người')}
+                            text={this.props.chair + (this.props.product_chunk_type === 'express' ? ' gói hàng' : this.props.product_chunk_type === 'truck' ? ' xe' : ' người')}
                         />
                     </View> : <View>
                         {this.props.product_chunk_type === 'hourly_car_rental' ?
@@ -371,11 +378,11 @@ class ConfirmInformation extends Component {
                     <View>
                         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                             <Text style={styles.textBigLeft}>Cuối tuần: </Text>
-                            <Text style={styles.textBigRight}>{((this.state.detailPrice.saturdayPrice ?? 0) + (this.state.detailPrice.sundayPrice ?? 0)).format(0, 3, '.')} đ</Text>
+                            <Text style={styles.textBigRight}>{((this.state.detailPrice?.saturdayPrice ?? 0) + (this.state.detailPrice?.sundayPrice ?? 0)).format(0, 3, '.')} đ</Text>
                         </View>
                         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                             <Text style={styles.textBigLeft}>Thời gian thuê: </Text>
-                            <Text style={styles.textBigRight}>{this.state.detailPrice.rentDayNumber ?? 0} ngày</Text>
+                            <Text style={styles.textBigRight}>{this.state.detailPrice?.rentDayNumber ?? 0} ngày</Text>
                         </View>
                     </View> : null
                 }
@@ -387,7 +394,7 @@ class ConfirmInformation extends Component {
                 {this.state.detailPrice?.slot &&
                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                         <Text style={styles.textBigLeft}>Số lượng </Text>
-                        <Text style={styles.textBigRight}>{this.state.detailPrice.slot} người</Text>
+                        <Text style={styles.textBigRight}>{this.state.detailPrice?.slot} người</Text>
                     </View>
                 }
 
@@ -400,20 +407,20 @@ class ConfirmInformation extends Component {
                 {this.state.detailPrice?.catchInHousePrice &&
                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                         <Text style={styles.textBigLeft}>Đón biển tên: </Text>
-                        <Text style={styles.textBigRight}>{this.state.detailPrice.catchInHousePrice.format(0, 3, '.') + ' đ '}</Text>
+                        <Text style={styles.textBigRight}>{this.state.detailPrice?.catchInHousePrice.format(0, 3, '.') + ' đ '}</Text>
                     </View>
                 }
                 {this.state.detailPrice && this.state.detailPrice.promotionDiscount && this.state.detailPrice.promotionDiscount != 0 &&
                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                         <Text style={styles.textBigLeft}>Mã giảm giá:</Text>
-                        <Text style={styles.textBigRight}>{(this.state.detailPrice.promotionDiscount).format(0, 3, '.') + ' đ '}</Text>
+                        <Text style={styles.textBigRight}>{(this.state.detailPrice?.promotionDiscount).format(0, 3, '.') + ' đ '}</Text>
                     </View>
                 }
                 {this.renderVAT()}
                 {this.state.detailPrice &&
                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                         <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
-                        <Text style={styles.textBigRight1}>{(this.state.detailPrice.totalPrice ?? 0).format(0, 3, '.') + ' đ '}</Text>
+                        <Text style={styles.textBigRight1}>{(this.state.detailPrice?.totalPrice ?? 0).format(0, 3, '.') + ' đ '}</Text>
                     </View>
                 }
             </View>

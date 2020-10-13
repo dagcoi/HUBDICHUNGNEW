@@ -1,10 +1,10 @@
-import { View, Image, StyleSheet, Text, Dimensions, TouchableOpacity } from 'react-native'
+import { View, Image, StyleSheet, Text, Dimensions, TouchableOpacity, TextInput } from 'react-native'
 import StarVote from '../StarVote'
 import { Button } from '../Button'
 import HTML from 'react-native-render-html';
 import React, { Component } from 'react'
 import styles from './style'
-import { SvgCar, SvgCheckCircleBorder } from '../../icons';
+import { SvgBag, SvgCar, SvgCheckCircleBorder } from '../../icons';
 
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -33,10 +33,10 @@ function ItemCarTaxi({ item, onPress, isSelect }) {
                     <Text style={[styles.textLabel]}>{item.info.title ?? ''}</Text>
                     {/* <StarVote number={item.info.rate ?? 0} /> */}
                     <Text style={styles.totalCost}>{(parseInt(item.info.price)).format(0, 3, '.') ?? ''} đ</Text>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <SvgCar />
+                    {item.info?.vehicleType && <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        {item?.send?.productType != 'EXPRESS' ? <SvgCar /> : <SvgBag />}
                         <Text style={{ fontSize: 16, }}>{item.info.vehicleType}</Text>
-                    </View>
+                    </View>}
                     {/* <HTML html={item.info.description} imagesMaxWidth={Dimensions.get('window').width / 2 - 32} /> */}
                 </View>
 

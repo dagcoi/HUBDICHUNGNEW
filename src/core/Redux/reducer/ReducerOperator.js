@@ -3,6 +3,8 @@ import * as types from '../action/ActionTypes'
 const defaultStateOperator = {
     itemCarOperator: null,
     modalCarTypeOperator: false,
+    itemCarOperator1: null,
+    modalCarTypeOperator1: false,
     itemConfirm: null,
     modalConfirm: false,
     idTimePick: null,
@@ -21,6 +23,8 @@ const defaultStateOperator = {
     modalVehicle: false,
     itemSlot: null,
     modalSlot: false,
+    itemTypePrice: null,
+    modalTypePrice: false,
 }
 const ReducerOperator = (state = defaultStateOperator, action) => {
     switch (action.type) {
@@ -34,6 +38,17 @@ const ReducerOperator = (state = defaultStateOperator, action) => {
             return {
                 ...state,
                 modalCarTypeOperator: action.modalCarTypeOperator,
+            }
+        case types.ADD_ITEM_CAR_TYPE1:
+            return {
+                ...state,
+                itemCarOperator1: action.itemCarOperator1,
+                modalCarTypeOperator1: action.modalCarTypeOperator1,
+            }
+        case types.SHOW_MODAL_CAR_OPERATOR1:
+            return {
+                ...state,
+                modalCarTypeOperator1: action.modalCarTypeOperator1,
             }
         case types.SHOW_MODAL_TIME_PICK:
             return {
@@ -126,6 +141,17 @@ const ReducerOperator = (state = defaultStateOperator, action) => {
             return {
                 ...state,
                 modalSlot: action.modalSlot,
+            }
+        case types.ADD_ITEM_TYPE_PRICE:
+            return {
+                ...state,
+                itemTypePrice: action.itemTypePrice,
+                modalTypePrice: action.modalTypePrice,
+            }
+        case types.MODAL_TYPE_PRICE:
+            return {
+                ...state,
+                modalTypePrice: action.modalTypePrice,
             }
 
         default:

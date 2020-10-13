@@ -25,12 +25,12 @@ function DropAddress({
                     <TextInput
                         editable={false}
                         onTouchStart={onPressInput}
-                        style={{ fontSize: 14, height: 40, color: "#00363d" }}
+                        style={{ fontSize: 14, height: 40, color: "#333333" }}
                         pointerEvents="none"
                         value={value}
                         placeholder={placeholder}
                         selection={{ start: 0, end: 0 }}
-                        placeholderTextColor={'#333333'}
+                    // placeholderTextColor={'#333333'}
                     />
                 </TouchableOpacity>
             </View>

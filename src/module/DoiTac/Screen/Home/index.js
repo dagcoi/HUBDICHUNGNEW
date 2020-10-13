@@ -21,7 +21,7 @@ class HomeOperator extends Component {
 
     render() {
         return (
-            <SafeAreaView style={{ flex: 1, backgroundColor: '#77a' }}>
+            <SafeAreaView style={{ flex: 1 }}>
                 <Header
                     onPressLeft={() => { this.props.navigation.openDrawer() }}
                     onPressCenter={this.gotoHomeScreen}

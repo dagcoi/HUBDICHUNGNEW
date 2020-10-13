@@ -38,7 +38,7 @@ class ListCar extends Component {
             const responseJson = await response.json();
             const listCar = responseJson.data;
             console.log(listCar);
-            this.setState({ listCar : listCar, isLoading: false})
+            this.setState({ listCar: listCar, isLoading: false })
             return true
         }
         catch (error) {
@@ -78,7 +78,7 @@ class ListCar extends Component {
                     />
                     <Text style={{ textAlign: 'center' }}>Không tìm thấy tài xế phù hợp. Vui lòng gọi <Text style={{ color: '#77a300' }}
                         onPress={() => Linking.openURL(`tel: 19006022`)}>19006022</Text></Text>
-                    <Text style={{ padding: 4, fontSize: 18 }}>HOẶC</Text>
+                    {/* <Text style={{ padding: 4, fontSize: 18 }}>HOẶC</Text> */}
                 </View> :
                 <ScrollView
                     showsVerticalScrollIndicator={false}
@@ -153,4 +153,4 @@ function mapStateToProps(state) {
         distanceCaro: state.info.distanceCaro,
     }
 }
-export default connect(mapStateToProps,{addSendCaro: addSendCaro})(ListCar);
+export default connect(mapStateToProps, { addSendCaro: addSendCaro })(ListCar);

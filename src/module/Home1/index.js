@@ -331,12 +331,6 @@ class Home1 extends Component {
     renderListDilai() {
         return (
             <View>
-                <SelectCar
-                    child={<SvgDiChungXe />}
-                    onPress={() => this.props.isLogin == 0 ? this.props.navigation.navigate('Login') : this.props.navigation.navigate('RideShare')}
-                    textDetail={'Tìm bạn đi cùng xe máy, ô tô trên cùng tuyến đường'}
-                    title={'Đi chung xe'}
-                />
 
                 <SelectCar
                     child={<SvgDiChungTaxi />}
@@ -357,6 +351,13 @@ class Home1 extends Component {
                     onPress={() => this.props.isLogin == 0 ? this.props.navigation.navigate('Login') : this.props.navigation.navigate('MapXeChung')}
                     textDetail={'Ai cũng có thể thuê tài xế riêng. Việc mất thời gian để chúng tôi lo'}
                     title={'Thuê tài xế'}
+                />
+
+                <SelectCar
+                    child={<SvgDiChungXe />}
+                    onPress={() => this.props.isLogin == 0 ? this.props.navigation.navigate('Login') : this.props.navigation.navigate('RideShare')}
+                    textDetail={'Tìm bạn đi cùng xe máy, ô tô trên cùng tuyến đường'}
+                    title={'Đi chung xe'}
                 />
             </View>
         )

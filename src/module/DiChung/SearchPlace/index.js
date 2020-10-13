@@ -92,7 +92,7 @@ class SearchPlace extends Component {
                 <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
                     <View style={{ flexDirection: 'row' }}>
                         <GooglePlacesAutocomplete
-                            placeholderTextColor={'#333'}
+                            // placeholderTextColor={'#333'}
                             placeholder={placeholder}
                             minLength={2}
                             currentLocation={false}

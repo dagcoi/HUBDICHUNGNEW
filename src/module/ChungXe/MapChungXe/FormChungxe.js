@@ -36,7 +36,7 @@ class FromChungXe extends Component {
                             <TextInput
                                 value={this.props.depart_time}
                                 placeholder='Thời gian nhận xe'
-                                placeholderTextColor={'#333333'}
+                                // placeholderTextColor={'#333333'}
                                 onTouchStart={this.props.onPressSelectTimeRent}
                                 pointerEvents='none'
                                 style={{ marginLeft: 12, fontSize: 14, flex: 1, color: '#000' }}
@@ -53,7 +53,7 @@ class FromChungXe extends Component {
                                 editable={false}
                                 value={this.props.returnTime}
                                 placeholder='Thời gian trả xe'
-                                placeholderTextColor={'#333333'}
+                                // placeholderTextColor={'#333333'}
                                 onTouchStart={this.props.onPressSelectTimeReturn}
                                 pointerEvents='none'
                                 style={{ marginLeft: 8, fontSize: 14, flex: 1, color: '#000' }}
@@ -71,7 +71,7 @@ class FromChungXe extends Component {
                         <TextInput
                             value={this.props.vehicleName}
                             placeholder='Chọn loại xe'
-                            placeholderTextColor={'#333333'}
+                            // placeholderTextColor={'#333333'}
                             onTouchStart={this.props.onPressVehicle}
                             pointerEvents='none'
                             style={{ marginLeft: 8, fontSize: 14, flex: 1, color: '#000' }}

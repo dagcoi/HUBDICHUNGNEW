@@ -15,7 +15,7 @@ function Input({
     return (
         <View style={[{ flexDirection: 'row', borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', }, noBorderTop ? { borderTopWidth: 0 } : { borderTopWidth: 1 }]}>
             <View style={{ justifyContent: "center", alignItems: "center", marginHorizontal: 8 }}>
-               <Text style={{fontWeight:'bold'}}>{text}</Text>
+                <Text style={{ fontWeight: 'bold' }}>{text}</Text>
             </View>
             <View
                 style={{ flex: 1, height: 40, flexDirection: 'row', alignItems: 'center', marginLeft: 8 }}
@@ -24,7 +24,7 @@ function Input({
                     style={{ flex: 1, fontSize: 14, height: 40, color: "#333333" }}
                     value={value}
                     placeholder={placeholder}
-                    placeholderTextColor={'#333'}
+                    // placeholderTextColor={'#333'}
                     onChangeText={onChangeText}
                     maxLength={maxLength}
                     keyboardType={keyboardType}

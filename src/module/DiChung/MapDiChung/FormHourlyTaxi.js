@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
-import { SvgClock, SvgPeople, SvgPick, SvgVehicle } from '../../../icons';
+import { SvgClock, SvgDuration, SvgPeople, SvgPick, SvgVehicle } from '../../../icons';
 
 
 const imageLocation = '../../../image/location.png'
@@ -38,7 +38,7 @@ class FormHourlyTaxi extends Component {
                 placeholder={'Chọn số giờ'}
                 value={this.props.duration + ' giờ'}
                 imageRight={true}
-                children={<SvgClock />}
+                children={<SvgDuration />}
             />
         )
     }
