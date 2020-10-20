@@ -31,12 +31,12 @@ function ItemRideShare({ item, onPress }) {
                 text={item.endPlace?.formatted_address ?? ''}
             />
             <ImageTextDiChung
-                children={<SvgCheckSuccess />}
-                text={item.autoAccept == 1 ? 'Tự động chấp nhận đặt xe' : 'Không tự động chấp nhận đặt xe'}
-            />
-            <ImageTextDiChung
                 children={<SvgClock />}
                 text={formatDate(item.startPlace.dateTime * 1000)}
+            />
+            <ImageTextDiChung
+                children={<SvgCheckSuccess />}
+                text={item.autoAccept == 1 ? 'Tự động chấp nhận đặt xe' : 'Không tự động chấp nhận đặt xe'}
             />
             <View style={{ flexDirection: 'row', paddingLeft: 4 }}>
                 <StarVote margin={4} />

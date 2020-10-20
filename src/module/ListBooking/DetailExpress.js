@@ -168,7 +168,7 @@ function renderTT(item) {
                 {item.forward.status == 'forwarded' ?
                     <Text style={styles.textBigRight1}>
                         {/* {parseInt(item.total_cost).format(0, 3, '.')} đ */}
-                        {parseInt(item.forward.result.total_cost).format(0, 3, '.')} đ
+                        {parseInt(item.payment.totalCost).format(0, 3, '.')} đ
             </Text>
                     : null}
             </View>

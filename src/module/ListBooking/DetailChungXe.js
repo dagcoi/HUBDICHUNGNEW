@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, Image, StyleSheet, Text, ScrollView, Linking } from 'react-native'
 import ImageTextDiChung from '../../component/ImageTextDiChung'
 import { StatusTicket } from '../../component/Ticket'
-import { SvgCalendar, SvgCar, SvgCheckNormal, SvgMail, SvgMoney, SvgNote, SvgPeople, SvgPerson, SvgPhone, SvgPick } from '../../icons'
+import { SvgCalendar, SvgCar, SvgCheckNormal, SvgDeliveryFrom, SvgFromTo, SvgMail, SvgMoney, SvgNote, SvgPeople, SvgPerson, SvgPhone, SvgPick, SvgVehicle } from '../../icons'
 import { formatDate } from '../../until'
 
 
@@ -66,15 +66,18 @@ function renderDetailTrip(item) {
             <ImageTextDiChung
                 children={<SvgCalendar />}
                 source={require(imageCalendar)}
-                text={strtime + '->' + strtime1}
-
+                text={strtime}
             />
-
+            <ImageTextDiChung
+                children={<SvgFromTo />}
+                text={strtime1}
+            />
+            {/* 
             <ImageTextDiChung
                 children={<SvgPeople />}
                 source={require(imagePeople)}
                 text={item.slot + ' xe'}
-            />
+            /> */}
         </View>
     )
 }
@@ -88,7 +91,14 @@ function renderDetailOrder(item) {
                 children={<SvgCar />}
                 source={require(imageIconCar)}
                 text={item.label}
-            // text={item.ride_method_id == '1' ? 'Đi riêng' : 'Đi chung'}
+            />
+            <ImageTextDiChung
+                children={<SvgVehicle />}
+                text={item.vehicle.type == 'car' ? 'Ô tô' : item.vehicle.type == 'motorbike' ? 'Xe máy' : 'xe máy'}
+            />
+            <ImageTextDiChung
+                children={<SvgDeliveryFrom />}
+                text={item.extra.bookDeliveryFrom == 'home' ? 'Nhận xe tại nhà riêng' : 'Nhận xe tại đại lý'}
             />
         </View>
     )

@@ -5,7 +5,7 @@ import InputTextDiChung from '../../../component/InputTextDiChung'
 import CheckBox from 'react-native-check-box'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import { connect } from 'react-redux';
-import { addInfoPeople1, addInfoPeople2, addVAT, addInfoFlight, addPromotionCode, addPaymentMethodID, addComment, addIdCustomer } from '../../../core/Redux/action/Action'
+import { addInfoPeople1, addInfoPeople2, addVAT, addInfoFlight, addPromotionCode, addPaymentMethodID, addComment, addIdCustomer, addBookDeliveryForm } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
 import { Button, ButtonDialog } from '../../../component/Button'
 import AwesomeAlert from 'react-native-awesome-alerts'
@@ -22,7 +22,7 @@ var radio_props = [
 
 var radio_pick_car = [
     { label: 'Nhận xe tại nhà riêng(có tính phí)', value: 1 },
-    { label: 'Nhận xe tại đại lý ', value: 2 }
+    { label: 'Nhận xe tại đại lý ', value: 0 }
 ];
 
 var radio_payment_detail = [
@@ -45,7 +45,7 @@ class InfoCustommer extends Component {
         this.state = {
             is_checked: false,
             plane_type: -1,
-            pick_type: -1,
+            pick_type: 0,
             value_payment: 0,
             value_paymentDetail: 'ATM',
             full_name: '',
@@ -714,7 +714,7 @@ class InfoCustommer extends Component {
 
                         {send.provider.name == 'dichungtaxi' && this.renderMGG()}
                         <View>{this.state.detailPromotion == '' ? null : <Text style={{ color: this.state.promotionStatus ? "#77a300" : "#fa0000" }}>{this.state.detailPromotion}</Text>}</View>
-                        {this.props.product_chunk_type != 'ride_share' &&
+                        {this.props.product_chunk_type == 'ride_share' ? null : send.provider.name === 'dichung' ? null :
                             <CheckBox
                                 style={{ marginTop: 8 }}
                                 onClick={() => {
@@ -732,15 +732,7 @@ class InfoCustommer extends Component {
 
                         <Button
                             onPress={() => {
-                                const { xhd, company_name, company_address, company_address_receive, company_mst, plane_number, plane_type, full_name, use_phone, email, full_name1, use_phone1, email1, payment_method_ID } = this.state;
-                                this.props.addVAT(xhd ? '1' : '0', company_name, company_address, company_mst, company_address_receive);
-                                this.props.addInfoFlight(plane_number, plane_type);
-                                this.props.addInfoPeople2(full_name1, use_phone1, email1);
-                                this.props.addInfoPeople1(full_name, use_phone, email);
-                                // add payment method id
-                                console.log(payment_method_ID)
-                                this.props.addPaymentMethodID(payment_method_ID);
-                                this.checkInfoCustomer();
+                                this.onPress()
                             }}
                             value={'TIẾP TỤC'}
                         />
@@ -749,6 +741,19 @@ class InfoCustommer extends Component {
                 </ScrollView>
             </SafeAreaView>
         )
+    }
+
+    async onPress() {
+        const { xhd, company_name, company_address, company_address_receive, company_mst, plane_number, plane_type, full_name, use_phone, email, full_name1, use_phone1, email1, payment_method_ID, pick_type } = this.state;
+        await this.props.addVAT(xhd ? '1' : '0', company_name, company_address, company_mst, company_address_receive);
+        await this.props.addInfoFlight(plane_number, plane_type);
+        await this.props.addInfoPeople2(full_name1, use_phone1, email1);
+        await this.props.addInfoPeople1(full_name, use_phone, email);
+        await this.props.addBookDeliveryForm(pick_type)
+        // add payment method id
+        console.log(payment_method_ID)
+        await this.props.addPaymentMethodID(payment_method_ID);
+        await this.checkInfoCustomer();
     }
 }
 
@@ -809,4 +814,14 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { addInfoFlight: addInfoFlight, addInfoPeople1: addInfoPeople1, addInfoPeople2: addInfoPeople2, addVAT: addVAT, addPromotionCode: addPromotionCode, addPaymentMethodID: addPaymentMethodID, addComment: addComment, addIdCustomer: addIdCustomer })(InfoCustommer);
+export default connect(mapStateToProps, {
+    addInfoFlight: addInfoFlight,
+    addInfoPeople1: addInfoPeople1,
+    addInfoPeople2: addInfoPeople2,
+    addVAT: addVAT,
+    addPromotionCode: addPromotionCode,
+    addPaymentMethodID: addPaymentMethodID,
+    addComment: addComment,
+    addIdCustomer: addIdCustomer,
+    addBookDeliveryForm: addBookDeliveryForm
+})(InfoCustommer);

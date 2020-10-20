@@ -1025,4 +1025,11 @@ export const addItemSlot = (itemSlot) => {
     }
 }
 
+export const addBookDeliveryForm = (bookDeliveryFrom) => {
+    return {
+        type: types.ADD_BOOKING_DELIVERY_FORM,
+        bookDeliveryFrom: bookDeliveryFrom,
+    }
+}
+
 

@@ -6,6 +6,7 @@ import { HeaderText } from '../../../../component/Header';
 import { TextBold, TextNormal } from './Textt';
 import Dialog, { DialogTitle } from 'react-native-popup-dialog';
 import * as link from '../../../../URL'
+import { SvgSuccessIcon } from '../../../../icons';
 class Confirm extends Component {
     constructor(props) {
         super(props);
@@ -54,7 +55,7 @@ class Confirm extends Component {
                         {this.props.sendDataOperator.vehicleType &&
                             <View>
                                 <TextBold text={'Loại phương tiện'} />
-                                <TextNormal text={this.props.sendDataOperator.type == 'hourly_car_rental' ? (this.props.itemCarOperator?.label + ' - ' + this.props.sendDataOperator.slot + ' chỗ -' + this.props.itemTransmission.label) : this.props.itemCarOperator?.label} />
+                                <TextNormal text={this.props.sendDataOperator.type == 'hourly_car_rental' ? (this.props.itemCarOperator?.label + ' - ' + this.props.sendDataOperator.slot + ' chỗ -' + this.props.itemTransmission.label) : this.props.itemCarOperator1?.label} />
                             </View>
                         }
                         {this.props.sendDataOperator?.priceExtra &&
@@ -119,13 +120,16 @@ class Confirm extends Component {
             >
                 <View>
                     <View style={{ padding: 8 }}>
-                        <Text style={{ fontSize: 16, fontWeight: '100' }}>Đăng chuyến thành công</Text>
+                        <Text style={{ fontSize: 18, fontWeight: '600' }} >Thành công</Text>
+                        <View style={{ height: 100, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                            <SvgSuccessIcon />
+                        </View>
+                        <Text style={{ fontSize: 14, }}>Đăng chuyến thành công</Text>
+                        <Text style={{ fontSize: 14, }}>Kiểm tra các chuyến đã tạo tại <Text style={{ fontWeight: 'bold' }}>Lịch sử tạo chuyến</Text></Text>
                         <ButtonDialog
-                            text={'Chi tiết'}
+                            text={'Xem chi tiết'}
                             onPress={() => {
                                 this.ticketDetail(this.state.ticket._id)
-                                // this.props.navigation.popToTop()
-                                // this.props.navigation.replace('DetailTicketPartner1', { 'code': this.state.ticket._id })
                             }}
                         />
                     </View>
@@ -215,7 +219,8 @@ function formatCurrency(currency) {
 function mapStateToProps(state) {
     return {
         modalCarType: state.rdOperator.modalCarType,
-        itemCarOperator: state.rdOperator.itemCarOperator1,
+        itemCarOperator: state.rdOperator.itemCarOperator,
+        itemCarOperator1: state.rdOperator.itemCarOperator1,
         timePick: state.rdOperator.timePick,
         timeDrop: state.rdOperator.timeDrop,
         pickAddress: state.info.pick_add,

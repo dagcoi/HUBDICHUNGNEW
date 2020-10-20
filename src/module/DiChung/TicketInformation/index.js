@@ -8,10 +8,11 @@ import { Button, ButtonGray } from '../../../component/Button'
 import { HeaderText } from '../../../component/Header'
 import DetailChungXe from '../../ListBooking//DetailChungXe'
 import DetailExpress from '../../ListBooking/DetailExpress'
-import DetailHourlyTaxi from '../../ListBooking//DetailHourlyTaxi'
+import DetailHourlyTaxi from '../../ListBooking/DetailHourlyTaxi'
 import DetailTaxi from '../../ListBooking/DetailTaxi'
 import DetailTuLai from '../../ListBooking/DetailTuLai'
 import DetailXeChung from '../../ListBooking/DetailXeChung'
+// import DetailDiChungXe from '../../ListBooking/DetailDiChungXe'
 
 const imageCancel = '../../../image/cancel.png'
 
@@ -263,6 +264,56 @@ class TicketInformation extends Component {
         this.props.navigation.popToTop()
     }
 
+
+    renderDetail(bookingDetail) {
+        switch (bookingDetail.productType) {
+            case 'CAR_RENTAL':
+                return (
+                    <DetailTuLai item={bookingDetail} />
+                )
+            case 'DRIVER_RENTAL':
+                return (
+                    <DetailXeChung item={bookingDetail} />
+                )
+            case 'hourly_car_rental':
+                return (
+                    <DetailChungXe item={bookingDetail} />
+                )
+            case 'EXPRESS':
+                return (
+                    <DetailExpress item={bookingDetail} />
+                )
+            case 'express':
+                return (
+                    <DetailExpress item={bookingDetail} />
+                )
+            case 'TRANSFER_SERVICE':
+                return (
+                    <DetailTaxi item={bookingDetail} />
+                )
+            case 'transfer_service':
+                return (
+                    <DetailTaxi item={bookingDetail} />
+                )
+            case 'TRUCK':
+                return (
+                    <DetailTaxi item={bookingDetail} />
+                )
+            case 'TOURIST_CAR':
+                return (
+                    <DetailTaxi item={bookingDetail} />
+                )
+            case 'RIDE_SHARE':
+                return (
+                    <DetailTaxi item={bookingDetail} />
+                )
+            default:
+                return (
+                    <DetailHourlyTaxi item={bookingDetail} />
+                )
+        }
+    }
+
     render() {
         if (this.state.is_loading) {
             return (
@@ -290,16 +341,18 @@ class TicketInformation extends Component {
                                 <Text style={styles.textBigRight}>Mã thuê xe của bạn: <Text style={{ fontWeight: 'bold', backgroundColor: '#77a300', color: '#fff', padding: 4 }}>{item.code}</Text></Text>
                                 : <Text style={styles.textBigRight}>Yêu cầu đặt xe của bạn đã được hệ thồng ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>
                             }
-                            {this.state.bookingDetail.productType == 'CAR_RENTAL' ? <DetailTuLai item={this.state.bookingDetail} />
+                            {/* {this.state.bookingDetail.productType == 'CAR_RENTAL' ? <DetailTuLai item={this.state.bookingDetail} />
                                 : this.state.bookingDetail.productType == 'DRIVER_RENTAL' ? <DetailXeChung item={this.state.bookingDetail} />
                                     : this.state.bookingDetail.productType == 'hourly_car_rental' ? <DetailChungXe item={this.state.bookingDetail} />
                                         : this.state.bookingDetail.productType == 'EXPRESS' ? <DetailExpress item={this.state.bookingDetail} />
-                                            : this.state.bookingDetail.productType == 'TRANSFER_SERVICE' ? <DetailTaxi item={this.state.bookingDetail} />
-                                                : this.state.bookingDetail.productType == 'transfer_service' ? <DetailTaxi item={this.state.bookingDetail} />
-                                                    : this.state.bookingDetail.productType == 'TRUCK' ? <DetailTaxi item={this.state.bookingDetail} />
-                                                        : this.state.bookingDetail.productType == 'TOURIST_CAR' ? <DetailTaxi item={this.state.bookingDetail} />
-                                                            : this.state.bookingDetail.productType == 'ride_share' ? <DetailTaxi item={this.state.bookingDetail} />
-                                                                : <DetailHourlyTaxi item={this.state.bookingDetail} />}
+                                            : this.state.bookingDetail.productType == 'express' ? <DetailExpress item={this.state.bookingDetail} />
+                                                : this.state.bookingDetail.productType == 'TRANSFER_SERVICE' ? <DetailTaxi item={this.state.bookingDetail} />
+                                                    : this.state.bookingDetail.productType == 'transfer_service' ? <DetailTaxi item={this.state.bookingDetail} />
+                                                        : this.state.bookingDetail.productType == 'TRUCK' ? <DetailTaxi item={this.state.bookingDetail} />
+                                                            : this.state.bookingDetail.productType == 'TOURIST_CAR' ? <DetailTaxi item={this.state.bookingDetail} />
+                                                                : this.state.bookingDetail.productType == 'RIDE_SHARE' ? <DetailTaxi item={this.state.bookingDetail} />
+                                                                    : <DetailHourlyTaxi item={this.state.bookingDetail} />} */}
+                            {this.renderDetail(this.state.bookingDetail)}
                             <View style={{ paddingHorizontal: 8 }}>
                                 {this.renderPaymentOnline(item)}
 

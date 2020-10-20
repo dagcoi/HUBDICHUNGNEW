@@ -173,24 +173,27 @@ function renderOther(item) {
                 source={require(imagePayment)}
                 text={item.payment.method == 'cash' ? 'Trả sau' : 'Trả trước'}
             />
-            {item.extra?.catch_in_house && item.extra.catch_in_house == '1' ?
+            {item.extra?.catch_in_house && item.extra.catch_in_house == '1' &&
                 <ImageTextDiChung
                     children={<SvgCheck />}
                     source={require(imageDone)}
                     text={'Đón bằng biển tên (+ 30.000 ₫)'}
-                /> : null}
-            {item.extra?.xhd == 1 ?
+                />
+            }
+            {item.extra?.xhd == 1 &&
                 <ImageTextDiChung
                     children={<SvgCheck />}
                     source={require(imageDone)}
                     text={'+10 %'}
-                /> : null}
-            {item.promocode ?
+                />
+            }
+            {item.promocode &&
                 <ImageTextDiChung
                     children={<SvgCheck />}
                     source={require(imageDone)}
                     text={'Mã giảm giá: ' + item.promocode}
-                /> : null}
+                />
+            }
         </View>
     )
 }
@@ -198,12 +201,12 @@ function renderOther(item) {
 function renderTT(item) {
     return (
         <View>
-            {(item.forward.status == 'forwarded') ?
+            {(item.forward.status == 'forwarded') &&
                 <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 8, alignItems: 'center', }}>
                     <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
-                    <Text style={styles.textBigRight1}>{parseInt(item.payment.totalCost).format(0, 3, '.')} đ</Text>
+                    {item.payment?.totalCost && <Text style={styles.textBigRight1}>{parseInt(item.payment.totalCost).format(0, 3, '.')} đ</Text>}
                 </View>
-                : null}
+            }
             {/* <Text style={{ marginBottom: 8, textAlign: 'right' }}>{item.toll_fee == 'NA' ? "Giá chưa bao giờ phí cầu đường" : "Giá trọn gói không phí ẩn"}</Text> */}
         </View>
     )

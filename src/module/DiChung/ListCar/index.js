@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, Image, ScrollView, ActivityIndicator, Modal, FlatList, Linking, SafeAreaView, StyleSheet } from 'react-native';
+import { Text, View, TouchableOpacity, Image, ScrollView, ActivityIndicator, Modal, FlatList, Linking, SafeAreaView, StyleSheet, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import CheckBoxList from '../../../component/CheckBoxList'
 import { HeaderText } from '../../../component/Header'
@@ -35,6 +35,7 @@ const imageMinToMax = '../../../image/mintomax.png'
 const imageTune = '../../../image/tune.png'
 const imageCheck = '../../../image/done.png'
 
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window')
 class ListCar extends Component {
 
     constructor() {
@@ -109,7 +110,7 @@ class ListCar extends Component {
     }
 
     componentWillUpdate(nextProps, nextState) {
-        if (this.props.pick_add != nextProps.pick_add || this.props.drop_add != nextProps.drop_add || this.props.product_chunk_type != nextProps.product_chunk_type || this.props.duration != nextProps.duration || this.props.chair != nextProps.chair || this.props.depart_time2 != nextProps.depart_time2 || this.props.vehicleType != nextProps.vehicleType || this.props.returnTime2 != nextProps.returnTime2 || this.props.carType != nextProps.carType) {
+        if (this.props.pick_add != nextProps.pick_add || this.props.drop_add != nextProps.drop_add || this.props.product_chunk_type != nextProps.product_chunk_type || this.props.duration != nextProps.duration || this.props.chair != nextProps.chair || this.props.depart_time2 != nextProps.depart_time2 || this.props.vehicleType != nextProps.vehicleType || this.props.returnTime2 != nextProps.returnTime2 || this.props.carType != nextProps.carType || this.props.itemVehicle != nextProps.itemVehicle) {
             this.getProvider()
             this.setState({ item: null, selectItem: -1 })
         }
@@ -120,7 +121,7 @@ class ListCar extends Component {
         // var time = new Date(this.props.depart_time2 + '+07:00').getTime();
 
         const url = `${link.URL_API_PORTAL}price/v1/products?productType=${this.props.product_chunk_type}`;
-        let param = `${url}&bookingTime=${time}&endPlace=${JSON.stringify(this.props.component_drop)}&startPlace=${JSON.stringify(this.props.component_pick)}&sort=price&slot=${this.props.chair}&provider=${provider}${this.props.product_chunk_type === 'ride_share' ? '&vehicleType=2' : ''}`
+        let param = `${url}&bookingTime=${time}&endPlace=${JSON.stringify(this.props.component_drop)}&startPlace=${JSON.stringify(this.props.component_pick)}&sort=price&slot=${this.props.product_chunk_type === 'express' ? '1' : this.props.chair}&provider=${provider}${this.props.product_chunk_type === 'ride_share' ? `&vehicleType=${this.props.itemVehicle?.value ?? 'car'}` : ''}`
         console.log(param)
         try {
             const response = await fetch(param, {
@@ -282,9 +283,9 @@ class ListCar extends Component {
 
         return (
             obj1.length < 1 && countLoading == 0 ?
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
+                <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center', alignContent: 'center' }}>
                     <Image
-                        style={{ width: 80, height: 80 }}
+                        style={{ width: SCREEN_WIDTH / 2, height: SCREEN_WIDTH / 2 }}
                         source={require('../../../image/sorry.png')}
                     />
                     <Text style={{ textAlign: 'center' }}>Không tìm thấy tài xế phù hợp. Vui lòng gọi <Text style={{ color: '#77a300' }}
@@ -686,7 +687,7 @@ class ListCar extends Component {
             case 'ride_share':
                 return (
                     <View style={{ margin: 8, borderRadius: 10, borderWidth: 0.5, borderColor: '#e8e8e8' }}>
-                        <FormTaxi
+                        <FormRideShare
                             onPressPickAddress={this.pressPickAddress}
                             onPressDropAddress={this.pressDropAddress}
                             onPressSwap={this.pressSwap}
@@ -981,7 +982,8 @@ function mapStateToProps(state) {
         returnTime2: state.info.returnTime2,
         returnTime: state.info.returnTime,
         vehicleType: state.info.vehicleType,
-        carType: state.info.carType
+        carType: state.info.carType,
+        itemVehicle: state.rdOperator.itemVehicle,
     }
 }
 

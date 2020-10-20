@@ -2,7 +2,10 @@ import React, { Component } from 'react'
 import { View, TouchableOpacity, Text, Image } from 'react-native'
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung';
 import { connect } from 'react-redux';
-import { SvgArrowDown, SvgCalendar, SvgClock, SvgPeople, SvgPick } from '../../../icons';
+import { SvgArrowDown, SvgCalendar, SvgClock, SvgPeople, SvgPick, SvgVehicle } from '../../../icons';
+import { FormSelectVehicleSlot, ModalSlot, ModalVehicle } from '../../DoiTac/Form';
+import { showModalVehicle, showModalSlot } from '../../../core/Redux/action/Action'
+import Toast from 'react-native-simple-toast';
 
 const imageLocation = '../../../image/location.png'
 const imagePeople = '../../../image/people.png'
@@ -18,7 +21,6 @@ class FormRideShare extends Component {
     renderTimePick() {
         return (
             <ImageInputTextDiChung
-                noBorderTop
                 children={<SvgClock />}
                 widthHeightImage={24}
                 onPress={this.props.onPressSelectTime}
@@ -61,8 +63,9 @@ class FormRideShare extends Component {
                 <View style={{ flex: 1 }}>
                     {this.renderPickAddress()}
                     {this.renderDropAddress()}
+                    {this.renderTimePick()}
 
-                    <View style={{ flexDirection: 'row', height: 40, }}>
+                    {/* <View style={{ flexDirection: 'row', height: 40, }}>
                         <View style={{ flex: 1, borderTopWidth: 1, borderColor: '#e8e8e8', }}>
                             {this.renderTimePick()}
                         </View>
@@ -77,12 +80,34 @@ class FormRideShare extends Component {
                             <Text style={{ flex: 1 }}>{this.props.chair} người</Text>
                             <SvgArrowDown />
                         </TouchableOpacity>
-                    </View>
+                    </View> */}
+
+                    <FormSelectVehicleSlot
+                        onPress={this.showModalVehicle}
+                        placeholder={'Chọn phương tiện'}
+                        value={this.props.itemVehicle?.label}
+                        onPress2={this.props.onPressSelectSlot}
+                        placeholder2={'Chọn số chỗ'}
+                        children={<SvgVehicle />}
+                        children2={<SvgPeople />}
+                        value2={this.props.chair + ' người'}
+                    />
+                    <ModalSlot />
+                    <ModalVehicle />
 
                 </View>
             </View>
         )
     }
+    showModalSlot = () => {
+        if (this.props.itemVehicle?.label) {
+            this.props.itemVehicle.label == 'Xe máy' ? Toast.show('Xe máy không chọn được chỗ', Toast.SHORT) : this.props.onPressSelectSlot
+        } else {
+            Toast.show('Vui lòng chọn phương tiện trước.')
+        }
+    }
+    showModalVehicle = () => { this.props.showModalVehicle(true) }
+
 }
 
 function mapStateToProps(state) {
@@ -97,7 +122,12 @@ function mapStateToProps(state) {
         longitude_drop: state.info.longitude_drop,
         chair: state.info.chair,
         depart_time: state.info.depart_time,
+        itemVehicle: state.rdOperator.itemVehicle,
+        itemSlot: state.rdOperator.itemSlot,
     }
 }
 
-export default connect(mapStateToProps)(FormRideShare);
+export default connect(mapStateToProps, {
+    showModalVehicle: showModalVehicle,
+    showModalSlot: showModalSlot,
+})(FormRideShare);

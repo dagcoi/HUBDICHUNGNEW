@@ -248,6 +248,7 @@ class Home1 extends Component {
                 let json = JSON.parse(dataLogin)
                 this.props.addUser(json.username, json.avatar, 1)
                 this.props.addToken(json.token)
+                console.log(dataLogin)
             } else {
                 this.props.addUser(json.username, 'json.avatar', 0)
                 this.props.addToken('')
@@ -358,6 +359,12 @@ class Home1 extends Component {
                     onPress={() => this.props.isLogin == 0 ? this.props.navigation.navigate('Login') : this.props.navigation.navigate('RideShare')}
                     textDetail={'Tìm bạn đi cùng xe máy, ô tô trên cùng tuyến đường'}
                     title={'Đi chung xe'}
+                />
+                <SelectCar
+                    child={<SvgDiChungTaxi />}
+                    onPress={() => this.props.isLogin == 0 ? this.props.navigation.navigate('Login') : this.props.navigation.navigate('Map')}
+                    textDetail={'Gọi taxi đi ngay'}
+                    title={'Taxi đi ngay'}
                 />
             </View>
         )

@@ -110,6 +110,7 @@ const defaultState = {
     typesPick: [],
     typesDrop: [],
     idCustomer: null,
+    bookDeliveryFrom: '0',
 }
 const Reducer = (state = defaultState, action) => {
     switch (action.type) {
@@ -400,6 +401,12 @@ const Reducer = (state = defaultState, action) => {
             return {
                 ...state,
                 idCustomer: action.idCustomer,
+            }
+        case types.ADD_BOOKING_DELIVERY_FORM:
+            return {
+                ...state,
+                bookDeliveryFrom: action.bookDeliveryFrom,
+
             }
 
         default:

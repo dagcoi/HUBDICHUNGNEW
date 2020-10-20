@@ -819,6 +819,47 @@ function SvgCalenderSelect(props) {
     )
 }
 
+function SvgSuccessIcon(props) {
+    return (
+        <Svg width={80} height={80} viewBox="0 0 80 80" {...props}>
+            <Path
+                fill="#77A300"
+                d="M26.954 43.04h6v2.95a7.03 7.03 0 0014.06 0v-2.95h6v2.95c0 7.195-5.834 13.03-13.03 13.03s-13.03-5.835-13.03-13.03v-2.95zm38.59-9.743c7.966 0 14.424 6.457 14.424 14.423v4.931h-6V47.72a8.423 8.423 0 00-8.423-8.423h-6.893v-6.708A5.59 5.59 0 0053.063 27H26.905a5.589 5.589 0 00-5.59 5.59v6.707h-6.892A8.423 8.423 0 006 47.72v4.931H0V47.72c0-7.966 6.457-14.423 14.423-14.423h.893v-.708c0-6.4 5.188-11.589 11.589-11.589h26.158c6.4 0 11.59 5.189 11.59 11.59v.707h.892zM19.468 50.304a2.384 2.384 0 10-4.768 0 2.384 2.384 0 004.768 0zm6 0a8.384 8.384 0 11-16.768 0 8.384 8.384 0 0116.768 0zm29.034 0a8.384 8.384 0 1116.768 0 8.384 8.384 0 01-16.768 0zm6 0a2.384 2.384 0 104.768 0 2.384 2.384 0 00-4.768 0z"
+            />
+        </Svg>
+    )
+}
+
+function SvgDeliveryFrom(props) {
+    return (
+        <View style={props.style ?? styles.styleSmall}>
+            <Svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                {...props}
+            >
+                <Path fill="none" d="M0 0h24v24H0z" />
+                <Path fill={props.color ?? colorDefault} d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z" />
+            </Svg>
+        </View>
+    )
+}
+
+
+function SvgNote3(props) {
+    return (
+        <View style={props.style ?? styles.styleSmall}>
+            <Svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                {...props}
+            >
+                <Path fill="none" d="M0 0h24v24H0z" />
+                <Path fill={props.color ?? colorDefault} d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
+            </Svg>
+        </View>
+    )
+}
 
 const styles = StyleSheet.create({
     styleSmall: {
@@ -879,4 +920,7 @@ export {
     SvgAvatarIcon,
     SvgPhoneCD,
     SvgCalenderSelect,
+    SvgSuccessIcon,
+    SvgDeliveryFrom,
+    SvgNote3,
 }

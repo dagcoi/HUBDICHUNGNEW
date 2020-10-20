@@ -25,7 +25,7 @@ function Detail({ item }) {
                             resizeMode="contain"
                         />
                     </View>
-                    <View style={{ flexDirection: 'row', paddingHorizontal: 16 }}>
+                    <View style={{ flexDirection: 'row', paddingHorizontal: 16, marginTop: 8 }}>
                         <View style={{ flex: 1 }} />
                         <Text style={{ textAlign: 'left', color: '#fff', backgroundColor: '#eb6752', padding: 4, }}>{item.info.label}</Text>
                     </View>

@@ -213,6 +213,10 @@ export default class PhoneAuthTest extends Component {
         );
     }
 
+    gotoHomeScreen = () => {
+        this.props.navigation.navigate("Home")
+    }
+
     render() {
         const { user, confirmResult } = this.state;
         return (

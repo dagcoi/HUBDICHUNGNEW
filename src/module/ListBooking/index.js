@@ -8,7 +8,7 @@ import * as link from '../../URL'
 import { connect } from 'react-redux'
 import { NavigationEvents, SafeAreaView } from 'react-navigation';
 import { ButtonFull } from '../../component/Button'
-import { SvgClock, SvgDuration, SvgPick } from '../../icons'
+import { SvgClock, SvgDuration, SvgFromTo, SvgPick } from '../../icons'
 
 const imagePick = '../../image/location2.png'
 const imageDrop = '../../image/location2.png'
@@ -49,7 +49,7 @@ class ListBooking extends Component {
             token: null,
             refreshing: false,
             modalTell: false,
-            listType: ['TRANSFER_SERVICE', 'EXPRESS', 'TOURIST_CAR', 'DRIVER_RENTAL', 'CAR_RENTAL', 'TRUCK', 'transfer_service', 'ride_share'],
+            listType: ['TRANSFER_SERVICE', 'express', 'EXPRESS', 'TOURIST_CAR', 'DRIVER_RENTAL', 'CAR_RENTAL', 'TRUCK', 'transfer_service', 'ride_share'],
             listHourly: ['hourly_rent_taxi', 'hourly_rent_driver', 'hourly_freight_truck', 'hourly_tourist_car', 'hourly_car_rental'],
         }
     }
@@ -157,7 +157,7 @@ class ListBooking extends Component {
         return strDate;
     }
 
-    renderItem(item) {
+    renderItemDoor(item) {
         let starVote = 0;
         return (
             item.code ?
@@ -170,7 +170,7 @@ class ListBooking extends Component {
                     <View style={styles.titleTicket}>
                         <Text style={{ flex: 1, textAlign: 'left', fontSize: 16, fontWeight: 'bold' }}>{item.code}</Text>
                         <View style={{ height: 32, borderRadius: 16, backgroundColor: item.rideMethod === 'private' ? '#ef465f' : '#77a300', paddingLeft: 10, paddingRight: 10, justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ color: '#fff' }}>{item.productType == 'TRANSFER_SERVICE' ? 'Thuê taxi' : item.productType == 'transfer_service' ? 'Thuê taxi' : item.productType == 'TOURIST_CAR' ? 'thuê xe du lịch' : item.productType == 'EXPRESS' ? 'Thuê vận chuyển' : item.productType == 'TRUCK' ? 'Thuê xe tải' : item.productType == 'DRIVER_RENTAL' ? 'Thuê tài xế' : item.productType == 'CAR_RENTAL' ? 'Thuê tự lái' : item.productType == 'ride_share' ? 'Đi chung xe' : 'Thuê xe taxi(đi ngay)'}</Text>
+                            <Text style={{ color: '#fff' }}>{item.productType == 'TRANSFER_SERVICE' ? 'Thuê taxi' : item.productType == 'transfer_service' ? 'Thuê taxi' : item.productType == 'TOURIST_CAR' ? 'thuê xe du lịch' : item.productType == 'EXPRESS' ? 'Thuê vận chuyển' : item.productType == 'express' ? 'Thuê vận chuyển' : item.productType == 'TRUCK' ? 'Thuê xe tải' : item.productType == 'DRIVER_RENTAL' ? 'Thuê tài xế' : item.productType == 'CAR_RENTAL' ? 'Thuê tự lái' : item.productType == 'ride_share' ? 'Đi chung xe' : 'Thuê xe taxi(đi ngay)'}</Text>
                         </View>
                     </View>
 
@@ -199,7 +199,7 @@ class ListBooking extends Component {
         )
     }
 
-    renderItem2(item) {
+    renderItemHourly(item) {
         let starVote = 0;
         return (
             item.forward.error ? null
@@ -249,7 +249,7 @@ class ListBooking extends Component {
         )
     }
 
-    renderItemChungXe(item) {
+    renderChungXe(item) {
         let starVote = 0;
         return (
             item.forward.error ? null
@@ -285,7 +285,7 @@ class ListBooking extends Component {
                         />
 
                         <ImageTextDiChung
-                            children={<SvgClock />}
+                            children={<SvgFromTo />}
                             source={require(imageTime)}
                             textBold={this.formatDate(item.extra.returnTime)}
                         />
@@ -320,7 +320,7 @@ class ListBooking extends Component {
                     renderItem={({ item }) => {
                         return (
                             <View>
-                                {this.state.listType.indexOf(item.productType) >= 0 ? this.renderItem(item) : item.productType === 'hourly_car_rental' ? this.renderItemChungXe(item) : this.renderItem2(item)}
+                                {this.state.listType.indexOf(item.productType) >= 0 ? this.renderItemDoor(item) : item.productType === 'hourly_car_rental' ? this.renderChungXe(item) : this.renderItemHourly(item)}
                             </View>
                         )
                     }

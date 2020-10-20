@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView, Image, ActivityIndicator, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, ActivityIndicator, SafeAreaView, Platform } from 'react-native';
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import * as link from '../../../URL'
@@ -7,7 +7,10 @@ import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { Button, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogTitle } from 'react-native-popup-dialog';
 import { HeaderText } from '../../../component/Header'
-import { SvgCalendar, SvgCar, SvgDuration, SvgMail, SvgPerson, SvgPhone, SvgPick, SvgTicket, SvgNote, SvgMoney } from '../../../icons';
+import { SvgCalendar, SvgCar, SvgDuration, SvgMail, SvgPerson, SvgPhone, SvgPick, SvgTicket, SvgNote, SvgMoney, SvgNote2, SvgCheckCircleBorder, SvgDeliveryFrom, SvgNote3 } from '../../../icons';
+import SimpleToast from 'react-native-simple-toast';
+import HTML from 'react-native-render-html';
+
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
     return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
@@ -52,10 +55,12 @@ class ConfirmInformation extends Component {
     }
 
     componentDidMount() {
+        console.log('911' + this.props.bookDeliveryFrom)
         const send = JSON.parse(this.props.send)
         this.getURL(send)
         this.setDataSend()
         this.countWeekend(this.props.depart_time2, this.props.returnTime2)
+        this.getDetail()
     }
 
     async getDetail() {
@@ -158,7 +163,7 @@ class ConfirmInformation extends Component {
 
             dataSend.dimension = 'one_way'
         }
-        dataSend.slot = (this.props.product_chunk_type == 'express' || this.props.product_chunk_type == 'transfer_service' || this.props.product_chunk_type == 'ride_share') ? this.props.chair : 1
+        dataSend.slot = (this.props.product_chunk_type == 'transfer_service' || this.props.product_chunk_type == 'ride_share') ? this.props.chair : 1
         dataSend.bookingUser = {
             "email": this.props.email,
             "phone": this.props.use_phone,
@@ -187,10 +192,12 @@ class ConfirmInformation extends Component {
         dataSend.partner_domain = "hub.dichung.vn"
         if (this.props.product_chunk_type === 'hourly_car_rental') {
             dataSend.extra = {
-                "bookDeliveryFrom": "agent",
+                "bookDeliveryFrom": this.props.bookDeliveryFrom = 0 ? 'agent' : 'home',
                 "returnTime": timeReturn,
             }
+            dataSend.vehicleType = this.props.itemVehicle?.value
         }
+        // dataSend.extra.partner_domain = Platform.OS + 'AppHub'
         if (navigation.getParam('plane_type') > -1) {
             dataSend.extra.plane_type = navigation.getParam('plane_type')
             dataSend.extra.plane_number = this.props.plane_number
@@ -208,6 +215,7 @@ class ConfirmInformation extends Component {
             dataSend.extra.note = this.props.comment
             dataSend.extra.phoneNumber = this.props.use_phone
             dataSend.extra.userId = this.props.idCustomer
+            dataSend.extra.partner_domain = 'hub.dichung.vn'
         }
         console.log('123' + JSON.stringify(dataSend))
         this.setState({ dataSend: dataSend })
@@ -230,11 +238,12 @@ class ConfirmInformation extends Component {
                             source={require(imageLocation)}
                             text={this.props.drop_add}
                         />
-                        <ImageTextDiChung
-                            children={<SvgPerson />}
-                            source={require(imagePeople)}
-                            text={this.props.chair + (this.props.product_chunk_type === 'express' ? ' gói hàng' : this.props.product_chunk_type === 'truck' ? ' xe' : ' người')}
-                        />
+                        {this.props.product_chunk_type != 'express' &&
+                            <ImageTextDiChung
+                                children={<SvgPerson />}
+                                source={require(imagePeople)}
+                                text={this.props.chair + (this.props.product_chunk_type === 'express' ? ' gói hàng' : this.props.product_chunk_type === 'truck' ? ' xe' : ' người')}
+                            />}
                     </View> : <View>
                         {this.props.product_chunk_type === 'hourly_car_rental' ?
                             null
@@ -260,6 +269,11 @@ class ConfirmInformation extends Component {
         return (
             <View>
                 <Text style={styles.textBigLeft1}>Chi tiết đơn hàng</Text>
+                {this.props.product_chunk_type === 'hourly_car_rental' &&
+                    <ImageTextDiChung
+                        children={<SvgDeliveryFrom />}
+                        text={this.props.bookDeliveryFrom == 0 ? "Nhận xe tại đại lí" : 'Nhận xe tại nhà riêng'}
+                    />}
 
                 {this.state.listHourly.indexOf(this.props.product_chunk_type) < 0 ?
                     <ImageTextDiChung
@@ -277,9 +291,56 @@ class ConfirmInformation extends Component {
                         {this.props.extra && this.props.extra.kmLimit && <ImageTextDiChung textBold={'Giới hạn: '} text={this.props.extra.kmLimit + ' km'} />}
                         {this.props.extra && this.props.extra.kmExtra && <ImageTextDiChung textBold={'Phụ trội theo km: '} text={this.props.extra.kmExtra.format(0, 3, '.') + ' đ/km'} />}
                         {this.props.extra && this.props.extra.hourExtra && <ImageTextDiChung textBold={'Phụ trội theo giờ: '} text={this.props.extra.hourExtra.format(0, 3, '.') + ' đ/giờ'} />}
-
                     </View>}
 
+            </View>
+        )
+    }
+
+    renderCX(item) {
+        var list = [];
+        if (item?.info?.description != '') {
+            list = item?.info?.description?.split("<br>")
+            console.log(list)
+        }
+        return (
+            <View>
+                {list.map((item, index) => (
+                    item != '' &&
+                    <View style={{ flexDirection: 'row', paddingVertical: 4 }}>
+                        <View style={{ paddingHorizontal: 2 }} >
+                            <SvgNote3 />
+                        </View>
+                        <HTML html={item} />
+                    </View>
+                ))}
+            </View>
+        )
+    }
+
+    renderDetailCX(item) {
+        return (
+            <View>
+                {item.info.priceExtra ? <View>
+                    <ImageTextDiChung
+                        text={`Phụ trội thuê xe cuối tuần: `}
+                    />
+                    {item.info.priceExtra?.weekendExtra &&
+                        <View>
+                            {item.info.priceExtra.weekendExtra.saturday && <ImageTextDiChung text={`Thứ 7: ${parseInt(item.info.priceExtra.weekendExtra.saturday).format(0, 3, '.')}`} />}
+                            {item.info.priceExtra.weekendExtra.sunday && < ImageTextDiChung text={`Chủ nhật: ${parseInt(item.info.priceExtra.weekendExtra.sunday).format(0, 3, '.')}`} />}
+                        </View>
+                    }
+                    <ImageTextDiChung
+                        text={'Phụ trội theo giờ: ' + ((parseInt(item.info.priceExtra.hourExtra)).format(0, 3, '.') ?? '') + ' đ/giờ'}
+                    />
+                    <ImageTextDiChung
+                        text={'Phụ trội theo km: ' + ((parseInt(item.info.priceExtra.kmExtra)).format(0, 3, '.') ?? '') + ` đ/km (tối đa ${item.info.priceExtra.kmLimit} km)`}
+                    />
+                    <ImageTextDiChung
+                        text={'Phí giao xe 50,000 ₫ nếu dưới 5km, trên 5km tính phí 10,000 ₫/km'}
+                    />
+                </View> : null}
             </View>
         )
     }
@@ -487,6 +548,7 @@ class ConfirmInformation extends Component {
 
                         {this.renderDetailTrip()}
                         {this.renderDetailOrder()}
+                        {this.props.product_chunk_type === 'hourly_car_rental' && this.state.infoCarCX != null && this.renderCX(this.state.infoCarCX)}
                         {this.renderDetailCustomer()}
                         {this.renderDetailPeopleMove()}
                         {this.formComment()}
@@ -500,6 +562,7 @@ class ConfirmInformation extends Component {
                             text={navigation.getParam('Payment') == '0' ? 'Trả sau' : 'Trả trước'}
                         />
 
+                        {this.props.product_chunk_type === 'hourly_car_rental' && this.state.infoCarCX != null && this.renderDetailCX(this.state.infoCarCX)}
                         {this.renderTT()}
 
                         <Button
@@ -574,14 +637,27 @@ class ConfirmInformation extends Component {
         })
             .then(res => res.json())
             .then(resJson => {
-                console.log(JSON.stringify(resJson))
-                console.log('a' + resJson)
+                console.log('1111' + JSON.stringify(resJson))
+                if (resJson.data) {
+                    this.setState({
+                        callingApi: false,
+                        addingTicket: false,
+                        is_night_booking: resJson.is_night_booking,
+                        visibleSearchDriver: resJson.is_night_booking,
+                        id_booking: resJson.data._id,
+                    })
+                } else {
+                    this.setState({
+                        callingApi: false,
+                        addingTicket: false
+                    })
+                    SimpleToast.show(resJson.error.message, SimpleToast.SHORT);
+                }
+            })
+            .catch(error => {
                 this.setState({
                     callingApi: false,
                     addingTicket: false,
-                    is_night_booking: resJson.is_night_booking,
-                    visibleSearchDriver: resJson.is_night_booking,
-                    id_booking: resJson.data._id,
                 })
             })
     }
@@ -610,7 +686,7 @@ const styles = StyleSheet.create({
         marginTop: 8,
     },
     textBigLeft1: {
-        fontSize: 21,
+        fontSize: 16,
         marginTop: 8,
         fontWeight: 'bold',
     },
@@ -670,6 +746,8 @@ function mapStateToProps(state) {
         returnTime: state.info.returnTime,
         discount_price: state.info.discount_price,
         idCustomer: state.info.idCustomer,
+        bookDeliveryFrom: state.info.bookDeliveryFrom,
+        itemVehicle: state.info.itemVehicle,
     }
 }
 

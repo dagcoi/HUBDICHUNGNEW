@@ -209,8 +209,9 @@ class CustomerInfoTaxiNow extends Component {
     }
 
     createBooking() {
-        var date = new Date();
-
+        var date1 = new Date().getTime();
+        var date = new Date(date1 + 60000)
+        console.log('...' + date1 + '...' + date)
         // Toast.show('thông tin ok')
         // console.log(JSON.stringify(this.state.sendCaro))
         const sendCaro = this.props.sendCaro
@@ -238,7 +239,7 @@ class CustomerInfoTaxiNow extends Component {
             "return": ""
         }
 
-        // console.log('qqq' +JSON.stringify(sendCaro))
+        console.log('qqq' + JSON.stringify(sendCaro))
         const url = link.URL_API_PORTAL + `booking/v1/bookings`
         console.log(url)
         const jsonStr = JSON.stringify(sendCaro)
