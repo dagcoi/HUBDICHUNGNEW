@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, ScrollView, } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Linking } from 'react-native';
 import ImageTextDiChung from '../../component/ImageTextDiChung'
 import { StatusTicket } from '../../component/Ticket'
 import { SvgCalendar, SvgCar, SvgCheckNormal, SvgMail, SvgMoney, SvgNote, SvgPerson, SvgPhone, SvgPick } from '../../icons';
@@ -81,8 +81,7 @@ function renderDetailOrder(item) {
         <View>
             <ImageTextDiChung
                 children={<SvgCar />}
-                source={require(imageIconCar)}
-                text={'Loại dịch vụ: Thuê tài xế'}
+                text={item.label}
             />
         </View>
     )
@@ -124,19 +123,23 @@ function renderDetailPeopleMove(item) {
 
     return (
         <View>
-            <Text style={styles.textBigLeft1}>Chi tiết người đi</Text>
+            {item.beneficiary.phone != item.bookingUser.phone &&
+                <View>
+                    <Text style={styles.textBigLeft1}>Chi tiết người đi</Text>
 
-            <ImageTextDiChung
-                children={<SvgPerson />}
-                source={require(imagePerson)}
-                text={item.beneficiary.fullName}
-            />
+                    <ImageTextDiChung
+                        children={<SvgPerson />}
+                        source={require(imagePerson)}
+                        text={item.beneficiary.fullName}
+                    />
 
-            <ImageTextDiChung
-                children={<SvgPhone />}
-                source={require(imageIconPhone)}
-                text={item.beneficiary.phone}
-            />
+                    <ImageTextDiChung
+                        children={<SvgPhone />}
+                        source={require(imageIconPhone)}
+                        text={item.beneficiary.phone}
+                    />
+                </View>
+            }
         </View>
     )
 

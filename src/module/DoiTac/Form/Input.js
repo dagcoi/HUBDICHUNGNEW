@@ -24,7 +24,7 @@ function Input({
                     style={{ flex: 1, fontSize: 14, height: 40, color: "#333333" }}
                     value={value}
                     placeholder={placeholder}
-                    // placeholderTextColor={'#333'}
+                    placeholderTextColor={'#999999'}
                     onChangeText={onChangeText}
                     maxLength={maxLength}
                     keyboardType={keyboardType}

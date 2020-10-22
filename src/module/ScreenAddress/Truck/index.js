@@ -247,7 +247,7 @@ class MapTruck extends Component {
                             pointerEvents="none"
                             value={this.props.pick_add}
                             placeholder='Điểm nhận hàng'
-                            placeholderTextColor={'#333333'}
+                            placeholderTextColor={'#e8e8e8'}
                             selection={{ start: 0, end: 0 }}
                         />
                     </TouchableOpacity>

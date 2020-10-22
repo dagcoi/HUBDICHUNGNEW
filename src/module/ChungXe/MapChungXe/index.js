@@ -218,7 +218,7 @@ class MapChungXe extends Component {
                     editable={false}
                     value={this.state.date ? this.state.time_pick : ""}
                     placeholder='Chọn giờ lấy xe'
-                    // placeholderTextColor={'#333333'}
+                    placeholderTextColor={'#999999'}
                     onTouchStart={() => { this.setState({ dialogCalendarVisible: true }) }}
                     pointerEvents='none'
                     style={{ fontSize: 14, color: "#00363d", flex: 1, marginLeft: 8 }}

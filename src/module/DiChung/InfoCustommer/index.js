@@ -14,6 +14,7 @@ import PopUp from '../../../component/PopUp'
 import RadioGroup from 'react-native-custom-radio-group';
 import { HeaderText } from '../../../component/Header'
 import { RadioButtonCustom, RadioButtonNormal } from '../../../component/RadioButton'
+import Toast from 'react-native-simple-toast'
 
 var radio_props = [
     { label: 'Nội địa', value: 1 },
@@ -55,6 +56,8 @@ class InfoCustommer extends Component {
             payment_method_ID: '3',
             email: '',
             email1: '',
+            checkEmail: false,
+            checkEmail1: false,
             mobile_validate: false,
             mobile_validate1: false,
             plane_number: '',
@@ -107,7 +110,8 @@ class InfoCustommer extends Component {
                 this.props.addIdCustomer(json._id)
                 this._validateEmail(json.email ?? '')
                 this.mobileValidate(json.phone ?? '')
-                this.state.is_checked == true && this.mobileValidate1(this.props.use_phone1)
+                this.mobileValidate1(this.props.use_phone1)
+                this._validateEmail1(this.props.email1)
             }
         } catch (error) {
             console.log(error)
@@ -215,12 +219,8 @@ class InfoCustommer extends Component {
                         style={styles.textInput}
                         placeholder='Email'
                         value={this.state.email1}
-                        onChangeText={(text) => this.setState({
-                            email1: text,
-                        })}
-                        onPress={() => this.setState({
-                            email1: ''
-                        })}
+                        onChangeText={(text) => this._validateEmail1(text)}
+                        onPress={() => this._validateEmail1('')}
                     />
                 </View>
             )
@@ -238,6 +238,20 @@ class InfoCustommer extends Component {
             return false;
         } else {
             this.setState({ email: text, checkEmail: true })
+            console.log("Email is Correct");
+            return true;
+        }
+    }
+
+    _validateEmail1(test) {
+        var text = test.trim();
+        const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (regex.test(String(text).toLowerCase()) === false) {
+            console.log("Email is Not Correct ");
+            this.setState({ email1: text, checkEmail1: false })
+            return false;
+        } else {
+            this.setState({ email1: text, checkEmail1: true })
             console.log("Email is Correct");
             return true;
         }
@@ -360,62 +374,96 @@ class InfoCustommer extends Component {
         )
     }
 
-    renderAlert() {
-        return (
-            <Dialog
-                visible={this.state.alertName || this.state.alertPhone || this.state.alertEmail || this.state.alertName2 || this.state.alertPhone2 || this.state.alertCompany || this.state.alertAirport}
-                width={0.8}
-                dialogTitle={<DialogTitle title='Thông tin chưa đủ' />}
-            >
-                <View>
-                    <View style={{ padding: 8, flexDirection: 'column' }}>
-                        {this.state.alertName ? <Text>Vui lòng nhập tên</Text> : null}
-                        {this.state.alertPhone ? <Text>Vui lòng nhập số điện thoại</Text> : null}
-                        {this.state.alertEmail ? <Text>Vui lòng nhập Email</Text> : null}
-                        {this.state.alertName2 ? <Text>{this.props.product_chunk_type === 'express' ? 'Vui lòng nhập tên người nhận' : 'Vui lòng nhập tên người đi'}</Text> : null}
-                        {this.state.alertPhone2 ? <Text>{this.props.product_chunk_type === 'express' ? 'Vui lòng nhập số điện thoại người nhận' : 'Vui lòng nhập số điện thoại người đi'}</Text> : null}
-                        {this.state.alertCompany ? <Text>Vui lòng nhập đầy đủ thông tin nhận hóa đơn</Text> : null}
-                        {this.state.alertAirport ? <Text>Vui lòng nhập đủ thông tin chuyến bay</Text> : null}
-                        <ButtonDialog
-                            text="Đồng ý"
-                            onPress={() => {
-                                this.setState({
-                                    alertName: false,
-                                    alertPhone: false,
-                                    alertEmail: false,
-                                    alertName2: false,
-                                    alertPhone2: false,
-                                    alertCompany: false,
-                                    alertAirport: false,
-                                })
-                            }}
-                        />
-                    </View>
-                </View>
-            </Dialog>
-        )
+    toastName() {
+        Toast.show('Vui lòng nhập tên', Toast.SHORT)
     }
+    toastPhone() {
+        Toast.show('Vui lòng nhập số điện thoại', Toast.SHORT)
+    }
+    toastEmail() {
+        Toast.show('Vui lòng nhập Email', Toast.SHORT)
+    }
+    toastName1() {
+        Toast.show(this.props.product_chunk_type === 'express' ? 'Vui lòng nhập tên người nhận' : 'Vui lòng nhập tên người đi', Toast.SHORT)
+    }
+    toastPhone1() {
+        Toast.show(this.props.product_chunk_type === 'express' ? 'Vui lòng nhập số điện thoại người nhận' : 'Vui lòng nhập số điện thoại người đi', Toast.SHORT)
+    }
+    toastEmail1() {
+        Toast.show(this.props.product_chunk_type === 'express' ? 'Vui lòng nhập email người nhận' : 'Vui lòng nhập email người đi', Toast.SHORT)
+    }
+    toastCompany() {
+        Toast.show('Vui lòng nhập đầy đủ thông tin nhận hóa đơn', Toast.SHORT)
+    }
+    toastAirport() {
+        Toast.show('Vui lòng nhập đủ thông tin chuyến bay', Toast.SHORT)
+    }
+
+
+    // renderAlert() {
+    //     return (
+    //         <Dialog
+    //             visible={this.state.alertName || this.state.alertPhone || this.state.alertEmail || this.state.alertName2 || this.state.alertPhone2 || this.state.alertCompany || this.state.alertAirport}
+    //             width={0.8}
+    //             dialogTitle={<DialogTitle title='Thông tin chưa đủ' />}
+    //         >
+    //             <View>
+    //                 <View style={{ padding: 8, flexDirection: 'column' }}>
+    //                     {this.state.alertName ? <Text>Vui lòng nhập tên</Text> : null}
+    //                     {this.state.alertPhone ? <Text>Vui lòng nhập số điện thoại</Text> : null}
+    //                     {this.state.alertEmail ? <Text>Vui lòng nhập Email</Text> : null}
+    //                     {this.state.alertName2 ? <Text>{this.props.product_chunk_type === 'express' ? 'Vui lòng nhập tên người nhận' : 'Vui lòng nhập tên người đi'}</Text> : null}
+    //                     {this.state.alertPhone2 ? <Text>{this.props.product_chunk_type === 'express' ? 'Vui lòng nhập số điện thoại người nhận' : 'Vui lòng nhập số điện thoại người đi'}</Text> : null}
+    //                     {this.state.alertCompany ? <Text>Vui lòng nhập đầy đủ thông tin nhận hóa đơn</Text> : null}
+    //                     {this.state.alertAirport ? <Text>Vui lòng nhập đủ thông tin chuyến bay</Text> : null}
+    //                     <ButtonDialog
+    //                         text="Đồng ý"
+    //                         onPress={() => {
+    //                             this.setState({
+    //                                 alertName: false,
+    //                                 alertPhone: false,
+    //                                 alertEmail: false,
+    //                                 alertName2: false,
+    //                                 alertPhone2: false,
+    //                                 alertCompany: false,
+    //                                 alertAirport: false,
+    //                             })
+    //                         }}
+    //                     />
+    //                 </View>
+    //             </View>
+    //         </Dialog>
+    //     )
+    // }
 
     checkInfoCustomer() {
         if (this.state.full_name.trim().length < 2) {
-            this.setState({ alertName: true })
+            // this.setState({ alertName: true })
+            this.toastName()
             return;
         }
         else if (!this.state.mobile_validate) {
-            this.setState({ alertPhone: true })
+            // this.setState({ alertPhone: true })
+            this.toastPhone()
             return;
         }
         else if (!this.state.checkEmail) {
-            this.setState({ alertEmail: true })
+            // this.setState({ alertEmail: true })
+            this.toastEmail()
+            return;
         }
         else {
             if (this.state.is_checked) {
                 if (this.state.full_name1.trim().length < 2) {
-                    this.setState({ alertName2: true })
+                    // this.setState({ alertName2: true })
+                    this.toastName1()
                     return;
                 }
                 else if (!this.state.mobile_validate1) {
-                    this.setState({ alertPhone2: true })
+                    this.toastPhone1()
+                    return;
+                } else if (!this.state.checkEmail1) {
+                    this.toastEmail1()
                     return;
                 }
             } else {
@@ -428,7 +476,8 @@ class InfoCustommer extends Component {
     checkAirport() {
         if (this.props.typesPick.includes("airport") && this.props.product_chunk_type === 'transfer_service' && (this.state.plane_number.trim().length < 3 || this.state.plane_type < 0)) {
             // Alert.alert(`Vui lòng nhập mã chuyến bay`)
-            this.setState({ alertAirport: true })
+            // this.setState({ alertAirport: true })
+            this.toastAirport()
             return;
         } else {
             this.checkVat();
@@ -438,16 +487,20 @@ class InfoCustommer extends Component {
     checkVat() {
         if (this.state.vat) {
             if (this.state.company_name.trim() == '') {
-                this.setState({ alertCompany: true })
+                // this.setState({ alertCompany: true })
+                this.toastCompany()
                 return;
             } else if (this.state.company_address.trim() == '') {
-                this.setState({ alertCompany: true })
+                // this.setState({ alertCompany: true })
+                this.toastCompany()
                 return;
             } else if (this.state.company_mst.trim() == '') {
-                this.setState({ alertCompany: true })
+                // this.setState({ alertCompany: true })
+                this.toastCompany()
                 return;
             } else if (this.state.company_address_receive.trim() == '') {
-                this.setState({ alertCompany: true })
+                // this.setState({ alertCompany: true })
+                this.toastCompany()
                 return;
             } else {
                 this.props.navigation.navigate('ConfirmInformation', {
@@ -638,9 +691,7 @@ class InfoCustommer extends Component {
                             placeholder='Nhập Email'
                             value={this.state.email}
                             onChangeText={(text) => this._validateEmail(text)}
-                            onPress={() => this.setState({
-                                email: ''
-                            })}
+                            onPress={() => this._validateEmail('')}
                         />
                         {this.props.product_chunk_type == 'express' ?
                             <Text style={styles.textTitle}>THÔNG TIN NGƯỜI NHẬN</Text>
@@ -736,7 +787,7 @@ class InfoCustommer extends Component {
                             }}
                             value={'TIẾP TỤC'}
                         />
-                        {this.renderAlert()}
+                        {/* {this.renderAlert()} */}
                     </KeyboardAwareScrollView>
                 </ScrollView>
             </SafeAreaView>

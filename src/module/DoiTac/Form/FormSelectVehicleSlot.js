@@ -30,7 +30,7 @@ function FormSelectVehicleSlot({
                     value={value}
                     placeholder={placeholder}
                     selection={{ start: 0, end: 0 }}
-                // placeholderTextColor={'#333333'}
+                    placeholderTextColor={'#999999'}
                 />
             </TouchableOpacity>
             <View style={{ borderColor: '#e8e8e8', borderWidth: 0.5, width: 0, height: 40 }} />
@@ -49,7 +49,7 @@ function FormSelectVehicleSlot({
                     value={value2}
                     placeholder={placeholder2}
                     selection={{ start: 0, end: 0 }}
-                // placeholderTextColor={'#333333'}
+                    placeholderTextColor={'#999999'}
                 />
             </TouchableOpacity>
         </View>

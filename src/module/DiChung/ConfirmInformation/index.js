@@ -7,7 +7,7 @@ import ImageTextDiChung from '../../../component/ImageTextDiChung'
 import { Button, ButtonDialog } from '../../../component/Button'
 import Dialog, { DialogTitle } from 'react-native-popup-dialog';
 import { HeaderText } from '../../../component/Header'
-import { SvgCalendar, SvgCar, SvgDuration, SvgMail, SvgPerson, SvgPhone, SvgPick, SvgTicket, SvgNote, SvgMoney, SvgNote2, SvgCheckCircleBorder, SvgDeliveryFrom, SvgNote3 } from '../../../icons';
+import { SvgCalendar, SvgCar, SvgDuration, SvgMail, SvgPerson, SvgPhone, SvgPick, SvgTicket, SvgNote, SvgMoney, SvgNote2, SvgCheckCircleBorder, SvgDeliveryFrom, SvgNote3, SvgCalenderSelect1, SvgCheckSuccess, SvgDurationOver, SvgInfo } from '../../../icons';
 import SimpleToast from 'react-native-simple-toast';
 import HTML from 'react-native-render-html';
 
@@ -173,7 +173,7 @@ class ConfirmInformation extends Component {
         dataSend.bookingTime = time
         dataSend.note = this.props.comment
         dataSend.beneficiary = {
-            "email": navigation.getParam('not_use') ? '' : this.props.email,
+            "email": navigation.getParam('not_use') ? this.props.email2 : this.props.email,
             "phone": navigation.getParam('not_use') ? this.props.use_phone2 : this.props.use_phone,
             "fullName": navigation.getParam('not_use') ? this.props.full_name2 : this.props.full_name,
             "gender": ""
@@ -321,26 +321,32 @@ class ConfirmInformation extends Component {
     renderDetailCX(item) {
         return (
             <View>
-                {item.info.priceExtra ? <View>
-                    <ImageTextDiChung
-                        text={`Phụ trội thuê xe cuối tuần: `}
-                    />
-                    {item.info.priceExtra?.weekendExtra &&
+                {item.info.priceExtra && <View>
+                    {item.info.priceExtra?.weekendExtra && this.state.detailPrice?.saturdayPrice &&
                         <View>
-                            {item.info.priceExtra.weekendExtra.saturday && <ImageTextDiChung text={`Thứ 7: ${parseInt(item.info.priceExtra.weekendExtra.saturday).format(0, 3, '.')}`} />}
-                            {item.info.priceExtra.weekendExtra.sunday && < ImageTextDiChung text={`Chủ nhật: ${parseInt(item.info.priceExtra.weekendExtra.sunday).format(0, 3, '.')}`} />}
+                            <ImageTextDiChung
+                                children={<SvgCalenderSelect1 />}
+                                text={`Phụ phí thuê xe cuối tuần: `}
+                            />
+                            <View style={{ paddingLeft: 20 }}>
+                                {item.info.priceExtra.weekendExtra.saturday && <ImageTextDiChung text={`- Thứ 7: ${parseInt(item.info.priceExtra.weekendExtra.saturday).format(0, 3, '.')}`} />}
+                                {item.info.priceExtra.weekendExtra.sunday && < ImageTextDiChung text={`- Chủ nhật: ${parseInt(item.info.priceExtra.weekendExtra.sunday).format(0, 3, '.')}`} />}
+                            </View>
                         </View>
                     }
                     <ImageTextDiChung
+                        children={<SvgDurationOver />}
                         text={'Phụ trội theo giờ: ' + ((parseInt(item.info.priceExtra.hourExtra)).format(0, 3, '.') ?? '') + ' đ/giờ'}
                     />
                     <ImageTextDiChung
+                        children={<SvgCheckSuccess />}
                         text={'Phụ trội theo km: ' + ((parseInt(item.info.priceExtra.kmExtra)).format(0, 3, '.') ?? '') + ` đ/km (tối đa ${item.info.priceExtra.kmLimit} km)`}
                     />
                     <ImageTextDiChung
+                        children={<SvgInfo />}
                         text={'Phí giao xe 50,000 ₫ nếu dưới 5km, trên 5km tính phí 10,000 ₫/km'}
                     />
-                </View> : null}
+                </View>}
             </View>
         )
     }
@@ -404,6 +410,12 @@ class ConfirmInformation extends Component {
                         text={this.props.use_phone2}
                     />
 
+                    <ImageTextDiChung
+                        children={<SvgMail />}
+                        source={require(imageIconPhone)}
+                        text={this.props.email2}
+                    />
+
                 </View>
             )
         } else {
@@ -435,17 +447,17 @@ class ConfirmInformation extends Component {
         }
         return (
             <View>
-                {this.props.product_chunk_type === 'hourly_car_rental' ?
+                {this.props.product_chunk_type === 'hourly_car_rental' &&
                     <View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
+                        {this.state.detailPrice?.saturdayPrice && <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                             <Text style={styles.textBigLeft}>Cuối tuần: </Text>
                             <Text style={styles.textBigRight}>{((this.state.detailPrice?.saturdayPrice ?? 0) + (this.state.detailPrice?.sundayPrice ?? 0)).format(0, 3, '.')} đ</Text>
-                        </View>
+                        </View>}
                         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                             <Text style={styles.textBigLeft}>Thời gian thuê: </Text>
                             <Text style={styles.textBigRight}>{this.state.detailPrice?.rentDayNumber ?? 0} ngày</Text>
                         </View>
-                    </View> : null
+                    </View>
                 }
 
                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
@@ -717,6 +729,7 @@ function mapStateToProps(state) {
         chair: state.info.chair,
         full_name2: state.info.full_name2,
         use_phone2: state.info.use_phone2,
+        email2: state.info.email2,
         email: state.info.email,
         plane_number: state.info.plane_number,
         company_name: state.info.company_name,

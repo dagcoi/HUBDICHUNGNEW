@@ -92,17 +92,21 @@ function renderDetailCustommer(item) {
 function renderDetailPeopleMove(item) {
     return (
         <View>
-            <Text style={styles.textBigLeft1}>Chi tiết người đi</Text>
-            <ImageTextDiChung
-                children={<SvgPerson />}
-                source={require(imagePerson)}
-                text={item.beneficiary.fullName}
-            />
-            <ImageTextDiChung
-                children={<SvgPhone />}
-                source={require(imageIconPhone)}
-                text={item.beneficiary.phone}
-            />
+            {item.beneficiary.phone != item.bookingUser.phone &&
+                <View>
+                    <Text style={styles.textBigLeft1}>Chi tiết người đi</Text>
+                    <ImageTextDiChung
+                        children={<SvgPerson />}
+                        source={require(imagePerson)}
+                        text={item.beneficiary.fullName}
+                    />
+                    <ImageTextDiChung
+                        children={<SvgPhone />}
+                        source={require(imageIconPhone)}
+                        text={item.beneficiary.phone}
+                    />
+                </View>
+            }
         </View>
     )
 }

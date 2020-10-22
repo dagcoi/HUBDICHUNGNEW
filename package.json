@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "apk": "cd android && ./gradlew assembleRelease && cd ..",
     "pod": "cd ios && pod install && cd ..",
-    "npm install": "npm install"
+    "npm install": "npm install",
+    "jetify":"npx jetify"
   },
   "dependencies": {
     "@react-native-community/datetimepicker": "^3.0.1",

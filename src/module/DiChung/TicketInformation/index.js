@@ -307,6 +307,10 @@ class TicketInformation extends Component {
                 return (
                     <DetailTaxi item={bookingDetail} />
                 )
+            case 'ride_share':
+                return (
+                    <DetailTaxi item={bookingDetail} />
+                )
             default:
                 return (
                     <DetailHourlyTaxi item={bookingDetail} />

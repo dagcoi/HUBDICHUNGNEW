@@ -175,6 +175,11 @@ class ListBooking extends Component {
                     </View>
 
                     <View style={styles.contentTicket}>
+                        <View style={{ flexDirection: 'row', }}>
+                            <View style={{ backgroundColor: getTextColor(item.label), padding: 2, borderRadius: 4 }}>
+                                <Text style={{ color: '#ffffff', fontWeight: 'bold', }}>{item.label}</Text>
+                            </View>
+                        </View>
                         <ImageTextDiChung
                             children={<SvgPick />}
                             source={require(imagePick)}
@@ -223,6 +228,11 @@ class ListBooking extends Component {
                     </View>
 
                     <View style={styles.contentTicket}>
+                        <View style={{ flexDirection: 'row', }}>
+                            <View style={{ backgroundColor: getTextColor(item.label), padding: 2, borderRadius: 4 }}>
+                                <Text style={{ color: '#ffffff', fontWeight: 'bold', }}>{item.label}</Text>
+                            </View>
+                        </View>
                         <ImageTextDiChung
                             children={<SvgPick />}
                             source={require(imagePick)}
@@ -272,6 +282,11 @@ class ListBooking extends Component {
                     </View>
 
                     <View style={styles.contentTicket}>
+                        <View style={{ flexDirection: 'row', }}>
+                            <View style={{ backgroundColor: getTextColor(item.label), padding: 2, borderRadius: 4 }}>
+                                <Text style={{ color: '#ffffff', fontWeight: 'bold', }}>{item.label}</Text>
+                            </View>
+                        </View>
                         <ImageTextDiChung
                             children={<SvgPick />}
                             source={require(imagePick)}
@@ -357,6 +372,25 @@ class ListBooking extends Component {
     }
 
 }
+
+const getTextColor = (p) => {
+    switch (p) {
+        case 'ĐI RIÊNG':
+        case 'THUÊ XE CHUYÊN NGHIỆP':
+        case 'BAO XE':
+        case 'CHUYỂN PHÁT CHUYÊN NGHIỆP':
+            return '#eb6752'
+        case 'ĐI CHUNG':
+        case 'ĐI GHÉP':
+            return '#77a300'
+        case 'XE KHÁCH':
+        case 'TIỆN CHUYẾN':
+        case 'CHIA SẺ XE':
+        case 'CHUYỂN PHÁT HỘ':
+            return '#21abbb'
+    }
+}
+
 
 const styles = StyleSheet.create({
     card: {

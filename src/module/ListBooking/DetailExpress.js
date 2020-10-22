@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, ScrollView, } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Linking } from 'react-native';
 import ImageTextDiChung from '../../component/ImageTextDiChung'
 import { StatusTicket } from '../../component/Ticket'
-import { SvgMail, SvgNote, SvgPerson, SvgPhone, SvgPick } from '../../icons';
+import { SvgMail, SvgNote, SvgPerson, SvgPhone, SvgPick, SvgCar } from '../../icons';
 import { formatDate } from '../../until'
 
 const imageLocation = '../../image/location2.png'
@@ -52,21 +52,22 @@ function renderDetailTrip(item) {
     const strtime = formatDate(item.bookingTime)
     return (
         <View>
-            <Text style={styles.textBigLeft1}>Chi tiết dịch vụ vận chuyển</Text>
+            <Text style={styles.textBigLeft1}>Chi tiết chuyến đi</Text>
 
             <ImageTextDiChung
-                source={require(imageCalendar)}
-                text={strtime}
+                source={require(imageLocation)}
+                text={item.endPoint.address}
             />
 
             <ImageTextDiChung
-                source={require(imageParcel)}
-                text={item.slot + ' Bưu kiện'}
+                children={<SvgPick />}
+                source={require(imageLocation)}
+                text={item.startPoint.address}
             />
-
+            <Text style={styles.textBigLeft1}>Chi tiết đơn hàng</Text>
             <ImageTextDiChung
-                source={require(imageIconCar)}
-                text={'Loại dịch vụ: Vận chuyển hàng'}
+                children={<SvgCar />}
+                text={item.label}
             />
         </View>
     )
@@ -96,12 +97,6 @@ function renderDetailCustommer(item) {
             />
 
             <ImageTextDiChung
-                children={<SvgPick />}
-                source={require(imageLocation)}
-                text={item.startPoint.address}
-            />
-
-            <ImageTextDiChung
                 children={<SvgNote />}
                 source={require(imageComment)}
                 text={item.note}
@@ -126,10 +121,7 @@ function renderDetailPeopleMove(item) {
                 text={item.beneficiary.phone}
             />
 
-            <ImageTextDiChung
-                source={require(imageLocation)}
-                text={item.endPoint.address}
-            />
+
         </View>
     )
 }

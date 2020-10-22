@@ -32,7 +32,7 @@ function ImageInputTextDiChung({
                         value={value}
                         placeholder={placeholder}
                         selection={{ start: 0, end: 0 }}
-                    // placeholderTextColor={'#e8e8e8'}
+                        placeholderTextColor={'#999999'}
                     />
                 </TouchableOpacity>
                 {imageRight && <SvgArrowDown />}

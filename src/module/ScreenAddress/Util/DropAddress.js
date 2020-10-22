@@ -30,7 +30,7 @@ function DropAddress({
                         value={value}
                         placeholder={placeholder}
                         selection={{ start: 0, end: 0 }}
-                    // placeholderTextColor={'#333333'}
+                        placeholderTextColor={'#999999'}
                     />
                 </TouchableOpacity>
             </View>

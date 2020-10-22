@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import ImageTextDiChung from '../ImageTextDiChung'
-import { View, Text } from 'react-native'
+import { View, Text, Image } from 'react-native'
 
 const imageLocation = '../../image/location.png'
 const imageCalendar = '../../image/calendar.png'
@@ -120,7 +120,16 @@ export function StatusTicket({ item }) {
               'Khác'
 
         }
-      </Text></Text>
+      </Text>
+      </Text>
+      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+        <Image
+          style={{ height: 90, width: 150 }}
+          source={{ uri: item.vehicle.image }}
+          resizeMode="contain"
+        />
+        <Text>{item.vehicle.name}</Text>
+      </View>
     </View>
   )
 }
