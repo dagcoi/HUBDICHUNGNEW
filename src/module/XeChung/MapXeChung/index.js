@@ -346,8 +346,8 @@ class MapXeChung extends Component {
                 <HeaderText textCenter={'Thuê tài xế'} onPressLeft={this.goBack} />
                 <ImageBackground style={{ flex: 1, resizeMode: "cover", }} source={imageBackground} >
                     <View>
-                        <Text style={{ fontSize: 21, color: '#ffffff', marginHorizontal: 16, marginTop: 8, fontWeight: 'bold' }}>An toàn, siêu tiện lợi</Text>
-                        <Text style={{ fontSize: 21, color: '#ffffff', marginHorizontal: 16, marginTop: 8, fontWeight: 'bold' }}>Việc mất thời gian để chúng tôi lo</Text>
+                        <Text style={{ fontSize: 21, color: '#ffffff', marginHorizontal: 16, marginVertical: 8, fontWeight: 'bold' }}>An toàn, siêu tiện lợi</Text>
+                        <Text style={{ fontSize: 21, color: '#ffffff', marginHorizontal: 16, marginVertical: 8, fontWeight: 'bold' }}>Việc mất thời gian để chúng tôi lo</Text>
                     </View>
 
                     <View style={[{ flexDirection: 'row', backgroundColor: '#fff', marginLeft: 8, marginRight: 8, marginTop: 8 }, styles.borderTop]}>

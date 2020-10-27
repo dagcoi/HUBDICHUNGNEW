@@ -157,6 +157,21 @@ class ListBooking extends Component {
         return strDate;
     }
 
+    serviceName(type) {
+        switch (type) {
+            case 'TRANSFER_SERVICE': return 'Đặt xe có lái';
+            case 'transfer_service': return 'Đặt taxi';
+            case 'TOURIST_CAR': return 'Thuê xe du lịch'
+            case 'EXPRESS': return 'Vận chuyển hàng hóa'
+            case 'express': return 'Vận chuyển hàng hóa'
+            case 'TRUCK': return 'Thuê xe tải'
+            case 'DRIVER_RENTAL': return 'Thuê tài xế'
+            case 'CAR_RENTAL': return 'Thuê tự lái'
+            case 'ride_share': return 'Đi chung xe'
+            default: return 'Thuê xe taxi'
+        }
+    }
+
     renderItemDoor(item) {
         let starVote = 0;
         return (
@@ -170,7 +185,9 @@ class ListBooking extends Component {
                     <View style={styles.titleTicket}>
                         <Text style={{ flex: 1, textAlign: 'left', fontSize: 16, fontWeight: 'bold' }}>{item.code}</Text>
                         <View style={{ height: 32, borderRadius: 16, backgroundColor: item.rideMethod === 'private' ? '#ef465f' : '#77a300', paddingLeft: 10, paddingRight: 10, justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={{ color: '#fff' }}>{item.productType == 'TRANSFER_SERVICE' ? 'Thuê taxi' : item.productType == 'transfer_service' ? 'Thuê taxi' : item.productType == 'TOURIST_CAR' ? 'thuê xe du lịch' : item.productType == 'EXPRESS' ? 'Thuê vận chuyển' : item.productType == 'express' ? 'Thuê vận chuyển' : item.productType == 'TRUCK' ? 'Thuê xe tải' : item.productType == 'DRIVER_RENTAL' ? 'Thuê tài xế' : item.productType == 'CAR_RENTAL' ? 'Thuê tự lái' : item.productType == 'ride_share' ? 'Đi chung xe' : 'Thuê xe taxi(đi ngay)'}</Text>
+                            <Text style={{ color: '#fff' }}>
+                                {this.serviceName(item.productType)}
+                            </Text>
                         </View>
                     </View>
 
@@ -204,6 +221,17 @@ class ListBooking extends Component {
         )
     }
 
+    serviceNameHourly(productType) {
+        switch (productType) {
+            case 'HOURLY_RENT_TAXI': return 'Thuê taxi theo giờ';
+            case 'HOURLY_FREIGHT_TRUCK': return 'Thuê vận chuyển theo giờ';
+            case 'HOURLY_TOURIST_CAR': return 'Thuê xe du lịch';
+            case 'HOURLY_RENT_DRIVER': return 'Thuê tài xế theo giờ';
+            case 'hourly_car_rental': return 'Thuê xe tự lái';
+            default: return 'Khác'
+        }
+    }
+
     renderItemHourly(item) {
         let starVote = 0;
         return (
@@ -223,7 +251,9 @@ class ListBooking extends Component {
                             {item.code}
                         </Text>
                         <View style={{ height: 32, borderRadius: 16, backgroundColor: '#77a300', paddingLeft: 10, paddingRight: 10, justifyContent: 'center', alignItems: 'flex-end' }}>
-                            <Text style={{ color: '#fff' }}>{item.productType == 'HOURLY_RENT_TAXI' ? 'Thuê taxi theo giờ' : item.productType == 'HOURLY_FREIGHT_TRUCK' ? 'Thuê vận chuyển theo giờ' : item.productType == 'HOURLY_TOURIST_CAR' ? 'Thuê xe du lịch' : item.productType == 'HOURLY_RENT_DRIVER' ? 'Thuê tài xế theo giờ' : item.productType === 'hourly_car_rental' ? 'Thuê xe tự lái1' : 'Khác'}</Text>
+                            <Text style={{ color: '#fff' }}>
+                                {this.serviceNameHourly(item.productType)}
+                            </Text>
                         </View>
                     </View>
 

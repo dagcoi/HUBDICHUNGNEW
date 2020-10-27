@@ -306,8 +306,8 @@ class MapRideShare extends Component {
                 <HeaderText textCenter={'Đi chung xe'} onPressLeft={this.goBack} />
                 <ImageBackground style={{ flex: 1, resizeMode: "cover", justifyContent: "center" }} source={imageBackground} >
                     <View style={{ justifyContent: 'center', paddingHorizontal: 16 }}>
-                        <Text style={{ fontWeight: 'bold', fontSize: 21, marginTop: 8, color: '#efefef' }}>Thoải mái như xe nhà</Text>
-                        <Text style={{ fontWeight: 'bold', fontSize: 21, marginTop: 8, color: '#efefef' }}>Giá rẻ như xe khách</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 21, marginVertical: 8, color: '#efefef' }}>Thoải mái như xe nhà</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 21, marginVertical: 8, color: '#efefef' }}>Giá rẻ như xe khách</Text>
                     </View>
                     <View style={[{ flex: 1, marginTop: 8 }]} >
                         {this.renderRideShare()}

@@ -117,7 +117,8 @@ export function StatusTicket({ item }) {
                                     item.provider.status == 'cancelled' ? 'Đã hủy vé' :
                                       'Đặt xe thành công') :
                             item.payment.status === 'completed' ? 'Đã hoàn thành' : 'Khác') :
-              'Khác'
+              item.forward.status == 'pending' ? 'Chờ xác nhận' :
+                'Khác'
 
         }
       </Text>

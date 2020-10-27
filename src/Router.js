@@ -352,7 +352,7 @@ const DrawerNavi = createDrawerNavigator({
         screen: ListBookingDetail,
         navigationOptions: () => {
             return {
-                drawerLabel: () => 'Danh sách vé',
+                drawerLabel: () => 'Danh sách chuyến đi',
             }
         }
     },

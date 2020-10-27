@@ -341,7 +341,7 @@ class TicketInformation extends Component {
                             bounces={false}
                         >
 
-                            {item.forward.status == 'forwarded' ?
+                            {item.forward?.status == 'forwarded' ?
                                 <Text style={styles.textBigRight}>Mã thuê xe của bạn: <Text style={{ fontWeight: 'bold', backgroundColor: '#77a300', color: '#fff', padding: 4 }}>{item.code}</Text></Text>
                                 : <Text style={styles.textBigRight}>Yêu cầu đặt xe của bạn đã được hệ thồng ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>
                             }
@@ -447,6 +447,7 @@ class TicketInformation extends Component {
 
                             <Modal
                                 visible={this.state.modalTell}
+                                animationType="slide"
                                 transparent={true}
                             >
                                 <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000000AA' }}>
@@ -465,7 +466,7 @@ class TicketInformation extends Component {
 
                                         </View>
 
-                                        <View style={{ flexDirection: 'row', height: 48, alignItems: 'center', justifyContent: 'center' }}>
+                                        {/* <View style={{ flexDirection: 'row', height: 48, alignItems: 'center', justifyContent: 'center' }}>
                                             <TouchableOpacity
                                                 onPress={() => {
                                                     this.setState({
@@ -475,7 +476,8 @@ class TicketInformation extends Component {
                                                 style={{ backgroundColor: '#77a300', margin: 4, flex: 1, alignItems: 'center', justifyContent: 'center', padding: 4 }}>
                                                 <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold', margin: 8 }}>Đóng</Text>
                                             </TouchableOpacity>
-                                        </View>
+                                        </View> */}
+                                        <Button onPress={() => { this.setState({ modalTell: false }) }} value={'Đóng'} />
                                     </View>
                                 </SafeAreaView>
                             </Modal>

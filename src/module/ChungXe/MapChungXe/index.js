@@ -450,8 +450,8 @@ class MapChungXe extends Component {
                 <HeaderText textCenter={'Thuê xe tự lái'} onPressLeft={this.goBack} />
                 <ImageBackground style={{ flex: 1, resizeMode: "cover", }} source={imageBackground} >
                     <View style={{ justifyContent: 'center', paddingHorizontal: 16 }}>
-                        <Text style={{ fontWeight: 'bold', fontSize: 21, marginTop: 8, color: '#efefef' }}>Thuê xe tự lái</Text>
-                        <Text style={{ fontWeight: 'bold', fontSize: 21, marginTop: 8, color: '#efefef' }}>Thoải mái hành trình</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 21, marginVertical: 8, color: '#efefef' }}>Thuê xe tự lái</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 21, marginVertical: 8, color: '#efefef' }}>Thoải mái hành trình</Text>
                     </View>
                     {this.formSwitch()}
                     {this.state.hourly ? this.formCarTour() : this.formBookingDoortoDoor()}

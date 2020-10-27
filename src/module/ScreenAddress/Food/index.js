@@ -387,7 +387,7 @@ class MapFood extends Component {
                 <HeaderText textCenter={'Đặt thực phẩm'} onPressLeft={this.goBack} />
                 <ImageBackground style={{ flex: 1, resizeMode: "cover", justifyContent: "center" }} source={imageBackground} >
                     <View style={{ justifyContent: 'center', paddingHorizontal: 16 }}>
-                        <Text style={{ fontWeight: 'bold', fontSize: 21, marginTop: 8, color: '#efefef' }}>Đặt trước thực phẩm cho cả tuần, tháng</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 21, marginVertical: 8, color: '#efefef' }}>Đặt trước thực phẩm cho cả tuần, tháng</Text>
                     </View>
                     <View style={[{ flex: 1, }]} >
                         {this.formSwitch()}

@@ -16,8 +16,9 @@ function ImageTextDiChung({
 
 const styles = StyleSheet.create({
     container: {
+        height: 30,
         flexDirection: 'row',
-        marginTop: 8,
+        marginTop: 5,
         alignItems: 'center'
     },
     leftIcon: {
@@ -26,9 +27,10 @@ const styles = StyleSheet.create({
         marginRight: 8,
     },
     textBigRightBold: {
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: 'bold',
-        color: '#fff'
+        color: '#fff',
+        marginLeft: 8,
     },
 })
 

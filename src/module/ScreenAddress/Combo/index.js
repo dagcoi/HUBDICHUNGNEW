@@ -390,7 +390,7 @@ class MapCombo extends Component {
                 <HeaderText textCenter={'Đặt xe du lịch'} onPressLeft={this.goBack} />
                 <ImageBackground style={{ flex: 1, resizeMode: "cover", justifyContent: "center" }} source={imageBackground} >
                     <View style={{ justifyContent: 'center', paddingHorizontal: 16 }}>
-                        <Text style={{ fontWeight: 'bold', fontSize: 21, marginTop: 8, color: '#efefef' }}>Thuê xe du lịch</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 21, marginVertical: 8, color: '#efefef' }}>Thuê xe du lịch</Text>
                     </View>
                     <View style={[{ flex: 1, }]} >
                         {this.formSwitch()}
