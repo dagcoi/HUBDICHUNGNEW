@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Image, TouchableOpacity, SafeAreaView, FlatList, Button, ToastAndroid, ScrollView } from 'react-native'
+import { View, Text, Image, TouchableOpacity, SafeAreaView, FlatList, Button, ToastAndroid, ScrollView, KeyboardAvoidingView, Platform } from 'react-native'
 import styles from '../../style'
 import ImageInputTextDiChung from '../../../../component/ImageInputTextDiChung'
 import { HeaderText } from '../../../../component/Header'
@@ -80,8 +80,21 @@ class OperatorTransferService extends Component {
         return array.filter(el => el !== element);
     }
 
-
     render() {
+        if (Platform.OS === 'ios') {
+            return (
+                <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+                    {this.render1()}
+                </KeyboardAvoidingView>
+            )
+        } else {
+            return (
+                this.render1()
+            )
+        }
+    }
+
+    render1() {
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <HeaderText textCenter={'Cho thuê xe tự lái'} onPressLeft={this.goBack} />

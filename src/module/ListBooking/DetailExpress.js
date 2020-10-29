@@ -112,15 +112,22 @@ function renderDetailPeopleMove(item) {
             <Text style={styles.textBigLeft1}>Chi tiết người nhận</Text>
 
             <ImageTextDiChung
+                children={<SvgPerson />}
                 source={require(imagePerson)}
                 text={item.beneficiary.fullName}
             />
 
             <ImageTextDiChung
+                children={<SvgPhone />}
                 source={require(imageIconPhone)}
                 text={item.beneficiary.phone}
             />
 
+            <ImageTextDiChung
+                children={<SvgMail />}
+                source={require(imageEmail)}
+                text={item.beneficiary.email}
+            />
 
         </View>
     )

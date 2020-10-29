@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Image, TouchableOpacity, SafeAreaView, FlatList, Button, ToastAndroid } from 'react-native'
+import { View, Text, Image, TouchableOpacity, SafeAreaView, FlatList, Button, ScrollView } from 'react-native'
 import styles from '../../style'
 import ImageInputTextDiChung from '../../../../component/ImageInputTextDiChung'
 import { HeaderText } from '../../../../component/Header'
@@ -81,7 +81,7 @@ class ExpressOperator extends Component {
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <HeaderText textCenter={'Vận chuyển hàng hóa'} onPressLeft={this.goBack} />
-                <View style={{ padding: 8 }}>
+                <ScrollView style={{ padding: 8 }}>
                     {!this.state.select ?
                         <View style={[styles.borderBottom, { borderTopLeftRadius: 8, borderTopRightRadius: 8, borderTopWidth: 0.5 }]}>
                             <ImageInputTextDiChung
@@ -165,7 +165,7 @@ class ExpressOperator extends Component {
                     <ModalListCar />
                     <ModalListTime />
                     <ModalConfirm />
-                </View>
+                </ScrollView>
             </SafeAreaView >
         )
     }

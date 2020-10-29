@@ -112,7 +112,8 @@ class SearchPlace extends Component {
                                 this.addlatlng(details.geometry.location.lat, details.geometry.location.lng);
                                 // this._validateAddress(data, data.description, data.types)
 
-                                Geocoder.from(details.geometry.location.lat, details.geometry.location.lng)
+                                // Geocoder.from(details.geometry.location.lat, details.geometry.location.lng)
+                                Geocoder.from(data.description)
                                     .then(json => {
                                         console.log('..........' + JSON.stringify(json))
                                         details = json.results[0];
@@ -151,10 +152,10 @@ class SearchPlace extends Component {
                             nearbyPlacesAPI='GooglePlacesSearch'
                             GoogleReverseGeocodingQuery={{
                             }}
-                            GooglePlacesSearchQuery={{
-                                rankby: 'distance',
-                                types: "food"
-                            }}
+                            // GooglePlacesSearchQuery={{
+                            //     rankby: 'distance',
+                            //     types: "address"
+                            // }}
 
                             filterReverseGeocodingByTypes={['locality', 'sublocality', 'postal_code', 'administrative_area_level_1', 'administrative_area_level_2']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
                             debounce={500}

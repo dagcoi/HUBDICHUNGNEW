@@ -99,6 +99,11 @@ function DetailHourlyTaxi({ item }) {
                         source={require(imageIconPhone)}
                         text={item.beneficiary.phone}
                     />
+                    <ImageTextDiChung
+                        children={<SvgMail />}
+                        source={require(imageEmail)}
+                        text={item.beneficiary.email}
+                    />
                 </View>
             }
             <ImageTextDiChung

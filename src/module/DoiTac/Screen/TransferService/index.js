@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, Image, TouchableOpacity, SafeAreaView, FlatList, Button, Modal } from 'react-native'
+import { View, Text, Image, TouchableOpacity, SafeAreaView, FlatList, Button, Modal, Keyboard, TouchableWithoutFeedback, ScrollView } from 'react-native'
 import styles from '../../style'
 import { listHour } from '../../../../component/TimeSelect/listTime'
 import CalendarPicker from 'react-native-calendar-picker'
@@ -118,36 +118,38 @@ class OperatorTransferService extends Component {
 
     render() {
         return (
-            <SafeAreaView style={{ flex: 1 }}>
-                <HeaderText textCenter={'Cho thuê dịch vụ'} onPressLeft={this.goBack} />
-                <View style={{ padding: 8 }}>
-                    <View style={[styles.borderTop, { height: 40, backgroundColor: '#77a300' }]}>
-                        <TouchableOpacity style={[this.state.select ? styles.normalSwitch : styles.selectSwitch, { borderTopLeftRadius: 8 }]}
-                            onPress={() => { this.setState({ select: true }) }}
-                        >
-                            <Text style={this.state.select ? styles.textSwitchSelect : styles.textSwitch}>Chia sẻ chỗ trống</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={[this.state.select ? styles.selectSwitch : styles.normalSwitch, { borderTopRightRadius: 8 }]}
-                            onPress={() => { this.setState({ select: false }) }}
-                        >
-                            <Text style={this.state.select ? styles.textSwitch : styles.textSwitchSelect}>Cho thuê xe có lái</Text>
-                        </TouchableOpacity>
+            <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+                <SafeAreaView style={{ flex: 1 }}>
+                    <HeaderText textCenter={'Cho thuê dịch vụ'} onPressLeft={this.goBack} />
+                    <ScrollView style={{ padding: 8 }}>
+                        <View style={[styles.borderTop, { height: 40, backgroundColor: '#77a300' }]}>
+                            <TouchableOpacity style={[this.state.select ? styles.normalSwitch : styles.selectSwitch, { borderTopLeftRadius: 8 }]}
+                                onPress={() => { this.setState({ select: true }) }}
+                            >
+                                <Text style={this.state.select ? styles.textSwitchSelect : styles.textSwitch}>Chia sẻ chỗ trống</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={[this.state.select ? styles.selectSwitch : styles.normalSwitch, { borderTopRightRadius: 8 }]}
+                                onPress={() => { this.setState({ select: false }) }}
+                            >
+                                <Text style={this.state.select ? styles.textSwitch : styles.textSwitchSelect}>Cho thuê xe có lái</Text>
+                            </TouchableOpacity>
 
-                    </View>
-                    {!this.state.select ? this.formTransfer() : this.formRideShare()}
-                    <View>
-                        {/* <SvgComponent />
+                        </View>
+                        {!this.state.select ? this.formTransfer() : this.formRideShare()}
+                        <View>
+                            {/* <SvgComponent />
                         <SvgBulletPoints  color={'#77a300'}/>
                         <SvgVehicle color={'#00363d'} /> */}
-                        {/* <Text>abc</Text> */}
-                    </View>
-                    <ModalListCarType />
-                    <ModalPriceType />
-                    {/* <ModalListCar /> */}
-                    <ModalListTime />
-                    <ModalConfirm />
-                </View>
-            </SafeAreaView >
+                            {/* <Text>abc</Text> */}
+                        </View>
+                        <ModalListCarType />
+                        <ModalPriceType />
+                        {/* <ModalListCar /> */}
+                        <ModalListTime />
+                        <ModalConfirm />
+                    </ScrollView>
+                </SafeAreaView >
+            </TouchableWithoutFeedback>
         )
     }
 
