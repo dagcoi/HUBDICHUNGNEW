@@ -105,7 +105,7 @@ class Home1 extends Component {
                     .setSubtitle(notification.subtitle)
                     .setBody(body)
                     .setData(data)
-                    .ios.setBadge(notification.ios.badge);
+                    .ios.setBadge(0);
                 console.log('đã vào đến Notification iOS')
 
                 firebase.notifications()

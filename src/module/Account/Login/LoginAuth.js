@@ -51,7 +51,8 @@ export default class PhoneAuthTest extends Component {
 
     }
 
-    startTimer = () => {
+    startTimer() {
+        console.log('auth')
         this.clockCall = setInterval(() => {
             this.decrementClock();
         }, 1000);
@@ -120,13 +121,17 @@ export default class PhoneAuthTest extends Component {
     signIn = () => {
         const { phoneNumber } = this.state;
         this.setState({ message: 'Sending code ...' });
+        console.log('Sign in')
 
         firebase.auth().signInWithPhoneNumber(phoneNumber)
             .then(confirmResult => {
                 this.setState({ confirmResult, message: 'Code has been sent!' })
                 console.log('6....confirmResult:   ' + confirmResult)
             })
-            .catch(error => this.setState({ message: `Sign In With Phone Number Error: ${error.message}` }));
+            .catch(error => {
+                this.setState({ message: `Sign In With Phone Number Error: ${error.message}` })
+                console.log('sai gì đó?' + error.message)
+            });
     };
 
     confirmCode = async () => {
@@ -159,7 +164,7 @@ export default class PhoneAuthTest extends Component {
                     />
                 </View>
                 {/* <Text>{this.state.message}</Text> */}
-                <ButtonFull value="Gửi" onPress={this.startTimer.bind(this)} />
+                <ButtonFull value="Gửi" onPress={() => this.startTimer()} />
 
                 {/* <TouchableOpacity
                     onPress={this.goBack}
