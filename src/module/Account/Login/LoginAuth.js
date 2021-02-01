@@ -6,6 +6,7 @@ import firebase from 'react-native-firebase';
 import CountDown from 'react-native-countdown-component';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Header from '../../../component/Header/HeaderImage'
+import AsyncStorage from '@react-native-community/async-storage'
 const successImageUri = 'https://cdn.pixabay.com/photo/2015/06/09/16/12/icon-803718_1280.png';
 
 export default class PhoneAuthTest extends Component {

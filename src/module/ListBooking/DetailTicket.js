@@ -10,8 +10,8 @@ import {
     SafeAreaView,
     RefreshControl,
     Linking,
-    AsyncStorage
 } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 import WebView from 'react-native-webview';
 
 import React, { Component } from 'react'

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet, Image, Dimensions, ScrollView, SafeAreaView, AsyncStorage, Modal, ActivityIndicator, Platform, PermissionsAndroid } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, Image, Dimensions, ScrollView, SafeAreaView, Modal, ActivityIndicator, Platform, PermissionsAndroid } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage'
 import { connect } from 'react-redux';
 import WebView from 'react-native-webview';
 import * as link from '../../URL'

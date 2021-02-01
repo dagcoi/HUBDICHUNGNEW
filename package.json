@@ -11,9 +11,10 @@
     "apk": "cd android && ./gradlew assembleRelease && cd ..",
     "pod": "cd ios && pod install && cd ..",
     "npm install": "npm install",
-    "jetify":"npx jetify"
+    "jetify": "npx jetify"
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/datetimepicker": "^3.0.1",
     "@react-native-community/geolocation": "^2.0.2",
     "@react-native-community/push-notification-ios": "^1.2.2",

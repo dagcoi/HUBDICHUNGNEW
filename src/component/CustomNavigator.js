@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { View, Image, Text, AsyncStorage, TouchableOpacity, AppState, SafeAreaView } from 'react-native'
+import { View, Image, Text, TouchableOpacity, AppState, SafeAreaView } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 import { DrawerNavigatorItems, DrawerView } from 'react-navigation-drawer'
 import { connect } from 'react-redux'
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { View, TouchableOpacity, Text, FlatList, StyleSheet, ActivityIndicator, Modal, Image, ScrollView, Dimensions, AsyncStorage, Linking } from 'react-native'
+import { View, TouchableOpacity, Text, FlatList, StyleSheet, ActivityIndicator, Modal, Image, ScrollView, Dimensions, Linking } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 import StarVote from '../../component/StarVote'
 import Header from '../../component/Header/HeaderImage'
 import ImageTextDiChung from '../../component/ImageTextDiChung'

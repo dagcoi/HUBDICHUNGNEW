@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { View, TextInput, Image, StyleSheet, TouchableOpacity, Text, Modal, AsyncStorage, ActivityIndicator, ScrollView, Dimensions, SafeAreaView } from 'react-native'
+import { View, TextInput, Image, StyleSheet, TouchableOpacity, Text, Modal, ActivityIndicator, ScrollView, Dimensions, SafeAreaView } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
 import { ButtonWrap, ButtonGray } from '../../../component/Button'
 import Header from '../../../component/Header/HeaderImage'
 import InputPassWord from './InputPassWord'
