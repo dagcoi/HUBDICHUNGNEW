@@ -9,8 +9,8 @@ import { pickAddress, dropAddress, addAddressYCDB, addLocation } from '../../../
 import { SvgPick } from '../../../icons';
 navigator.geolocation = require('@react-native-community/geolocation')
 
-const API_KEY = 'AIzaSyBDZSUAda65OflvYZmZ4G5XSGONZv3pkuY';
-Geocoder.init(API_KEY); // use a valid API key
+// const API_KEY = 'AIzaSyBDZSUAda65OflvYZmZ4G5XSGONZv3pkuY';
+// Geocoder.init(API_KEY); // use a valid API key
 
 class SearchPlace extends Component {
 
@@ -24,7 +24,23 @@ class SearchPlace extends Component {
             lat: 0.1,
             lng: 0.2,
             types: [],
+            API_KEY: 'AIzaSyCDmOVyxl5q0kgN1zZHMZHKHTsruzRN1bE'
         }
+    }
+
+    componentDidMount() {
+        this.getGGAPIKey()
+    }
+
+    getGGAPIKey() {
+        fetch(`https://taxiairport.vn/api.php/home/get_google_map_api`)
+            .then(res => res.json())
+            .then(resJson => {
+                console.log(JSON.stringify(resJson))
+                this.setState({ API_KEY: resJson.key });
+                // return resJson.key
+            }
+            )
     }
 
     _validateAddress(address_component, address, types) {
@@ -111,7 +127,7 @@ class SearchPlace extends Component {
                                 console.log('123' + JSON.stringify(data))//, '911' + JSON.stringify(details));
                                 this.addlatlng(details.geometry.location.lat, details.geometry.location.lng);
                                 // this._validateAddress(data, data.description, data.types)
-
+                                Geocoder.init(this.state.API_KEY);
                                 // Geocoder.from(details.geometry.location.lat, details.geometry.location.lng)
                                 Geocoder.from(data.description)
                                     .then(json => {
@@ -125,7 +141,7 @@ class SearchPlace extends Component {
                             getDefaultValue={() => address11 == 'Pick' ? this.props.pick_add : address11 == 'Drop' ? this.props.drop_add : this.props.addressLocation}
 
                             query={{
-                                key: API_KEY,
+                                key: this.state.API_KEY,
                                 language: 'vi', // language of the results
                                 components: "country:vn"
                             }}

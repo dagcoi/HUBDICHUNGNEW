@@ -50,7 +50,7 @@ function renderDriverInformation(item) {
 
     return (
         <View>
-            {item.provider.status == 'WAITING' ? null :
+            {(item.provider.status == 'WAITING' || item.provider.status == 'FAILED') ? null :
                 <View>
                     <Text style={styles.textBigLeft1}>Thông tin tài xế</Text>
                     <ImageTextDiChung

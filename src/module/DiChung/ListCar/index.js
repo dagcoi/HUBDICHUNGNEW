@@ -36,6 +36,19 @@ const imageTune = '../../../image/tune.png'
 const imageCheck = '../../../image/done.png'
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window')
+
+const CarError = () => {
+    return (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
+            <Image
+                style={{ width: 80, height: 80 }}
+                source={require('../../../image/sorry.png')}
+            />
+            <Text style={{ textAlign: 'center' }}>Không tìm thấy tài xế phù hợp. Vui lòng gọi <Text style={{ color: '#77a300' }}
+                onPress={() => Linking.openURL(`tel: 19006022`)}>19006022</Text></Text>
+        </View>
+    )
+}
 class ListCar extends Component {
 
     constructor() {
@@ -75,6 +88,12 @@ class ListCar extends Component {
 
     componentDidMount() {
         this.getProvider()
+        if (this.props.product_chunk_type === 'ride_share') {
+            this.setState({
+                selectDCT: false,
+                selectItem: -1,
+            })
+        }
     }
 
     async getProvider() {
@@ -120,8 +139,8 @@ class ListCar extends Component {
         var time = new Date(this.props.depart_time2 + '+07:00').toISOString();
         // var time = new Date(this.props.depart_time2 + '+07:00').getTime();
 
-        const url = `${link.URL_API_PORTAL}price/v1/products?productType=${this.props.product_chunk_type}`;
-        let param = `${url}&bookingTime=${time}&endPlace=${JSON.stringify(this.props.component_drop)}&startPlace=${JSON.stringify(this.props.component_pick)}&sort=price&slot=${this.props.product_chunk_type === 'express' ? '1' : this.props.chair}&provider=${provider}${this.props.product_chunk_type === 'ride_share' ? `&vehicleType=${this.props.itemVehicle?.value ?? 'car'}` : ''}`
+        const url = `${link.URL_API_PORTAL}price/v1/products?productType=${this.props.product_chunk_type === 'ride_share' ? 'transfer_service' : this.props.product_chunk_type}`;
+        let param = `${url}&bookingTime=${time}&endPlace=${JSON.stringify(this.props.component_drop)}&startPlace=${JSON.stringify(this.props.component_pick)}&sort=price&slot=${this.props.product_chunk_type === 'TRANSFER_SERVICE' ? this.props.chair : '1'}&provider=${provider === 'rideshare' ? 'dichung' : provider}${this.props.product_chunk_type === 'ride_share' ? `&vehicleType=${this.props.itemVehicle?.value ?? 'car'}` : ''}`
         console.log(param)
         try {
             const response = await fetch(param, {
@@ -381,28 +400,14 @@ class ListCar extends Component {
         var objDCT = [...this.state.listDCT];
         return (
             obj1.length < 1 && countLoading == 0 ?
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
-                    <Image
-                        style={{ width: 80, height: 80 }}
-                        source={require('../../../image/sorry.png')}
-                    />
-                    <Text style={{ textAlign: 'center' }}>Không tìm thấy tài xế phù hợp. Vui lòng gọi <Text style={{ color: '#77a300' }}
-                        onPress={() => Linking.openURL(`tel: 19006022`)}>19006022</Text></Text>
-                    {/* <Text style={{ padding: 4, fontSize: 18 }}>HOẶC</Text> */}
-                </View> :
+                <CarError />
+                :
                 <View style={{ flex: 1 }}>
                     <ScrollView
                         showsVerticalScrollIndicator={false}
                     >
                         {this.state.selectDCT ? (objDCT.length == 0 && this.state.countLoading == 0) ?
-                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
-                                <Image
-                                    style={{ width: 80, height: 80 }}
-                                    source={require('../../../image/sorry.png')}
-                                />
-                                <Text style={{ textAlign: 'center' }}>Không tìm thấy tài xế phù hợp. Vui lòng gọi <Text style={{ color: '#77a300' }}
-                                    onPress={() => Linking.openURL(`tel: 19006022`)}>19006022</Text></Text>
-                            </View>
+                            <CarError />
                             : objDCT.map((item, index) => (
                                 <ItemCarTaxi
                                     item={item}
@@ -410,15 +415,7 @@ class ListCar extends Component {
                                     isSelect={index == this.state.selectItem && item == this.state.item}
                                 />
                             )) : (objDC.length == 0 && this.state.countLoading == 0) ?
-                                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
-                                    <Image
-                                        style={{ width: 80, height: 80 }}
-                                        source={require('../../../image/sorry.png')}
-                                    />
-                                    <Text style={{ textAlign: 'center' }}>Không tìm thấy tài xế phù hợp. Vui lòng gọi <Text style={{ color: '#77a300' }}
-                                        onPress={() => Linking.openURL(`tel: 19006022`)}>19006022</Text></Text>
-                                    {/* <Text style={{ padding: 4, fontSize: 18 }}>HOẶC</Text> */}
-                                </View>
+                                <CarError />
                                 : objDC.map((item, index) => (
                                     <ItemCarTaxi
                                         item={item}

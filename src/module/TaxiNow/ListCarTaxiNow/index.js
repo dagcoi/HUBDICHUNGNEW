@@ -66,7 +66,7 @@ class ListCar extends Component {
     }
 
     renderItem(obj1) {
-        console.log('dhs: ' + obj1)
+        console.log('dhs: ' + JSON.stringify(obj1))
         { this.state.sort ? obj1.sort((a, b) => b.price - a.price) : obj1.sort((a, b) => a.price - b.price) }
 
         return (

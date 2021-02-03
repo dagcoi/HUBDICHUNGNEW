@@ -11,6 +11,7 @@ import { TextInput } from 'react-native-gesture-handler';
 import { listChair, listHour, listTime } from '../../../component/TimeSelect/listTime'
 import { HeaderText } from '../../../component/Header';
 import FormExpress from './FormExpress';
+import { imageBackground } from '../../../image/imageLink'
 
 // const destination = { latitude: 21.0019302, longitude: 105.85090579999996 };
 
@@ -20,7 +21,6 @@ const imageHourglass = '../../../image/hourglass.png'
 const imageCheck = '../../../image/done.png'
 const imageCheckWhite = '../../../image/checkw.png'
 const imageDown = '../../../image/arrowdown.png'
-const imageBackground = { uri: 'https://dichung.vn/static/images/e216031ab3feeb651026e80873156f50.png' }
 
 
 class MapExpress extends Component {

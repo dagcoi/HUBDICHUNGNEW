@@ -15,14 +15,13 @@ import { getDateTimeAlive } from '../../../until'
 import FormChungxeTuyen from './FormChungxeTuyen';
 import FormChungxe from './FormChungxe';
 import Toast from 'react-native-simple-toast'
-
+import { imageBackground } from '../../../image/imageLink'
 const imageLocation = '../../../image/location.png'
 const imageDrop = '../../../image/location.png'
 const imageSwap = '../../../image/swap.png'
 const imageTime = '../../../image/time.png'
 const imageCheck = '../../../image/done.png'
 const imageCheckWhite = '../../../image/checkw.png'
-const imageBackground = { uri: 'https://dichung.vn/static/images/e216031ab3feeb651026e80873156f50.png' }
 
 // const destination = { latitude: 21.0019302, longitude: 105.85090579999996 };
 

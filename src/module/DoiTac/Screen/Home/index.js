@@ -6,9 +6,9 @@ import ImageTextBold from '../../../../component/ImageTextDiChung/ImageTextBold'
 import Header from '../../../../component/Header/HeaderImage'
 import { connect } from 'react-redux'
 import { SvgChungXe, SvgDiChungTaxi, SvgExpress } from '../../../../icons'
+import { imageBackground } from '../../../../image/imageLink'
 
 const imageCheckWhite = '../../../../image/checkw.png'
-const imageBackground = { uri: 'https://dichung.vn/static/images/e216031ab3feeb651026e80873156f50.png' }
 
 class HomeOperator extends Component {
     constructor(props) {

@@ -58,15 +58,27 @@ class Home1 extends Component {
             titleModal: null,
             urlWebView: null,
             select: 1,
+            KEY_GOOGLE: 'AIzaSyCS3220RqSBmfa_Z3c5r5VGNwRbyoE9EJc',
         }
     }
 
     componentDidMount() {
+        this.getGGAPIKey()
         this.getLocationPlatform()
         this.callApiInteresting()
         this.callApiNewPaper()
         this._retrieveData()
         this._notificationClickAction();
+    }
+
+    getGGAPIKey() {
+        fetch(`https://taxiairport.vn/api.php/home/get_google_map_api`)
+            .then(res => res.json())
+            .then(resJson => {
+                console.log(JSON.stringify(resJson))
+                this.setState({ KEY_GOOGLE: resJson.key });
+            }
+            )
     }
 
     _notificationListener = async () => {
@@ -223,7 +235,7 @@ class Home1 extends Component {
         console.log('getLocation')
         Geolocation.getCurrentPosition(info => {
             console.log('info' + JSON.stringify(info))
-            Geocoder.init(GOOGLE_MAPS_API_KEY);
+            Geocoder.init(this.state.KEY_GOOGLE);
             Geocoder.from(info.coords.latitude, info.coords.longitude)
                 .then(json => {
                     var addressLocation = json.results[0].formatted_address;

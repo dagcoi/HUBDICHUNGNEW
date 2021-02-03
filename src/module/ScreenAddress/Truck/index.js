@@ -13,6 +13,7 @@ import { listHour, listChair, listTime } from '../../../component/TimeSelect/lis
 import { HeaderText } from '../../../component/Header';
 import FormTruckDoor from './FormTruckDoor';
 import FormHourlyTruck from './FormHourlyTruck';
+import { imageBackground } from '../../../image/imageLink'
 
 // const destination = { latitude: 21.0019302, longitude: 105.85090579999996 };
 
@@ -25,7 +26,6 @@ const imageHourglass = '../../../image/hourglass.png'
 const imageCheck = '../../../image/done.png'
 const imageCheckWhite = '../../../image/checkw.png'
 const imageDown = '../../../image/arrowdown.png'
-const imageBackground = { uri: 'https://dichung.vn/static/images/e216031ab3feeb651026e80873156f50.png' }
 
 
 class MapTruck extends Component {

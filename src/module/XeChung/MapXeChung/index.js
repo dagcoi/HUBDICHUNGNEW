@@ -11,6 +11,7 @@ import ImageTextBold from '../../../component/ImageTextDiChung/ImageTextBold'
 import FormXeChung from './FormXeChung';
 import FormHourlyXeChung from './FormHourlyXeChung';
 import Toast from 'react-native-simple-toast'
+import { imageBackground } from '../../../image/imageLink'
 
 // const destination = { latitude: 21.0019302, longitude: 105.85090579999996 };
 
@@ -19,7 +20,6 @@ const imageTime = '../../../image/time.png'
 const imageHourglass = '../../../image/hourglass.png'
 const imageCheckWhite = '../../../image/checkw.png'
 const imageCheck = '../../../image/done.png'
-const imageBackground = { uri: 'https://dichung.vn/static/images/e216031ab3feeb651026e80873156f50.png' }
 
 class MapXeChung extends Component {
 

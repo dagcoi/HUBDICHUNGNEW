@@ -13,6 +13,7 @@ import { SafeAreaView } from 'react-navigation';
 import FormTravel from './FormTravel';
 import FormHourlyTravel from './FormHourlyTravel';
 import { SvgClock, SvgDuration, SvgPick, SvgVehicle } from '../../../icons';
+import { imageBackground } from '../../../image/imageLink'
 
 const imageLocation = '../../../image/location.png'
 const imageCheckWhite = '../../../image/checkw.png'
@@ -20,7 +21,6 @@ const imageTime = '../../../image/time.png'
 const imageHourglass = '../../../image/hourglass.png'
 const imageCar = '../../../image/iconcar.png'
 const imageCheck = '../../../image/done.png'
-const imageBackground = { uri: 'https://dichung.vn/static/images/e216031ab3feeb651026e80873156f50.png' }
 
 class MapTravel extends Component {
 

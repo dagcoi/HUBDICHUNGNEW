@@ -94,31 +94,32 @@ export function StatusTicket({ item }) {
   return (
     <View style={{ marginVertical: 8 }}>
       <Text>Trạng thái: <Text style={{ fontWeight: 'bold', color: item.status == 'cancelled' ? '#ef465f' : '#333333' }}>
-        {item.forward.status == 'wait_to_confirm' ? 'Chờ xác nhận' :
-          item.forward.status == 'cs_confirmed' ? 'CS xác nhận' :
-            item.forward.status == 'forwarded' ?
-              item.payment.method == 'cash' ?
-                (item.provider.status == 'wait_for_driver' ? 'Tìm tài xế' :
-                  item.provider.status == 'driver_accepted' ? 'Tài xế chấp nhận' :
-                    item.provider.status == 'picked_up' ? 'Đã đón khách' :
-                      item.provider.status == 'completed' ? 'Hoàn thành chuyến đi' :
-                        item.provider.status == 'cancelled' ? 'Đã hủy vé' :
-                          'Đặt xe thành công') :
-                (item.payment.status === 'draft' ? 'Chưa thanh toán' :
-                  item.payment.status === 'processing' ? 'Đang thanh toán' :
-                    item.payment.status === 'wait_for_refund' ? 'Chờ hoàn tiền' :
-                      item.payment.status === 'refunded' ? 'Đã hoàn tiền' :
-                        item.payment.status === 'failed' ? 'Thất bại' :
-                          item.payment.status === 'paid' ? 'Đã thanh toán, ' +
-                            (item.provider.status == 'wait_for_driver' ? 'Tìm tài xế' :
-                              item.provider.status == 'driver_accepted' ? 'Tài xế chấp nhận' :
-                                item.provider.status == 'picked_up' ? 'Đã đón khách' :
-                                  item.provider.status == 'completed' ? 'Hoàn thành chuyến đi' :
-                                    item.provider.status == 'cancelled' ? 'Đã hủy vé' :
-                                      'Đặt xe thành công') :
-                            item.payment.status === 'completed' ? 'Đã hoàn thành' : 'Khác') :
-              item.forward.status == 'pending' ? 'Chờ xác nhận' :
-                'Khác'
+        {item.status == 'cancelled' ? 'Đã hủy' :
+          item.forward.status == 'wait_to_confirm' ? 'Chờ xác nhận' :
+            item.forward.status == 'cs_confirmed' ? 'CS xác nhận' :
+              item.forward.status == 'forwarded' ?
+                item.payment.method == 'cash' ?
+                  (item.provider.status == 'wait_for_driver' ? 'Tìm tài xế' :
+                    item.provider.status == 'driver_accepted' ? 'Tài xế chấp nhận' :
+                      item.provider.status == 'picked_up' ? 'Đã đón khách' :
+                        item.provider.status == 'completed' ? 'Hoàn thành chuyến đi' :
+                          item.provider.status == 'cancelled' ? 'Đã hủy vé' :
+                            'Đặt xe thành công') :
+                  (item.payment.status === 'draft' ? 'Chưa thanh toán' :
+                    item.payment.status === 'processing' ? 'Đang thanh toán' :
+                      item.payment.status === 'wait_for_refund' ? 'Chờ hoàn tiền' :
+                        item.payment.status === 'refunded' ? 'Đã hoàn tiền' :
+                          item.payment.status === 'failed' ? 'Thất bại' :
+                            item.payment.status === 'paid' ? 'Đã thanh toán, ' +
+                              (item.provider.status == 'wait_for_driver' ? 'Tìm tài xế' :
+                                item.provider.status == 'driver_accepted' ? 'Tài xế chấp nhận' :
+                                  item.provider.status == 'picked_up' ? 'Đã đón khách' :
+                                    item.provider.status == 'completed' ? 'Hoàn thành chuyến đi' :
+                                      item.provider.status == 'cancelled' ? 'Đã hủy vé' :
+                                        'Đặt xe thành công') :
+                              item.payment.status === 'completed' ? 'Đã hoàn thành' : 'Khác') :
+                item.forward.status == 'pending' ? 'Chờ xác nhận' :
+                  'Khác'
 
         }
       </Text>

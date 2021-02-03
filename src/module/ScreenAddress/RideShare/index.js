@@ -7,6 +7,7 @@ import ImageTextBold from '../../../component/ImageTextDiChung/ImageTextBold'
 import { listHour, listChair, listTime } from '../../../component/TimeSelect/listTime'
 import Dialog, { } from 'react-native-popup-dialog';
 import { HeaderText } from '../../../component/Header'
+import { imageBackground } from '../../../image/imageLink'
 
 import { ButtonFull, ButtonDialog } from '../../../component/Button'
 import { SafeAreaView } from 'react-navigation';
@@ -14,7 +15,6 @@ import FormRideShare from './FormRideShare';
 import Toast from 'react-native-simple-toast'
 const imageCheckWhite = '../../../image/checkw.png'
 const imageCheck = '../../../image/done.png'
-const imageBackground = { uri: 'https://dichung.vn/static/images/e216031ab3feeb651026e80873156f50.png' }
 
 class MapRideShare extends Component {
 

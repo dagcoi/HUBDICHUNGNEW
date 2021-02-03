@@ -16,7 +16,7 @@ import { HeaderText } from '../../component/Header'
 import { SvgPick } from '../../icons';
 
 const origin = { latitude: 20.97820166666667, longitude: 105.79656666666666 };
-const GOOGLE_MAPS_API_KEY = key.KEY_GOOGLE;
+// const GOOGLE_MAPS_API_KEY = key.KEY_GOOGLE; 
 const imageLocation = '../../image/location.png'
 const imageMarker = '../../image/markerA.png'
 class Map extends Component {
@@ -29,13 +29,27 @@ class Map extends Component {
                 start: 0,
                 end: 1
             },
+            KEY_GOOGLE: 'AIzaSyCS3220RqSBmfa_Z3c5r5VGNwRbyoE9EJc',
             listCar: [],
         };
     }
 
     componentDidMount() {
         // this.findCoordinates()
+        this.getGGAPIKey()
         this.getCarAround(this.props.addressLocationComponent)
+
+    }
+
+    getGGAPIKey() {
+        fetch(`https://taxiairport.vn/api.php/home/get_google_map_api`)
+            .then(res => res.json())
+            .then(resJson => {
+                console.log(JSON.stringify(resJson))
+                this.setState({ KEY_GOOGLE: resJson.key });
+                // return resJson.key
+            }
+            )
     }
 
     async getCarAround(address) {
@@ -162,7 +176,7 @@ class Map extends Component {
                     <MapViewDirections
                         origin={{ latitude: this.props.latLocation, longitude: this.props.lngLocation }}
                         destination={{ latitude: this.props.latitude_drop, longitude: this.props.longitude_drop }}
-                        apikey={GOOGLE_MAPS_API_KEY}
+                        apikey={this.state.KEY_GOOGLE}
                         strokeWidth={4}
                         strokeColor="#669df6"
                         language={'vn'}

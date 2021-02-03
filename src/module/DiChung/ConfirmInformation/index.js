@@ -477,6 +477,12 @@ class ConfirmInformation extends Component {
                         <Text style={styles.textBigRight}>{parseInt(send.payment.tollFee).format(0, 3, '.') + ' đ '}</Text>
                     </View>
                 }
+                {this.state.detailPrice?.invoiceFee &&
+                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
+                        <Text style={styles.textBigLeft}>10% VAT </Text>
+                        <Text style={styles.textBigRight}>{this.state.detailPrice?.invoiceFee.format(0, 3, '.') + ' đ '}</Text>
+                    </View>
+                }
                 {this.state.detailPrice?.catchInHousePrice &&
                     <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                         <Text style={styles.textBigLeft}>Đón biển tên: </Text>

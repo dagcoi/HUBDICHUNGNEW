@@ -13,11 +13,10 @@ import { SafeAreaView } from 'react-navigation';
 import FormTaxi from './FormTaxi';
 import FormHourlyTaxi from './FormHourlyTaxi';
 import Toast from 'react-native-simple-toast'
+import { imageBackground } from '../../../image/imageLink'
 
 const imageCheckWhite = '../../../image/checkw.png'
 const imageCheck = '../../../image/done.png'
-const imageBackground = { uri: 'https://dichung.vn/static/images/e216031ab3feeb651026e80873156f50.png' }
-
 class MapDiChung extends Component {
 
     constructor() {

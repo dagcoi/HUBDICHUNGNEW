@@ -8,9 +8,10 @@ import * as link from '../../../URL'
 import Toast from 'react-native-simple-toast';
 import TextSpaceBetween from '../../../component/ImageTextDiChung/TextSpaceBetween';
 import BottomSheet from 'reanimated-bottom-sheet'
+import { Button } from '../../../component/Button'
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window')
-const GOOGLE_MAPS_API_KEY = key.KEY_GOOGLE;
+// const GOOGLE_MAPS_API_KEY = key.KEY_GOOGLE;
 const height1 = 600
 const height2 = 400
 const height3 = 50
@@ -29,23 +30,25 @@ class Map extends Component {
             timeReload: 10000,
             count: 0,
             loadData: true,
-            driverInformation: {
-                name: "dangth",
-                phone: "0338622820",
-                email: "dangth@dichung.vn",
-                count: "9111",
-                star: 4.9,
-            }
-
+            KEY_GOOGLE: 'AIzaSyCS3220RqSBmfa_Z3c5r5VGNwRbyoE9EJc',
         };
     }
 
     componentDidMount() {
         const { navigation } = this.props;
-        // this.findCoordinates()
+        this.getGGAPIKey()
         this.setState({ showFillDriver: true, })
-        // Toast.show(navigation.getParam('id'))
         this.getTicketByBookingId(navigation.getParam('id'))
+    }
+
+    getGGAPIKey() {
+        fetch(`https://taxiairport.vn/api.php/home/get_google_map_api`)
+            .then(res => res.json())
+            .then(resJson => {
+                console.log(JSON.stringify(resJson))
+                this.setState({ KEY_GOOGLE: resJson.key });
+            }
+            )
     }
 
     componentWillUnmount() {
@@ -56,8 +59,8 @@ class Map extends Component {
     getTicketByBookingId(id) {
         this._interval = setInterval(() => {
             const url = link.URL_API_PORTAL + `booking/v1/bookings/${id}`
-            console.log(url)
             if (this.state.loadData) {
+                console.log(url)
                 return fetch(url)
                     .then((res) => res.json())
                     .then((jsonRes) => {
@@ -69,6 +72,9 @@ class Map extends Component {
                             count: this.state.count + 1,
                             showFillDriver: (jsonRes.data.provider.status == '' || jsonRes.data.provider.status == 'WAITING' ? true : false)
                         })
+                        if (jsonRes.data.provider.status == 'FAILED') {
+                            this.setState({ loadData: false })
+                        }
                     }
                     )
             } else {
@@ -111,7 +117,7 @@ class Map extends Component {
                 <MapViewDirections
                     origin={{ latitude: this.props.latLocation, longitude: this.props.lngLocation }}
                     destination={{ latitude: this.props.latitude_drop, longitude: this.props.longitude_drop }}
-                    apikey={GOOGLE_MAPS_API_KEY}
+                    apikey={this.state.KEY_GOOGLE}
                     strokeWidth={4}
                     strokeColor="#669df6"
                     onReady={result => {
@@ -138,7 +144,7 @@ class Map extends Component {
                 <View style={{ alignItems: 'center', backgroundColor: '#fff', height: 600, }}>
                     <View style={{ width: SCREEN_WIDTH * 4 / 5, height: 100, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff' }}>
                         <ActivityIndicator />
-                        <Text>Đang tìm tài xế...</Text>
+                        <Text style={{ marginTop: 8 }} >Đang tìm tài xế...</Text>
                     </View>
                 </View>
             </View>
@@ -148,6 +154,7 @@ class Map extends Component {
         return (
             <View style={{ width: SCREEN_WIDTH, height: 50, alignItems: 'center', flexDirection: 'row', paddingHorizontal: 8, backgroundColor: '#fff' }}>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ height: 4, width: 60, borderRadius: 2, backgroundColor: '#aaa', marginBottom: 8 }} />
                     <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Đang tìm tài xế</Text>
                 </View>
             </View>
@@ -158,7 +165,8 @@ class Map extends Component {
         return (
             <View style={{ width: SCREEN_WIDTH, height: 50, alignItems: 'center', flexDirection: 'row', paddingHorizontal: 8, backgroundColor: '#fff' }}>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Thông tin tài xế</Text>
+                    <View style={{ height: 4, width: 60, borderRadius: 2, backgroundColor: '#aaa', marginBottom: 8 }} />
+                    <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{this.state.infoTrip.provider.status == 'FAILED' ? `Không tìm thấy tài xế` : `Thông tin tài xế`}</Text>
                 </View>
             </View>
         )
@@ -171,34 +179,44 @@ class Map extends Component {
             { this.state.infoTrip.provider && this.state.infoTrip.provider.status ? console.log(this.state.infoTrip.provider.status) : console.log('a') }
             return (
                 <View style={{ backgroundColor: '#fff', }}>
-
-                    <View style={{ paddingHorizontal: 8, height: 600 }}>
-                        <TextSpaceBetween
-                            textBold={'Họ tên: '}
-                            text={this.state.infoTrip.driver.username}
-                        />
-                        <TextSpaceBetween
-                            textBold={'Số điện thoại: '}
-                            text={this.state.infoTrip.driver.phone}
-                            onPress
-                        />
-                        {/* <TextSpaceBetween
+                    {this.state.infoTrip.provider.status != 'FAILED' && this.state.infoTrip.provider.status != 'WAITING' ?
+                        <View style={{ paddingHorizontal: 8, height: 600 }}>
+                            <TextSpaceBetween
+                                textBold={'Họ tên: '}
+                                text={this.state.infoTrip.driver.username}
+                            />
+                            <TextSpaceBetween
+                                textBold={'Số điện thoại: '}
+                                text={this.state.infoTrip.driver.phone}
+                                onPress
+                            />
+                            {/* <TextSpaceBetween
                             textBold={'gọi: '}
                             text={this.state.count}
                         /> */}
-                        {this.state.infoTrip.forward && this.state.infoTrip.forward.result && this.state.infoTrip.forward.result.status ?
-                            <TextSpaceBetween
-                                textBold={'Trạng thái chuyến đi: '}
-                                text={
-                                    this.state.infoTrip.provider.statusLabel ?? 'Đang tìm tài xế'}
-                            /> :
-                            null
-                        }
-                    </View>
+                            {this.state.infoTrip.forward && this.state.infoTrip.forward.result && this.state.infoTrip.forward.result.status ?
+                                <TextSpaceBetween
+                                    textBold={'Trạng thái chuyến đi: '}
+                                    text={
+                                        this.state.infoTrip.provider.statusLabel ?? 'Đang tìm tài xế'}
+                                /> :
+                                <View style={{ paddingHorizontal: 8, height: 600 }} />
+                            }
+                        </View>
+                        : this.state.infoTrip.provider.status == 'FAILED' &&
+                        <View style={{ paddingHorizontal: 8, height: 600, }} >
+                            <Button
+                                onPress={() => this.props.navigation.popToTop()}
+                                value={'Trở về'}
+                            />
+                        </View>
+
+                    }
+                    <View style={{ paddingHorizontal: 8, height: 600 }} />
                 </View>
             )
         }
-        return null;
+        return <View style={{ paddingHorizontal: 8, height: 600 }} />;
     }
 
     bottomInformation() {
