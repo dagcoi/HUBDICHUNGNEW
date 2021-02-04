@@ -147,6 +147,7 @@ class Map extends Component {
                     ref={ref => {
                         this.mapRef = ref;
                     }}
+                    showsUserLocation={true}
                     provider={PROVIDER_GOOGLE}
                     initialRegion={{
                         latitude: parseFloat(this.props.latLocation),

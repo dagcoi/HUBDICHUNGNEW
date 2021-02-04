@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, Image } from 'react-native';
+import { View, Text, TextInput, Image, ScrollView } from 'react-native';
 import * as link from '../../../URL'
 import { ButtonFull } from '../../../component/Button'
 import firebase from 'react-native-firebase';
@@ -23,6 +23,7 @@ export default class PhoneAuthTest extends Component {
             countdown: 10,
             timesup: true,
             timing: false,
+            numberCard: '',
         };
     }
 
@@ -149,30 +150,34 @@ export default class PhoneAuthTest extends Component {
     }
 
     renderPhoneNumberInput() {
-        const { phoneNumber } = this.state;
-        // console.log(this.state.message)
+        const { numberCard } = this.state;
         return (
+
             <View style={{ flex: 1, padding: 25, justifyContent: 'center', alignItems: 'center', backgroundColor: '#00363d' }}>
                 <Text style={{ textAlign: 'center', color: '#fff', fontSize: 22, fontWeight: 'bold' }}>Chào mừng đến với Đi Chung</Text>
-                <Text style={{ textAlign: 'center', color: '#fff', fontSize: 16, fontWeight: 'bold', marginTop: 16 }}>Đăng nhập bằng OTP</Text>
+                <Text style={{ textAlign: 'center', color: '#fff', fontSize: 16, fontWeight: 'bold', marginTop: 16 }}>Đăng nhập bằng số điện thoại</Text>
                 <View style={{ flexDirection: 'row', height: 50, marginVertical: 20, paddingHorizontal: 8 }}>
-                    <TextInput
-                        autoFocus
-                        style={{ flex: 1, textAlign: 'left', paddingHorizontal: 16, borderColor: '#77a300', backgroundColor: '#fff', borderRadius: 8 }}
-                        onChangeText={value => this.setState({ phoneNumber: value })}
-                        placeholder={'Số điện thoại'}
-                        value={phoneNumber}
-                    />
+                    <View
+                        style={{ flex: 1, paddingHorizontal: 16, borderColor: '#77a300', backgroundColor: '#fff', borderRadius: 8, flexDirection: 'row', alignItems: 'center' }}
+                    >
+                        <TextInput
+                            style={{ marginRight: 4, justifyContent: 'center', alignItems: 'center' }}
+                            value={'+84'}
+                            editable={false}
+                        />
+                        <TextInput
+                            autoFocus
+                            style={{ justifyContent: 'center', alignItems: 'center' }}
+                            onChangeText={value => this.setState({ phoneNumber: `+84${value}`, numberCard: value })}
+                            placeholder={'Số điện thoại'}
+                            value={numberCard}
+                            maxLength={9}
+                            keyboardType={'decimal-pad'}
+                        />
+                    </View>
                 </View>
                 {/* <Text>{this.state.message}</Text> */}
                 <ButtonFull value="Gửi" onPress={() => this.startTimer()} />
-
-                {/* <TouchableOpacity
-                    onPress={this.goBack}
-                    style={{ margin: 16 }}
-                >
-                    <Text style={{ color: '#77a300', textDecorationLine: 'underline' }}>Đăng nhập bằng mật khẩu</Text>
-                </TouchableOpacity> */}
             </View>
         );
     }
@@ -214,7 +219,6 @@ export default class PhoneAuthTest extends Component {
                     </TouchableOpacity>
                 </View>
                 <ButtonFull value="Xác nhận" onPress={this.confirmCode} />
-                {/* <ButtonFull value={this.state.timing ? `Gửi lại sau: ${this.state.timer / 60}` : "Gửi lại"} onPress={this.state.timing ? null : this.startTimer.bind()} /> */}
             </View>
         );
     }
