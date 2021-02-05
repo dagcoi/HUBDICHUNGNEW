@@ -54,6 +54,10 @@ export default class PhoneAuthTest extends Component {
     }
 
     startTimer() {
+        this.signIn()
+    }
+
+    timerCD() {
         console.log('auth')
         this.clockCall = setInterval(() => {
             this.decrementClock();
@@ -62,7 +66,6 @@ export default class PhoneAuthTest extends Component {
             timing: true,
             timer: 120,
         })
-        this.signIn()
     }
 
 
@@ -129,6 +132,7 @@ export default class PhoneAuthTest extends Component {
             .then(confirmResult => {
                 this.setState({ confirmResult, message: 'Code has been sent!' })
                 console.log('6....confirmResult:   ' + confirmResult)
+                this.timerCD()
             })
             .catch(error => {
                 this.setState({ message: `Sign In With Phone Number Error: ${error.message}` })
@@ -168,16 +172,19 @@ export default class PhoneAuthTest extends Component {
                         <TextInput
                             autoFocus
                             style={{ justifyContent: 'center', alignItems: 'center' }}
-                            onChangeText={value => this.setState({ phoneNumber: `+84${value}`, numberCard: value })}
+                            onChangeText={value => {
+                                this.setState({ phoneNumber: `+84${parseInt(value)}`, numberCard: value.trim() })
+                            }}
                             placeholder={'Số điện thoại'}
                             value={numberCard}
-                            maxLength={9}
-                            keyboardType={'decimal-pad'}
+                            maxLength={10}
+                            keyboardType={'phone-pad'}
                         />
                     </View>
                 </View>
                 {/* <Text>{this.state.message}</Text> */}
                 <ButtonFull value="Gửi" onPress={() => this.startTimer()} />
+                {/* <ButtonFull value="Gửi test" onPress={() => console.log(this.state.phoneNumber)} /> */}
             </View>
         );
     }
@@ -195,6 +202,7 @@ export default class PhoneAuthTest extends Component {
                         onChangeText={value => this.setState({ codeInput: value })}
                         placeholder={'Nhập OTP ... '}
                         value={codeInput}
+                        keyboardType={'phone-pad'}
                     />
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>

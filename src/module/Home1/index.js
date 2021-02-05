@@ -347,38 +347,47 @@ class Home1 extends Component {
             <View>
 
                 <SelectCar
+                    child={<SvgDiChungXe />}
+                    onPress={() => this.props.isLogin == 0 ? this.props.navigation.navigate('Login') : this.props.navigation.navigate('RideShare')}
+                    textDetail={'Tìm bạn đi cùng xe máy, ô tô trên cùng tuyến đường'}
+                    title={'Tìm bạn đi chung'}
+                />
+
+                <SelectCar
                     child={<SvgDiChungTaxi />}
                     onPress={() => this.props.isLogin == 0 ? this.props.navigation.navigate('Login') : this.props.navigation.navigate('MapDiChung')}
-                    textDetail={'Đặt trước xe đi hàng ngày, sân bay, đường dài giá siêu tiết kiệm'}
-                    title={'Đặt xe có lái'}
+                    textDetail={'Đặt xe sân bay, đường dài giá tiết kiệm'}
+                    title={'Gọi xe'}
+                />
+
+                <SelectCar
+                    child={<SvgDiChungTaxi />}
+                    onPress={() => this.props.isLogin == 0 ? this.props.navigation.navigate('Login') : this.props.navigation.navigate('Map')}
+                    textDetail={'Gọi taxi đi ngay'}
+                    title={'Gọi taxi'}
+                />
+
+                {/* <SelectCar
+                    child={<SvgXeChung />}
+                    onPress={() => this.props.isLogin == 0 ? this.props.navigation.navigate('Login') : this.props.navigation.navigate('MapXeChung')}
+                    textDetail={'Ai cũng có thể thuê tài xế riêng. Việc mất thời gian để chúng tôi lo'}
+                    title={'Thuê tài xế'}
+                /> */}
+
+                <SelectCar
+                    child={<SvgTravel color={'#77a300'} />}
+                    onPress={() => this.props.isLogin == 0 ? this.props.navigation.navigate('Login') : this.props.navigation.navigate('MapTravel')}
+                    textDetail={'Thiết kế lịch trình riêng với các dòng xe lớn 16 - 45 chỗ'}
+                    title={'Thuê xe du lịch'}
                 />
 
                 <SelectCar
                     child={<SvgChungXe />}
                     onPress={() => this.props.isLogin == 0 ? this.props.navigation.navigate('Login') : this.props.navigation.navigate('MapChungXe')}
-                    textDetail={'Mạng lưới cho thuê xe tự lái ô tô, xe máy trên toàn quốc'}
+                    textDetail={'Mạng lưới cho thuê xe tự lái trên toàn quốc'}
                     title={'Thuê xe tự lái'}
                 />
 
-                <SelectCar
-                    child={<SvgXeChung />}
-                    onPress={() => this.props.isLogin == 0 ? this.props.navigation.navigate('Login') : this.props.navigation.navigate('MapXeChung')}
-                    textDetail={'Ai cũng có thể thuê tài xế riêng. Việc mất thời gian để chúng tôi lo'}
-                    title={'Thuê tài xế'}
-                />
-
-                <SelectCar
-                    child={<SvgDiChungXe />}
-                    onPress={() => this.props.isLogin == 0 ? this.props.navigation.navigate('Login') : this.props.navigation.navigate('RideShare')}
-                    textDetail={'Tìm bạn đi cùng xe máy, ô tô trên cùng tuyến đường'}
-                    title={'Đi chung xe'}
-                />
-                <SelectCar
-                    child={<SvgDiChungTaxi />}
-                    onPress={() => this.props.isLogin == 0 ? this.props.navigation.navigate('Login') : this.props.navigation.navigate('Map')}
-                    textDetail={'Gọi taxi đi ngay'}
-                    title={'Taxi đi ngay'}
-                />
             </View>
         )
     }
@@ -504,11 +513,11 @@ class Home1 extends Component {
                         >
                             <Text style={{ fontSize: 16, fontWeight: this.state.select == 1 ? 'bold' : 'normal', color: this.state.select == 1 ? '#77a300' : '#333' }}>Đi lại</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={{ flex: 1, backgroundColor: this.state.select == 2 ? '#fff' : '#e8e8e8', justifyContent: 'center', height: 60, alignItems: 'center' }}
+                        {/* <TouchableOpacity style={{ flex: 1, backgroundColor: this.state.select == 2 ? '#fff' : '#e8e8e8', justifyContent: 'center', height: 60, alignItems: 'center' }}
                             onPress={() => this.setState({ select: 2 })}
                         >
                             <Text style={{ fontSize: 16, fontWeight: this.state.select == 2 ? 'bold' : 'normal', color: this.state.select == 2 ? '#77a300' : '#333' }}>Du lịch</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                         <TouchableOpacity style={{ flex: 1, backgroundColor: this.state.select == 3 ? '#fff' : '#e8e8e8', justifyContent: 'center', height: 60, alignItems: 'center', borderTopRightRadius: 8, borderBottomRightRadius: 8 }}
                             onPress={() => this.setState({ select: 3 })}
                         >

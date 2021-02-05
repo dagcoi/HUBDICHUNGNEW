@@ -1,46 +1,126 @@
 {
   "project_info": {
-    "project_number": "663318219352",
-    "firebase_url": "https://dichung-dev.firebaseio.com",
-    "project_id": "dichung-dev",
-    "storage_bucket": "dichung-dev.appspot.com"
+    "project_number": "375086407199",
+    "firebase_url": "https://optimal-plate-213501.firebaseio.com",
+    "project_id": "optimal-plate-213501",
+    "storage_bucket": "optimal-plate-213501.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:663318219352:android:31d00c5b594fe7d0a0182d",
+        "mobilesdk_app_id": "1:375086407199:android:94516e300f3be135c37f2a",
         "android_client_info": {
-          "package_name": "vn.dichung.hubapp"
+          "package_name": "com.hubapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "663318219352-b7inh3hpbeip2naqlei8h9heb86bs6jd.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "vn.dichung.hubapp",
-            "certificate_hash": "31942e87c77ca4f0312464e7c7f671234cfe48fd"
-          }
-        },
-        {
-          "client_id": "663318219352-fne4o43but03ef7msj2h4qfad32enjr8.apps.googleusercontent.com",
+          "client_id": "375086407199-e75gja852646lk0u9da8rmc4q9dm2aep.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDD5f2YrJYpqxd8okdGQAmrZRZJ2sQjeSg"
+          "current_key": "AIzaSyB89oNKIQZMISQuUeRmVca086prkVssdq8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "663318219352-fne4o43but03ef7msj2h4qfad32enjr8.apps.googleusercontent.com",
+              "client_id": "375086407199-9gs6sulnno3t0fiadjtbna1t42cvabj2.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "663318219352-65gkf6bc1mod5a3uqu57h724hii9qg7e.apps.googleusercontent.com",
+              "client_id": "375086407199-pc966k4db1ga0frgh0pmli9v5tq1teqr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "vn.dichung.hubapp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:375086407199:android:d4da3a88bed36854c37f2a",
+        "android_client_info": {
+          "package_name": "org.dichung.dichungtaxi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "375086407199-vmh9aj8l3e97pr965kcjtnqlcrefhoit.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.dichung.dichungtaxi",
+            "certificate_hash": "34ab17c600b4eb283bfff266617e72344d9282df"
+          }
+        },
+        {
+          "client_id": "375086407199-e75gja852646lk0u9da8rmc4q9dm2aep.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB89oNKIQZMISQuUeRmVca086prkVssdq8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "375086407199-9gs6sulnno3t0fiadjtbna1t42cvabj2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "375086407199-pc966k4db1ga0frgh0pmli9v5tq1teqr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "vn.dichung.hubapp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:375086407199:android:1668123c4107fc05c37f2a",
+        "android_client_info": {
+          "package_name": "vn.dichung.hubapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "375086407199-lerfmlnsn4allcgigt0od7e0bqqr46p9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vn.dichung.hubapp",
+            "certificate_hash": "efa608810f9cabf445cbad0e35ebe44d48286791"
+          }
+        },
+        {
+          "client_id": "375086407199-e75gja852646lk0u9da8rmc4q9dm2aep.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB89oNKIQZMISQuUeRmVca086prkVssdq8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "375086407199-9gs6sulnno3t0fiadjtbna1t42cvabj2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "375086407199-pc966k4db1ga0frgh0pmli9v5tq1teqr.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "vn.dichung.hubapp"

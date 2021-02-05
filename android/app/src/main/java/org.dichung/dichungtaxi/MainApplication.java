@@ -1,4 +1,4 @@
-package vn.dichung.hubapp;
+package org.dichung.dichungtaxi;
 
 import android.app.Application;
 import android.content.Context;
