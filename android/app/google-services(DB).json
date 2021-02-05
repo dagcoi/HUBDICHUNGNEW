@@ -8,6 +8,58 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:663318219352:android:d53f09fe6bdd44ffa0182d",
+        "android_client_info": {
+          "package_name": "org.dichung.dichungtaxi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "663318219352-evncl443m8jc9guu9dicglld9t375ofp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.dichung.dichungtaxi",
+            "certificate_hash": "31942e87c77ca4f0312464e7c7f671234cfe48fd"
+          }
+        },
+        {
+          "client_id": "663318219352-igaijesjhfb5am8542fl91e5teejglev.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.dichung.dichungtaxi",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "663318219352-fne4o43but03ef7msj2h4qfad32enjr8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDD5f2YrJYpqxd8okdGQAmrZRZJ2sQjeSg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "663318219352-fne4o43but03ef7msj2h4qfad32enjr8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "663318219352-65gkf6bc1mod5a3uqu57h724hii9qg7e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "vn.dichung.hubapp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:663318219352:android:31d00c5b594fe7d0a0182d",
         "android_client_info": {
           "package_name": "vn.dichung.hubapp"
@@ -20,6 +72,14 @@
           "android_info": {
             "package_name": "vn.dichung.hubapp",
             "certificate_hash": "31942e87c77ca4f0312464e7c7f671234cfe48fd"
+          }
+        },
+        {
+          "client_id": "663318219352-sfc0n3pbdg54qtqoj2ghedfbl568krpb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vn.dichung.hubapp",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
           }
         },
         {
