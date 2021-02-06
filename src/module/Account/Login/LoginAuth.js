@@ -64,7 +64,7 @@ export default class PhoneAuthTest extends Component {
         }, 1000);
         this.setState({
             timing: true,
-            timer: 120,
+            timer: 60,
         })
     }
 
@@ -125,7 +125,7 @@ export default class PhoneAuthTest extends Component {
 
     signIn = () => {
         const { phoneNumber } = this.state;
-        this.setState({ message: 'Sending code ...' });
+        // this.setState({ message: 'Sending code ...' });
         console.log('Sign in')
 
         firebase.auth().signInWithPhoneNumber(phoneNumber)
@@ -208,7 +208,7 @@ export default class PhoneAuthTest extends Component {
                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                     <Text style={{ color: '#fff' }}>Bạn chưa nhận được mã xác thực?</Text>
                     <TouchableOpacity
-                        onPress={this.state.timing ? null : this.startTimer.bind()}
+                        onPress={() => this.state.timing ? null : this.startTimer()}
                     >
                         {this.state.timing ? <Text style={{ color: '#fff' }}>Gửi lại sau: {Math.floor(this.state.timer / 60)}:{this.state.timer % 60}</Text> :
                             <Text style={{ color: '#77a300', textDecorationLine: 'underline' }}>Gửi lại</Text>}
@@ -218,6 +218,7 @@ export default class PhoneAuthTest extends Component {
                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                     <TouchableOpacity
                         onPress={() => {
+                            clearInterval(this.clockCall);
                             this.setState({
                                 confirmResult: false,
                             })
