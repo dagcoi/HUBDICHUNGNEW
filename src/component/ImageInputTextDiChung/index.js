@@ -15,7 +15,7 @@ function ImageInputTextDiChung({
     children,
 }) {
     return (
-        <View style={[{ height: 40, flexDirection: 'row', borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', }, noBorderTop ? { borderTopWidth: 0 } : { borderTopWidth: 1 }]}>
+        <View style={[{ height: 50, flexDirection: 'row', borderColor: '#e8e8e8', justifyContent: 'center', alignItems: 'center', }, noBorderTop ? { borderTopWidth: 0 } : { borderTopWidth: 1 }]}>
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
                 <View style={{ width: 28, height: 28, justifyContent: "center", alignItems: "center" }}>
                     {children}

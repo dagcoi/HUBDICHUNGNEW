@@ -18,14 +18,14 @@ function ItemCarTaxiNow({ item, onPress }) {
 
                 <View style={styles.formLeft}>
                     <Text style={styles.label}>
-                        {item.info.label ?? ''}
+                        {'G7 Taxi'}
                     </Text>
-                    <Text style={{ marginTop: 8 }}>
+                    <Text style={styles.textLabel}>
                         {item.info.title ?? ''}
                     </Text>
-                    <Text style={{ marginTop: 8 }}>
+                    {/* <Text style={{ marginTop: 8 }}>
                         {item.info.description ?? ''}
-                    </Text>
+                    </Text> */}
 
                     <Text style={styles.price}>{item.info.price.format(0, 3, '.') ?? ''} đ</Text>
                 </View>
@@ -86,9 +86,15 @@ const styles = StyleSheet.create({
         fontSize: 14,
     },
     price: {
-        marginTop: 8,
-        fontSize: 18,
+        fontSize: 20,
         color: '#00363d',
+        fontWeight: 'bold',
+        marginVertical: 4,
+    },
+    textLabel: {
+        fontSize: 18,
+        marginVertical: 8,
+        marginVertical: 4,
     },
 })
 

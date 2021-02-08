@@ -105,7 +105,7 @@ export default class PhoneAuthTest extends Component {
                 if (resJson.data) {
                     this.addDataLogin(resJson.data)
                     this.gotoProfileScreen(JSON.stringify(resJson.data))
-                    console.log('4...resJson.data' + resJson.data)
+                    console.log('4...resJson.data' + JSON.stringify(resJson.data))
                 }
                 else {
                     this.setState({

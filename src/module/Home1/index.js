@@ -363,7 +363,7 @@ class Home1 extends Component {
                 <SelectCar
                     child={<SvgDiChungTaxi />}
                     onPress={() => this.props.isLogin == 0 ? this.props.navigation.navigate('Login') : this.props.navigation.navigate('Map')}
-                    textDetail={'Gọi taxi đi ngay'}
+                    textDetail={'So sánh giá và gọi taxi đi ngay'}
                     title={'Gọi taxi'}
                 />
 
@@ -452,8 +452,8 @@ class Home1 extends Component {
                     onPressCenter={this.gotoHomeScreen}
                 />
                 <ScrollView bounces={false}>
-                    <View style={{ backgroundColor: '#fff', minHeight: 40, flexDirection: 'row', alignContent: 'center' }}>
-                        <Text style={{ paddingHorizontal: 16, paddingTop: 8, color: '#00363d', fontSize: 21, fontWeight: 'bold', lineHeight: 30 }}>Chào bạn! Hãy cùng đi tìm một chuyến đi.</Text>
+                    <View style={{ backgroundColor: '#fff', minHeight: 40, flexDirection: 'row', alignContent: 'center', marginBottom: 8 }}>
+                        <Text style={{ paddingHorizontal: 16, paddingTop: 8, color: '#00363d', fontSize: 21, fontWeight: 'bold', lineHeight: 30 }}>Trải nghiệm ngay hệ sinh thái vận chuyển toàn quốc hàng đầu Việt Nam</Text>
                     </View>
                     {/* <FlatGrid
                         spacing={10}

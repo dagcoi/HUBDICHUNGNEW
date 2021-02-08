@@ -241,10 +241,10 @@ class Map extends Component {
 
     renderHeaderFilter = () => {
         return (
-            <View style={{ height: 50, alignItems: 'center', flexDirection: 'row', paddingHorizontal: 8, backgroundColor: '#fff', borderTopRightRadius: 30, borderTopLeftRadius: 30, }}>
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ height: 10, alignItems: 'center', flexDirection: 'row', paddingHorizontal: 8, backgroundColor: '#fff', borderTopRightRadius: 30, borderTopLeftRadius: 30, }}>
+                {/* <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Nhập địa chỉ</Text>
-                </View>
+                </View> */}
             </View>
         )
     }
@@ -254,11 +254,11 @@ class Map extends Component {
     }
     render() {
         return (
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
                 {this.renderPickToDrop()}
                 <HeaderText textCenter={'Nhập địa chỉ'} onPressLeft={this.goBack} />
                 <BottomSheet
-                    snapPoints={[200]}
+                    snapPoints={[170]}
                     renderContent={this.formInputAddress}
                     renderHeader={this.renderHeaderFilter}
                     enabledContentGestureInteraction={true}
@@ -290,7 +290,7 @@ const styles = StyleSheet.create({
         bottom: 400,
     },
     formInput: {
-        height: 150,
+        height: 160,
         backgroundColor: '#fff',
         // margin: 8,
         paddingHorizontal: 16,

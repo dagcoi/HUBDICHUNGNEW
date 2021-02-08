@@ -201,13 +201,13 @@ class ListBooking extends Component {
                         <ImageTextDiChung
                             children={<SvgPick />}
                             source={require(imagePick)}
-                            text={item.startPoint.address}
+                            text={item.startPoint?.address ?? item.startPoints[0].address}
                         />
-                        {item.endPoint && item.endPoint.address && <ImageTextDiChung
+                        <ImageTextDiChung
                             children={<SvgPick color={'#eb6752'} />}
                             source={require(imageDrop)}
-                            text={item.endPoint.address}
-                        />}
+                            text={item.endPoint?.address ?? item.endPoints[0].address}
+                        />
                         <ImageTextDiChung
                             children={<SvgClock />}
                             source={require(imageTime)}
@@ -267,7 +267,7 @@ class ListBooking extends Component {
                         <ImageTextDiChung
                             children={<SvgPick />}
                             source={require(imagePick)}
-                            text={item.startPoint.address}
+                            text={item.startPoint?.address ?? item.startPoints[0].address}
                         />
 
                         <ImageTextDiChung
@@ -321,7 +321,7 @@ class ListBooking extends Component {
                         <ImageTextDiChung
                             children={<SvgPick />}
                             source={require(imagePick)}
-                            text={item.startPoint.address}
+                            text={item.startPoint?.address ?? item.startPoints[0].address}
                         />
 
                         <ImageTextDiChung

@@ -332,7 +332,7 @@ class CustomerInfoTaxiNow extends Component {
     render() {
         var radio_payment = []
         radio_payment.push({ label: 'Trả sau', value: 0, paymentMethodID: '3' })
-        radio_payment.push({ label: 'Trả trước', value: 1, paymentMethodID: '8' })
+        // radio_payment.push({ label: 'Trả trước', value: 1, paymentMethodID: '8' })
         return (
             <SafeAreaView style={{ flex: 1, paddingBottom: 8, flexDirection: 'column' }}>
                 <HeaderText textCenter={'Thông tin đặt xe'} onPressLeft={this.goBack} />

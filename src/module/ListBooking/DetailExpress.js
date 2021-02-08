@@ -56,13 +56,13 @@ function renderDetailTrip(item) {
 
             <ImageTextDiChung
                 source={require(imageLocation)}
-                text={item.endPoint.address}
+                text={item.endPoint?.address ?? item.endPoints[0].address}
             />
 
             <ImageTextDiChung
                 children={<SvgPick />}
                 source={require(imageLocation)}
-                text={item.startPoint.address}
+                text={item.startPoint?.address ?? item.startPoints[0].address}
             />
             <Text style={styles.textBigLeft1}>Chi tiết đơn hàng</Text>
             <ImageTextDiChung

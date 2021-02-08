@@ -8,12 +8,12 @@ function Button({
     style
 }) {
     return (
-        <View style={[{ height: 40, flexDirection: 'row', backgroundColor: '#00000000', marginTop: 8, }, style]} >
+        <View style={[{ height: 56, flexDirection: 'row', backgroundColor: '#00000000', marginTop: 8, }, style]} >
             <TouchableOpacity
-                style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', borderRadius: 8 }}
+                style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#77a300', borderRadius: 8, margin: 4 }}
                 onPress={onPress}
             >
-                <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold', margin: 8 }}>{value}</Text>
+                <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold', margin: 4 }}>{value.toUpperCase()}</Text>
             </TouchableOpacity>
         </View>
     )

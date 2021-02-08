@@ -9,6 +9,7 @@
     "test": "jest",
     "lint": "eslint .",
     "apk": "cd android && ./gradlew assembleRelease && cd ..",
+    "clean": "cd android && ./gradlew clean && cd ..",
     "pod": "cd ios && pod install && cd ..",
     "npm install": "npm install",
     "jetify": "npx jetify"

@@ -60,7 +60,7 @@ function renderDetailTrip(item) {
             <ImageTextDiChung
                 children={<SvgPick />}
                 source={require(imageLocation)}
-                text={item.startPoint.address}
+                text={item.startPoint?.address ?? item.startPoints[0].address}
             />
 
             <ImageTextDiChung
