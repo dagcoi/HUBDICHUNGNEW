@@ -49,9 +49,9 @@
 			</dict>
 		</dict>
 		<key>NSLocationAlwaysUsageDescription</key>
-		<string>The program asks for the location to determine your address</string>
+		<string>The function request user location to determine address and autofill to pickup and drop address fields</string>
 		<key>NSLocationWhenInUseUsageDescription</key>
-		<string>The program asks for the location to determine your address</string>
+		<string>The function request user location to determine address and autofill to pickup and drop address fields</string>
 		<key>UIBackgroundModes</key>
 		<array>
 			<string>remote-notification</string>
