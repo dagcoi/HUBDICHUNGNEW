@@ -27,7 +27,7 @@ function ItemCarTaxiNow({ item, onPress }) {
                         {item.info.description ?? ''}
                     </Text> */}
 
-                    <Text style={styles.price}>{item.info.price.format(0, 3, '.') ?? ''} đ</Text>
+                    <Text style={styles.price}>{item.info.price.format(0, 3, '.') ?? ''} đ<Text style={{ color: 'red', fontSize: 15, fontWeight: '300' }}>(Tạm tính)</Text></Text>
                 </View>
 
                 <View style={styles.imageRight}>
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     formLeft: {
-        flex: 1,
+        flex: 2,
         padding: 4,
         marginTop: 3,
         backgroundColor: '#ffffff',
@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
     },
     imageRight: {
         flex: 1,
+        paddingHorizontal: 18,
         alignItems: 'center',
         justifyContent: 'center',
     },
