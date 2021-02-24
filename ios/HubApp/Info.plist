@@ -48,7 +48,11 @@
 				</dict>
 			</dict>
 		</dict>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>The function request user location to determine address and autofill to pickup and drop address fields</string>
 		<key>NSLocationAlwaysUsageDescription</key>
+		<string>The function request user location to determine address and autofill to pickup and drop address fields</string>
+		<key>NSLocationUsageDescription</key>
 		<string>The function request user location to determine address and autofill to pickup and drop address fields</string>
 		<key>NSLocationWhenInUseUsageDescription</key>
 		<string>The function request user location to determine address and autofill to pickup and drop address fields</string>
