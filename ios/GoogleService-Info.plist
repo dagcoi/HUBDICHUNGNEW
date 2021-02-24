@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- debug -->
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 	<dict>
 		<key>CLIENT_ID</key>
-		<string>663318219352-65gkf6bc1mod5a3uqu57h724hii9qg7e.apps.googleusercontent.com</string>
+		<string>375086407199-pc966k4db1ga0frgh0pmli9v5tq1teqr.apps.googleusercontent.com</string>
 		<key>REVERSED_CLIENT_ID</key>
-		<string>com.googleusercontent.apps.663318219352-65gkf6bc1mod5a3uqu57h724hii9qg7e</string>
+		<string>com.googleusercontent.apps.375086407199-pc966k4db1ga0frgh0pmli9v5tq1teqr</string>
+		<key>ANDROID_CLIENT_ID</key>
+		<string>375086407199-tm32kkciugdflmspk58qaeuncfku7up4.apps.googleusercontent.com</string>
 		<key>API_KEY</key>
-		<string>AIzaSyAmBhZKmbyfcaoWnbrVQoJdxkAxwaQZOQ0</string>
+		<string>AIzaSyC6QW4vENZCTRm6LOWFEVZ4dDS-UvNB4wA</string>
 		<key>GCM_SENDER_ID</key>
-		<string>663318219352</string>
+		<string>375086407199</string>
 		<key>PLIST_VERSION</key>
 		<string>1</string>
 		<key>BUNDLE_ID</key>
 		<string>vn.dichung.hubapp</string>
 		<key>PROJECT_ID</key>
-		<string>dichung-dev</string>
+		<string>optimal-plate-213501</string>
 		<key>STORAGE_BUCKET</key>
-		<string>dichung-dev.appspot.com</string>
+		<string>optimal-plate-213501.appspot.com</string>
 		<key>IS_ADS_ENABLED</key>
 		<false></false>
 		<key>IS_ANALYTICS_ENABLED</key>
@@ -30,8 +31,8 @@
 		<key>IS_SIGNIN_ENABLED</key>
 		<true></true>
 		<key>GOOGLE_APP_ID</key>
-		<string>1:663318219352:ios:24b97a1ae957c8d6a0182d</string>
+		<string>1:375086407199:ios:5bb17c3a1ab3e630c37f2a</string>
 		<key>DATABASE_URL</key>
-		<string>https://dichung-dev.firebaseio.com</string>
+		<string>https://optimal-plate-213501.firebaseio.com</string>
 	</dict>
 </plist>

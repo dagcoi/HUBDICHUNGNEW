@@ -131,8 +131,8 @@ android {
         applicationId "org.dichung.dichungtaxi"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 6
-        versionName "1.3.3"
+        versionCode 7
+        versionName "1.3.4"
         minSdkVersion 16 
         targetSdkVersion 29
         multiDexEnabled true
