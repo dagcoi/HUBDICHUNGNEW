@@ -7,6 +7,7 @@ import ImageTextBold from '../../../component/ImageTextDiChung/ImageTextBold'
 import { listHour, listChair, listTime } from '../../../component/TimeSelect/listTime'
 import Dialog, { } from 'react-native-popup-dialog';
 import { HeaderText } from '../../../component/Header'
+import { formatHHMMDD, formatUTC } from '../../../util/formatDateTime'
 
 import { ButtonFull, ButtonDialog } from '../../../component/Button'
 import { SafeAreaView } from 'react-navigation';
@@ -259,9 +260,9 @@ class MapDiChung extends Component {
                                                     scroll: item.id,
                                                     dialogTimeVisible: false,
                                                     dialogCalendarVisible: false,
-                                                    depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                    depart_time: formatHHMMDD(item.hour, item.minute, this.state.date)
                                                 })
-                                                this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
+                                                this.props.addDepartTime(formatHHMMDD(item.hour, item.minute, this.state.date), formatUTC(item.hour, item.minute, this.state.date));
                                             }
                                         } else {
                                             this.setState({
@@ -270,9 +271,9 @@ class MapDiChung extends Component {
                                                 scroll: item.id,
                                                 dialogTimeVisible: false,
                                                 dialogCalendarVisible: false,
-                                                depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                depart_time: formatHHMMDD(item.hour, item.minute, this.state.date)
                                             })
-                                            this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
+                                            this.props.addDepartTime(formatHHMMDD(item.hour, item.minute, this.state.date), formatUTC(item.hour, item.minute, this.state.date));
                                         }
                                     }}
                                 >

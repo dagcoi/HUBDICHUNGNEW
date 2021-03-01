@@ -12,6 +12,7 @@ import { ButtonFull } from '../../../component/Button'
 import { SafeAreaView } from 'react-navigation';
 import { SvgCar, SvgClock, SvgDuration, SvgPick } from '../../../icons';
 import { imageBackground } from '../../../image/imageLink'
+import { formatHHMMDD, formatUTC } from '../../../util/formatDateTime'
 
 const imageLocation = '../../../image/location.png'
 const imageCheckWhite = '../../../image/checkw.png'
@@ -281,9 +282,9 @@ class MapCombo extends Component {
                                                     scroll: item.id,
                                                     dialogTimeVisible: false,
                                                     dialogCalendarVisible: false,
-                                                    depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                    depart_time: formatHHMMDD(item.hour, item.minute, this.state.date)
                                                 })
-                                                this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
+                                                this.props.addDepartTime(formatHHMMDD(item.hour, item.minute, this.state.date), formatUTC(item.hour, item.minute, this.state.date));
                                             }
                                         } else {
                                             this.setState({
@@ -292,9 +293,9 @@ class MapCombo extends Component {
                                                 scroll: item.id,
                                                 dialogTimeVisible: false,
                                                 dialogCalendarVisible: false,
-                                                depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                depart_time: formatHHMMDD(item.hour, item.minute, this.state.date)
                                             })
-                                            this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
+                                            this.props.addDepartTime(formatHHMMDD(item.hour, item.minute, this.state.date), formatUTC(item.hour, item.minute, this.state.date));
                                         }
                                     }}
                                 >

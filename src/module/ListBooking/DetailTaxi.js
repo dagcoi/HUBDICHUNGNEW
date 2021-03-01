@@ -3,7 +3,7 @@ import { View, Image, StyleSheet, Text, ScrollView, Linking } from 'react-native
 import ImageTextDiChung from '../../component/ImageTextDiChung'
 import { StatusTicket } from '../../component/Ticket'
 import { SvgCalendar, SvgCar, SvgCheck, SvgMail, SvgMoney, SvgNote, SvgPeople, SvgPerson, SvgPhone, SvgPick, SvgPlane, SvgTicket } from '../../icons'
-import { formatDate } from '../../until'
+import { formatDate } from '../../util'
 
 
 const imageLocation = '../../image/location2.png'

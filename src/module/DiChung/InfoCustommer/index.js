@@ -9,10 +9,7 @@ import { connect } from 'react-redux';
 import { addInfoPeople1, addInfoPeople2, addVAT, addInfoFlight, addPromotionCode, addPaymentMethodID, addComment, addIdCustomer, addBookDeliveryForm } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
 import { Button, ButtonDialog } from '../../../component/Button'
-import AwesomeAlert from 'react-native-awesome-alerts'
-import Dialog, { DialogFooter, DialogButton, DialogContent, DialogTitle } from 'react-native-popup-dialog';
-import PopUp from '../../../component/PopUp'
-import RadioGroup from 'react-native-custom-radio-group';
+
 import { HeaderText } from '../../../component/Header'
 import { RadioButtonCustom, RadioButtonNormal } from '../../../component/RadioButton'
 import Toast from 'react-native-simple-toast'
@@ -35,11 +32,6 @@ var radio_payment_detail = [
 ]
 
 const imageCancel = '../../../image/cancel.png'
-const imageCheck = '../../../image/checked.png'
-const imageATM = '../../../image/atm.png'
-const imageVisa = '../../../image/visa.png'
-const imageVNPay = '../../../image/vnpay.png'
-const imagePayPal = '../../../image/paypal.png'
 
 class InfoCustommer extends Component {
     constructor() {
@@ -75,13 +67,6 @@ class InfoCustommer extends Component {
             blDiscount: false,
             promotionStatus: false,
             comment: '',
-            alertName: false,
-            alertPhone: false,
-            alertEmail: false,
-            alertName2: false,
-            alertPhone2: false,
-            alertCompany: false,
-            alertAirport: false,
         }
     }
 
@@ -384,14 +369,14 @@ class InfoCustommer extends Component {
     toastEmail() {
         Toast.show('Vui lòng nhập Email', Toast.SHORT)
     }
-    toastName1() {
-        Toast.show(this.props.product_chunk_type === 'express' ? 'Vui lòng nhập tên người nhận' : 'Vui lòng nhập tên người đi', Toast.SHORT)
+    toastName1(string) {
+        Toast.show(`Vui lòng nhập tên ${string}`, Toast.SHORT)
     }
-    toastPhone1() {
-        Toast.show(this.props.product_chunk_type === 'express' ? 'Vui lòng nhập số điện thoại người nhận' : 'Vui lòng nhập số điện thoại người đi', Toast.SHORT)
+    toastPhone1(string) {
+        Toast.show(`Vui lòng nhập số điện thoại ${string}`, Toast.SHORT)
     }
-    toastEmail1() {
-        Toast.show(this.props.product_chunk_type === 'express' ? 'Vui lòng nhập email người nhận' : 'Vui lòng nhập email người đi', Toast.SHORT)
+    toastEmail1(string) {
+        Toast.show(`Vui lòng nhập email ${string}`, Toast.SHORT)
     }
     toastCompany() {
         Toast.show('Vui lòng nhập đầy đủ thông tin nhận hóa đơn', Toast.SHORT)
@@ -400,71 +385,31 @@ class InfoCustommer extends Component {
         Toast.show('Vui lòng nhập đủ thông tin chuyến bay', Toast.SHORT)
     }
 
-
-    // renderAlert() {
-    //     return (
-    //         <Dialog
-    //             visible={this.state.alertName || this.state.alertPhone || this.state.alertEmail || this.state.alertName2 || this.state.alertPhone2 || this.state.alertCompany || this.state.alertAirport}
-    //             width={0.8}
-    //             dialogTitle={<DialogTitle title='Thông tin chưa đủ' />}
-    //         >
-    //             <View>
-    //                 <View style={{ padding: 8, flexDirection: 'column' }}>
-    //                     {this.state.alertName ? <Text>Vui lòng nhập tên</Text> : null}
-    //                     {this.state.alertPhone ? <Text>Vui lòng nhập số điện thoại</Text> : null}
-    //                     {this.state.alertEmail ? <Text>Vui lòng nhập Email</Text> : null}
-    //                     {this.state.alertName2 ? <Text>{this.props.product_chunk_type === 'express' ? 'Vui lòng nhập tên người nhận' : 'Vui lòng nhập tên người đi'}</Text> : null}
-    //                     {this.state.alertPhone2 ? <Text>{this.props.product_chunk_type === 'express' ? 'Vui lòng nhập số điện thoại người nhận' : 'Vui lòng nhập số điện thoại người đi'}</Text> : null}
-    //                     {this.state.alertCompany ? <Text>Vui lòng nhập đầy đủ thông tin nhận hóa đơn</Text> : null}
-    //                     {this.state.alertAirport ? <Text>Vui lòng nhập đủ thông tin chuyến bay</Text> : null}
-    //                     <ButtonDialog
-    //                         text="Đồng ý"
-    //                         onPress={() => {
-    //                             this.setState({
-    //                                 alertName: false,
-    //                                 alertPhone: false,
-    //                                 alertEmail: false,
-    //                                 alertName2: false,
-    //                                 alertPhone2: false,
-    //                                 alertCompany: false,
-    //                                 alertAirport: false,
-    //                             })
-    //                         }}
-    //                     />
-    //                 </View>
-    //             </View>
-    //         </Dialog>
-    //     )
-    // }
-
     checkInfoCustomer() {
         if (this.state.full_name.trim().length < 2) {
-            // this.setState({ alertName: true })
             this.toastName()
             return;
         }
         else if (!this.state.mobile_validate) {
-            // this.setState({ alertPhone: true })
             this.toastPhone()
             return;
         }
         else if (!this.state.checkEmail) {
-            // this.setState({ alertEmail: true })
             this.toastEmail()
             return;
         }
         else {
             if (this.state.is_checked) {
+                var string = this.props.product_chunk_type === 'express' ? `người nhận` : `người đi`
                 if (this.state.full_name1.trim().length < 2) {
-                    // this.setState({ alertName2: true })
-                    this.toastName1()
+                    this.toastName1(string)
                     return;
                 }
                 else if (!this.state.mobile_validate1) {
-                    this.toastPhone1()
+                    this.toastPhone1(string)
                     return;
                 } else if (!this.state.checkEmail1) {
-                    this.toastEmail1()
+                    this.toastEmail1(string)
                     return;
                 }
             } else {
@@ -476,8 +421,6 @@ class InfoCustommer extends Component {
 
     checkAirport() {
         if (this.props.typesPick.includes("airport") && this.props.product_chunk_type === 'transfer_service' && (this.state.plane_number.trim().length < 3 || this.state.plane_type < 0)) {
-            // Alert.alert(`Vui lòng nhập mã chuyến bay`)
-            // this.setState({ alertAirport: true })
             this.toastAirport()
             return;
         } else {
@@ -488,19 +431,15 @@ class InfoCustommer extends Component {
     checkVat() {
         if (this.state.vat) {
             if (this.state.company_name.trim() == '') {
-                // this.setState({ alertCompany: true })
                 this.toastCompany()
                 return;
             } else if (this.state.company_address.trim() == '') {
-                // this.setState({ alertCompany: true })
                 this.toastCompany()
                 return;
             } else if (this.state.company_mst.trim() == '') {
-                // this.setState({ alertCompany: true })
                 this.toastCompany()
                 return;
             } else if (this.state.company_address_receive.trim() == '') {
-                // this.setState({ alertCompany: true })
                 this.toastCompany()
                 return;
             } else {

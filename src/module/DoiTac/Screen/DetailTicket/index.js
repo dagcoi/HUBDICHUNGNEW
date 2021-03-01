@@ -4,7 +4,7 @@ import ImageTextDiChung from '../../../../component/ImageTextDiChung';
 import { SvgAvatarIcon, SvgCalendar, SvgCar, SvgDiChungTaxi, SvgMoneyUlgy, SvgPeople, SvgPerson, SvgPhone, SvgPhoneCD, SvgPick, SvgVehicle } from '../../../../icons';
 import * as link from '../../../../URL'
 import styles from '../../style';
-import { formatDate, formatCurrency, handleChange } from '../../../../until'
+import { formatDate, formatCurrency, handleChange } from '../../../../util'
 import { HeaderText } from '../../../../component/Header';
 import { ButtonFull } from '../../../../component/Button';
 

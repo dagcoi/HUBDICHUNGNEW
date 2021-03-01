@@ -3,6 +3,7 @@ import { View, Image, Text, TouchableOpacity, AppState, SafeAreaView } from 'rea
 import AsyncStorage from '@react-native-community/async-storage'
 import { DrawerNavigatorItems, DrawerView } from 'react-navigation-drawer'
 import { connect } from 'react-redux'
+import * as link from '../URL'
 
 const imageAvatar = '../image/logo_dc_taxi.png'
 
@@ -53,6 +54,9 @@ class CustomNavigator extends Component {
                 <View style={{ flex: 1 }}>
                     <DrawerNavigatorItems {...this.props} />
                 </View>
+                {link.URL_API_PORTAL == "https://dev.portal.dichung.vn/api/" && <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <Text>Bản DEV</Text>
+                </View>}
             </SafeAreaView>
         )
     }

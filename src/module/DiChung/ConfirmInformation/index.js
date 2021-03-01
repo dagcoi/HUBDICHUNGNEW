@@ -10,6 +10,8 @@ import { HeaderText } from '../../../component/Header'
 import { SvgCalendar, SvgCar, SvgDuration, SvgMail, SvgPerson, SvgPhone, SvgPick, SvgTicket, SvgNote, SvgMoney, SvgNote2, SvgCheckCircleBorder, SvgDeliveryFrom, SvgNote3, SvgCalenderSelect1, SvgCheckSuccess, SvgDurationOver, SvgInfo } from '../../../icons';
 import SimpleToast from 'react-native-simple-toast';
 import HTML from 'react-native-render-html';
+import styles from './style'
+import PriceInfo from './PriceInfo'
 
 Number.prototype.format = function (n, x) {
     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
@@ -101,7 +103,7 @@ class ConfirmInformation extends Component {
                     url = url + `&returnTime=${returnTime}&productId=${send.productId}`
                     this.getPrice(url)
                 } else {
-                    url = url + `&invoice=${navigation.getParam('xhd') ? 1 : 0}&catch_in_house=${navigation.getParam('broad_price') ? 1 : 0}`
+                    url = url + `&invoice=${navigation.getParam('xhd') ? 1 : 0}&catch_in_house=${navigation.getParam('broad_price') ? 1 : 0}&productId=${send.productId}&slot=${this.props.chair}`
                     this.getPrice(url)
                 }
                 break;
@@ -423,87 +425,26 @@ class ConfirmInformation extends Component {
         }
     }
 
-    renderVAT() {
-        const { navigation } = this.props;
-        if (!navigation.getParam('xhd')) {
-            return null;
-        } else {
-            return (
-                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
-                    <Text style={styles.textBigLeft}>VAT 10%: </Text>
-                    <Text style={styles.textBigRight}>{(this.state.detailPrice.invoiceFee ?? 0).format(0, 3, '.') + ' đ '}</Text>
-                </View>
-            )
-        }
-    }
-
     renderTT() {
         const { navigation } = this.props;
-
+        const xhd = navigation.getParam('xhd')
         const send = JSON.parse(this.props.send);
         console.log('abc:...' + this.state.countDay)
         if (this.state.loadingPrice) {
             return null;
+        } else {
+            if (this.state.detailPrice != null) {
+                return (
+                    <PriceInfo
+                        product_chunk_type={this.props.product_chunk_type}
+                        detailPrice={this.state.detailPrice}
+                        cost={this.props.cost}
+                        send={send}
+                        xhd={xhd}
+                    />
+                )
+            }
         }
-        return (
-            <View>
-                {this.props.product_chunk_type === 'hourly_car_rental' &&
-                    <View>
-                        {this.state.detailPrice?.saturdayPrice && <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
-                            <Text style={styles.textBigLeft}>Cuối tuần: </Text>
-                            <Text style={styles.textBigRight}>{((this.state.detailPrice?.saturdayPrice ?? 0) + (this.state.detailPrice?.sundayPrice ?? 0)).format(0, 3, '.')} đ</Text>
-                        </View>}
-                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
-                            <Text style={styles.textBigLeft}>Thời gian thuê: </Text>
-                            <Text style={styles.textBigRight}>{this.state.detailPrice?.rentDayNumber ?? 0} ngày</Text>
-                        </View>
-                    </View>
-                }
-
-                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
-                    <Text style={styles.textBigLeft}>Đơn giá: </Text>
-                    <Text style={styles.textBigRight}>{parseInt(this.props.cost).format(0, 3, '.') + ' đ '}</Text>
-                </View>
-                {this.state.detailPrice?.slot &&
-                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
-                        <Text style={styles.textBigLeft}>Số lượng </Text>
-                        <Text style={styles.textBigRight}>{this.state.detailPrice?.slot} người</Text>
-                    </View>
-                }
-
-                {send && send.payment && send.payment.tollFee && send.payment.tollFee != 'NA' && send.payment.tollFee != '0' &&
-                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
-                        <Text style={styles.textBigLeft}>Phí cầu đường</Text>
-                        <Text style={styles.textBigRight}>{parseInt(send.payment.tollFee).format(0, 3, '.') + ' đ '}</Text>
-                    </View>
-                }
-                {this.state.detailPrice?.invoiceFee &&
-                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
-                        <Text style={styles.textBigLeft}>10% VAT </Text>
-                        <Text style={styles.textBigRight}>{this.state.detailPrice?.invoiceFee.format(0, 3, '.') + ' đ '}</Text>
-                    </View>
-                }
-                {this.state.detailPrice?.catchInHousePrice &&
-                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
-                        <Text style={styles.textBigLeft}>Đón biển tên: </Text>
-                        <Text style={styles.textBigRight}>{this.state.detailPrice?.catchInHousePrice.format(0, 3, '.') + ' đ '}</Text>
-                    </View>
-                }
-                {this.state.detailPrice && this.state.detailPrice.promotionDiscount && this.state.detailPrice.promotionDiscount != 0 &&
-                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
-                        <Text style={styles.textBigLeft}>Mã giảm giá:</Text>
-                        <Text style={styles.textBigRight}>{(this.state.detailPrice?.promotionDiscount).format(0, 3, '.') + ' đ '}</Text>
-                    </View>
-                }
-                {this.renderVAT()}
-                {this.state.detailPrice &&
-                    <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
-                        <Text style={styles.textBigLeft1}>Tổng thanh toán: </Text>
-                        <Text style={styles.textBigRight1}>{(this.state.detailPrice?.totalPrice ?? 0).format(0, 3, '.') + ' đ '}</Text>
-                    </View>
-                }
-            </View>
-        )
     }
 
     formComment() {
@@ -694,34 +635,7 @@ class ConfirmInformation extends Component {
         });
     }
 }
-const styles = StyleSheet.create({
-    textBigRight1: {
-        padding: 1,
-        fontSize: 21,
-        color: '#77a300',
-        flex: 1,
-        textAlign: "right",
-        marginTop: 8,
-    },
-    textBigLeft1: {
-        fontSize: 16,
-        marginTop: 8,
-        fontWeight: 'bold',
-    },
-    textBigRight: {
-        padding: 1,
-        fontSize: 16,
-        color: '#77a300',
-        flex: 1,
-        textAlign: "right",
-        marginTop: 8,
-    },
-    textBigLeft: {
-        fontSize: 14,
-        marginTop: 8,
-        fontWeight: '700',
-    },
-})
+
 function mapStateToProps(state) {
     return {
         drop_add: state.info.drop_add,

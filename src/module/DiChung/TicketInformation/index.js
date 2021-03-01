@@ -343,19 +343,8 @@ class TicketInformation extends Component {
 
                             {item.forward?.status == 'forwarded' ?
                                 <Text style={styles.textBigRight}>Mã thuê xe của bạn: <Text style={{ fontWeight: 'bold', backgroundColor: '#77a300', color: '#fff', padding: 4 }}>{item.code}</Text></Text>
-                                : <Text style={styles.textBigRight}>Yêu cầu đặt xe của bạn đã được hệ thồng ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>
+                                : <Text style={styles.textBigRight}>Yêu cầu đặt xe của bạn đã được hệ thống ghi nhận. Chúng tôi sẽ liên lạc trong thời gian sớm nhất</Text>
                             }
-                            {/* {this.state.bookingDetail.productType == 'CAR_RENTAL' ? <DetailTuLai item={this.state.bookingDetail} />
-                                : this.state.bookingDetail.productType == 'DRIVER_RENTAL' ? <DetailXeChung item={this.state.bookingDetail} />
-                                    : this.state.bookingDetail.productType == 'hourly_car_rental' ? <DetailChungXe item={this.state.bookingDetail} />
-                                        : this.state.bookingDetail.productType == 'EXPRESS' ? <DetailExpress item={this.state.bookingDetail} />
-                                            : this.state.bookingDetail.productType == 'express' ? <DetailExpress item={this.state.bookingDetail} />
-                                                : this.state.bookingDetail.productType == 'TRANSFER_SERVICE' ? <DetailTaxi item={this.state.bookingDetail} />
-                                                    : this.state.bookingDetail.productType == 'transfer_service' ? <DetailTaxi item={this.state.bookingDetail} />
-                                                        : this.state.bookingDetail.productType == 'TRUCK' ? <DetailTaxi item={this.state.bookingDetail} />
-                                                            : this.state.bookingDetail.productType == 'TOURIST_CAR' ? <DetailTaxi item={this.state.bookingDetail} />
-                                                                : this.state.bookingDetail.productType == 'RIDE_SHARE' ? <DetailTaxi item={this.state.bookingDetail} />
-                                                                    : <DetailHourlyTaxi item={this.state.bookingDetail} />} */}
                             {this.renderDetail(this.state.bookingDetail)}
                             <View style={{ paddingHorizontal: 8 }}>
                                 {this.renderPaymentOnline(item)}

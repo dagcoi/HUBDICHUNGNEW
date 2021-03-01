@@ -55,6 +55,19 @@ class FormTaxiDoorToDoor extends Component {
         )
     }
 
+    renderSlot() {
+        return (
+            <ImageInputTextDiChung
+                noBorderTop
+                onPress={this.props.onPressSelectSlot}
+                source={require(imageLocation)}
+                placeholder={'Nhập điểm đến'}
+                value={this.props.chair + ' người'}
+                children={<SvgPeople />}
+            />
+        )
+    }
+
     render() {
         return (
             <View style={{ flexDirection: 'row' }}>
@@ -67,16 +80,9 @@ class FormTaxiDoorToDoor extends Component {
                             {this.renderTimePick()}
                         </View>
                         <View style={{ width: 1, backgroundColor: '#e8e8e8' }}></View>
-                        <TouchableOpacity
-                            style={{ flex: 1, justifyContent: "center", flexDirection: 'row', alignItems: 'center' }}
-                            onPress={this.props.onPressSelectSlot}
-                        >
-                            <View style={{ paddingHorizontal: 8 }}>
-                                <SvgPeople />
-                            </View>
-                            <Text style={{ flex: 1 }}>{this.props.chair} người</Text>
-                            <SvgArrowDown />
-                        </TouchableOpacity>
+                        <View style={{ flex: 1, }}>
+                            {this.renderSlot()}
+                        </View>
                     </View>
 
                 </View>

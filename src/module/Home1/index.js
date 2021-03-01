@@ -10,12 +10,12 @@ import firebase from 'react-native-firebase'
 import { FlatGrid } from 'react-native-super-grid';
 import Detail from './infoDetail'
 import SwiperFlatList from 'react-native-swiper-flatlist';
-
+import { checkMultiple, check, PERMISSIONS, RESULTS } from 'react-native-permissions';
 import Geocoder from 'react-native-geocoding';
 import * as key from '../../component/KeyGG'
 const GOOGLE_MAPS_API_KEY = key.KEY_GOOGLE;
 import Geolocation from '@react-native-community/geolocation';
-import ModalTimePick from '../../until/ModalTimePick';
+import ModalTimePick from '../../util/ModalTimePick';
 import { SvgChungXe, SvgComboTravel, SvgDiChungTaxi, SvgDiChungXe, SvgExpress, SvgTravel, SvgTruck, SvgXeChung } from '../../icons';
 import SelectCar from './SelectCar';
 
@@ -203,6 +203,18 @@ class Home1 extends Component {
 
     }
 
+    checkLocationAlways = async () => {
+        const alwaysStatus = await check(PERMISSIONS.IOS.LOCATION_ALWAYS);
+        console.log('235' + JSON.stringify(alwaysStatus))
+        if (alwaysStatus === RESULTS.GRANTED) {
+            return 'always';
+        }
+
+        const whenInUseStatus = await check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
+        console.log('235' + JSON.stringify(whenInUseStatus))
+        return whenInUseStatus === RESULTS.GRANTED ? 'whenInUse' : alwaysStatus;
+    }
+
     getLocationPlatform = async () => {
         console.log('abc')
         if (Platform.OS === 'android') {
@@ -227,9 +239,21 @@ class Home1 extends Component {
                 console.warn(err);
             }
         } else {
-            this.getLocation()
+            this.CheckPermission()
         }
     };
+
+    async CheckPermission() {
+        await Geolocation.requestAuthorization();
+        const status = await this.checkLocationAlways();
+        console.log(`.*.` + status);
+        switch (status) {
+            case 'always': this.getLocation(); break;
+            case 'whenInUse': this.getLocation(); break;
+            default:
+                break;
+        }
+    }
 
     getLocation() {
         console.log('getLocation')
@@ -248,7 +272,7 @@ class Home1 extends Component {
                     console.log('lat: ' + lat)
                     console.log('lng: ' + lng)
                 })
-                .catch(error => console.warn(error));
+                .catch(error => console.warn('...' + JSON.stringify(error)));
         });
         console.log('getLocation')
     }

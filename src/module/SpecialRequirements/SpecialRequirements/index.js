@@ -9,7 +9,7 @@ import { NavigationActions, StackActions } from 'react-navigation';
 import { listHour } from '../../../component/TimeSelect/listTime'
 import { Button, ButtonDialog } from '../../../component/Button'
 import Dialog, { } from 'react-native-popup-dialog';
-
+import { formatHHMMDD, formatUTC } from '../../../util/formatDateTime'
 
 class SpecialRequirements extends Component {
 
@@ -578,7 +578,7 @@ class SpecialRequirements extends Component {
                                                                 scroll: item.id,
                                                                 dialogTimeVisible: false,
                                                                 dialogCalendarVisible: false,
-                                                                time_pick: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                                time_pick: formatHHMMDD(item.hour, item.minute, this.state.date)
                                                             })
                                                         }
                                                     } else {
@@ -588,7 +588,7 @@ class SpecialRequirements extends Component {
                                                             scroll: item.id,
                                                             dialogTimeVisible: false,
                                                             dialogCalendarVisible: false,
-                                                            time_pick: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                            time_pick: formatHHMMDD(item.hour, item.minute, this.state.date)
                                                         })
                                                     }
                                                 }}

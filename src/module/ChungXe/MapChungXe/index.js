@@ -11,11 +11,12 @@ import PopUp from '../../../component/PopUp'
 import { HeaderText } from '../../../component/Header';
 import ImageTextBold from '../../../component/ImageTextDiChung/ImageTextBold'
 import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
-import { getDateTimeAlive } from '../../../until'
+import { getDateTimeAlive } from '../../../util'
 import FormChungxeTuyen from './FormChungxeTuyen';
 import FormChungxe from './FormChungxe';
 import Toast from 'react-native-simple-toast'
 import { imageBackground } from '../../../image/imageLink'
+import { formatHHMMDD, formatUTC } from '../../../util/formatDateTime'
 const imageLocation = '../../../image/location.png'
 const imageDrop = '../../../image/location.png'
 const imageSwap = '../../../image/swap.png'
@@ -369,11 +370,11 @@ class MapChungXe extends Component {
                                                         scrollNhan: item.id,
                                                         dialogTimeVisible: false,
                                                         dialogCalendarVisible: false,
-                                                        time_pick: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`,
+                                                        time_pick: formatHHMMDD(item.hour, item.minute, this.state.date),
                                                         rent_date: `${this.state.date.format('YYYY-MM-DD')}`,
-                                                        // time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                        // time_drop: formatHHMMDD(item.hour, item.minute, this.state.date)
                                                     })
-                                                    this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
+                                                    this.props.addDepartTime(formatHHMMDD(item.hour, item.minute, this.state.date), formatUTC(item.hour, item.minute, this.state.date));
                                                 }
                                             } else {
                                                 this.setState({
@@ -382,11 +383,11 @@ class MapChungXe extends Component {
                                                     scrollNhan: item.id,
                                                     dialogTimeVisible: false,
                                                     dialogCalendarVisible: false,
-                                                    time_pick: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`,
+                                                    time_pick: formatHHMMDD(item.hour, item.minute, this.state.date),
                                                     rent_date: `${this.state.date.format('YYYY-MM-DD')}`,
-                                                    // time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                    // time_drop: formatHHMMDD(item.hour, item.minute, this.state.date)
                                                 })
-                                                this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
+                                                this.props.addDepartTime(formatHHMMDD(item.hour, item.minute, this.state.date), formatUTC(item.hour, item.minute, this.state.date));
                                             }
                                         } else {
                                             if (isDayAlight) {
@@ -397,10 +398,10 @@ class MapChungXe extends Component {
                                                         scrollTra: item.id,
                                                         dialogTimeVisible: false,
                                                         dialogCalendarVisible: false,
-                                                        time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date1.format('DD/MM/YYYY')}`,
+                                                        time_drop: formatHHMMDD(item.hour, item.minute, this.state.date1),
                                                         return_date: `${this.state.date1.format('YYYY-MM-DD')}`,
                                                     })
-                                                    this.props.addReturnTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date1.format('DD/MM/YYYY')}`, `${this.state.date1.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
+                                                    this.props.addReturnTime(formatHHMMDD(item.hour, item.minute, this.state.date1), formatUTC(item.hour, item.minute, this.state.date1));
                                                 }
                                             } else {
                                                 this.setState({
@@ -409,10 +410,10 @@ class MapChungXe extends Component {
                                                     scrollTra: item.id,
                                                     dialogTimeVisible: false,
                                                     dialogCalendarVisible: false,
-                                                    time_drop: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date1.format('DD/MM/YYYY')}`,
+                                                    time_drop: formatHHMMDD(item.hour, item.minute, this.state.date1),
                                                     return_date: `${this.state.date1.format('YYYY-MM-DD')}`,
                                                 })
-                                                this.props.addReturnTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date1.format('DD/MM/YYYY')}`, `${this.state.date1.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
+                                                this.props.addReturnTime(formatHHMMDD(item.hour, item.minute, this.state.date1), formatUTC(item.hour, item.minute, this.state.date1));
                                             }
                                         }
                                     }}

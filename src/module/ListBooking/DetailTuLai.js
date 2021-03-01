@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet, ScrollView, } from 'react-native';
 import ImageTextDiChung from '../../component/ImageTextDiChung'
 import { SvgCalendar, SvgCheckNormal, SvgMail, SvgMoney, SvgNote, SvgPeople, SvgPerson, SvgPhone, SvgPick } from '../../icons';
-import { formatDate } from '../../until'
+import { formatDate } from '../../util'
 
 const imageLocation = '../../image/location2.png'
 const imageCalendar = '../../image/calendar.png'

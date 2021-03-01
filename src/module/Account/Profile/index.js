@@ -61,7 +61,6 @@ class Profile extends Component {
     componentDidMount() {
         const { navigation } = this.props;
         if (navigation.getParam('dataLogin')) {
-
             let dataLogin = navigation.getParam('dataLogin')
             let json = JSON.parse(dataLogin)
             this.addDataLogin(json)
@@ -72,21 +71,6 @@ class Profile extends Component {
             this._retrieveData()
         }
     }
-
-    // componentDidUpdate() {
-    //     const { navigation } = this.props;
-    //     if (navigation.getParam('dataLogin')) {
-    //         let dataLogin = navigation.getParam('dataLogin')
-    //         let json = JSON.parse(dataLogin)
-    //         this.apiGetProfile(json._id)
-    //     }
-
-    //     if (navigation.getParam('passWord')) {
-    //         this.setState({
-    //             passWord: navigation.getParam('passWord')
-    //         })
-    //     }
-    // }
 
     addDataLogin = async (dataLogin) => {
         await AsyncStorage.setItem('dataLogin', JSON.stringify(dataLogin))
@@ -151,7 +135,6 @@ class Profile extends Component {
     apiGetProfile(id) {
         let url = link.URL_API_PORTAL + `user/v1/profiles/${id}`
         // console.log(url)
-        // console.log('da den day')
         fetch(url, { method: 'GET' })
             .then(res => res.json())
             .then(resJson => {

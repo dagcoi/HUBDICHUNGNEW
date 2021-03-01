@@ -6,30 +6,20 @@ import { HeaderText } from '../../../component/Header'
 import { Button } from '../../../component/Button'
 import CalendarPicker from 'react-native-calendar-picker';
 import { listHour, listChair, listTime } from '../../../component/TimeSelect/listTime'
-import { getDateTimeAlive } from '../../../until'
+import { getDateTimeAlive } from '../../../util'
 import { addSend, addCost, addExtra, addDepartTime, addPeople, swapAddress, addDuration, addProductChunkType, addCarType, setModalCarType, setModalVehicleType, addReturnTime } from '../../../core/Redux/action/Action'
 import * as link from '../../../URL'
 import { ItemCarTaxi, ItemCarTaxiHourly } from '../../../component/ItemCar';
-import TextSpaceBetween from '../../../component/ImageTextDiChung/TextSpaceBetween';
-import FormTaxi from '../MapDiChung/FormTaxi';
-import FormHourlyTaxi from '../MapDiChung/FormHourlyTaxi';
-import FormChungxeTuyen from '../../ChungXe/MapChungXe/FormChungxeTuyen';
-import FormChungxe from '../../ChungXe/MapChungXe/FormChungxe';
-import FormExpress from '../../Express/MapExpress/FormExpress';
-import FormHourlyTruck from '../../ScreenAddress/Truck/FormHourlyTruck';
-import FormTruckDoor from '../../ScreenAddress/Truck/FormTruckDoor';
-import FormHourlyXeChung from '../../XeChung/MapXeChung/FormHourlyXeChung';
-import FormXeChung from '../../XeChung/MapXeChung/FormXeChung';
-import FormHourlyTravel from '../../ScreenAddress/Travel/FormHourlyTravel';
-import FormTravel from '../../ScreenAddress/Travel/FormTravel';
-import FormRideShare from '../../ScreenAddress/RideShare/FormRideShare';
 import ModalCarType from '../../ScreenAddress/Util/Modal/ModalCarType';
 import ModalVehicleType from '../../ScreenAddress/Util/Modal/ModalVehicleType';
 import Dialog, { DialogContent, DialogButton } from 'react-native-popup-dialog';
+import FormAddress from './FormAddress'
+import { formatHHMMDD, formatUTC } from './formatDateTime'
 
 // import FormHourlyTaxi from '../MapDiChung/FormHourlyTaxi';
 import HTML from 'react-native-render-html';
 import DetailItem from './DetailItem'
+import SimpleToast from 'react-native-simple-toast';
 const imageMaxToMin = '../../../image/maxtomin.png'
 const imageMinToMax = '../../../image/mintomax.png'
 const imageTune = '../../../image/tune.png'
@@ -130,8 +120,17 @@ class ListCar extends Component {
 
     componentWillUpdate(nextProps, nextState) {
         if (this.props.pick_add != nextProps.pick_add || this.props.drop_add != nextProps.drop_add || this.props.product_chunk_type != nextProps.product_chunk_type || this.props.duration != nextProps.duration || this.props.chair != nextProps.chair || this.props.depart_time2 != nextProps.depart_time2 || this.props.vehicleType != nextProps.vehicleType || this.props.returnTime2 != nextProps.returnTime2 || this.props.carType != nextProps.carType || this.props.itemVehicle != nextProps.itemVehicle) {
-            this.getProvider()
-            this.setState({ item: null, selectItem: -1 })
+            var date1 = new Date(this.props.depart_time2)
+            var date2 = new Date(this.props.returnTime2)
+            var date3 = new Date(nextProps.depart_time2)
+            var date4 = new Date(nextProps.returnTime2)
+            if (((this.props.depart_time2 != nextProps.depart_time2 && date2 < date3) || (this.props.returnTime2 != nextProps.returnTime2 && date4 < date1)) && this.props.product_chunk_type === 'hourly_car_rental') {
+                SimpleToast.show('giờ thuê và trả không phù hợp', SimpleToast.LONG)
+                this.setState({ dataSource: [] })
+            } else {
+                this.getProvider()
+                this.setState({ item: null, selectItem: -1 })
+            }
         }
     }
 
@@ -415,14 +414,14 @@ class ListCar extends Component {
                                     isSelect={index == this.state.selectItem && item == this.state.item}
                                 />
                             )) : (objDC.length == 0 && this.state.countLoading == 0) ?
-                                <CarError />
-                                : objDC.map((item, index) => (
-                                    <ItemCarTaxi
-                                        item={item}
-                                        onPress={() => this.pressItem(index, item)}
-                                        isSelect={index == this.state.selectItem && item == this.state.item}
-                                    />
-                                ))}
+                            <CarError />
+                            : objDC.map((item, index) => (
+                                <ItemCarTaxi
+                                    item={item}
+                                    onPress={() => this.pressItem(index, item)}
+                                    isSelect={index == this.state.selectItem && item == this.state.item}
+                                />
+                            ))}
                         {this.state.countLoading > 0 ? <ActivityIndicator
                             size='large'
                             style={{ marginTop: 20 }}
@@ -553,148 +552,18 @@ class ListCar extends Component {
     }
 
     formAddress() {
-        switch (this.props.product_chunk_type) {
-            case 'transfer_service':
-                return (
-                    <View style={{ margin: 8, borderRadius: 10, borderWidth: 0.5, borderColor: '#e8e8e8' }}>
-                        <FormTaxi
-                            onPressPickAddress={this.pressPickAddress}
-                            onPressDropAddress={this.pressDropAddress}
-                            onPressSwap={this.pressSwap}
-                            onPressSelectTime={this.pressSelectTime}
-                            onPressSelectSlot={this.pressSelectSlot}
-                        />
-                    </View>
-                )
-            case 'hourly_rent_taxi':
-                return (
-                    <View style={{ margin: 8, borderRadius: 10, borderWidth: 0.5, borderColor: '#e8e8e8' }}>
-                        <FormHourlyTaxi
-                            onPressPickAddress={this.pressPickAddress}
-                            onPressSelectTime={this.pressSelectTime}
-                            onPressCarType={this.pressCarType}
-                            onPressHourglass={this.pressHourglass}
-                        />
-                    </View>
-                )
-            case 'car_rental':
-                return (
-                    <View style={{ margin: 8, borderRadius: 10, borderWidth: 0.5, borderColor: '#e8e8e8' }}>
-                        <FormChungxeTuyen
-                            onPressPickAddress={this.pressPickAddress}
-                            onPressDropAddress={this.pressDropAddress}
-                            onPressSwap={this.pressSwap}
-                            onPressSelectTime={this.pressSelectTime}
-                            onPressSelectSlot={this.pressSelectSlot}
-                        />
-                    </View>
-                )
-            case 'hourly_car_rental':
-                return (
-                    <View style={{ margin: 8, borderRadius: 10, borderWidth: 0.5, borderColor: '#e8e8e8' }}>
-                        <FormChungxe
-                            onPressPickAddress={this.pressPickAddress}
-                            onPressSelectTimeRent={this.pressSelectTime}
-                            onPressVehicle={this.pressVehicleType}
-                            onPressSelectTimeReturn={this.onPressSelectTimeReturn}
-                        />
-                    </View>
-                )
-            case 'express':
-                return (
-                    <View style={{ margin: 8, borderRadius: 10, borderWidth: 0.5, borderColor: '#e8e8e8' }}>
-                        <FormExpress
-                            onPressPickAddress={this.pressPickAddress}
-                            onPressDropAddress={this.pressDropAddress}
-                            onPressSwap={this.pressSwap}
-                            onPressSelectTime={this.pressSelectTime}
-                            onPressSelectSlot={this.pressSelectSlot}
-                        />
-                    </View>
-                )
-            case 'driver_rental':
-                return (
-                    <View style={{ margin: 8, borderRadius: 10, borderWidth: 0.5, borderColor: '#e8e8e8' }}>
-                        <FormXeChung
-                            onPressPickAddress={this.pressPickAddress}
-                            onPressDropAddress={this.pressDropAddress}
-                            onPressSwap={this.pressSwap}
-                            onPressSelectTime={this.pressSelectTime}
-                        />
-                    </View>
-                )
-            case 'hourly_rent_driver':
-                return (
-                    <View style={{ margin: 8, borderRadius: 10, borderWidth: 0.5, borderColor: '#e8e8e8' }}>
-                        <FormHourlyXeChung
-                            onPressPickAddress={this.pressPickAddress}
-                            onPressSelectTime={this.pressSelectTime}
-                            onPressSelectSlot={this.pressSelectSlot}
-                        />
-                    </View>
-                )
-            case 'hourly_freight_truck':
-                return (
-                    <View style={{ margin: 8, borderRadius: 10, borderWidth: 0.5, borderColor: '#e8e8e8' }}>
-                        <FormHourlyTruck
-                            onPressPickAddress={this.pressPickAddress}
-                            onPressDropAddress={this.pressDropAddress}
-                            onPressSwap={this.pressSwap}
-                            onPressSelectTime={this.pressSelectTime}
-                            onPressSelectSlot={this.pressSelectSlot}
-                        />
-                    </View>
-                )
-            case 'truck':
-                return (
-                    <View style={{ margin: 8, borderRadius: 10, borderWidth: 0.5, borderColor: '#e8e8e8' }}>
-                        <FormTruckDoor
-                            onPressPickAddress={this.pressPickAddress}
-                            onPressDropAddress={this.pressDropAddress}
-                            onPressSwap={this.pressSwap}
-                            onPressSelectTime={this.pressSelectTime}
-                            onPressSelectSlot={this.pressSelectSlot}
-                        />
-                    </View>
-                )
-            case 'hourly_tourist_car':
-                return (
-                    <View style={{ margin: 8, borderRadius: 10, borderWidth: 0.5, borderColor: '#e8e8e8' }}>
-                        <FormHourlyTravel
-                            onPressPickAddress={this.pressPickAddress}
-                            onPressDropAddress={this.pressDropAddress}
-                            onPressSwap={this.pressSwap}
-                            onPressSelectTime={this.pressSelectTime}
-                            onPressSelectSlot={this.pressSelectSlot}
-                        />
-                    </View>
-                )
-            case 'tourist_car':
-                return (
-                    <View style={{ margin: 8, borderRadius: 10, borderWidth: 0.5, borderColor: '#e8e8e8' }}>
-                        <FormTravel
-                            onPressPickAddress={this.pressPickAddress}
-                            onPressDropAddress={this.pressDropAddress}
-                            onPressSwap={this.pressSwap}
-                            onPressSelectTime={this.pressSelectTime}
-                            onPressSelectSlot={this.pressSelectSlot}
-                        />
-                    </View>
-                )
-            case 'ride_share':
-                return (
-                    <View style={{ margin: 8, borderRadius: 10, borderWidth: 0.5, borderColor: '#e8e8e8' }}>
-                        <FormRideShare
-                            onPressPickAddress={this.pressPickAddress}
-                            onPressDropAddress={this.pressDropAddress}
-                            onPressSwap={this.pressSwap}
-                            onPressSelectTime={this.pressSelectTime}
-                            onPressSelectSlot={this.pressSelectSlot}
-                        />
-                    </View>
-                )
-            default: null
-        }
+        return (
+            <FormAddress
+                product_chunk_type={this.props.product_chunk_type}
+                pressPickAddress={this.pressPickAddress}
+                pressDropAddress={this.pressDropAddress}
+                pressSwap={this.pressSwap}
+                pressSelectTime={this.pressSelectTime}
+                pressSelectSlot={this.pressSelectSlot}
+                pressVehicleType={this.pressVehicleType}
+                onPressSelectTimeReturn={this.onPressSelectTimeReturn}
+            />
+        )
     }
 
     modalSlot() {
@@ -747,6 +616,10 @@ class ListCar extends Component {
         )
     }
 
+    formatDateTime(hour, minute, date) {
+        return `${hour < 10 ? '0' + hour : hour}:${minute == 0 ? '00' : minute} ${date.format('DD/MM/YYYY')}`
+    }
+
     modalTime() {
         return (
             <Modal
@@ -791,17 +664,17 @@ class ListCar extends Component {
                                                     this.setState({
                                                         dialogTimeVisible: false,
                                                         dialogCalendarVisible: false,
-                                                        depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                        depart_time: formatHHMMDD(item.hour, item.minute, this.state.date)
                                                     })
-                                                    this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
+                                                    this.props.addDepartTime(formatHHMMDD(item.hour, item.minute, this.state.date), formatUTC(item.hour, item.minute, this.state.date));
                                                 }
                                             } else {
                                                 this.setState({
                                                     dialogTimeVisible: false,
                                                     dialogCalendarVisible: false,
-                                                    depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                    depart_time: formatHHMMDD(item.hour, item.minute, this.state.date)
                                                 })
-                                                this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
+                                                this.props.addDepartTime(formatHHMMDD(item.hour, item.minute, this.state.date), formatUTC(item.hour, item.minute, this.state.date));
                                             }
                                         } else {
                                             if (isDayAlight) {
@@ -809,17 +682,17 @@ class ListCar extends Component {
                                                     this.setState({
                                                         dialogTimeVisible: false,
                                                         dialogCalendarVisible: false,
-                                                        depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                        depart_time: formatHHMMDD(item.hour, item.minute, this.state.date)
                                                     })
-                                                    this.props.addReturnTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
+                                                    this.props.addReturnTime(formatHHMMDD(item.hour, item.minute, this.state.date), formatUTC(item.hour, item.minute, this.state.date));
                                                 }
                                             } else {
                                                 this.setState({
                                                     dialogTimeVisible: false,
                                                     dialogCalendarVisible: false,
-                                                    depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                    depart_time: formatHHMMDD(item.hour, item.minute, this.state.date)
                                                 })
-                                                this.props.addReturnTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
+                                                this.props.addReturnTime(formatHHMMDD(item.hour, item.minute, this.state.date), formatUTC(item.hour, item.minute, this.state.date));
                                             }
                                         }
                                     }}

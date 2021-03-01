@@ -7,6 +7,7 @@ import ImageInputTextDiChung from '../../../component/ImageInputTextDiChung'
 import { ButtonFull, ButtonDialog } from '../../../component/Button'
 import Dialog, { } from 'react-native-popup-dialog';
 import ImageTextBold from '../../../component/ImageTextDiChung/ImageTextBold'
+import { formatHHMMDD, formatUTC } from '../../../util/formatDateTime'
 
 import { TextInput } from 'react-native-gesture-handler';
 import { listHour, listChair, listTime } from '../../../component/TimeSelect/listTime'
@@ -382,10 +383,10 @@ class MapTruck extends Component {
                                                     scroll: item.id,
                                                     dialogTimeVisible: false,
                                                     dialogCalendarVisible: false,
-                                                    depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                    depart_time: formatHHMMDD(item.hour, item.minute, this.state.date)
                                                 })
-                                                this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
-                                                // this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
+                                                this.props.addDepartTime(formatHHMMDD(item.hour, item.minute, this.state.date), formatUTC(item.hour, item.minute, this.state.date));
+                                                // this.props.addDepartTime(formatHHMMDD(item.hour, item.minute, this.state.date));
                                             }
                                         } else {
                                             this.setState({
@@ -394,10 +395,10 @@ class MapTruck extends Component {
                                                 scroll: item.id,
                                                 dialogTimeVisible: false,
                                                 dialogCalendarVisible: false,
-                                                depart_time: `${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`
+                                                depart_time: formatHHMMDD(item.hour, item.minute, this.state.date)
                                             })
-                                            this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`, `${this.state.date.format('YYYY-MM-DD')}T${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute}:00.000`);
-                                            // this.props.addDepartTime(`${item.hour < 10 ? '0' + item.hour : item.hour}:${item.minute == 0 ? '00' : item.minute} ${this.state.date.format('DD/MM/YYYY')}`);
+                                            this.props.addDepartTime(formatHHMMDD(item.hour, item.minute, this.state.date), formatUTC(item.hour, item.minute, this.state.date));
+                                            // this.props.addDepartTime(formatHHMMDD(item.hour, item.minute, this.state.date));
                                         }
                                     }}
                                 >
