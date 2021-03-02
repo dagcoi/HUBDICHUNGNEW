@@ -31,7 +31,8 @@ class ConfirmRideShare extends Component {
         console.log(this.props.depart_time)
         var url;
         if (this.props.pickAddressComponent?.place_id && this.props.dropAddressComponent?.place_id) {
-            url = link.URL_API_PORTAL + `rs-schedule/v1/schedules/estimation?departureTime=${time}&startId=${this.props.pickAddressComponent?.place_id}&endId=${this.props.dropAddressComponent?.place_id}`
+            // url = link.URL_API_PORTAL + `rs-schedule/v1/schedules/estimation?departureTime=${time}&startId=${this.props.pickAddressComponent?.place_id}&endId=${this.props.dropAddressComponent?.place_id}`
+            url = link.URL_API_PORTAL + `map/v1/routes/distancematrix?startPlaceId=${this.props.pickAddressComponent?.place_id}&endPlaceId=${this.props.dropAddressComponent?.place_id}`
         }
 
         console.log(url)
@@ -40,8 +41,8 @@ class ConfirmRideShare extends Component {
             .then(resJson => {
                 console.log(resJson)
                 this.setState({
-                    range: resJson.data.distanceText,
-                    price: resJson.data.price.toString(),
+                    range: resJson.data.rows[0].elements[0].distance.text,
+                    price: resJson.data.rows[0].elements[0].distance.value.toString(),
                     data: resJson,
                 })
             })

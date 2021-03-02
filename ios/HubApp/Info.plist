@@ -49,13 +49,13 @@
 			</dict>
 		</dict>
 		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-		<string>The function request user location to determine address and autofill to pickup and drop address fields</string>
+		<string>Chúng tôi cần truy cập vị trí của bạn để tự động điền vào địa chỉ đón, trả.</string>
 		<key>NSLocationAlwaysUsageDescription</key>
-		<string>The function request user location to determine address and autofill to pickup and drop address fields</string>
+		<string>Chúng tôi cần truy cập vị trí của bạn để tự động điền vào địa chỉ đón, trả.</string>
 		<key>NSLocationUsageDescription</key>
-		<string>The function request user location to determine address and autofill to pickup and drop address fields</string>
+		<string>Chúng tôi cần truy cập vị trí của bạn để tự động điền vào địa chỉ đón, trả.</string>
 		<key>NSLocationWhenInUseUsageDescription</key>
-		<string>The function request user location to determine address and autofill to pickup and drop address fields</string>
+		<string>Chúng tôi cần truy cập vị trí của bạn để tự động điền vào địa chỉ đón, trả.</string>
 		<key>UIBackgroundModes</key>
 		<array>
 			<string>remote-notification</string>

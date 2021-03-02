@@ -22,7 +22,7 @@ Number.prototype.format = function (n, x) {
     return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
 };
 
-function DetailTaxi({ item }) {
+function DetailTaxiDC({ item }) {
     console.log(JSON.stringify(item))
     return (
         <ScrollView
@@ -182,24 +182,6 @@ function renderOther(item) {
                 source={require(imagePayment)}
                 text={item.payment.method == 'cash' ? 'Trả sau' : 'Trả trước'}
             />
-            {item.extra?.catch_in_house == '1' &&
-                <ImageTextDiChung
-                    children={<SvgCheck />}
-                    text={'Đón bằng biển tên (+ 30.000 ₫)'}
-                />
-            }
-            {item.extra?.xhd == 1 &&
-                <ImageTextDiChung
-                    children={<SvgCheck />}
-                    text={'+10 %'}
-                />
-            }
-            {item.promocode &&
-                <ImageTextDiChung
-                    children={<SvgCheck />}
-                    text={'Mã giảm giá: ' + item.promocode}
-                />
-            }
         </View>
     )
 }
@@ -279,4 +261,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default DetailTaxi;
+export default DetailTaxiDC;

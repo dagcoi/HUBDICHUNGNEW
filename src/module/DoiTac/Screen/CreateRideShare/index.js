@@ -58,11 +58,11 @@ class CreateRideShare extends Component {
         const { dropAddressComponent, pickAddressComponent } = this.props
         send.autoAcceptBooking = this.props.itemConfirm.value == 1 ? true : false
         send.baseSlots = this.props.itemSlot.value + 1
-        send.distance = data.data.distanceValue / 1000
+        send.distance = data.data.rows[0].elements[0].distance.value / 1000
         send.driverName = this.props.name
         send.end = {
             'address': this.props.dropAddress,
-            'dateTime': time + data.data.durationValue,
+            'dateTime': time + data.data.rows[0].elements[0].duration.value,
             'district': this.filterComponent((dropAddressComponent.address_components), [
                 'administrative_area_level_2',
                 'locality',
@@ -78,14 +78,14 @@ class CreateRideShare extends Component {
         send.start = {
             'address': this.props.pickAddress,
             'dateTime': time,
-            'distance': data.data.distanceValue,
-            'distanceText': data.data.distanceText,
+            'distance': data.data.rows[0].elements[0].distance.value,
+            'distanceText': data.data.rows[0].elements[0].distance.text,
             'district': this.filterComponent(this.props.pickAddressComponent.address_components, [
                 'administrative_area_level_2',
                 'locality',
             ]),
-            'duration': data.data.durationValue,
-            'durationText': data.data.durationText,
+            'duration': data.data.rows[0].elements[0].duration.value,
+            'durationText': data.data.rows[0].elements[0].duration.text,
             'lat': pickAddressComponent.geometry.location.lat,
             'lng': pickAddressComponent.geometry.location.lng,
             'placeId': dropAddressComponent.place_id,
@@ -129,7 +129,7 @@ class CreateRideShare extends Component {
                             <SvgBulletPoints />
                         </View>
                         <Text style={{ paddingLeft: 4 }}>Khoảng cách: </Text>
-                        <Text style={{ color: colorRed, fontWeight: 'bold' }}>{this.state.data?.data?.distanceText}</Text>
+                        <Text style={{ color: colorRed, fontWeight: 'bold' }}>{this.state.data?.data?.rows[0]?.elements[0]?.distance.text}</Text>
                     </View>
 
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
